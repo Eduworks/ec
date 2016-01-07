@@ -1,23 +1,32 @@
 package com.eduworks.ec.crypto;
 
+import forge.bytes;
+import forge.payload;
+import forge.pk;
+import forge.pki;
+
 public class EcPk
 {
 	public static EcPk fromPem(String pem)
 	{
 		EcPk pk = new EcPk();
-		pk.pem = pem;
+		pk.pk = pki.publicKeyFromPem(pem);
 		return pk;
 	}
 
-	private String pem;
-
+	public pk pk;
+	
 	protected EcPk()
 	{
 	}
 
 	protected String toPem()
 	{
-		return pem;
+		return pki.publicKeyToPem(pk);
 	}
 
+	public Boolean verify(bytes bytes, payload decode64)
+	{
+		return null;
+	}
 }

@@ -183,7 +183,8 @@
   <modules>
   	<module>ec-service-user</module>
   	<module>ec-base</module>
-    <module>ec-secure-identity</module>
+    
     <module>ec-crypto</module>
+    <module>ec-ebac-identity</module>
   </modules>
 </project>
