@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.eduworks</groupId>
@@ -51,13 +51,6 @@
 		      <id>main</id>
 		      <goals>
 		        <goal>generate</goal>
-		      </goals>
-		    </execution>
-		    <!-- if you use the JUnit runner -->
-		    <execution>
-		      <id>test</id>
-		      <goals>
-		        <goal>generate-test</goal>
 		      </goals>
 		    </execution>
 		  </executions>
@@ -138,7 +131,7 @@
     								</goals>
     							</pluginExecutionFilter>
     							<action>
-    								<execute></execute>
+    								<execute/>
     							</action>
     						</pluginExecution>
     						<pluginExecution>
@@ -186,4 +179,11 @@
     	</plugins>
     </pluginManagement>
   </build>
+  <packaging>pom</packaging>
+  <modules>
+  	<module>ec-service-user</module>
+  	<module>ec-base</module>
+    <module>ec-secure-identity</module>
+    <module>ec-crypto</module>
+  </modules>
 </project>

@@ -18,7 +18,7 @@ public class EcLogin
 			@Override
 			public void callback(Object object)
 			{
-				token = JSObjectAdapter.$properties(object).$get("token").toString();
+				token = (String) JSObjectAdapter.$properties(object).$get("token");
 				isLoggedIn = true;
 				success.callback(object);
 			}
