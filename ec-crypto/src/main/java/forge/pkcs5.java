@@ -5,11 +5,9 @@ import org.stjs.javascript.annotation.STJSBridge;
 
 @Namespace("forge")
 @STJSBridge(sources = { "forge/forge.bundle.js" })
-public class cipheroutput
+public class pkcs5
 {
-	public String data;
-
-	public payload bytes()
+	public static payload pbkdf2(String username, String usernameSalt, int usernameIterations, int usernameWidth)
 	{
 		return null;
 	}

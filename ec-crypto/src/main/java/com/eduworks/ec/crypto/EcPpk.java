@@ -1,5 +1,12 @@
 package com.eduworks.ec.crypto;
+
+import org.stjs.javascript.JSObjectAdapter;
+import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
+
+import forge.keypair;
 import forge.ppk;
+import forge.rsa;
 
 public class EcPpk
 {
@@ -10,21 +17,36 @@ public class EcPpk
 		return pk;
 	}
 
+	public static void generateKeyAsync(final Callback1<EcPpk> callback)
+	{
+		Object o = new Object();
+		JSObjectAdapter.$properties(o).$put("workers", -1);
+		rsa.generateKeyPair(o, new Callback2<String, keypair>()
+		{
+			public void $invoke(String err, keypair keypair)
+			{
+				EcPpk ppk = new EcPpk();
+				ppk.ppk = keypair.privateKey;
+				callback.$invoke(ppk);
+			}
+		});
+	}
+
 	protected ppk ppk;
 
 	protected EcPpk()
 	{
 	}
 
-	protected String toPem()
+	public String toPem()
 	{
 		return forge.pki.privateKeyToPem(ppk);
 	}
-	
-	protected EcPk toPk()
+
+	public EcPk toPk()
 	{
 		EcPk pk = new EcPk();
-		pk.pk = forge.rsa.setPublicKey(ppk.n,ppk.e);
+		pk.pk = forge.rsa.setPublicKey(ppk.n, ppk.e);
 		return pk;
 	}
 }

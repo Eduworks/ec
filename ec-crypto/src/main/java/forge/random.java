@@ -2,21 +2,15 @@ package forge;
 
 import org.stjs.javascript.annotation.Namespace;
 import org.stjs.javascript.annotation.STJSBridge;
-import org.stjs.javascript.functions.Callback2;
 
 @Namespace("forge.pki")
 @STJSBridge(sources = { "forge/forge.bundle.js" })
-public class rsa
+public class random
 {
 
-	public static pk setPublicKey(int n, int e)
+	public static payload getBytesSync(int i)
 	{
 		return null;
 	}
 
-	public static void generateKeyPair(Object o, Callback2<String, keypair> callback2)
-	{
-		
-	}
-	
 }

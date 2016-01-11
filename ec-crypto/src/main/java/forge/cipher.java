@@ -10,7 +10,6 @@ public class cipher
 
 	public static cipher createCipher(String algorithm, String secret)
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -18,24 +17,18 @@ public class cipher
 
 	public void update(payload createBuffer)
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	public void start(Object aesParameters)
 	{
-		
 	}
 
 	public void finish()
 	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	public static cipher createDecipher(String string, String secret)
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 

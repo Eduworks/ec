@@ -4,10 +4,9 @@ import forge.cipher;
 import forge.cipheroutput;
 import forge.util;
 
-public class EcAesCtr extends EcAes
+public class EcAesCtr
 {
-	@Override
-	public String encrypt(String text, String secret, String iv)
+	public static String encrypt(String text, String secret, String iv)
 	{
 		cipher c = cipher.createCipher("AES-CTR",secret);
 		c.start(new EcAesParameters(iv));
@@ -17,8 +16,7 @@ public class EcAesCtr extends EcAes
 		return util.encode64(encrypted.bytes());
 	}
 
-	@Override
-	public String decrypt(String text, String secret, String iv)
+	public static String decrypt(String text, String secret, String iv)
 	{
 		cipher c = cipher.createDecipher("AES-CTR",secret);
 		c.start(new EcAesParameters(iv));
@@ -27,5 +25,4 @@ public class EcAesCtr extends EcAes
 		cipheroutput decrypted = c.output;
 		return decrypted.data;
 	}
-
 }

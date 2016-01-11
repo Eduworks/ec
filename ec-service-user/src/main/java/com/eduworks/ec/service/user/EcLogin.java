@@ -7,13 +7,14 @@ import com.eduworks.ec.remote.EcRemote;
 
 public class EcLogin
 {
+	private static final String LOGIN = "login";
 	public static String token = "";
 	public static boolean isLoggedIn = false;
 
 	public static void login(String username, String password, final EcCallback success, final EcCallback failure)
 	{
 		EcLoginCredentials c = new EcLoginCredentials(username, password);
-		EcRemote.httpPost("login", c, new EcCallback()
+		EcRemote.httpPost(LOGIN, c, new EcCallback()
 		{
 			@Override
 			public void callback(Object object)

@@ -5,12 +5,8 @@ import org.stjs.javascript.annotation.STJSBridge;
 
 @Namespace("forge")
 @STJSBridge(sources = { "forge/forge.bundle.js" })
-public class cipheroutput
+public class keypair
 {
-	public String data;
-
-	public payload bytes()
-	{
-		return null;
-	}
+	public pk publicKey;
+	public ppk privateKey;
 }
