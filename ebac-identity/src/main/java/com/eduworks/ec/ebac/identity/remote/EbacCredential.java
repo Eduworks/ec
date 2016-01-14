@@ -1,5 +1,6 @@
 package com.eduworks.ec.ebac.identity.remote;
 
+import com.eduworks.ec.crypto.EcAes;
 import com.eduworks.ec.crypto.EcAesCtr;
 import com.eduworks.ec.crypto.EcPpk;
 import com.eduworks.ec.ebac.identity.EcIdentity;
@@ -14,6 +15,13 @@ public class EbacCredential extends EcLinkedData
 
 	public String iv;
 	public String ppk;
+	public static EbacCredential fromIdentity(EcIdentity identity, String secret)
+	{
+		EbacCredential c = new EbacCredential();
+		c.iv = EcAes.newIv(64);
+		c.ppk = EcAesCtr.encrypt(identity.ppk.toPem(), secret, c.iv);
+		return c;
+	}
 	public EcIdentity toIdentity(String secret,String source)
 	{
 		EcIdentity i = new EcIdentity();

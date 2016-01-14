@@ -139,7 +139,7 @@ public class EcRemoteIdentityManager
 		for (int i = 0; i < EcIdentityManager.ids.$length(); i++)
 		{
 			EcIdentity id = EcIdentityManager.ids.$get(i);
-			credentials.push(id.toCredential(secretWithSalt));
+			credentials.push(EbacCredential.fromIdentity(id,secretWithSalt));
 		}
 
 		EbacCredentialCommit commit = new EbacCredentialCommit();

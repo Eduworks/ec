@@ -2,7 +2,6 @@ package com.eduworks.ec.ebac.repository;
 
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Date;
-import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
@@ -52,11 +51,6 @@ public class EcRemoteLinkedData extends EcLinkedData
 	public void update(final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure)
 	{
 		EcRepository.get(id, success, failure);
-	}
-
-	public EcEncryptedValue encrypt()
-	{
-		return EcEncryptedValue.toEncryptedValue(this, false);
 	}
 
 	public void sign(EcPpk pen)

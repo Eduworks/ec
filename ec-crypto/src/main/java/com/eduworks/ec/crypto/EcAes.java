@@ -1,13 +1,19 @@
 package com.eduworks.ec.crypto;
-import static org.stjs.javascript.Global.*;
 import forge.random;
 import forge.util;
 
+/***
+ * AES encryption tasks common across all variants of AES. 
+ * @author fray
+ *
+ */
 public class EcAes
 {
-	//We recommend AES-CTR.
-	public static String encrypt(String text, String secret, String iv){alert("Incorrect AES Algorithm. Please pick a specialized algorithm.");return null;}
-	public static String decrypt(String text, String secret, String iv){alert("Incorrect AES Algorithm. Please pick a specialized algorithm.");return null;}
+	/***
+	 * Generates a random Initialization Vector of length @i
+	 * @param i Length of initialization Vector
+	 * @return String representing the new Initialization Vector in Base64 Encoding.
+	 */
 	public static String newIv(int i)
 	{
 		return util.encode64(random.getBytesSync(i));
