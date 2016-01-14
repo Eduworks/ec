@@ -186,5 +186,6 @@
     
     <module>ec-crypto</module>
     <module>ec-ebac-identity</module>
+    <module>ec-ebac-repository</module>
   </modules>
 </project>

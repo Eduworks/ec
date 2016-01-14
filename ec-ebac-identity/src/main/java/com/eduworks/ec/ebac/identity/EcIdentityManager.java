@@ -1,23 +1,87 @@
 package com.eduworks.ec.ebac.identity;
 
 import org.stjs.javascript.Array;
+import org.stjs.javascript.Date;
+import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.functions.Callback1;
 
+import com.eduworks.ec.crypto.EcPk;
 import com.eduworks.ec.crypto.EcPpk;
+import com.eduworks.ec.crypto.EcRsaOaep;
+import com.eduworks.ec.ebac.identity.remote.EbacSignature;
 
 public class EcIdentityManager
 {
-	protected static Array<EcIdentity> ids;
+	public static Array<EcIdentity> ids;
 	protected static Array<EcContact> contacts;
-	public static Callback1<EcPpk> onKeyAdded = null;
-	public static void keyAdded(EcPpk ppk)
+	public static Callback1<EcIdentity> onKeyAdded = null;
+
+	public static void keyAdded(EcIdentity ppk)
 	{
 		if (onKeyAdded != null)
 			onKeyAdded.$invoke(ppk);
 	}
+
 	public static void add(EcIdentity identity)
 	{
-		// TODO Auto-generated method stub
-		
+		for (int i = 0; i < ids.$length(); i++)
+			if (ids.$get(i).equals(identity))
+				return;
+		ids.push(identity);
+		keyAdded(identity);
+	}
+
+	public static String signatureSheetFor(Array<String> owners, long duration, String server)
+	{
+		Array<EbacSignature> signatures = new Array<EbacSignature>();
+		EcRsaOaep crypto = new EcRsaOaep();
+		for (int j = 0; j < ids.$length(); j++)
+		{
+			EcPpk ppk = ids.$get(j).ppk;
+			String ourPem = ppk.toPk().toPem();
+			for (int i = 0; i < owners.$length(); i++)
+			{
+				String ownerPem = owners.$get(i);
+				if (ourPem.equals(ownerPem))
+				{
+					signatures.push(createSignature(duration, server, crypto, ppk));
+				}
+			}
+		}
+		return JSGlobal.JSON.stringify(signatures);
+	}
+
+	public static String signatureSheet(long duration, String server)
+	{
+		Array<EbacSignature> signatures = new Array<EbacSignature>();
+		EcRsaOaep crypto = new EcRsaOaep();
+		for (int j = 0; j < ids.$length(); j++)
+		{
+			EcPpk ppk = ids.$get(j).ppk;
+			String ourPem = ppk.toPk().toPem();
+			signatures.push(createSignature(duration, server, crypto, ppk));
+		}
+		return JSGlobal.JSON.stringify(signatures);
+	}
+
+	private static EbacSignature createSignature(long duration, String server, EcRsaOaep crypto, EcPpk ppk)
+	{
+		EbacSignature s = new EbacSignature();
+		s.owner = ppk.toPk().toPem();
+		s.expiry = new Date().getTime() + duration;
+		s.server = server;
+		s.signature = crypto.sign(ppk, s.toJson());
+		return s;
+	}
+
+	public static EcPpk getPpk(EcPk fromPem)
+	{
+		String pem = fromPem.toPem();
+		for (int i = 0;i < ids.$length();i++)
+		{
+			if (pem.equals(ids.$get(i).ppk.toPk().toPem()))
+				return ids.$get(i).ppk;
+		}
+		return null;
 	}
 }

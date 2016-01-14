@@ -1,7 +1,8 @@
-package com.eduworks.ec.ebac.identity;
+package com.eduworks.ec.ebac.identity.remote;
 
 import com.eduworks.ec.crypto.EcAesCtr;
 import com.eduworks.ec.crypto.EcPpk;
+import com.eduworks.ec.ebac.identity.EcIdentity;
 import com.eduworks.ec.ld.EcLinkedData;
 
 public class EbacCredential extends EcLinkedData

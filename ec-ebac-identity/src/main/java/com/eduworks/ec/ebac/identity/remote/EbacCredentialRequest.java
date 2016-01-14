@@ -1,4 +1,4 @@
-package com.eduworks.ec.ebac.identity;
+package com.eduworks.ec.ebac.identity.remote;
 
 import com.eduworks.ec.ld.EcLinkedData;
 

@@ -1,4 +1,4 @@
-package com.eduworks.ec.ebac.identity;
+package com.eduworks.ec.ebac.identity.remote;
 
 import org.stjs.javascript.Array;
 

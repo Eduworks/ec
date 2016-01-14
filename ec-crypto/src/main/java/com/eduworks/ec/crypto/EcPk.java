@@ -20,7 +20,7 @@ public class EcPk
 	{
 	}
 
-	protected String toPem()
+	public String toPem()
 	{
 		return pki.publicKeyToPem(pk);
 	}

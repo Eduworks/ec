@@ -1,4 +1,4 @@
-package com.eduworks.ec.ebac.identity;
+package com.eduworks.ec.ebac.identity.remote;
 
 import static org.stjs.javascript.Global.alert;
 
@@ -6,6 +6,8 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.functions.Callback1;
 
 import com.eduworks.ec.callback.EcCallbackReturn0;
+import com.eduworks.ec.ebac.identity.EcIdentity;
+import com.eduworks.ec.ebac.identity.EcIdentityManager;
 import com.eduworks.ec.remote.EcRemote;
 import com.eduworks.ec.remote.FormData;
 
@@ -81,7 +83,7 @@ public class EcRemoteIdentityManager
 
 		FormData fd = new FormData();
 		fd.append("credentialRequest", r.toJson());
-		EcRemote.post(selectedServer, "sky/id/login", fd, new Callback1<Object>()
+		EcRemote.postExpectingObject(selectedServer, "sky/id/login", fd, new Callback1<Object>()
 		{
 			@Override
 			public void $invoke(Object arg0)
@@ -149,7 +151,7 @@ public class EcRemoteIdentityManager
 
 		FormData fd = new FormData();
 		fd.append("credentialCommit", commit.toJson());
-		EcRemote.post(selectedServer, service, fd, new Callback1<Object>()
+		EcRemote.postExpectingObject(selectedServer, service, fd, new Callback1<Object>()
 		{
 			@Override
 			public void $invoke(Object arg0)

@@ -33,6 +33,14 @@ public class EcPpk
 	}
 
 	protected ppk ppk;
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj instanceof EcPpk)
+			return toPem().equals(((EcPpk) obj).toPem());
+		return super.equals(obj);
+	}
 
 	protected EcPpk()
 	{
