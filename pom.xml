@@ -191,13 +191,13 @@
 	</build>
 	<packaging>pom</packaging>
 	<modules>
-		<module>ec-service-user</module>
-		<module>ec-base</module>
+		<module>ec.service.user</module>
+		<module>ec.base</module>
 
-		<module>ec-crypto</module>
+		<module>ec.crypto</module>
 		
 		
-		<module>ebac-identity</module>
-		<module>ebac-repository</module>
+		<module>ebac.identity</module>
+		<module>ebac.repository</module>
 	</modules>
 </project>

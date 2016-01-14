@@ -8,9 +8,9 @@
     <version>0.0.1</version>
   </parent>
   <groupId>com.eduworks</groupId>
-  <artifactId>ec-crypto</artifactId>
+  <artifactId>ebac.repository</artifactId>
   <version>0.0.1</version>
-  <name>ec-crypto</name>
+  <name>ebac.repository</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,7 +24,7 @@
     </dependency>
     <dependency>
       <groupId>com.eduworks</groupId>
-      <artifactId>ec-base</artifactId>
+      <artifactId>ebac.identity</artifactId>
       <version>0.0.1</version>
     </dependency>
     <dependency>
