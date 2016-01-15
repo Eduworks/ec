@@ -199,5 +199,9 @@
 		
 		<module>ebac.identity</module>
 		<module>ebac.repository</module>
+		<module>org.schema</module>
+		
+		<module>org.json-ld</module>
+		<module>org.cassproject.schema.ebac</module>
 	</modules>
 </project>

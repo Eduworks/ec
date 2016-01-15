@@ -20,6 +20,14 @@ public class EcPk
 	{
 	}
 
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj instanceof EcPk)
+			return toPem().equals(((EcPk) obj).toPem());
+		return super.equals(obj);
+	}
+	
 	public String toPem()
 	{
 		return pki.publicKeyToPem(pk);

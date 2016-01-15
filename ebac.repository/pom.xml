@@ -7,7 +7,7 @@
     <artifactId>ec</artifactId>
     <version>0.0.1</version>
   </parent>
-  <groupId>com.eduworks</groupId>
+  <groupId>org.cassproject</groupId>
   <artifactId>ebac.repository</artifactId>
   <version>0.0.1</version>
   <name>ebac.repository</name>
@@ -23,9 +23,14 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.eduworks</groupId>
+      <groupId>org.cassproject</groupId>
       <artifactId>ebac.identity</artifactId>
       <version>0.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.cassproject</groupId>
+      <artifactId>org.cassproject.schema.ebac</artifactId>
+      <version>0.1</version>
     </dependency>
     <dependency>
       <groupId>org.st-js.bridge</groupId>

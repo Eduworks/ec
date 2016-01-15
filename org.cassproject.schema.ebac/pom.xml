@@ -8,9 +8,9 @@
     <version>0.0.1</version>
   </parent>
   <groupId>org.cassproject</groupId>
-  <artifactId>ebac.identity</artifactId>
-  <version>0.0.1</version>
-  <name>ebac.identity</name>
+  <artifactId>org.cassproject.schema.ebac</artifactId>
+  <version>0.1</version>
+  <name>org.cassproject.schema.ebac</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -23,16 +23,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.eduworks</groupId>
-      <artifactId>ec.crypto</artifactId>
-      <version>0.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.cassproject</groupId>
-      <artifactId>org.cassproject.schema.ebac</artifactId>
-      <version>0.1</version>
-    </dependency>
-    <dependency>
       <groupId>org.st-js.bridge</groupId>
       <artifactId>html</artifactId>
       <version>5.0.bv2</version>
@@ -42,5 +32,15 @@
 		<artifactId>jquery</artifactId>
 		<version>1.11.3.bv1</version>
 	</dependency>
+    <dependency>
+      <groupId>com.eduworks</groupId>
+      <artifactId>org.json-ld</artifactId>
+      <version>0.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.eduworks</groupId>
+      <artifactId>ec.crypto</artifactId>
+      <version>0.0.1</version>
+    </dependency>
   </dependencies>
 </project>
