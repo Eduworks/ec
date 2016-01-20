@@ -49,11 +49,11 @@ public class EcRemoteIdentityManager
 		this.secretSalt = secretSalt;
 		this.secretIterations = secretIterations;
 		this.secretWidth = secretWidth;
+		configured = true;
 	}
 
 	public void clearCredentials()
 	{
-		selectedServer = null;
 		usernameWithSalt = null;
 		passwordWithSalt = null;
 		secretWithSalt = null;
@@ -77,7 +77,7 @@ public class EcRemoteIdentityManager
 		Array<String> arys = new Array<String>();
 		arys.push(username, password);
 		String secret = splicePasswords(arys);
-		secretWithSalt = util.encode64(pkcs5.pbkdf2(secret, secretSalt, secretIterations, secretWidth));
+		secretWithSalt = util.encode64(pkcs5.pbkdf2(secret, secretSalt, secretIterations, 32));
 	}
 
 	public void fetch(final Callback1<Object> success, final Callback1<String> failure)
@@ -160,7 +160,8 @@ public class EcRemoteIdentityManager
 		commit.username = usernameWithSalt;
 		commit.password = passwordWithSalt;
 		commit.token = token;
-		commit.credentials = credentials;
+		commit.credentials.pad = pad;
+		commit.credentials.credentials = credentials;
 
 		FormData fd = new FormData();
 		fd.append("credentialCommit", commit.toJson());

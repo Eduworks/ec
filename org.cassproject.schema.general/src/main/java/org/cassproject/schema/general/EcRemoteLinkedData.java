@@ -1,4 +1,4 @@
-package com.eduworks.schema.ebac;
+package org.cassproject.schema.general;
 
 import org.json.ld.EcLinkedData;
 import org.stjs.javascript.Array;
@@ -17,7 +17,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 	public Array<String> signature = null;
 	public String id = null;
 
-	protected EcRemoteLinkedData(String schema, String type)
+	public EcRemoteLinkedData(String schema, String type)
 	{
 		super(schema, type);
 	}
@@ -48,4 +48,5 @@ public class EcRemoteLinkedData extends EcLinkedData
 		JSObjectAdapter.$properties(d).$delete("@signature");
 		return d.toJson();
 	}
+
 }

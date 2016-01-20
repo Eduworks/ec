@@ -42,5 +42,10 @@
       <artifactId>ec.crypto</artifactId>
       <version>0.0.1</version>
     </dependency>
+    <dependency>
+      <groupId>org.cassproject</groupId>
+      <artifactId>org.cassproject.schema.general</artifactId>
+      <version>0.1</version>
+    </dependency>
   </dependencies>
 </project>

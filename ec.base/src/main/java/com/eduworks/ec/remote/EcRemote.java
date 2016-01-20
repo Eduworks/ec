@@ -72,7 +72,7 @@ public class EcRemote
 			}
 		};
 
-		postInner(server, service, successCallback, failureCallback);
+		postInner(server, service,fd, successCallback, failureCallback);
 	}
 
 	public static void postExpectingString(String server, String service, FormData fd, final Callback1<String> success, final Callback1<String> failure)
@@ -97,10 +97,10 @@ public class EcRemote
 			}
 		};
 
-		postInner(server, service, successCallback, failureCallback);
+		postInner(server, service, fd,successCallback, failureCallback);
 	}
 
-	private static void postInner(String server, String service, Callback3<Object, String, JQueryXHR> successCallback,
+	private static void postInner(String server, String service, FormData fd, Callback3<Object, String, JQueryXHR> successCallback,
 			Callback3<JQueryXHR, String, String> failureCallback)
 	{
 		String url = server;
@@ -113,6 +113,7 @@ public class EcRemote
 		p.method = "POST";
 		p.url = url;
 		p.mimeType = "multipart/form-data";
+		p.data = fd;
 		JSObjectAdapter.$properties(p).$put("contentType", false);
 
 		p.cache = false;

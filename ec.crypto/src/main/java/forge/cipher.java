@@ -8,7 +8,7 @@ import org.stjs.javascript.annotation.STJSBridge;
 public class cipher
 {
 
-	public static cipher createCipher(String algorithm, String secret)
+	public static cipher createCipher(String algorithm, payload secret)
 	{
 		return null;
 	}
@@ -27,7 +27,7 @@ public class cipher
 	{
 	}
 
-	public static cipher createDecipher(String string, String secret)
+	public static cipher createDecipher(String string, payload secret)
 	{
 		return null;
 	}

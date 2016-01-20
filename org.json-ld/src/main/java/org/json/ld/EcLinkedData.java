@@ -33,10 +33,18 @@ public class EcLinkedData
 	{
 		//This method serializes the fields in alphabetical order. 
 		//This is to prevent signature based errors.
+		Object o = atIfy();
+		return JSGlobal.JSON.stringify(o);
+	}
+
+	public Object atIfy()
+	{
 		Array<String> keys = new Array<String>();
 		Map<String, Object> me = JSObjectAdapter.$properties(this);
 		for (String key : me)
 		{
+			if (isAtProperty(key))
+				key = "@" + key;
 			keys.push(key);
 		}
 		keys.sort(new SortFunction<String>()
@@ -44,26 +52,43 @@ public class EcLinkedData
 			@Override
 			public int $invoke(String a, String b)
 			{
-				return b.compareTo(a);
+				return a.compareTo(b);
 			}
 		});
-		Object o = new Object();
-		Map<String, Object> op = JSObjectAdapter.$properties(o);
+		Map<String, Object> op = JSObjectAdapter.$properties(new Object());
 		for (int i = 0; i < keys.$length(); i++)
 		{
 			String key = keys.$get(i);
-			if (isAtProperty(key))
-				key = "@" + key;
-			Object value = me.$get(key);
+			Object value = me.$get(key.replace("@",""));
 			if (value != null)
 				op.$put(key, value);
 		}
-		return JSGlobal.JSON.stringify(o);
+		return op;
 	}
 
 	public static boolean isProbablyJson(String decryptedSecret)
 	{
 		return decryptedSecret.trim().startsWith("{") && decryptedSecret.trim().endsWith("}");
 	}
+
+	public boolean isA(String type)
+	{
+		String computedType = schema;
+		if (!computedType.endsWith("/"))
+			computedType += "/";
+		return computedType.equals(type) || this.type.equals(type);
+	}
+
+	public void copyFrom(Object that)
+	{
+		Map<String, Object> me = JSObjectAdapter.$properties(this);
+		Map<String, Object> you = JSObjectAdapter.$properties(that);
+		for (String key : you)
+		{
+			if (me.$get(key) == null)
+				me.$put(key.replace("@",""),you.$get(key));
+		}
+	}
+
 
 }

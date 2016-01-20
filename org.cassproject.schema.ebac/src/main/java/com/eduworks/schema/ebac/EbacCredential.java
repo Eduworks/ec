@@ -11,4 +11,6 @@ public class EbacCredential extends EcLinkedData
 
 	public String iv;
 	public String ppk;
+	public String displayNameIv;
+	public String displayName;
 }

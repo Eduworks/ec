@@ -12,8 +12,8 @@ import com.eduworks.schema.ebac.EbacSignature;
 
 public class EcIdentityManager
 {
-	public static Array<EcIdentity> ids;
-	public static Array<EcContact> contacts;
+	public static Array<EcIdentity> ids = new Array<EcIdentity>();
+	public static Array<EcContact> contacts = new Array<EcContact>();
 	public static Callback1<EcIdentity> onKeyAdded = null;
 
 	public static void keyAdded(EcIdentity ppk)
@@ -53,13 +53,13 @@ public class EcIdentityManager
 
 	public static String signatureSheet(long duration, String server)
 	{
-		Array<EbacSignature> signatures = new Array<EbacSignature>();
+		Array<Object> signatures = new Array<Object>();
 		EcRsaOaep crypto = new EcRsaOaep();
 		for (int j = 0; j < ids.$length(); j++)
 		{
 			EcPpk ppk = ids.$get(j).ppk;
 			String ourPem = ppk.toPk().toPem();
-			signatures.push(createSignature(duration, server, crypto, ppk));
+			signatures.push(createSignature(duration, server, crypto, ppk).atIfy());
 		}
 		return JSGlobal.JSON.stringify(signatures);
 	}
@@ -70,7 +70,7 @@ public class EcIdentityManager
 		s.owner = ppk.toPk().toPem();
 		s.expiry = new Date().getTime() + duration;
 		s.server = server;
-		s.signature = crypto.sign(ppk, s.toJson());
+		s.signature = EcRsaOaep.sign(ppk, s.toJson());
 		return s;
 	}
 
