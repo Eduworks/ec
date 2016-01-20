@@ -14,6 +14,7 @@ public class EbacEncryptedValue extends EcRemoteLinkedData
 
 	public String encryptedType;
 	public String payload;
+	public String name;
 	public Array<String> reader;
 	public Array<String> secret;
 

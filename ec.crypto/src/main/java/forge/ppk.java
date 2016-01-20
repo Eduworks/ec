@@ -10,7 +10,7 @@ public class ppk
 	public int n;
 	public int e;
 
-	public String decode(payload payload, String algorithm)
+	public String decrypt(payload payload, String algorithm)
 	{
 		return null;
 	}

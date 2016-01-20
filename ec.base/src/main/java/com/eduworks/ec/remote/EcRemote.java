@@ -104,7 +104,7 @@ public class EcRemote
 			Callback3<JQueryXHR, String, String> failureCallback)
 	{
 		String url = server;
-		if (!url.endsWith("/") && service != null && service.isEmpty() == false)
+		if (!url.endsWith("/") && service != null && !"".equals(service))
 			url += "/";
 		if (service != null)
 			url += service;

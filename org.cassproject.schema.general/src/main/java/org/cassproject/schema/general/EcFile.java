@@ -1,10 +1,6 @@
 package org.cassproject.schema.general;
 
-import org.json.ld.EcLinkedData;
-import org.stjs.javascript.Global;
-import org.stjs.javascript.JSObjectAdapter;
-import org.stjs.javascript.dom.Document;
-import org.stjs.javascript.dom.Element;
+import com.eduworks.ec.Blob.BlobHelper;
 
 public class EcFile extends EcRemoteLinkedData
 {
@@ -27,11 +23,8 @@ public class EcFile extends EcRemoteLinkedData
 
 	public void download()
 	{
-		Document document = Global.window.document;
-	    Element pom = document.createElement("a");
-	    pom.setAttribute("href", "data:text/plain;base64," + data);
-	    pom.setAttribute("download", name);
-
-        JSObjectAdapter.$js("pom.click()");
+		Object blob = BlobHelper.base64ToBlob(data, mimeType);
+		FileSaver.saveAs(blob, name);
 	}
+
 }

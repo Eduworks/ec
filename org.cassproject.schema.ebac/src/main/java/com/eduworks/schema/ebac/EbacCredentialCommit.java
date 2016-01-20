@@ -1,7 +1,6 @@
 package com.eduworks.schema.ebac;
 
 import org.json.ld.EcLinkedData;
-import org.stjs.javascript.Array;
 
 public class EbacCredentialCommit extends EcLinkedData
 {

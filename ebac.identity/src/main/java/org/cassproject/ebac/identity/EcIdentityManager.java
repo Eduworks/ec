@@ -33,7 +33,7 @@ public class EcIdentityManager
 
 	public static String signatureSheetFor(Array<String> owners, long duration, String server)
 	{
-		Array<EbacSignature> signatures = new Array<EbacSignature>();
+		Array<Object> signatures = new Array<Object>();
 		EcRsaOaep crypto = new EcRsaOaep();
 		for (int j = 0; j < ids.$length(); j++)
 		{
@@ -44,7 +44,7 @@ public class EcIdentityManager
 				String ownerPem = owners.$get(i);
 				if (ourPem.equals(ownerPem))
 				{
-					signatures.push(createSignature(duration, server, crypto, ppk));
+					signatures.push(createSignature(duration, server, crypto, ppk).atIfy());
 				}
 			}
 		}
@@ -58,7 +58,6 @@ public class EcIdentityManager
 		for (int j = 0; j < ids.$length(); j++)
 		{
 			EcPpk ppk = ids.$get(j).ppk;
-			String ourPem = ppk.toPk().toPem();
 			signatures.push(createSignature(duration, server, crypto, ppk).atIfy());
 		}
 		return JSGlobal.JSON.stringify(signatures);

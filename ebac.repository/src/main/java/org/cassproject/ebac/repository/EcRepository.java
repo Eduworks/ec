@@ -17,7 +17,7 @@ public class EcRepository
 	public static void get(String uri, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure)
 	{
 		FormData fd = new FormData();
-		fd.append("signatureSheet", EcIdentityManager.signatureSheet(1000, uri));
+		fd.append("signatureSheet", EcIdentityManager.signatureSheet(10000, uri));
 		EcRemote.postExpectingObject(uri, null, fd, new Callback1<Object>()
 		{
 			@Override
@@ -35,7 +35,7 @@ public class EcRepository
 	{
 		FormData fd = new FormData();
 		fd.append("data", query);
-		fd.append("signatureSheet", EcIdentityManager.signatureSheet(1000, selectedServer));
+		fd.append("signatureSheet", EcIdentityManager.signatureSheet(10000, selectedServer));
 		EcRemote.postExpectingObject(selectedServer, "sky/repo/search", fd, new Callback1<Object>()
 		{
 			@Override
@@ -52,13 +52,13 @@ public class EcRepository
 			}
 		}, failure);
 	}
-	public void save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure) throws Exception
+	public void save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
 	{
 		if (data.id == null)
-			throw new Exception("Cannot save data that has no ID.");
+			throw new RuntimeException("Cannot save data that has no ID.");
 		FormData fd = new FormData();
 		fd.append("data", data.toJson());
-		fd.append("signatureSheet", EcIdentityManager.signatureSheetFor(data.owner, 1000, data.id));
+		fd.append("signatureSheet", EcIdentityManager.signatureSheetFor(data.owner, 10000, data.id));
 		EcRemote.postExpectingString(data.id, "", fd, success, failure);
 	}
 	

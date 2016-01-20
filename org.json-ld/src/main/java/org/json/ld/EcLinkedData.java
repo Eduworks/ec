@@ -3,7 +3,6 @@ package org.json.ld;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSGlobal;
-import org.stjs.javascript.JSON;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
 import org.stjs.javascript.SortFunction;
@@ -73,10 +72,20 @@ public class EcLinkedData
 
 	public boolean isA(String type)
 	{
+		String computedType = getFullType();
+		return computedType.equals(type) || this.type.equals(type);
+	}
+
+	public String getFullType()
+	{
 		String computedType = schema;
+		//Someone confused Context with Schema. Don't do this!
+		if (this.type.contains("http") == false && computedType.contains("http") == false)
+			computedType = JSObjectAdapter.$properties(this).$get("context").toString();
 		if (!computedType.endsWith("/"))
 			computedType += "/";
-		return computedType.equals(type) || this.type.equals(type);
+		computedType += this.type;
+		return computedType;
 	}
 
 	public void copyFrom(Object that)

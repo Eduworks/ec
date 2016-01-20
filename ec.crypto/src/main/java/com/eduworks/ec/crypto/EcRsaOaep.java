@@ -12,7 +12,7 @@ public class EcRsaOaep
 
 	public static String decrypt(EcPpk ppk, String text)
 	{
-		return ppk.ppk.decode(forge.util.decode64(text),"RSA-OAEP");
+		return ppk.ppk.decrypt(forge.util.decode64(text),"RSA-OAEP");
 	}
 
 	public static String sign(EcPpk ppk, String text)

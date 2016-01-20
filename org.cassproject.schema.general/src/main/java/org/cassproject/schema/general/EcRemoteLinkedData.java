@@ -27,6 +27,9 @@ public class EcRemoteLinkedData extends EcLinkedData
 		id = server;
 		if (!id.endsWith("/"))
 			id += "/";
+		id += "data/";
+		id += type.replace("http://", "").replaceAll("/",".");
+		id += "/";
 		id += EcRandom.generateUUID();
 		id += "/";
 		id += new Date().getTime();
@@ -49,4 +52,24 @@ public class EcRemoteLinkedData extends EcLinkedData
 		return d.toJson();
 	}
 
+	public void addOwner(EcPk newOwner)
+	{
+		String pem = newOwner.toPem();
+		if (owner == null)
+			owner = new Array<String>();
+		for (int i = 0;i < owner.$length();i++)
+			if (owner.$get(i).equals(pem))
+				return;
+		owner.push(pem);
+	}
+
+	public boolean invalid()
+	{
+		if (id == null) return true;
+		if (id.contains("http://") == false) return true;
+		if (schema == null) return true;
+		if (getFullType() == null) return true;
+		if (getFullType().contains("http://") == false) return true;
+		return false;
+	}
 }
