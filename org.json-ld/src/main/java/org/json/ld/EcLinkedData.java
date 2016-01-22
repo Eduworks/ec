@@ -98,6 +98,16 @@ public class EcLinkedData
 				me.$put(key.replace("@",""),you.$get(key));
 		}
 	}
+	public EcLinkedData deAtify()
+	{
+		Map<String, Object> me = JSObjectAdapter.$properties(this);
+		for (String key : me)
+		{
+			if (me.$get(key) == null)
+				me.$put(key.replace("@",""),me.$get(key));
+		}
+		return this;
+	}
 
 
 }

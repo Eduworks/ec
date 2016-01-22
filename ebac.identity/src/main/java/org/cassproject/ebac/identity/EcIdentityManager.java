@@ -39,14 +39,15 @@ public class EcIdentityManager
 		{
 			EcPpk ppk = ids.$get(j).ppk;
 			String ourPem = ppk.toPk().toPem();
-			for (int i = 0; i < owners.$length(); i++)
-			{
-				String ownerPem = owners.$get(i);
-				if (ourPem.equals(ownerPem))
+			if (owners != null)
+				for (int i = 0; i < owners.$length(); i++)
 				{
-					signatures.push(createSignature(duration, server, crypto, ppk).atIfy());
+					String ownerPem = owners.$get(i);
+					if (ourPem.equals(ownerPem))
+					{
+						signatures.push(createSignature(duration, server, crypto, ppk).atIfy());
+					}
 				}
-			}
 		}
 		return JSGlobal.JSON.stringify(signatures);
 	}
@@ -76,7 +77,7 @@ public class EcIdentityManager
 	public static EcPpk getPpk(EcPk fromPem)
 	{
 		String pem = fromPem.toPem();
-		for (int i = 0;i < ids.$length();i++)
+		for (int i = 0; i < ids.$length(); i++)
 		{
 			if (pem.equals(ids.$get(i).ppk.toPk().toPem()))
 				return ids.$get(i).ppk;

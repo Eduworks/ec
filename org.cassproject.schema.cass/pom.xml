@@ -34,7 +34,7 @@
 			<version>0.0.1</version>
 		</dependency>
 		<dependency>
-			<groupId>com.eduworks</groupId>
+			<groupId>org.schema</groupId>
 			<artifactId>org.schema</artifactId>
 			<version>0.0.1</version>
 		</dependency>

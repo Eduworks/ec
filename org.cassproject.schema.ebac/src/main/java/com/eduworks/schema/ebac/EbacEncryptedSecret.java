@@ -5,6 +5,8 @@ import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
 
+import forge.pkcs5;
+
 public class EbacEncryptedSecret extends EcLinkedData
 {
 
@@ -13,17 +15,17 @@ public class EbacEncryptedSecret extends EcLinkedData
 		super(Ebac.schema, "http://schema.eduworks.com/ebac/0.1/encryptedSecret");
 	}
 
-	public String iv = null;
-	public String id = null;
-	public String secret = null;
-	public String field = null;
+	public String iv;
+	public String id;
+	public String secret;
+	public String field;
 
 	public String toEncryptableJson()
 	{
 		Map<String, Object> o = JSObjectAdapter.$properties(new Object());
 		o.$put("v", iv);
 		if (id != null)
-			o.$put("d", id);
+			o.$put("d", pkcs5.pbkdf2(id, "", 1, 8));
 		o.$put("s", secret);
 		if (field != null)
 			o.$put("f", field);

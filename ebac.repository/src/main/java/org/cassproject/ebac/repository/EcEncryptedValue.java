@@ -167,7 +167,9 @@ public class EcEncryptedValue extends EbacEncryptedValue
 				continue;
 			if (!EcLinkedData.isProbablyJson(decryptRaw))
 				continue;
-			return (EcRemoteLinkedData) JSGlobal.JSON.parse(decryptRaw);
+			EcRemoteLinkedData decrypted = new EcRemoteLinkedData("","");
+			decrypted.copyFrom((EcRemoteLinkedData) JSGlobal.JSON.parse(decryptRaw));
+			return (EcRemoteLinkedData) decrypted.deAtify();
 		}
 		return null;
 	}

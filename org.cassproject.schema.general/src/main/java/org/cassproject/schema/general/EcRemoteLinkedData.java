@@ -13,22 +13,22 @@ public class EcRemoteLinkedData extends EcLinkedData
 {
 	// An owner has write privileges according to a repository.
 	// These owners are in PEM format.
-	public Array<String> owner = null;
-	public Array<String> signature = null;
-	public String id = null;
+	public Array<String> owner;
+	public Array<String> signature;
+	public String id;
 
 	public EcRemoteLinkedData(String schema, String type)
 	{
 		super(schema, type);
 	}
-	
+
 	public void generateId(String server)
 	{
 		id = server;
 		if (!id.endsWith("/"))
 			id += "/";
 		id += "data/";
-		id += type.replace("http://", "").replaceAll("/",".");
+		id += type.replace("http://", "").replaceAll("/", ".");
 		id += "/";
 		id += EcRandom.generateUUID();
 		id += "/";
@@ -57,7 +57,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 		String pem = newOwner.toPem();
 		if (owner == null)
 			owner = new Array<String>();
-		for (int i = 0;i < owner.$length();i++)
+		for (int i = 0; i < owner.$length(); i++)
 			if (owner.$get(i).equals(pem))
 				return;
 		owner.push(pem);
@@ -65,11 +65,16 @@ public class EcRemoteLinkedData extends EcLinkedData
 
 	public boolean invalid()
 	{
-		if (id == null) return true;
-		if (id.contains("http://") == false) return true;
-		if (schema == null) return true;
-		if (getFullType() == null) return true;
-		if (getFullType().contains("http://") == false) return true;
+		if (id == null)
+			return true;
+		if (id.contains("http://") == false)
+			return true;
+		if (schema == null)
+			return true;
+		if (getFullType() == null)
+			return true;
+		if (getFullType().contains("http://") == false)
+			return true;
 		return false;
 	}
 }

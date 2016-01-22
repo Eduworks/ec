@@ -1,11 +1,12 @@
 package org.schema;
 
-import org.json.ld.EcLinkedData;
-import org.stjs.javascript.annotation.Namespace;
+import org.cassproject.schema.general.EcRemoteLinkedData;
 
-@Namespace("org.schema")
-public class Thing extends EcLinkedData
+public class Thing extends EcRemoteLinkedData
 {
+	public static String newThing(){
+		return new Thing().toJson();
+	}
 	protected Thing()
 	{
 		super("http://schema.org/", "http://schema.org/Thing");

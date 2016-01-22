@@ -225,5 +225,6 @@
 		<module>org.json-ld</module>
 		<module>org.cassproject.schema.general</module>
 		<module>org.cassproject.schema.ebac</module>
+		<module>org.cassproject.schema.cass</module>
 	</modules>
 </project>
