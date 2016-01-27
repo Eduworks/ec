@@ -1,8 +1,12 @@
 package org.cassproject.ebac.identity;
 
+import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Date;
+import org.stjs.javascript.Global;
 import org.stjs.javascript.JSGlobal;
+import org.stjs.javascript.JSObjectAdapter;
+import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback1;
 
 import com.eduworks.ec.crypto.EcPk;
@@ -10,28 +14,129 @@ import com.eduworks.ec.crypto.EcPpk;
 import com.eduworks.ec.crypto.EcRsaOaep;
 import com.eduworks.schema.ebac.EbacSignature;
 
+/**
+ * Manages identities and contacts, provides hooks to respond to identity and
+ * contact events, and builds signatures and signature sheets for authorizing
+ * movement of data. Also provides helper functions for identity management.
+ * 
+ * @author fritz.ray@eduworks.com
+ *
+ */
 public class EcIdentityManager
 {
-	public static Array<EcIdentity> ids = new Array<EcIdentity>();
-	public static Array<EcContact> contacts = new Array<EcContact>();
-	public static Callback1<EcIdentity> onKeyAdded = null;
-
-	public static void keyAdded(EcIdentity ppk)
+	public static void main(String[] args)
 	{
-		if (onKeyAdded != null)
-			onKeyAdded.$invoke(ppk);
+		readContacts();
 	}
 
-	public static void add(EcIdentity identity)
+	// Identities (also called Aliases)
+	public static Array<EcIdentity> ids = new Array<EcIdentity>();
+	// Contacts (Identities that we do not own)
+	public static Array<EcContact> contacts = new Array<EcContact>();
+
+	// Identity change hook.
+	public static Callback1<EcIdentity> onIdentityAdded = null;
+	// Contacts change hook.
+	public static Callback1<EcContact> onContactAdded = null;
+
+	public static void identityAdded(EcIdentity identity)
+	{
+		if (onIdentityAdded != null)
+			onIdentityAdded.$invoke(identity);
+	}
+
+	public static void contactAdded(EcContact contact)
+	{
+		if (onContactAdded != null)
+			onContactAdded.$invoke(contact);
+		saveContacts();
+	}
+
+	/**
+	 * Reads contact data from localstorage.
+	 */
+	private static void readContacts()
+	{
+		Object localStore = Global.localStorage.$get("contacts");
+		if (localStore == null)
+			return;
+		Array<Object> c = (Array<Object>) JSGlobal.JSON.parse((String) localStore);
+		for (int i = 0; i < c.$length(); i++)
+		{
+			EcContact contact = new EcContact();
+			Object o = new Object();
+			Map<String, Object> props = JSObjectAdapter.$properties(o);
+			contact.displayName = (String) props.$get("displayName");
+			contact.pk = EcPk.fromPem((String) props.$get("ok"));
+			contact.source = (String) props.$get("source");
+			contacts.push(contact);
+		}
+	}
+
+	/**
+	 * Writes contact data to localstorage.
+	 */
+	private static void saveContacts()
+	{
+		Array<Object> c = new Array<Object>();
+		for (int i = 0; i < contacts.$length(); i++)
+		{
+			Object o = new Object();
+			Map<String, Object> props = JSObjectAdapter.$properties(o);
+			EcContact contact = contacts.$get(i);
+			props.$put("displayName", contact.displayName);
+			props.$put("pk", contact.pk.toPem());
+			props.$put("source", contact.source);
+			c.push(o);
+		}
+		Global.localStorage.$put("contacts", c);
+	}
+
+	/**
+	 * Adds an identity to the identity manager. Checks for duplicates. Triggers
+	 * events.
+	 * 
+	 * @param identity
+	 *            Identity to add.
+	 */
+	public static void addIdentity(EcIdentity identity)
 	{
 		for (int i = 0; i < ids.$length(); i++)
 			if (ids.$get(i).equals(identity))
 				return;
 		ids.push(identity);
-		keyAdded(identity);
+		identityAdded(identity);
 	}
 
-	public static String signatureSheetFor(Array<String> owners, long duration, String server)
+	/**
+	 * Adds a contact to the identity manager. Checks for duplicates. Triggers
+	 * events.
+	 * 
+	 * @param contact
+	 *            Contact to add.
+	 */
+	public static void addContact(EcContact contact)
+	{
+		for (int i = 0; i < ids.$length(); i++)
+			if (contacts.$get(i).equals(contact))
+				return;
+		contacts.push(contact);
+		contactAdded(contact);
+	}
+
+	/**
+	 * Create a signature sheet, authorizing movement of data outside of our
+	 * control.
+	 * 
+	 * @param identityPksinPem
+	 *            Which identities to create signatures for.
+	 * @param duration
+	 *            Length of time in milliseconds to authorize control.
+	 * @param server
+	 *            Server that we are authorizing.
+	 * @return JSON Array containing signatures.
+	 */
+	public static String signatureSheetFor(Array<String> identityPksinPem, long duration, String server)
 	{
 		Array<Object> signatures = new Array<Object>();
 		EcRsaOaep crypto = new EcRsaOaep();
@@ -39,10 +144,10 @@ public class EcIdentityManager
 		{
 			EcPpk ppk = ids.$get(j).ppk;
 			String ourPem = ppk.toPk().toPem();
-			if (owners != null)
-				for (int i = 0; i < owners.$length(); i++)
+			if (identityPksinPem != null)
+				for (int i = 0; i < identityPksinPem.$length(); i++)
 				{
-					String ownerPem = owners.$get(i);
+					String ownerPem = identityPksinPem.$get(i);
 					if (ourPem.equals(ownerPem))
 					{
 						signatures.push(createSignature(duration, server, crypto, ppk).atIfy());
@@ -52,6 +157,16 @@ public class EcIdentityManager
 		return JSGlobal.JSON.stringify(signatures);
 	}
 
+	/**
+	 * Create a signature sheet for all identities, authorizing movement of data
+	 * outside of our control.
+	 * 
+	 * @param duration
+	 *            Length of time in milliseconds to authorize control.
+	 * @param server
+	 *            Server that we are authorizing.
+	 * @return JSON Array containing signatures.
+	 */
 	public static String signatureSheet(long duration, String server)
 	{
 		Array<Object> signatures = new Array<Object>();
@@ -74,6 +189,13 @@ public class EcIdentityManager
 		return s;
 	}
 
+	/**
+	 * Get PPK from PK (if we have it)
+	 * 
+	 * @param fromPem
+	 *            PK to use to look up PPK
+	 * @return PPK or null.
+	 */
 	public static EcPpk getPpk(EcPk fromPem)
 	{
 		String pem = fromPem.toPem();
@@ -83,5 +205,21 @@ public class EcIdentityManager
 				return ids.$get(i).ppk;
 		}
 		return null;
+	}
+
+	/**
+	 * Sign a piece of data with all available keys that own that data.
+	 * 
+	 * @param d
+	 *            Data to sign.
+	 */
+	public static void sign(EcRemoteLinkedData d)
+	{
+		for (int i = 0; i < d.owner.$length(); i++)
+		{
+			EcPpk attempt = getPpk(EcPk.fromPem(d.owner.$get(i)));
+			if (attempt != null)
+				d.signWith(attempt);
+		}
 	}
 }

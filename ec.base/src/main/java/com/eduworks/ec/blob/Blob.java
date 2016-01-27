@@ -1,4 +1,4 @@
-package com.eduworks.ec.Blob;
+package com.eduworks.ec.blob;
 
 import org.stjs.javascript.Array;
 import org.stjs.javascript.annotation.STJSBridge;

@@ -7,7 +7,7 @@
     <artifactId>ec</artifactId>
     <version>0.0.1</version>
   </parent>
-  <groupId>org.cassproject</groupId>
+  <groupId>com.eduworks</groupId>
   <artifactId>ebac.identity</artifactId>
   <version>0.0.1</version>
   <name>ebac.identity</name>
@@ -28,7 +28,7 @@
       <version>0.0.1</version>
     </dependency>
     <dependency>
-      <groupId>org.cassproject</groupId>
+      <groupId>com.eduworks</groupId>
       <artifactId>org.cassproject.schema.ebac</artifactId>
       <version>0.1</version>
     </dependency>

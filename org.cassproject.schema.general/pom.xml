@@ -8,7 +8,7 @@
 		<artifactId>ec</artifactId>
 		<version>0.0.1</version>
 	</parent>
-	<groupId>org.cassproject</groupId>
+	<groupId>com.eduworks</groupId>
 	<artifactId>org.cassproject.schema.general</artifactId>
 	<version>0.1</version>
 	<name>org.cassproject.schema.general</name>

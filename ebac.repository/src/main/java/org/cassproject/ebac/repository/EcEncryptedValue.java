@@ -15,6 +15,17 @@ import com.eduworks.ec.crypto.EcRsaOaep;
 import com.eduworks.schema.ebac.EbacEncryptedSecret;
 import com.eduworks.schema.ebac.EbacEncryptedValue;
 
+import forge.pkcs5;
+import forge.util;
+
+/**
+ * Represents an encrypted piece of data. Provides helper functions for
+ * encryption/decryption of JSON-LD objects, and provides some searchability of
+ * the data within.
+ * 
+ * @author fritz.ray@eduworks.com
+ *
+ */
 public class EcEncryptedValue extends EbacEncryptedValue
 {
 	public EcEncryptedValue()
@@ -38,7 +49,6 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		for (int i = 0; i < d.owner.$length(); i++)
 		{
 			EbacEncryptedSecret eSecret = new EbacEncryptedSecret();
-			eSecret.id = d.id;
 			eSecret.iv = newIv;
 			eSecret.secret = newSecret;
 			if (v.secret == null)
@@ -60,7 +70,7 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		for (int i = 0; i < v.owner.$length(); i++)
 		{
 			EbacEncryptedSecret eSecret = new EbacEncryptedSecret();
-			eSecret.id = id;
+			eSecret.id = util.encode64(pkcs5.pbkdf2(id, "", 1, 8));
 			eSecret.iv = newIv;
 			eSecret.secret = newSecret;
 			if (v.secret == null)
@@ -167,7 +177,7 @@ public class EcEncryptedValue extends EbacEncryptedValue
 				continue;
 			if (!EcLinkedData.isProbablyJson(decryptRaw))
 				continue;
-			EcRemoteLinkedData decrypted = new EcRemoteLinkedData("","");
+			EcRemoteLinkedData decrypted = new EcRemoteLinkedData("", "");
 			decrypted.copyFrom((EcRemoteLinkedData) JSGlobal.JSON.parse(decryptRaw));
 			return (EcRemoteLinkedData) decrypted.deAtify();
 		}
