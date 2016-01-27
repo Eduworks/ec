@@ -25,6 +25,11 @@
 		</dependency>
 		<dependency>
 			<groupId>com.eduworks</groupId>
+			<artifactId>ec.base</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.eduworks</groupId>
 			<artifactId>ec.crypto</artifactId>
 			<version>0.0.1</version>
 		</dependency>
