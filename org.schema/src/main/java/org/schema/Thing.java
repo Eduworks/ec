@@ -11,13 +11,13 @@ public class Thing extends EcRemoteLinkedData
 	{
 		super("http://schema.org/", "http://schema.org/Thing");
 	}
-	String name;
-	String description;
-	String alternateName;
+	public String name;
+	public String description;
+	public String alternateName;
 	
-	String url;
-	String sameAs;
-	Object mainEntityOfPage;
-	Object image;
-	String additionalType;
+	public String url;
+	public String sameAs;
+	public Object mainEntityOfPage;
+	public Object image;
+	public String additionalType;
 }

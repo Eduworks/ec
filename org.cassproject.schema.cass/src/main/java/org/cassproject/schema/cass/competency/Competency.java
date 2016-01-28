@@ -10,7 +10,6 @@ import org.stjs.javascript.Array;
  * 
  * Working model of a CASS competency.
  * @author fritz.ray@eduworks.com
- *
  */
 public class Competency extends Thing
 {
@@ -22,5 +21,5 @@ public class Competency extends Thing
 	}
 	public Array<Level> level;
 	public String scope;
-	public Array<AlignmentObject> relation;
+	public Source source;
 }

@@ -127,5 +127,37 @@ public class EcRemote
 
 		$.ajax(p);
 	}
+	public static void delete(String url, String signatureSheet, final Callback1<String> success, final Callback1<String> failure)
+	{
+		Callback3<Object, String, JQueryXHR> successCallback = new Callback3<Object, String, JQueryXHR>()
+		{
+			@Override
+			public void $invoke(Object arg0, String arg1, JQueryXHR arg2)
+			{
+				if (success != null)
+					success.$invoke(arg2.responseText);
+			}
+		};
+
+		Callback3<JQueryXHR, String, String> failureCallback = new Callback3<JQueryXHR, String, String>()
+		{
+			@Override
+			public void $invoke(JQueryXHR paramP1, String paramP2, String paramP3)
+			{
+				if (failure != null)
+					failure.$invoke(paramP2);
+			}
+		};
+
+		AjaxParams p = new AjaxParams();
+		p.method = "DELETE";
+		p.url = url;
+		p.headers.$put("signatureSheet", signatureSheet);
+
+		p.success = successCallback;
+		p.error = failureCallback;
+
+		$.ajax(p);
+	}
 
 }

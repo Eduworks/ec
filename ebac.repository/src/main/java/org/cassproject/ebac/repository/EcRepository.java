@@ -90,22 +90,33 @@ public class EcRepository
 	 * @param success
 	 * @param failure
 	 */
-	public void save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
+	public static void save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
 	{
-		if (data.id == null)
-			throw new RuntimeException("Cannot save data that has no ID.");
+		if (data.invalid())
+			failure.$invoke("Data is malformed.");
+		EcIdentityManager.sign(data);
 		FormData fd = new FormData();
 		fd.append("data", data.toJson());
 		fd.append("signatureSheet", EcIdentityManager.signatureSheetFor(data.owner, 10000, data.id));
 		EcRemote.postExpectingString(data.id, "", fd, success, failure);
 	}
 
-	public void update(EcRemoteLinkedData data, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure)
+	/**
+	 * Attempts to delete a piece of data.
+	 * 
+	 * Uses a signature sheet informed by the owner field of the data.
+	 * 
+	 * @param data
+	 *            Data to save to the location designated by its id.
+	 * @param success
+	 * @param failure
+	 */
+	public static void delete(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
 	{
-		EcRepository.get(data.id, success, failure);
+		EcRemote.delete(data.id, EcIdentityManager.signatureSheetFor(data.owner, 10000, data.id), success, failure);
 	}
 
-	public void sign(EcRemoteLinkedData data, EcPpk pen)
+	public static void sign(EcRemoteLinkedData data, EcPpk pen)
 	{
 		data.signature.push(EcRsaOaep.sign(pen, data.toSignableJson()));
 	}

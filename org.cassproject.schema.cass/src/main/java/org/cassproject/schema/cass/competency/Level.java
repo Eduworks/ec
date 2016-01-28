@@ -7,11 +7,12 @@ import org.stjs.javascript.Array;
 
 public class Level extends Thing
 {
+	public static final String myType = "http://schema.eduworks.com/cass/0.1/level";
 	public Level()
 	{
 		schema = Cass.schema;
-		type = "http://schema.eduworks.com/cass/0.1/level";
+		type = myType;
 	}
-	public Array<AlignmentObject> relation;
+	public String competency;
 	public String performance;
 }

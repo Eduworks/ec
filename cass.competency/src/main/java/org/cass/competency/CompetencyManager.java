@@ -15,13 +15,18 @@ public class CompetencyManager
 			{
 				if (success == null)
 					return;
+				if (!p1.isA(EcCompetency.myType))
+				{
+					if (failure != null)
+						failure.$invoke("Resultant object is not a competency.");
+					return;
+				}
 				EcCompetency c = new EcCompetency();
 				c.copyFrom(p1);
 				success.$invoke(c);
 			}
 		}, new Callback1<String>()
 		{
-
 			@Override
 			public void $invoke(String p1)
 			{

@@ -215,6 +215,7 @@ public class EcIdentityManager
 	 */
 	public static void sign(EcRemoteLinkedData d)
 	{
+		//TODO: Validate object here using all signatures and remove any that don't work.
 		for (int i = 0; i < d.owner.$length(); i++)
 		{
 			EcPpk attempt = getPpk(EcPk.fromPem(d.owner.$get(i)));
