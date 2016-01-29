@@ -111,9 +111,9 @@ public class EcRepository
 	 * @param success
 	 * @param failure
 	 */
-	public static void delete(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
+	public static void _delete(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
 	{
-		EcRemote.delete(data.id, EcIdentityManager.signatureSheetFor(data.owner, 10000, data.id), success, failure);
+		EcRemote._delete(data.id, EcIdentityManager.signatureSheetFor(data.owner, 10000, data.id), success, failure);
 	}
 
 	public static void sign(EcRemoteLinkedData data, EcPpk pen)

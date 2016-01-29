@@ -127,7 +127,7 @@ public class EcRemote
 
 		$.ajax(p);
 	}
-	public static void delete(String url, String signatureSheet, final Callback1<String> success, final Callback1<String> failure)
+	public static void _delete(String url, String signatureSheet, final Callback1<String> success, final Callback1<String> failure)
 	{
 		Callback3<Object, String, JQueryXHR> successCallback = new Callback3<Object, String, JQueryXHR>()
 		{
