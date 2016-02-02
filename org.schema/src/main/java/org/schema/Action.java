@@ -13,7 +13,7 @@ public class Action extends Thing
 	public String agent;
 	public String endTime;
 	public String startTime;
-	public String target;
+	public EntryPoint target;
 	public String error;
 	public String instrument;
 	public String location;
