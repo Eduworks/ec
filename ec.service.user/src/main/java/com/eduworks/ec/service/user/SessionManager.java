@@ -8,18 +8,26 @@ import com.eduworks.ec.callback.EcCallback;
 import com.eduworks.ec.remote.EcRemote;
 import com.eduworks.ec.remote.FormData;
 
-public class EcLogin
+public class SessionManager
 {
+	private static String selectedServer = "http://localhost:9722/api/custom";
+	
 	private static final String LOGIN = "login";
+	
+	
 	public static String token = "";
-	public static String selectedServer = "http://localhost:9722/api/custom";
 	public static boolean isLoggedIn = false;
+	
+	public void setServer(String server)
+	{
+		selectedServer = server;
+	}
 
 	public static void login(String username, String password, final EcCallback success, final EcCallback failure)
 	{
 		EcLoginCredentials c = new EcLoginCredentials(username, password);
 		FormData fd = new FormData();
-		fd.append("login", JSGlobal.JSON.stringify(c));
+		fd.append("user", JSGlobal.JSON.stringify(c));
 		EcRemote.postExpectingObject(selectedServer,LOGIN, fd, new Callback1<Object>()
 		{
 			@Override
