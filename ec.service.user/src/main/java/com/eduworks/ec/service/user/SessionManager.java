@@ -18,7 +18,7 @@ public class SessionManager
 	public static String token = "";
 	public static boolean isLoggedIn = false;
 	
-	public void setServer(String server)
+	public static void setServer(String server)
 	{
 		selectedServer = server;
 	}
