@@ -6,8 +6,10 @@ import org.stjs.javascript.Date;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.JSObjectAdapter;
+import org.stjs.javascript.JSStringAdapterBase;
 import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.stjs.STJS;
 
 import com.eduworks.ec.crypto.EcPk;
 import com.eduworks.ec.crypto.EcPpk;
@@ -143,12 +145,18 @@ public class EcIdentityManager
 		for (int j = 0; j < ids.$length(); j++)
 		{
 			EcPpk ppk = ids.$get(j).ppk;
-			String ourPem = ppk.toPk().toPem();
+			Array<String> pemArr = JSStringAdapterBase.split(ppk.toPk().toPem(), "\n");
+			
+			String ourPem = "";
+			for(int i = 0; i < pemArr.$length(); i++){
+				ourPem += pemArr.$get(i).trim() + "\n";
+			}
+			ourPem = ourPem.trim();
 			if (identityPksinPem != null)
 				for (int i = 0; i < identityPksinPem.$length(); i++)
 				{
-					String ownerPem = identityPksinPem.$get(i);
-					if (ourPem.equals(ownerPem))
+					String ownerPem = identityPksinPem.$get(i).trim();
+					if (new String(ownerPem).equals(new String(ourPem)))
 					{
 						signatures.push(createSignature(duration, server, crypto, ppk).atIfy());
 					}
@@ -216,11 +224,14 @@ public class EcIdentityManager
 	public static void sign(EcRemoteLinkedData d)
 	{
 		//TODO: Validate object here using all signatures and remove any that don't work.
-		for (int i = 0; i < d.owner.$length(); i++)
+		if(d.owner != null)
 		{
-			EcPpk attempt = getPpk(EcPk.fromPem(d.owner.$get(i)));
-			if (attempt != null)
-				d.signWith(attempt);
+			for (int i = 0; i < d.owner.$length(); i++)
+			{
+				EcPpk attempt = getPpk(EcPk.fromPem(d.owner.$get(i)));
+				if (attempt != null)
+					d.signWith(attempt);
+			}
 		}
 	}
 }

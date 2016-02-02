@@ -96,11 +96,15 @@ public class EcRemoteLinkedData extends EcLinkedData
 	 */
 	public String toSignableJson()
 	{
+		
 		EcLinkedData d = (EcLinkedData) JSGlobal.JSON.parse(toJson());
 		JSObjectAdapter.$properties(d).$delete("@signature");
 		JSObjectAdapter.$properties(d).$delete("@owner");
 		JSObjectAdapter.$properties(d).$delete("@reader");
-		return d.toJson();
+		
+		EcLinkedData e = new EcLinkedData(d.schema, d.type);
+		e.copyFrom(d);
+		return e.toJson();
 	}
 
 	/**
@@ -112,9 +116,16 @@ public class EcRemoteLinkedData extends EcLinkedData
 	{
 		String signableJson = toSignableJson();
 		String signed = EcRsaOaep.sign(ppk, signableJson);
-		for (int i = 0; i < signature.$length(); i++)
-			if (signature.$get(i).equals(signed))
-				return;
+		if(signature != null)
+		{
+			for (int i = 0; i < signature.$length(); i++)
+				if (signature.$get(i).equals(signed))
+					return;
+		}
+		else
+		{
+			signature = new Array<String>();
+		}
 		signature.push(signed);
 	}
 

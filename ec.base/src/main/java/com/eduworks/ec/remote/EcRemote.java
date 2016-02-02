@@ -9,8 +9,6 @@ import org.stjs.javascript.functions.Callback3;
 import org.stjs.javascript.jquery.AjaxParams;
 import org.stjs.javascript.jquery.JQueryXHR;
 
-import com.eduworks.ec.callback.EcCallback;
-
 public class EcRemote
 {
 	public static void postExpectingObject(String server, String service, FormData fd, final Callback1<Object> success, final Callback1<String> failure)
