@@ -1,4 +1,4 @@
-package com.eduworks.ec.service.user;
+package com.eduworks.ec.service.user.model;
 
 public class EcLoginCredentials{
 	public String userId;
