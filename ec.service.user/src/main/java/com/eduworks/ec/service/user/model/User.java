@@ -36,6 +36,9 @@ public class User {
 	
 	public static User _parse(Object obj)
 	{
+		if(obj == null)
+			return null;
+		
 		String userId, loginDate, lastIp;
 		
 		userId = (String) JSObjectAdapter.$get(obj, "userId");
