@@ -1,5 +1,6 @@
 package com.eduworks.ec.service.user;
 
+import org.stjs.javascript.Global;
 import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
@@ -16,11 +17,14 @@ public class SessionManager
 	
 	private static final String LOGIN = "login";
 
-	
 	private static String sessionId = "";
 	private static boolean isLoggedIn = false;
 	
 	private static User currentUser = null;
+	
+	static{
+		sessionId = (String) Global.sessionStorage.$get("ecSessionId");
+	}
 	
 	public static void setServer(String server)
 	{
@@ -29,12 +33,28 @@ public class SessionManager
 	
 	public static String getSessionId()
 	{
+		if(sessionId == null){
+			sessionId = (String) Global.sessionStorage.$get("ecSessionId");
+		}
 		return sessionId;
+	}
+	private static void setSessionId(String id)
+	{
+		sessionId = id;
+		Global.sessionStorage.$put("ecSessionId", sessionId);
+		
+	}
+	public static void clearSessionId(){
+		Global.sessionStorage.$delete("ecSessionId");
 	}
 	
 	public static boolean getLoggedIn()
 	{
 		return isLoggedIn;
+	}
+	
+	public static User getCurrentUser(){
+		return currentUser;
 	}
 
 	public static void login(String username, String password, final EcCallback success, final EcCallback failure)
@@ -47,7 +67,7 @@ public class SessionManager
 			@Override
 			public void $invoke(Object object)
 			{
-				sessionId = (String) JSObjectAdapter.$properties(object).$get("sessionId");
+				setSessionId((String) JSObjectAdapter.$properties(object).$get("sessionId"));
 				isLoggedIn = true;
 				
 				currentUser = User._parse(object);
@@ -59,7 +79,7 @@ public class SessionManager
 			@Override
 			public void $invoke(String p1)
 			{
-				sessionId = null;
+				clearSessionId();
 				isLoggedIn = false;
 				failure.callback(p1);				
 			}
