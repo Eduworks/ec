@@ -10,7 +10,7 @@ import org.stjs.javascript.functions.Callback1;
 import com.eduworks.ec.remote.EcRemote;
 import com.eduworks.ec.remote.FormData;
 import com.eduworks.ec.service.task.TaskItemManager;
-import com.eduworks.ec.service.task.display.TaskItemInterface;
+import com.eduworks.ec.service.task.view.TaskItemInterface;
 
 public class TaskItem {
 

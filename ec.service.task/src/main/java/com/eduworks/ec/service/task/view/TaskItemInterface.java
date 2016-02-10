@@ -1,4 +1,4 @@
-package com.eduworks.ec.service.task.display;
+package com.eduworks.ec.service.task.view;
 
 import com.eduworks.ec.service.task.model.TaskItem;
 
