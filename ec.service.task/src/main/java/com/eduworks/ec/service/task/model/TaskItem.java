@@ -96,7 +96,7 @@ public class TaskItem {
 		taskId = (String) JSObjectAdapter.$get(obj, "taskId");
 		name = (String) JSObjectAdapter.$get(obj, "taskName");
 		
-		completed = (Boolean) JSObjectAdapter.$get(obj, "taskName");
+		completed = (Boolean) JSObjectAdapter.$get(obj, "taskDueDate");
 		if(completed == null)
 			completed = false;
 		
