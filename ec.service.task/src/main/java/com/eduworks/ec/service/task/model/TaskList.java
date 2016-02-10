@@ -7,7 +7,7 @@ public class TaskList {
 	public String name;
 	public Array<TaskItem> tasks;
 	
-	public TaskList(String name, Array<TaskItem> tasks)
+	private TaskList(String name, Array<TaskItem> tasks)
 	{
 		this.name = name;
 		
