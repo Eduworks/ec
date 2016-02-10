@@ -100,7 +100,9 @@ public class TaskItem {
 		if(completed == null)
 			completed = false;
 		
-		due = new Date((String)JSObjectAdapter.$get(obj, "dueDate"));
+		String date = (String)JSObjectAdapter.$get(obj, "dueDate");
+		if(date != null)
+			due = new Date();
 		
 		return new TaskItem(taskId, name, completed, due);
 	}
