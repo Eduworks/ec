@@ -105,10 +105,10 @@ public class TaskItem {
 		return new TaskItem(taskId, name, completed, due);
 	}
 	
-	public static void create(String taskName, Date dueDate, final TaskItemInterface view){
+	public static void create(String taskName, String dueDate, final TaskItemInterface view){
 		Map<String, String> data = JSCollections.$map(
 			"taskName", taskName,
-			"taskDueDate", dueDate.toDateString()
+			"taskDueDate", dueDate
 		);
 				
 		FormData fd = new FormData();
