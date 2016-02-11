@@ -2,6 +2,10 @@ package com.eduworks.ec.service.task.model;
 
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSObjectAdapter;
+import org.stjs.javascript.functions.Callback1;
+
+import com.eduworks.ec.service.task.TaskListManager;
+import com.eduworks.ec.service.task.view.TaskListInterface;
 
 public class TaskList {
 	public String name;
@@ -39,5 +43,26 @@ public class TaskList {
 		
 		
 		return new TaskList(name, tasks);
+	}
+	
+	public static void getList(final TaskListInterface view)
+	{
+		TaskListManager.readTaskList(new Callback1<Object>()
+		{
+			@Override
+			public void $invoke(Object object)
+			{
+				TaskList list = parse(object);
+				
+				view.readTaskListSuccess(list);
+			}
+		}, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				view.readTaskListFailure(p1);				
+			}
+		});
 	}
 }

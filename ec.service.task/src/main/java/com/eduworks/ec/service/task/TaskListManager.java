@@ -13,25 +13,9 @@ public class TaskListManager {
 	
 	private static final String READ = "read";
 	
-	public static void readTaskList(final TaskListInterface view)
+	public static void readTaskList(Callback1<Object> success, Callback1<String> fail)
 	{
-		EcRemote.postExpectingObject(selectedServer,READ, null, new Callback1<Object>()
-		{
-			@Override
-			public void $invoke(Object object)
-			{
-				TaskList list = TaskList.parse(object);
-				
-				view.readTaskListSuccess(list);
-			}
-		}, new Callback1<String>()
-		{
-			@Override
-			public void $invoke(String p1)
-			{
-				view.readTaskListFailure(p1);				
-			}
-		});
+		EcRemote.postExpectingObject(selectedServer, READ, null, success, fail);
 	}
 	
 }

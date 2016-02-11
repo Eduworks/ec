@@ -14,8 +14,6 @@ import com.eduworks.ec.service.task.view.TaskItemInterface;
 
 public class TaskItem {
 
-	
-	
 	public String taskId;
 	public String taskName;
 	public boolean completed;
@@ -33,14 +31,7 @@ public class TaskItem {
 	{
 		completed = true;
 		
-		Map<String, String> data = JSCollections.$map(
-			"taskId", taskId 
-		);
-			
-		FormData fd = new FormData();
-		fd.append("task", JSGlobal.JSON.stringify(data));
-		
-		EcRemote.postExpectingObject(TaskItemManager.getSelectedServer(), TaskItemManager.SET_COMPLETE, fd, new Callback1<Object>()
+		TaskItemManager.setComplete(taskId, new Callback1<Object>()
 		{
 			@Override
 			public void $invoke(Object object)
@@ -63,19 +54,12 @@ public class TaskItem {
 	{
 		completed = false;
 		
-		Map<String, String> data = JSCollections.$map(
-			"taskId", taskId 
-		);
-			
-		FormData fd = new FormData();
-		fd.append("task", JSGlobal.JSON.stringify(data));
-		
-		EcRemote.postExpectingObject(TaskItemManager.getSelectedServer(), TaskItemManager.SET_INCOMPLETE, fd, new Callback1<Object>()
+		TaskItemManager.setIncomplete(taskId, new Callback1<Object>()
 		{
 			@Override
 			public void $invoke(Object object)
 			{
-				TaskItem task = TaskItem.parse(object);
+				TaskItem task = parse(object);
 				view.setIncompleteSuccess(task);
 			}
 		}, new Callback1<String>()
@@ -108,20 +92,12 @@ public class TaskItem {
 	}
 	
 	public static void create(String taskName, String dueDate, final TaskItemInterface view){
-		Map<String, String> data = JSCollections.$map(
-			"taskName", taskName,
-			"taskDueDate", dueDate
-		);
-				
-		FormData fd = new FormData();
-		fd.append("task", JSGlobal.JSON.stringify(data));
-		
-		EcRemote.postExpectingObject(TaskItemManager.getSelectedServer(), TaskItemManager.CREATE, fd, new Callback1<Object>()
+		TaskItemManager.create(taskName, dueDate, new Callback1<Object>()
 		{
 			@Override
 			public void $invoke(Object object)
 			{
-				TaskItem task = TaskItem.parse(object);
+				TaskItem task = parse(object);
 				
 				view.createSuccess(task);
 			}
