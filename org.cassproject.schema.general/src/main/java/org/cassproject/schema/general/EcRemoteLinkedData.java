@@ -166,4 +166,28 @@ public class EcRemoteLinkedData extends EcLinkedData
 			return true;
 		return false;
 	}
+
+	public void updateTimestamp()
+	{
+		String rawId = id.substring(0,id.lastIndexOf("/"));
+		if (rawId.endsWith("/") == false)
+			rawId += "/";
+		rawId += new Date().getTime();
+		id = rawId;
+	}
+
+	public boolean isId(String id)
+	{
+		return trimVersionFromUrl(this.id).equals(trimVersionFromUrl(id));
+	}
+	
+	public static String trimVersionFromUrl(String id)
+	{
+		if (id.substring(id.lastIndexOf("/")).contains("-"))
+			return id;
+		String rawId = id.substring(0,id.lastIndexOf("/"));
+		if (rawId.endsWith("/"))
+			rawId = rawId.substring(0,rawId.length()-1);
+		return rawId;
+	}
 }

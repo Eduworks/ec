@@ -21,5 +21,4 @@ public class Competency extends Thing
 	}
 	public Array<Level> level;
 	public String scope;
-	public Source source;
 }

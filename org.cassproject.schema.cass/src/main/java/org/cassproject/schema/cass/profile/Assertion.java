@@ -18,5 +18,7 @@ public class Assertion extends Thing
 	String agent;
 	Array<String> evidence;
 	Double confidence;
-	
+	String assertionDate;
+	String expirationDate;
+	String decayFunction;	
 }

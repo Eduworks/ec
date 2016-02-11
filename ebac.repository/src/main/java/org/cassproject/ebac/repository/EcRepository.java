@@ -3,6 +3,7 @@ package org.cassproject.ebac.repository;
 import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
+import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.functions.Callback1;
 
 import com.eduworks.ec.crypto.EcPpk;
@@ -70,14 +71,47 @@ public class EcRepository
 			{
 				Array<EcRemoteLinkedData> results = (Array<EcRemoteLinkedData>) p1;
 
-				if (eachSuccess != null)
-					for (int i = 0; i < results.$length(); i++)
+				for (int i = 0; i < results.$length(); i++)
+				{
+					EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
+					d.copyFrom(results.$get(i));
+					results.$set(i, d);
+					if (eachSuccess != null)
 						eachSuccess.$invoke(results.$get(i));
+				}
 
 				if (success != null)
 					success.$invoke(results);
 			}
 		}, failure);
+	}
+
+	public static String escapeSearch(String query)
+	{
+		String s = null;
+		s = JSCollections.$castArray(query.split("\\")).join("\\\\");
+		s = JSCollections.$castArray(s.split("-")).join("\\-");
+		s = JSCollections.$castArray(s.split("=")).join("\\=");
+		s = JSCollections.$castArray(s.split("&&")).join("\\&&");
+		s = JSCollections.$castArray(s.split("||")).join("\\||");
+		s = JSCollections.$castArray(s.split("<")).join("\\<");
+		s = JSCollections.$castArray(s.split(">")).join("\\>");
+		s = JSCollections.$castArray(s.split("|")).join("\\|");
+		s = JSCollections.$castArray(s.split("(")).join("\\(");
+		s = JSCollections.$castArray(s.split(")")).join("\\)");
+		s = JSCollections.$castArray(s.split("{")).join("\\{");
+		s = JSCollections.$castArray(s.split("}")).join("\\}");
+		s = JSCollections.$castArray(s.split("[")).join("\\[");
+		s = JSCollections.$castArray(s.split("]")).join("\\]");
+		s = JSCollections.$castArray(s.split("^")).join("\\^");
+		s = JSCollections.$castArray(s.split("\"")).join("\\\"");
+		s = JSCollections.$castArray(s.split("~")).join("\\~");
+		s = JSCollections.$castArray(s.split("*")).join("\\*");
+		s = JSCollections.$castArray(s.split("?")).join("\\?");
+		s = JSCollections.$castArray(s.split(":")).join("\\:");
+		s = JSCollections.$castArray(s.split("/")).join("\\/");
+		s = JSCollections.$castArray(s.split("+")).join("\\+");
+		return s;
 	}
 
 	/**
@@ -95,6 +129,7 @@ public class EcRepository
 		if (data.invalid())
 			failure.$invoke("Data is malformed.");
 		EcIdentityManager.sign(data);
+		data.updateTimestamp();
 		FormData fd = new FormData();
 		fd.append("data", data.toJson());
 		fd.append("signatureSheet", EcIdentityManager.signatureSheetFor(data.owner, 10000, data.id));

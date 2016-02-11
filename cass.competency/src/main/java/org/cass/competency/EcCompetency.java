@@ -30,8 +30,8 @@ public class EcCompetency extends Competency
 		final EcAlignment a = new EcAlignment();
 		a.generateId(server);
 		a.source = id;
-		a.destination = target.id;
-		a.alignmentType = alignmentType;
+		a.target = target.id;
+		a.relationType = alignmentType;
 		a.addOwner(owner.toPk());
 		EcRepository.save(a, new Callback1<String>()
 		{
@@ -43,7 +43,7 @@ public class EcCompetency extends Competency
 		}, failure);
 	}
 
-	public void alignments(EcRepository repo, final Callback1<EcAlignment> success, final Callback1<String> failure)
+	public void relationships(EcRepository repo, final Callback1<EcAlignment> success, final Callback1<String> failure)
 	{
 		repo.search("type:\"" + EcAlignment.myType + "\" AND (source:\"" + id + "\" OR destination:\"" + id + "\")", new Callback1<EcRemoteLinkedData>()
 		{

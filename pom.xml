@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.eduworks</groupId>
@@ -38,10 +39,10 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-         			<verbose>true</verbose>
-          			<fork>true</fork>
-					<source>1.6</source>
-					<target>1.6</target>
+					<verbose>true</verbose>
+					<fork>true</fork>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -142,7 +143,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<execute/>
+										<execute />
 									</action>
 								</pluginExecution>
 								<pluginExecution>
@@ -194,18 +195,14 @@
 	<modules>
 		<module>ec.service.user</module>
 		<module>ec.base</module>
-
 		<module>ec.crypto</module>
-		
-		
 		<module>ebac.identity</module>
 		<module>ebac.repository</module>
 		<module>org.schema</module>
-		
 		<module>org.json-ld</module>
 		<module>org.cassproject.schema.general</module>
 		<module>org.cassproject.schema.ebac</module>
 		<module>org.cassproject.schema.cass</module>
-    <module>cass.competency</module>
-  </modules>
+		<module>cass.competency</module>
+	</modules>
 </project>

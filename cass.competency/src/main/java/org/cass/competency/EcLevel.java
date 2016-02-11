@@ -18,8 +18,8 @@ public class EcLevel extends Level
 	{
 		final EcAlignment a = new EcAlignment();
 		a.source = id;
-		a.destination = targetLevel.id;
-		a.alignmentType = alignmentType;
+		a.target = targetLevel.id;
+		a.relationType = alignmentType;
 		a.addOwner(identity.toPk());
 		a.generateId(server);
 		a.signWith(identity);
@@ -31,5 +31,15 @@ public class EcLevel extends Level
 				success.$invoke(a);
 			}
 		}, failure);
+	}
+	public void setName(String name, Callback1<String> success, Callback1<String> failure)
+	{
+		this.name = name;
+		EcRepository.save(this, success, failure);
+	}
+	public void setDescription(String description, Callback1<String> success, Callback1<String> failure)
+	{
+		this.description = description;
+		EcRepository.save(this, success, failure);
 	}
 }

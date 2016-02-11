@@ -23,4 +23,5 @@ public class Framework extends Thing
 	public Array<String> competency;
 	public Array<String> alignment;
 	public Array<String> level;
+	public Source source;
 }
