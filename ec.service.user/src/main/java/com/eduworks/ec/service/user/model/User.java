@@ -2,6 +2,10 @@ package com.eduworks.ec.service.user.model;
 
 import org.stjs.javascript.Date;
 import org.stjs.javascript.JSObjectAdapter;
+import org.stjs.javascript.functions.Callback1;
+
+import com.eduworks.ec.service.user.UserManager;
+import com.eduworks.ec.service.user.display.UserInterface;
 
 import static org.stjs.javascript.Global.parseInt;
 
@@ -48,4 +52,21 @@ public class User {
 		return new User(userId, loginDate, lastIp);
 	}
 	
+	
+	public static void createUser(String username, String password, final UserInterface view)
+	{
+		UserManager.createUser(username, password, new Callback1<Object>() {
+			
+			@Override
+			public void $invoke(Object p1) {
+				view.createUserSuccess();
+			}
+		}, new Callback1<String>() {
+
+			@Override
+			public void $invoke(String p1) {
+				view.createUserFailure();
+			}
+		});
+	}
 }

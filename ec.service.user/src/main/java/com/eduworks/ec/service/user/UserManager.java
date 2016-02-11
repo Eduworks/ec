@@ -21,7 +21,7 @@ public class UserManager
 		selectedServer = server;
 	}
 
-	public static void createUser(String username, String password, final EcCallback success, final EcCallback failure)
+	public static void createUser(String username, String password, final Callback1<Object> success, final Callback1<String> fail)
 	{
 		Map<String, String> data = JSCollections.$map(
 			"userId", username, 
@@ -31,20 +31,6 @@ public class UserManager
 		FormData fd = new FormData();
 		fd.append("user", JSGlobal.JSON.stringify(data));
 		
-		EcRemote.postExpectingObject(selectedServer, CREATE, fd, new Callback1<Object>()
-		{
-			@Override
-			public void $invoke(Object object)
-			{
-				success.callback(object);
-			}
-		}, new Callback1<String>()
-		{
-			@Override
-			public void $invoke(String p1)
-			{
-				failure.callback(p1);				
-			}
-		});
+		EcRemote.postExpectingObject(selectedServer, CREATE, fd, success, fail);
 	}
 }

@@ -78,7 +78,7 @@ public class SessionManager
 		Global.sessionStorage.$delete("currentUser");
 	}
 
-	public static void login(String username, String password, final SessionInterface view)
+	public static void login(String username, String password, final Callback1<Object> success, final Callback1<String> fail)
 	{
 		EcLoginCredentials c = new EcLoginCredentials(username, password);
 		FormData fd = new FormData();
@@ -92,7 +92,7 @@ public class SessionManager
 				setCurrentUser(User._parse(object));
 				isLoggedIn = true;
 				
-				view.loginSuccess();
+				success.$invoke(object);
 			}
 		}, new Callback1<String>()
 		{
@@ -103,12 +103,12 @@ public class SessionManager
 				clearCurrentUser();
 				isLoggedIn = false;
 				
-				view.loginFailure(p1);				
+				fail.$invoke(p1);
 			}
 		});
 	}
 	
-	public static void logout(final SessionInterface view){
-		view.logoutSuccess();
+	public static void logout(Callback1<Object> success, Callback1<String> fail){
+		success.$invoke(null);
 	}
 }
