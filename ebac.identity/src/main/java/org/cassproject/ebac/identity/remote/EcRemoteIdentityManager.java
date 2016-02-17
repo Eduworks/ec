@@ -239,7 +239,7 @@ public class EcRemoteIdentityManager
 		}
 
 		Array<EbacCredential> credentials = new Array<EbacCredential>();
-		if (pad == null)
+		if (pad == null && padGenerationCallback != null)
 			pad = padGenerationCallback.callback();
 
 		for (int i = 0; i < EcIdentityManager.ids.$length(); i++)

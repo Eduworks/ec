@@ -183,11 +183,17 @@ public class EcRemoteLinkedData extends EcLinkedData
 	
 	public static String trimVersionFromUrl(String id)
 	{
+		if (id == null) return null;
 		if (id.substring(id.lastIndexOf("/")).contains("-"))
 			return id;
 		String rawId = id.substring(0,id.lastIndexOf("/"));
 		if (rawId.endsWith("/"))
 			rawId = rawId.substring(0,rawId.length()-1);
 		return rawId;
+	}
+	
+	public String shortId()
+	{
+		return trimVersionFromUrl(id);
 	}
 }

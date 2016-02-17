@@ -21,7 +21,7 @@ public class Framework extends Thing
 		type = myType;
 	}
 	public Array<String> competency;
-	public Array<String> alignment;
+	public Array<String> relation;
 	public Array<String> level;
 	public Source source;
 }

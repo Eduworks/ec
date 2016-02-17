@@ -29,7 +29,7 @@ public class EcRemote
 			public void $invoke(JQueryXHR paramP1, String paramP2, String paramP3)
 			{
 				if (failure != null)
-					failure.$invoke(paramP2);
+					failure.$invoke(paramP1.responseText);
 			}
 		};
 
@@ -54,7 +54,7 @@ public class EcRemote
 			public void $invoke(JQueryXHR paramP1, String paramP2, String paramP3)
 			{
 				if (failure != null)
-					failure.$invoke(paramP2);
+					failure.$invoke(paramP1.responseText);
 			}
 		};
 

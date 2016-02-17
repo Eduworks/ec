@@ -145,21 +145,13 @@ public class EcIdentityManager
 		for (int j = 0; j < ids.$length(); j++)
 		{
 			EcPpk ppk = ids.$get(j).ppk;
-			Array<String> pemArr = JSStringAdapterBase.split(ppk.toPk().toPem(), "\n");
-			
-			String ourPem = "";
-			for(int i = 0; i < pemArr.$length(); i++){
-				ourPem += pemArr.$get(i).trim() + "\n";
-			}
-			ourPem = ourPem.trim();
+			EcPk pk = ppk.toPk();
 			if (identityPksinPem != null)
 				for (int i = 0; i < identityPksinPem.$length(); i++)
 				{
-					String ownerPem = identityPksinPem.$get(i).trim();
-					if (new String(ownerPem).equals(new String(ourPem)))
-					{
+					EcPk ownerPpk = EcPk.fromPem(identityPksinPem.$get(i).trim());
+					if (pk.equals(ownerPpk))
 						signatures.push(createSignature(duration, server, crypto, ppk).atIfy());
-					}
 				}
 		}
 		return JSGlobal.JSON.stringify(signatures);

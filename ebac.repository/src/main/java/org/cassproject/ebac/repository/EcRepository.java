@@ -30,7 +30,7 @@ public class EcRepository
 	public static void get(String url, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure)
 	{
 		FormData fd = new FormData();
-		fd.append("signatureSheet", EcIdentityManager.signatureSheet(10000, url));
+		fd.append("signatureSheet", EcIdentityManager.signatureSheet(60000, url));
 		EcRemote.postExpectingObject(url, null, fd, new Callback1<Object>()
 		{
 			@Override
@@ -63,7 +63,7 @@ public class EcRepository
 	{
 		FormData fd = new FormData();
 		fd.append("data", query);
-		fd.append("signatureSheet", EcIdentityManager.signatureSheet(10000, selectedServer));
+		fd.append("signatureSheet", EcIdentityManager.signatureSheet(60000, selectedServer));
 		EcRemote.postExpectingObject(selectedServer, "sky/repo/search", fd, new Callback1<Object>()
 		{
 			@Override
@@ -127,12 +127,15 @@ public class EcRepository
 	public static void save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
 	{
 		if (data.invalid())
+		{
 			failure.$invoke("Data is malformed.");
+			return;
+		}
 		EcIdentityManager.sign(data);
 		data.updateTimestamp();
 		FormData fd = new FormData();
 		fd.append("data", data.toJson());
-		fd.append("signatureSheet", EcIdentityManager.signatureSheetFor(data.owner, 10000, data.id));
+		fd.append("signatureSheet", EcIdentityManager.signatureSheetFor(data.owner, 60000, data.id));
 		EcRemote.postExpectingString(data.id, "", fd, success, failure);
 	}
 
@@ -148,7 +151,7 @@ public class EcRepository
 	 */
 	public static void _delete(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
 	{
-		EcRemote._delete(data.id, EcIdentityManager.signatureSheetFor(data.owner, 10000, data.id), success, failure);
+		EcRemote._delete(data.id, EcIdentityManager.signatureSheetFor(data.owner, 60000, data.id), success, failure);
 	}
 
 	public static void sign(EcRemoteLinkedData data, EcPpk pen)
