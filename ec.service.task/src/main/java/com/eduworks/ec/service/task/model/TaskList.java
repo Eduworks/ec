@@ -5,13 +5,19 @@ import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
 
 import com.eduworks.ec.service.task.TaskListManager;
-import com.eduworks.ec.service.task.view.TaskListInterface;
 
+/**
+ * Example of a Model, maintains state information about itself and provides methods for 
+ * CRUD on the server model. This could also contain a static cache that could be used to
+ * minimize impact on the server for computationally heavy tasks
+ * @author djunker
+ *
+ */
 public class TaskList {
 	public String name;
 	public Array<TaskItem> tasks;
 	
-	private TaskList(String name, Array<TaskItem> tasks)
+	public TaskList(String name, Array<TaskItem> tasks)
 	{
 		this.name = name;
 		
@@ -45,7 +51,7 @@ public class TaskList {
 		return new TaskList(name, tasks);
 	}
 	
-	public static void getList(final TaskListInterface view)
+	public static void getList(Callback1<TaskList> success, Callback1<String> failure)
 	{
 		TaskListManager.readTaskList(new Callback1<Object>()
 		{
@@ -54,14 +60,16 @@ public class TaskList {
 			{
 				TaskList list = parse(object);
 				
-				view.readTaskListSuccess(list);
+				if(success != null)
+					success.$invoke(list);
 			}
 		}, new Callback1<String>()
 		{
 			@Override
 			public void $invoke(String p1)
 			{
-				view.readTaskListFailure(p1);				
+				if(failure != null)
+					failure.$invoke(p1);				
 			}
 		});
 	}

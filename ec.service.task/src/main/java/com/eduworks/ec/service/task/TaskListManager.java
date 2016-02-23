@@ -4,7 +4,6 @@ import org.stjs.javascript.functions.Callback1;
 
 import com.eduworks.ec.remote.EcRemote;
 import com.eduworks.ec.service.task.model.TaskList;
-import com.eduworks.ec.service.task.view.TaskListInterface;
 
 
 public class TaskListManager {

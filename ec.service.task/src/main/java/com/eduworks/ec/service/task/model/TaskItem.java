@@ -10,7 +10,6 @@ import org.stjs.javascript.functions.Callback1;
 import com.eduworks.ec.remote.EcRemote;
 import com.eduworks.ec.remote.FormData;
 import com.eduworks.ec.service.task.TaskItemManager;
-import com.eduworks.ec.service.task.view.TaskItemInterface;
 
 public class TaskItem {
 
@@ -27,7 +26,7 @@ public class TaskItem {
 		this.dueDate = dueDate;
 	}
 	
-	public void setComplete(final TaskItemInterface view)
+	public void setComplete(Callback1<TaskItem> success, Callback1<String> failure)
 	{
 		completed = true;
 		
@@ -37,20 +36,14 @@ public class TaskItem {
 			public void $invoke(Object object)
 			{
 				TaskItem task = parse(object);
-				view.setCompleteSuccess(task);
+				if(success != null)
+					success.$invoke(task);
 			}
-		}, new Callback1<String>()
-		{
-			@Override
-			public void $invoke(String p1)
-			{
-				view.setCompleteFailure(p1);				
-			}
-		});
+		}, failure);
 		
 	}
 	
-	public void setIncomplete(final TaskItemInterface view)
+	public void setIncomplete(Callback1<TaskItem> success, Callback1<String> failure)
 	{
 		completed = false;
 		
@@ -60,16 +53,10 @@ public class TaskItem {
 			public void $invoke(Object object)
 			{
 				TaskItem task = parse(object);
-				view.setIncompleteSuccess(task);
+				if(success != null)
+					success.$invoke(task);
 			}
-		}, new Callback1<String>()
-		{
-			@Override
-			public void $invoke(String p1)
-			{
-				view.setIncompleteFailure(p1);				
-			}
-		});
+		},failure);
 	}
 	
 	public static TaskItem parse(Object obj) {
@@ -91,7 +78,7 @@ public class TaskItem {
 		return new TaskItem(taskId, name, completed, due);
 	}
 	
-	public static void create(String taskName, String dueDate, final TaskItemInterface view){
+	public static void create(String taskName, String dueDate, Callback1<TaskItem> success, Callback1<String> failure){
 		TaskItemManager.create(taskName, dueDate, new Callback1<Object>()
 		{
 			@Override
@@ -99,16 +86,10 @@ public class TaskItem {
 			{
 				TaskItem task = parse(object);
 				
-				view.createSuccess(task);
+				if(success != null)
+					success.$invoke(task);
 			}
-		}, new Callback1<String>()
-		{
-			@Override
-			public void $invoke(String p1)
-			{
-				view.createFailure(p1);				
-			}
-		});
+		}, failure);
 	}
 
 }
