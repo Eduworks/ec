@@ -8,10 +8,15 @@ import org.stjs.javascript.functions.Callback1;
 import com.eduworks.ec.callback.EcCallback;
 import com.eduworks.ec.remote.EcRemote;
 import com.eduworks.ec.remote.FormData;
-import com.eduworks.ec.service.user.display.SessionInterface;
 import com.eduworks.ec.service.user.model.EcLoginCredentials;
 import com.eduworks.ec.service.user.model.User;
 
+/**
+ * Manages the Current User and SessionId information, stores the sessionId in the browser session storage
+ * for now (we could change this or try setting it on startup later). 
+ * @author djunker
+ *
+ */
 public class SessionManager
 {
 	private static String selectedServer = "http://localhost:9722/api/custom";
@@ -92,7 +97,8 @@ public class SessionManager
 				setCurrentUser(User._parse(object));
 				isLoggedIn = true;
 				
-				success.$invoke(object);
+				if(success != null)
+					success.$invoke(object);
 			}
 		}, new Callback1<String>()
 		{
@@ -103,12 +109,16 @@ public class SessionManager
 				clearCurrentUser();
 				isLoggedIn = false;
 				
-				fail.$invoke(p1);
+				if(fail != null)
+					fail.$invoke(p1);
 			}
 		});
 	}
 	
 	public static void logout(Callback1<Object> success, Callback1<String> fail){
-		success.$invoke(null);
+		clearCurrentUser();
+		
+		if(success != null)
+			success.$invoke(null);
 	}
 }

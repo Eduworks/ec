@@ -3,44 +3,20 @@ package com.eduworks.ec.service.user.model;
 import org.stjs.javascript.functions.Callback1;
 
 import com.eduworks.ec.service.user.SessionManager;
-import com.eduworks.ec.service.user.display.SessionInterface;
 
+/**
+ * Session 
+ * @author djunker
+ *
+ */
 public class Session {
-	public static void login(String username, String password, final SessionInterface view)
+	public static void login(String username, String password, Callback1<Object> success, Callback1<String> failure)
 	{
-		SessionManager.login(username, password, new Callback1<Object>()
-		{
-			@Override
-			public void $invoke(Object object)
-			{
-				view.loginSuccess();
-			}
-		}, new Callback1<String>()
-		{
-			@Override
-			public void $invoke(String p1)
-			{
-				view.loginFailure(p1);				
-			}
-		});
+		SessionManager.login(username, password, success, failure);
 	}
 	
-	public static void logout(final SessionInterface view)
+	public static void logout(Callback1<Object> success, Callback1<String> failure)
 	{
-		SessionManager.logout(new Callback1<Object>()
-		{
-			@Override
-			public void $invoke(Object object)
-			{
-				view.logoutSuccess();
-			}
-		}, new Callback1<String>()
-		{
-			@Override
-			public void $invoke(String p1)
-			{
-					
-			}
-		});
+		SessionManager.logout(success, failure);
 	}
 }
