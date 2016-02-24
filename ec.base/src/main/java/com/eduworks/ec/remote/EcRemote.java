@@ -4,6 +4,7 @@ import static org.stjs.javascript.JSGlobal.JSON;
 import static org.stjs.javascript.jquery.GlobalJQuery.$;
 
 import org.stjs.javascript.JSObjectAdapter;
+import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback3;
 import org.stjs.javascript.jquery.AjaxParams;
@@ -78,6 +79,7 @@ public class EcRemote
 		JSObjectAdapter.$properties(p).$put("contentType", false);
 
 		p.cache = false;
+		p.async = true;
 		p.processData = false;
 
 		p.success = successCallback;
@@ -150,6 +152,7 @@ public class EcRemote
 		AjaxParams p = new AjaxParams();
 		p.method = "DELETE";
 		p.url = url;
+		p.headers = (Map<String,String>)new Object();
 		p.headers.$put("signatureSheet", signatureSheet);
 
 		p.success = successCallback;

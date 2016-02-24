@@ -13,4 +13,8 @@ public class pk
 	{
 		return null;
 	}
+	public Boolean verify(bytes bytes, payload decode64)
+	{
+		return null;
+	}
 }

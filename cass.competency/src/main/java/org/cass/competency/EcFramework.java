@@ -32,6 +32,7 @@ public class EcFramework extends Framework
 		{
 			removeRelationshipsThatInclude(id, 0, success, failure);
 		}
+		EcRepository.save(this, success, failure);
 	}
 
 	private void removeRelationshipsThatInclude(String id, int i, final Callback1<String> success, final Callback1<String> failure)

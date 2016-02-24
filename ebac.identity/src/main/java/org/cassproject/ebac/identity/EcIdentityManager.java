@@ -16,6 +16,8 @@ import com.eduworks.ec.crypto.EcPpk;
 import com.eduworks.ec.crypto.EcRsaOaep;
 import com.eduworks.schema.ebac.EbacSignature;
 
+import forge.util;
+
 /**
  * Manages identities and contacts, provides hooks to respond to identity and
  * contact events, and builds signatures and signature sheets for authorizing
@@ -215,8 +217,35 @@ public class EcIdentityManager
 	 */
 	public static void sign(EcRemoteLinkedData d)
 	{
-		//TODO: Validate object here using all signatures and remove any that don't work.
-		if(d.owner != null)
+		// Validate object here using all signatures and remove any that don't
+		// work.
+		if (d.signature != null)
+		{
+			for (int i = 0; i < d.signature.$length();)
+			{
+				boolean works = false;
+				String signature = d.signature.$get(i);
+				if (d.owner != null)
+				{
+					for (int j = 0; j < d.owner.$length(); j++)
+					{
+						String owner = d.owner.$get(j);
+						EcPk pk = EcPk.fromPem(owner);
+						if (EcRsaOaep.verify(pk, d.toSignableJson(), signature))
+						{
+							works = true;
+							break;
+						}
+					}
+				}
+				if (!works)
+					d.signature.splice(i);
+				else
+					i++;
+			}
+
+		}
+		if (d.owner != null)
 		{
 			for (int i = 0; i < d.owner.$length(); i++)
 			{

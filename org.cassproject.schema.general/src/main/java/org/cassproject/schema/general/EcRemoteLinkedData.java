@@ -96,11 +96,11 @@ public class EcRemoteLinkedData extends EcLinkedData
 	 */
 	public String toSignableJson()
 	{
-		
 		EcLinkedData d = (EcLinkedData) JSGlobal.JSON.parse(toJson());
 		JSObjectAdapter.$properties(d).$delete("@signature");
 		JSObjectAdapter.$properties(d).$delete("@owner");
 		JSObjectAdapter.$properties(d).$delete("@reader");
+		JSObjectAdapter.$properties(d).$delete("@id");
 		
 		EcLinkedData e = new EcLinkedData(d.schema, d.type);
 		e.copyFrom(d);

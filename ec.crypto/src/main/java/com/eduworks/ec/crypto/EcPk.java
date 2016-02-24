@@ -34,7 +34,7 @@ public class EcPk
 	}
 
 	public Boolean verify(bytes bytes, payload decode64)
-	{
-		return null;
+	{ 
+	    return pk.verify(bytes,decode64);
 	}
 }
