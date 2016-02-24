@@ -33,8 +33,12 @@ public class SessionManager
 		
 		String userObj = (String) Global.sessionStorage.$get("currentUser");
 		
-		if(userObj != null)
+		if(userObj != null && sessionId != null)
+		{
+			isLoggedIn = true;
 			currentUser = User._parse(JSGlobal.JSON.parse(userObj));
+		}
+			
 	}
 	
 	public static void setServer(String server)
