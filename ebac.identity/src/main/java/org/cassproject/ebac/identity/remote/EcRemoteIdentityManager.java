@@ -50,7 +50,7 @@ public class EcRemoteIdentityManager
 	private int secretIterations;
 	private boolean configured = false;
 
-	protected String selectedServer = null;
+	protected String defaultServer = null;
 	protected String usernameWithSalt = null;
 	protected String passwordWithSalt = null;
 	protected String secretWithSalt = null;
@@ -109,9 +109,9 @@ public class EcRemoteIdentityManager
 	 * @param server
 	 *            URL to remote identity management server.
 	 */
-	public void setIdentityManagementServer(String server)
+	public void setDefaultIdentityManagementServer(String server)
 	{
-		selectedServer = server;
+		defaultServer = server;
 	}
 
 	/**
@@ -125,7 +125,7 @@ public class EcRemoteIdentityManager
 	 * @param password
 	 *            Password
 	 */
-	public void login(String username, String password)
+	public void startLogin(String username, String password)
 	{
 		if (!configured)
 			Global.alert("Remote Identity not configured.");
@@ -150,7 +150,7 @@ public class EcRemoteIdentityManager
 	 * @param success
 	 * @param failure
 	 */
-	public void fetch(final Callback1<Object> success, final Callback1<String> failure)
+	public void fetch(final Callback1<Object> success, final Callback1<String> failure, String server)
 	{
 		if (!configured)
 			Global.alert("Remote Identity not configured.");
@@ -158,6 +158,10 @@ public class EcRemoteIdentityManager
 		{
 			Global.alert("Please log in before performing this operation.");
 			return;
+		}
+		if(server == null)
+		{
+			server = defaultServer;
 		}
 
 		EbacCredentialRequest r = new EbacCredentialRequest();
@@ -167,7 +171,7 @@ public class EcRemoteIdentityManager
 		FormData fd = new FormData();
 		fd.append("credentialRequest", r.toJson());
 		final EcRemoteIdentityManager me = this;
-		EcRemote.postExpectingObject(selectedServer, "sky/id/login", fd, new Callback1<Object>()
+		EcRemote.postExpectingObject(server, "sky/id/login", fd, new Callback1<Object>()
 		{
 			@Override
 			public void $invoke(Object arg0)
@@ -178,7 +182,7 @@ public class EcRemoteIdentityManager
 				for (int i = 0; i < cs.credentials.$length(); i++)
 				{
 					EbacCredential c = cs.credentials.$get(i);
-					EcIdentity identity = EcIdentity.fromCredential(c, me.secretWithSalt, me.selectedServer);
+					EcIdentity identity = EcIdentity.fromCredential(c, me.secretWithSalt, me.defaultServer);
 					EcIdentityManager.addIdentity(identity);
 				}
 				success.$invoke(arg0);
@@ -258,7 +262,7 @@ public class EcRemoteIdentityManager
 
 		FormData fd = new FormData();
 		fd.append("credentialCommit", commit.toJson());
-		EcRemote.postExpectingString(selectedServer, service, fd, new Callback1<String>()
+		EcRemote.postExpectingString(defaultServer, service, fd, new Callback1<String>()
 		{
 			@Override
 			public void $invoke(String arg0)
