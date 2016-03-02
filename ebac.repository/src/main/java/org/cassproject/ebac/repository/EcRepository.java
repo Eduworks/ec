@@ -3,7 +3,9 @@ package org.cassproject.ebac.repository;
 import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
+import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
+import org.stjs.javascript.JSON;
 import org.stjs.javascript.functions.Callback1;
 
 import com.eduworks.ec.crypto.EcPpk;
@@ -63,6 +65,51 @@ public class EcRepository
 	{
 		FormData fd = new FormData();
 		fd.append("data", query);
+		fd.append("signatureSheet", EcIdentityManager.signatureSheet(60000, selectedServer));
+		EcRemote.postExpectingObject(selectedServer, "sky/repo/search", fd, new Callback1<Object>()
+		{
+			@Override
+			public void $invoke(Object p1)
+			{
+				Array<EcRemoteLinkedData> results = (Array<EcRemoteLinkedData>) p1;
+
+				for (int i = 0; i < results.$length(); i++)
+				{
+					EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
+					d.copyFrom(results.$get(i));
+					results.$set(i, d);
+					if (eachSuccess != null)
+						eachSuccess.$invoke(results.$get(i));
+				}
+
+				if (success != null)
+					success.$invoke(results);
+			}
+		}, failure);
+	}
+	
+	/**
+	 * Search a repository for JSON-LD compatible data.
+	 * 
+	 * Uses a signature sheet gathered from {@link EcIdentityManager}.
+	 * 
+	 * @param query
+	 *            ElasticSearch compatible query string, similar to Google query
+	 *            strings.
+	 * @param eachSuccess
+	 *            Success event for each found object.
+	 * @param success
+	 *            Success event, called after eachSuccess.
+	 * @param failure
+	 *            Failure event.
+	 */
+	public void searchWithParams(String query, Object params, final Callback1<EcRemoteLinkedData> eachSuccess, final Callback1<Array<EcRemoteLinkedData>> success,
+			final Callback1<String> failure)
+	{
+		FormData fd = new FormData();
+		fd.append("data", query);
+		if(params != null)
+			fd.append("searchParams", Global.JSON.stringify(params));
 		fd.append("signatureSheet", EcIdentityManager.signatureSheet(60000, selectedServer));
 		EcRemote.postExpectingObject(selectedServer, "sky/repo/search", fd, new Callback1<Object>()
 		{
