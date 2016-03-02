@@ -80,6 +80,11 @@ public class EcLinkedData
 			Object value = me.$get(key.replace("@", ""));
 			if (value != null)
 				op.$put(key, value);
+			else
+				value = me.$get(key);
+			
+			if(value != null)
+				op.$put(key, value);
 		}
 		return op;
 	}
