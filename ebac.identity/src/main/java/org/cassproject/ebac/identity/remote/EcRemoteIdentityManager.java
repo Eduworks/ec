@@ -51,6 +51,8 @@ public class EcRemoteIdentityManager
 	private boolean configured = false;
 
 	protected String defaultServer = null;
+	protected String connectedServer = null;
+	
 	protected String usernameWithSalt = null;
 	protected String passwordWithSalt = null;
 	protected String secretWithSalt = null;
@@ -150,7 +152,7 @@ public class EcRemoteIdentityManager
 	 * @param success
 	 * @param failure
 	 */
-	public void fetch(final Callback1<Object> success, final Callback1<String> failure, String server)
+	public void fetch(final Callback1<Object> success, final Callback1<String> failure, final String loginServer)
 	{
 		if (!configured)
 			Global.alert("Remote Identity not configured.");
@@ -159,10 +161,13 @@ public class EcRemoteIdentityManager
 			Global.alert("Please log in before performing this operation.");
 			return;
 		}
-		if(server == null)
-		{
+		
+		String server;
+		final EcRemoteIdentityManager identityManager = this;
+		if(loginServer == null)
 			server = defaultServer;
-		}
+		else
+			server = loginServer;
 
 		EbacCredentialRequest r = new EbacCredentialRequest();
 		r.username = usernameWithSalt;
@@ -182,9 +187,12 @@ public class EcRemoteIdentityManager
 				for (int i = 0; i < cs.credentials.$length(); i++)
 				{
 					EbacCredential c = cs.credentials.$get(i);
-					EcIdentity identity = EcIdentity.fromCredential(c, me.secretWithSalt, me.defaultServer);
+					EcIdentity identity = EcIdentity.fromCredential(c, me.secretWithSalt, server);
 					EcIdentityManager.addIdentity(identity);
 				}
+				
+				identityManager.connectedServer = server;
+				
 				success.$invoke(arg0);
 			}
 		}, new Callback1<String>()
@@ -206,10 +214,10 @@ public class EcRemoteIdentityManager
 	 * @param failure
 	 * @param padGenerationCallback
 	 */
-	public void commit(final Callback1<String> success, final Callback1<String> failure, EcCallbackReturn0 padGenerationCallback)
+	public void commit(final Callback1<String> success, final Callback1<String> failure, EcCallbackReturn0 padGenerationCallback, String server)
 	{
 		String service = "sky/id/commit";
-		sendCredentials(success, failure, padGenerationCallback, service);
+		sendCredentials(success, failure, padGenerationCallback, service, server);
 	}
 
 	/**
@@ -226,13 +234,13 @@ public class EcRemoteIdentityManager
 	 * @param failure
 	 * @param padGenerationCallback
 	 */
-	public void create(final Callback1<String> success, final Callback1<String> failure, EcCallbackReturn0 padGenerationCallback)
+	public void create(final Callback1<String> success, final Callback1<String> failure, EcCallbackReturn0 padGenerationCallback, String server)
 	{
 		String service = "sky/id/create";
-		sendCredentials(success, failure, padGenerationCallback, service);
+		sendCredentials(success, failure, padGenerationCallback, service, server);
 	}
 
-	private void sendCredentials(final Callback1<String> success, final Callback1<String> failure, EcCallbackReturn0 padGenerationCallback, String service)
+	private void sendCredentials(final Callback1<String> success, final Callback1<String> failure, EcCallbackReturn0 padGenerationCallback, String service, String server)
 	{
 		if (!configured)
 			Global.alert("Remote Identity not configured.");
@@ -262,7 +270,16 @@ public class EcRemoteIdentityManager
 
 		FormData fd = new FormData();
 		fd.append("credentialCommit", commit.toJson());
-		EcRemote.postExpectingString(defaultServer, service, fd, new Callback1<String>()
+		
+		if(server == null)
+		{
+			if(connectedServer != null)
+				server = connectedServer;
+			else
+				server = defaultServer;
+		}
+		
+		EcRemote.postExpectingString(server, service, fd, new Callback1<String>()
 		{
 			@Override
 			public void $invoke(String arg0)
