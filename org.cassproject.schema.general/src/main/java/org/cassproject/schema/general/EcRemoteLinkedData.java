@@ -29,12 +29,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 	 * the replacement of the old data with the new data.
 	 */
 	public Array<String> owner;
-	/**
-	 * PEM encoded public keys of identities authorized to view the object. A
-	 * repository will ignore write operations from these identities, but will
-	 * allow them to read the object.
-	 */
-	public Array<String> reader;
+	
 	/**
 	 * Signatures of the object. The signing method is as follows: Remove the
 	 * signature field. Encode the object and its fields in ascii-sort order
@@ -128,7 +123,46 @@ public class EcRemoteLinkedData extends EcLinkedData
 		}
 		signature.push(signed);
 	}
-
+	
+	/**
+	 * Verify's the object's signatures
+	 * 
+	 * @return true if all of the signatures could be verified, false if they could not
+	 */
+	public boolean verify()
+	{
+		if(signature != null)
+		{
+			for (int i = 0; i < signature.$length();)
+			{
+				boolean works = false;
+				String sig = signature.$get(i);
+				if (owner != null)
+				{
+					for (int j = 0; j < owner.$length(); j++)
+					{
+						String own = owner.$get(j);
+						EcPk pk = EcPk.fromPem(own);
+						if (EcRsaOaep.verify(pk, toSignableJson(), sig))
+						{
+							works = true;
+							break;
+						}
+					}
+				}
+				if (!works)
+					return false;
+				else
+					i++;
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
 	/**
 	 * Adds an owner to the object, if the owner does not exist.
 	 * 
