@@ -133,6 +133,34 @@ public class EcRepository
 		}, failure);
 	}
 
+	/**
+	 * Lists all types visible to the current user in the repository
+	 * 
+	 * Uses a signature sheet gathered from {@link EcIdentityManager}.
+	 * 
+	 * @param success
+	 *            Success event
+	 * @param failure
+	 *            Failure event.
+	 */
+	public void listTypes(final Callback1<Array<Object>> success,
+			final Callback1<String> failure)
+	{
+		FormData fd = new FormData();
+		fd.append("signatureSheet", EcIdentityManager.signatureSheet(60000, selectedServer));
+		EcRemote.postExpectingObject(selectedServer, "sky/repo/types", fd, new Callback1<Object>()
+		{
+			@Override
+			public void $invoke(Object p1)
+			{
+				Array<Object> results = (Array<Object>) p1;
+
+				if (success != null)
+					success.$invoke(results);
+			}
+		}, failure);
+	}
+	
 	public static String escapeSearch(String query)
 	{
 		String s = null;
