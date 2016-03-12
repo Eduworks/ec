@@ -19,6 +19,13 @@ public class EbacEncryptedValue extends EcRemoteLinkedData
 	}
 
 	/**
+	 * PEM encoded public keys of identities authorized to view the object. A
+	 * repository will ignore write operations from these identities, but will
+	 * allow them to read the object.
+	 */
+	public Array<String> reader;
+	
+	/**
 	 * Optional Hint used to aid search, showing the type of the inner encrypted
 	 * object.
 	 */
