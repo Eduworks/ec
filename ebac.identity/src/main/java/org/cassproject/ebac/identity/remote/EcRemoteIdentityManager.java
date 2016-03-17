@@ -114,7 +114,7 @@ public class EcRemoteIdentityManager
 	 */
 	public void setDefaultIdentityManagementServer(String server)
 	{
-		server = server;
+		this.server = server;
 	}
 
 	/**
