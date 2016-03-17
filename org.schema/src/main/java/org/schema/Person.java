@@ -29,7 +29,7 @@ public class Person extends Thing {
 	public Person follows;
 	public String gender;
 	public String givenName;
-	public String globalLocaitonNumber;
+	public String globalLocationNumber;
 	public Object hasOfferCatalog;
 	public Object hasPOS;
 	public Object height;
