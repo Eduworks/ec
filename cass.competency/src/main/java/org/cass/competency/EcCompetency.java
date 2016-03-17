@@ -24,8 +24,7 @@ public class EcCompetency extends Competency
 	public static String RELATIONSHIP_TYPE_LEVEL_IS_EQUIVALENT_TO = "isEquivalentTo";
 	public static String RELATIONSHIP_TYPE_LEVEL_OVERLAPS = "overlaps";
 
-	public void addAlignment(EcCompetency target, final String alignmentType, final EcPpk owner, final String server, final Callback1<EcAlignment> success,
-			final Callback1<String> failure)
+	public void addAlignment(EcCompetency target, final String alignmentType, final EcPpk owner, final String server)
 	{
 		final EcAlignment a = new EcAlignment();
 		a.generateId(server);
@@ -33,14 +32,7 @@ public class EcCompetency extends Competency
 		a.target = target.id;
 		a.relationType = alignmentType;
 		a.addOwner(owner.toPk());
-		EcRepository.save(a, new Callback1<String>()
-		{
-			@Override
-			public void $invoke(String p1)
-			{
-				success.$invoke(a);
-			}
-		}, failure);
+
 	}
 
 	public void relationships(EcRepository repo, final Callback1<EcAlignment> success, final Callback1<String> failure)
@@ -57,8 +49,7 @@ public class EcCompetency extends Competency
 		}, null, failure);
 	}
 
-	public void addLevel(String name, String description, final EcPpk owner, final String server, final Callback1<EcLevel> success,
-			final Callback1<String> failure)
+	public void addLevel(String name, String description, final EcPpk owner, final String server)
 	{
 		final EcLevel l = new EcLevel();
 		l.generateId(server);
@@ -66,14 +57,6 @@ public class EcCompetency extends Competency
 		l.description = description;
 		l.name = name;
 		l.addOwner(owner.toPk());
-		EcRepository.save(l, new Callback1<String>()
-		{
-			@Override
-			public void $invoke(String p1)
-			{
-				success.$invoke(l);
-			}
-		}, failure);
 	}
 
 	public void levels(EcRepository repo, final Callback1<EcLevel> success, final Callback1<String> failure)
@@ -90,19 +73,16 @@ public class EcCompetency extends Competency
 		}, null, failure);
 	}
 
-	public void setName(String name, Callback1<String> success, Callback1<String> failure)
+	public void setName(String name)
 	{
 		this.name = name;
-		EcRepository.save(this, success, failure);
 	}
-	public void setDescription(String description, Callback1<String> success, Callback1<String> failure)
+	public void setDescription(String description)
 	{
 		this.description = description;
-		EcRepository.save(this, success, failure);
 	}
-	public void setScope(String scope, Callback1<String> success, Callback1<String> failure)
+	public void setScope(String scope)
 	{
 		this.scope = scope;
-		EcRepository.save(this, success, failure);
 	}
 }

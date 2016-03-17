@@ -14,5 +14,6 @@ public class Level extends Thing
 		type = myType;
 	}
 	public String competency;
+	public String title;
 	public String performance;
 }

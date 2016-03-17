@@ -83,6 +83,20 @@ public class EcRemoteLinkedData extends EcLinkedData
 				return true;
 		return false;
 	}
+	
+	/**
+	 * Determines if the object has pk as an owner. Homogenizes the PEM strings
+	 * for comparison.
+	 * 
+	 * @param pk
+	 * @return True if owner is represented by the PK, false otherwise.
+	 */
+	public boolean canEdit(EcPk pk)
+	{
+		if (owner == null || owner.$length() == 0)
+			return true;
+		return hasOwner(pk);
+	}
 
 	/**
 	 * Encodes the object in a form where it is ready to be signed.
@@ -178,6 +192,22 @@ public class EcRemoteLinkedData extends EcLinkedData
 			if (owner.$get(i).equals(pem))
 				return;
 		owner.push(pem);
+	}
+
+	/**
+	 * Removes an owner from the object, if the owner does exist.
+	 * 
+	 * @param owner
+	 *            PK of the new owner.
+	 */
+	public void removeOwner(EcPk oldOwner)
+	{
+		String pem = oldOwner.toPem();
+		if (owner == null)
+			owner = new Array<String>();
+		for (int i = 0; i < owner.$length(); i++)
+			if (owner.$get(i).equals(pem))
+				owner.splice(i,1);
 	}
 
 	/**

@@ -12,14 +12,12 @@ import org.stjs.javascript.functions.Callback1;
 public class EcAlignment extends Relation
 {
 
-	public void setName(String name, Callback1<String> success, Callback1<String> failure)
+	public void setName(String name)
 	{
 		this.name = name;
-		EcRepository.save(this, success, failure);
 	}
-	public void setDescription(String description, Callback1<String> success, Callback1<String> failure)
+	public void setDescription(String description)
 	{
 		this.description = description;
-		EcRepository.save(this, success, failure);
 	}
 }

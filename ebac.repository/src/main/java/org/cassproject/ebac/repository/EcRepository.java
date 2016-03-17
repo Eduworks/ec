@@ -6,6 +6,7 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSON;
+import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
 
 import com.eduworks.ec.crypto.EcPpk;
@@ -16,6 +17,8 @@ import com.eduworks.ec.remote.FormData;
 public class EcRepository
 {
 	public String selectedServer = null;
+	public static boolean caching = false;
+	public static Object cache = new Object();
 
 	/**
 	 * Gets a JSON-LD object from the place designated by the URI.
@@ -31,6 +34,12 @@ public class EcRepository
 	 */
 	public static void get(String url, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure)
 	{
+		if (caching)
+			if (JSObjectAdapter.$get(cache, url) != null)
+			{
+				success.$invoke((EcRemoteLinkedData) JSObjectAdapter.$get(cache, url));
+				return;
+			}
 		FormData fd = new FormData();
 		fd.append("signatureSheet", EcIdentityManager.signatureSheet(60000, url));
 		EcRemote.postExpectingObject(url, null, fd, new Callback1<Object>()
@@ -40,6 +49,8 @@ public class EcRepository
 			{
 				EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
 				d.copyFrom(p1);
+				if (caching)
+					JSObjectAdapter.$put(cache, url, d);
 				success.$invoke(d);
 			}
 		}, failure);
@@ -87,7 +98,7 @@ public class EcRepository
 			}
 		}, failure);
 	}
-	
+
 	/**
 	 * Search a repository for JSON-LD compatible data.
 	 * 
@@ -103,12 +114,12 @@ public class EcRepository
 	 * @param failure
 	 *            Failure event.
 	 */
-	public void searchWithParams(String query, Object params, final Callback1<EcRemoteLinkedData> eachSuccess, final Callback1<Array<EcRemoteLinkedData>> success,
-			final Callback1<String> failure)
+	public void searchWithParams(String query, Object params, final Callback1<EcRemoteLinkedData> eachSuccess,
+			final Callback1<Array<EcRemoteLinkedData>> success, final Callback1<String> failure)
 	{
 		FormData fd = new FormData();
 		fd.append("data", query);
-		if(params != null)
+		if (params != null)
 			fd.append("searchParams", Global.JSON.stringify(params));
 		fd.append("signatureSheet", EcIdentityManager.signatureSheet(60000, selectedServer));
 		EcRemote.postExpectingObject(selectedServer, "sky/repo/search", fd, new Callback1<Object>()
@@ -201,6 +212,11 @@ public class EcRepository
 	 */
 	public static void save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
 	{
+		if (caching)
+		{
+			JSObjectAdapter.$properties(cache).$delete(data.id);
+			JSObjectAdapter.$properties(cache).$delete(data.shortId());
+		}
 		if (data.invalid())
 		{
 			failure.$invoke("Data is malformed.");
@@ -226,6 +242,11 @@ public class EcRepository
 	 */
 	public static void _delete(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
 	{
+		if (caching)
+		{
+			JSObjectAdapter.$properties(cache).$delete(data.id);
+			JSObjectAdapter.$properties(cache).$delete(data.shortId());
+		}
 		EcRemote._delete(data.id, EcIdentityManager.signatureSheetFor(data.owner, 60000, data.id), success, failure);
 	}
 

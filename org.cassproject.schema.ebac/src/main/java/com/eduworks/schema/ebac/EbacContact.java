@@ -3,18 +3,18 @@ package com.eduworks.schema.ebac;
 import org.json.ld.EcLinkedData;
 
 /**
- * AES encrypted private key and display name. Contains Initialization Vectors,
- * but not secrets. Used to encrypt private identities for storage on remote
+ * AES encrypted public key and display name. Contains Initialization Vectors,
+ * but not secrets. Used to encrypt public identities for storage on remote
  * systems.
  * 
  * @author fritz.ray@eduworks.com
  *
  */
-public class EbacCredential extends EcLinkedData
+public class EbacContact extends EcLinkedData
 {
-	public EbacCredential()
+	public EbacContact()
 	{
-		super(Ebac.schema, "http://schema.eduworks.com/ebac/0.1/credential");
+		super(Ebac.schema, "http://schema.eduworks.com/ebac/0.1/contact");
 	}
 
 	/**
@@ -24,7 +24,7 @@ public class EbacCredential extends EcLinkedData
 	/**
 	 * AES encrypted Private Key in PEM form.
 	 */
-	public String ppk;
+	public String pk;
 	/**
 	 * AES Initialization Vector used to decode displayName.
 	 */
@@ -33,4 +33,7 @@ public class EbacCredential extends EcLinkedData
 	 * AES encrypted display name for identity.
 	 */
 	public String displayName;
+	
+	public String sourceIv;
+	public String source;
 }

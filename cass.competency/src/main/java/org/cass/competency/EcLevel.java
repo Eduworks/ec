@@ -9,12 +9,10 @@ import com.eduworks.ec.crypto.EcPpk;
 /**
  * Helper class that immediately reflects changes into its remote repository.
  * @author fritz.ray@eduworks.com
- *
  */
 public class EcLevel extends Level
 {
-	public void addRelationship(EcLevel level, EcLevel targetLevel, String alignmentType, final EcPpk identity, final String server,
-			final Callback1<EcAlignment> success, final Callback1<String> failure)
+	public void addRelationship(EcLevel level, EcLevel targetLevel, String alignmentType, final EcPpk identity, final String server	)
 	{
 		final EcAlignment a = new EcAlignment();
 		a.source = id;
@@ -23,23 +21,13 @@ public class EcLevel extends Level
 		a.addOwner(identity.toPk());
 		a.generateId(server);
 		a.signWith(identity);
-		EcRepository.save(a, new Callback1<String>()
-		{
-			@Override
-			public void $invoke(String p1)
-			{
-				success.$invoke(a);
-			}
-		}, failure);
 	}
-	public void setName(String name, Callback1<String> success, Callback1<String> failure)
+	public void setName(String name)
 	{
 		this.name = name;
-		EcRepository.save(this, success, failure);
 	}
-	public void setDescription(String description, Callback1<String> success, Callback1<String> failure)
+	public void setDescription(String description)
 	{
 		this.description = description;
-		EcRepository.save(this, success, failure);
 	}
 }

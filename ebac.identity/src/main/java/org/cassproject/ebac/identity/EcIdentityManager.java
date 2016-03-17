@@ -5,6 +5,7 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.Date;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSGlobal;
+import org.stjs.javascript.JSON;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.JSStringAdapterBase;
 import org.stjs.javascript.Map;
@@ -39,20 +40,20 @@ public class EcIdentityManager
 	public static Array<EcContact> contacts = new Array<EcContact>();
 
 	// Identity change hook.
-	public static Callback1<EcIdentity> onIdentityAdded = null;
+	public static Callback1<EcIdentity> onIdentityChanged = null;
 	// Contacts change hook.
-	public static Callback1<EcContact> onContactAdded = null;
+	public static Callback1<EcContact> onContactChanged = null;
 
-	public static void identityAdded(EcIdentity identity)
+	public static void identityChanged(EcIdentity identity)
 	{
-		if (onIdentityAdded != null)
-			onIdentityAdded.$invoke(identity);
+		if (onIdentityChanged != null)
+			onIdentityChanged.$invoke(identity);
 	}
 
-	public static void contactAdded(EcContact contact)
+	public static void contactChanged(EcContact contact)
 	{
-		if (onContactAdded != null)
-			onContactAdded.$invoke(contact);
+		if (onContactChanged != null)
+			onContactChanged.$invoke(contact);
 		saveContacts();
 	}
 
@@ -68,10 +69,10 @@ public class EcIdentityManager
 		for (int i = 0; i < c.$length(); i++)
 		{
 			EcContact contact = new EcContact();
-			Object o = new Object();
+			Object o = c.$get(i);
 			Map<String, Object> props = JSObjectAdapter.$properties(o);
 			contact.displayName = (String) props.$get("displayName");
-			contact.pk = EcPk.fromPem((String) props.$get("ok"));
+			contact.pk = EcPk.fromPem((String) props.$get("pk"));
 			contact.source = (String) props.$get("source");
 			contacts.push(contact);
 		}
@@ -93,7 +94,7 @@ public class EcIdentityManager
 			props.$put("source", contact.source);
 			c.push(o);
 		}
-		Global.localStorage.$put("contacts", c);
+		Global.localStorage.$put("contacts", JSGlobal.JSON.stringify(c));
 	}
 
 	/**
@@ -109,7 +110,7 @@ public class EcIdentityManager
 			if (ids.$get(i).equals(identity))
 				return;
 		ids.push(identity);
-		identityAdded(identity);
+		identityChanged(identity);
 	}
 
 	/**
@@ -121,11 +122,11 @@ public class EcIdentityManager
 	 */
 	public static void addContact(EcContact contact)
 	{
-		for (int i = 0; i < ids.$length(); i++)
+		for (int i = 0; i < contacts.$length(); i++)
 			if (contacts.$get(i).equals(contact))
 				return;
 		contacts.push(contact);
-		contactAdded(contact);
+		contactChanged(contact);
 	}
 
 	/**
@@ -208,6 +209,22 @@ public class EcIdentityManager
 		}
 		return null;
 	}
+	/**
+	 * Get Contact from PK (if we have it)
+	 * 
+	 * @param fromPem
+	 *            PK to use to look up PPK
+	 * @return PPK or null.
+	 */
+	public static EcContact getContact(EcPk pk)
+	{
+		for (int i = 0; i < contacts.$length(); i++)
+		{
+			if (pk.equals(contacts.$get(i).pk))
+				return contacts.$get(i);
+		}
+		return null;
+	}
 
 	/**
 	 * Sign a piece of data with all available keys that own that data.
@@ -231,10 +248,17 @@ public class EcIdentityManager
 					{
 						String owner = d.owner.$get(j);
 						EcPk pk = EcPk.fromPem(owner);
+						try
+						{
 						if (EcRsaOaep.verify(pk, d.toSignableJson(), signature))
 						{
 							works = true;
 							break;
+						}
+						}
+						catch (Exception ex)
+						{
+							
 						}
 					}
 				}

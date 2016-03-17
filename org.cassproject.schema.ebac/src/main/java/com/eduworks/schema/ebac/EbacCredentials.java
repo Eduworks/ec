@@ -29,4 +29,8 @@ public class EbacCredentials extends EcLinkedData
 	 * Credential array.
 	 */
 	public Array<EbacCredential> credentials;
+	/**
+	 * Contact array.
+	 */
+	public Array<EbacContact> contacts;
 }

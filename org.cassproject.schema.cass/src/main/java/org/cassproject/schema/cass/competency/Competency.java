@@ -19,6 +19,5 @@ public class Competency extends Thing
 		schema = Cass.schema;
 		type = myType;
 	}
-	public Array<Level> level;
 	public String scope;
 }
