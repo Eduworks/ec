@@ -258,15 +258,17 @@ public class EcRemoteIdentityManager
 		for (int i = 0; i < EcIdentityManager.ids.$length(); i++)
 		{
 			EcIdentity id = EcIdentityManager.ids.$get(i);
-//			if (id.source != server) 
-//				continue;
+			if (id.source != null && id.source.equals(server) == false) 
+				continue;
+			id.source = server;
 			credentials.push(id.toCredential(secretWithSalt));
 		}
 		for (int i = 0; i < EcIdentityManager.contacts.$length(); i++)
 		{
 			EcContact id = EcIdentityManager.contacts.$get(i);
-//			if (id.source != server) 
-//				continue;
+			if (id.source != null && id.source.equals(server) == false) 
+				continue;
+			id.source = server;
 			contacts.push(id.toEncryptedContact(secretWithSalt));
 		}
 

@@ -6,7 +6,7 @@ import org.stjs.javascript.Array;
 
 /**
  * A composition of references to assertions and acceptances that embody a
- * person's profile. It is reasonable safe to assume the maker of this framework
+ * person's profile. It is reasonably safe to assume the maker of this framework
  * implicitly accepts all data referred to by this object.
  * 
  * @author fritz.ray@eduworks.com

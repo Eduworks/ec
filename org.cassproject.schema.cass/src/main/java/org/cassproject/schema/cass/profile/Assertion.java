@@ -12,13 +12,22 @@ public class Assertion extends Thing
 		schema = Cass.schema;
 		type = myType;
 	}
+	//URL of the competency.
 	String competency;
+	//URL of the level, or null if 'held'. This record will not exist for 'not held'.
 	String level;
+	//PK of the recipient of the assertion. This is private.
 	String subject;
+	//PK of the person asserting the claim. This is private.
 	String agent;
+	//URLs to evidence. This is private.
 	Array<String> evidence;
+	//Confidence with which the assertion was made.
 	Double confidence;
-	String assertionDate;
-	String expirationDate;
+	//Time in ms with which the assertion was made.
+	Long assertionDate;
+	//Time in ms when the assertion expires. This is exposed to the search engine.
+	Long expirationDate;
+	//
 	String decayFunction;	
 }
