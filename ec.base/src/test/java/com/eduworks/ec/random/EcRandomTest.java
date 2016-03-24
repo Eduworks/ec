@@ -1,15 +1,14 @@
-package com.eduworks.ec.random.test;
+package com.eduworks.ec.random;
 
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.stjs.javascript.Global.console;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.stjs.testing.annotation.HTMLFixture;
 import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
-
-import com.eduworks.ec.random.EcRandom;
 
 @RunWith(STJSTestDriverRunner.class)
 @ScriptsBefore({ "/random.js" })

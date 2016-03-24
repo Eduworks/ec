@@ -79,11 +79,14 @@ public class EcLinkedData
 			String key = keys.$get(i);
 			Object value = me.$get(key.replace("@", ""));
 			if (value != null)
+				if (value instanceof EcLinkedData)
+					value = ((EcLinkedData) value).atIfy();
+			if (value != null)
 				op.$put(key, value);
 			else
 				value = me.$get(key);
-			
-			if(value != null)
+
+			if (value != null)
 				op.$put(key, value);
 		}
 		return op;
@@ -167,7 +170,13 @@ public class EcLinkedData
 		for (String key : me)
 		{
 			if (me.$get(key) == null)
-				me.$put(key.replace("@", ""), me.$get(key));
+			{
+				Object value = me.$get(key);
+				if (value != null)
+					if (value instanceof EcLinkedData)
+						value = ((EcLinkedData) value).deAtify();
+				me.$put(key.replace("@", ""), value);
+			}
 		}
 		return this;
 	}

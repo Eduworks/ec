@@ -9,6 +9,9 @@ public class ppk
 {
 	public int n;
 	public int e;
+	public int d;
+	public int p;
+	public int q;
 
 	public String decrypt(payload payload, String algorithm)
 	{

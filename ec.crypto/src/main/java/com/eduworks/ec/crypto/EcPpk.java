@@ -31,6 +31,15 @@ public class EcPpk
 			}
 		});
 	}
+	
+	public static EcPpk generateKey()
+	{
+		Object o = new Object();
+		keypair keypair = rsa.generateKeyPair(o,null);
+		EcPpk ppk = new EcPpk();
+		ppk.ppk = keypair.privateKey;
+		return ppk;
+	}
 
 	protected ppk ppk;
 	

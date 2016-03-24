@@ -14,9 +14,9 @@ public class rsa
 		return null;
 	}
 
-	public static void generateKeyPair(Object o, Callback2<String, keypair> callback2)
+	public static keypair generateKeyPair(Object o, Callback2<String, keypair> callback2)
 	{
-		
+		return null;
 	}
 	
 }

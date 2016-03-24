@@ -58,7 +58,8 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		return v;
 	}
 
-	public static EbacEncryptedValue encryptValue(String text, String id, String fieldName, EcPk owner)
+	@Deprecated
+	public static EbacEncryptedValue encryptValueOld(String text, String id, String fieldName, EcPk owner)
 	{
 		EbacEncryptedValue v = new EbacEncryptedValue();
 
@@ -76,6 +77,41 @@ public class EcEncryptedValue extends EbacEncryptedValue
 			if (v.secret == null)
 				v.secret = new Array<String>();
 			v.secret.push(EcRsaOaep.encrypt(EcPk.fromPem(v.owner.$get(i)), eSecret.toEncryptableJson()));
+		}
+		return v;
+	}
+
+	public static EcEncryptedValue encryptValue(String text, String id, String fieldName, Array<String> owners, Array<String> readers)
+	{
+		EcEncryptedValue v = new EcEncryptedValue();
+
+		String newIv = EcAes.newIv(32);
+		String newSecret = EcAes.newIv(32);
+		v.payload = EcAesCtr.encrypt(text, newSecret, newIv);
+		for (int i = 0;i < owners.$length();i++)
+			v.addOwner(EcPk.fromPem(owners.$get(i)));
+		for (int i = 0;i < readers.$length();i++)
+			v.addReader(EcPk.fromPem(readers.$get(i)));
+
+		for (int i = 0; i < v.owner.$length(); i++)
+		{
+			EbacEncryptedSecret eSecret = new EbacEncryptedSecret();
+			eSecret.id = util.encode64(pkcs5.pbkdf2(id, "", 1, 8));
+			eSecret.iv = newIv;
+			eSecret.secret = newSecret;
+			if (v.secret == null)
+				v.secret = new Array<String>();
+			v.secret.push(EcRsaOaep.encrypt(EcPk.fromPem(v.owner.$get(i)), eSecret.toEncryptableJson()));
+		}
+		for (int i = 0; i < v.reader.$length(); i++)
+		{ 
+			EbacEncryptedSecret eSecret = new EbacEncryptedSecret();
+			eSecret.id = util.encode64(pkcs5.pbkdf2(id, "", 1, 8));
+			eSecret.iv = newIv;
+			eSecret.secret = newSecret;
+			if (v.secret == null)
+				v.secret = new Array<String>();
+			v.secret.push(EcRsaOaep.encrypt(EcPk.fromPem(v.reader.$get(i)), eSecret.toEncryptableJson()));
 		}
 		return v;
 	}
@@ -182,5 +218,38 @@ public class EcEncryptedValue extends EbacEncryptedValue
 			return (EcRemoteLinkedData) decrypted.deAtify();
 		}
 		return null;
+	}
+	
+	/**
+	 * Adds a reader to the object, if the reader does not exist.
+	 * 
+	 * @param newReader
+	 *            PK of the new reader.
+	 */
+	public void addReader(EcPk newReader)
+	{
+		String pem = newReader.toPem();
+		if (reader == null)
+			reader = new Array<String>();
+		for (int i = 0; i < reader.$length(); i++)
+			if (reader.$get(i).equals(pem))
+				return;
+		reader.push(pem);
+	}
+
+	/**
+	 * Removes a reader from the object, if the reader does exist.
+	 * 
+	 * @param oldReader
+	 *            PK of the old reader.
+	 */
+	public void removeReader(EcPk oldReader)
+	{
+		String pem = oldReader.toPem();
+		if (reader == null)
+			reader = new Array<String>();
+		for (int i = 0; i < reader.$length(); i++)
+			if (reader.$get(i).equals(pem))
+				reader.splice(i,1);
 	}
 }
