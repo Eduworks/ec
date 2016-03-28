@@ -122,6 +122,7 @@ public class EcRemote
 		p.method = "GET";
 		p.url = url;
 		p.cache = false;
+		p.async = async;
 		p.processData = false;
 
 		p.success = successCallback;
@@ -154,6 +155,7 @@ public class EcRemote
 		AjaxParams p = new AjaxParams();
 		p.method = "DELETE";
 		p.url = url;
+		p.async = async;
 		p.headers = (Map<String,String>)new Object();
 		p.headers.$put("signatureSheet", signatureSheet);
 

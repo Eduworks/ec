@@ -30,7 +30,7 @@ public class EcPk
 	
 	public String toPem()
 	{
-		return pki.publicKeyToPem(pk);
+		return pki.publicKeyToPem(pk).replaceAll("\r?\n", "");
 	}
 
 	public Boolean verify(bytes bytes, payload decode64)

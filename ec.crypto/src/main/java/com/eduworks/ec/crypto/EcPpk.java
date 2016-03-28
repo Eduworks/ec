@@ -58,7 +58,7 @@ public class EcPpk
 
 	public String toPem()
 	{
-		return forge.pki.privateKeyToPem(ppk);
+		return forge.pki.privateKeyToPem(ppk).replaceAll("\r?\n", "");
 	}
 
 	public EcPk toPk()
