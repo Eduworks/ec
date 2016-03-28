@@ -12,6 +12,8 @@ import org.stjs.javascript.jquery.JQueryXHR;
 
 public class EcRemote
 {
+	public static boolean async = true;
+	
 	public static void postExpectingObject(String server, String service, FormData fd, final Callback1<Object> success, final Callback1<String> failure)
 	{
 		Callback3<Object, String, JQueryXHR> successCallback = new Callback3<Object, String, JQueryXHR>()
@@ -79,7 +81,7 @@ public class EcRemote
 		JSObjectAdapter.$properties(p).$put("contentType", false);
 
 		p.cache = false;
-		p.async = true;
+		p.async = async;
 		p.processData = false;
 
 		p.success = successCallback;

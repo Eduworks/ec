@@ -24,7 +24,7 @@ public class EcLinkedData
 		this.type = type;
 	}
 
-	public static Array<String> atProperties = JSCollections.$array("id", "type", "schema", "context", "signature", "owner", "encryptedType");
+	public static Array<String> atProperties = JSCollections.$array("id", "type", "schema", "context", "signature", "owner", "reader","encryptedType");
 
 	/**
 	 * Determines which fields to serialize into @fields.

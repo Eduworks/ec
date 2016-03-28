@@ -16,7 +16,7 @@ public class EbacEncryptedValue extends EcRemoteLinkedData
 	public EbacEncryptedValue()
 	{
 		super(Ebac.schema, type);
-	}
+	} 
 
 	/**
 	 * PEM encoded public keys of identities authorized to view the object. A

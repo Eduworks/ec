@@ -13233,8 +13233,10 @@ prime.generateProbablePrime = function(bits, options, callback) {
 
 function primeincFindPrime(bits, rng, options, callback) {
   if('workers' in options) {
+	  console.log("Finding prime with workers.");
     return primeincFindPrimeWithWorkers(bits, rng, options, callback);
   }
+  console.log("Finding prime without workers.");
   return primeincFindPrimeWithoutWorkers(bits, rng, options, callback);
 }
 
@@ -14358,11 +14360,15 @@ pki.rsa.generateKeyPair = function(bits, e, options, callback) {
   if(e === undefined) {
     e = options.e || 0x10001;
   }
+  console.log("Generating keys...");
   var state = pki.rsa.createKeyPairGenerationState(bits, e, options);
+  console.log("Generating keys 2...");
   if(!callback) {
+	  console.log("Generating keys b...");
     pki.rsa.stepKeyPairGenerationState(state, 0);
     return state.keys;
   }
+  console.log("Generating keys c...");
   _generateKeyPair(state, options, callback);
 };
 
@@ -14987,6 +14993,7 @@ function _generateKeyPair(state, options, callback) {
   }
   options = options || {};
 
+  console.log("Generating key pair.");
   var opts = {
     algorithm: {
       name: options.algorithm || 'PRIMEINC',

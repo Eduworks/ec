@@ -35,6 +35,7 @@ public class EcPpk
 	public static EcPpk generateKey()
 	{
 		Object o = new Object();
+		JSObjectAdapter.$properties(o).$put("workers", -1);
 		keypair keypair = rsa.generateKeyPair(o,null);
 		EcPpk ppk = new EcPpk();
 		ppk.ppk = keypair.privateKey;

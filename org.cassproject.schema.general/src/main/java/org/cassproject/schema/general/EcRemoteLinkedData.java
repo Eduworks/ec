@@ -29,7 +29,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 	 * the replacement of the old data with the new data.
 	 */
 	public Array<String> owner;
-	
+
 	/**
 	 * Signatures of the object. The signing method is as follows: Remove the
 	 * signature field. Encode the object and its fields in ascii-sort order
@@ -83,7 +83,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 				return true;
 		return false;
 	}
-	
+
 	/**
 	 * Determines if the object has pk as an owner. Homogenizes the PEM strings
 	 * for comparison.
@@ -110,7 +110,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 		JSObjectAdapter.$properties(d).$delete("@owner");
 		JSObjectAdapter.$properties(d).$delete("@reader");
 		JSObjectAdapter.$properties(d).$delete("@id");
-		
+
 		EcLinkedData e = new EcLinkedData(d.schema, d.type);
 		e.copyFrom(d);
 		return e.toJson();
@@ -125,7 +125,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 	{
 		String signableJson = toSignableJson();
 		String signed = EcRsaOaep.sign(ppk, signableJson);
-		if(signature != null)
+		if (signature != null)
 		{
 			for (int i = 0; i < signature.$length(); i++)
 				if (signature.$get(i).equals(signed))
@@ -137,15 +137,16 @@ public class EcRemoteLinkedData extends EcLinkedData
 		}
 		signature.push(signed);
 	}
-	
+
 	/**
 	 * Verify's the object's signatures
 	 * 
-	 * @return true if all of the signatures could be verified, false if they could not
+	 * @return true if all of the signatures could be verified, false if they
+	 *         could not
 	 */
 	public boolean verify()
 	{
-		if(signature != null)
+		if (signature != null)
 		{
 			for (int i = 0; i < signature.$length();)
 			{
@@ -157,7 +158,15 @@ public class EcRemoteLinkedData extends EcLinkedData
 					{
 						String own = owner.$get(j);
 						EcPk pk = EcPk.fromPem(own);
-						if (EcRsaOaep.verify(pk, toSignableJson(), sig))
+						Boolean verify = false;
+						try
+						{
+							verify = EcRsaOaep.verify(pk, toSignableJson(), sig);
+						}
+						catch (Exception ex)
+						{
+						}
+						if (verify)
 						{
 							works = true;
 							break;
@@ -169,14 +178,13 @@ public class EcRemoteLinkedData extends EcLinkedData
 				else
 					i++;
 			}
-			
+
 			return true;
 		}
-		
+
 		return false;
 	}
-	
-	
+
 	/**
 	 * Adds an owner to the object, if the owner does not exist.
 	 * 
@@ -207,7 +215,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 			owner = new Array<String>();
 		for (int i = 0; i < owner.$length(); i++)
 			if (owner.$get(i).equals(pem))
-				owner.splice(i,1);
+				owner.splice(i, 1);
 	}
 
 	/**
@@ -233,7 +241,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 
 	public void updateTimestamp()
 	{
-		String rawId = id.substring(0,id.lastIndexOf("/"));
+		String rawId = id.substring(0, id.lastIndexOf("/"));
 		if (rawId.endsWith("/") == false)
 			rawId += "/";
 		rawId += new Date().getTime();
@@ -244,18 +252,19 @@ public class EcRemoteLinkedData extends EcLinkedData
 	{
 		return trimVersionFromUrl(this.id).equals(trimVersionFromUrl(id));
 	}
-	
+
 	public static String trimVersionFromUrl(String id)
 	{
-		if (id == null) return null;
+		if (id == null)
+			return null;
 		if (id.substring(id.lastIndexOf("/")).contains("-"))
 			return id;
-		String rawId = id.substring(0,id.lastIndexOf("/"));
+		String rawId = id.substring(0, id.lastIndexOf("/"));
 		if (rawId.endsWith("/"))
-			rawId = rawId.substring(0,rawId.length()-1);
+			rawId = rawId.substring(0, rawId.length() - 1);
 		return rawId;
 	}
-	
+
 	public String shortId()
 	{
 		return trimVersionFromUrl(id);
