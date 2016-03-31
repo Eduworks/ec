@@ -27,7 +27,7 @@ import com.eduworks.schema.ebac.EbacEncryptedValue;
 @ScriptsBefore({ "/forge/forge.bundle.js" })
 public class EcEncryptedValueTest
 {
-	public static String server = "http://localhost:9722/api/custom/";
+	public static String server = "http://skyrepo.service.eduworks.com/";
 	
 	@Test
 	public void encryptDecryptTest()
@@ -240,7 +240,6 @@ public class EcEncryptedValueTest
 
 		EcRepository r = new EcRepository();
 		r.selectedServer = server;
-
 		EcFile f = new EcFile();
 		f.name = "My_File.txt";
 		f.mimeType = "text/plain";
@@ -330,38 +329,38 @@ public class EcEncryptedValueTest
 			console.log("Reader Search, searching for signature 2 using signature 1 signatureSheet.");
 			r.search("@reader:\"" + ppk2.toPk().toPem() + "\" OR \\*\\[@reader\\]:\"" + ppk2.toPk().toPem() + "\"", eachCallback, success, failure);
 			console.log("Reader Search minus whitespace, searching for signature 2 using signature 1 signatureSheet.");
-			r.search("@reader:\"" + ppk2.toPk().toPem().replaceAll("\r?\n", "") + "\" OR \\*\\[@reader\\]:\"" + ppk2.toPk().toPem().replaceAll("\r?\n", "") + "\"", eachCallback, success, failure);
+			r.search("@reader:\"" + ppk2.toPk().toPem().replaceAll("\r?\n", "") + "\" OR \\*\\[@reader\\]:\"" + ppk2.toPk().toPem().replaceAll("\r?\n", "")
+					+ "\"", eachCallback, success, failure);
 			console.log("_all Search, searching for signature 1 using signature 1 signatureSheet.");
-			r.search("\""+ppk.toPk().toPem()+"\"", eachCallback, success, failure);
+			r.search("\"" + ppk.toPk().toPem() + "\"", eachCallback, success, failure);
 			console.log("_all Search minus whitespace, searching for signature 1 using signature 1 signatureSheet.");
-			r.search("\""+ppk.toPk().toPem().replaceAll("\r?\n", "")+"\"", eachCallback, success, failure);
+			r.search("\"" + ppk.toPk().toPem().replaceAll("\r?\n", "") + "\"", eachCallback, success, failure);
 
 			EcIdentityManager.ids = new Array<EcIdentity>();
 			EcIdentityManager.addIdentity(newId2);
 			console.log("ID Search, searching with signature 2.");
 			r.search("@id:\"" + f.shortId() + "\"", eachCallback, success, failure);
 			console.log("_all Search, searching for signature 1 using signature 2 signatureSheet.");
-			r.search("\""+ppk.toPk().toPem()+"\"", eachCallback, success, failure);
+			r.search("\"" + ppk.toPk().toPem() + "\"", eachCallback, success, failure);
 			
 			//
 			// This test should not work because sig2 is a @reader on the file and this is an _all search, where the @reader field is not included
 			//
 			//console.log("_all Search, searching for signature 2 using signature 2 signatureSheet.");
 			//r.search("\""+ppk2.toPk().toPem()+"\"", eachCallback, success, failure);
-
 			EcIdentityManager.ids = new Array<EcIdentity>();
 			console.log("ID Search.");
-			r.search("@id:\"" + f.shortId()+"\"", eachCallback, success, failure);
+			r.search("@id:\"" + f.shortId() + "\"", eachCallback, success, failure);
 			console.log("_all Search, searching for signature 1.");
-			r.search("\""+ppk.toPk().toPem()+"\"", eachCallback, success, failure);
+			r.search("\"" + ppk.toPk().toPem() + "\"", eachCallback, success, failure);
 			console.log("Owner Search, searching for signature 1");
 			r.search("@owner:\"" + ppk.toPk().toPem() + "\"", eachCallback, success, failure);
 			console.log("(SHOULD NOT FIND) Reader Search, searching for signature 2.");
 			r.search("@reader:\"" + ppk2.toPk().toPem() + "\" OR \\*\\[@reader\\]:\"" + ppk2.toPk().toPem() + "\"", eachCallback, successInvert, failure);
 			console.log("_all Search, searching for signature 1.");
-			r.search("\""+ppk.toPk().toPem()+"\"", eachCallback, success, failure);
+			r.search("\"" + ppk.toPk().toPem() + "\"", eachCallback, success, failure);
 			console.log("(SHOULD NOT FIND) _all Search, searching for signature 2.");
-			r.search("\""+ppk2.toPk().toPem()+"\"", eachCallback, successInvert, failure);
+			r.search("\"" + ppk2.toPk().toPem() + "\"", eachCallback, successInvert, failure);
 		}
 		finally
 		{
