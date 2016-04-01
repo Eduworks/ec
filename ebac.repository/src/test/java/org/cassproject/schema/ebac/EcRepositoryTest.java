@@ -106,6 +106,33 @@ public class EcRepositoryTest
 	}
 
 	@Test
+	public void searchForSomethingThatCantExist()
+	{
+		EcRemote.async = false;
+		
+		EcRepository r = new EcRepository();
+		r.selectedServer = server;
+		console.log("Searching...");
+		r.search("@type:\"http://schema.eduworks.com/general/0.1/nonsense\"", null, new Callback1<Array<EcRemoteLinkedData>>()
+		{
+			@Override
+			public void $invoke(Array<EcRemoteLinkedData> p1)
+			{
+				assertTrue(true);
+			}
+		}, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				console.log("Failed to search.");
+				console.log(p1);
+				Assert.fail("Failed to search for object that doesn't have an existing type in the database.");
+			}
+		});
+	}
+	
+	@Test
 	public void createAndDeleteOwnedFileTest()
 	{
 		EcRemote.async = false;
@@ -173,7 +200,7 @@ public class EcRepositoryTest
 		EcRepository r = new EcRepository();
 		r.selectedServer = server;
 		console.log("Searching...");
-		r.search("@type:\"http://schema.eduworks.com/cass/0.1/framework\"", null, new Callback1<Array<EcRemoteLinkedData>>()
+		r.search("@type:\"http://schema.eduworks.com/general/0.1/file\"", null, new Callback1<Array<EcRemoteLinkedData>>()
 		{
 			@Override
 			public void $invoke(Array<EcRemoteLinkedData> p1)
