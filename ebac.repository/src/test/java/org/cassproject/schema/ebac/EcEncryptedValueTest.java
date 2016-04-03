@@ -27,7 +27,7 @@ import com.eduworks.schema.ebac.EbacEncryptedValue;
 @ScriptsBefore({ "/forge/forge.bundle.js" })
 public class EcEncryptedValueTest
 {
-	public static String server = "http://skyrepo.service.eduworks.com/";
+	String server = "http://localhost:9722/api/custom/";
 	
 	@Test
 	public void encryptDecryptTest()
@@ -167,7 +167,7 @@ public class EcEncryptedValueTest
 		EcIdentity newId1 = new EcIdentity();
 		newId1.ppk = ppk;
 		EcIdentityManager.addIdentity(newId1);
-		JSObjectAdapter.$put(f, "name", EcEncryptedValue.encryptValue(f.name, f.shortId(), "name", f.owner, null));
+		JSObjectAdapter.$put(f, "encryptedName", EcEncryptedValue.encryptValue(f.name, f.shortId(), "encryptedName", f.owner, null));
 		console.log(f.toJson());
 		EcRepository.save(f, new Callback1<String>()
 		{
@@ -197,7 +197,7 @@ public class EcEncryptedValueTest
 				val.copyFrom(p1);
 				console.log(val.toJson());
 				EcEncryptedValue val1 = new EcEncryptedValue();
-				val1.copyFrom(JSObjectAdapter.$get(val, "name"));
+				val1.copyFrom(JSObjectAdapter.$get(val, "encryptedName"));
 				console.log("Encrypted, downloaded = " + val1.toJson());
 				String decryptIntoString = val1.decryptIntoString();
 				console.log("Decrypted = " + decryptIntoString);
@@ -255,7 +255,7 @@ public class EcEncryptedValueTest
 		EcIdentityManager.addIdentity(newId1);
 		Array<String> readers = new Array<String>();
 		readers.push(ppk2.toPk().toPem());
-		JSObjectAdapter.$put(f, "name", EcEncryptedValue.encryptValue(f.name, f.shortId(), "name", f.owner, readers));
+		JSObjectAdapter.$put(f, "encryptedName", EcEncryptedValue.encryptValue(f.name, f.shortId(), "encryptedName", f.owner, readers));
 		console.log(f.toJson());
 		EcRepository.save(f, new Callback1<String>()
 		{
@@ -327,9 +327,9 @@ public class EcEncryptedValueTest
 			console.log("Owner Search minus whitespace, searching for signature 1 using signature 1 signatureSheet.");
 			r.search("@owner:\"" + ppk.toPk().toPem().replaceAll("\r?\n", "") + "\"", eachCallback, success, failure);
 			console.log("Reader Search, searching for signature 2 using signature 1 signatureSheet.");
-			r.search("@reader:\"" + ppk2.toPk().toPem() + "\" OR \\*\\[@reader\\]:\"" + ppk2.toPk().toPem() + "\"", eachCallback, success, failure);
+			r.search("@reader:\"" + ppk2.toPk().toPem() + "\" OR \\*@reader:\"" + ppk2.toPk().toPem() + "\"", eachCallback, success, failure);
 			console.log("Reader Search minus whitespace, searching for signature 2 using signature 1 signatureSheet.");
-			r.search("@reader:\"" + ppk2.toPk().toPem().replaceAll("\r?\n", "") + "\" OR \\*\\[@reader\\]:\"" + ppk2.toPk().toPem().replaceAll("\r?\n", "")
+			r.search("@reader:\"" + ppk2.toPk().toPem().replaceAll("\r?\n", "") + "\" OR \\*@reader:\"" + ppk2.toPk().toPem().replaceAll("\r?\n", "")
 					+ "\"", eachCallback, success, failure);
 			console.log("_all Search, searching for signature 1 using signature 1 signatureSheet.");
 			r.search("\"" + ppk.toPk().toPem() + "\"", eachCallback, success, failure);
@@ -356,7 +356,7 @@ public class EcEncryptedValueTest
 			console.log("Owner Search, searching for signature 1");
 			r.search("@owner:\"" + ppk.toPk().toPem() + "\"", eachCallback, success, failure);
 			console.log("(SHOULD NOT FIND) Reader Search, searching for signature 2.");
-			r.search("@reader:\"" + ppk2.toPk().toPem() + "\" OR \\*\\[@reader\\]:\"" + ppk2.toPk().toPem() + "\"", eachCallback, successInvert, failure);
+			r.search("@reader:\"" + ppk2.toPk().toPem() + "\" OR \\*@reader:\"" + ppk2.toPk().toPem() + "\"", eachCallback, successInvert, failure);
 			console.log("_all Search, searching for signature 1.");
 			r.search("\"" + ppk.toPk().toPem() + "\"", eachCallback, success, failure);
 			console.log("(SHOULD NOT FIND) _all Search, searching for signature 2.");

@@ -14,6 +14,7 @@ import org.junit.runner.RunWith;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
 import com.eduworks.ec.crypto.EcPpk;
@@ -21,9 +22,10 @@ import com.eduworks.ec.random.EcRandom;
 import com.eduworks.ec.remote.EcRemote;
 
 @RunWith(STJSTestDriverRunner.class)
+@ScriptsBefore({ "/forge/forge.bundle.js" })
 public class EcRepositoryTest
 {
-	String server = "http://skyrepo.service.eduworks.com/";
+	String server = "http://localhost:9722/api/custom/";
 
 	@Test
 	public void createPublicFileTest()

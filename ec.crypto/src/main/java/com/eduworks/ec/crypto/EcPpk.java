@@ -13,7 +13,14 @@ public class EcPpk
 	public static EcPpk fromPem(String pem)
 	{
 		EcPpk pk = new EcPpk();
-		pk.ppk = forge.pki.privateKeyFromPem(pem);
+		try
+		{
+			pk.ppk = forge.pki.privateKeyFromPem(pem);
+		}
+		catch (Exception ex)
+		{
+			return null;
+		}
 		return pk;
 	}
 

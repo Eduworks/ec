@@ -3,9 +3,12 @@ package org.json.ld;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSGlobal;
+import org.stjs.javascript.JSON;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
 import org.stjs.javascript.SortFunction;
+
+import com.eduworks.ec.array.EcArray;
 
 public class EcLinkedData
 {
@@ -24,7 +27,7 @@ public class EcLinkedData
 		this.type = type;
 	}
 
-	public static Array<String> atProperties = JSCollections.$array("id", "type", "schema", "context", "signature", "owner", "reader","encryptedType");
+	public static Array<String> atProperties = JSCollections.$array("id", "type", "schema", "context", "signature", "owner", "reader", "encryptedType");
 
 	/**
 	 * Determines which fields to serialize into @fields.
@@ -57,8 +60,28 @@ public class EcLinkedData
 	 */
 	public Object atIfy()
 	{
+		return atIfyObject(this);
+	}
+
+	protected Object atIfyArray(Array o)
+	{
+		Array a = new Array();
+		for (int i = 0; i < o.$length(); i++)
+		{
+			if (o.$get(i) instanceof EcLinkedData)
+				a.$set(i, atIfyObject(o.$get(i)));
+			else if (EcArray.isArray(o.$get(i)))
+				a.$set(i, atIfyArray((Array) o.$get(i)));
+			else
+				a.$set(i, o.$get(i));
+		}
+		return a;
+	}
+
+	protected Object atIfyObject(Object o)
+	{
 		Array<String> keys = new Array<String>();
-		Map<String, Object> me = JSObjectAdapter.$properties(this);
+		Map<String, Object> me = JSObjectAdapter.$properties(o);
 		for (String key : me)
 		{
 			if (isAtProperty(key))
@@ -81,6 +104,8 @@ public class EcLinkedData
 			if (value != null)
 				if (value instanceof EcLinkedData)
 					value = ((EcLinkedData) value).atIfy();
+				else if (EcArray.isArray(value))
+					value = atIfyArray((Array) value);
 			if (value != null)
 				op.$put(key, value);
 			else

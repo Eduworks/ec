@@ -5,7 +5,7 @@ import org.stjs.javascript.annotation.STJSBridge;
 import org.stjs.javascript.functions.Callback2;
 
 @Namespace("forge.pki")
-@STJSBridge(sources = { "forge/forge.bundle.js" })
+@STJSBridge()
 public class rsa
 {
 

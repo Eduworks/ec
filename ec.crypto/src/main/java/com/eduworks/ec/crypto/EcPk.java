@@ -10,12 +10,19 @@ public class EcPk
 	public static EcPk fromPem(String pem)
 	{
 		EcPk pk = new EcPk();
-		pk.pk = pki.publicKeyFromPem(pem);
+		try
+		{
+			pk.pk = pki.publicKeyFromPem(pem);
+		}
+		catch (Exception ex)
+		{
+			return null;
+		}
 		return pk;
 	}
 
 	public pk pk;
-	
+
 	protected EcPk()
 	{
 	}
@@ -27,14 +34,14 @@ public class EcPk
 			return toPem().equals(((EcPk) obj).toPem());
 		return super.equals(obj);
 	}
-	
+
 	public String toPem()
 	{
 		return pki.publicKeyToPem(pk).replaceAll("\r?\n", "");
 	}
 
 	public Boolean verify(bytes bytes, payload decode64)
-	{ 
-	    return pk.verify(bytes,decode64);
+	{
+		return pk.verify(bytes, decode64);
 	}
 }

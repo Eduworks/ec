@@ -1,11 +1,14 @@
 package org.cass.profile;
 
+import org.cassproject.ebac.identity.EcContact;
+import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.ebac.repository.EcEncryptedValue;
 import org.cassproject.schema.cass.profile.Assertion;
 import org.stjs.javascript.JSObjectAdapter;
 
 import com.eduworks.ec.crypto.EcPk;
 import com.eduworks.schema.ebac.EbacEncryptedValue;
+
 import org.stjs.javascript.Array;
 
 /**
@@ -24,15 +27,76 @@ public class EcAssertion extends Assertion
 	{
 		if (subject == null)
 			return null;
-		return EcPk.fromPem(subject.decryptIntoString());
+		EcEncryptedValue v = new EcEncryptedValue();
+		v.copyFrom(subject);
+		String decryptedString = v.decryptIntoString();
+		if (decryptedString == null)
+			return null;
+		return EcPk.fromPem(decryptedString);
 	}
 
 	public EcPk getAgent()
 	{
 		if (agent == null)
 			return null;
-		return EcPk.fromPem(agent.decryptIntoString());
+		EcEncryptedValue v = new EcEncryptedValue();
+		v.copyFrom(agent);
+		String decryptedString = v.decryptIntoString();
+		if (decryptedString == null)
+			return null;
+		return EcPk.fromPem(decryptedString);
 	}
+
+	public String getSubjectName()
+	{
+		if (subject == null)
+			return "Nobody";
+		EcContact contact = EcIdentityManager.getContact(getSubject());
+		if (contact == null || contact.displayName == null)
+			return "Unknown Subject";
+		return contact.displayName;
+	}
+
+	public String getAgentName()
+	{
+		if (agent == null)
+			return "Nobody";
+		EcContact contact = EcIdentityManager.getContact(getAgent());
+		if (contact == null || contact.displayName == null)
+			return "Unknown Agent";
+		return contact.displayName;
+	}
+
+	public Long getAssertionDate()
+	{
+		if (assertionDate == null)
+			return null;
+		EcEncryptedValue v = new EcEncryptedValue();
+		v.copyFrom(assertionDate);
+		String decryptedString = v.decryptIntoString();
+		if (decryptedString == null)
+			return null;
+		return Long.parseLong(decryptedString);
+	}
+
+	public Long getExpirationDate()
+	{
+		if (expirationDate == null)
+			return null;
+		EcEncryptedValue v = new EcEncryptedValue();
+		v.copyFrom(expirationDate);
+		String decryptedString = v.decryptIntoString();
+		if (decryptedString == null)
+			return null;
+		return Long.parseLong(decryptedString);
+	}
+	public int getEvidenceCount()
+	{
+		if (evidence == null)
+			return 0;
+		return evidence.$length();
+	}
+	
 
 	/**
 	 * Sets the subject of an assertion. Makes a few assumptions:

@@ -4,7 +4,7 @@ import org.stjs.javascript.annotation.Namespace;
 import org.stjs.javascript.annotation.STJSBridge;
 
 @Namespace("forge")
-@STJSBridge(sources = { "forge/forge.bundle.js" })
+@STJSBridge()
 public class ppk
 {
 	public int n;
