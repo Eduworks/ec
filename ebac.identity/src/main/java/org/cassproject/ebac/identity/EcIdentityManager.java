@@ -125,6 +125,11 @@ public class EcIdentityManager
 		for (int i = 0; i < contacts.$length(); i++)
 			if (contacts.$get(i).equals(contact))
 				return;
+
+		for (int i = 0; i < ids.$length(); i++)
+			if (ids.$get(i).ppk.toPk().toPem().equals(contact.pk.toPem()))
+				ids.$get(i).displayName = contact.displayName;
+		
 		contacts.push(contact);
 		contactChanged(contact);
 	}

@@ -90,11 +90,23 @@ public class EcAssertion extends Assertion
 			return null;
 		return Long.parseLong(decryptedString);
 	}
+	
 	public int getEvidenceCount()
 	{
 		if (evidence == null)
 			return 0;
 		return evidence.$length();
+	}
+	
+	public String getEvidence(int index)
+	{
+		if (evidence == null)
+			return null;
+
+		EcEncryptedValue v = new EcEncryptedValue();
+		v.copyFrom(evidence.$get(index));
+		String decryptedString = v.decryptIntoString();
+		return decryptedString;
 	}
 	
 
