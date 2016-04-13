@@ -122,14 +122,24 @@ public class EcIdentityManager
 	 */
 	public static void addContact(EcContact contact)
 	{
+		for (int i = 0; i < ids.$length(); i++)
+			if (ids.$get(i).ppk.toPk().toPem().equals(contact.pk.toPem()))
+			{
+				ids.$get(i).displayName = contact.displayName;
+				contactChanged(contact);
+			}
+
+		for (int i = 0; i < contacts.$length(); i++)
+			if (contacts.$get(i).pk.toPem().equals(contact.pk.toPem()))
+			{
+				contacts.$get(i).displayName = contact.displayName;
+				contactChanged(contact);
+			}
+		
 		for (int i = 0; i < contacts.$length(); i++)
 			if (contacts.$get(i).equals(contact))
 				return;
 
-		for (int i = 0; i < ids.$length(); i++)
-			if (ids.$get(i).ppk.toPk().toPem().equals(contact.pk.toPem()))
-				ids.$get(i).displayName = contact.displayName;
-		
 		contacts.push(contact);
 		contactChanged(contact);
 	}
@@ -227,6 +237,22 @@ public class EcIdentityManager
 		{
 			if (pk.equals(contacts.$get(i).pk))
 				return contacts.$get(i);
+		}
+		return null;
+	}
+	/**
+	 * Get Identity from PK (if we have it)
+	 * 
+	 * @param fromPem
+	 *            PK to use to look up PPK
+	 * @return PPK or null.
+	 */
+	public static EcIdentity getIdentity(EcPk pk)
+	{
+		for (int i = 0; i < ids.$length(); i++)
+		{
+			if (pk.equals(ids.$get(i).ppk.toPk()))
+				return ids.$get(i);
 		}
 		return null;
 	}

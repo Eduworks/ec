@@ -113,7 +113,7 @@ public class EcRemote
 		};
 
 		String url = server;
-		if (!url.endsWith("/") && service != null && service.isEmpty() == false)
+		if (!url.endsWith("/") && service != null && service.equals(""))
 			url += "/";
 		if (service != null)
 			url += service;

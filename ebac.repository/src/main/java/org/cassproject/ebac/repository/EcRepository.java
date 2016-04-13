@@ -7,6 +7,7 @@ import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSON;
 import org.stjs.javascript.JSObjectAdapter;
+import org.stjs.javascript.Window;
 import org.stjs.javascript.functions.Callback1;
 
 import com.eduworks.ec.crypto.EcPpk;
@@ -20,6 +21,39 @@ public class EcRepository
 	public static boolean caching = false;
 	public static Object cache = new Object();
 
+	public void precache(Array<String> urls)
+	{
+		Array<String> cacheUrls = new Array<String>();
+		for (int i = 0;i < urls.$length();i++)
+		{
+			String url = urls.$get(i);
+			if (url.startsWith(selectedServer) && JSObjectAdapter.$get(cache,url) == null)
+			{
+				cacheUrls.push(url.replace(selectedServer, ""));
+			}
+		}
+		if (cacheUrls.$length() == 0) return;
+		FormData fd = new FormData();
+		fd.append("data", Global.JSON.stringify(cacheUrls));
+		fd.append("signatureSheet", EcIdentityManager.signatureSheet(60000, selectedServer));
+		EcRemote.postExpectingObject(selectedServer, "sky/repo/multiGet", fd, new Callback1<Object>()
+		{
+			@Override
+			public void $invoke(Object p1)
+			{
+				Array<EcRemoteLinkedData> results = (Array<EcRemoteLinkedData>) p1;
+				for (int i = 0; i < results.$length(); i++)
+				{
+					EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
+					d.copyFrom(results.$get(i));
+					results.$set(i, d);
+					if (caching)
+						JSObjectAdapter.$put(cache, d.shortId(), d);
+				}
+			}
+		}, null);
+	}
+	
 	/**
 	 * Gets a JSON-LD object from the place designated by the URI.
 	 * 
@@ -89,6 +123,8 @@ public class EcRepository
 					EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
 					d.copyFrom(results.$get(i));
 					results.$set(i, d);
+					if (caching)
+						JSObjectAdapter.$put(cache, d.shortId(), d);
 					if (eachSuccess != null)
 						eachSuccess.$invoke(results.$get(i));
 				}
@@ -134,6 +170,8 @@ public class EcRepository
 					EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
 					d.copyFrom(results.$get(i));
 					results.$set(i, d);
+					if (caching)
+						JSObjectAdapter.$put(cache, d.shortId(), d);
 					if (eachSuccess != null)
 						eachSuccess.$invoke(results.$get(i));
 				}
@@ -142,6 +180,74 @@ public class EcRepository
 					success.$invoke(results);
 			}
 		}, failure);
+	}
+
+	public void autoDetectRepository()
+	{
+		EcRemote.async = false;
+		Array<String> protocols = new Array<String>("http:", "https:");
+		Array<String> hostnames = new Array<String>();
+		if (Global.window.location.host != null)
+			hostnames.push(Global.window.location.host, Global.window.location.host.replace(".", ".service."), Global.window.location.host + ":8080",
+					Global.window.location.host.replace(".", ".service.") + ":8080");
+		if (Global.window.location.hostname != null)
+			hostnames.push(Global.window.location.hostname, Global.window.location.hostname.replace(".", ".service."), Global.window.location.hostname
+					+ ":8080", Global.window.location.hostname.replace(".", ".service.") + ":8080");
+		hostnames.push("localhost", "localhost" + ":8080", "localhost" + ":9722");
+		Array<String> servicePrefixes = new Array<String>("/", "/service/", "/api/custom/", "/levr/api/custom/");
+		for (int i = 0; i < protocols.$length(); i++)
+			for (int j = 0; j < hostnames.$length(); j++)
+				for (int k = 0; k < servicePrefixes.$length(); k++)
+					if (autoDetectRepositoryActual(protocols.$get(i) + "//" + hostnames.$get(j) + servicePrefixes.$get(k)))
+					{
+						EcRemote.async = true;
+						return;
+					}
+		EcRemote.async = true;
+	}
+
+	public boolean autoDetectFound = false;
+
+	public boolean autoDetectRepositoryActual(String guess)
+	{
+		EcRepository me = this;
+		Callback1<Object> successCheck = new Callback1<Object>()
+		{
+			@Override
+			public void $invoke(Object p1)
+			{
+				if (p1 != null)
+					if (JSObjectAdapter.$get(p1, "ping").equals("pong"))
+					{
+						me.selectedServer = guess;
+						me.autoDetectFound = true;
+					}
+			}
+		};
+		Callback1<String> failureCheck = new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				if (p1 != null)
+					if (!p1.equals(""))
+						if (p1.contains("pong"))
+						{
+							me.selectedServer = guess;
+							me.autoDetectFound = true;
+						}
+			}
+		};
+		if (guess != null && guess.equals("") == false)
+			try
+			{
+				EcRemote.getExpectingObject(guess, "ping", successCheck, failureCheck);
+			}
+			catch (Exception ex)
+			{
+
+			}
+		return autoDetectFound;
 	}
 
 	/**
@@ -154,8 +260,7 @@ public class EcRepository
 	 * @param failure
 	 *            Failure event.
 	 */
-	public void listTypes(final Callback1<Array<Object>> success,
-			final Callback1<String> failure)
+	public void listTypes(final Callback1<Array<Object>> success, final Callback1<String> failure)
 	{
 		FormData fd = new FormData();
 		fd.append("signatureSheet", EcIdentityManager.signatureSheet(60000, selectedServer));
@@ -171,7 +276,7 @@ public class EcRepository
 			}
 		}, failure);
 	}
-	
+
 	public static String escapeSearch(String query)
 	{
 		String s = null;

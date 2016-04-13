@@ -178,7 +178,10 @@ public class EcRemoteLinkedData extends EcLinkedData
 				else
 					i++;
 			}
-
+			
+			if (signature.$length() == 0)
+				return false;
+			
 			return true;
 		}
 

@@ -7,12 +7,12 @@ public class EcRsaOaep
 {
 	public static String encrypt(EcPk pk, String text)
 	{
-		return forge.util.encode64(pk.pk.encrypt(text,"RSA-OAEP"));
+		return forge.util.encode64(pk.pk.encrypt(text, "RSA-OAEP"));
 	}
 
 	public static String decrypt(EcPpk ppk, String text)
 	{
-		return ppk.ppk.decrypt(forge.util.decode64(text),"RSA-OAEP");
+		return ppk.ppk.decrypt(forge.util.decode64(text), "RSA-OAEP");
 	}
 
 	public static String sign(EcPpk ppk, String text)
@@ -26,6 +26,13 @@ public class EcRsaOaep
 	{
 		sha1 s = sha1.create();
 		s.update(text, "utf8");
-		return pk.verify(s.digest().bytes(),util.decode64(signature));
+		try
+		{
+			return pk.verify(s.digest().bytes(), util.decode64(signature));
+		}
+		catch (Exception ex)
+		{
+			return false;
+		}
 	}
 }
