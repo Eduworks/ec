@@ -3,6 +3,9 @@ package org.cass.competency;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.cass.competency.Competency;
 import org.cassproject.schema.general.EcRemoteLinkedData;
+import org.stjs.javascript.Array;
+import org.stjs.javascript.JSCollections;
+import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
 
 import com.eduworks.ec.crypto.EcPpk;
@@ -59,18 +62,40 @@ public class EcCompetency extends Competency
 		l.addOwner(owner.toPk());
 	}
 
-	public void levels(EcRepository repo, final Callback1<EcLevel> success, final Callback1<String> failure)
+	public void levels(EcRepository repo, final Callback1<EcLevel> success, final Callback1<String> failure, final Callback1<Array<EcLevel>> successAll)
 	{
-		repo.search("type:\"" + EcLevel.myType + "\" AND competency:\"" + id + "\"", new Callback1<EcRemoteLinkedData>()
+	
+		repo.search("@type:\"" + EcLevel.myType + "\" AND ( competency:\"" + id + "\" OR competency:\""+shortId()+"\")", new Callback1<EcRemoteLinkedData>()
 		{
 			@Override
 			public void $invoke(EcRemoteLinkedData p1)
 			{
-				EcLevel a = new EcLevel();
-				a.copyFrom(p1);
-				success.$invoke(a);
+				if(success != null)
+				{
+					EcLevel a = new EcLevel();
+					a.copyFrom(p1);
+					success.$invoke(a);
+				}
 			}
-		}, null, failure);
+		}, new Callback1<Array<EcRemoteLinkedData>>(){
+
+			@Override
+			public void $invoke(Array<EcRemoteLinkedData> p1) {
+				if(successAll != null)
+				{
+					Array<EcLevel> levels = JSCollections.$array();
+					
+					for(int i = 0; i < p1.$length(); i++){
+						EcLevel a = new EcLevel();
+						a.copyFrom(p1.$get(i));
+						levels.$set(i, a);
+					}
+					
+					successAll.$invoke(levels);
+				}
+			}
+			
+		}, failure);
 	}
 
 	public void setName(String name)
