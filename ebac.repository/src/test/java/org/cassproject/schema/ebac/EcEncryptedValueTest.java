@@ -837,13 +837,14 @@ public class EcEncryptedValueTest
 		
 		EcEncryptedValue encThing = EcEncryptedValue.toEncryptedValue(thing, false);
 		
-		encThing.addReader(EcPk.fromPem(ppk2.toPk().toPem()));
 		
 		EcIdentity newId1 = new EcIdentity();
 		newId1.ppk = ppk;
 
 		EcIdentityManager.ids = new Array<EcIdentity>();
 		EcIdentityManager.addIdentity(newId1);
+		
+		encThing.addReader(EcPk.fromPem(ppk2.toPk().toPem()));
 		
 		console.log("Saving...");
 		EcRepository.save(encThing, new Callback1<String>()

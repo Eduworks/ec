@@ -4,6 +4,7 @@ import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.json.ld.EcLinkedData;
 import org.stjs.javascript.Array;
+import org.stjs.javascript.Global;
 import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.JSObjectAdapter;
 
@@ -92,9 +93,6 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		if (owners != null)
 			for (int i = 0; i < owners.$length(); i++)
 				v.addOwner(EcPk.fromPem(owners.$get(i)));
-		if (readers != null)
-			for (int i = 0; i < readers.$length(); i++)
-				v.addReader(EcPk.fromPem(readers.$get(i)));
 
 		if (owners != null)
 		for (int i = 0; i < v.owner.$length(); i++)
@@ -107,17 +105,21 @@ public class EcEncryptedValue extends EbacEncryptedValue
 				v.secret = new Array<String>();
 			v.secret.push(EcRsaOaep.encrypt(EcPk.fromPem(v.owner.$get(i)), eSecret.toEncryptableJson()));
 		}
+		
 		if (readers != null)
-		for (int i = 0; i < v.reader.$length(); i++)
-		{
-			EbacEncryptedSecret eSecret = new EbacEncryptedSecret();
-			eSecret.id = util.encode64(pkcs5.pbkdf2(id, "", 1, 8));
-			eSecret.iv = newIv;
-			eSecret.secret = newSecret;
-			if (v.secret == null)
-				v.secret = new Array<String>();
-			v.secret.push(EcRsaOaep.encrypt(EcPk.fromPem(v.reader.$get(i)), eSecret.toEncryptableJson()));
-		}
+			for (int i = 0; i < readers.$length(); i++)
+				v.addReader(EcPk.fromPem(readers.$get(i)));
+//		if (readers != null)
+//		for (int i = 0; i < v.reader.$length(); i++)
+//		{
+//			EbacEncryptedSecret eSecret = new EbacEncryptedSecret();
+//			eSecret.id = util.encode64(pkcs5.pbkdf2(id, "", 1, 8));
+//			eSecret.iv = newIv;
+//			eSecret.secret = newSecret;
+//			if (v.secret == null)
+//				v.secret = new Array<String>();
+//			v.secret.push(EcRsaOaep.encrypt(EcPk.fromPem(v.reader.$get(i)), eSecret.toEncryptableJson()));
+//		}
 		return v;
 	}
 
@@ -241,12 +243,45 @@ public class EcEncryptedValue extends EbacEncryptedValue
 	 */
 	public void addReader(EcPk newReader)
 	{	
+		EbacEncryptedSecret payloadSecret = null;
+		for(int i = 0; i < EcIdentityManager.ids.$length(); i++){
+			EcPpk decryptionKey = EcIdentityManager.ids.$get(i).ppk;
+			
+			if (secret != null)
+			for (int j = 0; j < secret.$length(); j++)
+			{
+				try
+				{
+					String decryptedSecret = null;
+					decryptedSecret = EcRsaOaep.decrypt(decryptionKey, secret.$get(j));
+					if (!EcLinkedData.isProbablyJson(decryptedSecret))
+						continue;
+					payloadSecret = EbacEncryptedSecret.fromEncryptableJson(JSGlobal.JSON.parse(decryptedSecret));
+					break;
+				}
+				catch (Exception ex)
+				{
+					Global.console.log("fail  "+secret.$get(j));
+				}
+			}
+			
+			if(payloadSecret != null)
+				break;
+		}
+		if(payloadSecret == null){
+			Global.console.error("Cannot add a Reader if you don't know the secret");
+			return;
+		}
+		
 		String pem = newReader.toPem();
 		if (reader == null)
 			reader = new Array<String>();
 		for (int i = 0; i < reader.$length(); i++)
 			if (reader.$get(i).equals(pem))
 				return;
+		reader.push(pem);
+		
+		secret.push(EcRsaOaep.encrypt(newReader, payloadSecret.toEncryptableJson()));
 	}
 
 	/**
@@ -257,6 +292,7 @@ public class EcEncryptedValue extends EbacEncryptedValue
 	 */
 	public void removeReader(EcPk oldReader)
 	{	
+
 		String pem = oldReader.toPem();
 		if (reader == null)
 			reader = new Array<String>();
