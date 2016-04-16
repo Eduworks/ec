@@ -240,14 +240,13 @@ public class EcEncryptedValue extends EbacEncryptedValue
 	 *            PK of the new reader.
 	 */
 	public void addReader(EcPk newReader)
-	{
+	{	
 		String pem = newReader.toPem();
 		if (reader == null)
 			reader = new Array<String>();
 		for (int i = 0; i < reader.$length(); i++)
 			if (reader.$get(i).equals(pem))
 				return;
-		reader.push(pem);
 	}
 
 	/**
@@ -257,7 +256,7 @@ public class EcEncryptedValue extends EbacEncryptedValue
 	 *            PK of the old reader.
 	 */
 	public void removeReader(EcPk oldReader)
-	{
+	{	
 		String pem = oldReader.toPem();
 		if (reader == null)
 			reader = new Array<String>();

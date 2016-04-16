@@ -22,5 +22,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="src" path="/org.schema"/>
+	<classpathentry kind="src" path="/ebac.identity"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
