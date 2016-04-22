@@ -1,15 +1,16 @@
 package org.cass.profile;
 
+import org.cass.competency.EcCompetency;
 import org.cassproject.ebac.identity.EcContact;
 import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.ebac.repository.EcEncryptedValue;
+import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.cass.profile.Assertion;
-import org.stjs.javascript.JSObjectAdapter;
+import org.cassproject.schema.general.EcRemoteLinkedData;
+import org.stjs.javascript.Array;
+import org.stjs.javascript.functions.Callback1;
 
 import com.eduworks.ec.crypto.EcPk;
-import com.eduworks.schema.ebac.EbacEncryptedValue;
-
-import org.stjs.javascript.Array;
 
 /**
  * The sequence that assertions should be built as such:
@@ -171,5 +172,35 @@ public class EcAssertion extends Assertion
 	public void setDecayFunction(String decayFunctionText)
 	{
 		decayFunction = EcEncryptedValue.encryptValue(decayFunctionText.toString(), id, "decayFunction", subject.owner, subject.reader);
+	}
+	
+	public static void get(String id, final Callback1<EcAssertion> success, final Callback1<String> failure)
+	{
+		EcRepository.get(id, new Callback1<EcRemoteLinkedData>()
+		{
+			@Override
+			public void $invoke(EcRemoteLinkedData p1)
+			{
+				if (success == null)
+					return;
+				if (!p1.isA(EcAssertion.myType))
+				{
+					if (failure != null)
+						failure.$invoke("Resultant object is not an assertion.");
+					return;
+				}
+				EcAssertion c = new EcAssertion();
+				c.copyFrom(p1);
+				success.$invoke(c);
+			}
+		}, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				if (failure != null)
+					failure.$invoke(p1);
+			}
+		});
 	}
 }

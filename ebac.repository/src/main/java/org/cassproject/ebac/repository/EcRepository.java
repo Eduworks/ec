@@ -187,13 +187,17 @@ public class EcRepository
 		EcRemote.async = false;
 		Array<String> protocols = new Array<String>("http:", "https:");
 		Array<String> hostnames = new Array<String>();
+		
 		if (Global.window.location.host != null)
 			hostnames.push(Global.window.location.host, Global.window.location.host.replace(".", ".service."), Global.window.location.host + ":8080",
 					Global.window.location.host.replace(".", ".service.") + ":8080");
+		
 		if (Global.window.location.hostname != null)
 			hostnames.push(Global.window.location.hostname, Global.window.location.hostname.replace(".", ".service."), Global.window.location.hostname
 					+ ":8080", Global.window.location.hostname.replace(".", ".service.") + ":8080");
+		
 		hostnames.push("localhost", "localhost" + ":8080", "localhost" + ":9722");
+		
 		Array<String> servicePrefixes = new Array<String>("/", "/service/", "/api/custom/", "/levr/api/custom/");
 		for (int i = 0; i < protocols.$length(); i++)
 			for (int j = 0; j < hostnames.$length(); j++)

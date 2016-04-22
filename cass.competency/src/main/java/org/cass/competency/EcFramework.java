@@ -165,4 +165,34 @@ public class EcFramework extends Framework
 			if (level.$get(i).equals(id))
 				level.splice(i, 1);
 	}
+	
+	public static void get(String id, final Callback1<EcFramework> success, final Callback1<String> failure)
+	{
+		EcRepository.get(id, new Callback1<EcRemoteLinkedData>()
+		{
+			@Override
+			public void $invoke(EcRemoteLinkedData p1)
+			{
+				if (success == null)
+					return;
+				if (!p1.isA(EcFramework.myType))
+				{
+					if (failure != null)
+						failure.$invoke("Resultant object is not a framework.");
+					return;
+				}
+				EcFramework c = new EcFramework();
+				c.copyFrom(p1);
+				success.$invoke(c);
+			}
+		}, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				if (failure != null)
+					failure.$invoke(p1);
+			}
+		});
+	}
 }

@@ -5,13 +5,11 @@ import org.cassproject.schema.cass.competency.Competency;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSCollections;
-import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
 
 import com.eduworks.ec.crypto.EcPpk;
 
 /**
- * Helper class that immediately reflects changes into its remote repository.
  * @author fritz.ray@eduworks.com
  *
  */
@@ -109,5 +107,35 @@ public class EcCompetency extends Competency
 	public void setScope(String scope)
 	{
 		this.scope = scope;
+	}
+
+	public static void get(String id, final Callback1<EcCompetency> success, final Callback1<String> failure)
+	{
+		EcRepository.get(id, new Callback1<EcRemoteLinkedData>()
+		{
+			@Override
+			public void $invoke(EcRemoteLinkedData p1)
+			{
+				if (success == null)
+					return;
+				if (!p1.isA(EcCompetency.myType))
+				{
+					if (failure != null)
+						failure.$invoke("Resultant object is not a competency.");
+					return;
+				}
+				EcCompetency c = new EcCompetency();
+				c.copyFrom(p1);
+				success.$invoke(c);
+			}
+		}, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				if (failure != null)
+					failure.$invoke(p1);
+			}
+		});
 	}
 }
