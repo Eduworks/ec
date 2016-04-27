@@ -2,7 +2,11 @@ package org.cass.competency;
 
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.cass.competency.Relation;
+<<<<<<< .mine
+import org.stjs.javascript.Global;
+=======
 import org.cassproject.schema.general.EcRemoteLinkedData;
+>>>>>>> .r178
 import org.stjs.javascript.functions.Callback1;
 
 /**
@@ -20,6 +24,41 @@ public class EcAlignment extends Relation
 	public void setDescription(String description)
 	{
 		this.description = description;
+	}
+	
+	public void save(Callback1<String> success, Callback1<String> failure){
+		if(source == null || source == ""){
+			String msg = "Source Competency cannot be missing";
+			if(failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return;
+		}
+		
+		if(target == null || target == ""){
+			String msg = "Target Competency cannot be missing";
+			if(failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return;
+		}
+		
+		if(relationType == null || relationType == ""){
+			String msg = "Relation Type cannot be missing";
+			if(failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return;
+		}
+		
+		EcRepository._save(this, success, failure);
+	}
+	
+	public void _delete(Callback1<String> success, Callback1<String> failure){
+		EcRepository.DELETE(this, success, failure);
 	}
 	
 	public static void get(String id, final Callback1<EcAlignment> success, final Callback1<String> failure)
@@ -51,4 +90,5 @@ public class EcAlignment extends Relation
 			}
 		});
 	}
+
 }

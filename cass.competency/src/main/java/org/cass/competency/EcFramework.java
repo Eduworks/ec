@@ -4,12 +4,14 @@ import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.cass.competency.Framework;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
+import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback1;
 
 public class EcFramework extends Framework
 {
+	
 	public void addCompetency(String id)
 	{
 		id = trimVersionFromUrl(id);
@@ -165,6 +167,28 @@ public class EcFramework extends Framework
 			if (level.$get(i).equals(id))
 				level.splice(i, 1);
 	}
+	public void save(Callback1<String> success, Callback1<String> failure)
+	{
+		if(this.name == null || this.name == "")
+		{
+			String msg = "Framework Name Cannot be Empty";
+			
+			if(failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return;
+		}
+		
+		
+		EcRepository._save(this, success, failure);
+	}
+	
+	public void _delete(Callback1<String> success, Callback1<String> failure)
+	{
+		EcRepository.DELETE(this, success, failure);
+	}
+=======
 	
 	public static void get(String id, final Callback1<EcFramework> success, final Callback1<String> failure)
 	{

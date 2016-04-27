@@ -47,8 +47,17 @@ public class EcFrameworkTest {
 		
 		EcRemote.async = false;
 		
-		
 		frameworkId = server+"data/"+EcFramework.myType.replace("http://", "").replaceAll("/", ".")+"/testFramework/1";
+		
+		ppk = EcPpk.fromPem("-----BEGIN RSA PRIVATE KEY-----MIIEpAIBAAKCAQEAz4BiFucFE9bNcKfGD+e6aPRHl402YM4Z6nrurDRNlnwsWpsCoZasPLkjC314pVtHAI2duZo+esGKDloBsiLxASRJo3R2XiXVh2Y8U1RcHA5mWL4tMG5UY2d0libpNEHbHPNBmooVYpA2yhxN/vGibIk8x69uZWxJcFOxOg6zWG8EjF8UMgGnRCVSMTY3THhTlfZ0cGUzvrfb7OvHUgdCe285XkmYkj/V9P/m7hbWoOyJAJSTOm4/s6fIKpl72lblfN7bKaxTCsJp6/rQdmUeo+PIaa2lDOfo7dWbuTMcqkZ93kispNfYYhsEGUGlCsrrVWhlve8MenO4GdLsFP+HRwIDAQABAoIBAGaQpOuBIYde44lNxJ7UAdYi+Mg2aqyK81Btl0/TQo6hriLTAAfzPAt/z4y8ZkgFyCDD3zSAw2VWCPFzF+d/UfUohKWgyWlb9iHJLQRbbHQJwhkXV6raviesWXpmnVrROocizkie/FcNxac9OmhL8+cGJt7lHgJP9jTpiW6TGZ8ZzM8KBH2l80x9AWdvCjsICuPIZRjc706HtkKZzTROtq6Z/F4Gm0uWRnwAZrHTRpnh8qjtdBLYFrdDcUoFtzOM6UVRmocTfsNe4ntPpvwY2aGTWY7EmTj1kteMJ+fCQFIS+KjyMWQHsN8yQNfD5/j2uv6/BdSkO8uorGSJT6DwmTECgYEA8ydoQ4i58+A1udqA+fujM0Zn46++NTehFe75nqIt8rfQgoduBam3lE5IWj2U2tLQeWxQyr1ZJkLbITtrAI3PgfMnuFAii+cncwFo805Fss/nbKx8K49vBuCEAq3MRhLjWy3ZvIgUHj67jWvl50dbNqc7TUguxhS4BxGr/cPPkP0CgYEA2nbJPGzSKhHTETL37NWIUAdU9q/6NVRISRRXeRqZYwE1VPzs2sIUxA8zEDBHX7OtvCKzvZy1Lg5Unx1nh4nCEVkbW/8npLlRG2jOcZJF6NRfhzwLz3WMIrP6j9SmjJaB+1mnrTjfsg36tDEPDjjJLjJHCx9z/qRJh1v4bh4aPpMCgYACG31T2IOEEZVlnvcvM3ceoqWT25oSbAEBZ6jSLyWmzOEJwJK7idUFfAg0gAQiQWF9K+snVqzHIB02FIXA43nA7pKRjmA+RiqZXJHEShFgk1y2HGiXGA8mSBvcyhTTJqbBy4vvjl5eRLzrZNwBPSUVPC3PZajCHrvZk9WhxWivIQKBgQCzCu1MH2dy4R7ZlqsIJ8zKweeJMZpfQI7pjclO0FTrhh7+Yzd+5db9A/P2jYrBTVHSwaILgTYf49DIguHJfEZXz26TzB7iapqlWxTukVHISt1ryPNo+E58VoLAhChnSiaHJ+g7GESE+d4A9cAACNwgh0YgQIvhIyW70M1e+j7KDwKBgQDQSBLFDFmvvTP3sIRAr1+0OZWd1eRcwdhs0U9GwootoCoUP/1Y64pqukT6B9oIB/No9Nyn8kUX3/ZDtCslaGKEUGMJXQ4hc5J+lq0tSi9ZWBdhqOuMPEfUF3IxW+9yeILP4ppUBn1m5MVOWg5CvuuEeCmy4bhMaUErUlHZ78t5cA==-----END RSA PRIVATE KEY-----");
+		
+		newId1.ppk = ppk;
+		EcIdentityManager.ids = new Array<EcIdentity>();
+		EcIdentityManager.addIdentity(newId1);
+
+		repo.selectedServer = server;
+		
+		
 		
 		framework = new EcFramework();
 		framework.generateId(server);
@@ -57,23 +66,15 @@ public class EcFrameworkTest {
 		framework.name = "Framework Name";
 		
 		frameworkId = framework.id;
-		
-		ppk = EcPpk.fromPem("-----BEGIN RSA PRIVATE KEY-----MIIEpAIBAAKCAQEAz4BiFucFE9bNcKfGD+e6aPRHl402YM4Z6nrurDRNlnwsWpsCoZasPLkjC314pVtHAI2duZo+esGKDloBsiLxASRJo3R2XiXVh2Y8U1RcHA5mWL4tMG5UY2d0libpNEHbHPNBmooVYpA2yhxN/vGibIk8x69uZWxJcFOxOg6zWG8EjF8UMgGnRCVSMTY3THhTlfZ0cGUzvrfb7OvHUgdCe285XkmYkj/V9P/m7hbWoOyJAJSTOm4/s6fIKpl72lblfN7bKaxTCsJp6/rQdmUeo+PIaa2lDOfo7dWbuTMcqkZ93kispNfYYhsEGUGlCsrrVWhlve8MenO4GdLsFP+HRwIDAQABAoIBAGaQpOuBIYde44lNxJ7UAdYi+Mg2aqyK81Btl0/TQo6hriLTAAfzPAt/z4y8ZkgFyCDD3zSAw2VWCPFzF+d/UfUohKWgyWlb9iHJLQRbbHQJwhkXV6raviesWXpmnVrROocizkie/FcNxac9OmhL8+cGJt7lHgJP9jTpiW6TGZ8ZzM8KBH2l80x9AWdvCjsICuPIZRjc706HtkKZzTROtq6Z/F4Gm0uWRnwAZrHTRpnh8qjtdBLYFrdDcUoFtzOM6UVRmocTfsNe4ntPpvwY2aGTWY7EmTj1kteMJ+fCQFIS+KjyMWQHsN8yQNfD5/j2uv6/BdSkO8uorGSJT6DwmTECgYEA8ydoQ4i58+A1udqA+fujM0Zn46++NTehFe75nqIt8rfQgoduBam3lE5IWj2U2tLQeWxQyr1ZJkLbITtrAI3PgfMnuFAii+cncwFo805Fss/nbKx8K49vBuCEAq3MRhLjWy3ZvIgUHj67jWvl50dbNqc7TUguxhS4BxGr/cPPkP0CgYEA2nbJPGzSKhHTETL37NWIUAdU9q/6NVRISRRXeRqZYwE1VPzs2sIUxA8zEDBHX7OtvCKzvZy1Lg5Unx1nh4nCEVkbW/8npLlRG2jOcZJF6NRfhzwLz3WMIrP6j9SmjJaB+1mnrTjfsg36tDEPDjjJLjJHCx9z/qRJh1v4bh4aPpMCgYACG31T2IOEEZVlnvcvM3ceoqWT25oSbAEBZ6jSLyWmzOEJwJK7idUFfAg0gAQiQWF9K+snVqzHIB02FIXA43nA7pKRjmA+RiqZXJHEShFgk1y2HGiXGA8mSBvcyhTTJqbBy4vvjl5eRLzrZNwBPSUVPC3PZajCHrvZk9WhxWivIQKBgQCzCu1MH2dy4R7ZlqsIJ8zKweeJMZpfQI7pjclO0FTrhh7+Yzd+5db9A/P2jYrBTVHSwaILgTYf49DIguHJfEZXz26TzB7iapqlWxTukVHISt1ryPNo+E58VoLAhChnSiaHJ+g7GESE+d4A9cAACNwgh0YgQIvhIyW70M1e+j7KDwKBgQDQSBLFDFmvvTP3sIRAr1+0OZWd1eRcwdhs0U9GwootoCoUP/1Y64pqukT6B9oIB/No9Nyn8kUX3/ZDtCslaGKEUGMJXQ4hc5J+lq0tSi9ZWBdhqOuMPEfUF3IxW+9yeILP4ppUBn1m5MVOWg5CvuuEeCmy4bhMaUErUlHZ78t5cA==-----END RSA PRIVATE KEY-----");
-		
-		newId1.ppk = ppk;
-		EcIdentityManager.ids = new Array<EcIdentity>();
-		EcIdentityManager.addIdentity(newId1);
-		
 		framework.addOwner(ppk.toPk());
 		
-		repo.selectedServer = server;
 		
 		Global.console.log("Saving Framework...");
-		EcRepository.save(framework, new Callback1<String>() {
+		framework.save(new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
 				frameworkId = framework.id;
-				//Global.console.log("Framework Saved.");
+				Global.console.log("Framework Saved.");
 			}
 		}, new Callback1<String>() {
 			@Override
@@ -122,7 +123,6 @@ public class EcFrameworkTest {
 		});
 		
 		
-		
 		comp2 = new EcCompetency();
 		comp2.generateId(server);
 		comp2.setName("Test Competency 2");
@@ -167,26 +167,26 @@ public class EcFrameworkTest {
 	
 	@After
 	public void afterTest(){
-		EcRepository._delete(framework, null, new Callback1<String>() {
+		framework._delete(null, new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
 				Assert.fail("Failed to Delete Framework");
 			}
 		});
 		
-		EcRepository._delete(comp, null, new Callback1<String>() {
+		comp._delete(null, new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
 				Assert.fail("Failed to Delete Competency");
 			}
-		});
+		}, null);
 
-		EcRepository._delete(comp2, null, new Callback1<String>() {
+		comp2._delete(null, new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
 				Assert.fail("Failed to Delete 2nd Competency");
 			}
-		});
+		}, null);
 		
 		EcRepository._delete(rel, null, new Callback1<String>() {
 			@Override
@@ -229,9 +229,28 @@ public class EcFrameworkTest {
 	}
 	
 	@Test
+	public void createNoNameFrameworkTest(){
+		EcFramework noName = new EcFramework();
+		
+		noName.generateId(server);
+		
+		noName.save(new Callback1<String>() {
+			@Override
+			public void $invoke(String p1) {
+				Assert.fail("No Name Framework saved, should not be able to save a framework without a name");
+			}
+		}, new Callback1<String>() {
+			@Override
+			public void $invoke(String p1) {
+				Global.console.log("Failed to save a Framework without a name");
+			}
+		});
+	}
+	
+	@Test
 	public void viewFrameworkTest(){
 		
-		EcRepository.get(frameworkId, new Callback1<EcRemoteLinkedData>() {
+		EcRepository.get(framework.id, new Callback1<EcRemoteLinkedData>() {
 			@Override
 			public void $invoke(EcRemoteLinkedData p1) {
 				EcFramework f = (EcFramework) p1;
@@ -255,10 +274,9 @@ public class EcFrameworkTest {
 		editedFramework.description = "Updated Description";
 		
 		Global.console.log("Updating Framework...");
-		EcRepository.save(editedFramework, new Callback1<String>() {
+		editedFramework.save(new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
-				frameworkId = editedFramework.id;
 				Global.console.log("Framework Updated.");
 			}
 		}, new Callback1<String>() {
@@ -268,13 +286,48 @@ public class EcFrameworkTest {
 			}
 		});
 		
-		EcRepository.get(frameworkId, new Callback1<EcRemoteLinkedData>() {
+		EcRepository.get(editedFramework.id, new Callback1<EcRemoteLinkedData>() {
 			@Override
 			public void $invoke(EcRemoteLinkedData p1) {
 				EcFramework f = (EcFramework) p1;
 				
 				Assert.assertEquals("Name does not match updated name", editedFramework.name, f.name);
 				Assert.assertEquals("Description does not match updated description", editedFramework.description, f.description);
+			}
+		}, new Callback1<String>() {
+			@Override
+			public void $invoke(String p1) {
+				Assert.fail("Unable to Retreive Framework after update");
+			}
+		});
+	}
+	
+	@Test
+	public void updateFrameworkNoNameTest(){
+		EcFramework editedFramework = new EcFramework();
+		editedFramework.copyFrom(framework);
+		editedFramework.name = "";
+		editedFramework.description = "Updated Description";
+		
+		Global.console.log("Updating Framework...");
+		editedFramework.save(new Callback1<String>() {
+			@Override
+			public void $invoke(String p1) {
+				Assert.fail("Saved Framework with no name, this shouldnt be allowed");
+			}
+		}, new Callback1<String>() {
+			@Override
+			public void $invoke(String p1) {
+				Global.console.log("Failed to update framework with no name");
+			}
+		});
+		
+		EcRepository.get(editedFramework.id, new Callback1<EcRemoteLinkedData>() {
+			@Override
+			public void $invoke(EcRemoteLinkedData p1) {
+				EcFramework f = (EcFramework) p1;
+				
+				Assert.assertNotSame("Name should not be empty", editedFramework.name, f.name);
 			}
 		}, new Callback1<String>() {
 			@Override
@@ -293,10 +346,9 @@ public class EcFrameworkTest {
 		editedFramework.addCompetency(comp.id);
 		
 		Global.console.log("Adding Competency to Framework...");
-		EcRepository.save(editedFramework, new Callback1<String>() {
+		editedFramework.save(new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
-				frameworkId = editedFramework.id;
 				Global.console.log("Framework Updated.");
 			}
 		}, new Callback1<String>() {
@@ -306,7 +358,7 @@ public class EcFrameworkTest {
 			}
 		});
 		
-		EcRepository.get(frameworkId, new Callback1<EcRemoteLinkedData>() {
+		EcRepository.get(editedFramework.id, new Callback1<EcRemoteLinkedData>() {
 			@Override
 			public void $invoke(EcRemoteLinkedData p1) {
 				EcFramework f = (EcFramework) p1;
@@ -328,10 +380,9 @@ public class EcFrameworkTest {
 		frameworkCompRemoved.removeCompetency(comp.id, null, null);
 		
 		Global.console.log("Updating Framework...");
-		EcRepository.save(frameworkCompRemoved, new Callback1<String>() {
+		frameworkCompRemoved.save(new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
-				frameworkId = frameworkCompRemoved.id;
 				Global.console.log("Framework Updated.");
 			}
 		}, new Callback1<String>() {
@@ -341,7 +392,7 @@ public class EcFrameworkTest {
 			}
 		});
 		
-		EcRepository.get(frameworkId, new Callback1<EcRemoteLinkedData>() {
+		EcRepository.get(frameworkCompRemoved.id, new Callback1<EcRemoteLinkedData>() {
 			@Override
 			public void $invoke(EcRemoteLinkedData p1) {
 				EcFramework f = (EcFramework) p1;
@@ -368,10 +419,9 @@ public class EcFrameworkTest {
 		frameworkCompRemoved.removeCompetency(comp.id, null, null);
 		
 		Global.console.log("Updating Framework...");
-		EcRepository.save(frameworkCompRemoved, new Callback1<String>() {
+		frameworkCompRemoved.save(new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
-				frameworkId = frameworkCompRemoved.id;
 				Global.console.log("Framework Updated.");
 			}
 		}, new Callback1<String>() {
@@ -381,7 +431,7 @@ public class EcFrameworkTest {
 			}
 		});
 		
-		EcRepository.get(frameworkId, new Callback1<EcRemoteLinkedData>() {
+		EcRepository.get(frameworkCompRemoved.id, new Callback1<EcRemoteLinkedData>() {
 			@Override
 			public void $invoke(EcRemoteLinkedData p1) {
 				EcFramework f = (EcFramework) p1;
@@ -408,10 +458,9 @@ public class EcFrameworkTest {
 		editedFramework.addLevel(level.id);
 		
 		Global.console.log("Adding Level to Framework...");
-		EcRepository.save(editedFramework, new Callback1<String>() {
+		editedFramework.save(new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
-				frameworkId = editedFramework.id;
 				Global.console.log("Framework Updated.");
 			}
 		}, new Callback1<String>() {
@@ -421,7 +470,7 @@ public class EcFrameworkTest {
 			}
 		});
 		
-		EcRepository.get(frameworkId, new Callback1<EcRemoteLinkedData>() {
+		EcRepository.get(editedFramework.id, new Callback1<EcRemoteLinkedData>() {
 			@Override
 			public void $invoke(EcRemoteLinkedData p1) {
 				EcFramework f = (EcFramework) p1;
@@ -444,10 +493,9 @@ public class EcFrameworkTest {
 		frameworkLevelRemoved.removeLevel(level.id);
 		
 		Global.console.log("Updating Framework...");
-		EcRepository.save(frameworkLevelRemoved, new Callback1<String>() {
+		frameworkLevelRemoved.save(new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
-				frameworkId = frameworkLevelRemoved.id;
 				Global.console.log("Framework Updated.");
 			}
 		}, new Callback1<String>() {
@@ -457,7 +505,7 @@ public class EcFrameworkTest {
 			}
 		});
 		
-		EcRepository.get(frameworkId, new Callback1<EcRemoteLinkedData>() {
+		EcRepository.get(frameworkLevelRemoved.id, new Callback1<EcRemoteLinkedData>() {
 			@Override
 			public void $invoke(EcRemoteLinkedData p1) {
 				EcFramework f = (EcFramework) p1;
@@ -484,10 +532,9 @@ public class EcFrameworkTest {
 		frameworkCompRemoved.removeLevel(level.id);
 		
 		Global.console.log("Updating Framework...");
-		EcRepository.save(frameworkCompRemoved, new Callback1<String>() {
+		frameworkCompRemoved.save(new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
-				frameworkId = frameworkCompRemoved.id;
 				Global.console.log("Framework Updated.");
 			}
 		}, new Callback1<String>() {
@@ -497,7 +544,7 @@ public class EcFrameworkTest {
 			}
 		});
 		
-		EcRepository.get(frameworkId, new Callback1<EcRemoteLinkedData>() {
+		EcRepository.get(frameworkCompRemoved.id, new Callback1<EcRemoteLinkedData>() {
 			@Override
 			public void $invoke(EcRemoteLinkedData p1) {
 				EcFramework f = (EcFramework) p1;
@@ -522,10 +569,9 @@ public class EcFrameworkTest {
 		editedFramework.addRelation(rel.id);
 		
 		Global.console.log("Adding Level to Framework...");
-		EcRepository.save(editedFramework, new Callback1<String>() {
+		editedFramework.save(new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
-				frameworkId = editedFramework.id;
 				Global.console.log("Framework Updated.");
 			}
 		}, new Callback1<String>() {
@@ -535,7 +581,7 @@ public class EcFrameworkTest {
 			}
 		});
 		
-		EcRepository.get(frameworkId, new Callback1<EcRemoteLinkedData>() {
+		EcRepository.get(editedFramework.id, new Callback1<EcRemoteLinkedData>() {
 			@Override
 			public void $invoke(EcRemoteLinkedData p1) {
 				EcFramework f = (EcFramework) p1;
@@ -558,10 +604,9 @@ public class EcFrameworkTest {
 		frameworkRelationRemoved.removeRelation(rel.id);
 		
 		Global.console.log("Updating Framework...");
-		EcRepository.save(frameworkRelationRemoved, new Callback1<String>() {
+		frameworkRelationRemoved.save(new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
-				frameworkId = frameworkRelationRemoved.id;
 				Global.console.log("Framework Updated.");
 			}
 		}, new Callback1<String>() {
@@ -571,7 +616,7 @@ public class EcFrameworkTest {
 			}
 		});
 		
-		EcRepository.get(frameworkId, new Callback1<EcRemoteLinkedData>() {
+		EcRepository.get(frameworkRelationRemoved.id, new Callback1<EcRemoteLinkedData>() {
 			@Override
 			public void $invoke(EcRemoteLinkedData p1) {
 				EcFramework f = (EcFramework) p1;
@@ -598,10 +643,9 @@ public class EcFrameworkTest {
 		frameworkCompRemoved.removeRelation(rel.id);
 		
 		Global.console.log("Updating Framework...");
-		EcRepository.save(frameworkCompRemoved, new Callback1<String>() {
+		frameworkCompRemoved.save(new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
-				frameworkId = frameworkCompRemoved.id;
 				Global.console.log("Framework Updated.");
 			}
 		}, new Callback1<String>() {
@@ -611,7 +655,7 @@ public class EcFrameworkTest {
 			}
 		});
 		
-		EcRepository.get(frameworkId, new Callback1<EcRemoteLinkedData>() {
+		EcRepository.get(frameworkCompRemoved.id, new Callback1<EcRemoteLinkedData>() {
 			@Override
 			public void $invoke(EcRemoteLinkedData p1) {
 				EcFramework f = (EcFramework) p1;
@@ -639,10 +683,9 @@ public class EcFrameworkTest {
 		toDelete.addOwner(ppk.toPk());
 		
 		Global.console.log("Saving Framework to Delete");
-		EcRepository.save(toDelete, new Callback1<String>() {
+		toDelete.save(new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
-				frameworkId = toDelete.id;
 				Global.console.log("Framework Saved.");
 			}
 		}, new Callback1<String>() {
@@ -652,25 +695,11 @@ public class EcFrameworkTest {
 			}
 		});
 		
-		EcRepository.get(frameworkId, new Callback1<EcRemoteLinkedData>() {
-			@Override
-			public void $invoke(EcRemoteLinkedData p1) {
-				EcFramework f = (EcFramework) p1;
-			
-				Assert.assertEquals("Name does not match saved name", toDelete.name, f.name);
-			}
-		}, new Callback1<String>() {
-			@Override
-			public void $invoke(String p1) {
-				Assert.fail("Unable to Retreive Framework after update");
-			}
-		});
-		
 		Global.console.log("Deleting Framework...");
-		EcRepository._delete(toDelete, new Callback1<String>() {
+		toDelete._delete(new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
-				Global.console.log("Successfully delete Framework");
+				Global.console.log("Successfully deleted Framework");
 			}
 		}, new Callback1<String>() {
 			@Override
@@ -678,5 +707,13 @@ public class EcFrameworkTest {
 				Assert.fail("Unable to Delete Framework");
 			}
 		});
+		
+		EcRepository.get(toDelete.id, new Callback1<EcRemoteLinkedData>() {
+			@Override
+			public void $invoke(EcRemoteLinkedData p1) {
+				if(p1.schema != "" || p1.type != "")
+					Assert.fail("Shouldn't be able to Retreive Framework after delete");
+			}
+		}, null);
 	}
 }
