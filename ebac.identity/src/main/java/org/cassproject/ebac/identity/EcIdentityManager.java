@@ -60,7 +60,7 @@ public class EcIdentityManager
 	/**
 	 * Reads contact data from localstorage.
 	 */
-	private static void readContacts()
+	public static void readContacts()
 	{
 		Object localStore = Global.localStorage.$get("contacts");
 		if (localStore == null)
@@ -74,6 +74,15 @@ public class EcIdentityManager
 			contact.displayName = (String) props.$get("displayName");
 			contact.pk = EcPk.fromPem((String) props.$get("pk"));
 			contact.source = (String) props.$get("source");
+			
+			boolean cont = false;
+			for(int j = 0; j < contacts.$length(); j++){
+				if(contacts.$get(j).pk.toPem() == contact.pk.toPem())
+					cont = true;
+			}
+			if(cont)
+				continue;
+			
 			contacts.push(contact);
 		}
 	}
@@ -97,6 +106,11 @@ public class EcIdentityManager
 		Global.localStorage.$put("contacts", JSGlobal.JSON.stringify(c));
 	}
 
+	public static void clearContacts(){
+		Global.localStorage.$delete("contacts");
+		contacts = new Array<EcContact>();
+	}
+	
 	/**
 	 * Adds an identity to the identity manager. Checks for duplicates. Triggers
 	 * events.
