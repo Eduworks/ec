@@ -309,6 +309,12 @@ public class EcRepository
 		return s;
 	}
 
+	public static void save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure){
+		Global.console.warn("Watch out! "+data.id+" is being saved with the repository save function, no value checking will occur");
+		
+		_save(data, success, failure);
+	}
+	
 	/**
 	 * Attempts to save a piece of data.
 	 * 
@@ -319,7 +325,7 @@ public class EcRepository
 	 * @param success
 	 * @param failure
 	 */
-	public static void save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
+	public static void _save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
 	{
 		if (caching)
 		{
@@ -350,6 +356,13 @@ public class EcRepository
 	 * @param failure
 	 */
 	public static void _delete(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
+	{
+		Global.console.warn("Watch out! "+data.id+" is being deleted with the repository delete function, no clean up delete operations will occur");
+		
+		DELETE(data, success, failure);
+	}
+	
+	public static void DELETE(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
 	{
 		if (caching)
 		{

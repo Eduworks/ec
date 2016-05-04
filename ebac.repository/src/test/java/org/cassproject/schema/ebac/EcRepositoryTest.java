@@ -137,7 +137,7 @@ public class EcRepositoryTest
 				if (retrieved.owner != null)
 					Assert.assertEquals("File is not Public, has an owner", retrieved.owner.$length(), 0);
 				Assert.assertEquals("Name Does Not Match Saved Object Name", JSObjectAdapter.$get(thing, "name"), retrieved.name);
-				Assert.assertEquals("Name Does Not Match Saved Object Name", thing.id, retrieved.id);
+				Assert.assertEquals("ID Does Not Match Saved Object ID", thing.id, retrieved.id);
 
 				console.log("Retrieved Unchanged.");
 			}
@@ -152,6 +152,56 @@ public class EcRepositoryTest
 			}
 		});
 
+		EcRemoteLinkedData thing2 = new EcRemoteLinkedData(org.cassproject.schema.general.General.schema,
+				org.cassproject.schema.general.General.schema+"/test");
+		thing2.copyFrom(thing);;
+		JSObjectAdapter.$put(thing, "name", "Changed Public Object Name");
+		
+		console.log("Updating Public Object...");
+		EcRepository.save(thing2, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				console.log("Updated.");
+			}
+		}, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				console.log("Failed to update.");
+				console.log(p1);
+				Assert.fail("Failed to update object.");
+			}
+		});
+		
+		console.log("Retrieving After update...");
+		EcRepository.get(thing2.shortId(), new Callback1<EcRemoteLinkedData>()
+		{
+			@Override
+			public void $invoke(EcRemoteLinkedData p1)
+			{
+				EcFile retrieved = (EcFile) p1;
+
+				if (retrieved.owner != null)
+					Assert.assertEquals("File is not Public, has an owner", retrieved.owner.$length(), 0);
+				Assert.assertEquals("Name Does Not Match Saved Object Name", JSObjectAdapter.$get(thing2, "name"), retrieved.name);
+				Assert.assertEquals("ID Does Not Match Saved Object ID", thing2.id, retrieved.id);
+
+				console.log("Retrieved Unchanged.");
+			}
+		}, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				console.log("Failed to retrieve after update");
+				console.log(p1);
+				Assert.fail("Failed to retrieve public object after update.");
+			}
+		});
+		
 		console.log("Trying to Delete...");
 		EcRepository._delete(thing, new Callback1<String>()
 		{
@@ -224,7 +274,7 @@ public class EcRepositoryTest
 
 				Assert.assertTrue("Object is not Owned by the Identity that Created It", retrieved.canEdit(newId1.ppk.toPk()));
 				Assert.assertEquals("Name Does Not Match Saved Object Name", JSObjectAdapter.$get(thing, "name"), retrieved.name);
-				Assert.assertEquals("Name Does Not Match Saved Object Name", thing.id, retrieved.id);
+				Assert.assertEquals("ID Does Not Match Saved Object ID", thing.id, retrieved.id);
 
 				console.log("Retrieved Unchanged");
 			}
@@ -265,8 +315,77 @@ public class EcRepositoryTest
 				Assert.fail("Failed to search for object after save.");
 			}
 		});
+		
+		console.log("Trying to delete as public...");
+		EcRepository._delete(thing, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				Assert.fail("Deleted the Owned Object as public");
+			}
+		}, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				console.log(p1);
+				console.log("Denied Access");
+			}
+		});
 
+		
+		
 		EcIdentityManager.addIdentity(newId1);
+		
+		
+		EcRemoteLinkedData thing2 = new EcRemoteLinkedData(org.cassproject.schema.general.General.schema,
+				org.cassproject.schema.general.General.schema+"/test");
+		thing2.copyFrom(thing);;
+		JSObjectAdapter.$put(thing, "name", "Changed Object Name");
+		
+		console.log("Updating Owned Object...");
+		EcRepository.save(thing2, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				console.log("Updated.");
+			}
+		}, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				console.log("Failed to update.");
+				console.log(p1);
+				Assert.fail("Failed to update object.");
+			}
+		});
+		
+		console.log("Retrieving Owned Object...");
+		EcRepository.get(thing2.shortId(), new Callback1<EcRemoteLinkedData>()
+		{
+			@Override
+			public void $invoke(EcRemoteLinkedData p1)
+			{
+				EcFile retrieved = (EcFile) p1;
+
+				Assert.assertEquals("Name Does Not Match Saved Object Name", JSObjectAdapter.$get(thing2, "name"), retrieved.name);
+				Assert.assertEquals("Id Does Not Match Saved Object Id", thing2.id, retrieved.id);
+
+				console.log("Retrieved Unchanged.");
+			}
+		}, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				console.log("Failed to retrieve");
+				console.log(p1);
+				Assert.fail("Failed to retrieve public object after save.");
+			}
+		});
 		
 		console.log("Deleting...");
 		EcRepository._delete(thing, new Callback1<String>()
@@ -390,7 +509,58 @@ public class EcRepositoryTest
 			}
 		});
 
-		EcIdentityManager.addIdentity(newId1);
+		
+		EcIdentity newId2 = new EcIdentity();
+		newId2.ppk = ppk2;
+		EcIdentityManager.addIdentity(newId2);
+		
+		EcRemoteLinkedData thing2 = new EcRemoteLinkedData(org.cassproject.schema.general.General.schema,
+				org.cassproject.schema.general.General.schema+"/test");
+		thing2.copyFrom(thing);
+		JSObjectAdapter.$put(thing, "name", "Changed Object Name");
+		
+		console.log("Updating Owned Object as owner 2...");
+		EcRepository.save(thing2, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				console.log("Updated.");
+			}
+		}, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				console.log("Failed to update.");
+				console.log(p1);
+				Assert.fail("Failed to update object.");
+			}
+		});
+		
+		console.log("Retrieving Owned Object as owner 2...");
+		EcRepository.get(thing2.shortId(), new Callback1<EcRemoteLinkedData>()
+		{
+			@Override
+			public void $invoke(EcRemoteLinkedData p1)
+			{
+				EcFile retrieved = (EcFile) p1;
+
+				Assert.assertEquals("Name Does Not Match Saved Object Name", JSObjectAdapter.$get(thing2, "name"), retrieved.name);
+				Assert.assertEquals("Id Does Not Match Saved Object Id", thing2.id, retrieved.id);
+
+				console.log("Retrieved Unchanged.");
+			}
+		}, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				console.log("Failed to retrieve");
+				console.log(p1);
+				Assert.fail("Failed to retrieve public object after save.");
+			}
+		});
 		
 		console.log("Deleting...");
 		EcRepository._delete(thing, new Callback1<String>()

@@ -397,7 +397,7 @@ public class EcEncryptedValueTest
 		EcRemoteLinkedData thing = new EcRemoteLinkedData(org.cassproject.schema.general.General.schema,
 				org.cassproject.schema.general.General.schema+"/test");
 		thing.generateId(server);
-		JSObjectAdapter.$put(thing, "name", "Private Object");
+		JSObjectAdapter.$put(thing, "value", "Private Object Value");
 		
 		thing.addOwner(ppk.toPk());
 		thing.signWith(ppk);
@@ -435,11 +435,13 @@ public class EcEncryptedValueTest
 			@Override
 			public void $invoke(EcRemoteLinkedData p1)
 			{
-				EcFile retrieved = (EcFile) p1;
+				EcEncryptedValue retrieved = new EcEncryptedValue();
+				retrieved.copyFrom(p1);
 
+				Assert.assertEquals("ID Does Not Match Saved Object", encThing.id, retrieved.id);
 				Assert.assertTrue("Object is not Owned by the Identity that Created It", retrieved.canEdit(newId1.ppk.toPk()));
-				Assert.assertEquals("Name Does Not Match Saved Object Name", JSObjectAdapter.$get(encThing.decryptIntoObject(), "name"), retrieved.name);
-				Assert.assertEquals("ID Does Not Match Saved Object Name", encThing.id, retrieved.id);
+				
+				Assert.assertEquals("Name Does Not Match Saved Object Name", JSObjectAdapter.$get(encThing.decryptIntoObject(), "value"), JSObjectAdapter.$get(retrieved.decryptIntoObject(), "value"));
 
 				console.log("Retrieved Unchanged");
 			}
@@ -545,9 +547,77 @@ public class EcEncryptedValueTest
 			}
 		});
 		
+		JSObjectAdapter.$put(thing, "value", "Changed Value");
+				
+		EcEncryptedValue encThing2 = EcEncryptedValue.toEncryptedValue(thing, false);
+		
+		console.log("Trying to Update as Public...");
+		EcRepository.save(encThing2, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				Assert.fail("Saved object as public.");
+				console.log("Saved as public.");
+			}
+		}, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				console.log("Failed to save as public.");
+				console.log(p1);
+			}
+		});
 		
 		
 		EcIdentityManager.addIdentity(newId1);
+		
+		console.log("Updating...");
+		EcRepository.save(encThing2, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				console.log("Updated.");
+			}
+		}, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				console.log("Failed to update.");
+				console.log(p1);
+				Assert.fail("Failed to update object.");
+			}
+		});
+		
+		console.log("Retrieving after update...");
+		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>()
+		{
+			@Override
+			public void $invoke(EcRemoteLinkedData p1)
+			{
+				EcEncryptedValue retrieved = new EcEncryptedValue();
+				retrieved.copyFrom(p1);
+
+				Assert.assertEquals("ID Does Not Match Saved Object Name", encThing2.id, retrieved.id);
+				Assert.assertTrue("Object is not Owned by the Identity that Created It", retrieved.canEdit(newId1.ppk.toPk()));
+				
+				Assert.assertEquals("Name Does Not Match Saved Object Name", JSObjectAdapter.$get(encThing2.decryptIntoObject(), "value"), JSObjectAdapter.$get(retrieved.decryptIntoObject(), "value"));
+
+				console.log("Retrieved After update");
+			}
+		}, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				console.log("Failed to retrieve updates.");
+				console.log(p1);
+				Assert.fail("Failed to retrieve updated object");
+			}
+		});
 		
 		console.log("Deleting...");
 		EcRepository._delete(thing, new Callback1<String>()
@@ -582,7 +652,7 @@ public class EcEncryptedValueTest
 		EcRemoteLinkedData thing = new EcRemoteLinkedData(org.cassproject.schema.general.General.schema,
 				org.cassproject.schema.general.General.schema+"/test");
 		thing.generateId(server);
-		JSObjectAdapter.$put(thing, "name", "Private Object");
+		JSObjectAdapter.$put(thing, "value", "Private Object Value");
 		
 		thing.addOwner(ppk.toPk());
 		thing.signWith(ppk);
@@ -622,14 +692,17 @@ public class EcEncryptedValueTest
 			@Override
 			public void $invoke(EcRemoteLinkedData p1)
 			{
-				EcFile retrieved = (EcFile) p1;
+				EcEncryptedValue retrieved = new EcEncryptedValue();
+				retrieved.copyFrom(p1);
 
 				Assert.assertTrue("Object is not Owned by the Identity that Created It", retrieved.canEdit(newId1.ppk.toPk()));
-				Assert.assertEquals("Name Does Not Match Saved Object Name", JSObjectAdapter.$get(encThing.decryptIntoObject(), "name"), retrieved.name);
+				Assert.assertEquals("Value Does Not Match Saved Object Value", 
+						JSObjectAdapter.$get(encThing.decryptIntoObject(), "name"), 
+						JSObjectAdapter.$get(retrieved.decryptIntoObject(), "name"));
 				Assert.assertEquals("ID Does Not Match Saved Object Name", encThing.id, retrieved.id);
 
-				Assert.assertTrue("Object does not have first owner",encThing.hasOwner(ppk.toPk()));
-				Assert.assertTrue("Object does not have second owner",encThing.hasOwner(ppk2.toPk()));
+				Assert.assertTrue("Object does not have first owner",retrieved.hasOwner(ppk.toPk()));
+				Assert.assertTrue("Object does not have second owner",retrieved.hasOwner(ppk2.toPk()));
 				console.log("Retrieved Unchanged");
 			}
 		}, new Callback1<String>()
@@ -683,14 +756,17 @@ public class EcEncryptedValueTest
 			@Override
 			public void $invoke(EcRemoteLinkedData p1)
 			{
-				EcFile retrieved = (EcFile) p1;
-
+				EcEncryptedValue retrieved = new EcEncryptedValue();
+				retrieved.copyFrom(p1);
+				
 				Assert.assertTrue("Object is not Owned by the Identity that Created It", retrieved.canEdit(newId1.ppk.toPk()));
-				Assert.assertEquals("Name Does Not Match Saved Object Name", JSObjectAdapter.$get(encThing.decryptIntoObject(), "name"), retrieved.name);
+				Assert.assertEquals("Name Does Not Match Saved Object Name", 
+						JSObjectAdapter.$get(encThing.decryptIntoObject(), "name"), 
+						JSObjectAdapter.$get(retrieved.decryptIntoObject(), "name"));
 				Assert.assertEquals("ID Does Not Match Saved Object Name", encThing.id, retrieved.id);
 
-				Assert.assertTrue("Object does not have first owner",encThing.hasOwner(ppk.toPk()));
-				Assert.assertTrue("Object does not have second owner",encThing.hasOwner(ppk2.toPk()));
+				Assert.assertTrue("Object does not have first owner",retrieved.hasOwner(ppk.toPk()));
+				Assert.assertTrue("Object does not have second owner",retrieved.hasOwner(ppk2.toPk()));
 				console.log("Retrieved Unchanged");
 			}
 		}, new Callback1<String>()
@@ -797,7 +873,61 @@ public class EcEncryptedValueTest
 		
 		EcIdentityManager.addIdentity(newId2);
 		
-		console.log("Deleting...");
+		JSObjectAdapter.$put(thing, "value", "Changed Object Value");
+		
+		EcEncryptedValue encThing2 = EcEncryptedValue.toEncryptedValue(thing, false);
+		
+		
+		console.log("Updating as owner 2...");
+		EcRepository.save(encThing, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				console.log("Updated as owner 2.");
+			}
+		}, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				console.log("Failed to Update as owner2.");
+				console.log(p1);
+				Assert.fail("Failed to Update object as owner2.");
+			}
+		});
+		
+		console.log("Retrieving after update...");
+		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>()
+		{
+			@Override
+			public void $invoke(EcRemoteLinkedData p1)
+			{
+				EcEncryptedValue retrieved = new EcEncryptedValue();
+				retrieved.copyFrom(p1);
+				
+				Assert.assertTrue("Object is not Owned by the Identity that Created It", retrieved.canEdit(newId1.ppk.toPk()));
+				Assert.assertEquals("Name Does Not Match Saved Object Name", 
+						JSObjectAdapter.$get(encThing.decryptIntoObject(), "value"), 
+						JSObjectAdapter.$get(retrieved.decryptIntoObject(), "value"));
+				Assert.assertEquals("ID Does Not Match Saved Object Name", encThing.id, retrieved.id);
+
+				Assert.assertTrue("Object does not have first owner",retrieved.hasOwner(ppk.toPk()));
+				Assert.assertTrue("Object does not have second owner",retrieved.hasOwner(ppk2.toPk()));
+				console.log("Retrieved Unchanged");
+			}
+		}, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				console.log("Failed to retrieve as owner 2 after update.");
+				console.log(p1);
+				Assert.fail("Failed to retrieve object as owner 2");
+			}
+		});
+		
+		console.log("Deleting as owner 2...");
 		EcRepository._delete(thing, new Callback1<String>()
 		{
 			@Override
@@ -830,7 +960,7 @@ public class EcEncryptedValueTest
 		EcRemoteLinkedData thing = new EcRemoteLinkedData(org.cassproject.schema.general.General.schema,
 				org.cassproject.schema.general.General.schema+"/test");
 		thing.generateId(server);
-		JSObjectAdapter.$put(thing, "name", "Private Object");
+		JSObjectAdapter.$put(thing, "value", "Private Object Value");
 		
 		thing.addOwner(ppk.toPk());
 		thing.signWith(ppk);
@@ -844,7 +974,6 @@ public class EcEncryptedValueTest
 		EcIdentityManager.ids = new Array<EcIdentity>();
 		EcIdentityManager.addIdentity(newId1);
 		
-		encThing.addReader(EcPk.fromPem(ppk2.toPk().toPem()));
 		
 		console.log("Saving...");
 		EcRepository.save(encThing, new Callback1<String>()
@@ -865,19 +994,22 @@ public class EcEncryptedValueTest
 			}
 		});
 		
-		console.log("Retrieving as owner 1...");
+		console.log("Retrieving as owner ...");
 		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>()
 		{
 			@Override
 			public void $invoke(EcRemoteLinkedData p1)
 			{
-				EcFile retrieved = (EcFile) p1;
+				EcEncryptedValue retrieved = new EcEncryptedValue();
+				retrieved.copyFrom(p1);
 
 				Assert.assertTrue("Object is not Owned by the Identity that Created It", retrieved.canEdit(newId1.ppk.toPk()));
-				Assert.assertEquals("Name Does Not Match Saved Object Name", JSObjectAdapter.$get(encThing.decryptIntoObject(), "name"), retrieved.name);
+				Assert.assertEquals("Value Does Not Match Saved Object Value", 
+						JSObjectAdapter.$get(encThing.decryptIntoObject(), "value"), 
+						JSObjectAdapter.$get(retrieved.decryptIntoObject(), "value"));
 				Assert.assertEquals("ID Does Not Match Saved Object Name", encThing.id, retrieved.id);
 
-				Assert.assertTrue("Object does not have first owner",encThing.hasOwner(ppk.toPk()));
+				Assert.assertTrue("Object does not have first owner",retrieved.hasOwner(ppk.toPk()));
 				console.log("Retrieved Unchanged");
 			}
 		}, new Callback1<String>()
@@ -919,29 +1051,86 @@ public class EcEncryptedValueTest
 			}
 		});
 		
+		
+		
+		
 		EcIdentity newId2 = new EcIdentity();
 		newId2.ppk = ppk2;
 		
 		EcIdentityManager.ids = JSCollections.$array();
 		EcIdentityManager.addIdentity(newId2);
 		
+		console.log("Trying to retrieve as other user...");
+		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>()
+		{
+			@Override
+			public void $invoke(EcRemoteLinkedData p1)
+			{
+				console.log("Retrieved encrypted object as other user");
+				if(p1.type != null && !p1.type.equals(""))
+					Assert.fail("Retrieved encrypted object as other user");
+			}
+		}, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				console.log("Access Denied");
+			}
+		});
+		
+		
+		
+		
+		EcIdentityManager.ids = JSCollections.$array();
+		EcIdentityManager.addIdentity(newId1);
+		
+		EcEncryptedValue encThingWithReader = EcEncryptedValue.toEncryptedValue(thing, false);
+		encThingWithReader.addReader(EcPk.fromPem(ppk2.toPk().toPem()));
+		
+		console.log("Adding reader...");
+		EcRepository.save(encThingWithReader, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				console.log("Reader Added.");
+			}
+		}, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				console.log("Failed to add reader.");
+				console.log(p1);
+				Assert.fail("Failed to add reader to object.");
+			}
+		});
+		
+		
+		
+		EcIdentityManager.ids = JSCollections.$array();
+		EcIdentityManager.addIdentity(newId2);
 		
 		console.log("Retrieving as reader...");
-		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>()
+		EcRepository.get(encThingWithReader.shortId(), new Callback1<EcRemoteLinkedData>()
 		{
 			@Override
 			public void $invoke(EcRemoteLinkedData p1)
 			{
 				if(p1.type == null || p1.type.equals(""))
 					Assert.fail("Unable to retreive object as reader");
-				EcFile retrieved = (EcFile) p1;
+				EcEncryptedValue retrieved = new EcEncryptedValue();
+				retrieved.copyFrom(p1);
 				
 				EcIdentityManager.addIdentity(newId2);	
 				Assert.assertTrue("Object is not Owned by the Identity that Created It", retrieved.canEdit(newId1.ppk.toPk()));
-				Assert.assertEquals("Name Does Not Match Saved Object Name", JSObjectAdapter.$get(encThing.decryptIntoObject(), "name"), retrieved.name);
-				Assert.assertEquals("ID Does Not Match Saved Object Name", encThing.id, retrieved.id);
+				Assert.assertEquals("Value Does Not Match Saved Object Value", 
+						JSObjectAdapter.$get(encThingWithReader.decryptIntoObject(), "value"), 
+						JSObjectAdapter.$get(retrieved.decryptIntoObject(), "value"));
+				Assert.assertEquals("ID Does Not Match Saved Object Id", encThingWithReader.id, retrieved.id);
 
-				Assert.assertTrue("Object does not have first owner",encThing.hasOwner(ppk.toPk()));
+				Assert.assertTrue("Object does not have first owner",retrieved.hasOwner(ppk.toPk()));
 				console.log("Retrieved as Reader");
 			}
 		}, new Callback1<String>()
@@ -984,7 +1173,7 @@ public class EcEncryptedValueTest
 		EcIdentityManager.ids = JSCollections.$array();
 		
 		console.log("Trying to retrieve as public...");
-		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>()
+		EcRepository.get(encThingWithReader.shortId(), new Callback1<EcRemoteLinkedData>()
 		{
 			@Override
 			public void $invoke(EcRemoteLinkedData p1)
@@ -1027,7 +1216,7 @@ public class EcEncryptedValueTest
 		});
 		
 		console.log("Deleting as Public...");
-		EcRepository._delete(thing, new Callback1<String>()
+		EcRepository._delete(encThingWithReader, new Callback1<String>()
 		{
 			@Override
 			public void $invoke(String p1)
@@ -1048,7 +1237,7 @@ public class EcEncryptedValueTest
 		
 		EcIdentityManager.addIdentity(newId2);
 		console.log("Deleting as reader...");
-		EcRepository._delete(thing, new Callback1<String>()
+		EcRepository._delete(encThingWithReader, new Callback1<String>()
 		{
 			@Override
 			public void $invoke(String p1)
@@ -1069,8 +1258,62 @@ public class EcEncryptedValueTest
 		EcIdentityManager.ids = JSCollections.$array();
 		EcIdentityManager.addIdentity(newId1);
 		
+		EcEncryptedValue encThingNoReader = new EcEncryptedValue();
+		encThingNoReader.copyFrom(encThingWithReader);
+		
+		encThingNoReader.removeReader(EcPk.fromPem(ppk2.toPk().toPem()));
+		
+		console.log("removing reader...");
+		EcRepository.save(encThingNoReader, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				console.log("Updated without reader.");
+			}
+		}, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				console.log("Failed to remove reader.");
+				console.log(p1);
+				Assert.fail("Failed to remove reader from object.");
+			}
+		});
+		
+	
+		
+		
+		
+		EcIdentityManager.ids = JSCollections.$array();
+		EcIdentityManager.addIdentity(newId2);
+		
+		console.log("Trying to retrieve as other user...");
+		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>()
+		{
+			@Override
+			public void $invoke(EcRemoteLinkedData p1)
+			{
+				console.log("Retrieved encrypted object as other user");
+				if(p1.type != null && !p1.type.equals(""))
+					Assert.fail("Retrieved encrypted object as other user");
+			}
+		}, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				console.log("Access Denied");
+			}
+		});
+		
+		
+		EcIdentityManager.ids = JSCollections.$array();
+		EcIdentityManager.addIdentity(newId1);
+		
 		console.log("Deleting...");
-		EcRepository._delete(thing, new Callback1<String>()
+		EcRepository._delete(encThingNoReader, new Callback1<String>()
 		{
 			@Override
 			public void $invoke(String p1)
@@ -1088,5 +1331,6 @@ public class EcEncryptedValueTest
 		});
 	
 	}
+
 	
 }
