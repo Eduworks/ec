@@ -188,7 +188,6 @@ public class EcFramework extends Framework
 	{
 		EcRepository.DELETE(this, success, failure);
 	}
-=======
 	
 	public static void get(String id, final Callback1<EcFramework> success, final Callback1<String> failure)
 	{

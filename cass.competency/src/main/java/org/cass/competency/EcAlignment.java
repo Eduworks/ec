@@ -2,11 +2,8 @@ package org.cass.competency;
 
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.cass.competency.Relation;
-<<<<<<< .mine
 import org.stjs.javascript.Global;
-=======
 import org.cassproject.schema.general.EcRemoteLinkedData;
->>>>>>> .r178
 import org.stjs.javascript.functions.Callback1;
 
 /**
