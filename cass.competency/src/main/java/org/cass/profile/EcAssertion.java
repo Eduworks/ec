@@ -8,6 +8,7 @@ import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.cass.profile.Assertion;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
+import org.stjs.javascript.Global;
 import org.stjs.javascript.functions.Callback1;
 
 import com.eduworks.ec.crypto.EcPk;
@@ -110,6 +111,17 @@ public class EcAssertion extends Assertion
 		return decryptedString;
 	}
 	
+	public String getDecayFunction()
+	{
+		if (decayFunction == null)
+			return null;
+		EcEncryptedValue v = new EcEncryptedValue();
+		v.copyFrom(decayFunction);
+		String decryptedString = v.decryptIntoString();
+		if (decryptedString == null)
+			return null;
+		return decryptedString;
+	}
 
 	/**
 	 * Sets the subject of an assertion. Makes a few assumptions:
@@ -172,6 +184,64 @@ public class EcAssertion extends Assertion
 	public void setDecayFunction(String decayFunctionText)
 	{
 		decayFunction = EcEncryptedValue.encryptValue(decayFunctionText.toString(), id, "decayFunction", subject.owner, subject.reader);
+	}
+	
+	public void save(Callback1<String> success, Callback1<String> failure){
+		if(competency == null || competency == ""){
+			String msg = "Competency cannot be missing";
+			if(failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return;
+		}
+		
+		if(subject == null){
+			String msg = "Subject cannot be missing";
+			if(failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return;
+		}
+		
+		if(agent == null){
+			String msg = "Subject cannot be missing";
+			if(failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return;
+		}
+		
+		if(confidence == null){
+			String msg = "Confidence cannot be missing";
+			if(failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return;
+		}
+		
+		if(assertionDate == null){
+			String msg = "Assertion Date cannot be missing";
+			if(failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return;
+		}
+		
+		if(decayFunction == null){
+			String msg = "Decay Function cannot be missing";
+			if(failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return;
+		}
+		
+		EcRepository._save(this, success, failure);
 	}
 	
 	public static void get(String id, final Callback1<EcAssertion> success, final Callback1<String> failure)
