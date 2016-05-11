@@ -189,16 +189,22 @@ public class EcRepository
 		Array<String> hostnames = new Array<String>();
 		
 		if (Global.window.location.host != null)
-			hostnames.push(Global.window.location.host, Global.window.location.host.replace(".", ".service."), Global.window.location.host + ":8080",
+			hostnames.push(
+					Global.window.location.host, 
+					Global.window.location.host.replace(".", ".service."), 
+					Global.window.location.host + ":8080",
 					Global.window.location.host.replace(".", ".service.") + ":8080");
 		
 		if (Global.window.location.hostname != null)
-			hostnames.push(Global.window.location.hostname, Global.window.location.hostname.replace(".", ".service."), Global.window.location.hostname
-					+ ":8080", Global.window.location.hostname.replace(".", ".service.") + ":8080");
+			hostnames.push(
+					Global.window.location.hostname, 
+					Global.window.location.hostname.replace(".", ".service."), 
+					Global.window.location.hostname	+ ":8080", 
+					Global.window.location.hostname.replace(".", ".service.") + ":8080");
 		
 		hostnames.push("localhost", "localhost" + ":8080", "localhost" + ":9722");
 		
-		Array<String> servicePrefixes = new Array<String>("/", "/service/", "/api/custom/", "/levr/api/custom/");
+		Array<String> servicePrefixes = new Array<String>("/"+Global.window.location.pathname.split("/")[1]+"/api/custom/","/", "/service/", "/api/custom/", "/levr/api/custom/");
 		for (int i = 0; i < protocols.$length(); i++)
 			for (int j = 0; j < hostnames.$length(); j++)
 				for (int k = 0; k < servicePrefixes.$length(); k++)

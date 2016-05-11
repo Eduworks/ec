@@ -15,6 +15,8 @@ public class Assertion extends Thing
 	}
 	//URL of the competency.
 	public String competency;
+	//URL of the framework within which the assertion is restricted.
+	public String framework;
 	//URL of the level, or null if 'held'. This record will not exist for 'not held'.
 	public String level;
 	//PK of the recipient of the assertion. This is private.

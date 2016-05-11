@@ -1,6 +1,7 @@
 package com.eduworks.ec.crypto;
 
 import forge.sha1;
+import forge.sha256;
 import forge.util;
 
 public class EcRsaOaep
@@ -18,6 +19,13 @@ public class EcRsaOaep
 	public static String sign(EcPpk ppk, String text)
 	{
 		sha1 s = sha1.create();
+		s.update(text, "utf8");
+		return util.encode64(ppk.ppk.sign(s));
+	}
+
+	public static String signSha256(EcPpk ppk, String text)
+	{
+		sha256 s = sha256.create();
 		s.update(text, "utf8");
 		return util.encode64(ppk.ppk.sign(s));
 	}

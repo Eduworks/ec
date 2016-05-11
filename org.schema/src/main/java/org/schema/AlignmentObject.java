@@ -5,7 +5,7 @@ public class AlignmentObject extends Thing
 	protected AlignmentObject()
 	{
 		schema = "http://schema.org/";
-		type = "http://schema.org/Thing";
+		type = "http://schema.org/AlignmentObject";
 	}
 	public String alignmentType;
 	public String educationalFramework;

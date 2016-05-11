@@ -205,5 +205,6 @@
 		<module>org.cassproject.schema.ebac</module>
 		<module>org.cassproject.schema.cass</module>
 		<module>cass.competency</module>
+		<module>cass.rollup</module>
 	</modules>
 </project>

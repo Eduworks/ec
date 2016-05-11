@@ -25,12 +25,12 @@ public class CreativeWork extends Thing {
 	public Person character;
 	public Object citation;
 	public Object comment;
-	public int commentCount;
+	public Integer commentCount;
 	public Object contentLocation;
 	public String contentRating;
 	public Thing contributor; // Person or Organization
 	public Thing copyrightHolder; // Person or Organization
-	public int copyrightYear;
+	public Integer copyrightYear;
 	public Thing creator; // Person or Organization
 	public Date dateCreated;
 	public Date dateModified;
@@ -49,7 +49,7 @@ public class CreativeWork extends Thing {
 	public Object interactionStatistic;
 	public String interactivityType; // 'active', 'expositive' or 'mixed'
 	public String isBasedOnUrl;
-	public boolean isFamilyFriendly;
+	public Boolean isFamilyFriendly;
 	public CreativeWork isPartOf;
 	public String keywords;
 	public String learningResourceType;
@@ -74,7 +74,7 @@ public class CreativeWork extends Thing {
 	public Object timeRequired;
 	public Thing translator; // Person or Organization
 	public String typicalAgeRange;
-	public int version;
+	public Integer version;
 	public Object video;
 	public CreativeWork workExample;
 }

@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>Rollup Language Tester</title>
+</head>
+<body>
+
+<textarea id="pk" placeholder="Put pk in here.">
+-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxjVHh2o9qOKNCqMS9d9Hzi3mUPKb5+2zrf3CY0+YtndJAVSnA0kZLoQJqGcyFZ5r2mEeK3EF1pM97lViRCQ2CBIwN/Ou4gxlL5clVyRrM8Y2R73CBTPjVDj3nOlkhwVAFJAq9z8HohkJ9SAX5S6+/T1PYT/6R+sWLqbFdKEKq/BYnlr5i6Mvd7iiXWbzjNqb7Ig7Vfbnarfo/QyWNBZ8RdRFDEjQ7WmKgZTLC9T1DDg2TbdLPv4NL9CVzDlqZumtib5Hz2cX4bAgHJHTyWToIaDenWf8GRhI1Amuvt2zJ4wIANXMmffzwwNL5IL+Q/Kitt5AIC1zUpJL/rqFjc9n3wIDAQAB-----END PUBLIC KEY-----
+</textarea>
+<br>
+<textarea id="text" placeholder="Put rule in here.">
+[competency:http://skyrepo.eduworks.com/service/data/schema.eduworks.com.cass.0.1.competency/d885dcd8-f00b-4ccf-82d8-ee14d6c84ef0 AND confidence>0.6] AND
+[competency:http://skyrepo.eduworks.com/service/data/schema.eduworks.com.cass.0.1.competency/31971023-5d61-42c0-bc64-ae8e8b7f0d09 AND confidence>0.6 ] AND
+[competency:http://skyrepo.eduworks.com/service/data/schema.eduworks.com.cass.0.1.competency/625c9e61-2503-401a-8df7-c9f14133ce95 AND confidence>0.6] AND
+[competency:http://skyrepo.eduworks.com/service/data/schema.eduworks.com.cass.0.1.competency/0a2ea5e4-b5b4-461e-a19c-d17772da4d16 AND confidence>0.6]
+</textarea>
+
+<p id="log"></p>
+    
+<input onclick="parse();" type="submit">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script src="lib/require.js"></script>
+<script>
+    var antlr4 = require('antlr4/index');
+    var RollupListener = require("antlr4/RollupListener.js");
+    var RollupParser = require("antlr4/RollupParser.js");
+    var RollupLexer = require("antlr4/RollupLexer.js");
+</script>
+<script src="js/rollup.js"></script>
+<script>
+    parse();
+</script>
+
+
+</body>
+</html>

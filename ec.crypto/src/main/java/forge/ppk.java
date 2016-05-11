@@ -18,7 +18,7 @@ public class ppk
 		return null;
 	}
 
-	public payload sign(sha1 sha1)
+	public payload sign(Object sha1)
 	{
 		return null;
 	}

@@ -8,11 +8,7 @@
 		<artifactId>ec</artifactId>
 		<version>0.0.1</version>
 	</parent>
-	<groupId>com.eduworks</groupId>
 	<artifactId>cass.competency</artifactId>
-	<version>0.0.1</version>
-	<name>cass.competency</name>
-	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>

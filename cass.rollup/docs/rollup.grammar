@@ -1,0 +1,17 @@
+[competency:Addition AND confidence>0.6] AND
+[competency:Subtraction AND confidence>0.6] AND
+[competency:Multiplication AND confidence>0.6] AND
+[competency:Division AND confidence>0.6]
+
+NUMBER : (0-9)+(.(0-9)+)?
+BOOLEAN : "true" | "false"
+LOGICAL_OPERATOR : "AND" | "OR"
+MATH_OPERATOR : "+" | "-" | "*" | "/"
+QUANTATIVE_OPERATOR : "=" | ":" | "<" | ">" | "<=" | ">=" | "!="
+WS : " " WS? | "\t" WS? | "\n" WS? | "\r\n" WS?
+
+S : TOKEN WS? (LOGICAL_OR_MATH_OPERATOR WS? TOKEN)*
+TOKEN : NUMBER | QUERY | BOOLEAN
+QUERY : "[" WS? INNERQUERY WS? "]"
+INNERQUERY : KEY WS? QUANTATIVE_OPERATOR WS? VALUE WS? (LOGICAL_OPERATOR WS? INNERQUERY)*
+LOGICAL_OR_MATH_OPERATOR : LOGICAL_OPERATOR | MATH_OPERATOR

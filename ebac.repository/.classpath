@@ -24,5 +24,10 @@
 	</classpathentry>
 	<classpathentry kind="src" path="/org.schema"/>
 	<classpathentry kind="src" path="/ebac.identity"/>
+	<classpathentry excluding="**" kind="src" output="target/test-classes" path="src/test/resources">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

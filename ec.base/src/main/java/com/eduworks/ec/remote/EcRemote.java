@@ -3,8 +3,10 @@ package com.eduworks.ec.remote;
 import static org.stjs.javascript.JSGlobal.JSON;
 import static org.stjs.javascript.jquery.GlobalJQuery.$;
 
+import org.stjs.javascript.Global;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
+import org.stjs.javascript.Window;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback3;
 import org.stjs.javascript.jquery.AjaxParams;
@@ -87,6 +89,9 @@ public class EcRemote
 		p.success = successCallback;
 		p.error = failureCallback;
 
+		//Upgrade protocol to avoid mixed active content
+		if (p.url.indexOf(Global.window.location.protocol) == -1)
+			p.url = p.url.replace("http", "https");
 		$.ajax(p);
 	}
 
@@ -128,6 +133,9 @@ public class EcRemote
 		p.success = successCallback;
 		p.error = failureCallback;
 
+		//Upgrade protocol to avoid mixed active content
+		if (p.url.indexOf(Global.window.location.protocol) == -1)
+			p.url = p.url.replace("http", "https");
 		$.ajax(p);
 	}
 	public static void _delete(String url, String signatureSheet, final Callback1<String> success, final Callback1<String> failure)
