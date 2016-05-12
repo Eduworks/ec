@@ -76,6 +76,9 @@ public class EcRemoteLinkedData extends EcLinkedData
 	 */
 	public boolean hasOwner(EcPk pk)
 	{
+		if(owner == null)
+			return false;
+		
 		String pkPem = pk.toPem();
 		for (int i = 0; i < owner.$length(); i++)
 			// Homogenizing the owner's PEM string.
@@ -231,13 +234,13 @@ public class EcRemoteLinkedData extends EcLinkedData
 	{
 		if (id == null)
 			return true;
-		if (id.contains("http://") == false)
+		if (id.contains("http://") == false && id.contains("https://") == false)
 			return true;
 		if (schema == null)
 			return true;
 		if (getFullType() == null)
 			return true;
-		if (getFullType().contains("http://") == false)
+		if (getFullType().contains("http://") == false && getFullType().contains("https://") == false )
 			return true;
 		return false;
 	}
