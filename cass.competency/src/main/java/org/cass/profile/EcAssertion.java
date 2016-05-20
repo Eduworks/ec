@@ -132,7 +132,9 @@ public class EcAssertion extends Assertion
 	public void setSubject(EcPk pk)
 	{
 		Array<String> owners = new Array<String>();
-		Array<String> readers = new Array<String>();
+		Array<String> readers = reader;
+		if(readers == null)
+			readers = new Array<String>();
 		if (subject != null)
 		{
 			owners.concat(subject.owner);
