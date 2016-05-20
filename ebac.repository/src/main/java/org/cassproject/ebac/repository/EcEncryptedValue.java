@@ -36,6 +36,8 @@ public class EcEncryptedValue extends EbacEncryptedValue
 
 	public static EcEncryptedValue toEncryptedValue(EcRemoteLinkedData d, boolean hideType)
 	{
+		d.updateTimestamp();
+		
 		EcEncryptedValue v = new EcEncryptedValue();
 
 		if (!hideType)
@@ -44,6 +46,7 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		String newSecret = EcAes.newIv(32);
 		v.payload = EcAesCtr.encrypt(d.toJson(), newSecret, newIv);
 		v.owner = d.owner;
+		v.reader = d.reader;
 		v.id = d.id;
 		if (JSObjectAdapter.$get(d, "name") != null)
 			v.name = (String) JSObjectAdapter.$get(d, "name");
@@ -56,6 +59,15 @@ public class EcEncryptedValue extends EbacEncryptedValue
 			if (v.secret == null)
 				v.secret = new Array<String>();
 			v.secret.push(EcRsaOaep.encrypt(EcPk.fromPem(d.owner.$get(i)), eSecret.toEncryptableJson()));
+		}
+		for (int i = 0; i < d.reader.$length(); i++)
+		{
+			EbacEncryptedSecret eSecret = new EbacEncryptedSecret();
+			eSecret.iv = newIv;
+			eSecret.secret = newSecret;
+			if (v.secret == null)
+				v.secret = new Array<String>();
+			v.secret.push(EcRsaOaep.encrypt(EcPk.fromPem(d.reader.$get(i)), eSecret.toEncryptableJson()));
 		}
 		return v;
 	}
@@ -230,11 +242,19 @@ public class EcEncryptedValue extends EbacEncryptedValue
 				continue;
 			EcRemoteLinkedData decrypted = new EcRemoteLinkedData("", "");
 			decrypted.copyFrom((EcRemoteLinkedData) JSGlobal.JSON.parse(decryptRaw));
+			decrypted.privateEncrypted = true;
 			return (EcRemoteLinkedData) decrypted.deAtify();
 		}
 		return null;
 	}
-
+	
+	
+	public boolean isAnEncrypted(String type){
+		if(this.encryptedType == null)
+			return false;
+		return this.encryptedType.equals(type);
+	}
+	
 	/**
 	 * Adds a reader to the object, if the reader does not exist.
 	 * 
