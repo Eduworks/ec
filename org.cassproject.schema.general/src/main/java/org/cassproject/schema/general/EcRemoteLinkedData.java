@@ -1,5 +1,7 @@
 package org.cassproject.schema.general;
 
+
+
 import org.json.ld.EcLinkedData;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Date;
@@ -37,11 +39,28 @@ public class EcRemoteLinkedData extends EcLinkedData
 	 * string.
 	 */
 	public Array<String> signature;
+	
 	/**
 	 * URL/URI used to retrieve and store the object, plus identify the object.
 	 */
 	public String id;
+	
+	public boolean privateEncrypted;
+	
+	/**
+	 * PEM encoded public keys of identities authorized to view the object. A
+	 * repository will ignore write operations from these identities, but will
+	 * allow them to read the object.
+	 */
+	public Array<String> reader;
 
+	/**
+	 * Array of EbacEncryptedSecret objects encoded in Base-64, encrypted using
+	 * RSA public keys of owners or readers (or unknown parties) to allow them
+	 * access to the payload.
+	 */
+	public Array<String> secret;
+	
 	public EcRemoteLinkedData(String schema, String type)
 	{
 		super(schema, type);
@@ -223,7 +242,41 @@ public class EcRemoteLinkedData extends EcLinkedData
 			if (owner.$get(i).equals(pem))
 				owner.splice(i, 1);
 	}
+	
+	/**
+	 * Adds a reader to the object, if the reader does not exist.
+	 * 
+	 * @param newReader
+	 *            PK of the new reader.
+	 */
+	public void addReader(EcPk newReader)
+	{
+		String pem = newReader.toPem();
+		if (reader == null)
+			reader = new Array<String>();
+		for (int i = 0; i < reader.$length(); i++)
+			if (reader.$get(i).equals(pem))
+				return;
+		reader.push(pem);
+	}
 
+	/**
+	 * Removes a reader from the object, if the reader does exist.
+	 * 
+	 * @param oldReader
+	 *            PK of the old reader.
+	 */
+	public void removeReader(EcPk oldReader)
+	{
+		String pem = oldReader.toPem();
+		if (reader == null)
+			reader = new Array<String>();
+		for (int i = 0; i < reader.$length(); i++)
+			if (reader.$get(i).equals(pem))
+				reader.splice(i, 1);
+	}
+	
+	
 	/**
 	 * Determines if the object will survive and be retreivable from a server,
 	 * should it be written.
