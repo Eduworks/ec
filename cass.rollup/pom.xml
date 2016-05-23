@@ -6,7 +6,7 @@
 		<artifactId>ec</artifactId>
 		<version>0.0.1</version>
 	</parent>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<artifactId>cass.rollup</artifactId>
 	<dependencies>
 		<dependency>

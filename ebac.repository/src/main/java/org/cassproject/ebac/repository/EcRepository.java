@@ -190,7 +190,10 @@ public class EcRepository
 	public void autoDetectRepository()
 	{
 		EcRemote.async = false;
-		Array<String> protocols = new Array<String>("http:", "https:");
+		Array<String> protocols = new Array<String>();
+		protocols.push("https:");
+		if (Global.window.location.protocol == "http:")
+			protocols.push("http:");
 		Array<String> hostnames = new Array<String>();
 		
 		if (Global.window.location.host != null)
