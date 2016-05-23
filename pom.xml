@@ -9,10 +9,12 @@
 
 	<name>ec</name>
 	<url>http://maven.apache.org</url>
+	
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<stjs.version>3.2.2</stjs.version>
+		<tools_location>/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/lib/tools.jar</tools_location>
 	</properties>
 
 	<dependencies>
@@ -21,7 +23,7 @@
 			<artifactId>tools</artifactId>
 			<version>1.7.0</version>
 			<scope>system</scope>
-			<systemPath>C:/java/jdk1.7.0_51/lib/tools.jar</systemPath>
+			<systemPath>${tools_location}</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.st-js.bridge</groupId>
