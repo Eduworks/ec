@@ -137,7 +137,6 @@ public class EcEncryptedValue extends EbacEncryptedValue
 
 	public EcRemoteLinkedData decryptIntoObject()
 	{
-		EcRemoteLinkedData d = null;
 		// See if I am an owner.
 		if (owner != null)
 			for (int i = 0; i < owner.$length(); i++)

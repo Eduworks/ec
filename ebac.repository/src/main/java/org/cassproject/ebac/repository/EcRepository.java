@@ -391,7 +391,7 @@ public class EcRepository
 			JSObjectAdapter.$properties(cache).$delete(data.id);
 			JSObjectAdapter.$properties(cache).$delete(data.shortId());
 		}
-		EcRemote._delete(data.shortId(), EcIdentityManager.signatureSheetFor(data.owner, 60000, data.id), success, failure);
+		EcRemote._delete(data.shortId(), EcIdentityManager.signatureSheet(60000, data.id), success, failure);
 	}
 
 	public static void sign(EcRemoteLinkedData data, EcPpk pen)
