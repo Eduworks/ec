@@ -66,7 +66,7 @@ public class EcRepository
 	 * @param failure
 	 *            Event to call upon spectacular failure.
 	 */
-	public static void get(String url, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure)
+	public static void get(final String url, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure)
 	{
 		if (caching)
 			if (JSObjectAdapter.$get(cache, url) != null)
@@ -226,9 +226,9 @@ public class EcRepository
 
 	public boolean autoDetectFound = false;
 
-	public boolean autoDetectRepositoryActual(String guess)
+	public boolean autoDetectRepositoryActual(final String guess)
 	{
-		EcRepository me = this;
+		final EcRepository me = this;
 		Callback1<Object> successCheck = new Callback1<Object>()
 		{
 			@Override

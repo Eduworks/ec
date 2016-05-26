@@ -151,7 +151,7 @@ public class EcCompetencyTest {
 		
 		
 		Global.console.log("Creating Relationship..");
-		EcAlignment rel = comp.addAlignment(comp2, "requires", ppk, server, new Callback1<String>() {
+		final EcAlignment rel = comp.addAlignment(comp2, "requires", ppk, server, new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
 				Global.console.log("Relationship Created");
@@ -228,7 +228,7 @@ public class EcCompetencyTest {
 	public void competencyAddRemoveLevelTest(){
 		
 		Global.console.log("Creating Level...");
-		EcLevel lev = comp.addLevel("Level Test", "Description of level Test", ppk, server, new Callback1<String>() {
+		final EcLevel lev = comp.addLevel("Level Test", "Description of level Test", ppk, server, new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
 				Global.console.log("Level Created");
@@ -338,7 +338,7 @@ public class EcCompetencyTest {
 	@Test
 	public void deleteCompetencyTest(){
 		
-		EcCompetency toDelete = new EcCompetency();
+		final EcCompetency toDelete = new EcCompetency();
 		toDelete.generateId(server);
 		toDelete.name = "Competency To Delete";
 		toDelete.addOwner(ppk.toPk());

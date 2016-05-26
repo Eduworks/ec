@@ -52,7 +52,7 @@ public class User {
 	}
 	
 	
-	public static void createUser(String username, String password, Callback1<Object> success, Callback1<String> failure)
+	public static void createUser(String username, String password, final Callback1<Object> success, Callback1<String> failure)
 	{
 		UserManager.createUser(username, password, new Callback1<Object>() {
 			

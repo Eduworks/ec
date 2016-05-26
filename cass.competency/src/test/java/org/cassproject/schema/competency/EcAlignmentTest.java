@@ -312,7 +312,7 @@ public class EcAlignmentTest {
 	
 	@Test
 	public void deleteAlignmentTest(){
-		EcAlignment toDelete = new EcAlignment();
+		final EcAlignment toDelete = new EcAlignment();
 		toDelete.generateId(server);
 		toDelete.name = "Relation To Delete";
 		toDelete.source = sourceComp.shortId();

@@ -162,9 +162,9 @@ public class EcCompetency extends Competency
 		}
 	}
 	
-	public void _delete(Callback1<String> success, Callback1<String> failure, EcRepository repo)
+	public void _delete(final Callback1<String> success, final Callback1<String> failure, final EcRepository repo)
 	{
-		EcCompetency me = this;
+		final EcCompetency me = this;
 		EcRepository.DELETE(this, new Callback1<String>(){
 			@Override
 			public void $invoke(String p1) {

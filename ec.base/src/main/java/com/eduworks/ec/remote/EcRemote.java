@@ -91,7 +91,8 @@ public class EcRemote
 
 		//Upgrade protocol to avoid mixed active content
 		if (p.url.indexOf(Global.window.location.protocol) == -1)
-			p.url = p.url.replace("http", "https");
+			if (!p.url.startsWith("https"))
+				p.url = p.url.replace("http", "https");
 		$.ajax(p);
 	}
 
@@ -135,6 +136,7 @@ public class EcRemote
 
 		//Upgrade protocol to avoid mixed active content
 		if (p.url.indexOf(Global.window.location.protocol) == -1)
+			if (!p.url.startsWith("https"))
 			p.url = p.url.replace("http", "https");
 		$.ajax(p);
 	}
@@ -172,6 +174,7 @@ public class EcRemote
 
 		//Upgrade protocol to avoid mixed active content
 		if (p.url.indexOf(Global.window.location.protocol) == -1)
+			if (!p.url.startsWith("https"))
 			p.url = p.url.replace("http", "https");
 		$.ajax(p);
 	}

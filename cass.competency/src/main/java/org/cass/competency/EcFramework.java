@@ -77,10 +77,10 @@ public class EcFramework extends Framework
 		}
 	}
 
-	private void removeRelationshipsThatInclude(String id, int i, final Callback1<String> success, final Callback1<String> failure)
+	private void removeRelationshipsThatInclude(final String id, final int i, final Callback1<String> success, final Callback1<String> failure)
 	{
 		final String shortId = trimVersionFromUrl(id);
-		EcFramework me = this;
+		final EcFramework me = this;
 		if (i >= relation.$length() && success != null)
 			success.$invoke("");
 		else
@@ -102,10 +102,10 @@ public class EcFramework extends Framework
 			}, failure);
 	}
 
-	private void removeLevelsThatInclude(String id, int i, final Callback1<String> success, final Callback1<String> failure)
+	private void removeLevelsThatInclude(final String id, final int i, final Callback1<String> success, final Callback1<String> failure)
 	{ 
 		final String shortId = trimVersionFromUrl(id);
-		EcFramework me = this;
+		final EcFramework me = this;
 		if (i >= level.$length() && success != null)
 			success.$invoke("");
 		else

@@ -255,7 +255,7 @@ public class EcLevelTest {
 	@Test
 	public void deleteLevelTest(){
 		
-		EcLevel toDelete = new EcLevel();
+		final EcLevel toDelete = new EcLevel();
 		toDelete.generateId(server);
 		toDelete.name = "Competency To Delete";
 		toDelete.addOwner(ppk.toPk());

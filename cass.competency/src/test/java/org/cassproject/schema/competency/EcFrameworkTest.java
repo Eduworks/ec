@@ -268,7 +268,7 @@ public class EcFrameworkTest {
 	
 	@Test
 	public void updateFrameworkInfoTest(){
-		EcFramework editedFramework = new EcFramework();
+		final EcFramework editedFramework = new EcFramework();
 		editedFramework.copyFrom(framework);
 		editedFramework.name = "Updated Name";
 		editedFramework.description = "Updated Description";
@@ -304,7 +304,7 @@ public class EcFrameworkTest {
 	
 	@Test
 	public void updateFrameworkNoNameTest(){
-		EcFramework editedFramework = new EcFramework();
+		final EcFramework editedFramework = new EcFramework();
 		editedFramework.copyFrom(framework);
 		editedFramework.name = "";
 		editedFramework.description = "Updated Description";
@@ -415,7 +415,7 @@ public class EcFrameworkTest {
 		EcFramework frameworkCompRemoved = new EcFramework();
 		frameworkCompRemoved.copyFrom(framework);
 		
-		int compSize = framework.competency == null ? 0 : frameworkCompRemoved.competency.$length();
+		final int compSize = framework.competency == null ? 0 : frameworkCompRemoved.competency.$length();
 		frameworkCompRemoved.removeCompetency(comp.id, null, null);
 		
 		Global.console.log("Updating Framework...");
@@ -528,7 +528,7 @@ public class EcFrameworkTest {
 		EcFramework frameworkCompRemoved = new EcFramework();
 		frameworkCompRemoved.copyFrom(framework);
 		
-		int levelSize = framework.level == null ? 0 : frameworkCompRemoved.level.$length();
+		final int levelSize = framework.level == null ? 0 : frameworkCompRemoved.level.$length();
 		frameworkCompRemoved.removeLevel(level.id);
 		
 		Global.console.log("Updating Framework...");
@@ -639,7 +639,7 @@ public class EcFrameworkTest {
 		EcFramework frameworkCompRemoved = new EcFramework();
 		frameworkCompRemoved.copyFrom(framework);
 		
-		int relSize = framework.relation == null ? 0 : frameworkCompRemoved.relation.$length();
+		final int relSize = framework.relation == null ? 0 : frameworkCompRemoved.relation.$length();
 		frameworkCompRemoved.removeRelation(rel.id);
 		
 		Global.console.log("Updating Framework...");
