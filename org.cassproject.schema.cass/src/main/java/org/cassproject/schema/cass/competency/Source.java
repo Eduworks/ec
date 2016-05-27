@@ -6,7 +6,7 @@ import org.schema.Thing;
 
 public class Source extends Thing
 {
-	public static final String myType = "http://schema.eduworks.com/cass/0.1/source";
+	public static final String myType = "http://schema.eduworks.com/cass/0.2/source";
 	public Source()
 	{
 		context = Cass.context;

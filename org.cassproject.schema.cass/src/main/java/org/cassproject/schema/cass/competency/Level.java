@@ -7,7 +7,7 @@ import org.stjs.javascript.Array;
 
 public class Level extends Thing
 {
-	public static final String myType = "http://schema.eduworks.com/cass/0.1/level";
+	public static final String myType = "http://schema.eduworks.com/cass/0.2/level";
 	public Level()
 	{
 		context = Cass.context;

@@ -10,7 +10,7 @@ import com.eduworks.ec.blob.BlobHelper;
  */
 public class EcFile extends EcRemoteLinkedData
 {
-	public static final String type = "http://schema.eduworks.com/general/0.1/file";
+	public static final String type = "http://schema.eduworks.com/general/0.2/file";
 
 	public EcFile()
 	{

@@ -44,7 +44,7 @@ onQueryExit = function(ctx)
     log();
     log("Executing Query...");
     log("http://skyrepo.service.eduworks.com/sky/repo/search")
-    log("query      = (@type:\"http://schema.eduworks.com/cass/0.1/assertion\" AND (" + query.trim() + "))");
+    log("query      = (@type:\"http://schema.eduworks.com/cass/0.2/assertion\" AND (" + query.trim() + "))");
     log("individual = "+$("#pk").val());
     log();
     var rand = Math.round(Math.random() * 2);

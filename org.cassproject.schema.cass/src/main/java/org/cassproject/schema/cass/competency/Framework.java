@@ -14,7 +14,7 @@ import org.stjs.javascript.Array;
  */
 public class Framework extends Thing
 {
-	public static final String myType = "http://schema.eduworks.com/cass/0.1/framework";
+	public static final String myType = "http://schema.eduworks.com/cass/0.2/framework";
 	public Framework()
 	{
 		context = Cass.context;

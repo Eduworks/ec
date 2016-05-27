@@ -13,7 +13,7 @@ import org.stjs.javascript.Array;
  */
 public class Competency extends Thing
 {
-	public static final String myType = "http://schema.eduworks.com/cass/0.1/competency";
+	public static final String myType = "http://schema.eduworks.com/cass/0.2/competency";
 	public Competency()
 	{
 		context = Cass.context;

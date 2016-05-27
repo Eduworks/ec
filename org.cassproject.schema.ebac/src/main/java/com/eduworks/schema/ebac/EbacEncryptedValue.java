@@ -11,7 +11,7 @@ import org.stjs.javascript.Array;
  */
 public class EbacEncryptedValue extends EcRemoteLinkedData
 {
-	public static final String type = "http://schema.eduworks.com/ebac/0.1/encryptedValue";
+	public static final String type = "http://schema.eduworks.com/ebac/0.2/encryptedValue";
 
 	public EbacEncryptedValue()
 	{

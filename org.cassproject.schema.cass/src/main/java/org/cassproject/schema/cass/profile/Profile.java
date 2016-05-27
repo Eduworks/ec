@@ -14,7 +14,7 @@ import org.stjs.javascript.Array;
  */
 public class Profile extends Thing
 {
-	public static final String myType = "http://schema.eduworks.com/cass/0.1/profile";
+	public static final String myType = "http://schema.eduworks.com/cass/0.2/profile";
 	public Profile()
 	{
 		context = Cass.context;

@@ -13,7 +13,7 @@ public class EbacSignature extends EcLinkedData
 {
 	public EbacSignature()
 	{
-		super(Ebac.context, "http://schema.eduworks.com/ebac/0.1/timeLimitedSignature");
+		super(Ebac.context, "http://schema.eduworks.com/ebac/0.2/timeLimitedSignature");
 	}
 
 	/**

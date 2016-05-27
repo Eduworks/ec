@@ -15,7 +15,7 @@ public class EbacCredentialCommit extends EcLinkedData
 {
 	public EbacCredentialCommit()
 	{
-		super(Ebac.context, "http://schema.eduworks.com/ebac/0.1/credentialCommit");
+		super(Ebac.context, "http://schema.eduworks.com/ebac/0.2/credentialCommit");
 		credentials = new EbacCredentials();
 	}
 

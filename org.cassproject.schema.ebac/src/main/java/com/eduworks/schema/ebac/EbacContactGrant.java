@@ -15,7 +15,7 @@ public class EbacContactGrant extends EcRemoteLinkedData
 {
 	public EbacContactGrant()
 	{
-		super(Ebac.context, "http://schema.eduworks.com/ebac/0.1/contactGrant");
+		super(Ebac.context, "http://schema.eduworks.com/ebac/0.2/contactGrant");
 	}
 
 	public String iv;

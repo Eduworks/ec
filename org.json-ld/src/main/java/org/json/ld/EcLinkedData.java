@@ -175,11 +175,17 @@ public class EcLinkedData
 	{
 		Map<String, Object> me = JSObjectAdapter.$properties(this);
 		Map<String, Object> you = JSObjectAdapter.$properties(that);
+		//Wedge, as old versions use @schema instead of @context. This fixes that.
+		if (me.$get("@context") == null && me.$get("@schema") != null)
+			me.$put("@context", me.$get("@schema"));
 		for (String key : you)
 		{
 			if (me.$get(key) == null)
 				me.$put(key.replace("@", ""), you.$get(key));
 		}
+		//Wedge, as old versions use @schema instead of @context. This fixes that.
+		if (me.$get("context") == null && me.$get("schema") != null)
+			me.$put("context", me.$get("schema"));
 	}
 
 	/**

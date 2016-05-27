@@ -6,7 +6,7 @@ import com.eduworks.schema.ebac.EbacContactGrant;
 
 public class EcContactGrant extends EbacContactGrant
 {
-	public static String myType = "http://schema.eduworks.com/ebac/0.1/contactGrant";
+	public static String myType = "http://schema.eduworks.com/ebac/0.2/contactGrant";
 	public boolean valid()
 	{
 		if (!verify()) return false;
