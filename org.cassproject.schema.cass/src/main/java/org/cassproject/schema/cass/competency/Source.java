@@ -9,7 +9,7 @@ public class Source extends Thing
 	public static final String myType = "http://schema.eduworks.com/cass/0.1/source";
 	public Source()
 	{
-		schema = Cass.schema;
+		context = Cass.context;
 		type = myType;
 	}
 	public EntryPoint target;

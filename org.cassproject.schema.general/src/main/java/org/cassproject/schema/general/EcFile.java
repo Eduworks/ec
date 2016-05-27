@@ -14,7 +14,7 @@ public class EcFile extends EcRemoteLinkedData
 
 	public EcFile()
 	{
-		super(General.schema, type);
+		super(General.context, type);
 	}
 
 	/**

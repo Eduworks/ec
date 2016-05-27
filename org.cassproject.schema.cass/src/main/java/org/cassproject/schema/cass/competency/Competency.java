@@ -16,7 +16,7 @@ public class Competency extends Thing
 	public static final String myType = "http://schema.eduworks.com/cass/0.1/competency";
 	public Competency()
 	{
-		schema = Cass.schema;
+		context = Cass.context;
 		type = myType;
 	}
 	public String scope;

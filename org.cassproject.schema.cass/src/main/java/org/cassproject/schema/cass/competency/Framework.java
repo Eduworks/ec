@@ -17,7 +17,7 @@ public class Framework extends Thing
 	public static final String myType = "http://schema.eduworks.com/cass/0.1/framework";
 	public Framework()
 	{
-		schema = Cass.schema;
+		context = Cass.context;
 		type = myType;
 	}
 	public Array<String> competency;

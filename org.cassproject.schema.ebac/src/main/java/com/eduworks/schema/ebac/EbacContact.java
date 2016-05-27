@@ -14,7 +14,7 @@ public class EbacContact extends EcLinkedData
 {
 	public EbacContact()
 	{
-		super(Ebac.schema, "http://schema.eduworks.com/ebac/0.1/contact");
+		super(Ebac.context, "http://schema.eduworks.com/ebac/0.1/contact");
 	}
 
 	/**

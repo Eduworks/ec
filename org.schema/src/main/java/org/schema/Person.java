@@ -6,7 +6,7 @@ public class Person extends Thing {
 	
 	public Person()
 	{
-		schema = "http://schema.org/";
+		context = "http://schema.org/";
 		type = "http://schema.org/Person";
 	}
 	public String additionalName;

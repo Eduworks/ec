@@ -83,7 +83,7 @@ public class EcRepository
 			{
 				EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
 				d.copyFrom(p1);
-				if(d.schema == ""){
+				if(d.context == ""){
 					failure.$invoke(Global.JSON.stringify(p1));
 					return;
 				}

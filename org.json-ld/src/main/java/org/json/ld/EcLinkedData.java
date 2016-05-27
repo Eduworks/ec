@@ -17,13 +17,13 @@ public class EcLinkedData
 	 */
 	public String type;
 	/**
-	 * Represents the @schema field in JSON-LD.
+	 * Represents the @context field in JSON-LD.
 	 */
-	public String schema;
+	public String context;
 
-	public EcLinkedData(String schema, String type)
+	public EcLinkedData(String context, String type)
 	{
-		this.schema = schema;
+		this.context = context;
 		this.type = type;
 	}
 
@@ -145,14 +145,13 @@ public class EcLinkedData
 
 	/**
 	 * Gets the fully qualified type name, as JSON-LD allows the "namespace" of
-	 * the type to be defined in @schema.
+	 * the type to be defined in @context.
 	 * 
 	 * @return Fully qualified type name.
 	 */
 	public String getFullType()
 	{
-		String computedType = schema;
-		// Someone confused Context with Schema. Don't do this!
+		String computedType = context;
 		if (this.type.contains("http") == false && computedType.contains("http") == false)
 			computedType = JSObjectAdapter.$properties(this).$get("context").toString();
 		if (!computedType.endsWith("/"))

@@ -711,7 +711,7 @@ public class EcFrameworkTest {
 		EcRepository.get(toDelete.id, new Callback1<EcRemoteLinkedData>() {
 			@Override
 			public void $invoke(EcRemoteLinkedData p1) {
-				if(p1.schema != "" || p1.type != "")
+				if(p1.context != "" || p1.type != "")
 					Assert.fail("Shouldn't be able to Retreive Framework after delete");
 			}
 		}, null);

@@ -7,7 +7,7 @@ public class Organization extends Thing {
 	
 	public Organization()
 	{
-		schema = "http://schema.org/";
+		context = "http://schema.org/";
 		type = "http://schema.org/Organization";
 	}
 	public String address;

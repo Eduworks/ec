@@ -14,7 +14,7 @@ public class EbacCredentials extends EcLinkedData
 {
 	public EbacCredentials()
 	{
-		super(Ebac.schema, "http://schema.eduworks.com/ebac/0.1/credentials");
+		super(Ebac.context, "http://schema.eduworks.com/ebac/0.1/credentials");
 	}
 
 	/**

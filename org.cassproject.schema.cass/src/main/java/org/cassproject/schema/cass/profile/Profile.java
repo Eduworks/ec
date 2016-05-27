@@ -17,7 +17,7 @@ public class Profile extends Thing
 	public static final String myType = "http://schema.eduworks.com/cass/0.1/profile";
 	public Profile()
 	{
-		schema = Cass.schema;
+		context = Cass.context;
 		type = myType;
 	}
 	String person;

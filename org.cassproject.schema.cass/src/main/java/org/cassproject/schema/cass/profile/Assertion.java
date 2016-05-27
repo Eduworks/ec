@@ -10,7 +10,7 @@ public class Assertion extends Thing
 	public static final String myType = "http://schema.eduworks.com/cass/0.1/assertion";
 	public Assertion()
 	{
-		schema = Cass.schema;
+		context = Cass.context;
 		type = myType;
 	}
 	//URL of the competency.

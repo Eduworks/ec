@@ -24,7 +24,7 @@ public class EbacEncryptedSecret extends EcLinkedData
 {
 	public EbacEncryptedSecret()
 	{
-		super(Ebac.schema, "http://schema.eduworks.com/ebac/0.1/encryptedSecret");
+		super(Ebac.context, "http://schema.eduworks.com/ebac/0.1/encryptedSecret");
 	}
 
 	/**

@@ -32,7 +32,7 @@ public class EcRemoteLinkedDataTest
 		console.log("Signable JSON: " + signableJson);
 		assertTrue("No Tabs.", signableJson.indexOf("\t") == -1);
 		assertTrue("No Spaces.", signableJson.indexOf(" ") == -1);
-		assertTrue("@Schema before @Type", signableJson.indexOf("\"@schema\"") < signableJson.indexOf("\"@type\""));
+		assertTrue("@Context before @Type", signableJson.indexOf("\"@context\"") < signableJson.indexOf("\"@type\""));
 		assertTrue("@Type before Checksum", signableJson.indexOf("\"@type\"") < signableJson.indexOf("\"checksum\""));
 		assertTrue("Checksum before Data", signableJson.indexOf("\"checksum\"") < signableJson.indexOf("\"data\""));
 		assertTrue("Data before MimeType", signableJson.indexOf("\"data\"") < signableJson.indexOf("\"mimeType\""));

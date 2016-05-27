@@ -14,7 +14,7 @@ public class Relation extends Thing
 	
 	public Relation()
 	{
-		schema = Cass.schema;
+		context = Cass.context;
 		type = myType;
 	}
 	public String source;

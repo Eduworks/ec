@@ -61,9 +61,9 @@ public class EcRemoteLinkedData extends EcLinkedData
 	 */
 	public Array<String> secret;
 	
-	public EcRemoteLinkedData(String schema, String type)
+	public EcRemoteLinkedData(String context, String type)
 	{
-		super(schema, type);
+		super(context, type);
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 		JSObjectAdapter.$properties(d).$delete("@reader");
 		JSObjectAdapter.$properties(d).$delete("@id");
 
-		EcLinkedData e = new EcLinkedData(d.schema, d.type);
+		EcLinkedData e = new EcLinkedData(d.context, d.type);
 		e.copyFrom(d);
 		return e.toJson();
 	}
@@ -289,7 +289,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 			return true;
 		if (id.contains("http://") == false && id.contains("https://") == false)
 			return true;
-		if (schema == null)
+		if (context == null)
 			return true;
 		if (getFullType() == null)
 			return true;

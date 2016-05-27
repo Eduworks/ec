@@ -6,7 +6,7 @@ public class Action extends Thing
 {
 	protected Action()
 	{
-		schema = "http://schema.org/";
+		context = "http://schema.org/";
 		type = "http://schema.org/Action";
 	}
 

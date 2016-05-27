@@ -6,7 +6,7 @@ public class CreativeWork extends Thing {
 	
 	public CreativeWork()
 	{
-		schema = "http://schema.org/";
+		context = "http://schema.org/";
 		type = "http://schema.org/CreativeWork";
 	}
 	public Thing about;

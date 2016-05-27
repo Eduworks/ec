@@ -15,7 +15,7 @@ public class EbacEncryptedValue extends EcRemoteLinkedData
 
 	public EbacEncryptedValue()
 	{
-		super(Ebac.schema, type);
+		super(Ebac.context, type);
 	} 
 
 	/**
