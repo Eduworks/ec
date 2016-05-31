@@ -6,6 +6,7 @@ import org.cass.competency.EcLevel;
 import org.cassproject.ebac.identity.EcIdentity;
 import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.ebac.repository.EcRepository;
+import org.cassproject.schema.cass.competency.Relation;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.junit.After;
 import org.junit.Assert;
@@ -40,7 +41,7 @@ public class EcAlignmentTest {
 	public void setup(){
 		Global.console.log("setup");
 		
-		EcRemote.async = false;
+		EcRemote.async = true;
 		
 		repo.selectedServer = server;
 		
@@ -123,7 +124,7 @@ public class EcAlignmentTest {
 	
 	@Test
 	public void createAlignmentTest(){
-		repo.search("@type:\""+relation.myType+"\"", null, new Callback1<Array<EcRemoteLinkedData>>() {
+		repo.search(new Relation().getSearchStringByType(), null, new Callback1<Array<EcRemoteLinkedData>>() {
 			@Override
 			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				for(int i = 0; i < p1.$length(); i++){

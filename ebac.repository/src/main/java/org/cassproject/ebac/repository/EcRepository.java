@@ -354,7 +354,8 @@ public class EcRepository
 			return;
 		}
 		EcIdentityManager.sign(data);
-		if(!data.isA(EcEncryptedValue.myType))
+		//TODO: Broke the EncryptedValueOwnerReaderTest. If the version part of the ID is the same, the object will not save. Why do we not update the timestamp if the value is encrypted?
+		//		if(!data.isA(EcEncryptedValue.myType))
 			data.updateTimestamp();
 		FormData fd = new FormData();
 		fd.append("data", data.toJson());

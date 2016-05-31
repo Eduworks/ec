@@ -207,7 +207,7 @@ public class EcFrameworkTest {
 	@Test
 	public void createFrameworkTest(){	
 		
-		repo.search("@type:\""+framework.myType+"\"", null, new Callback1<Array<EcRemoteLinkedData>>() {
+		repo.search(new EcFramework().getSearchStringByType(), null, new Callback1<Array<EcRemoteLinkedData>>() {
 			@Override
 			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				for(int i = 0; i < p1.$length(); i++){

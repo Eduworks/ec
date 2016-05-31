@@ -52,6 +52,7 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		if (JSObjectAdapter.$get(d, "name") != null)
 			v.name = (String) JSObjectAdapter.$get(d, "name");
 
+		if (d.owner != null)
 		for (int i = 0; i < d.owner.$length(); i++)
 		{
 			EbacEncryptedSecret eSecret = new EbacEncryptedSecret();
@@ -61,6 +62,8 @@ public class EcEncryptedValue extends EbacEncryptedValue
 				v.secret = new Array<String>();
 			v.secret.push(EcRsaOaep.encrypt(EcPk.fromPem(d.owner.$get(i)), eSecret.toEncryptableJson()));
 		}
+		
+		if (d.reader != null)
 		for (int i = 0; i < d.reader.$length(); i++)
 		{
 			EbacEncryptedSecret eSecret = new EbacEncryptedSecret();

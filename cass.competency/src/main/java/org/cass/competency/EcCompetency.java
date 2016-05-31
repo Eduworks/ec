@@ -45,7 +45,7 @@ public class EcCompetency extends Competency
 
 	public void relationships(EcRepository repo, final Callback1<EcAlignment> eachSuccess, final Callback1<String> failure, final Callback1<Array<EcAlignment>> successAll)
 	{
-		repo.search("@type:\"" + EcAlignment.myType + "\" AND (source:\"" + id + "\" OR target:\"" + id + "\" OR source:\"" + shortId() + "\" OR target:\"" + shortId() + "\")", new Callback1<EcRemoteLinkedData>()
+		repo.search(new EcAlignment().getSearchStringByType()+" AND (source:\"" + id + "\" OR target:\"" + id + "\" OR source:\"" + shortId() + "\" OR target:\"" + shortId() + "\")", new Callback1<EcRemoteLinkedData>()
 		{
 			@Override
 			public void $invoke(EcRemoteLinkedData p1)
@@ -94,7 +94,7 @@ public class EcCompetency extends Competency
 	public void levels(EcRepository repo, final Callback1<EcLevel> success, final Callback1<String> failure, final Callback1<Array<EcLevel>> successAll)
 	{
 	
-		repo.search("@type:\"" + EcLevel.myType + "\" AND ( competency:\"" + id + "\" OR competency:\""+shortId()+"\")", new Callback1<EcRemoteLinkedData>()
+		repo.search(new EcLevel().getSearchStringByType()+" AND ( competency:\"" + id + "\" OR competency:\""+shortId()+"\")", new Callback1<EcRemoteLinkedData>()
 		{
 			@Override
 			public void $invoke(EcRemoteLinkedData p1)
