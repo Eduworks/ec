@@ -1,7 +1,5 @@
 package org.cassproject.schema.general;
 
-
-
 import org.json.ld.EcLinkedData;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Date;
@@ -39,14 +37,14 @@ public class EcRemoteLinkedData extends EcLinkedData
 	 * string.
 	 */
 	public Array<String> signature;
-	
+
 	/**
 	 * URL/URI used to retrieve and store the object, plus identify the object.
 	 */
 	public String id;
-	
-	public boolean privateEncrypted;
-	
+
+	public Boolean privateEncrypted;
+
 	/**
 	 * PEM encoded public keys of identities authorized to view the object. A
 	 * repository will ignore write operations from these identities, but will
@@ -60,7 +58,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 	 * access to the payload.
 	 */
 	public Array<String> secret;
-	
+
 	public EcRemoteLinkedData(String context, String type)
 	{
 		super(context, type);
@@ -79,7 +77,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 		if (!id.endsWith("/"))
 			id += "/";
 		id += "data/";
-		id += type.replace("http://", "").replaceAll("/", ".");
+		id += getFullType().replace("http://", "").replaceAll("/", ".");
 		id += "/";
 		id += EcRandom.generateUUID();
 		id += "/";
@@ -95,9 +93,9 @@ public class EcRemoteLinkedData extends EcLinkedData
 	 */
 	public boolean hasOwner(EcPk pk)
 	{
-		if(owner == null)
+		if (owner == null)
 			return false;
-		
+
 		String pkPem = pk.toPem();
 		for (int i = 0; i < owner.$length(); i++)
 			// Homogenizing the owner's PEM string.
@@ -200,10 +198,10 @@ public class EcRemoteLinkedData extends EcLinkedData
 				else
 					i++;
 			}
-			
+
 			if (signature.$length() == 0)
 				return false;
-			
+
 			return true;
 		}
 
@@ -242,7 +240,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 			if (owner.$get(i).equals(pem))
 				owner.splice(i, 1);
 	}
-	
+
 	/**
 	 * Adds a reader to the object, if the reader does not exist.
 	 * 
@@ -275,8 +273,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 			if (reader.$get(i).equals(pem))
 				reader.splice(i, 1);
 	}
-	
-	
+
 	/**
 	 * Determines if the object will survive and be retreivable from a server,
 	 * should it be written.
@@ -293,7 +290,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 			return true;
 		if (getFullType() == null)
 			return true;
-		if (getFullType().contains("http://") == false && getFullType().contains("https://") == false )
+		if (getFullType().contains("http://") == false && getFullType().contains("https://") == false)
 			return true;
 		return false;
 	}
@@ -328,4 +325,30 @@ public class EcRemoteLinkedData extends EcLinkedData
 	{
 		return trimVersionFromUrl(id);
 	}
+
+	public String getSearchStringByType()
+	{
+		Array<String> types = getTypes();
+		String result = "";
+		for (int i = 0; i < types.$length(); i++)
+		{
+			if (i != 0)
+				result += " OR ";
+			result += "@type:\"" + types.$get(i) + "\"";
+			
+			int lastSlash = types.$get(i).lastIndexOf("/");
+			result += " OR (@context:\"" + types.$get(i).substring(0,lastSlash) + "\" AND @type:\"" + types.$get(i).substring(lastSlash) + "\")";
+		}
+		for (int i = 0; i < types.$length(); i++)
+		{
+			if (result.equals("") == false)
+				result += " OR ";
+			result += "@encryptedType:\"" + types.$get(i) + "\"";
+			
+			int lastSlash = types.$get(i).lastIndexOf("/");
+			result += " OR (@context:\"" + types.$get(i).substring(0,lastSlash) + "\" AND @encryptedType:\"" + types.$get(i).substring(lastSlash) + "\")";
+		}
+		return "("+result+")";
+	}
+
 }

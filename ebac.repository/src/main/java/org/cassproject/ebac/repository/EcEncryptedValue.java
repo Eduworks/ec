@@ -7,6 +7,7 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.JSObjectAdapter;
+import org.stjs.javascript.Map;
 
 import com.eduworks.ec.crypto.EcAes;
 import com.eduworks.ec.crypto.EcAesCtr;

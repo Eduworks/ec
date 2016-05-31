@@ -180,9 +180,8 @@ public class EcFramework extends Framework
 				Global.console.error(msg);
 			return;
 		}
-		
-		
-		if(privateEncrypted){
+
+		if(privateEncrypted != null && privateEncrypted.booleanValue()){
 			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(this, false);
 			EcRepository._save(encrypted, success, failure);
 		}else{

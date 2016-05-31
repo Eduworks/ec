@@ -1,5 +1,9 @@
 package org.cassproject.ebac.identity;
 
+import org.stjs.javascript.Array;
+import org.stjs.javascript.JSObjectAdapter;
+import org.stjs.javascript.Map;
+
 import com.eduworks.ec.crypto.EcPk;
 import com.eduworks.ec.crypto.EcRsaOaep;
 import com.eduworks.schema.ebac.EbacContactGrant;
@@ -20,4 +24,5 @@ public class EcContactGrant extends EbacContactGrant
 		
 		return found;
 	}
+
 }

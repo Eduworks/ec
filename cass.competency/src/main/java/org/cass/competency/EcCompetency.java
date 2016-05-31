@@ -154,7 +154,7 @@ public class EcCompetency extends Competency
 			return;
 		}
 		
-		if(privateEncrypted){
+		if(privateEncrypted != null && privateEncrypted.booleanValue()){
 			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(this, false);
 			EcRepository._save(encrypted, success, failure);
 		}else{

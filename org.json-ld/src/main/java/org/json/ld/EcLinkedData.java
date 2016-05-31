@@ -23,8 +23,19 @@ public class EcLinkedData
 
 	public EcLinkedData(String context, String type)
 	{
+		setContextAndType(context, type);
+	}
+
+	protected void setContextAndType(String context, String type)
+	{
 		this.context = context;
 		this.type = type;
+		if (type != null)
+		{
+			this.type = type.replace(context, "");
+			if (this.type.startsWith("/"))
+				this.type = this.type.substring(1);
+		}
 	}
 
 	public static Array<String> atProperties = JSCollections.$array("id", "type", "schema", "context", "signature", "owner", "reader", "encryptedType");
@@ -144,6 +155,23 @@ public class EcLinkedData
 	}
 
 	/**
+	 * Uses the object's fully qualified type name and compares it to the
+	 * provided type.
+	 * 
+	 * @param type
+	 *            Fully qualified type name uri.
+	 * @return True if match, False if not.
+	 */
+	public boolean isAny(Array<String> type)
+	{
+		String computedType = getFullType();
+		for (int i = 0; i < type.$length(); i++)
+			if (computedType.equals(type.$get(i)) || this.type.equals(type.$get(i)))
+				return true;
+		return false;
+	}
+
+	/**
 	 * Gets the fully qualified type name, as JSON-LD allows the "namespace" of
 	 * the type to be defined in @context.
 	 * 
@@ -151,9 +179,12 @@ public class EcLinkedData
 	 */
 	public String getFullType()
 	{
+		if (context == null)
+			return this.type;
+		if (this.type.contains("http"))
+			return this.type;
+		
 		String computedType = context;
-		if (this.type.contains("http") == false && computedType.contains("http") == false)
-			computedType = JSObjectAdapter.$properties(this).$get("context").toString();
 		if (!computedType.endsWith("/"))
 			computedType += "/";
 		computedType += this.type;
@@ -173,19 +204,24 @@ public class EcLinkedData
 	 */
 	public void copyFrom(Object that)
 	{
+
 		Map<String, Object> me = JSObjectAdapter.$properties(this);
 		Map<String, Object> you = JSObjectAdapter.$properties(that);
-		//Wedge, as old versions use @schema instead of @context. This fixes that.
-		if (me.$get("@context") == null && me.$get("@schema") != null)
-			me.$put("@context", me.$get("@schema"));
+		upgrade();
 		for (String key : you)
 		{
 			if (me.$get(key) == null)
 				me.$put(key.replace("@", ""), you.$get(key));
 		}
-		//Wedge, as old versions use @schema instead of @context. This fixes that.
-		if (me.$get("context") == null && me.$get("schema") != null)
-			me.$put("context", me.$get("schema"));
+		if (!isAny(getTypes()))
+			throw new RuntimeException("Incompatible type: " + getFullType());
+	}
+
+	/***
+	 * Upgrades the object if necessary.
+	 */
+	protected void upgrade()
+	{
 	}
 
 	/**
@@ -209,6 +245,18 @@ public class EcLinkedData
 			}
 		}
 		return this;
+	}
+
+	/**
+	 * Gets all versions of JSON-LD type strings for this type of object.
+	 * 
+	 * @return Array of URIs.
+	 */
+	public Array<String> getTypes()
+	{
+		Array<String> a = new Array<>();
+		a.push(type);
+		return a;
 	}
 
 }

@@ -82,12 +82,7 @@ public class EcRepository
 			public void $invoke(Object p1)
 			{
 				EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
-				d.copyFrom(p1);
-				if(d.context == ""){
-					failure.$invoke(Global.JSON.stringify(p1));
-					return;
-				}
-				
+				d.copyFrom(p1);				
 				if (caching)
 					JSObjectAdapter.$put(cache, url, d);
 				success.$invoke(d);
@@ -325,8 +320,8 @@ public class EcRepository
 
 	public static void save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure){
 		Global.console.warn("Watch out! "+data.id+" is being saved with the repository save function, no value checking will occur");
-		
-		if(data.privateEncrypted){
+
+		if(data.privateEncrypted != null && data.privateEncrypted.booleanValue()){
 			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(data, false);
 			_save(encrypted, success, failure);
 		}else{
@@ -359,7 +354,7 @@ public class EcRepository
 			return;
 		}
 		EcIdentityManager.sign(data);
-		if(!data.isA(EcEncryptedValue.type))
+		if(!data.isA(EcEncryptedValue.myType))
 			data.updateTimestamp();
 		FormData fd = new FormData();
 		fd.append("data", data.toJson());

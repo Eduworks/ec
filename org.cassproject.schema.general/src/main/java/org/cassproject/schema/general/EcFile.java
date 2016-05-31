@@ -1,5 +1,9 @@
 package org.cassproject.schema.general;
 
+import org.stjs.javascript.Array;
+import org.stjs.javascript.JSObjectAdapter;
+import org.stjs.javascript.Map;
+
 import com.eduworks.ec.blob.BlobHelper;
 
 /**
@@ -10,11 +14,13 @@ import com.eduworks.ec.blob.BlobHelper;
  */
 public class EcFile extends EcRemoteLinkedData
 {
-	public static final String type = "http://schema.eduworks.com/general/0.2/file";
+	private static final String TYPE_0_1 = "http://schema.eduworks.com/general/0.1/file";
+	private static final String TYPE_0_2 = "http://schema.eduworks.com/general/0.2/file";
+	public static final String myType = TYPE_0_2;
 
 	public EcFile()
 	{
-		super(General.context, type);
+		super(General.context, myType);
 	}
 
 	/**
@@ -47,4 +53,27 @@ public class EcFile extends EcRemoteLinkedData
 		FileSaver.saveAs(blob, name);
 	}
 
+	@Override
+	protected void upgrade()
+	{
+		super.upgrade();
+		if (type.equals(TYPE_0_1))
+		{
+			Map<String, Object> me = JSObjectAdapter.$properties(this);
+			// Error in older versions of LD objects: We used @schema instead of
+			// @context. Whoops.
+			if (me.$get("@context") == null && me.$get("@schema") != null)
+				me.$put("@context", me.$get("@schema"));
+			setContextAndType(General.context_0_2,TYPE_0_2);
+		}
+	}
+
+	@Override
+	public Array<String> getTypes()
+	{
+		Array<String> a = new Array<String>();
+		a.push(TYPE_0_2);
+		a.push(TYPE_0_1);
+		return a;
+	}
 }
