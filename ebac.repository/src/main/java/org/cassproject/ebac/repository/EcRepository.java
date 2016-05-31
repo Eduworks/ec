@@ -207,7 +207,7 @@ public class EcRepository
 		
 		hostnames.push("localhost", "localhost" + ":8080", "localhost" + ":9722");
 		
-		Array<String> servicePrefixes = new Array<String>("/"+Global.window.location.pathname.split("/")[1]+"/api/custom/","/", "/service/", "/api/custom/", "/levr/api/custom/");
+		Array<String> servicePrefixes = new Array<String>("/"+Global.window.location.pathname.split("/")[1]+"/api/custom/","/", "/service/", "/api/custom/");
 		for (int i = 0; i < protocols.$length(); i++)
 			for (int j = 0; j < hostnames.$length(); j++)
 				for (int k = 0; k < servicePrefixes.$length(); k++)
