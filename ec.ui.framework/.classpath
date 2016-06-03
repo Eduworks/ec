@@ -22,14 +22,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Users/djunker/.m2/repository/org/st-js/bridge/html/5.0.bv2/html-5.0.bv2.jar" sourcepath="/Users/djunker/.m2/repository/org/st-js/bridge/html/5.0.bv2/html-5.0.bv2-sources.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="maven.groupId" value="org.st-js.bridge"/>
-			<attribute name="maven.artifactId" value="html"/>
-			<attribute name="maven.version" value="5.0.bv2"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
