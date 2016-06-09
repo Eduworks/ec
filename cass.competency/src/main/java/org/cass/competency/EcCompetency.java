@@ -4,11 +4,13 @@ import org.cassproject.ebac.identity.EcIdentity;
 import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.ebac.repository.EcEncryptedValue;
 import org.cassproject.ebac.repository.EcRepository;
+import org.cassproject.schema.cass.Cass;
 import org.cassproject.schema.cass.competency.Competency;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
+import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
 
 import com.eduworks.ec.crypto.EcPpk;
@@ -93,8 +95,13 @@ public class EcCompetency extends Competency
 
 	public void levels(EcRepository repo, final Callback1<EcLevel> success, final Callback1<String> failure, final Callback1<Array<EcLevel>> successAll)
 	{
-	
-		repo.search(new EcLevel().getSearchStringByType()+" AND ( competency:\"" + id + "\" OR competency:\""+shortId()+"\")", new Callback1<EcRemoteLinkedData>()
+		String query = "("+new EcLevel().getSearchStringByType()+" AND ( competency:\"" + id + "\" OR competency:\""+shortId()+"\"))";
+		query += " OR @encryptedType:\""+EcLevel.myType+"\" OR @encryptedType:\""+EcLevel.myType.replace(Cass.context+"/", "")+"\"";
+		
+		
+		final String competencyId = id;
+		final String shortId = shortId();
+		repo.search(query, new Callback1<EcRemoteLinkedData>()
 		{
 			@Override
 			public void $invoke(EcRemoteLinkedData p1)
@@ -102,9 +109,22 @@ public class EcCompetency extends Competency
 				if(success != null)
 				{
 					EcLevel a = new EcLevel();
-					a.copyFrom(p1);
-					if(success != null)
-						success.$invoke(a);
+					if(p1.isA(EcLevel.myType)){
+						a.copyFrom(p1);
+					}else if(p1.isA(EcEncryptedValue.myType)){
+						EcEncryptedValue val = new EcEncryptedValue();
+						val.copyFrom(p1);
+						if(val.isAnEncrypted(EcLevel.myType)){
+							EcRemoteLinkedData obj = val.decryptIntoObject();
+							if(JSObjectAdapter.$get(obj, "competency") != competencyId && JSObjectAdapter.$get(obj, "competency") != shortId){
+								return;
+							}
+							a.copyFrom(obj);
+							a.privateEncrypted = true;
+						}
+					}
+					
+					success.$invoke(a);
 				}
 			}
 		}, new Callback1<Array<EcRemoteLinkedData>>(){
@@ -117,7 +137,22 @@ public class EcCompetency extends Competency
 					
 					for(int i = 0; i < p1.$length(); i++){
 						EcLevel a = new EcLevel();
-						a.copyFrom(p1.$get(i));
+						
+						if(p1.$get(i).isA(EcLevel.myType)){
+							a.copyFrom(p1.$get(i));
+						}else if(p1.$get(i).isA(EcEncryptedValue.myType)){
+							EcEncryptedValue val = new EcEncryptedValue();
+							val.copyFrom(p1.$get(i));
+							if(val.isAnEncrypted(EcLevel.myType)){
+								EcRemoteLinkedData obj = val.decryptIntoObject();
+								if(JSObjectAdapter.$get(obj, "competency") != competencyId && JSObjectAdapter.$get(obj, "competency") != shortId){
+									continue;
+								}
+								a.copyFrom(obj);
+								a.privateEncrypted = true;
+							}
+						}
+						
 						levels.$set(i, a);
 					}
 					
