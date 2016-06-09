@@ -130,6 +130,8 @@ public class EcRemoteLinkedData extends EcLinkedData
 		JSObjectAdapter.$properties(d).$delete("@owner");
 		JSObjectAdapter.$properties(d).$delete("@reader");
 		JSObjectAdapter.$properties(d).$delete("@id");
+		JSObjectAdapter.$properties(d).$delete("privateEncrypted");
+		
 
 		EcLinkedData e = new EcLinkedData(d.context, d.type);
 		e.copyFrom(d);
