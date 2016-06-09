@@ -1,5 +1,6 @@
 package com.eduworks.schema.ebac;
 
+import org.cassproject.schema.general.Ebac;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSObjectAdapter;

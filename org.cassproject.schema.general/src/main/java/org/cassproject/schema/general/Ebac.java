@@ -1,4 +1,4 @@
-package com.eduworks.schema.ebac;
+package org.cassproject.schema.general;
 
 public class Ebac
 {

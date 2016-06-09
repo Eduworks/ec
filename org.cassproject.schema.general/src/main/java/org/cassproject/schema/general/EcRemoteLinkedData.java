@@ -346,7 +346,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 			result += "@encryptedType:\"" + types.$get(i) + "\"";
 			
 			int lastSlash = types.$get(i).lastIndexOf("/");
-			result += " OR (@context:\"" + types.$get(i).substring(0,lastSlash) + "\" AND @encryptedType:\"" + types.$get(i).substring(lastSlash) + "\")";
+			result += " OR (@context:\"" + Ebac.context + "\" AND @encryptedType:\"" + types.$get(i).substring(lastSlash) + "\")";
 		}
 		return "("+result+")";
 	}

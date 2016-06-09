@@ -1,5 +1,6 @@
 package com.eduworks.schema.ebac;
 
+import org.cassproject.schema.general.Ebac;
 import org.json.ld.EcLinkedData;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSGlobal;
