@@ -321,7 +321,7 @@ public class EcRepository
 	public static void save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure){
 		Global.console.warn("Watch out! "+data.id+" is being saved with the repository save function, no value checking will occur");
 
-		if(data.privateEncrypted != null && data.privateEncrypted.booleanValue()){
+		if(data.privateEncrypted != null && data.privateEncrypted){
 			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(data, false);
 			_save(encrypted, success, failure);
 		}else{

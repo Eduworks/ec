@@ -5,6 +5,7 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.json.ld.EcLinkedData;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
+import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
@@ -141,6 +142,9 @@ public class EcEncryptedValue extends EbacEncryptedValue
 
 	public EcRemoteLinkedData decryptIntoObject()
 	{
+		if(!verify())
+			return null;
+		
 		// See if I am an owner.
 		if (owner != null)
 			for (int i = 0; i < owner.$length(); i++)
@@ -149,8 +153,11 @@ public class EcEncryptedValue extends EbacEncryptedValue
 				if (decryptionKey == null)
 					continue;
 				EcRemoteLinkedData decrypted = decryptToObject(decryptionKey);
-				if (decrypted != null)
+				if (decrypted != null){
+					decrypted.id = this.id;
 					return decrypted;
+				}
+					
 
 			}
 		// See if I have read-only access.
@@ -161,16 +168,20 @@ public class EcEncryptedValue extends EbacEncryptedValue
 				if (decryptionKey == null)
 					continue;
 				EcRemoteLinkedData decrypted = decryptToObject(decryptionKey);
-				if (decrypted != null)
+				if (decrypted != null){
+					decrypted.id = this.id;
 					return decrypted;
+				}				
 			}
 		// Last resort, try all the keys I have on all the possible locks.
 		for (int i = 0; i < EcIdentityManager.ids.$length(); i++)
 		{
 			EcPpk decryptionKey = EcIdentityManager.ids.$get(i).ppk;
 			EcRemoteLinkedData decrypted = decryptToObject(decryptionKey);
-			if (decrypted != null)
+			if (decrypted != null){
+				decrypted.id = this.id;
 				return decrypted;
+			}
 		}
 		return null;
 	}
@@ -255,7 +266,10 @@ public class EcEncryptedValue extends EbacEncryptedValue
 	public boolean isAnEncrypted(String type){
 		if(this.encryptedType == null)
 			return false;
-		return this.encryptedType.equals(type);
+		
+		Array<String> typeSplit = JSCollections.$castArray(type.split("/"));
+		
+		return this.encryptedType.equals(type) || this.encryptedType.equals(typeSplit.$get(typeSplit.$length()-1));
 	}
 	
 	/**
