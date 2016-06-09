@@ -19,7 +19,7 @@ public class ModalManager extends ViewManager  {
 		return (EcModal) getView(MODAL_CONTAINER_ID);
 	}
 	
-	public static void showModal(EcModal modal)
+	public static void showModal(EcModal modal, final Callback0 callback)
 	{
 		GlobalJQuery.$(MODAL_CONTAINER_ID).removeClass("tiny");
 		GlobalJQuery.$(MODAL_CONTAINER_ID).removeClass("small");
@@ -45,6 +45,10 @@ public class ModalManager extends ViewManager  {
 				((Foundation)GlobalJQuery.$(MODAL_CONTAINER_ID)).foundation("open");
 				
 				inModal = true;
+				
+				if(callback != null){
+					callback.$invoke();
+				}
 			}
 		});
 		
