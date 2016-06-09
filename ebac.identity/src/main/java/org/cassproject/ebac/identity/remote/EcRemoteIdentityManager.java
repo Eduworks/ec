@@ -330,7 +330,14 @@ public class EcRemoteIdentityManager
 	}
 
 	public void fetchServerAdminKeys(final Callback1<Array<String>> success, final Callback1<String> failure){
-		EcRemote.getExpectingObject(server, "sky/admin", new Callback1<Object>(){
+		String service;
+		if(server.endsWith("/")){
+			service = "sky/admin";
+		}else{
+			service="/sky/admin";
+		}
+		
+		EcRemote.getExpectingObject(server, service, new Callback1<Object>(){
 			@Override
 			public void $invoke(Object p1) {
 				success.$invoke((Array<String>) p1); 
