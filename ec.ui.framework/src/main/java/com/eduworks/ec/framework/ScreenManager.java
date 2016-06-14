@@ -20,11 +20,31 @@ import com.eduworks.ec.framework.history.HistoryObject;
 import com.eduworks.ec.framework.view.EcScreen;
 import com.eduworks.foundation.jquery.plugin.Foundation;
 
+/**
+ * View Manager child class that manages loading "screen"s and saving screen history. This is the main view type
+ * in an application and represents a view that takes up (mostly) the entire browser page. History is tracked in the
+ * session, so  when the back button is pressed, the application will load the previous screen with any data that 
+ * was associated with it.
+ * 
+ * @author devlin.junker@eduworks.com
+ *
+ */
 public class ScreenManager extends ViewManager {
+	
+	/**
+	 * DOM Selector (ID) of the Screen Container that will display all of the screen views
+	 */
 	static String SCREEN_CONTAINER_ID = "#screenContainer";
 	
+	/**
+	 * Array to track the history of the current session
+	 */
 	static Array<HistoryClosure> myHistory = JSCollections.$array();
 	
+	/**
+	 * Screen to be used when another screen is loading information from the server before being able to display
+	 * itself. Notice that the display function does not affect the DOM on the page in any way.
+	 */
 	public final static EcScreen LOADING_STARTUP_PAGE = new EcScreen(){
 		@Override
 		public void display(String containerId, Callback0 callback) {
@@ -33,22 +53,66 @@ public class ScreenManager extends ViewManager {
 		}
 	};
 	
+	/**
+	 * Screen to be set by application on application startup, dictates what the screen should be if the startup
+	 * Screen hasn't been set
+	 */
 	public static EcScreen defaultScreen = null;
+	
+	/**
+	 * Screen to be set by application if it notices that a certain screen should be loaded on startup that is 
+	 * different from the default Screen
+	 */
 	public static EcScreen startupScreen = null;
 	
+	/**
+	 * Callback to be invoked once the application has started and the first screen has been completely loaded
+	 * and displayed
+	 */
 	static Callback1<String> startupCallback;
+	
+	/**
+	 * Callback invoked during a history load (used in Overlay Manager to open an overlay if it was last history view)
+	 */
 	static Callback1<EcScreen> loadHistoryCallback;
 	
+	/**
+	 * Array of callbacks that will compare any markers saved in the browser to see if a specific startup screen
+	 * should be set. These callbacks should be defined in the screen Java implementation to check if the screen
+	 * should be loaded.
+	 */
 	static Array<Callback0> startupScreenCallbacks = JSCollections.$array();
 	
+	/**
+	 * Function to add startup screen callbacks to the array of callbacks
+	 * 
+	 * @param callback
+	 * 			callback to add, all callbacks will be invoked on the application startup
+	 */
 	public static void addStartupScreenCallback(Callback0 callback){
 		startupScreenCallbacks.unshift(callback);
 	}
 	
+	/**
+	 * Retrieves the current view that corresponds to the Screen Container Element (Should be a screen)
+	 * 
+	 * @return
+	 * 		EcScreen instance that is currently being shown in the screen container element
+	 */
 	public static EcScreen getCurrentScreen(){
 		return (EcScreen)getView(SCREEN_CONTAINER_ID);
 	}
 	
+	
+	/**
+	 * Sets the application default Screen that is shown if no startup screen has been defined.
+	 * Also sets up some code to run during the application load, that calls the startup callbacks
+	 * to see if there is a startup screen different than the defaultScreen, then displays it or the
+	 * defaultScreen depending on the results
+	 * 
+	 * @param page
+	 * 			The default screen that will be displayed if no startup screen is defined during load
+	 */
 	public static void setDefaultScreen(EcScreen page)
 	{
 		defaultScreen = page;
@@ -116,6 +180,17 @@ public class ScreenManager extends ViewManager {
 		});
 	}
 	
+	/**
+	 * Set's the current screen, then show's it by calling the display function. Depending on the
+	 * addHistory flag, will add the page passed in to the history array, tracking session page history
+	 * 
+	 * @param page
+	 * 			The screen to set as current and display
+	 * @param addHistory
+	 * 			Flag for whether to store this page in the history array
+	 * @param callback
+	 * 			Function to invoke after the page has been displayed and foundation has been set up on the new HTML
+	 */
 	public static void changeScreen(EcScreen page, Boolean addHistory, final Callback0 callback)
 	{		
 		if(addHistory == null)
@@ -133,6 +208,17 @@ public class ScreenManager extends ViewManager {
 			}
 		});
 	}
+	
+	/**
+	 * Set's the current screen, then show's it by calling the display function. This replaces the current HistoryClosure
+	 * element for the current screen in the history array, rather than leaving it and (potentially) adding another
+	 * history array element like changeScreen
+	 * 
+	 * @param page
+	 * 			Screen to set as current and display
+	 * @param callback
+	 * 			Function to invoke after the page has been displayed and foundation has been set up on the new HTML
+	 */
 	public static void replaceScreen(EcScreen page, final Callback0 callback)
 	{
 		replaceHistory(page, SCREEN_CONTAINER_ID, null);
@@ -148,6 +234,12 @@ public class ScreenManager extends ViewManager {
 		});
 	}
 	
+	/**
+	 * Reloads the current screen, leaving the history alone
+	 * 
+	 * @param callback
+	 * 			Function to invoke after the page has been redisplayed and foundation has been set up on the new HTML
+	 */
 	public static void reloadCurrentScreen(final Callback0 callback){
 		showView(getCurrentScreen(), SCREEN_CONTAINER_ID, new Callback0(){
 			@Override
@@ -160,7 +252,15 @@ public class ScreenManager extends ViewManager {
 		});
 	}
 	
-	
+	/**
+	 * Adds the screen passed in and the display container to a HistoryClosure element and pushes it 
+	 * on the end of the history cache array. This does not ensure that the screen is displayed though.
+	 * 
+	 * @param screen
+	 * 			The screen to add to the history cache array
+	 * @param displayContainerId
+	 * 			DOM Element ID corresponding to where the screen will be displayed (likely the SCREEN_CONTAINER_ID)
+	 */
 	public static void addHistory(EcScreen screen, String displayContainerId)
 	{	
 		String name = screen.getDisplayName();
@@ -177,6 +277,18 @@ public class ScreenManager extends ViewManager {
 		}}, pageName, "#"+pageName);
 	}
 	
+	/**
+	 * Replaces the current end of the history array with a new HistoryClosure element that contains the screen and 
+	 * containerId passed in. This can also be used to set the url parameters on a page and reload it without 
+	 * adding another history element to the history array
+	 * 
+	 * @param screen
+	 * 			Screen to add to the history element that will replace the last in the history array
+	 * @param displayContainerId
+	 * 			DOM Element ID corresponding to where the screen will be displayed (likely the SCREEN_CONTAINER_ID)
+	 * @param params
+	 * 			Object containing key->value pairs that should be put in the url bar to remember state at this history point
+	 */
 	public static void replaceHistory(EcScreen screen, String displayContainerId, Object params)
 	{
 		String name = screen.getDisplayName();
@@ -211,6 +323,14 @@ public class ScreenManager extends ViewManager {
 		}}, pageName, hash);
 	}
 	
+	/**
+	 * Searches through the history array for the last screen that was loaded with the name passed in, and then displays
+	 * it in the container that it was associated with. If there is no screen in the history, then check
+	 * if there is a startupScreen that can be loaded right now, otherwise load the default screen
+	 * 
+	 * @param name
+	 * 			Name of the screen to search for in the history array
+	 */
 	protected static void loadHistoryScreen(String name){
 		for(int i = myHistory.$length()-1; i > -1; i--){
 			if(myHistory.$get(i).pageName == name)
@@ -260,6 +380,10 @@ public class ScreenManager extends ViewManager {
 		}
 	}
 	
+	/**
+	 * Static setup to watch the window for popstate events (history back button) and then calls loadHistory
+	 * with the name of the most previously recent screen (saved in the history and given to the popstate event)
+	 */
 	static{
 		GlobalJQuery.$(window).on("popstate", new EventHandler(){
 			@Override

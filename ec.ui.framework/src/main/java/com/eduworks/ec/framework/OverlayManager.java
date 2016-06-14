@@ -15,28 +15,84 @@ import com.eduworks.ec.framework.view.EcOverlay;
 import com.eduworks.ec.framework.view.EcScreen;
 import com.eduworks.foundation.jquery.plugin.Foundation;
 
+/**
+ * View Manager that manages displaying overlay views (views that take over the screen, but can be exited to return to
+ * the previous screen) with a few helper functions for managing overlays
+ * 
+ * @author devlin.junker@eduworks.com
+ * (NOT TESTED MUCH YET)
+ */
 public class OverlayManager extends ScreenManager {
+	
+	/**
+	 * DOM Selector of the overlay wrapper (Should contain the overlay container and overlay close button)
+	 */
 	static String OVERLAY_WRAPPER_ID = "#overlay";
+	
+	/**
+	 * DOM Selector of the overlay close button (clicking this should hide the current overlay) 
+	 */
 	static String OVERLAY_CLOSE_BTN_ID = "#closeOverlay";
+	
+	/**
+	 * DOM Selector of the HTML Element that will display the Overlay's HTML
+	 */
 	static String OVERLAY_CONTAINER_ID = "#overlayContainer";
 	
+	/**
+	 * Used if one of the startupOverlayCallbacks decides that it should be displayed on startup (usually using
+	 * the URL to check what should be displayed on start)
+	 */
 	public static EcOverlay startupOverlay = null;
 	
+	/**
+	 * Callbacks that can be defined and run on startup, that should check to see if an overlay should be displayed
+	 * immediately when the application starts
+	 */
 	static Array<Callback1<String>> startupOverlayCallbacks = JSCollections.$array();
 	
+	/**
+	 * Adds a callback to be run on startup that can check if an overlay should be displayed (the callback should
+	 * be defined in the overlay)
+	 * 
+	 * @param callback
+	 * 			callback to be added to the startupOverlayCallbacks list
+	 */
 	public static void addStartupOverlayCallback(Callback1<String> callback){
 		startupOverlayCallbacks.unshift(callback);
 	}
 	
+	/**
+	 * Application flag to check if we're currently in an overlay or not
+	 */
 	static boolean inOverlay = false;
 	
+	/**
+	 * Retrieves the current view that corresponds to the Overlay Container Element (Should be a Overlay)
+	 * 
+	 * @return
+	 * 		EcModal instance that is currently being shown in the Overlay container element
+	 */
 	public static EcOverlay getCurrentOverlay()
 	{
 		return (EcOverlay) getView(OVERLAY_CONTAINER_ID);
 	}
 	
+	/**
+	 * Variable to hold the last screen, this is useful if we follow a chain of overlays and then want to close them,
+	 * we'll make sure to go back to the last screen that was visible to the user
+	 */
 	static EcScreen lastScreen;
 	
+	/**
+	 * Set's the current overlay, then show's it by calling the display function and unhiding the overlay container.
+	 * Depending on the addHistory flag, will add the overlay passed in to the history array 
+	 * 
+	 * @param overlay
+	 * 			The overlay to set as current and display
+	 * @param addHistory
+	 * 			Flag for whether to store this overlay in the history array
+	 */
 	public static void showOverlay(EcOverlay overlay, Boolean addHistory)
 	{
 		if(!inOverlay && myHistory.$get(myHistory.$length()-1) != null)
@@ -68,6 +124,12 @@ public class OverlayManager extends ScreenManager {
 			}
 		});
 	}
+	
+	/**
+	 * Hides the overlay container and sets the inOverlay flag to false, adds the last screen to the history array so
+	 * there is a chain from initial screen -> overlay (could be multiple) -> initial screen. This way we can press the
+	 * back button and be shown the last overlay.
+	 */
 	public static void hideOverlay()
 	{
 		GlobalJQuery.$(OVERLAY_WRAPPER_ID).fadeOut();
@@ -77,6 +139,15 @@ public class OverlayManager extends ScreenManager {
 		changeScreen(lastScreen, true, null);
 	}
 	
+	/**
+	 * Static method to set up helpers
+	 *  - Window Keydown event handler that checks if were in an overlay and the esc key was pressed 
+	 *  	(if true hide the overlay)
+	 *  - Sets the loadHistoryCallback so we can check if the history element loaded was an overlay and display it
+	 *  	properly if it was
+	 *  - Sets the startupCallback to run through the overlay startup callbacks to check if we should start
+	 *  	the application on an overlay
+	 */
 	static
 	{
 		GlobalJQuery.$(window).keydown(new EventHandler(){
