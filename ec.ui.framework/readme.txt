@@ -98,4 +98,5 @@ src/main
 			screen					-> Contains JavaScript implementations for each Screen class
 			overlay					-> Contains JavaScript implementations for each Overlay class
 			other					-> Contains JavaScript implementations for any other View class
+	pom.xml							-> Maven Instructions for compiling and launching the application
 		
