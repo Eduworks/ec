@@ -40,6 +40,8 @@ public class Assertion extends Thing
 	protected EcEncryptedValue expirationDate;
 	//
 	protected EcEncryptedValue decayFunction;
+	
+	protected EcEncryptedValue negative;
 
 	@Override
 	protected void upgrade()

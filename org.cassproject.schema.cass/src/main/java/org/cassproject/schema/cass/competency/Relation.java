@@ -14,6 +14,7 @@ public class Relation extends Thing
 	public static final String IS_ENABLED_BY = "isEnabledBy";
 	public static final String REQUIRES = "requires";
 	public static final String DESIRES = "desires";
+	public static final String NARROWS = "narrows";
 	public static final String IS_RELATED_TO = "isRelatedTo";
 	public static final String IS_EQUIVALENT_TO = "isEquivalenTo";
 

@@ -5,6 +5,7 @@ import org.cassproject.ebac.identity.EcIdentity;
 import org.cassproject.ebac.identity.EcIdentityManager;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
+import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
 
 import com.eduworks.ec.callback.EcCallbackReturn0;
@@ -92,6 +93,76 @@ public class EcRemoteIdentityManager
 		this.secretSalt = secretSalt;
 		this.secretIterations = secretIterations;
 		configured = true;
+	}
+
+	public void configureFromServer(final Callback1<Object> success, final Callback1<String> failure)
+	{
+		final EcRemoteIdentityManager me = this;
+		EcRemote.getExpectingObject(server, "sky/id/salts", new Callback1<Object>()
+		{
+			@Override
+			public void $invoke(Object p1)
+			{
+				me.usernameSalt = (String) JSObjectAdapter.$get(p1, "usernameSalt");
+				if (me.usernameSalt.length() < 16)
+				{
+					failure.$invoke("Insufficient length on Username Salt");
+					return;
+				}
+				me.usernameIterations = (int) JSObjectAdapter.$get(p1, "usernameIterations");
+				if (me.usernameIterations < 1000)
+				{
+					failure.$invoke("Insufficient iterations on Username Hash");
+					return;
+				}
+				me.usernameWidth = (int) JSObjectAdapter.$get(p1, "usernameWidth");
+				if (me.usernameWidth != 64)
+				{
+					failure.$invoke("Username Hash required to be length 64.");
+					return;
+				}
+				me.passwordSalt = (String) JSObjectAdapter.$get(p1, "passwordSalt");
+				if (me.passwordSalt.length() < 16)
+				{
+					failure.$invoke("Insufficient length on Password Salt");
+					return;
+				}
+				me.passwordIterations = (int) JSObjectAdapter.$get(p1, "passwordIterations");
+				if (me.passwordIterations < 1000)
+				{
+					failure.$invoke("Insufficient iterations on Password Hash");
+					return;
+				}
+				me.passwordWidth = (int) JSObjectAdapter.$get(p1, "passwordWidth");
+				if (me.passwordWidth != 64)
+				{
+					failure.$invoke("Password Hash required to be length 64.");
+					return;
+				}
+				me.secretSalt = (String) JSObjectAdapter.$get(p1, "secretSalt");
+				if (me.secretSalt.length() < 16)
+				{
+					failure.$invoke("Insufficient length on Secret Salt");
+					return;
+				}
+				me.secretIterations = (int) JSObjectAdapter.$get(p1, "secretIterations");
+				if (me.secretIterations < 1000)
+				{
+					failure.$invoke("Insufficient iterations on Secret Hash");
+					return;
+				}
+				me.configured = true;
+				success.$invoke(p1);
+			}
+		}, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				me.configured = false;
+				failure.$invoke(p1);
+			}
+		});
 	}
 
 	/**
@@ -258,7 +329,7 @@ public class EcRemoteIdentityManager
 		for (int i = 0; i < EcIdentityManager.ids.$length(); i++)
 		{
 			EcIdentity id = EcIdentityManager.ids.$get(i);
-			if (id.source != null && id.source.equals(server) == false) 
+			if (id.source != null && id.source.equals(server) == false)
 				continue;
 			id.source = server;
 			credentials.push(id.toCredential(secretWithSalt));
@@ -266,7 +337,7 @@ public class EcRemoteIdentityManager
 		for (int i = 0; i < EcIdentityManager.contacts.$length(); i++)
 		{
 			EcContact id = EcIdentityManager.contacts.$get(i);
-			if (id.source != null && id.source.equals(server) == false) 
+			if (id.source != null && id.source.equals(server) == false)
 				continue;
 			id.source = server;
 			contacts.push(id.toEncryptedContact(secretWithSalt));
@@ -283,7 +354,7 @@ public class EcRemoteIdentityManager
 
 		FormData fd = new FormData();
 		fd.append("credentialCommit", commit.toJson());
-		fd.append("signatureSheet",EcIdentityManager.signatureSheet(60000, server));
+		fd.append("signatureSheet", EcIdentityManager.signatureSheet(60000, server));
 
 		EcRemote.postExpectingString(server, service, fd, new Callback1<String>()
 		{
@@ -329,22 +400,30 @@ public class EcRemoteIdentityManager
 		return passwordSplice;
 	}
 
-	public void fetchServerAdminKeys(final Callback1<Array<String>> success, final Callback1<String> failure){
+	public void fetchServerAdminKeys(final Callback1<Array<String>> success, final Callback1<String> failure)
+	{
 		String service;
-		if(server.endsWith("/")){
+		if (server.endsWith("/"))
+		{
 			service = "sky/admin";
-		}else{
-			service="/sky/admin";
 		}
-		
-		EcRemote.getExpectingObject(server, service, new Callback1<Object>(){
+		else
+		{
+			service = "/sky/admin";
+		}
+
+		EcRemote.getExpectingObject(server, service, new Callback1<Object>()
+		{
 			@Override
-			public void $invoke(Object p1) {
-				success.$invoke((Array<String>) p1); 
+			public void $invoke(Object p1)
+			{
+				success.$invoke((Array<String>) p1);
 			}
-		}, new Callback1<String>(){
+		}, new Callback1<String>()
+		{
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1)
+			{
 				failure.$invoke("");
 			}
 		});

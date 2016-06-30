@@ -275,4 +275,9 @@ public class EcAssertion extends Assertion
 			}
 		});
 	}
+
+	public String getSearchStringByTypeAndCompetency(EcCompetency competency)
+	{
+		return "("+getSearchStringByType() + " AND competency:\""+competency.shortId()+"\")";
+	}
 }

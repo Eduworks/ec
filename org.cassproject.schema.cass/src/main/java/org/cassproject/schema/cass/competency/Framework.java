@@ -28,6 +28,7 @@ public class Framework extends Thing
 	public Array<String> competency;
 	public Array<String> relation;
 	public Array<String> level;
+	public Array<String> rollupRule;
 	public Source source;
 
 	@Override
