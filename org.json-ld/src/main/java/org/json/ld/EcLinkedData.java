@@ -204,8 +204,9 @@ public class EcLinkedData
 	 */
 	public void copyFrom(Object that)
 	{
-
 		Map<String, Object> me = JSObjectAdapter.$properties(this);
+		for (String key : me)
+			me.$delete(key);
 		Map<String, Object> you = JSObjectAdapter.$properties(that);
 		upgrade();
 		for (String key : you)

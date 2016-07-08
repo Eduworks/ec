@@ -42,6 +42,23 @@ public class EbacEncryptedValue extends EcRemoteLinkedData
 	public String name;
 
 	@Override
+	public void copyFrom(Object that)
+	{
+		Map<String, Object> me = JSObjectAdapter.$properties(this);
+		for (String key : me)
+			me.$delete(key);
+		Map<String, Object> you = JSObjectAdapter.$properties(that);
+		//We do not upgrade encrypted objects, as it invalidates the signatures.
+		for (String key : you)
+		{
+			if (me.$get(key) == null)
+				me.$put(key.replace("@", ""), you.$get(key));
+		}
+		if (!isAny(getTypes()))
+			throw new RuntimeException("Incompatible type: " + getFullType());
+	}
+	
+	@Override
 	protected void upgrade()
 	{
 		super.upgrade();

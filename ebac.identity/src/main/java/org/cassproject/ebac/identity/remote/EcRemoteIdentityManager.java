@@ -22,17 +22,17 @@ import forge.util;
 
 /**
  * Logs into and stores/retrieves credentials from a compatible remote server.
- * Performs complete anonymization of the user.
+ * Performs anonymization of the user.
  * 
- * Requires initialization with application specific salts. Application specific
- * salts prevent co-occurrence attacks, should credentials in one application be
+ * Requires initialization with server specific salts. Server specific
+ * salts prevent co-occurrence attacks, should credentials on one server be
  * compromised (intercepted in transit).
  * 
  * Transmits hashed username, hashed password, and encrypts credentials using
  * the hashed combination of the username and password. This prevents the system
  * storing the credentials from having any knowledge of the user.
  * 
- * Password recovery is done through, when the password changes, creating a
+ * Password recovery is done by, when the password changes, creating a
  * cryptographic pad (or perfect cipher) where one half is stored on the server,
  * and the other half is stored with the user. Should the user lose this pad and
  * forget their password, they are not able to recover or reset their password,
@@ -115,7 +115,7 @@ public class EcRemoteIdentityManager
 					failure.$invoke("Insufficient iterations on Username Hash");
 					return;
 				}
-				me.usernameWidth = (int) JSObjectAdapter.$get(p1, "usernameWidth");
+				me.usernameWidth = (int) JSObjectAdapter.$get(p1, "usernameLength");
 				if (me.usernameWidth != 64)
 				{
 					failure.$invoke("Username Hash required to be length 64.");
@@ -133,7 +133,7 @@ public class EcRemoteIdentityManager
 					failure.$invoke("Insufficient iterations on Password Hash");
 					return;
 				}
-				me.passwordWidth = (int) JSObjectAdapter.$get(p1, "passwordWidth");
+				me.passwordWidth = (int) JSObjectAdapter.$get(p1, "passwordLength");
 				if (me.passwordWidth != 64)
 				{
 					failure.$invoke("Password Hash required to be length 64.");
@@ -202,7 +202,10 @@ public class EcRemoteIdentityManager
 	public void startLogin(String username, String password)
 	{
 		if (!configured)
+		{
 			Global.alert("Remote Identity not configured.");
+			return;
+		}
 
 		usernameWithSalt = util.encode64(pkcs5.pbkdf2(username, usernameSalt, usernameIterations, usernameWidth));
 		passwordWithSalt = util.encode64(pkcs5.pbkdf2(password, passwordSalt, passwordIterations, passwordWidth));
@@ -227,7 +230,10 @@ public class EcRemoteIdentityManager
 	public void fetch(final Callback1<Object> success, final Callback1<String> failure)
 	{
 		if (!configured)
+		{
 			Global.alert("Remote Identity not configured.");
+			return;
+		}
 		if (usernameWithSalt == null || passwordWithSalt == null || secretWithSalt == null)
 		{
 			Global.alert("Please log in before performing this operation.");

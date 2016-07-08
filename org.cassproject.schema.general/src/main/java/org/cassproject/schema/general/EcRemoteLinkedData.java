@@ -126,12 +126,24 @@ public class EcRemoteLinkedData extends EcLinkedData
 	public String toSignableJson()
 	{
 		EcLinkedData d = (EcLinkedData) JSGlobal.JSON.parse(toJson());
-		JSObjectAdapter.$properties(d).$delete("@signature");
-		JSObjectAdapter.$properties(d).$delete("@owner");
-		JSObjectAdapter.$properties(d).$delete("@reader");
-		JSObjectAdapter.$properties(d).$delete("@id");
-		JSObjectAdapter.$properties(d).$delete("privateEncrypted");
 		
+		if (type.contains("http://schema.eduworks.com/") && type.contains("/0.1/"))
+		{
+			JSObjectAdapter.$properties(d).$delete("@signature");
+			JSObjectAdapter.$properties(d).$delete("@owner");
+			JSObjectAdapter.$properties(d).$delete("@reader");
+			JSObjectAdapter.$properties(d).$delete("@id");
+			JSObjectAdapter.$properties(d).$delete("privateEncrypted");
+		}
+		else
+		{
+			//Whom else has signed the object does not change the contents of the object.
+			JSObjectAdapter.$properties(d).$delete("@signature");
+			//Where the object resides does not change the contents of the object, and provides server administration capabilities.
+			JSObjectAdapter.$properties(d).$delete("@id");
+			//Who owns the object, or who can read the object *does* matter though, as administrators should not be able to change the ownership properties of the object in a clandestine fashion.
+			JSObjectAdapter.$properties(d).$delete("privateEncrypted");
+		}
 
 		EcLinkedData e = new EcLinkedData(d.context, d.type);
 		e.copyFrom(d);
@@ -337,20 +349,20 @@ public class EcRemoteLinkedData extends EcLinkedData
 			if (i != 0)
 				result += " OR ";
 			result += "@type:\"" + types.$get(i) + "\"";
-			
+
 			int lastSlash = types.$get(i).lastIndexOf("/");
-			result += " OR (@context:\"" + types.$get(i).substring(0,lastSlash) + "\" AND @type:\"" + types.$get(i).substring(lastSlash) + "\")";
+			result += " OR (@context:\"" + types.$get(i).substring(0, lastSlash) + "\" AND @type:\"" + types.$get(i).substring(lastSlash) + "\")";
 		}
 		for (int i = 0; i < types.$length(); i++)
 		{
 			if (result.equals("") == false)
 				result += " OR ";
 			result += "@encryptedType:\"" + types.$get(i) + "\"";
-			
+
 			int lastSlash = types.$get(i).lastIndexOf("/");
 			result += " OR (@context:\"" + Ebac.context + "\" AND @encryptedType:\"" + types.$get(i).substring(lastSlash) + "\")";
 		}
-		return "("+result+")";
+		return "(" + result + ")";
 	}
 
 }
