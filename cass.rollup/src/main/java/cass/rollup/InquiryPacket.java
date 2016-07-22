@@ -3,18 +3,21 @@ package cass.rollup;
 import org.cass.competency.EcCompetency;
 import org.cass.competency.EcFramework;
 import org.cass.competency.EcLevel;
+import org.cass.profile.EcAssertion;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Date;
 import org.stjs.javascript.functions.Callback1;
 
+import com.eduworks.ec.callback.EcCallbackReturn1;
 import com.eduworks.ec.crypto.EcPk;
 
 public class InquiryPacket
 {
-	public EcPk subject;
+	public Array<EcPk> subject;
 	public EcCompetency competency;
 	public EcFramework context;
 	public Callback1<InquiryPacket> success;
+	public EcCallbackReturn1<String> ask;
 	public Callback1<String> failure;
 	public EcLevel level;
 	
@@ -29,16 +32,17 @@ public class InquiryPacket
 	public boolean checkedDefaultRuleAboutCompetency = false;
 	
 	public int queriesRunning;
-	public Array<Object> positive;
-	public Array<Object> negative;
+	public String log;
+	public Array<EcAssertion> positive;
+	public Array<EcAssertion> negative;
 	
 	public Boolean status;
 	public Boolean finished;
 	
-	public InquiryPacket(EcPk subject2, EcCompetency competency2, EcLevel level2, EcFramework context2, Callback1<InquiryPacket> success2, Callback1<String> failure2)
+	public InquiryPacket(Array<EcPk> subject2, EcCompetency competency2, EcLevel level2, EcFramework context2, Callback1<InquiryPacket> success2, Callback1<String> failure2)
 	{
-		positive = new Array<Object>();
-		negative = new Array<Object>();
+		positive = new Array<EcAssertion>();
+		negative = new Array<EcAssertion>();
 		equivalentPackets = new Array<InquiryPacket>();
 		subPackets = new Array<InquiryPacket>();
 		dateCreated = new Date().getTime();
@@ -48,6 +52,7 @@ public class InquiryPacket
 		context = context2;
 		success = success2;
 		failure = failure2;
+		log = "";
 	}
 
 	public EcFramework getContext()

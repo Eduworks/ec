@@ -12,7 +12,10 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.Date;
 import org.stjs.javascript.functions.Callback1;
 
+import com.eduworks.ec.callback.EcCallbackReturn0;
+import com.eduworks.ec.callback.EcCallbackReturn1;
 import com.eduworks.ec.crypto.EcPk;
+import com.eduworks.schema.ebac.EbacSignature;
 
 public class EvidenceProcessor
 {
@@ -26,24 +29,25 @@ public class EvidenceProcessor
 		step = true;
 	}
 
-	protected void log(Object string)
+	protected void log(InquiryPacket ip, Object string)
 	{
 		if (logFunction != null)
 			logFunction.$invoke(string);
+		ip.log += "\n" + string;
 	}
 
-	public void has(EcPk subject, EcCompetency competency, EcLevel level, EcFramework context, Callback1<InquiryPacket> success, Callback1<String> failure)
+	public void has(Array<EcPk> subject, EcCompetency competency, EcLevel level, EcFramework context, Array<EbacSignature> additionalSignatures,
+			Callback1<InquiryPacket> success, EcCallbackReturn1<String> ask, Callback1<String> failure)
 	{
 		InquiryPacket ip = new InquiryPacket(subject, competency, level, context, success, failure);
 
-		log("Created new inquiry.");
+		log(ip,"Created new inquiry.");
 		continueProcessing(ip);
 	}
 
 	public void continueProcessing(InquiryPacket ip)
 	{
-		// First, just check to see if the person has the competency. No rollup
-		// necessary.
+		//The first part is to build the inquiry packet tree.
 		if (!ip.finished)
 		{
 			if (ip.checkedAssertionsAboutCompetency == false)
@@ -60,18 +64,21 @@ public class EvidenceProcessor
 			{
 				InquiryPacket eip = ip.equivalentPackets.$get(i);
 				continueProcessing(eip);
+				return;
 			}
+		
+		//The second part is to finally answer the question based on the tree.
 	}
 
 	private void hasAssertionAboutCompetency(final InquiryPacket ip)
 	{
 		final EvidenceProcessor me = this;
-		log("Checking to see if the subject has an assertion about the competency.");
+		log(ip,"Checking to see if the subject has an assertion about the competency.");
 		for (int i = 0; i < repositories.$length(); i++)
 		{
 			EcRepository r = repositories.$get(i);
 			ip.queriesRunning++;
-			log("Searching: " + r.selectedServer);
+			log(ip, "Searching: " + r.selectedServer);
 			r.search(new EcAssertion().getSearchStringByTypeAndCompetency(ip.competency), new Callback1<EcRemoteLinkedData>()
 			{
 				@Override
@@ -79,28 +86,35 @@ public class EvidenceProcessor
 				{
 					EcAssertion a = new EcAssertion();
 					a.copyFrom(p1);
-					if (a.getSubject().equals(ip.subject))
+					for (int i = 0; i < ip.subject.$length(); i++)
 					{
-						me.log("Matching Assertion found.");
-						if (a.getAssertionDate() > new Date().getDate())
+						EcPk subject = ip.subject.$get(i);
+						if (a.getSubject().equals(subject))
 						{
-							me.log("Assertion is made for a future date.");
-							return;
+							me.log(ip, "Matching Assertion found.");
+							if (a.getAssertionDate() > new Date().getDate())
+							{
+								me.log(ip, "Assertion is made for a future date.");
+								return;
+							}
+							if (a.getExpirationDate() <= new Date().getDate())
+							{
+								me.log(ip, "Assertion is expired. Skipping.");
+								return;
+							}
+							me.log(ip, "No issues found with assertion.");
+							me.log(ip, "Record Id: " + a.shortId());
+							me.log(ip, "Confidence: " + a.confidence);
+							me.log(ip, "Number of pieces of evidence: " + a.getEvidenceCount());
+							me.log(ip, "Evidence:");
+							for (int j = 0; j < a.getEvidenceCount(); j++)
+								me.log(ip, "  " + a.getEvidence(j));
+							me.log(ip, "Recording in inquiry.");
+							if (a.getNegative())
+								ip.negative.push(a);
+							else
+								ip.positive.push(a);
 						}
-						if (a.getExpirationDate() <= new Date().getDate())
-						{
-							me.log("Assertion is expired. Skipping.");
-							return;
-						}
-						me.log("No issues found with assertion.");
-						me.log("Record Id: " + a.shortId());
-						me.log("Confidence: " + a.confidence);
-						me.log("Number of pieces of evidence: " + a.getEvidenceCount());
-						me.log("Evidence:");
-						for (int i = 0; i < a.getEvidenceCount(); i++)
-							me.log("  " + a.getEvidence(i));
-						me.log("Recording in inquiry.");
-						ip.positive.push(a);
 					}
 				}
 			}, new Callback1<Array<EcRemoteLinkedData>>()
@@ -109,7 +123,7 @@ public class EvidenceProcessor
 				public void $invoke(Array<EcRemoteLinkedData> p1)
 				{
 					if (p1.$length() == 0)
-						me.log("No results found.");
+						me.log(ip,"No results found.");
 					ip.queriesRunning--;
 					if (ip.queriesRunning == 0)
 					{
@@ -192,7 +206,7 @@ public class EvidenceProcessor
 	private void hasRollupRulesAboutCompetency(final InquiryPacket ip)
 	{
 		final EvidenceProcessor me = this;
-		log("Checking to see if rollup rules exist for the competency.");
+		log(ip,"Checking to see if rollup rules exist for the competency.");
 		for (int i = 0; i < ip.getContext().rollupRule.$length(); i++)
 		{
 			ip.queriesRunning++;
@@ -201,12 +215,12 @@ public class EvidenceProcessor
 				@Override
 				public void $invoke(EcRollupRule rr)
 				{
-					if (!rr.isId(ip.competency.shortId()))
+					if (!ip.competency.isId(rr.competency))
 						return;
 
-					me.log("Found. Rule is: " + rr.rule);
+					me.log(ip,"Found. Rule is: " + rr.rule);
 
-					RollupRuleProcessor rrp = new RollupRuleProcessor(ip.subject);
+					RollupRuleProcessor rrp = new RollupRuleProcessor(ip);
 
 					rrp.positive = ip.positive;
 					rrp.negative = ip.negative;
@@ -219,7 +233,7 @@ public class EvidenceProcessor
 						@Override
 						public void $invoke(Boolean p1)
 						{
-							me.log("Rollup Rule completed.");
+							me.log(ip,"Rollup Rule completed.");
 							ip.queriesRunning--;
 							ip.status = p1;
 							ip.checkedRollupRulesAboutCompetency = true;
@@ -231,7 +245,7 @@ public class EvidenceProcessor
 						}
 					};
 					rri.failure = ip.failure;
-					me.log("Executing Rollup Rule Interpreter.");
+					me.log(ip,"Executing Rollup Rule Interpreter.");
 					rri.go();
 					ip.foundRollupRuleAboutCompetency = true;
 				}
@@ -250,7 +264,7 @@ public class EvidenceProcessor
 	private void defaultRollupRulesAboutCompetency(final InquiryPacket ip)
 	{
 		final EvidenceProcessor me = this;
-		log("Checking to see if rollup rules exist for the competency.");
+		log(ip,"Generating rollup rules for this inquiry based on competency relations.");
 		ip.queriesRunning++;
 
 		RollupRuleGenerator g = new RollupRuleGenerator(ip);
@@ -260,12 +274,9 @@ public class EvidenceProcessor
 			@Override
 			public void $invoke(String rr)
 			{
-				me.log("Generated. Rule is: " + rr);
+				me.log(ip,"Generated. Rule is: " + rr);
 
-				RollupRuleProcessor rrp = new RollupRuleProcessor(ip.subject);
-
-				rrp.positive = ip.positive;
-				rrp.negative = ip.negative;
+				RollupRuleProcessor rrp = new RollupRuleProcessor(ip);
 
 				RollupRuleInterface rri = new RollupRuleInterface(rr, rrp);
 
@@ -275,7 +286,7 @@ public class EvidenceProcessor
 					@Override
 					public void $invoke(Boolean p1)
 					{
-						me.log("Rollup Rule completed.");
+						me.log(ip,"Rollup Rule completed.");
 						ip.queriesRunning--;
 						ip.status = p1;
 						ip.checkedDefaultRuleAboutCompetency = true;
@@ -287,7 +298,7 @@ public class EvidenceProcessor
 					}
 				};
 				rri.failure = ip.failure;
-				me.log("Executing Rollup Rule Interpreter.");
+				me.log(ip,"Executing Rollup Rule Interpreter.");
 				rri.go();
 				ip.foundRollupRuleAboutCompetency = true;
 			}

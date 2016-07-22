@@ -1,5 +1,6 @@
 package cass.rollup;
 
+import org.cass.profile.EcAssertion;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.functions.Callback1;
@@ -17,14 +18,14 @@ public class RollupRuleProcessor
 	protected String query;
 	String finalStmt = null;
 
-	private EcPk target;
+	private Array<EcPk> target;
 
 	public Callback1<Boolean> success;
 	public Callback1<String> failure;
 
 	public Callback1<Object> logFunction;
-	public Array<Object> positive;
-	public Array<Object> negative;
+	public Array<EcAssertion> positive;
+	public Array<EcAssertion> negative;
 	
 	private String result;
 	
@@ -32,9 +33,9 @@ public class RollupRuleProcessor
 	private RrToken tok;
 	private RrQuery que;
 
-	public RollupRuleProcessor(EcPk target)
+	public RollupRuleProcessor(InquiryPacket ip)
 	{
-		this.target = target;
+//		this.target = subject;
 	}
 
 	protected void log(Object string)
@@ -90,7 +91,7 @@ public class RollupRuleProcessor
 		log("Executing Query...");
 		log("http://skyrepo.service.eduworks.com/sky/repo/search");
 		log("query      = (@type:\"http://schema.eduworks.com/cass/0.2/assertion\" AND (" + query.trim() + "))");
-		log("individual = " + target.toPem());
+//		log("individual = " + target.toPem());
 		log("");
 		double rand = Math.round(Math.random() * 2);
 		log(rand + " records retreived. This number was randomly generated.");
