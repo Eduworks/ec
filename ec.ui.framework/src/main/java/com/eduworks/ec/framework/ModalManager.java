@@ -67,7 +67,6 @@ public class ModalManager extends ViewManager  {
 		
 		
 		showView(modal, MODAL_CONTAINER_ID, new Callback0(){
-			@Override
 			public void $invoke() {
 				((Foundation)GlobalJQuery.$(MODAL_CONTAINER_ID)).foundation();
 				
@@ -99,7 +98,6 @@ public class ModalManager extends ViewManager  {
 	static{
 		GlobalJQuery.$(MODAL_CONTAINER_ID).one("closed.zf.reveal", new EventHandler(){
 
-			@Override
 			public boolean onEvent(Event arg0, Element arg1) {
 				if(getCurrentModal().onClose != null)
 					getCurrentModal().onClose.$invoke();

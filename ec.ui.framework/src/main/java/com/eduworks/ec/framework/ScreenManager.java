@@ -119,7 +119,6 @@ public class ScreenManager extends ViewManager {
 		
 		GlobalJQuery.$(window.document).ready(new EventHandler(){
 
-			@Override
 			public boolean onEvent(Event arg0, Element arg1) {
 				
 				for(int i = 0; i < startupScreenCallbacks.$length(); i++)
@@ -151,7 +150,6 @@ public class ScreenManager extends ViewManager {
 					replaceHistory(startupScreen, SCREEN_CONTAINER_ID, params);
 					
 					showView(startupScreen, SCREEN_CONTAINER_ID, new Callback0(){
-						@Override
 						public void $invoke() {
 							((Foundation)GlobalJQuery.$(SCREEN_CONTAINER_ID)).foundation();
 						}
@@ -168,7 +166,6 @@ public class ScreenManager extends ViewManager {
 				final String locationHash = Global.window.document.location.hash;
 				
 				replaceScreen(defaultScreen, new Callback0(){
-					@Override
 					public void $invoke() {
 						if(startupCallback != null)
 							startupCallback.$invoke(locationHash);
@@ -199,7 +196,6 @@ public class ScreenManager extends ViewManager {
 			addHistory(page, SCREEN_CONTAINER_ID);
 			
 		showView(page, SCREEN_CONTAINER_ID, new Callback0(){
-			@Override
 			public void $invoke() {
 				((Foundation)GlobalJQuery.$(SCREEN_CONTAINER_ID)).foundation();
 				
@@ -224,7 +220,6 @@ public class ScreenManager extends ViewManager {
 		replaceHistory(page, SCREEN_CONTAINER_ID, null);
 		
 		showView(page, SCREEN_CONTAINER_ID, new Callback0(){
-			@Override
 			public void $invoke() {
 				((Foundation)GlobalJQuery.$(SCREEN_CONTAINER_ID)).foundation();
 				
@@ -242,7 +237,6 @@ public class ScreenManager extends ViewManager {
 	 */
 	public static void reloadCurrentScreen(final Callback0 callback){
 		showView(getCurrentScreen(), SCREEN_CONTAINER_ID, new Callback0(){
-			@Override
 			public void $invoke() {
 				((Foundation)GlobalJQuery.$(SCREEN_CONTAINER_ID)).foundation();
 				
@@ -343,7 +337,6 @@ public class ScreenManager extends ViewManager {
 						loadHistoryCallback.$invoke(screen);
 						
 					showView(screen, myHistory.$get(i).containerId, new Callback0(){
-						@Override
 						public void $invoke() {
 							((Foundation)GlobalJQuery.$(SCREEN_CONTAINER_ID)).foundation();
 						}
@@ -386,7 +379,6 @@ public class ScreenManager extends ViewManager {
 	 */
 	static{
 		GlobalJQuery.$(window).on("popstate", new EventHandler(){
-			@Override
 			public boolean onEvent(Event event, Element arg1) {
 				Object state = JSObjectAdapter.$get(event.originalEvent, "state");
 				

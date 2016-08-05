@@ -1,12 +1,15 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.eduworks</groupId>
-  <artifactId>ec.ui.framework</artifactId>
-  <version>0.0.3</version>
-  <name>ec.ui.framework</name>
-  <properties>
-		<stjs.version>3.3.0</stjs.version>
-	</properties>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.eduworks</groupId>
+    <artifactId>ec</artifactId>
+    <version>0.0.1</version>
+  </parent>
+	<groupId>com.eduworks</groupId>
+	<artifactId>ec.ui.framework</artifactId>
+	<version>0.0.3</version>
+	<name>ec.ui.framework</name>
 	<dependencies>
 		<dependency>
 			<groupId>com.eduworks</groupId>
@@ -14,101 +17,14 @@
 			<version>0.0.1</version>
 		</dependency>
 		<dependency>
-			<groupId>org.st-js</groupId>
-			<artifactId>stjs-maven-plugin</artifactId>
-			<version>${stjs.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.st-js.bridge</groupId>
 			<artifactId>html</artifactId>
 			<version>5.0.bv2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.st-js.bridge</groupId>
+			<artifactId>jquery</artifactId>
+			<version>1.11.3.bv1</version>
+		</dependency>
 	</dependencies>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-         			<verbose>true</verbose>
-          			<fork>true</fork>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.3</version>
-				<configuration>
-					<excludePackageNames>forge</excludePackageNames>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.st-js</groupId>
-				<artifactId>stjs-maven-plugin</artifactId>
-				<version>${stjs.version}</version>
-				<executions>
-					<execution>
-						<id>main</id>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-				<dependencies>
-					<dependency>
-						<groupId>org.st-js</groupId>
-						<artifactId>stjs-maven-plugin</artifactId>
-						<version>${stjs.version}</version>
-					</dependency>
-				</dependencies>
-				<configuration>
-					<includes>
-						<include>**/*.java</include>
-					</includes>
-					<pack>true</pack>
-				</configuration>
-			</plugin>
-		</plugins>
-		<pluginManagement>
-			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.st-js</groupId>
-										<artifactId>
-											stjs-maven-plugin
-										</artifactId>
-										<versionRange>
-											[3.3.0,)
-										</versionRange>
-										<goals>
-											<goal>generate</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
 </project>

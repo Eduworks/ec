@@ -1,6 +1,5 @@
 package org.cass.competency;
 
-import org.cassproject.ebac.identity.EcIdentity;
 import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.ebac.repository.EcEncryptedValue;
 import org.cassproject.ebac.repository.EcRepository;

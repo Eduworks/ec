@@ -104,7 +104,6 @@ public class OverlayManager extends ScreenManager {
 			addHistory(overlay, OVERLAY_CONTAINER_ID);
 		
 		showView(overlay, OVERLAY_CONTAINER_ID, new Callback0(){
-			@Override
 			public void $invoke() {
 				((Foundation)GlobalJQuery.$(window.document)).foundation();
 				
@@ -117,7 +116,6 @@ public class OverlayManager extends ScreenManager {
 		
 		GlobalJQuery.$(OVERLAY_CLOSE_BTN_ID).off("click");
 		GlobalJQuery.$(OVERLAY_CLOSE_BTN_ID).click(new EventHandler(){
-			@Override
 			public boolean onEvent(Event arg0, Element arg1) {
 				hideOverlay();
 				return true;
@@ -151,7 +149,6 @@ public class OverlayManager extends ScreenManager {
 	static
 	{
 		GlobalJQuery.$(window).keydown(new EventHandler(){
-			@Override
 			public boolean onEvent(Event event, Element arg1) {
 				// If Escape pressed in Overlay
 				if(event.keyCode == 27 && inOverlay)
@@ -162,7 +159,6 @@ public class OverlayManager extends ScreenManager {
 		});
 		
 		loadHistoryCallback = new Callback1<EcScreen>() {
-			@Override
 			public void $invoke(EcScreen screen) {
 				EcOverlay overlay = screen.as(EcOverlay.class);
 				if(overlay != null && !inOverlay)
@@ -177,7 +173,6 @@ public class OverlayManager extends ScreenManager {
 		};
 		
 		startupCallback = new Callback1<String>(){
-			@Override
 			public void $invoke(String locationHash) {
 				for(int i = 0; i < startupOverlayCallbacks.$length(); i++)
 				{

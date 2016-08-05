@@ -2,6 +2,7 @@ package org.cass.profile;
 
 import org.cass.competency.EcCompetency;
 import org.cassproject.ebac.identity.EcContact;
+import org.cassproject.ebac.identity.EcIdentity;
 import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.ebac.repository.EcEncryptedValue;
 import org.cassproject.ebac.repository.EcRepository;
@@ -53,7 +54,11 @@ public class EcAssertion extends Assertion
 	{
 		if (subject == null)
 			return "Nobody";
-		EcContact contact = EcIdentityManager.getContact(getSubject());
+		EcPk subjectPk = getSubject();
+		EcIdentity identity = EcIdentityManager.getIdentity(subjectPk);
+		if (identity != null && identity.displayName != null)
+			return identity.displayName+" (You)";
+		EcContact contact = EcIdentityManager.getContact(subjectPk);
 		if (contact == null || contact.displayName == null)
 			return "Unknown Subject";
 		return contact.displayName;
@@ -63,7 +68,11 @@ public class EcAssertion extends Assertion
 	{
 		if (agent == null)
 			return "Nobody";
-		EcContact contact = EcIdentityManager.getContact(getAgent());
+		EcPk agentPk = getAgent();
+		EcIdentity identity = EcIdentityManager.getIdentity(agentPk);
+		if (identity != null && identity.displayName != null)
+			return identity.displayName+" (You)";
+		EcContact contact = EcIdentityManager.getContact(agentPk);
 		if (contact == null || contact.displayName == null)
 			return "Unknown Agent";
 		return contact.displayName;
@@ -110,7 +119,7 @@ public class EcAssertion extends Assertion
 		String decryptedString = v.decryptIntoString();
 		return decryptedString;
 	}
-	
+
 	public String getDecayFunction()
 	{
 		if (decayFunction == null)
@@ -121,6 +130,16 @@ public class EcAssertion extends Assertion
 		if (decryptedString == null)
 			return null;
 		return decryptedString;
+	}
+
+	public Boolean getNegative()
+	{
+		if (negative == null)
+			return false;
+		EcEncryptedValue v = new EcEncryptedValue();
+		v.copyFrom(decayFunction);
+		String decryptedString = v.decryptIntoString();
+		return Boolean.getBoolean(decryptedString);
 	}
 
 	/**

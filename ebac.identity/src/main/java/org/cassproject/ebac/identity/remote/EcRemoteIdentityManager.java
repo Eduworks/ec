@@ -24,8 +24,8 @@ import forge.util;
  * Logs into and stores/retrieves credentials from a compatible remote server.
  * Performs anonymization of the user.
  * 
- * Requires initialization with server specific salts. Server specific
- * salts prevent co-occurrence attacks, should credentials on one server be
+ * Requires initialization with server specific salts. Server specific salts
+ * prevent co-occurrence attacks, should credentials on one server be
  * compromised (intercepted in transit).
  * 
  * Transmits hashed username, hashed password, and encrypts credentials using
@@ -217,6 +217,43 @@ public class EcRemoteIdentityManager
 	}
 
 	/**
+	 * Change password of user in memory. Does not automatically commit new credentials.
+	 * 
+	 * Please clear username and password fields after this function is called.
+	 * 
+	 * @param username
+	 *            Username
+	 * @param oldPassword
+	 *            Current password
+	 * @param newPassword
+	 *            Desired password
+	 */
+	public boolean changePassword(String username, String oldPassword, String newPassword)
+	{
+		String usernameHash = util.encode64(pkcs5.pbkdf2(username, usernameSalt, usernameIterations, usernameWidth));
+		if (!usernameWithSalt.equals(usernameHash))
+		{
+			Global.alert("Username does not match. Aborting password change.");
+			return false;
+		}
+
+		String oldPasswordHash = util.encode64(pkcs5.pbkdf2(oldPassword, passwordSalt, passwordIterations, passwordWidth));
+		if (!passwordWithSalt.equals(oldPasswordHash))
+		{
+			Global.alert("Old password does not match. Aborting password change.");
+			return false;
+		}
+
+		passwordWithSalt = util.encode64(pkcs5.pbkdf2(newPassword, passwordSalt, passwordIterations, passwordWidth));
+
+		Array<String> arys = new Array<String>();
+		arys.push(username, newPassword);
+		String secret = splicePasswords(arys);
+		secretWithSalt = util.encode64(pkcs5.pbkdf2(secret, secretSalt, secretIterations, 32));
+		return true;
+	}
+
+	/**
 	 * Fetch credentials from server, invoking events based on login success or
 	 * failure.
 	 * 
@@ -231,12 +268,12 @@ public class EcRemoteIdentityManager
 	{
 		if (!configured)
 		{
-			Global.alert("Remote Identity not configured.");
+			failure.$invoke("Remote Identity not configured.");
 			return;
 		}
 		if (usernameWithSalt == null || passwordWithSalt == null || secretWithSalt == null)
 		{
-			Global.alert("Please log in before performing this operation.");
+			failure.$invoke("Please log in before performing this operation.");
 			return;
 		}
 

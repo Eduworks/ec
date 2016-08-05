@@ -24,14 +24,15 @@ public class EcRemoteLinkedDataTest
 		f.name = "My_File.txt";
 		f.mimeType = "text/plain";
 		f.data = "BASE64ENCODEDDATA";
-		f.generateId("http://sandbox.service.cassproject.org");
+		f.generateId("http://localhost:9722/api/custom");
 		f.checksum = "ABC123";
 		f.addOwner(ppk.toPk());
 		f.signWith(ppk);
 		String signableJson = f.toSignableJson();
 		console.log("Signable JSON: " + signableJson);
 		assertTrue("No Tabs.", signableJson.indexOf("\t") == -1);
-		assertTrue("No Spaces.", signableJson.indexOf(" ") == -1);
+		//No longer true, as signing criteia have changed 7/25/2016 -FR
+		//assertTrue("No Spaces.", signableJson.indexOf(" ") == -1);
 		assertTrue("@Context before @Type", signableJson.indexOf("\"@context\"") < signableJson.indexOf("\"@type\""));
 		assertTrue("@Type before Checksum", signableJson.indexOf("\"@type\"") < signableJson.indexOf("\"checksum\""));
 		assertTrue("Checksum before Data", signableJson.indexOf("\"checksum\"") < signableJson.indexOf("\"data\""));
@@ -50,7 +51,7 @@ public class EcRemoteLinkedDataTest
 		f.name = "My_File.txt";
 		f.mimeType = "text/plain";
 		f.data = "BASE64ENCODEDDATA";
-		f.generateId("http://sandbox.service.cassproject.org");
+		f.generateId("http://localhost:9722/api/custom");
 		f.checksum = "ABC123";
 		f.addOwner(ppk.toPk());
 		f.signWith(ppk);
@@ -60,6 +61,7 @@ public class EcRemoteLinkedDataTest
 		assertTrue("Removed Owner Verification",!f.verify());
 		f.addOwner(ppk2.toPk());
 		f.addOwner(ppk.toPk());
+		f.signWith(ppk);
 		assertTrue("Multi Owner Single Signature Verification",f.verify());
 		f.signWith(ppk2);
 		assertTrue("Multi Owner Multi Signature Verification",f.verify());

@@ -237,6 +237,8 @@ public class EcRemoteLinkedData extends EcLinkedData
 			if (owner.$get(i).equals(pem))
 				return;
 		owner.push(pem);
+		//Changing an owner invalidates the signatures in order to prevent server admins from injecting owners or readers into the object.
+		signature = null;
 	}
 
 	/**
@@ -253,6 +255,8 @@ public class EcRemoteLinkedData extends EcLinkedData
 		for (int i = 0; i < owner.$length(); i++)
 			if (owner.$get(i).equals(pem))
 				owner.splice(i, 1);
+		//Changing an owner invalidates the signatures in order to prevent server admins from injecting owners or readers into the object.
+		signature = null;
 	}
 
 	/**
@@ -270,6 +274,8 @@ public class EcRemoteLinkedData extends EcLinkedData
 			if (reader.$get(i).equals(pem))
 				return;
 		reader.push(pem);
+		//Changing an owner invalidates the signatures in order to prevent server admins from injecting owners or readers into the object.
+		signature = null;
 	}
 
 	/**
@@ -286,6 +292,8 @@ public class EcRemoteLinkedData extends EcLinkedData
 		for (int i = 0; i < reader.$length(); i++)
 			if (reader.$get(i).equals(pem))
 				reader.splice(i, 1);
+		//Changing an owner invalidates the signatures in order to prevent server admins from injecting owners or readers into the object.
+		signature = null;
 	}
 
 	/**
@@ -298,8 +306,9 @@ public class EcRemoteLinkedData extends EcLinkedData
 	{
 		if (id == null)
 			return true;
-		if (id.contains("http://") == false && id.contains("https://") == false)
-			return true;
+//		Allow relative pathed data.
+//		if (id.contains("http://") == false && id.contains("https://") == false)
+//			return true;
 		if (context == null)
 			return true;
 		if (getFullType() == null)

@@ -166,7 +166,7 @@ public class EcLinkedData
 	{
 		String computedType = getFullType();
 		for (int i = 0; i < type.$length(); i++)
-			if (computedType.equals(type.$get(i)) || this.type.equals(type.$get(i)))
+			if (type.$get(i).equals(computedType) || type.$get(i).equals(this.type))
 				return true;
 		return false;
 	}
@@ -208,12 +208,12 @@ public class EcLinkedData
 		for (String key : me)
 			me.$delete(key);
 		Map<String, Object> you = JSObjectAdapter.$properties(that);
-		upgrade();
 		for (String key : you)
 		{
 			if (me.$get(key) == null)
 				me.$put(key.replace("@", ""), you.$get(key));
 		}
+		upgrade();
 		if (!isAny(getTypes()))
 			throw new RuntimeException("Incompatible type: " + getFullType());
 	}

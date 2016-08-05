@@ -24,15 +24,16 @@ public class EcRepository
 	public void precache(Array<String> urls)
 	{
 		Array<String> cacheUrls = new Array<String>();
-		for (int i = 0;i < urls.$length();i++)
+		for (int i = 0; i < urls.$length(); i++)
 		{
 			String url = urls.$get(i);
-			if (url.startsWith(selectedServer) && JSObjectAdapter.$get(cache,url) == null)
+			if (url.startsWith(selectedServer) && JSObjectAdapter.$get(cache, url) == null)
 			{
 				cacheUrls.push(url.replace(selectedServer, ""));
 			}
 		}
-		if (cacheUrls.$length() == 0) return;
+		if (cacheUrls.$length() == 0)
+			return;
 		FormData fd = new FormData();
 		fd.append("data", Global.JSON.stringify(cacheUrls));
 		fd.append("signatureSheet", EcIdentityManager.signatureSheet(60000, selectedServer));
@@ -53,7 +54,7 @@ public class EcRepository
 			}
 		}, null);
 	}
-	
+
 	/**
 	 * Gets a JSON-LD object from the place designated by the URI.
 	 * 
@@ -82,7 +83,7 @@ public class EcRepository
 			public void $invoke(Object p1)
 			{
 				EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
-				d.copyFrom(p1);				
+				d.copyFrom(p1);
 				if (caching)
 					JSObjectAdapter.$put(cache, url, d);
 				success.$invoke(d);
@@ -187,30 +188,27 @@ public class EcRepository
 		EcRemote.async = false;
 		Array<String> protocols = new Array<String>();
 		protocols.push("https:");
-		if (Global.window.location.protocol == "http:")
-			protocols.push("http:");
+		if (Global.window != null)
+			if (Global.window.location != null)
+				if (Global.window.location.protocol == "http:")
+					protocols.push("http:");
 		Array<String> hostnames = new Array<String>();
-		
+
 		if (Global.window.location.host != null)
-			hostnames.push(
-					Global.window.location.host, 
-					Global.window.location.host.replace(".", ".service."), 
-					Global.window.location.host + ":8080",
+			hostnames.push(Global.window.location.host, Global.window.location.host.replace(".", ".service."), Global.window.location.host + ":8080",
 					Global.window.location.host.replace(".", ".service.") + ":8080");
-		
+
 		if (Global.window.location.hostname != null)
-			hostnames.push(
-					Global.window.location.hostname, 
-					Global.window.location.hostname.replace(".", ".service."), 
-					Global.window.location.hostname	+ ":8080", 
-					Global.window.location.hostname.replace(".", ".service.") + ":8080");
-		
+			hostnames.push(Global.window.location.hostname, Global.window.location.hostname.replace(".", ".service."),
+					Global.window.location.hostname + ":8080", Global.window.location.hostname.replace(".", ".service.") + ":8080");
+
 		hostnames.push("localhost", "localhost" + ":8080", "localhost" + ":9722");
-		
-		Array<String> servicePrefixes = new Array<String>("/"+Global.window.location.pathname.split("/")[1]+"/api/custom/","/", "/service/", "/api/custom/");
-		for (int i = 0; i < protocols.$length(); i++)
-			for (int j = 0; j < hostnames.$length(); j++)
-				for (int k = 0; k < servicePrefixes.$length(); k++)
+
+		Array<String> servicePrefixes = new Array<String>("/" + Global.window.location.pathname.split("/")[1] + "/api/custom/", "/", "/service/",
+				"/api/custom/");
+		for (int j = 0; j < hostnames.$length(); j++)
+			for (int k = 0; k < servicePrefixes.$length(); k++)
+				for (int i = 0; i < protocols.$length(); i++)
 					if (autoDetectRepositoryActual(protocols.$get(i) + "//" + hostnames.$get(j) + servicePrefixes.$get(k)))
 					{
 						EcRemote.async = true;
@@ -318,19 +316,22 @@ public class EcRepository
 		return s;
 	}
 
-	public static void save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure){
-		Global.console.warn("Watch out! "+data.id+" is being saved with the repository save function, no value checking will occur");
+	public static void save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
+	{
+		Global.console.warn("Watch out! " + data.id + " is being saved with the repository save function, no value checking will occur");
 
-		if(data.privateEncrypted != null && data.privateEncrypted){
+		if (data.privateEncrypted != null && data.privateEncrypted)
+		{
 			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(data, false);
 			_save(encrypted, success, failure);
-		}else{
+		}
+		else
+		{
 			_save(data, success, failure);
 		}
-		
-		
+
 	}
-	
+
 	/**
 	 * Attempts to save a piece of data.
 	 * 
@@ -354,12 +355,15 @@ public class EcRepository
 			return;
 		}
 		EcIdentityManager.sign(data);
-		//TODO: Broke the EncryptedValueOwnerReaderTest. If the version part of the ID is the same, the object will not save. Why do we not update the timestamp if the value is encrypted?
-		//		if(!data.isA(EcEncryptedValue.myType))
-			data.updateTimestamp();
+		// TODO: Broke the EncryptedValueOwnerReaderTest. If the version part of
+		// the ID is the same, the object will not save. Why do we not update
+		// the timestamp if the value is encrypted?
+		// if(!data.isA(EcEncryptedValue.myType))
+		data.updateTimestamp();
 		FormData fd = new FormData();
 		fd.append("data", data.toJson());
 		fd.append("signatureSheet", EcIdentityManager.signatureSheetFor(data.owner, 60000, data.id));
+		//TODO: This should be postExpectingObject. Part of a save is returning the original object, yes?
 		EcRemote.postExpectingString(data.id, "", fd, success, failure);
 	}
 
@@ -375,11 +379,11 @@ public class EcRepository
 	 */
 	public static void _delete(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
 	{
-		Global.console.warn("Watch out! "+data.id+" is being deleted with the repository delete function, no clean up delete operations will occur");
-		
+		Global.console.warn("Watch out! " + data.id + " is being deleted with the repository delete function, no clean up delete operations will occur");
+
 		DELETE(data, success, failure);
 	}
-	
+
 	public static void DELETE(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
 	{
 		if (caching)

@@ -30,7 +30,7 @@ public class Competency extends Thing
 	protected void upgrade()
 	{
 		super.upgrade();
-		if (type.equals(TYPE_0_1))
+		if (TYPE_0_1.equals(type))
 		{
 			// url was erroneously used instead of sameAs
 			if (url != null && sameAs == null)

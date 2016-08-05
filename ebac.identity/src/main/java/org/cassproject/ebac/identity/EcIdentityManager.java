@@ -105,6 +105,54 @@ public class EcIdentityManager
 		}
 		Global.localStorage.$put("contacts", JSGlobal.JSON.stringify(c));
 	}
+	/**
+	 * Reads contact data from localstorage.
+	 */
+	public static void readIdentities()
+	{
+		Object localStore = Global.localStorage.$get("identities");
+		if (localStore == null)
+			return;
+		Array<Object> c = (Array<Object>) JSGlobal.JSON.parse((String) localStore);
+		for (int i = 0; i < c.$length(); i++)
+		{
+			EcIdentity identity = new EcIdentity();
+			Object o = c.$get(i);
+			Map<String, Object> props = JSObjectAdapter.$properties(o);
+			identity.displayName = (String) props.$get("displayName");
+			identity.ppk = EcPpk.fromPem((String) props.$get("ppk"));
+			identity.source = (String) props.$get("source");
+			
+			boolean cont = false;
+			for(int j = 0; j < ids.$length(); j++){
+				if(ids.$get(j).ppk.toPem() == identity.ppk.toPem())
+					cont = true;
+			}
+			if(cont)
+				continue;
+			
+			ids.push(identity);
+		}
+	}
+
+	/**
+	 * Writes contact data to localstorage.
+	 */
+	public static void saveIdentities()
+	{
+		Array<Object> c = new Array<Object>();
+		for (int i = 0; i < ids.$length(); i++)
+		{
+			Object o = new Object();
+			Map<String, Object> props = JSObjectAdapter.$properties(o);
+			EcIdentity identity = ids.$get(i);
+			props.$put("displayName", identity.displayName);
+			props.$put("ppk", identity.ppk.toPem());
+			props.$put("source", identity.source);
+			c.push(o);
+		}
+		Global.localStorage.$put("identities", JSGlobal.JSON.stringify(c));
+	}
 
 	public static void clearContacts(){
 		Global.localStorage.$delete("contacts");
