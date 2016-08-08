@@ -3,6 +3,38 @@
 [competency:Multiplication AND confidence>0.6] AND
 [competency:Division AND confidence>0.6]
 
+Does Billy have competency:Basic Arithmetic?
+	(SELECT ASSERTION WHERE (competency:Basic Arithmetic))
+	COMBINATOR <AND>{
+		SELECT ASSERTION WHERE (competency:Addition AND confidence>0.6),
+		SELECT ASSERTION WHERE (competency:Subtraction AND confidence>0.6),
+		SELECT ASSERTION WHERE (competency:Multiplication AND confidence>0.6),
+		SELECT ASSERTION WHERE (competency:Division AND confidence>0.6)
+	}
+	Does Billy have competency:Schoolyard Arithmetic?
+
+Does Billy have competency:Basic Arithmetic?
+	(SELECT ASSERTION WHERE (competency:Basic Arithmetic))
+	COMBINATOR <AND>{
+		YES&YES,
+		<NULL>,
+		NO,
+		YES
+	}
+	YES
+
+Does Billy have competency:Basic Arithmetic?
+	(SELECT ASSERTION WHERE (competency:Basic Arithmetic))
+	NO
+	YES
+	
+Does Billy have competency:Basic Arithmetic?
+	<NULL>
+	NO
+	YES
+
+-----
+
 NUMBER : (0-9)+(.(0-9)+)?
 BOOLEAN : "true" | "false"
 LOGICAL_OPERATOR : "AND" | "OR"
