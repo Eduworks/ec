@@ -23,13 +23,13 @@ public class RollupRuleGenerator
 		final RollupRuleGenerator me = this;
 		for (int i = 0; i < ip.context.relation.$length(); i++)
 		{
-			ip.queriesRunning++;
+			ip.numberOfQueriesRunning++;
 			EcAlignment.get(ip.context.relation.$get(i), new Callback1<EcAlignment>()
 			{
 				@Override
 				public void $invoke(EcAlignment p1)
 				{
-					me.ip.queriesRunning--;
+					me.ip.numberOfQueriesRunning--;
 					if (!p1.source.equals(me.ip.competency) && !p1.target.equals(me.ip.competency))
 						return;
 					if (p1.source.equals(me.ip.competency))
@@ -53,7 +53,7 @@ public class RollupRuleGenerator
 				@Override
 				public void $invoke(String p1)
 				{
-					me.ip.queriesRunning--;
+					me.ip.numberOfQueriesRunning--;
 				}
 			});
 		}

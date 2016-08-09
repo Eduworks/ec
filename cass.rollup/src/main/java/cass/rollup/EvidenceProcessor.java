@@ -10,6 +10,7 @@ import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Date;
+import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
 
 import com.eduworks.ec.callback.EcCallbackReturn0;
@@ -17,292 +18,244 @@ import com.eduworks.ec.callback.EcCallbackReturn1;
 import com.eduworks.ec.crypto.EcPk;
 import com.eduworks.schema.ebac.EbacSignature;
 
+import cass.rollup.InquiryPacket.IPType;
+
 public class EvidenceProcessor
 {
 	public Array<EcRepository> repositories;
 	public boolean step;
 	public Callback1<Object> logFunction;
+	
+	private static final boolean DEF_STEP = true;
 
 	public EvidenceProcessor()
 	{
 		repositories = new Array<EcRepository>();
-		step = true;
+		step = DEF_STEP;
 	}
 
 	protected void log(InquiryPacket ip, Object string)
 	{
-		if (logFunction != null)
-			logFunction.$invoke(string);
+		if (logFunction != null) logFunction.$invoke(string);
 		ip.log += "\n" + string;
 	}
 
 	public void has(Array<EcPk> subject, EcCompetency competency, EcLevel level, EcFramework context, Array<EbacSignature> additionalSignatures,
-			Callback1<InquiryPacket> success, EcCallbackReturn1<String> ask, Callback1<String> failure)
+			          Callback1<InquiryPacket> success, EcCallbackReturn1<String> ask, Callback1<String> failure)
 	{
-		InquiryPacket ip = new InquiryPacket(subject, competency, level, context, success, failure);
-
+		InquiryPacket ip = new InquiryPacket(subject, competency, level, context, success, failure, null, IPType.COMPETENCY);
 		log(ip,"Created new inquiry.");
 		continueProcessing(ip);
 	}
 
 	public void continueProcessing(InquiryPacket ip)
 	{
-		//The first part is to build the inquiry packet tree.
+	   //Build inquiry packet tree
 		if (!ip.finished)
-		{
-			if (ip.checkedAssertionsAboutCompetency == false)
-				hasAssertionAboutCompetency(ip);
-			else if (ip.checkedRollupRulesAboutCompetency == false)
-				hasRollupRulesAboutCompetency(ip);
-			else if (ip.foundRollupRuleAboutCompetency == false && ip.checkedDefaultRuleAboutCompetency == false)
-				defaultRollupRulesAboutCompetency(ip);
-			else
-				ip.finished = true;
+		{		   
+		   if (!ip.hasCheckedAssertionsForCompetency) findSubjectAssertionsForCompetency(ip);
+         else if (!ip.hasCheckedRelationshipsForCompetency) findCompetencyRelationships(ip);
+         else if (!ip.hasCheckedRollupRulesForCompetency) findRollupRulesForCompetency(ip);
+         else ip.finished = true;
 		}
-		if (ip.finished)
-			for (int i = 0; i < ip.equivalentPackets.$length(); i++)
-			{
-				InquiryPacket eip = ip.equivalentPackets.$get(i);
-				continueProcessing(eip);
-				return;
-			}
-		
-		//The second part is to finally answer the question based on the tree.
+		if (ip.finished) 
+		{
+		   processChildPackets(ip.equivalentPackets);	
+		   processChildPackets(ip.subPackets);
+		}
+		//TODO process packet results
 	}
-
-	private void hasAssertionAboutCompetency(final InquiryPacket ip)
+	
+	private void processChildPackets(Array<InquiryPacket> childPackets) 
 	{
-		final EvidenceProcessor me = this;
-		log(ip,"Checking to see if the subject has an assertion about the competency.");
-		for (int i = 0; i < repositories.$length(); i++)
-		{
-			EcRepository r = repositories.$get(i);
-			ip.queriesRunning++;
-			log(ip, "Searching: " + r.selectedServer);
-			r.search(new EcAssertion().getSearchStringByTypeAndCompetency(ip.competency), new Callback1<EcRemoteLinkedData>()
-			{
-				@Override
-				public void $invoke(EcRemoteLinkedData p1)
-				{
-					EcAssertion a = new EcAssertion();
-					a.copyFrom(p1);
-					for (int i = 0; i < ip.subject.$length(); i++)
-					{
-						EcPk subject = ip.subject.$get(i);
-						if (a.getSubject().equals(subject))
-						{
-							me.log(ip, "Matching Assertion found.");
-							if (a.getAssertionDate() > new Date().getDate())
-							{
-								me.log(ip, "Assertion is made for a future date.");
-								return;
-							}
-							if (a.getExpirationDate() <= new Date().getDate())
-							{
-								me.log(ip, "Assertion is expired. Skipping.");
-								return;
-							}
-							me.log(ip, "No issues found with assertion.");
-							me.log(ip, "Record Id: " + a.shortId());
-							me.log(ip, "Confidence: " + a.confidence);
-							me.log(ip, "Number of pieces of evidence: " + a.getEvidenceCount());
-							me.log(ip, "Evidence:");
-							for (int j = 0; j < a.getEvidenceCount(); j++)
-								me.log(ip, "  " + a.getEvidence(j));
-							me.log(ip, "Recording in inquiry.");
-							if (a.getNegative())
-								ip.negative.push(a);
-							else
-								ip.positive.push(a);
-						}
-					}
-				}
-			}, new Callback1<Array<EcRemoteLinkedData>>()
-			{
-				@Override
-				public void $invoke(Array<EcRemoteLinkedData> p1)
-				{
-					if (p1.$length() == 0)
-						me.log(ip,"No results found.");
-					ip.queriesRunning--;
-					if (ip.queriesRunning == 0)
-					{
-						if (!me.step)
-							me.continueProcessing(ip);
-					}
-				}
-			}, new Callback1<String>()
-			{
-				@Override
-				public void $invoke(String p1)
-				{
-					ip.queriesRunning--;
-					ip.failure.$invoke(p1);
-				}
-			});
-		}
-		for (int i = 0; i < ip.context.relation.$length(); i++)
-		{
-			ip.queriesRunning++;
-			EcAlignment.get(ip.context.relation.$get(i), new Callback1<EcAlignment>()
-			{
-				@Override
-				public void $invoke(EcAlignment p1)
-				{
-					ip.queriesRunning--;
-					if (!p1.source.equals(ip.competency) && !p1.target.equals(ip.competency))
-						return;
-					String otherCompetency = null;
-					if (p1.source.equals(ip.competency))
-						otherCompetency = p1.target;
-					else
-						otherCompetency = p1.source;
+      if (childPackets != null) 
+      {
+         for (int i = 0; i < childPackets.$length(); i++) 
+         {
+            continueProcessing(childPackets.$get(i));
+            //return;  TB - not sure why this return was here
+         }
+      }
+   }
 
-					if (p1.relationType.equals(EcAlignment.IS_EQUIVALENT_TO))
-					{
-						ip.queriesRunning++;
-						EcCompetency.get(otherCompetency, new Callback1<EcCompetency>()
-						{
-
-							@Override
-							public void $invoke(EcCompetency p1)
-							{
-								InquiryPacket newIp = new InquiryPacket(ip.subject, p1, null, ip.context, null, ip.failure);
-								ip.equivalentPackets.push(newIp);
-
-								ip.queriesRunning--;
-								if (ip.queriesRunning == 0)
-								{
-									if (!me.step)
-										me.continueProcessing(ip);
-								}
-							}
-						}, new Callback1<String>()
-						{
-							@Override
-							public void $invoke(String p1)
-							{
-								ip.queriesRunning--;
-								ip.failure.$invoke(p1);
-							}
-						});
-					}
-				}
-			}, new Callback1<String>()
-			{
-
-				@Override
-				public void $invoke(String p1)
-				{
-					ip.queriesRunning--;
-					ip.failure.$invoke(p1);
-				}
-
-			});
-		}
-		ip.checkedAssertionsAboutCompetency = true;
-	}
-
-	private void hasRollupRulesAboutCompetency(final InquiryPacket ip)
+	private void checkStep(InquiryPacket ip) 
 	{
-		final EvidenceProcessor me = this;
-		log(ip,"Checking to see if rollup rules exist for the competency.");
-		for (int i = 0; i < ip.getContext().rollupRule.$length(); i++)
-		{
-			ip.queriesRunning++;
-			EcRollupRule.get(ip.getContext().rollupRule.$get(i), new Callback1<EcRollupRule>()
-			{
-				@Override
-				public void $invoke(EcRollupRule rr)
-				{
-					if (!ip.competency.isId(rr.competency))
-						return;
-
-					me.log(ip,"Found. Rule is: " + rr.rule);
-
-					RollupRuleProcessor rrp = new RollupRuleProcessor(ip);
-
-					rrp.positive = ip.positive;
-					rrp.negative = ip.negative;
-
-					RollupRuleInterface rri = new RollupRuleInterface(rr.rule, rrp);
-
-					rri.logFunction = me.logFunction;
-					rri.success = new Callback1<Boolean>()
-					{
-						@Override
-						public void $invoke(Boolean p1)
-						{
-							me.log(ip,"Rollup Rule completed.");
-							ip.queriesRunning--;
-							ip.status = p1;
-							ip.checkedRollupRulesAboutCompetency = true;
-							if (ip.queriesRunning == 0)
-							{
-								if (!me.step)
-									me.continueProcessing(ip);
-							}
-						}
-					};
-					rri.failure = ip.failure;
-					me.log(ip,"Executing Rollup Rule Interpreter.");
-					rri.go();
-					ip.foundRollupRuleAboutCompetency = true;
-				}
-			}, new Callback1<String>()
-			{
-				@Override
-				public void $invoke(String p1)
-				{
-					ip.queriesRunning--;
-					ip.failure.$invoke(p1);
-				}
-			});
-		}
-	}
-
-	private void defaultRollupRulesAboutCompetency(final InquiryPacket ip)
+	   log(ip,"Checkstep: " + ip.numberOfQueriesRunning);
+      if (ip.numberOfQueriesRunning == 0) 
+      {
+         if (!step) continueProcessing(ip);
+      }
+      else 
+      {
+         checkStep(ip);
+      }
+   }
+	
+	private void processEventFailure(String message, InquiryPacket ip) 
 	{
-		final EvidenceProcessor me = this;
-		log(ip,"Generating rollup rules for this inquiry based on competency relations.");
-		ip.queriesRunning++;
-
-		RollupRuleGenerator g = new RollupRuleGenerator(ip);
-		g.failure = ip.failure;
-		g.success = new Callback1<String>()
-		{
-			@Override
-			public void $invoke(String rr)
-			{
-				me.log(ip,"Generated. Rule is: " + rr);
-
-				RollupRuleProcessor rrp = new RollupRuleProcessor(ip);
-
-				RollupRuleInterface rri = new RollupRuleInterface(rr, rrp);
-
-				rri.logFunction = me.logFunction;
-				rri.success = new Callback1<Boolean>()
-				{
-					@Override
-					public void $invoke(Boolean p1)
-					{
-						me.log(ip,"Rollup Rule completed.");
-						ip.queriesRunning--;
-						ip.status = p1;
-						ip.checkedDefaultRuleAboutCompetency = true;
-						if (ip.queriesRunning == 0)
-						{
-							if (!me.step)
-								me.continueProcessing(ip);
-						}
-					}
-				};
-				rri.failure = ip.failure;
-				me.log(ip,"Executing Rollup Rule Interpreter.");
-				rri.go();
-				ip.foundRollupRuleAboutCompetency = true;
-			}
-		};
-		g.go();
+      log(ip,"Event failed: " + message);
+      ip.numberOfQueriesRunning--;
+      ip.failure.$invoke(message);
+   }
+	
+	private void logFoundAssertion(EcAssertion a, InquiryPacket ip) 
+	{
+      log(ip, "No issues found with assertion.");
+      log(ip, "Record Id: " + a.shortId());
+      log(ip, "Confidence: " + a.confidence);
+      log(ip, "Number of pieces of evidence: " + a.getEvidenceCount());
+      log(ip, "Evidence:");
+      for (int j = 0; j < a.getEvidenceCount(); j++) log(ip, "  " + a.getEvidence(j));
+      log(ip, "Recording in inquiry.");
+   }
+	
+	private void processFoundAssertion(EcRemoteLinkedData searchData, InquiryPacket ip) 
+	{
+      EcAssertion a = new EcAssertion();
+      a.copyFrom(searchData);
+      EcPk currentSubject;
+      for (int i = 0; i < ip.subject.$length(); i++) {
+         currentSubject = ip.subject.$get(i);
+         if (a.getSubject().equals(currentSubject)) {
+            log(ip, "Matching Assertion found.");
+            if (a.getAssertionDate() > new Date().getDate()) {
+               log(ip, "Assertion is made for a future date.");
+               return;
+            }
+            else if (a.getExpirationDate() <= new Date().getDate()) {
+               log(ip, "Assertion is expired. Skipping.");
+               return;
+            }
+            logFoundAssertion(a,ip);            
+            if (a.getNegative()) ip.negative.push(a);
+            else ip.positive.push(a);
+         }
+      }
+   }
+	
+	private void processFindAssertionsSuccess(Array<EcRemoteLinkedData> data, InquiryPacket ip) 
+	{
+      if (data.$length() == 0) log(ip,"No results found.");
+      else log(ip,"Total number of assertions found: " + data.$length());
+      ip.numberOfQueriesRunning--;
+      checkStep(ip);
+   }   
+	
+	private String buildAssertionSearchQuery(InquiryPacket ip) {
+      //TODO need to change search based on IPType...IPType competency vs rolluprule
+	   if (IPType.ROLLUPRULE.equals(ip.type)) {
+	      //return new EcAssertion().getSearchStringByTypeAndCompetency(ip.competency);
+	   }
+	   return new EcAssertion().getSearchStringByTypeAndCompetency(ip.competency);
 	}
+	
+	private void findSubjectAssertionsForCompetency(final InquiryPacket ip) 
+	{
+      EcRepository currentRepository;
+      log(ip,"Querying repositories for subject assertions on competency: " + ip.competency.id);
+      ip.hasCheckedAssertionsForCompetency = true;
+      if (IPType.COMBINATOR_AND.equals(ip.type) || IPType.COMBINATOR_OR.equals(ip.type)) return; //no need to search for combinator assertions
+      for (int i = 0; i < repositories.$length(); i++) 
+      {
+         currentRepository = repositories.$get(i);
+         ip.numberOfQueriesRunning++;
+         log(ip, "Searching: " + currentRepository.selectedServer);          
+         currentRepository.search(buildAssertionSearchQuery(ip),
+               new Callback1<EcRemoteLinkedData>() 
+               {
+                  @Override
+                  public void $invoke(EcRemoteLinkedData p1) {processFoundAssertion(p1,ip);}
+               }, 
+               new Callback1<Array<EcRemoteLinkedData>>() 
+               {
+                  @Override
+                  public void $invoke(Array<EcRemoteLinkedData> p1) {processFindAssertionsSuccess(p1,ip);}
+               }, 
+               new Callback1<String>() 
+               {
+                  @Override
+                  public void $invoke(String p1) {processEventFailure(p1,ip);}
+               }
+         );
+      }
+   }
+
+	private void processRelationshipPacketsGenerated(InquiryPacket ip) 
+	{
+	   log(ip,"Relationship succesfully processed.");
+	   ip.numberOfQueriesRunning--;
+	   checkStep(ip);
+	}
+	
+	private void findCompetencyRelationships(final InquiryPacket ip) 
+	{
+	   log(ip,"Finding relationships for competency: " + ip.competency.id);
+	   ip.hasCheckedRelationshipsForCompetency = true;
+	   RelationshipPacketGenerator rpg = new RelationshipPacketGenerator(ip);
+	   rpg.failure = ip.failure;
+	   rpg.success = new Callback0() 
+   	   {         
+            @Override
+            public void $invoke() {processRelationshipPacketsGenerated(ip);}
+         };
+	   log(ip,"Executing relationship packet generator");
+	   ip.numberOfQueriesRunning++;
+      rpg.go();	   
+	}
+	
+   private void processRollupRuleInterpretSuccess(Boolean status, InquiryPacket ip) 
+   {
+      log(ip,"Rollup rule successfully interpreted.");
+      ip.numberOfQueriesRunning--;
+      ip.status = status;      
+      checkStep(ip);
+   }
+   
+   private void processFindRollupRuleSuccess(EcRollupRule rr, final InquiryPacket ip) 
+   {
+      if (!ip.competency.isId(rr.competency)) return;
+      log(ip,"Found rollup rule: " + rr.rule);
+      RollupRuleProcessor rrp = new RollupRuleProcessor(ip);
+      rrp.positive = ip.positive;
+      rrp.negative = ip.negative;
+      RollupRuleInterface rri = new RollupRuleInterface(rr.rule, rrp);
+      rri.logFunction = logFunction;
+      rri.success = new Callback1<Boolean>() 
+         {
+            @Override
+            public void $invoke(Boolean p1) 
+            {
+               //ip.hasCheckedRollupRulesForCompetency = true;
+               processRollupRuleInterpretSuccess(p1,ip);
+            }
+         };
+      rri.failure = ip.failure;
+      log(ip,"Executing rollup rule interpreter");
+      rri.go();  
+      //TODO figure this part out...
+      //ip.hasFoundRollupRuleForCompetency = true;
+   }
+   
+   private void findRollupRulesForCompetency(final InquiryPacket ip)
+   {
+      //TODO figure this stuff out
+      log(ip,"Finding rollup rules for competency: " + ip.competency.id);
+      ip.hasCheckedRollupRulesForCompetency = true;
+      for (int i = 0; i < ip.getContext().rollupRule.$length(); i++) {
+         ip.numberOfQueriesRunning++;
+         EcRollupRule.get(ip.getContext().rollupRule.$get(i), 
+               new Callback1<EcRollupRule>() 
+               {
+                  @Override
+                  public void $invoke(EcRollupRule rr){processFindRollupRuleSuccess(rr,ip);}
+               }, 
+               new Callback1<String>() 
+               {
+                  @Override
+                  public void $invoke(String p1) {processEventFailure(p1,ip);}
+               }
+         );
+      }      
+   }
+   
 }

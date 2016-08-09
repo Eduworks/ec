@@ -13,6 +13,9 @@ import com.eduworks.ec.crypto.EcPk;
 
 public class InquiryPacket
 {
+   
+   public enum IPType {COMPETENCY, ROLLUPRULE, COMBINATOR_AND, COMBINATOR_OR}
+   
 	public Array<EcPk> subject;
 	public EcCompetency competency;
 	public EcFramework context;
@@ -22,36 +25,48 @@ public class InquiryPacket
 	public EcLevel level;
 	
 	public Array<InquiryPacket> equivalentPackets;
+	//public Array<InquiryPacket> narrowsPackets;
+	//public Array<InquiryPacket> requiresPackets;
 	public Array<InquiryPacket> subPackets;
 	
 	public double dateCreated; 
 	
-	public boolean checkedAssertionsAboutCompetency = false;
-	public boolean checkedRollupRulesAboutCompetency = false;
-	public boolean foundRollupRuleAboutCompetency = false;
-	public boolean checkedDefaultRuleAboutCompetency = false;
+	public boolean hasCheckedAssertionsForCompetency = false;
+	public boolean hasCheckedRollupRulesForCompetency = false;
+	public boolean hasCheckedRelationshipsForCompetency = false;
+	//public boolean hasCheckedEquivalenciesForCompetency = false;
 	
-	public int queriesRunning;
+	
+	//public boolean hasFoundRollupRuleForCompetency = false;
+	
+	public int numberOfQueriesRunning;
 	public String log;
 	public Array<EcAssertion> positive;
 	public Array<EcAssertion> negative;
 	
 	public Boolean status;
-	public Boolean finished;
+	public Boolean finished = false;
 	
-	public InquiryPacket(Array<EcPk> subject2, EcCompetency competency2, EcLevel level2, EcFramework context2, Callback1<InquiryPacket> success2, Callback1<String> failure2)
+	public IPType type;
+	
+	public String rule;
+	
+	public InquiryPacket(Array<EcPk> subject, EcCompetency competency, EcLevel level, EcFramework context, 
+	                     Callback1<InquiryPacket> success, Callback1<String> failure, String rule, IPType type)
 	{
 		positive = new Array<EcAssertion>();
 		negative = new Array<EcAssertion>();
 		equivalentPackets = new Array<InquiryPacket>();
 		subPackets = new Array<InquiryPacket>();
 		dateCreated = new Date().getTime();
-		subject = subject2;
-		competency = competency2;
-		level = level2;
-		context = context2;
-		success = success2;
-		failure = failure2;
+		this.subject = subject;
+		this.competency = competency;
+		this.level = level;
+		this.context = context;
+		this.success = success;
+		this.failure = failure;
+		this.rule = rule;
+		this.type = type;
 		log = "";
 	}
 
