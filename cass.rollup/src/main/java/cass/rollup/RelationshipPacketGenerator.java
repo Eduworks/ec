@@ -81,34 +81,36 @@ public class RelationshipPacketGenerator
       if (alignment.source.equals(ip.competency)) relatedCompetencyId = alignment.target;
       else relatedCompetencyId = alignment.source;      
       ip.numberOfQueriesRunning++;
+      final RelationshipPacketGenerator rpg = this;
       EcCompetency.get(relatedCompetencyId, 
             new Callback1<EcCompetency>() 
             {
                @Override
-               public void $invoke(EcCompetency p1) {processGetRelatedCompetencySuccess(p1,alignment.relationType,ip);}
+               public void $invoke(EcCompetency p1) {rpg.processGetRelatedCompetencySuccess(p1,alignment.relationType,ip);}
             }, 
             new Callback1<String>() 
             {
                @Override
-               public void $invoke(String p1) {processEventFailure(p1,ip);}
+               public void $invoke(String p1) {rpg.processEventFailure(p1,ip);}
             }
       );      
    }
    
    public void go() 
    {
+      final RelationshipPacketGenerator rpg = this;
       for (int i = 0; i < ip.getContext().relation.$length(); i++) {
          ip.numberOfQueriesRunning++;
          numberOfRelationsToProcess = ip.getContext().relation.$length();
-         numberOfRelationsProcessed = 0;
+         numberOfRelationsProcessed = 0;         
          EcAlignment.get(ip.getContext().relation.$get(i), 
                new Callback1<EcAlignment>() {
                   @Override
-                  public void $invoke(EcAlignment p1) {processFindCompetencyRelationshipSuccess(p1,ip);}
+                  public void $invoke(EcAlignment p1) {rpg.processFindCompetencyRelationshipSuccess(p1,rpg.ip);}
                }, 
                new Callback1<String>() {      
                   @Override
-                  public void $invoke(String p1) {processEventFailure(p1,ip);}      
+                  public void $invoke(String p1) {rpg.processEventFailure(p1,rpg.ip);}      
                }
          );
       }

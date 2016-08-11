@@ -80,12 +80,13 @@ public class EvidenceProcessor
 
 	private void checkStep(InquiryPacket ip) 
 	{
+	   //TODO Fritz, please make sure this is correct
 	   log(ip,"Checkstep: " + ip.numberOfQueriesRunning);
       if (ip.numberOfQueriesRunning == 0) 
       {
          if (!step) continueProcessing(ip);
       }
-      else 
+      else
       {
          checkStep(ip);
       }
@@ -151,6 +152,7 @@ public class EvidenceProcessor
 	
 	private void findSubjectAssertionsForCompetency(final InquiryPacket ip) 
 	{
+	   final EvidenceProcessor ep = this;
       EcRepository currentRepository;
       log(ip,"Querying repositories for subject assertions on competency: " + ip.competency.id);
       ip.hasCheckedAssertionsForCompetency = true;
@@ -164,17 +166,17 @@ public class EvidenceProcessor
                new Callback1<EcRemoteLinkedData>() 
                {
                   @Override
-                  public void $invoke(EcRemoteLinkedData p1) {processFoundAssertion(p1,ip);}
+                  public void $invoke(EcRemoteLinkedData p1) {ep.processFoundAssertion(p1,ip);}
                }, 
                new Callback1<Array<EcRemoteLinkedData>>() 
                {
                   @Override
-                  public void $invoke(Array<EcRemoteLinkedData> p1) {processFindAssertionsSuccess(p1,ip);}
+                  public void $invoke(Array<EcRemoteLinkedData> p1) {ep.processFindAssertionsSuccess(p1,ip);}
                }, 
                new Callback1<String>() 
                {
                   @Override
-                  public void $invoke(String p1) {processEventFailure(p1,ip);}
+                  public void $invoke(String p1) {ep.processEventFailure(p1,ip);}
                }
          );
       }
@@ -189,6 +191,7 @@ public class EvidenceProcessor
 	
 	private void findCompetencyRelationships(final InquiryPacket ip) 
 	{
+	   final EvidenceProcessor ep = this;
 	   log(ip,"Finding relationships for competency: " + ip.competency.id);
 	   ip.hasCheckedRelationshipsForCompetency = true;
 	   RelationshipPacketGenerator rpg = new RelationshipPacketGenerator(ip);
@@ -196,7 +199,7 @@ public class EvidenceProcessor
 	   rpg.success = new Callback0() 
    	   {         
             @Override
-            public void $invoke() {processRelationshipPacketsGenerated(ip);}
+            public void $invoke() {ep.processRelationshipPacketsGenerated(ip);}
          };
 	   log(ip,"Executing relationship packet generator");
 	   ip.numberOfQueriesRunning++;
@@ -213,7 +216,10 @@ public class EvidenceProcessor
    
    private void processFindRollupRuleSuccess(EcRollupRule rr, final InquiryPacket ip) 
    {
+      //TODO, need to take another pass with antlr...Nested competencies checks is messed up
+      //Things like this will fail [(competency:Addition1 OR competency:Addition2) AND confidence>0.6]
       if (!ip.competency.isId(rr.competency)) return;
+      final EvidenceProcessor ep = this;
       log(ip,"Found rollup rule: " + rr.rule);
       RollupRuleProcessor rrp = new RollupRuleProcessor(ip);
       rrp.positive = ip.positive;
@@ -225,37 +231,35 @@ public class EvidenceProcessor
             @Override
             public void $invoke(Boolean p1) 
             {
-               //ip.hasCheckedRollupRulesForCompetency = true;
-               processRollupRuleInterpretSuccess(p1,ip);
+               ep.processRollupRuleInterpretSuccess(p1,ip);
             }
          };
       rri.failure = ip.failure;
       log(ip,"Executing rollup rule interpreter");
-      rri.go();  
-      //TODO figure this part out...
-      //ip.hasFoundRollupRuleForCompetency = true;
+      rri.go();
    }
    
    private void findRollupRulesForCompetency(final InquiryPacket ip)
    {
-      //TODO figure this stuff out
       log(ip,"Finding rollup rules for competency: " + ip.competency.id);
       ip.hasCheckedRollupRulesForCompetency = true;
+      final EvidenceProcessor ep = this;
       for (int i = 0; i < ip.getContext().rollupRule.$length(); i++) {
          ip.numberOfQueriesRunning++;
          EcRollupRule.get(ip.getContext().rollupRule.$get(i), 
                new Callback1<EcRollupRule>() 
                {
                   @Override
-                  public void $invoke(EcRollupRule rr){processFindRollupRuleSuccess(rr,ip);}
+                  public void $invoke(EcRollupRule rr){ep.processFindRollupRuleSuccess(rr,ip);}
                }, 
                new Callback1<String>() 
                {
                   @Override
-                  public void $invoke(String p1) {processEventFailure(p1,ip);}
+                  public void $invoke(String p1) {ep.processEventFailure(p1,ip);}
                }
          );
-      }      
+      }
+      ip.hasCheckedRollupRulesForCompetency = true;
    }
    
 }

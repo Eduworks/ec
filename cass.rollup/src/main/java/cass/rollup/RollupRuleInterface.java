@@ -47,6 +47,7 @@ public class RollupRuleInterface
 			public void $invoke(context ctx)
 			{
 				me.processor.exitS(ctx);
+				me.success.$invoke(true);
 			}
 		};
 		listener.exitToken = new Callback1<context>()
