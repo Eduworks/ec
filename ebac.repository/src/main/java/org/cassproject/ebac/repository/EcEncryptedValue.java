@@ -157,8 +157,6 @@ public class EcEncryptedValue extends EbacEncryptedValue
 					decrypted.id = this.id;
 					return decrypted;
 				}
-					
-
 			}
 		// See if I have read-only access.
 		if (reader != null)
@@ -188,7 +186,9 @@ public class EcEncryptedValue extends EbacEncryptedValue
 
 	public String decryptIntoString()
 	{
-		EcRemoteLinkedData d = null;
+		if(!verify())
+			return null;
+		
 		// See if I am an owner.
 		if (owner != null)
 			for (int i = 0; i < owner.$length(); i++)
@@ -223,43 +223,86 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		return null;
 	}
 
+	public EbacEncryptedSecret decryptSecret()
+	{
+		if(!verify())
+			return null;
+		
+		// See if I am an owner.
+		if (owner != null)
+			for (int i = 0; i < owner.$length(); i++)
+			{
+				EcPpk decryptionKey = EcIdentityManager.getPpk(EcPk.fromPem(owner.$get(i)));
+				if (decryptionKey == null)
+					continue;
+				EbacEncryptedSecret decrypted = decryptSecret(decryptionKey);
+				if (decrypted != null)
+					return decrypted;
+
+			}
+		// See if I have read-only access.
+		if (reader != null)
+			for (int i = 0; i < reader.$length(); i++)
+			{
+				EcPpk decryptionKey = EcIdentityManager.getPpk(EcPk.fromPem(reader.$get(i)));
+				if (decryptionKey == null)
+					continue;
+				EbacEncryptedSecret decrypted = decryptSecret(decryptionKey);
+				if (decrypted != null)
+					return decrypted;
+			}
+		// Last resort, try all the keys I have on all the possible locks.
+		for (int i = 0; i < EcIdentityManager.ids.$length(); i++)
+		{
+			EcPpk decryptionKey = EcIdentityManager.ids.$get(i).ppk;
+			EbacEncryptedSecret decrypted = decryptSecret(decryptionKey);
+			if (decrypted != null)
+				return decrypted;
+		}
+		return null;
+	}
+
 	private String decryptRaw(EcPpk decryptionKey)
 	{
-		if (secret != null)
-		for (int j = 0; j < secret.$length(); j++)
+		EbacEncryptedSecret encryptedSecret = decryptSecret(decryptionKey);
+		if (encryptedSecret != null)
+			return EcAesCtr.decrypt(payload, encryptedSecret.secret, encryptedSecret.iv);
+		return null;
+	}
+
+	private EbacEncryptedSecret decryptSecret(EcPpk decryptionKey)
+	{
+		EbacEncryptedSecret encryptedSecret = null;
+		if (this.secret != null)
+		for (int j = 0; j < this.secret.$length(); j++)
 		{
 			try
 			{
 				String decryptedSecret = null;
-				decryptedSecret = EcRsaOaep.decrypt(decryptionKey, secret.$get(j));
+				decryptedSecret = EcRsaOaep.decrypt(decryptionKey, this.secret.$get(j));
 				if (!EcLinkedData.isProbablyJson(decryptedSecret))
 					continue;
-				EbacEncryptedSecret secret = EbacEncryptedSecret.fromEncryptableJson(JSGlobal.JSON.parse(decryptedSecret));
-				return EcAesCtr.decrypt(payload, secret.secret, secret.iv);
+				encryptedSecret = EbacEncryptedSecret.fromEncryptableJson(JSGlobal.JSON.parse(decryptedSecret));
 			}
 			catch (Exception ex)
 			{
 
 			}
 		}
-		return null;
+		return encryptedSecret;
 	}
 
 	private EcRemoteLinkedData decryptToObject(EcPpk decryptionKey)
 	{
-		for (int j = 0; j < secret.$length(); j++)
-		{
-			String decryptRaw = decryptRaw(decryptionKey);
-			if (decryptRaw == null)
-				continue;
-			if (!EcLinkedData.isProbablyJson(decryptRaw))
-				continue;
-			EcRemoteLinkedData decrypted = new EcRemoteLinkedData("", "");
-			decrypted.copyFrom((EcRemoteLinkedData) JSGlobal.JSON.parse(decryptRaw));
-			decrypted.privateEncrypted = true;
-			return (EcRemoteLinkedData) decrypted.deAtify();
-		}
-		return null;
+		String decryptRaw = decryptRaw(decryptionKey);
+		if (decryptRaw == null)
+			return null;
+		if (!EcLinkedData.isProbablyJson(decryptRaw))
+			return null;
+		EcRemoteLinkedData decrypted = new EcRemoteLinkedData("", "");
+		decrypted.copyFrom((EcRemoteLinkedData) JSGlobal.JSON.parse(decryptRaw));
+		decrypted.privateEncrypted = true;
+		return (EcRemoteLinkedData) decrypted.deAtify();
 	}
 	
 	
