@@ -38,15 +38,15 @@ public class EcRemote
 				if (failure != null)
 					if (paramP1 != null)
 						if (paramP1.responseText != null)
-							failure.$invoke("Error in AJAX request 001: " + paramP1.responseText);
+							failure.$invoke(paramP1.responseText);
 						else if (paramP1.statusText != null)
-							failure.$invoke("Error in AJAX request 002: " + paramP1.statusText.toString());
+							failure.$invoke(paramP1.statusText.toString());
 						else
 							failure.$invoke("General error in AJAX request.");
 					else if (paramP2 != null)
-						failure.$invoke("Error in AJAX request 003: " + paramP2);
+						failure.$invoke(paramP2);
 					else if (paramP3 != null)
-						failure.$invoke("Error in AJAX request 004: " + paramP2);
+						failure.$invoke(paramP2);
 					else
 						failure.$invoke("General error in AJAX request.");
 			}
