@@ -209,7 +209,7 @@ public class EcAssertion extends Assertion
 	
 	public void save(Callback1<String> success, Callback1<String> failure){
 		if(competency == null || competency == ""){
-			String msg = "Competency cannot be missing";
+			String msg = "Failing to save: Competency cannot be missing";
 			if(failure != null)
 				failure.$invoke(msg);
 			else
@@ -218,7 +218,7 @@ public class EcAssertion extends Assertion
 		}
 		
 		if(subject == null){
-			String msg = "Subject cannot be missing";
+			String msg = "Failing to save: Subject cannot be missing";
 			if(failure != null)
 				failure.$invoke(msg);
 			else
@@ -227,7 +227,7 @@ public class EcAssertion extends Assertion
 		}
 		
 		if(agent == null){
-			String msg = "Subject cannot be missing";
+			String msg = "Failing to save: Agent cannot be missing";
 			if(failure != null)
 				failure.$invoke(msg);
 			else
@@ -236,7 +236,7 @@ public class EcAssertion extends Assertion
 		}
 		
 		if(confidence == null){
-			String msg = "Confidence cannot be missing";
+			String msg = "Failing to save: Confidence cannot be missing";
 			if(failure != null)
 				failure.$invoke(msg);
 			else
@@ -245,7 +245,7 @@ public class EcAssertion extends Assertion
 		}
 		
 		if(assertionDate == null){
-			String msg = "Assertion Date cannot be missing";
+			String msg = "Failing to save: Assertion Date cannot be missing";
 			if(failure != null)
 				failure.$invoke(msg);
 			else
@@ -254,7 +254,7 @@ public class EcAssertion extends Assertion
 		}
 		
 		if(decayFunction == null){
-			String msg = "Decay Function cannot be missing";
+			String msg = "Failing to save: Decay Function cannot be missing";
 			if(failure != null)
 				failure.$invoke(msg);
 			else

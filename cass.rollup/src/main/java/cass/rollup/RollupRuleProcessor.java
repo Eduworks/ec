@@ -29,10 +29,10 @@ public class RollupRuleProcessor
 	
 	RollupRulePacketGenerator rollupRulePacketGenerator;
 
-	public RollupRuleProcessor(InquiryPacket ip)
+	public RollupRuleProcessor(InquiryPacket ip,EvidenceProcessor ep)
 	{
 	   this.ip = ip;
-	   rollupRulePacketGenerator = new RollupRulePacketGenerator(ip);
+	   rollupRulePacketGenerator = new RollupRulePacketGenerator(ip,ep);
 	}
 
 	protected void log(Object string)

@@ -142,9 +142,6 @@ public class EcEncryptedValue extends EbacEncryptedValue
 
 	public EcRemoteLinkedData decryptIntoObject()
 	{
-		if(!verify())
-			return null;
-		
 		// See if I am an owner.
 		if (owner != null)
 			for (int i = 0; i < owner.$length(); i++)
@@ -186,9 +183,6 @@ public class EcEncryptedValue extends EbacEncryptedValue
 
 	public String decryptIntoString()
 	{
-		if(!verify())
-			return null;
-		
 		// See if I am an owner.
 		if (owner != null)
 			for (int i = 0; i < owner.$length(); i++)
@@ -225,9 +219,6 @@ public class EcEncryptedValue extends EbacEncryptedValue
 
 	public EbacEncryptedSecret decryptSecret()
 	{
-		if(!verify())
-			return null;
-		
 		// See if I am an owner.
 		if (owner != null)
 			for (int i = 0; i < owner.$length(); i++)

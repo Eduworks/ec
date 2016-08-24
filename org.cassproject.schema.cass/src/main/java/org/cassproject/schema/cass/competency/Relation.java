@@ -16,6 +16,7 @@ public class Relation extends Thing
 	public static final String DESIRES = "desires";
 	public static final String NARROWS = "narrows";
 	public static final String IS_RELATED_TO = "isRelatedTo";
+	//TODO: Fix this misspelling... with upgrade.
 	public static final String IS_EQUIVALENT_TO = "isEquivalenTo";
 
 	public Relation()

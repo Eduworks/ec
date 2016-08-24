@@ -70,6 +70,7 @@ public class InquiryPacket
 		this.failure = failure;
 		this.rule = rule;
 		this.type = type;
+		this.result = null;
 		log = "";
 	}
 

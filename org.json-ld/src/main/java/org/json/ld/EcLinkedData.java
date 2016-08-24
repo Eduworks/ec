@@ -165,6 +165,7 @@ public class EcLinkedData
 	public boolean isAny(Array<String> type)
 	{
 		String computedType = getFullType();
+		if (type.$length() == 0) return true;
 		for (int i = 0; i < type.$length(); i++)
 			if (type.$get(i).equals(computedType) || type.$get(i).equals(this.type))
 				return true;
@@ -210,8 +211,7 @@ public class EcLinkedData
 		Map<String, Object> you = JSObjectAdapter.$properties(that);
 		for (String key : you)
 		{
-			if (me.$get(key) == null)
-				me.$put(key.replace("@", ""), you.$get(key));
+			me.$put(key.replace("@", ""), you.$get(key));
 		}
 		upgrade();
 		if (!isAny(getTypes()))
@@ -256,7 +256,8 @@ public class EcLinkedData
 	public Array<String> getTypes()
 	{
 		Array<String> a = new Array<>();
-		a.push(type);
+		if (type != null)
+			a.push(type);
 		return a;
 	}
 

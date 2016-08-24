@@ -50,7 +50,7 @@ public class RollupRuleInterfaceTest
 //            "[competency:http://Multiplication AND confidence>0.6] OR " + 
 //            "[competency:http://Division AND confidence>0.6]";
 		final InquiryPacket ip = new InquiryPacket(null,null,null,null,null,null,null,null);
-		RollupRuleProcessor rrp = new RollupRuleProcessor(ip);
+		RollupRuleProcessor rrp = new RollupRuleProcessor(ip,null);
 		RollupRuleInterface rri = new RollupRuleInterface(input,rrp);
 		rri.logFunction = new Callback1<Object>()
 		{

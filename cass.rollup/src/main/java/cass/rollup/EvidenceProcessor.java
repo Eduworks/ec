@@ -27,7 +27,7 @@ public class EvidenceProcessor
 	public boolean step;
 	public Callback1<Object> logFunction;
 
-	private static final boolean DEF_STEP = true;
+	private static final boolean DEF_STEP = false;
 
 	public EvidenceProcessor()
 	{
@@ -71,7 +71,9 @@ public class EvidenceProcessor
 				return true;
 			}
 			else
+			{
 				ip.finished = true;
+			}
 		}
 		if (ip.finished)
 		{
@@ -81,7 +83,13 @@ public class EvidenceProcessor
 				return true;
 		}
 		// determine result
-		determineResult(ip);
+		if (ip.result == null)
+		{
+			determineResult(ip);
+			if(ip.result != null && ip.success != null)
+				ip.success.$invoke(ip);
+			return true;
+		}
 		return false;
 	}
 
@@ -91,7 +99,8 @@ public class EvidenceProcessor
 		{
 			for (int i = 0; i < childPackets.$length(); i++)
 			{
-				return continueProcessing(childPackets.$get(i));
+				if (continueProcessing(childPackets.$get(i))) 
+					return true;
 				// TB - not sure why this return was here
 				// FR - The return is here because we don't want to process
 				// multiple things at the same time, as it locks up the UI
@@ -155,12 +164,12 @@ public class EvidenceProcessor
 			if (a.getSubject().equals(currentSubject))
 			{
 				log(ip, "Matching Assertion found.");
-				if (a.getAssertionDate() > new Date().getDate())
+				if (a.getAssertionDate() > (long) new Date().getTime())
 				{
 					log(ip, "Assertion is made for a future date.");
 					return;
 				}
-				else if (a.getExpirationDate() <= new Date().getDate())
+				else if (a.getExpirationDate() <= (long) new Date().getTime())
 				{
 					log(ip, "Assertion is expired. Skipping.");
 					return;
@@ -245,7 +254,7 @@ public class EvidenceProcessor
 		final EvidenceProcessor ep = this;
 		log(ip, "Finding relationships for competency: " + ip.competency.id);
 		ip.hasCheckedRelationshipsForCompetency = true;
-		RelationshipPacketGenerator rpg = new RelationshipPacketGenerator(ip);
+		RelationshipPacketGenerator rpg = new RelationshipPacketGenerator(ip,ep);
 		rpg.failure = ip.failure;
 		rpg.success = new Callback0()
 		{
@@ -278,7 +287,7 @@ public class EvidenceProcessor
 			return;
 		final EvidenceProcessor ep = this;
 		log(ip, "Found rollup rule: " + rr.rule);
-		RollupRuleProcessor rrp = new RollupRuleProcessor(ip);
+		RollupRuleProcessor rrp = new RollupRuleProcessor(ip,this);
 		rrp.positive = ip.positive;
 		rrp.negative = ip.negative;
 		RollupRuleInterface rri = new RollupRuleInterface(rr.rule, rrp);
@@ -301,26 +310,28 @@ public class EvidenceProcessor
 		log(ip, "Finding rollup rules for competency: " + ip.competency.id);
 		ip.hasCheckedRollupRulesForCompetency = true;
 		final EvidenceProcessor ep = this;
-		for (int i = 0; i < ip.getContext().rollupRule.$length(); i++)
-		{
-			ip.numberOfQueriesRunning++;
-			EcRollupRule.get(ip.getContext().rollupRule.$get(i), new Callback1<EcRollupRule>()
+		if (ip.getContext().rollupRule == null)
+			continueProcessing(ip);
+		else
+			for (int i = 0; i < ip.getContext().rollupRule.$length(); i++)
 			{
-				@Override
-				public void $invoke(EcRollupRule rr)
+				ip.numberOfQueriesRunning++;
+				EcRollupRule.get(ip.getContext().rollupRule.$get(i), new Callback1<EcRollupRule>()
 				{
-					ep.processFindRollupRuleSuccess(rr, ip);
-				}
-			}, new Callback1<String>()
-			{
-				@Override
-				public void $invoke(String p1)
+					@Override
+					public void $invoke(EcRollupRule rr)
+					{
+						ep.processFindRollupRuleSuccess(rr, ip);
+					}
+				}, new Callback1<String>()
 				{
-					ep.processEventFailure(p1, ip);
-				}
-			});
-		}
-		ip.hasCheckedRollupRulesForCompetency = true;
+					@Override
+					public void $invoke(String p1)
+					{
+						ep.processEventFailure(p1, ip);
+					}
+				});
+			}
 	}
 
 	/**
@@ -495,8 +506,8 @@ public class EvidenceProcessor
 		}
 		else
 		{
-			log(ip, "Trying to determine result...running query count: " + ip.numberOfQueriesRunning);
-			determineResult(ip);
+			log(ip, "We are not finished accumulating data to answer this query. Error: " + ip.numberOfQueriesRunning);
+			
 		}
 	}
 

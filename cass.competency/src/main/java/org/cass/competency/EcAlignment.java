@@ -7,6 +7,7 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.functions.Callback1;
 
 /**
+ * TODO: Test case where an absent relation is in the framework.
  * @author fritz.ray@eduworks.com
  *
  */

@@ -21,41 +21,44 @@ public class RollupRuleGenerator
 	public void go()
 	{
 		final RollupRuleGenerator me = this;
-		for (int i = 0; i < ip.context.relation.$length(); i++)
-		{
-			ip.numberOfQueriesRunning++;
-			EcAlignment.get(ip.context.relation.$get(i), new Callback1<EcAlignment>()
+		if (ip.getContext().relation == null)
+			success.$invoke(null);
+		else
+			for (int i = 0; i < ip.getContext().relation.$length(); i++)
 			{
-				@Override
-				public void $invoke(EcAlignment p1)
+				ip.numberOfQueriesRunning++;
+				EcAlignment.get(ip.getContext().relation.$get(i), new Callback1<EcAlignment>()
 				{
-					me.ip.numberOfQueriesRunning--;
-					if (!p1.source.equals(me.ip.competency) && !p1.target.equals(me.ip.competency))
-						return;
-					if (p1.source.equals(me.ip.competency))
+					@Override
+					public void $invoke(EcAlignment p1)
 					{
-						if (p1.relationType.equals(EcAlignment.REQUIRES))
+						me.ip.numberOfQueriesRunning--;
+						if (!p1.source.equals(me.ip.competency) && !p1.target.equals(me.ip.competency))
+							return;
+						if (p1.source.equals(me.ip.competency))
 						{
-							if (me.rule != null && me.rule != "")
-								me.rule += " AND ";
-							me.rule += "[notNegative competency:\"" + p1.target + "\"]";
-						}
-						if (p1.relationType.equals(EcAlignment.NARROWS))
-						{
-							if (me.outerRule != null && me.outerRule != "")
-								me.outerRule += " OR ";
-							me.outerRule += "[competency:\"" + p1.target + "\"]";
+							if (p1.relationType.equals(EcAlignment.REQUIRES))
+							{
+								if (me.rule != null && me.rule != "")
+									me.rule += " AND ";
+								me.rule += "[notNegative competency:\"" + p1.target + "\"]";
+							}
+							if (p1.relationType.equals(EcAlignment.NARROWS))
+							{
+								if (me.outerRule != null && me.outerRule != "")
+									me.outerRule += " OR ";
+								me.outerRule += "[competency:\"" + p1.target + "\"]";
+							}
 						}
 					}
-				}
-			}, new Callback1<String>()
-			{
-				@Override
-				public void $invoke(String p1)
+				}, new Callback1<String>()
 				{
-					me.ip.numberOfQueriesRunning--;
-				}
-			});
-		}
+					@Override
+					public void $invoke(String p1)
+					{
+						me.ip.numberOfQueriesRunning--;
+					}
+				});
+			}
 	}
 }
