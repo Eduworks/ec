@@ -235,7 +235,7 @@ public class EcEncryptedValue extends EbacEncryptedValue
 				EcPpk decryptionKey = EcIdentityManager.getPpk(EcPk.fromPem(owner.$get(i)));
 				if (decryptionKey == null)
 					continue;
-				EbacEncryptedSecret decrypted = decryptSecret(decryptionKey);
+				EbacEncryptedSecret decrypted = decryptSecretByKey(decryptionKey);
 				if (decrypted != null)
 					return decrypted;
 
@@ -247,7 +247,7 @@ public class EcEncryptedValue extends EbacEncryptedValue
 				EcPpk decryptionKey = EcIdentityManager.getPpk(EcPk.fromPem(reader.$get(i)));
 				if (decryptionKey == null)
 					continue;
-				EbacEncryptedSecret decrypted = decryptSecret(decryptionKey);
+				EbacEncryptedSecret decrypted = decryptSecretByKey(decryptionKey);
 				if (decrypted != null)
 					return decrypted;
 			}
@@ -255,7 +255,7 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		for (int i = 0; i < EcIdentityManager.ids.$length(); i++)
 		{
 			EcPpk decryptionKey = EcIdentityManager.ids.$get(i).ppk;
-			EbacEncryptedSecret decrypted = decryptSecret(decryptionKey);
+			EbacEncryptedSecret decrypted = decryptSecretByKey(decryptionKey);
 			if (decrypted != null)
 				return decrypted;
 		}
@@ -264,13 +264,13 @@ public class EcEncryptedValue extends EbacEncryptedValue
 
 	private String decryptRaw(EcPpk decryptionKey)
 	{
-		EbacEncryptedSecret encryptedSecret = decryptSecret(decryptionKey);
+		EbacEncryptedSecret encryptedSecret = decryptSecretByKey(decryptionKey);
 		if (encryptedSecret != null)
 			return EcAesCtr.decrypt(payload, encryptedSecret.secret, encryptedSecret.iv);
 		return null;
 	}
 
-	private EbacEncryptedSecret decryptSecret(EcPpk decryptionKey)
+	private EbacEncryptedSecret decryptSecretByKey(EcPpk decryptionKey)
 	{
 		EbacEncryptedSecret encryptedSecret = null;
 		if (this.secret != null)
