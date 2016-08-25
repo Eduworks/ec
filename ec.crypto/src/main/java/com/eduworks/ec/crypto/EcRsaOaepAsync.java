@@ -8,6 +8,7 @@ import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.worker.ErrorEvent;
 import org.stjs.javascript.worker.MessageEvent;
 import org.stjs.javascript.worker.Worker;
+import org.stjs.javascript.worker.WorkerGlobalScope;
 
 import com.eduworks.ec.array.EcAsyncHelper;
 import com.eduworks.ec.remote.EcRemote;
@@ -20,7 +21,7 @@ public class EcRsaOaepAsync
 
 	public static void initWorker()
 	{
-		if (JSGlobal.typeof(new Worker("")).equals("undefined"))
+		if (JSGlobal.typeof(WorkerGlobalScope.self).equals("undefined"))
 			return;
 		if (!EcRemote.async)
 			return;

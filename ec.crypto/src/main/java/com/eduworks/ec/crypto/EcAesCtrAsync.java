@@ -25,7 +25,7 @@ public class EcAesCtrAsync
 
 	public static void initWorker()
 	{
-		if (JSGlobal.typeof(new Worker("")).equals("undefined"))
+		if (JSGlobal.typeof(WorkerGlobalScope.self).equals("undefined"))
 			return;
 		if (!EcRemote.async)
 			return;
