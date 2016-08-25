@@ -113,7 +113,7 @@ public class InquiryPacket
       }
       for (int i=0;i<subPackets.$length();i++)
       {
-         if (!ResultType.FALSE.equals(subPackets.$get(i).result)) return true;
+         if (ResultType.FALSE.equals(subPackets.$get(i).result)) return true;
       }
       return false;
 	}
@@ -126,7 +126,7 @@ public class InquiryPacket
       }
       for (int i=0;i<subPackets.$length();i++)
       {
-         if (!ResultType.TRUE.equals(subPackets.$get(i).result)) return true;
+         if (ResultType.TRUE.equals(subPackets.$get(i).result)) return true;
       }
       return false;
    }

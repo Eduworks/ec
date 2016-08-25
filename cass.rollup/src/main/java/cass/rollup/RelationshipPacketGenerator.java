@@ -3,6 +3,7 @@ package cass.rollup;
 import org.cass.competency.EcAlignment;
 import org.cass.competency.EcCompetency;
 import org.stjs.javascript.Array;
+import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
 
@@ -13,21 +14,31 @@ public class RelationshipPacketGenerator
 
 	public Callback1<String> failure;
 	public Callback0 success;
-	private InquiryPacket ip;
+	public Callback1<Object> logFunction;
+	
 	private int numberOfRelationsToProcess = 0;
 	private int numberOfRelationsProcessed = 0;
 
 	public Array<InquiryPacket> narrowsPackets;
 	public Array<InquiryPacket> requiredPackets;
-	private EvidenceProcessor epo;
+	private Map<String,String> processedEquivalencies;
+	
+	private EvidenceProcessor ep;
+	private InquiryPacket ip;
 
-	public RelationshipPacketGenerator(InquiryPacket ip, EvidenceProcessor ep)
+	public RelationshipPacketGenerator(InquiryPacket ip, EvidenceProcessor ep, Map<String,String> processedEquivalencies)
 	{
 		this.ip = ip;
-		this.epo = ep;
+		this.ep = ep;
+		this.processedEquivalencies = processedEquivalencies;
 		narrowsPackets = new Array<InquiryPacket>();
-		requiredPackets = new Array<InquiryPacket>();
+		requiredPackets = new Array<InquiryPacket>();		
 	}
+	
+	protected void log(Object string)
+   {
+      if (logFunction != null) logFunction.$invoke(string);
+   }
 
 	private void processEventFailure(String message, InquiryPacket ip)
 	{
@@ -37,36 +48,42 @@ public class RelationshipPacketGenerator
 
 	private void pushRequiredPacketsToIp()
 	{
-		final EvidenceProcessor ep = this.epo;
-		final InquiryPacket meIp = ip;
-		InquiryPacket rootRequiredPacket = new InquiryPacket(ip.subject, null, null, ip.context, new Callback1<InquiryPacket>()
-		{
-			@Override
-			public void $invoke(InquiryPacket p1)
-			{
-				if (ep != null)
-					ep.continueProcessing(meIp);
-			}
-		}, ip.failure, null, IPType.COMBINATOR_AND);
-		rootRequiredPacket.subPackets = requiredPackets;
-		ip.subPackets.push(rootRequiredPacket);
+	   if (requiredPackets.$length() > 0)
+	   {
+   		final EvidenceProcessor meEp = ep;
+   		final InquiryPacket meIp = ip;
+   		InquiryPacket rootRequiredPacket = new InquiryPacket(ip.subject, null, null, ip.context, new Callback1<InquiryPacket>()
+   		{
+   			@Override
+   			public void $invoke(InquiryPacket p1)
+   			{
+   				if (meEp != null)
+   				   meEp.continueProcessing(meIp);
+   			}
+   		}, ip.failure, null, IPType.COMBINATOR_AND);
+   		rootRequiredPacket.subPackets = requiredPackets;
+   		ip.subPackets.push(rootRequiredPacket);
+	   }
 	}
 
 	private void pushNarrowsPacketsToIp()
 	{
-		final EvidenceProcessor ep = this.epo;
-		final InquiryPacket meIp = ip;
-		InquiryPacket rootNarrowsPacket = new InquiryPacket(ip.subject, null, null, ip.context, new Callback1<InquiryPacket>()
-		{
-			@Override
-			public void $invoke(InquiryPacket p1)
-			{
-				if (ep != null)
-					ep.continueProcessing(meIp);
-			}
-		}, ip.failure, null, IPType.COMBINATOR_OR);
-		rootNarrowsPacket.subPackets = narrowsPackets;
-		ip.subPackets.push(rootNarrowsPacket);
+	   if (narrowsPackets.$length() > 0)
+	   {
+   		final EvidenceProcessor meEp = ep;
+   		final InquiryPacket meIp = ip;
+   		InquiryPacket rootNarrowsPacket = new InquiryPacket(ip.subject, null, null, ip.context, new Callback1<InquiryPacket>()
+   		{
+   			@Override
+   			public void $invoke(InquiryPacket p1)
+   			{
+   				if (meEp != null)
+   				   meEp.continueProcessing(meIp);
+   			}
+   		}, ip.failure, null, IPType.COMBINATOR_OR);
+   		rootNarrowsPacket.subPackets = narrowsPackets;
+   		ip.subPackets.push(rootNarrowsPacket);
+	   }
 	}
 
 	private void finishRelationProcessing()
@@ -76,78 +93,112 @@ public class RelationshipPacketGenerator
 		success.$invoke();
 	}
 
-	private void processGetRelatedCompetencySuccess(EcCompetency relatedCompetency, String relationType, final InquiryPacket ip)
+	private void processGetRelatedCompetencySuccess(EcCompetency relatedCompetency, EcAlignment alignment)
 	{
-		final EvidenceProcessor ep = this.epo;
-		numberOfRelationsProcessed++;
-		if (EcAlignment.IS_EQUIVALENT_TO.equals(relationType))
+	   numberOfRelationsProcessed++;
+	   final EvidenceProcessor meEp = ep;
+      final InquiryPacket meIp = ip;
+      log("Adding new " + alignment.relationType + " relationship packet");
+		if (EcAlignment.IS_EQUIVALENT_TO.equals(alignment.relationType))
 		{
+		   processedEquivalencies.$put(alignment.source,alignment.target);
+		   processedEquivalencies.$put(alignment.target,alignment.source);
 			ip.equivalentPackets.push(new InquiryPacket(ip.subject, relatedCompetency, null, ip.context, new Callback1<InquiryPacket>()
 			{
 				@Override
 				public void $invoke(InquiryPacket p1)
 				{
-					if (ep != null)
-						ep.continueProcessing(ip);
+					if (meEp != null)
+					   meEp.continueProcessing(meIp);
 				}
 			}, ip.failure, null, IPType.COMPETENCY));
 		}
-		else if (EcAlignment.REQUIRES.equals(relationType))
+		else if (EcAlignment.REQUIRES.equals(alignment.relationType))
 		{
 			requiredPackets.push(new InquiryPacket(ip.subject, relatedCompetency, null, ip.context, new Callback1<InquiryPacket>()
 			{
 				@Override
 				public void $invoke(InquiryPacket p1)
 				{
-					if (ep != null)
-						ep.continueProcessing(ip);
+					if (meEp != null)
+					   meEp.continueProcessing(meIp);
 				}
 			}, ip.failure, null, IPType.COMPETENCY));
 		}
-		else if (EcAlignment.NARROWS.equals(relationType))
+		else if (EcAlignment.NARROWS.equals(alignment.relationType))
 		{
 			narrowsPackets.push(new InquiryPacket(ip.subject, relatedCompetency, null, ip.context, new Callback1<InquiryPacket>()
 			{
 				@Override
 				public void $invoke(InquiryPacket p1)
 				{
-					if (ep != null)
-						ep.continueProcessing(ip);
+					if (meEp != null)
+					   meEp.continueProcessing(meIp);
 				}
 			}, ip.failure, null, IPType.COMPETENCY));
 		}
 		ip.numberOfQueriesRunning--;
-		if (numberOfRelationsProcessed >= numberOfRelationsToProcess)
-			finishRelationProcessing();
+		checkForFinish();
+	}
+	
+	private void checkForFinish() 
+	{
+	   if (numberOfRelationsProcessed >= numberOfRelationsToProcess) 
+	      finishRelationProcessing();
+	}
+	
+	private boolean hasEquivalencyAlreadyBeenAdded(String sourceId, String targetId) 
+	{
+	   String eqId = processedEquivalencies.$get(sourceId);
+	   if (targetId.equals(eqId)) 
+      {
+	      log("Equivalency was previously processed");
+	      return true;      
+      }
+	   eqId = processedEquivalencies.$get(targetId);
+	   if (sourceId.equals(eqId))
+	   {
+	      log("Equivalency was previously processed");
+	      return true;
+	   }
+	   return false;
 	}
 
 	private void processFindCompetencyRelationshipSuccess(final EcAlignment alignment, final InquiryPacket ip)
 	{
-		ip.numberOfQueriesRunning--;
-		if (!ip.competency.isId(alignment.source) && !ip.competency.isId(alignment.target))
-			return;
-		String relatedCompetencyId = null;
-		if (ip.competency.isId(alignment.source))
-			relatedCompetencyId = alignment.target;
-		else
-			relatedCompetencyId = alignment.source;
-		ip.numberOfQueriesRunning++;
-		final RelationshipPacketGenerator rpg = this;
-		EcCompetency.get(relatedCompetencyId, new Callback1<EcCompetency>()
+		ip.numberOfQueriesRunning--;	
+		log("Relationship found (" + alignment.relationType + ") source: " + alignment.source + " target: " + alignment.target);
+		if ((EcAlignment.IS_EQUIVALENT_TO.equals(alignment.relationType) && hasEquivalencyAlreadyBeenAdded(alignment.source,alignment.target)) ||
+		    (!ip.competency.isId(alignment.source)))
 		{
-			@Override
-			public void $invoke(EcCompetency p1)
-			{
-				rpg.processGetRelatedCompetencySuccess(p1, alignment.relationType, ip);
-			}
-		}, new Callback1<String>()
+		   numberOfRelationsProcessed++;
+		   checkForFinish();
+		}
+		else 
 		{
-			@Override
-			public void $invoke(String p1)
-			{
-				rpg.processEventFailure(p1, ip);
-			}
-		});
+		   String relatedCompetencyId = null;
+   		if (ip.competency.isId(alignment.source))
+   			relatedCompetencyId = alignment.target;
+   		else
+   			relatedCompetencyId = alignment.source;
+   		ip.numberOfQueriesRunning++;
+   		final RelationshipPacketGenerator rpg = this;
+   		EcCompetency.get(relatedCompetencyId, new Callback1<EcCompetency>()
+   		{
+   			@Override
+   			public void $invoke(EcCompetency p1)
+   			{
+   				rpg.processGetRelatedCompetencySuccess(p1, alignment);
+   			}
+   		}, new Callback1<String>()
+   		{
+   			@Override
+   			public void $invoke(String p1)
+   			{
+   				rpg.processEventFailure(p1, ip);
+   			}
+   		});
+		}
 	}
 
 	public void go()
@@ -178,8 +229,7 @@ public class RelationshipPacketGenerator
 					}
 				});
 			}
-		}
-		// ip.hasCheckedRelationshipsForCompetency = true;
+		}		
 	}
 
 }

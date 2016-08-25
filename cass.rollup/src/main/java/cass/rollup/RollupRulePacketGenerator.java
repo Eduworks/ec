@@ -16,12 +16,12 @@ public class RollupRulePacketGenerator
 	private Array<String> queries;
 	private Array<OperationType> queryOperations;
 	private InquiryPacket ip;
-	private EvidenceProcessor epo;
+	private EvidenceProcessor ep;
 
 	public RollupRulePacketGenerator(InquiryPacket ip, EvidenceProcessor ep)
 	{
 		this.ip = ip;
-		this.epo = ep;
+		this.ep = ep;
 		queries = new Array<String>();
 		queryOperations = new Array<OperationType>();
 	}
@@ -55,30 +55,30 @@ public class RollupRulePacketGenerator
 
 	private InquiryPacket generateComboAndPacket()
 	{
-		final EvidenceProcessor ep = epo;
+		final EvidenceProcessor meEp = ep;
 		final InquiryPacket meIp = ip;
 		return new InquiryPacket(ip.subject, null, null, ip.context, new Callback1<InquiryPacket>()
 		{
 			@Override
 			public void $invoke(InquiryPacket p1)
 			{
-				if (ep != null)
-					ep.continueProcessing(meIp);
+				if (meEp != null)
+				   meEp.continueProcessing(meIp);
 			}
 		}, ip.failure, null, IPType.COMBINATOR_AND);
 	}
 
 	private InquiryPacket generateRollupRulePacket(String rule)
 	{
-		final EvidenceProcessor ep = epo;
+		final EvidenceProcessor meEp = ep;
 		final InquiryPacket meIp = ip;
 		return new InquiryPacket(ip.subject, null, null, ip.context, new Callback1<InquiryPacket>()
 		{
 			@Override
 			public void $invoke(InquiryPacket p1)
 			{
-				if (ep != null)
-					ep.continueProcessing(meIp);
+				if (meEp != null)
+				   meEp.continueProcessing(meIp);
 			}
 		}, ip.failure, rule, IPType.ROLLUPRULE);
 	}
@@ -137,16 +137,16 @@ public class RollupRulePacketGenerator
 
 	public InquiryPacket generatePacket()
 	{
-		final EvidenceProcessor ep = epo;
-		IPType ipt = getIPType();
+	   IPType ipt = getIPType();
+		final EvidenceProcessor meEp = ep;		
 		final InquiryPacket meIp = ip;
 		InquiryPacket rollupIp = new InquiryPacket(ip.subject, null, null, ip.context, new Callback1<InquiryPacket>()
 		{
 			@Override
 			public void $invoke(InquiryPacket p1)
 			{
-				if (ep != null)
-					ep.continueProcessing(meIp);
+				if (meEp != null)
+				   meEp.continueProcessing(meIp);
 			}
 		}, ip.failure, null, ipt);
 		if (IPType.COMBINATOR_AND.equals(ipt))
