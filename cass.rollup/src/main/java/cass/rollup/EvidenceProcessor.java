@@ -30,8 +30,8 @@ public class EvidenceProcessor
 	public Callback1<Object> logFunction;
 
 	private static final boolean DEF_STEP = false;
-	
-	private Map<String,String> processedEquivalencies;
+
+	private Map<String, String> processedEquivalencies;
 
 	public EvidenceProcessor()
 	{
@@ -91,7 +91,7 @@ public class EvidenceProcessor
 		if (ip.result == null)
 		{
 			determineResult(ip);
-			if(ip.result != null && ip.success != null)
+			if (ip.result != null && ip.success != null)
 				ip.success.$invoke(ip);
 			return true;
 		}
@@ -104,7 +104,7 @@ public class EvidenceProcessor
 		{
 			for (int i = 0; i < childPackets.$length(); i++)
 			{
-				if (continueProcessing(childPackets.$get(i))) 
+				if (continueProcessing(childPackets.$get(i)))
 					return true;
 				// TB - not sure why this return was here
 				// FR - The return is here because we don't want to process
@@ -200,26 +200,24 @@ public class EvidenceProcessor
 
 	private String buildAssertionSearchQuery(InquiryPacket ip)
 	{
-		// TODO need to change search based on IPType...IPType competency vs
-		// rolluprule
 		if (IPType.ROLLUPRULE.equals(ip.type))
-		{
-			// return new
-			// EcAssertion().getSearchStringByTypeAndCompetency(ip.competency);
-		}
-		return new EcAssertion().getSearchStringByTypeAndCompetency(ip.competency);
+			return "(" + new EcAssertion().getSearchStringByType() + ") AND (" + ip.rule + ")";
+		else if (IPType.COMPETENCY.equals(ip.type))
+			return new EcAssertion().getSearchStringByTypeAndCompetency(ip.competency);
+		throw new RuntimeException("Trying to build an assertion search query on an unsupported type: " + ip.type);
 	}
 
 	private void findSubjectAssertionsForCompetency(final InquiryPacket ip)
-	{			
+	{
 		ip.hasCheckedAssertionsForCompetency = true;
-		if (IPType.COMBINATOR_AND.equals(ip.type) || IPType.COMBINATOR_OR.equals(ip.type))
+		if (IPType.COMBINATOR_AND.equals(ip.type) || IPType.COMBINATOR_OR.equals(ip.type) || IPType.COMBINATOR_NARROWS.equals(ip.type)
+				|| IPType.COMBINATOR_REQUIRES.equals(ip.type))
 		{
-		   log(ip, "No assertions for combinator types");
-			//return; // no need to search for combinator assertions
-		   checkStep(ip);
+			log(ip, "No assertions for combinator types");
+			checkStep(ip);
+			return;
 		}
-		final EvidenceProcessor ep = this;   
+		final EvidenceProcessor ep = this;
 		log(ip, "Querying repositories for subject assertions on competency: " + ip.competency.id);
 		for (int i = 0; i < repositories.$length(); i++)
 		{
@@ -260,16 +258,17 @@ public class EvidenceProcessor
 
 	private void findCompetencyRelationships(final InquiryPacket ip)
 	{
-	   ip.hasCheckedRelationshipsForCompetency = true;		
-		if (IPType.COMBINATOR_AND.equals(ip.type) || IPType.COMBINATOR_OR.equals(ip.type))
-      {
-         log(ip, "No relationships for combinator types");
-         //return;
-         checkStep(ip);
-      }
+		ip.hasCheckedRelationshipsForCompetency = true;
+		if (IPType.COMBINATOR_AND.equals(ip.type) || IPType.COMBINATOR_OR.equals(ip.type) || IPType.COMBINATOR_NARROWS.equals(ip.type)
+				|| IPType.COMBINATOR_REQUIRES.equals(ip.type))
+		{
+			log(ip, "No relationships for combinator types");
+			checkStep(ip);
+			return;
+		}
 		final EvidenceProcessor ep = this;
-		log(ip, "Finding relationships for competency: " + ip.competency.id);		
-		RelationshipPacketGenerator rpg = new RelationshipPacketGenerator(ip,ep,processedEquivalencies);
+		log(ip, "Finding relationships for competency: " + ip.competency.id);
+		RelationshipPacketGenerator rpg = new RelationshipPacketGenerator(ip, ep, processedEquivalencies);
 		rpg.failure = ip.failure;
 		rpg.logFunction = logFunction;
 		rpg.success = new Callback0()
@@ -303,7 +302,7 @@ public class EvidenceProcessor
 			return;
 		final EvidenceProcessor ep = this;
 		log(ip, "Found rollup rule: " + rr.rule);
-		RollupRuleProcessor rrp = new RollupRuleProcessor(ip,this);
+		RollupRuleProcessor rrp = new RollupRuleProcessor(ip, this);
 		rrp.positive = ip.positive;
 		rrp.negative = ip.negative;
 		RollupRuleInterface rri = new RollupRuleInterface(rr.rule, rrp);
@@ -323,14 +322,15 @@ public class EvidenceProcessor
 
 	private void findRollupRulesForCompetency(final InquiryPacket ip)
 	{
-	   ip.hasCheckedRollupRulesForCompetency = true;
-	   if (IPType.COMBINATOR_AND.equals(ip.type) || IPType.COMBINATOR_OR.equals(ip.type))
-      {
-         log(ip, "No rollup rules for combinator types");
-         //return;
-         checkStep(ip);
-      }
-		log(ip, "Finding rollup rules for competency: " + ip.competency.id);		
+		ip.hasCheckedRollupRulesForCompetency = true;
+		if (IPType.COMBINATOR_AND.equals(ip.type) || IPType.COMBINATOR_OR.equals(ip.type) || IPType.COMBINATOR_NARROWS.equals(ip.type)
+				|| IPType.COMBINATOR_REQUIRES.equals(ip.type))
+		{
+			log(ip, "No rollup rules for combinator types");
+			checkStep(ip);
+			return;
+		}
+		log(ip, "Finding rollup rules for competency: " + ip.competency.id);
 		final EvidenceProcessor ep = this;
 		if (ip.getContext().rollupRule == null)
 			continueProcessing(ip);
@@ -357,47 +357,59 @@ public class EvidenceProcessor
 	}
 
 	/**
-	   * IF IP type is COMBINATOR_AND:
-      *   IF any equivalent packets = INDETERMINANT THEN INDETERMINANT
-      *   ELSE IF any sub packets = INDETERMINANT THEN INDETERMINANT  
-      *   ELSE IF all equivalent packets = UNKNOWN && all sub packets = UNKNOWN THEN UNKNOWN
-      *   ELSE IF any equivalent packets = FALSE THEN FALSE 
-      *   ELSE IF any sub packets = FALSE THEN FALSE
-      *   ELSE TRUE 
+	 * IF IP type is COMBINATOR_AND: IF any equivalent packets = INDETERMINANT
+	 * THEN INDETERMINANT ELSE IF any sub packets = INDETERMINANT THEN
+	 * INDETERMINANT ELSE IF all equivalent packets = UNKNOWN && all sub packets
+	 * = UNKNOWN THEN UNKNOWN ELSE IF any equivalent packets = FALSE THEN FALSE
+	 * ELSE IF any sub packets = FALSE THEN FALSE ELSE TRUE
 	 **/
 	private void determineCombinatorAndResult(InquiryPacket ip)
 	{
-		if (ip.anyIndeterminantChildPackets())
-			ip.result = ResultType.INDETERMINANT;
-		else if (ip.allChildPacketsUnknown())
-			ip.result = ResultType.UNKNOWN;
-		else if (ip.anyChildPacketsAreFalse())
+		if (ip.anyChildPacketsAreFalse())
 			ip.result = ResultType.FALSE;
+		else if (ip.anyIndeterminantChildPackets())
+			ip.result = ResultType.INDETERMINANT;
+		else if (ip.anyChildPacketsAreUnknown())
+			ip.result = ResultType.UNKNOWN;
 		else
 			ip.result = ResultType.TRUE;
 	}
 
 	/**
-	   * IF IP type is COMBINATOR_OR:
-      *   IF any equivalent packets = INDETERMINANT THEN INDETERMINANT
-      *   ELSE IF any sub packets = INDETERMINANT THEN INDETERMINANT  
-      *   ELSE IF all equivalent packets = UNKNOWN && all sub packets = UNKNOWN THEN UNKNOWN
-      *   ELSE IF any equivalent packets = TRUE THEN TRUE 
-      *   ELSE IF any sub packets = TRUE THEN TRUE
-      *   ELSE FALSE
+	 * IF IP type is COMBINATOR_OR: IF any equivalent packets = INDETERMINANT
+	 * THEN INDETERMINANT ELSE IF any sub packets = INDETERMINANT THEN
+	 * INDETERMINANT ELSE IF all equivalent packets = UNKNOWN && all sub packets
+	 * = UNKNOWN THEN UNKNOWN ELSE IF any equivalent packets = TRUE THEN TRUE
+	 * ELSE IF any sub packets = TRUE THEN TRUE ELSE FALSE
 	 **/
+	private void determineCombinatorNarrowsResult(InquiryPacket ip)
+	{
+		if (ip.anyChildPacketsAreTrue())
+			ip.result = ResultType.TRUE;
+		else
+			ip.result = ResultType.UNKNOWN;
+	}
+
+	private void determineCombinatorRequiresResult(InquiryPacket ip)
+	{
+		if (ip.anyChildPacketsAreFalse())
+			ip.result = ResultType.FALSE;
+		else
+			ip.result = ResultType.UNKNOWN;
+	}
+
 	private void determineCombinatorOrResult(InquiryPacket ip)
 	{
-		if (ip.anyIndeterminantChildPackets())
+		if (ip.anyChildPacketsAreTrue())
+			ip.result = ResultType.TRUE;
+		else if (ip.anyIndeterminantChildPackets())
 			ip.result = ResultType.INDETERMINANT;
 		else if (ip.allChildPacketsUnknown())
 			ip.result = ResultType.UNKNOWN;
-		else if (ip.anyChildPacketsAreTrue())
-			ip.result = ResultType.TRUE;
 		else
 			ip.result = ResultType.FALSE;
 	}
-	
+
 	private ResultType getPacketAssertionResult(InquiryPacket ip)
 	{
 		if (ip.positive.$length() > 0 && ip.negative.$length() == 0)
@@ -468,50 +480,43 @@ public class EvidenceProcessor
 	}
 
 	/**
-	   * IF IP type is COMPETENCY|ROLLUPRULE:
-      *   assertionResult = (
-      *       IF number of positive assertions > 0 && number of negative assertions = 0 THEN assertionResult = TRUE 
-      *       IF number of positive assertions = 0 && number of negative assertions > 0 THEN assertionResult = FALSE
-      *       IF number of positive assertions > 0 && number of negative assertions > 0 THEN assertionResult = INDETERMINANT
-      *       IF number of positive assertions = 0 && number of negative assertions = 0 THEN assertionResult = UNKNOWN
-      *   ) 
-      * 
-      *   IF assertionResult = INDETERMINANT THEN INDETERMINANT
-      *   ELSE IF any equivalent packets = INDETERMINANT THEN INDETERMINANT
-      *   ELSE IF any sub packets = INDETERMINANT THEN INDETERMINANT  
-      *   
-      *   ELSE IF assertionResult = UNKNOWN:
-      *     IF all equivalent packets = UNKNOWN
-      *        IF all sub packets = UNKNOWN THEN UNKNOWN
-      *        IF all sub packets = TRUE|UNKNOWN THEN TRUE
-      *        IF all sub packets = FALSE|UNKNOWN THEN FALSE
-      *        ELSE INDETERMINANT
-      *     
-      *     ELSE IF all equivalent packets = TRUE|UNKNOWN
-      *        IF all sub packets = TRUE|UNKNOWN THEN TRUE
-      *        ELSE INDETERMINANT
-      *        
-      *     ELSE IF all equivalent packets = FALSE|UNKNOWN
-      *        IF all sub packets = FALSE|UNKNOWN THEN FALSE
-      *        ELSE INDETERMINANT
-      *        
-      *     ELSE INDETERMINANT
-      *        
-      *   
-      *   ELSE IF assertionResult = TRUE:
-      *     IF all equivalent packets = TRUE|UNKNOWN
-      *        IF all sub packets = TRUE|UNKNOWN THEN TRUE
-      *        ELSE INDETERMINANT
-      *        
-      *     ELSE INDETERMINANT
-      *     
-      *   ELSE IF assertionResult = FALSE:
-      *     IF all equivalent packets = FALSE|UNKNOWN
-      *        IF all sub packets = FALSE|UNKNOWN THEN FALSE
-      *        ELSE INDETERMINANT
-      *        
-      *     ELSE INDETERMINANT
-      * 
+	 * IF IP type is COMPETENCY|ROLLUPRULE: assertionResult = ( IF number of
+	 * positive assertions > 0 && number of negative assertions = 0 THEN
+	 * assertionResult = TRUE IF number of positive assertions = 0 && number of
+	 * negative assertions > 0 THEN assertionResult = FALSE IF number of
+	 * positive assertions > 0 && number of negative assertions > 0 THEN
+	 * assertionResult = INDETERMINANT IF number of positive assertions = 0 &&
+	 * number of negative assertions = 0 THEN assertionResult = UNKNOWN )
+	 * 
+	 * IF assertionResult = INDETERMINANT THEN INDETERMINANT ELSE IF any
+	 * equivalent packets = INDETERMINANT THEN INDETERMINANT ELSE IF any sub
+	 * packets = INDETERMINANT THEN INDETERMINANT
+	 * 
+	 * ELSE IF assertionResult = UNKNOWN: IF all equivalent packets = UNKNOWN IF
+	 * all sub packets = UNKNOWN THEN UNKNOWN IF all sub packets = TRUE|UNKNOWN
+	 * THEN TRUE IF all sub packets = FALSE|UNKNOWN THEN FALSE ELSE
+	 * INDETERMINANT
+	 * 
+	 * ELSE IF all equivalent packets = TRUE|UNKNOWN IF all sub packets =
+	 * TRUE|UNKNOWN THEN TRUE ELSE INDETERMINANT
+	 * 
+	 * ELSE IF all equivalent packets = FALSE|UNKNOWN IF all sub packets =
+	 * FALSE|UNKNOWN THEN FALSE ELSE INDETERMINANT
+	 * 
+	 * ELSE INDETERMINANT
+	 * 
+	 * 
+	 * ELSE IF assertionResult = TRUE: IF all equivalent packets = TRUE|UNKNOWN
+	 * IF all sub packets = TRUE|UNKNOWN THEN TRUE ELSE INDETERMINANT
+	 * 
+	 * ELSE INDETERMINANT
+	 * 
+	 * ELSE IF assertionResult = FALSE: IF all equivalent packets =
+	 * FALSE|UNKNOWN IF all sub packets = FALSE|UNKNOWN THEN FALSE ELSE
+	 * INDETERMINANT
+	 * 
+	 * ELSE INDETERMINANT
+	 * 
 	 */
 	private void determineCompetencyRollupRuleResult(InquiryPacket ip)
 	{
@@ -534,13 +539,17 @@ public class EvidenceProcessor
 				determineCombinatorAndResult(ip);
 			else if (IPType.COMBINATOR_OR.equals(ip.type))
 				determineCombinatorOrResult(ip);
+			else if (IPType.COMBINATOR_NARROWS.equals(ip.type))
+				determineCombinatorNarrowsResult(ip);
+			else if (IPType.COMBINATOR_REQUIRES.equals(ip.type))
+				determineCombinatorRequiresResult(ip);
 			else
 				determineCompetencyRollupRuleResult(ip);
 		}
 		else
 		{
 			log(ip, "We are not finished accumulating data to answer this query. Error: " + ip.numberOfQueriesRunning);
-			
+
 		}
 	}
 

@@ -101,7 +101,7 @@ public class EcAssertion extends Assertion
 			return null;
 		return Long.parseLong(decryptedString);
 	}
-	
+
 	public int getEvidenceCount()
 	{
 		if (evidence == null)
@@ -139,7 +139,9 @@ public class EcAssertion extends Assertion
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(decayFunction);
 		String decryptedString = v.decryptIntoString();
-		return Boolean.getBoolean(decryptedString);
+		if (decryptedString != null)
+			decryptedString.toLowerCase();
+		return "true".equals(decryptedString);
 	}
 
 	/**
@@ -201,10 +203,15 @@ public class EcAssertion extends Assertion
 	{
 		expirationDate = EcEncryptedValue.encryptValue(expirationDateMs.toString(), id, "expirationDate", subject.owner, subject.reader);
 	}
-	
+
 	public void setDecayFunction(String decayFunctionText)
 	{
 		decayFunction = EcEncryptedValue.encryptValue(decayFunctionText.toString(), id, "decayFunction", subject.owner, subject.reader);
+	}
+
+	public void setNegative(Boolean negativeB)
+	{
+		negative = EcEncryptedValue.encryptValue(negativeB.toString(), id, "negative", subject.owner, subject.reader);
 	}
 	
 	public void save(Callback1<String> success, Callback1<String> failure){

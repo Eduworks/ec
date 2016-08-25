@@ -14,7 +14,7 @@ import com.eduworks.ec.crypto.EcPk;
 public class InquiryPacket
 {
    
-   public enum IPType {COMPETENCY, ROLLUPRULE, COMBINATOR_AND, COMBINATOR_OR}
+   public enum IPType {COMPETENCY, ROLLUPRULE, COMBINATOR_AND, COMBINATOR_OR, COMBINATOR_NARROWS, COMBINATOR_REQUIRES}
    public enum ResultType {TRUE, FALSE, UNKNOWN, INDETERMINANT}
    
 	public Array<EcPk> subject;
@@ -26,8 +26,6 @@ public class InquiryPacket
 	public EcLevel level;
 	
 	public Array<InquiryPacket> equivalentPackets;
-	//public Array<InquiryPacket> narrowsPackets;
-	//public Array<InquiryPacket> requiresPackets;
 	public Array<InquiryPacket> subPackets;
 	
 	public double dateCreated; 
@@ -35,10 +33,6 @@ public class InquiryPacket
 	public boolean hasCheckedAssertionsForCompetency = false;
 	public boolean hasCheckedRollupRulesForCompetency = false;
 	public boolean hasCheckedRelationshipsForCompetency = false;
-	//public boolean hasCheckedEquivalenciesForCompetency = false;
-	
-	
-	//public boolean hasFoundRollupRuleForCompetency = false;
 	
 	public int numberOfQueriesRunning;
 	public String log;
@@ -104,7 +98,7 @@ public class InquiryPacket
       }
       return true;
    }
-	
+
 	public boolean anyChildPacketsAreFalse()
 	{
 	   for (int i=0;i<equivalentPackets.$length();i++)
@@ -114,6 +108,19 @@ public class InquiryPacket
       for (int i=0;i<subPackets.$length();i++)
       {
          if (ResultType.FALSE.equals(subPackets.$get(i).result)) return true;
+      }
+      return false;
+	}
+
+	public boolean anyChildPacketsAreUnknown()
+	{
+	   for (int i=0;i<equivalentPackets.$length();i++)
+      {
+         if (ResultType.UNKNOWN.equals(equivalentPackets.$get(i).result)) return true;
+      }
+      for (int i=0;i<subPackets.$length();i++)
+      {
+         if (ResultType.UNKNOWN.equals(subPackets.$get(i).result)) return true;
       }
       return false;
 	}

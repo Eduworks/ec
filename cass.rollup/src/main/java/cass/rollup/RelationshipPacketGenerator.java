@@ -60,7 +60,7 @@ public class RelationshipPacketGenerator
    				if (meEp != null)
    				   meEp.continueProcessing(meIp);
    			}
-   		}, ip.failure, null, IPType.COMBINATOR_AND);
+   		}, ip.failure, null, IPType.COMBINATOR_REQUIRES);
    		rootRequiredPacket.subPackets = requiredPackets;
    		ip.subPackets.push(rootRequiredPacket);
 	   }
@@ -80,7 +80,7 @@ public class RelationshipPacketGenerator
    				if (meEp != null)
    				   meEp.continueProcessing(meIp);
    			}
-   		}, ip.failure, null, IPType.COMBINATOR_OR);
+   		}, ip.failure, null, IPType.COMBINATOR_NARROWS);
    		rootNarrowsPacket.subPackets = narrowsPackets;
    		ip.subPackets.push(rootNarrowsPacket);
 	   }
