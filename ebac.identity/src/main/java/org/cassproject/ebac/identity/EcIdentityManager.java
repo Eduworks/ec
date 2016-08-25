@@ -244,6 +244,48 @@ public class EcIdentityManager
 		return JSGlobal.JSON.stringify(signatures);
 	}
 
+	public static void signatureSheetForAsync(final Array<String> identityPksinPem, final long duration, final String server, final Callback1<String> success)
+	{
+		final Array<Object> signatures = new Array<Object>();
+		new EcAsyncHelper<EcIdentity>().each(ids, new Callback2<EcIdentity, Callback0>()
+		{
+			@Override
+			public void $invoke(EcIdentity p1, final Callback0 incrementalSuccess)
+			{
+				EcPpk ppk = p1.ppk;
+				EcPk pk = ppk.toPk();
+				boolean found = false;
+				if (identityPksinPem != null)
+					for (int j = 0; j < identityPksinPem.$length(); j++)
+					{
+						EcPk ownerPpk = EcPk.fromPem(identityPksinPem.$get(j).trim());
+						if (pk.equals(ownerPpk))
+						{
+							found = true;
+							createSignatureAsync(duration, server, ppk, new Callback1<EbacSignature>()
+							{
+								@Override
+								public void $invoke(EbacSignature p1)
+								{
+									signatures.push(p1.atIfy());
+									incrementalSuccess.$invoke();
+								}
+							});
+						}
+					}
+				if (!found)
+					incrementalSuccess.$invoke();
+			}
+		}, new Callback1<Array<EcIdentity>>()
+		{
+			@Override
+			public void $invoke(Array<EcIdentity> pks)
+			{
+				success.$invoke(JSGlobal.JSON.stringify(signatures));
+			}
+		});
+	}
+
 	/**
 	 * Create a signature sheet for all identities, authorizing movement of data
 	 * outside of our control.
@@ -273,19 +315,16 @@ public class EcIdentityManager
 			@Override
 			public void $invoke(EcIdentity p1, final Callback0 incrementalSuccess)
 			{
-				for (int i = 0; i < ids.$length(); i++)
+				EcPpk ppk = p1.ppk;
+				createSignatureAsync(duration, server, ppk, new Callback1<EbacSignature>()
 				{
-					EcPpk ppk = ids.$get(i).ppk;
-					createSignatureAsync(duration, server, ppk, new Callback1<EbacSignature>()
+					@Override
+					public void $invoke(EbacSignature p1)
 					{
-						@Override
-						public void $invoke(EbacSignature p1)
-						{
-							signatures.push(p1.atIfy());
-							incrementalSuccess.$invoke();
-						}
-					});
-				}
+						signatures.push(p1.atIfy());
+						incrementalSuccess.$invoke();
+					}
+				});
 			}
 		}, new Callback1<Array<EcIdentity>>()
 		{
@@ -405,8 +444,7 @@ public class EcIdentityManager
 								works = true;
 								break;
 							}
-						}
-						catch (Exception ex)
+						} catch (Exception ex)
 						{
 
 						}

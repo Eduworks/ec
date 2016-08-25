@@ -124,31 +124,7 @@ public class EcRepository
 	public void search(String query, final Callback1<EcRemoteLinkedData> eachSuccess, final Callback1<Array<EcRemoteLinkedData>> success,
 			final Callback1<String> failure)
 	{
-		FormData fd = new FormData();
-		fd.append("data", query);
-		fd.append("signatureSheet", EcIdentityManager.signatureSheet(60000, selectedServer));
-		EcRemote.postExpectingObject(selectedServer, "sky/repo/search", fd, new Callback1<Object>()
-		{
-			@Override
-			public void $invoke(Object p1)
-			{
-				Array<EcRemoteLinkedData> results = (Array<EcRemoteLinkedData>) p1;
-
-				for (int i = 0; i < results.$length(); i++)
-				{
-					EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
-					d.copyFrom(results.$get(i));
-					results.$set(i, d);
-					if (caching)
-						JSObjectAdapter.$put(cache, d.shortId(), d);
-					if (eachSuccess != null)
-						eachSuccess.$invoke(results.$get(i));
-				}
-
-				if (success != null)
-					success.$invoke(results);
-			}
-		}, failure);
+		searchWithParams(query, null, eachSuccess, success, failure);
 	}
 
 	/**
@@ -159,6 +135,8 @@ public class EcRepository
 	 * @param query
 	 *            ElasticSearch compatible query string, similar to Google query
 	 *            strings.
+	 * @param params
+	 *            Additional parameters that can be used to tailor the search.
 	 * @param eachSuccess
 	 *            Success event for each found object.
 	 * @param success
@@ -169,33 +147,41 @@ public class EcRepository
 	public void searchWithParams(String query, Object params, final Callback1<EcRemoteLinkedData> eachSuccess,
 			final Callback1<Array<EcRemoteLinkedData>> success, final Callback1<String> failure)
 	{
-		FormData fd = new FormData();
+		final FormData fd = new FormData();
 		fd.append("data", query);
 		if (params != null)
 			fd.append("searchParams", Global.JSON.stringify(params));
-		fd.append("signatureSheet", EcIdentityManager.signatureSheet(60000, selectedServer));
-		EcRemote.postExpectingObject(selectedServer, "sky/repo/search", fd, new Callback1<Object>()
+		final EcRepository me = this;
+		EcIdentityManager.signatureSheetAsync(60000, selectedServer,new Callback1<String>()
 		{
 			@Override
-			public void $invoke(Object p1)
+			public void $invoke(String signatureSheet)
 			{
-				Array<EcRemoteLinkedData> results = (Array<EcRemoteLinkedData>) p1;
-
-				for (int i = 0; i < results.$length(); i++)
+				fd.append("signatureSheet", signatureSheet);
+				EcRemote.postExpectingObject(me.selectedServer, "sky/repo/search", fd, new Callback1<Object>()
 				{
-					EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
-					d.copyFrom(results.$get(i));
-					results.$set(i, d);
-					if (caching)
-						JSObjectAdapter.$put(cache, d.shortId(), d);
-					if (eachSuccess != null)
-						eachSuccess.$invoke(results.$get(i));
-				}
+					@Override
+					public void $invoke(Object p1)
+					{
+						Array<EcRemoteLinkedData> results = (Array<EcRemoteLinkedData>) p1;
 
-				if (success != null)
-					success.$invoke(results);
+						for (int i = 0; i < results.$length(); i++)
+						{
+							EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
+							d.copyFrom(results.$get(i));
+							results.$set(i, d);
+							if (caching)
+								JSObjectAdapter.$put(cache, d.shortId(), d);
+							if (eachSuccess != null)
+								eachSuccess.$invoke(results.$get(i));
+						}
+
+						if (success != null)
+							success.$invoke(results);
+					}
+				}, failure);
 			}
-		}, failure);
+		});
 	}
 
 	public void autoDetectRepository()
@@ -268,8 +254,7 @@ public class EcRepository
 			try
 			{
 				EcRemote.getExpectingObject(guess, "ping", successCheck, failureCheck);
-			}
-			catch (Exception ex)
+			} catch (Exception ex)
 			{
 
 			}
@@ -339,8 +324,7 @@ public class EcRepository
 		{
 			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(data, false);
 			_save(encrypted, success, failure);
-		}
-		else
+		} else
 		{
 			_save(data, success, failure);
 		}
@@ -359,6 +343,22 @@ public class EcRepository
 	 */
 	public static void _save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
 	{
+		EcIdentityManager.sign(data);
+		_saveWithoutSigning(data, success, failure);
+	}
+
+	/**
+	 * Attempts to save a piece of data without signing it.
+	 * 
+	 * Uses a signature sheet informed by the owner field of the data.
+	 * 
+	 * @param data
+	 *            Data to save to the location designated by its id.
+	 * @param success
+	 * @param failure
+	 */
+	public static void _saveWithoutSigning(final EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
+	{
 		if (caching)
 		{
 			JSObjectAdapter.$properties(cache).$delete(data.id);
@@ -369,18 +369,18 @@ public class EcRepository
 			failure.$invoke("Data is malformed.");
 			return;
 		}
-		EcIdentityManager.sign(data);
-		// TODO: Broke the EncryptedValueOwnerReaderTest. If the version part of
-		// the ID is the same, the object will not save. Why do we not update
-		// the timestamp if the value is encrypted?
-		// if(!data.isA(EcEncryptedValue.myType))
 		data.updateTimestamp();
-		FormData fd = new FormData();
+		final FormData fd = new FormData();
 		fd.append("data", data.toJson());
-		fd.append("signatureSheet", EcIdentityManager.signatureSheetFor(data.owner, 60000, data.id));
-		// TODO: This should be postExpectingObject. Part of a save is returning
-		// the original object, yes?
-		EcRemote.postExpectingString(data.id, "", fd, success, failure);
+		EcIdentityManager.signatureSheetForAsync(data.owner, 60000, data.id, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String arg0)
+			{
+				fd.append("signatureSheet", arg0);
+				EcRemote.postExpectingString(data.id, "", fd, success, failure);
+			}
+		});
 	}
 
 	/**
@@ -400,19 +400,20 @@ public class EcRepository
 		DELETE(data, success, failure);
 	}
 
-	public static void DELETE(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
+	public static void DELETE(final EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
 	{
 		if (caching)
 		{
 			JSObjectAdapter.$properties(cache).$delete(data.id);
 			JSObjectAdapter.$properties(cache).$delete(data.shortId());
 		}
-		EcRemote._delete(data.shortId(), EcIdentityManager.signatureSheet(60000, data.id), success, failure);
+		EcIdentityManager.signatureSheetAsync(60000, data.id, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String signatureSheet)
+			{
+				EcRemote._delete(data.shortId(), signatureSheet, success, failure);
+			}
+		});
 	}
-
-	public static void sign(EcRemoteLinkedData data, EcPpk pen)
-	{
-		data.signature.push(EcRsaOaep.sign(pen, data.toSignableJson()));
-	}
-
 }

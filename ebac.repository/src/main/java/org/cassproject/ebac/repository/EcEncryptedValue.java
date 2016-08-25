@@ -9,14 +9,18 @@ import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
+import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 
+import com.eduworks.ec.array.EcAsyncHelper;
 import com.eduworks.ec.crypto.EcAes;
 import com.eduworks.ec.crypto.EcAesCtr;
 import com.eduworks.ec.crypto.EcAesCtrAsync;
 import com.eduworks.ec.crypto.EcPk;
 import com.eduworks.ec.crypto.EcPpk;
 import com.eduworks.ec.crypto.EcRsaOaep;
+import com.eduworks.ec.crypto.EcRsaOaepAsync;
 import com.eduworks.schema.ebac.EbacEncryptedSecret;
 import com.eduworks.schema.ebac.EbacEncryptedValue;
 
@@ -78,54 +82,90 @@ public class EcEncryptedValue extends EbacEncryptedValue
 			}
 		return v;
 	}
-//
-//	public static void toEncryptedValueAsync(EcRemoteLinkedData d, boolean hideType, Callback1<EcEncryptedValue> success, Callback1<String> failure)
-//	{
-//		d.updateTimestamp();
-//
-//		final EcEncryptedValue v = new EcEncryptedValue();
-//
-//		if (!hideType)
-//			v.encryptedType = d.type;
-//		String newIv = EcAes.newIv(32);
-//		String newSecret = EcAes.newIv(32);
-//		EcAesCtrAsync.encrypt(d.toJson(), newSecret, newIv, new Callback1<String>()
-//		{
-//			@Override
-//			public void $invoke(String p1)
-//			{
-//				v.payload = p1;
-//			}
-//		}, failure);
-//		v.owner = d.owner;
-//		v.reader = d.reader;
-//		v.id = d.id;
-//		if (JSObjectAdapter.$get(d, "name") != null)
-//			v.name = (String) JSObjectAdapter.$get(d, "name");
-//
-//		if (d.owner != null)
-//			for (int i = 0; i < d.owner.$length(); i++)
-//			{
-//				EbacEncryptedSecret eSecret = new EbacEncryptedSecret();
-//				eSecret.iv = newIv;
-//				eSecret.secret = newSecret;
-//				if (v.secret == null)
-//					v.secret = new Array<String>();
-//				v.secret.push(EcRsaOaep.encrypt(EcPk.fromPem(d.owner.$get(i)), eSecret.toEncryptableJson()));
-//			}
-//
-//		if (d.reader != null)
-//			for (int i = 0; i < d.reader.$length(); i++)
-//			{
-//				EbacEncryptedSecret eSecret = new EbacEncryptedSecret();
-//				eSecret.iv = newIv;
-//				eSecret.secret = newSecret;
-//				if (v.secret == null)
-//					v.secret = new Array<String>();
-//				v.secret.push(EcRsaOaep.encrypt(EcPk.fromPem(d.reader.$get(i)), eSecret.toEncryptableJson()));
-//			}
-//		return v;
-//	}
+
+	public static void toEncryptedValueAsync(final EcRemoteLinkedData d, boolean hideType, final Callback1<EcEncryptedValue> success,
+			final Callback1<String> failure)
+	{
+		d.updateTimestamp();
+
+		final EcEncryptedValue v = new EcEncryptedValue();
+
+		if (!hideType)
+			v.encryptedType = d.type;
+		final String newIv = EcAes.newIv(32);
+		final String newSecret = EcAes.newIv(32);
+		EcAesCtrAsync.encrypt(d.toJson(), newSecret, newIv, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String encryptedText)
+			{
+				v.payload = encryptedText;
+				v.owner = d.owner;
+				v.reader = d.reader;
+				v.id = d.id;
+				if (JSObjectAdapter.$get(d, "name") != null)
+					v.name = (String) JSObjectAdapter.$get(d, "name");
+
+				if (d.owner != null)
+					new EcAsyncHelper<String>().each(d.owner, new Callback2<String, Callback0>()
+					{
+						@Override
+						public void $invoke(String pk, final Callback0 arg1)
+						{
+							EbacEncryptedSecret eSecret = new EbacEncryptedSecret();
+							eSecret.iv = newIv;
+							eSecret.secret = newSecret;
+							if (v.secret == null)
+								v.secret = new Array<String>();
+							EcRsaOaepAsync.encrypt(EcPk.fromPem(pk), eSecret.toEncryptableJson(), new Callback1<String>()
+							{
+								@Override
+								public void $invoke(String encryptedSecret)
+								{
+									v.secret.push(encryptedSecret);
+									arg1.$invoke();
+								}
+							}, failure);
+						}
+					}, new Callback1<Array<String>>()
+					{
+						@Override
+						public void $invoke(Array<String> arg0)
+						{
+							if (d.reader != null)
+								new EcAsyncHelper<String>().each(d.reader, new Callback2<String, Callback0>()
+								{
+									@Override
+									public void $invoke(String pk, final Callback0 arg1)
+									{
+										EbacEncryptedSecret eSecret = new EbacEncryptedSecret();
+										eSecret.iv = newIv;
+										eSecret.secret = newSecret;
+										if (v.secret == null)
+											v.secret = new Array<String>();
+										EcRsaOaepAsync.encrypt(EcPk.fromPem(pk), eSecret.toEncryptableJson(), new Callback1<String>()
+										{
+											@Override
+											public void $invoke(String encryptedSecret)
+											{
+												v.secret.push(encryptedSecret);
+												arg1.$invoke();
+											}
+										}, failure);
+									}
+								}, new Callback1<Array<String>>()
+								{
+									@Override
+									public void $invoke(Array<String> arg0)
+									{
+										success.$invoke(v);
+									}
+								});
+						}
+					});
+			}
+		}, failure);
+	}
 
 	@Deprecated
 	public static EcEncryptedValue encryptValueOld(String text, String id, String fieldName, EcPk owner)
@@ -316,8 +356,7 @@ public class EcEncryptedValue extends EbacEncryptedValue
 					if (!EcLinkedData.isProbablyJson(decryptedSecret))
 						continue;
 					encryptedSecret = EbacEncryptedSecret.fromEncryptableJson(JSGlobal.JSON.parse(decryptedSecret));
-				}
-				catch (Exception ex)
+				} catch (Exception ex)
 				{
 
 				}
