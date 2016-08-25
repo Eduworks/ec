@@ -20,64 +20,12 @@ public class EcRemote
 
 	public static void postExpectingObject(String server, String service, FormData fd, final Callback1<Object> success, final Callback1<String> failure)
 	{
-		Callback3<Object, String, JQueryXHR> successCallback = new Callback3<Object, String, JQueryXHR>()
-		{
-			@Override
-			public void $invoke(Object arg0, String arg1, JQueryXHR arg2)
-			{
-				if (success != null)
-					success.$invoke(JSON.parse(arg2.responseText));
-			}
-		};
-
-		Callback3<JQueryXHR, String, String> failureCallback = new Callback3<JQueryXHR, String, String>()
-		{
-			@Override
-			public void $invoke(JQueryXHR paramP1, String paramP2, String paramP3)
-			{
-				if (failure != null)
-					if (paramP1 != null)
-						if (paramP1.responseText != null)
-							failure.$invoke(paramP1.responseText);
-						else if (paramP1.statusText != null)
-							failure.$invoke(paramP1.statusText.toString());
-						else
-							failure.$invoke("General error in AJAX request.");
-					else if (paramP2 != null)
-						failure.$invoke(paramP2);
-					else if (paramP3 != null)
-						failure.$invoke(paramP2);
-					else
-						failure.$invoke("General error in AJAX request.");
-			}
-		};
-
-		postInner(server, service, fd, successCallback, failureCallback);
+		postInner(server, service, fd, getSuccessJSONCallback(success), getFailureCallback(failure));
 	}
 
 	public static void postExpectingString(String server, String service, FormData fd, final Callback1<String> success, final Callback1<String> failure)
 	{
-		Callback3<Object, String, JQueryXHR> successCallback = new Callback3<Object, String, JQueryXHR>()
-		{
-			@Override
-			public void $invoke(Object arg0, String arg1, JQueryXHR arg2)
-			{
-				if (success != null)
-					success.$invoke(arg2.responseText);
-			}
-		};
-
-		Callback3<JQueryXHR, String, String> failureCallback = new Callback3<JQueryXHR, String, String>()
-		{
-			@Override
-			public void $invoke(JQueryXHR paramP1, String paramP2, String paramP3)
-			{
-				if (failure != null)
-					failure.$invoke(paramP1.responseText);
-			}
-		};
-
-		postInner(server, service, fd, successCallback, failureCallback);
+		postInner(server, service, fd, getSuccessCallback(success), getFailureCallback(failure));
 	}
 
 	private static void postInner(String server, String service, FormData fd, Callback3<Object, String, JQueryXHR> successCallback,
@@ -110,10 +58,6 @@ public class EcRemote
 			p.headers = (Map<String, String>) new Object();
 			p.headers.$put("Content-Type","multipart/form-data; boundary="+JSObjectAdapter.$get(fd, "_boundary"));
 			p.data = all;
-//			Global.console.log(fd);
-//			Global.console.log("Using node serializer for FormData.");
-//			Global.console.log(all);
-//			Global.console.log(p.headers);
 		}
 		else
 		{
@@ -130,37 +74,12 @@ public class EcRemote
 		p.success = successCallback;
 		p.error = failureCallback;
 
-		// Upgrade protocol to avoid mixed active content
-		if (Global.window != null)
-			if (Global.window.location != null)
-				if (p.url.indexOf(Global.window.location.protocol) == -1)
-					if (!p.url.startsWith("https"))
-						p.url = p.url.replace("http", "https");
+		upgradeHttpToHttps(p);
 		$.ajax(p);
 	}
 
 	public static void getExpectingObject(String server, String service, final Callback1<Object> success, final Callback1<String> failure)
 	{
-		Callback3<Object, String, JQueryXHR> successCallback = new Callback3<Object, String, JQueryXHR>()
-		{
-			@Override
-			public void $invoke(Object arg0, String arg1, JQueryXHR arg2)
-			{
-				if (success != null)
-					success.$invoke(JSON.parse(arg2.responseText));
-			}
-		};
-
-		Callback3<JQueryXHR, String, String> failureCallback = new Callback3<JQueryXHR, String, String>()
-		{
-			@Override
-			public void $invoke(JQueryXHR paramP1, String paramP2, String paramP3)
-			{
-				if (failure != null)
-					failure.$invoke(paramP1.responseText);
-			}
-		};
-
 		String url = server;
 		if (!url.endsWith("/") && service != null && service.equals(""))
 			url += "/";
@@ -174,21 +93,61 @@ public class EcRemote
 		p.async = async;
 		p.processData = false;
 
-		p.success = successCallback;
-		p.error = failureCallback;
+		p.success = getSuccessJSONCallback(success);
+		p.error = getFailureCallback(failure);
 
-		// Upgrade protocol to avoid mixed active content
-		if (Global.window != null)
-			if (Global.window.location != null)
-				if (p.url.indexOf(Global.window.location.protocol) == -1)
-					if (!p.url.startsWith("https"))
-						p.url = p.url.replace("http", "https");
+		upgradeHttpToHttps(p);
 		$.ajax(p);
 	}
 
 	public static void _delete(String url, String signatureSheet, final Callback1<String> success, final Callback1<String> failure)
 	{
-		Callback3<Object, String, JQueryXHR> successCallback = new Callback3<Object, String, JQueryXHR>()
+		AjaxParams p = new AjaxParams();
+		p.method = "DELETE";
+		p.url = url;
+		p.async = async;
+		p.headers = (Map<String, String>) new Object();
+		p.headers.$put("signatureSheet", signatureSheet);
+
+		p.success = getSuccessCallback(success);
+		p.error = getFailureCallback(failure);
+
+		upgradeHttpToHttps(p);
+		$.ajax(p);
+	}
+
+	protected static void upgradeHttpToHttps(AjaxParams p)
+	{
+		// Upgrade protocol to avoid mixed active content
+		if (Global.window != null)
+			if (Global.window.location != null)
+				if (p.url.indexOf(Global.window.location.protocol) == -1)
+					if (Global.window.location.protocol.startsWith("https"))
+						if (!p.url.startsWith("https:"))
+							p.url = p.url.replace("http:", "https:");
+	}
+
+	protected static void handleFailure(final Callback1<String> failure, JQueryXHR paramP1, String paramP2, String paramP3)
+	{
+		if (failure != null)
+			if (paramP1 != null)
+				if (paramP1.responseText != null)
+					failure.$invoke(paramP1.responseText);
+				else if (paramP1.statusText != null)
+					failure.$invoke(paramP1.statusText.toString());
+				else
+					failure.$invoke("General error in AJAX request.");
+			else if (paramP2 != null)
+				failure.$invoke(paramP2);
+			else if (paramP3 != null)
+				failure.$invoke(paramP2);
+			else
+				failure.$invoke("General error in AJAX request.");
+	}
+
+	protected static Callback3<Object, String, JQueryXHR> getSuccessCallback(final Callback1<String> success)
+	{
+		return new Callback3<Object, String, JQueryXHR>()
 		{
 			@Override
 			public void $invoke(Object arg0, String arg1, JQueryXHR arg2)
@@ -197,34 +156,31 @@ public class EcRemote
 					success.$invoke(arg2.responseText);
 			}
 		};
+	}
 
-		Callback3<JQueryXHR, String, String> failureCallback = new Callback3<JQueryXHR, String, String>()
+	protected static Callback3<Object, String, JQueryXHR> getSuccessJSONCallback(final Callback1<Object> success)
+	{
+		return new Callback3<Object, String, JQueryXHR>()
+		{
+			@Override
+			public void $invoke(Object arg0, String arg1, JQueryXHR arg2)
+			{
+				if (success != null)
+					success.$invoke(JSON.parse(arg2.responseText));
+			}
+		};
+	}
+
+	protected static Callback3<JQueryXHR, String, String> getFailureCallback(final Callback1<String> failure)
+	{
+		return new Callback3<JQueryXHR, String, String>()
 		{
 			@Override
 			public void $invoke(JQueryXHR paramP1, String paramP2, String paramP3)
 			{
-				if (failure != null)
-					failure.$invoke(paramP1.responseText);
+				handleFailure(failure, paramP1, paramP2, paramP3);
 			}
 		};
-
-		AjaxParams p = new AjaxParams();
-		p.method = "DELETE";
-		p.url = url;
-		p.async = async;
-		p.headers = (Map<String, String>) new Object();
-		p.headers.$put("signatureSheet", signatureSheet);
-
-		p.success = successCallback;
-		p.error = failureCallback;
-
-		// Upgrade protocol to avoid mixed active content
-		if (Global.window != null)
-			if (Global.window.location != null)
-				if (p.url.indexOf(Global.window.location.protocol) == -1)
-					if (!p.url.startsWith("https"))
-						p.url = p.url.replace("http", "https");
-		$.ajax(p);
 	}
 
 }

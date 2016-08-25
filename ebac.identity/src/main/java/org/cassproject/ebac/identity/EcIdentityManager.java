@@ -9,12 +9,16 @@ import org.stjs.javascript.JSON;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.JSStringAdapterBase;
 import org.stjs.javascript.Map;
+import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.javascript.stjs.STJS;
 
+import com.eduworks.ec.array.EcAsyncHelper;
 import com.eduworks.ec.crypto.EcPk;
 import com.eduworks.ec.crypto.EcPpk;
 import com.eduworks.ec.crypto.EcRsaOaep;
+import com.eduworks.ec.crypto.EcRsaOaepAsync;
 import com.eduworks.schema.ebac.EbacSignature;
 
 import forge.util;
@@ -74,15 +78,16 @@ public class EcIdentityManager
 			contact.displayName = (String) props.$get("displayName");
 			contact.pk = EcPk.fromPem((String) props.$get("pk"));
 			contact.source = (String) props.$get("source");
-			
+
 			boolean cont = false;
-			for(int j = 0; j < contacts.$length(); j++){
-				if(contacts.$get(j).pk.toPem() == contact.pk.toPem())
+			for (int j = 0; j < contacts.$length(); j++)
+			{
+				if (contacts.$get(j).pk.toPem() == contact.pk.toPem())
 					cont = true;
 			}
-			if(cont)
+			if (cont)
 				continue;
-			
+
 			contacts.push(contact);
 		}
 	}
@@ -105,6 +110,7 @@ public class EcIdentityManager
 		}
 		Global.localStorage.$put("contacts", JSGlobal.JSON.stringify(c));
 	}
+
 	/**
 	 * Reads contact data from localstorage.
 	 */
@@ -122,15 +128,16 @@ public class EcIdentityManager
 			identity.displayName = (String) props.$get("displayName");
 			identity.ppk = EcPpk.fromPem((String) props.$get("ppk"));
 			identity.source = (String) props.$get("source");
-			
+
 			boolean cont = false;
-			for(int j = 0; j < ids.$length(); j++){
-				if(ids.$get(j).ppk.toPem() == identity.ppk.toPem())
+			for (int j = 0; j < ids.$length(); j++)
+			{
+				if (ids.$get(j).ppk.toPem() == identity.ppk.toPem())
 					cont = true;
 			}
-			if(cont)
+			if (cont)
 				continue;
-			
+
 			ids.push(identity);
 		}
 	}
@@ -154,11 +161,12 @@ public class EcIdentityManager
 		Global.localStorage.$put("identities", JSGlobal.JSON.stringify(c));
 	}
 
-	public static void clearContacts(){
+	public static void clearContacts()
+	{
 		Global.localStorage.$delete("contacts");
 		contacts = new Array<EcContact>();
 	}
-	
+
 	/**
 	 * Adds an identity to the identity manager. Checks for duplicates. Triggers
 	 * events.
@@ -197,7 +205,7 @@ public class EcIdentityManager
 				contacts.$get(i).displayName = contact.displayName;
 				contactChanged(contact);
 			}
-		
+
 		for (int i = 0; i < contacts.$length(); i++)
 			if (contacts.$get(i).equals(contact))
 				return;
@@ -221,7 +229,6 @@ public class EcIdentityManager
 	public static String signatureSheetFor(Array<String> identityPksinPem, long duration, String server)
 	{
 		Array<Object> signatures = new Array<Object>();
-		EcRsaOaep crypto = new EcRsaOaep();
 		for (int j = 0; j < ids.$length(); j++)
 		{
 			EcPpk ppk = ids.$get(j).ppk;
@@ -231,7 +238,7 @@ public class EcIdentityManager
 				{
 					EcPk ownerPpk = EcPk.fromPem(identityPksinPem.$get(i).trim());
 					if (pk.equals(ownerPpk))
-						signatures.push(createSignature(duration, server, crypto, ppk).atIfy());
+						signatures.push(createSignature(duration, server, ppk).atIfy());
 				}
 		}
 		return JSGlobal.JSON.stringify(signatures);
@@ -250,16 +257,47 @@ public class EcIdentityManager
 	public static String signatureSheet(long duration, String server)
 	{
 		Array<Object> signatures = new Array<Object>();
-		EcRsaOaep crypto = new EcRsaOaep();
 		for (int j = 0; j < ids.$length(); j++)
 		{
 			EcPpk ppk = ids.$get(j).ppk;
-			signatures.push(createSignature(duration, server, crypto, ppk).atIfy());
+			signatures.push(createSignature(duration, server, ppk).atIfy());
 		}
 		return JSGlobal.JSON.stringify(signatures);
 	}
 
-	private static EbacSignature createSignature(long duration, String server, EcRsaOaep crypto, EcPpk ppk)
+	public static void signatureSheetAsync(final long duration, final String server, final Callback1<String> success)
+	{
+		final Array<Object> signatures = new Array<Object>();
+		new EcAsyncHelper<EcIdentity>().each(ids, new Callback2<EcIdentity, Callback0>()
+		{
+			@Override
+			public void $invoke(EcIdentity p1, final Callback0 incrementalSuccess)
+			{
+				for (int i = 0; i < ids.$length(); i++)
+				{
+					EcPpk ppk = ids.$get(i).ppk;
+					createSignatureAsync(duration, server, ppk, new Callback1<EbacSignature>()
+					{
+						@Override
+						public void $invoke(EbacSignature p1)
+						{
+							signatures.push(p1.atIfy());
+							incrementalSuccess.$invoke();
+						}
+					});
+				}
+			}
+		}, new Callback1<Array<EcIdentity>>()
+		{
+			@Override
+			public void $invoke(Array<EcIdentity> pks)
+			{
+				success.$invoke(JSGlobal.JSON.stringify(signatures));
+			}
+		});
+	}
+
+	private static EbacSignature createSignature(long duration, String server, EcPpk ppk)
 	{
 		EbacSignature s = new EbacSignature();
 		s.owner = ppk.toPk().toPem();
@@ -267,6 +305,23 @@ public class EcIdentityManager
 		s.server = server;
 		s.signature = EcRsaOaep.sign(ppk, s.toJson());
 		return s;
+	}
+
+	private static void createSignatureAsync(long duration, String server, EcPpk ppk, final Callback1<EbacSignature> success)
+	{
+		final EbacSignature s = new EbacSignature();
+		s.owner = ppk.toPk().toPem();
+		s.expiry = new Date().getTime() + duration;
+		s.server = server;
+		EcRsaOaepAsync.sign(ppk, s.toJson(), new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				s.signature = p1;
+				success.$invoke(s);
+			}
+		}, null);
 	}
 
 	/**
@@ -286,6 +341,7 @@ public class EcIdentityManager
 		}
 		return null;
 	}
+
 	/**
 	 * Get Contact from PK (if we have it)
 	 * 
@@ -302,6 +358,7 @@ public class EcIdentityManager
 		}
 		return null;
 	}
+
 	/**
 	 * Get Identity from PK (if we have it)
 	 * 
@@ -343,15 +400,15 @@ public class EcIdentityManager
 						EcPk pk = EcPk.fromPem(owner);
 						try
 						{
-						if (EcRsaOaep.verify(pk, d.toSignableJson(), signature))
-						{
-							works = true;
-							break;
-						}
+							if (EcRsaOaep.verify(pk, d.toSignableJson(), signature))
+							{
+								works = true;
+								break;
+							}
 						}
 						catch (Exception ex)
 						{
-							
+
 						}
 					}
 				}

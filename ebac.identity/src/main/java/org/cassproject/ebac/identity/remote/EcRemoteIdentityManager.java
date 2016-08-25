@@ -354,7 +354,7 @@ public class EcRemoteIdentityManager
 		sendCredentials(success, failure, padGenerationCallback, service);
 	}
 
-	private void sendCredentials(final Callback1<String> success, final Callback1<String> failure, EcCallbackReturn0 padGenerationCallback, String service)
+	private void sendCredentials(final Callback1<String> success, final Callback1<String> failure, EcCallbackReturn0 padGenerationCallback, final String service)
 	{
 		if (!configured)
 			Global.alert("Remote Identity not configured.");
@@ -395,25 +395,33 @@ public class EcRemoteIdentityManager
 		commit.credentials.credentials = credentials;
 		commit.credentials.contacts = contacts;
 
-		FormData fd = new FormData();
+		final FormData fd = new FormData();
 		fd.append("credentialCommit", commit.toJson());
-		fd.append("signatureSheet", EcIdentityManager.signatureSheet(60000, server));
-
-		EcRemote.postExpectingString(server, service, fd, new Callback1<String>()
+		final EcRemoteIdentityManager me = this;
+		EcIdentityManager.signatureSheetAsync(60000, server, new Callback1<String>()
 		{
 			@Override
-			public void $invoke(String arg0)
+			public void $invoke(String p1)
 			{
-				success.$invoke(arg0);
-			}
-		}, new Callback1<String>()
-		{
-			@Override
-			public void $invoke(String arg0)
-			{
-				failure.$invoke(arg0);
+				fd.append("signatureSheet", p1);
+				EcRemote.postExpectingString(me.server, service, fd, new Callback1<String>()
+				{
+					@Override
+					public void $invoke(String arg0)
+					{
+						success.$invoke(arg0);
+					}
+				}, new Callback1<String>()
+				{
+					@Override
+					public void $invoke(String arg0)
+					{
+						failure.$invoke(arg0);
+					}
+				});
 			}
 		});
+
 	}
 
 	/**

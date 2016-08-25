@@ -34,25 +34,33 @@ public class EcRepository
 		}
 		if (cacheUrls.$length() == 0)
 			return;
-		FormData fd = new FormData();
+		final FormData fd = new FormData();
 		fd.append("data", Global.JSON.stringify(cacheUrls));
-		fd.append("signatureSheet", EcIdentityManager.signatureSheet(60000, selectedServer));
-		EcRemote.postExpectingObject(selectedServer, "sky/repo/multiGet", fd, new Callback1<Object>()
+		final EcRepository me = this;
+		EcIdentityManager.signatureSheetAsync(60000, selectedServer, new Callback1<String>()
 		{
 			@Override
-			public void $invoke(Object p1)
+			public void $invoke(String p1)
 			{
-				Array<EcRemoteLinkedData> results = (Array<EcRemoteLinkedData>) p1;
-				for (int i = 0; i < results.$length(); i++)
+				fd.append("signatureSheet", p1);
+				EcRemote.postExpectingObject(me.selectedServer, "sky/repo/multiGet", fd, new Callback1<Object>()
 				{
-					EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
-					d.copyFrom(results.$get(i));
-					results.$set(i, d);
-					if (caching)
-						JSObjectAdapter.$put(cache, d.shortId(), d);
-				}
+					@Override
+					public void $invoke(Object p1)
+					{
+						Array<EcRemoteLinkedData> results = (Array<EcRemoteLinkedData>) p1;
+						for (int i = 0; i < results.$length(); i++)
+						{
+							EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
+							d.copyFrom(results.$get(i));
+							results.$set(i, d);
+							if (caching)
+								JSObjectAdapter.$put(cache, d.shortId(), d);
+						}
+					}
+				}, null);
 			}
-		}, null);
+		});
 	}
 
 	/**
@@ -75,20 +83,27 @@ public class EcRepository
 				success.$invoke((EcRemoteLinkedData) JSObjectAdapter.$get(cache, url));
 				return;
 			}
-		FormData fd = new FormData();
-		fd.append("signatureSheet", EcIdentityManager.signatureSheet(60000, url));
-		EcRemote.postExpectingObject(url, null, fd, new Callback1<Object>()
+		final FormData fd = new FormData();
+		EcIdentityManager.signatureSheetAsync(60000, url, new Callback1<String>()
 		{
 			@Override
-			public void $invoke(Object p1)
+			public void $invoke(String p1)
 			{
-				EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
-				d.copyFrom(p1);
-				if (caching)
-					JSObjectAdapter.$put(cache, url, d);
-				success.$invoke(d);
+				fd.append("signatureSheet", p1);
+				EcRemote.postExpectingObject(url, null, fd, new Callback1<Object>()
+				{
+					@Override
+					public void $invoke(Object p1)
+					{
+						EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
+						d.copyFrom(p1);
+						if (caching)
+							JSObjectAdapter.$put(cache, url, d);
+						success.$invoke(d);
+					}
+				}, failure);
 			}
-		}, failure);
+		});
 	}
 
 	/**
@@ -363,7 +378,8 @@ public class EcRepository
 		FormData fd = new FormData();
 		fd.append("data", data.toJson());
 		fd.append("signatureSheet", EcIdentityManager.signatureSheetFor(data.owner, 60000, data.id));
-		//TODO: This should be postExpectingObject. Part of a save is returning the original object, yes?
+		// TODO: This should be postExpectingObject. Part of a save is returning
+		// the original object, yes?
 		EcRemote.postExpectingString(data.id, "", fd, success, failure);
 	}
 
