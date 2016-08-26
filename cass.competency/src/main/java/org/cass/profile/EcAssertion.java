@@ -137,7 +137,7 @@ public class EcAssertion extends Assertion
 		if (negative == null)
 			return false;
 		EcEncryptedValue v = new EcEncryptedValue();
-		v.copyFrom(decayFunction);
+		v.copyFrom(negative);
 		String decryptedString = v.decryptIntoString();
 		if (decryptedString != null)
 			decryptedString.toLowerCase();
