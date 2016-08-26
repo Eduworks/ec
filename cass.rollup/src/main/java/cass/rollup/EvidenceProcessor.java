@@ -181,9 +181,15 @@ public class EvidenceProcessor
 				}
 				logFoundAssertion(a, ip);
 				if (a.getNegative())
+				{
+				   log(ip,"Found valid negative assertion");
 					ip.negative.push(a);
+				}
 				else
+				{
+				   log(ip,"Found valid positive assertion");
 					ip.positive.push(a);
+				}
 			}
 		}
 	}
@@ -355,14 +361,7 @@ public class EvidenceProcessor
 				});
 			}
 	}
-
-	/**
-	 * IF IP type is COMBINATOR_AND: IF any equivalent packets = INDETERMINANT
-	 * THEN INDETERMINANT ELSE IF any sub packets = INDETERMINANT THEN
-	 * INDETERMINANT ELSE IF all equivalent packets = UNKNOWN && all sub packets
-	 * = UNKNOWN THEN UNKNOWN ELSE IF any equivalent packets = FALSE THEN FALSE
-	 * ELSE IF any sub packets = FALSE THEN FALSE ELSE TRUE
-	 **/
+	
 	private void determineCombinatorAndResult(InquiryPacket ip)
 	{
 		if (ip.anyChildPacketsAreFalse())
@@ -375,13 +374,6 @@ public class EvidenceProcessor
 			ip.result = ResultType.TRUE;
 	}
 
-	/**
-	 * IF IP type is COMBINATOR_OR: IF any equivalent packets = INDETERMINANT
-	 * THEN INDETERMINANT ELSE IF any sub packets = INDETERMINANT THEN
-	 * INDETERMINANT ELSE IF all equivalent packets = UNKNOWN && all sub packets
-	 * = UNKNOWN THEN UNKNOWN ELSE IF any equivalent packets = TRUE THEN TRUE
-	 * ELSE IF any sub packets = TRUE THEN TRUE ELSE FALSE
-	 **/
 	private void determineCombinatorNarrowsResult(InquiryPacket ip)
 	{
 		if (ip.anyChildPacketsAreTrue())

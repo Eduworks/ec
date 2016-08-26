@@ -45,7 +45,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase
 			{
 				Global.console.log(p1.result.name());
 				Global.console.log(p1);
-				Assert.assertSame(p1.result, InquiryPacket.ResultType.TRUE);
+				Assert.assertSame(InquiryPacket.ResultType.TRUE, p1.result);
 			}
 		});
 		
@@ -73,7 +73,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase
 			{
 				Global.console.log(p1.result.name());
 				Global.console.log(p1);
-				Assert.assertSame(p1.result, InquiryPacket.ResultType.FALSE);
+				Assert.assertSame(InquiryPacket.ResultType.FALSE, p1.result);
 			}
 		});
 		
@@ -102,7 +102,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase
 			{
 				Global.console.log(p1.result.name());
 				Global.console.log(p1);
-				Assert.assertSame(p1.result, InquiryPacket.ResultType.INDETERMINANT);
+				Assert.assertSame(InquiryPacket.ResultType.INDETERMINANT, p1.result);
 			}
 		});
 		
@@ -129,7 +129,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase
 			{
 				Global.console.log(p1.result.name());
 				Global.console.log(p1);
-				Assert.assertSame(p1.result, InquiryPacket.ResultType.UNKNOWN);
+				Assert.assertSame(InquiryPacket.ResultType.UNKNOWN, p1.result);
 			}
 		});
 		
@@ -163,7 +163,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase
 			{
 				Global.console.log(p1.result.name());
 				Global.console.log(p1);
-				Assert.assertSame(p1.result, InquiryPacket.ResultType.TRUE);
+				Assert.assertSame(InquiryPacket.ResultType.TRUE, p1.result);
 			}
 		});
 		
@@ -200,7 +200,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase
 			{
 				Global.console.log(p1.result.name());
 				Global.console.log(p1);
-				Assert.assertSame(p1.result, InquiryPacket.ResultType.FALSE);
+				Assert.assertSame(InquiryPacket.ResultType.FALSE, p1.result);
 			}
 		});
 		
@@ -238,7 +238,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase
 			{
 				Global.console.log(p1.result.name());
 				Global.console.log(p1);
-				Assert.assertSame(p1.result, InquiryPacket.ResultType.INDETERMINANT);
+				Assert.assertSame(InquiryPacket.ResultType.INDETERMINANT, p1.result);
 			}
 		});
 		
@@ -273,7 +273,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase
 			{
 				Global.console.log(p1.result.name());
 				Global.console.log(p1);
-				Assert.assertSame(InquiryPacket.ResultType.INDETERMINANT,p1.result);
+				Assert.assertSame(InquiryPacket.ResultType.INDETERMINANT, p1.result);
 			}
 		});
 		
@@ -314,7 +314,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase
 			{
 				Global.console.log(p1.result.name());
 				Global.console.log(p1);
-				Assert.assertSame(p1.result, InquiryPacket.ResultType.TRUE);
+				Assert.assertSame(InquiryPacket.ResultType.TRUE, p1.result);
 			}
 		});
 		
@@ -354,7 +354,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase
 			{
 				Global.console.log(p1.result.name());
 				Global.console.log(p1);
-				Assert.assertSame(p1.result, InquiryPacket.ResultType.UNKNOWN);
+				Assert.assertSame(InquiryPacket.ResultType.UNKNOWN, p1.result);
 			}
 		};
 		
@@ -393,7 +393,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase
 			{
 				Global.console.log(p1.result.name());
 				Global.console.log(p1);
-				Assert.assertSame(p1.result, InquiryPacket.ResultType.UNKNOWN);
+				Assert.assertSame(InquiryPacket.ResultType.UNKNOWN, p1.result);
 			}
 		};
 		
@@ -431,7 +431,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase
 			{
 				Global.console.log(p1.result.name());
 				Global.console.log(p1);
-				Assert.assertSame(p1.result, InquiryPacket.ResultType.FALSE);
+				Assert.assertSame(InquiryPacket.ResultType.FALSE, p1.result);
 			}
 		};
 		
