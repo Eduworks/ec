@@ -1,5 +1,6 @@
 package com.eduworks.ec.crypto;
 
+import org.stjs.javascript.Array;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback2;
@@ -73,5 +74,15 @@ public class EcPpk
 		EcPk pk = new EcPk();
 		pk.pk = forge.rsa.setPublicKey(ppk.n, ppk.e);
 		return pk;
+	}
+
+	public boolean inArray(Array<EcPpk> ppks)
+	{
+		for (int i = 0;i < ppks.$length();i++)
+		{
+			if (ppks.$get(i).equals(this))
+				return true;
+		}
+		return false;
 	}
 }

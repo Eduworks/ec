@@ -20,12 +20,12 @@ public class EcRemote
 
 	public static void postExpectingObject(String server, String service, FormData fd, final Callback1<Object> success, final Callback1<String> failure)
 	{
-		postInner(server, service, fd, getSuccessJSONCallback(success), getFailureCallback(failure));
+		postInner(server, service, fd, getSuccessJSONCallback(success,failure), getFailureCallback(failure));
 	}
 
 	public static void postExpectingString(String server, String service, FormData fd, final Callback1<String> success, final Callback1<String> failure)
 	{
-		postInner(server, service, fd, getSuccessCallback(success), getFailureCallback(failure));
+		postInner(server, service, fd, getSuccessCallback(success,failure), getFailureCallback(failure));
 	}
 
 	private static void postInner(String server, String service, FormData fd, Callback3<Object, String, JQueryXHR> successCallback,
@@ -93,7 +93,7 @@ public class EcRemote
 		p.async = async;
 		p.processData = false;
 
-		p.success = getSuccessJSONCallback(success);
+		p.success = getSuccessJSONCallback(success,failure);
 		p.error = getFailureCallback(failure);
 
 		upgradeHttpToHttps(p);
@@ -109,7 +109,7 @@ public class EcRemote
 		p.headers = (Map<String, String>) new Object();
 		p.headers.$put("signatureSheet", signatureSheet);
 
-		p.success = getSuccessCallback(success);
+		p.success = getSuccessCallback(success,failure);
 		p.error = getFailureCallback(failure);
 
 		upgradeHttpToHttps(p);
@@ -145,26 +145,32 @@ public class EcRemote
 				failure.$invoke("General error in AJAX request.");
 	}
 
-	protected static Callback3<Object, String, JQueryXHR> getSuccessCallback(final Callback1<String> success)
+	protected static Callback3<Object, String, JQueryXHR> getSuccessCallback(final Callback1<String> success,final Callback1<String> failure)
 	{
 		return new Callback3<Object, String, JQueryXHR>()
 		{
 			@Override
 			public void $invoke(Object arg0, String arg1, JQueryXHR arg2)
 			{
+				if (arg2.status > 300 || arg2.status < 200)
+					failure.$invoke("Error with code: " + arg2.status);
+				else
 				if (success != null)
 					success.$invoke(arg2.responseText);
 			}
 		};
 	}
 
-	protected static Callback3<Object, String, JQueryXHR> getSuccessJSONCallback(final Callback1<Object> success)
+	protected static Callback3<Object, String, JQueryXHR> getSuccessJSONCallback(final Callback1<Object> success,final Callback1<String> failure)
 	{
 		return new Callback3<Object, String, JQueryXHR>()
 		{
 			@Override
 			public void $invoke(Object arg0, String arg1, JQueryXHR arg2)
 			{
+				if (arg2.status > 300 || arg2.status < 200)
+					failure.$invoke("Error with code: " + arg2.status);
+				else
 				if (success != null)
 					success.$invoke(JSON.parse(arg2.responseText));
 			}

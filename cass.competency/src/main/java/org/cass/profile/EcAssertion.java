@@ -15,13 +15,11 @@ import org.stjs.javascript.functions.Callback1;
 import com.eduworks.ec.crypto.EcPk;
 
 /**
- * The sequence that assertions should be built as such:
- * 1. Generate the ID.
- * 2. Add the owner.
- * 3. Set the subject.
- * 4. Set the agent.
- * Further functions may be called afterwards in any order.
- * WARNING: The modifications of ownership and readership do not "just work".
+ * The sequence that assertions should be built as such: 1. Generate the ID. 2.
+ * Add the owner. 3. Set the subject. 4. Set the agent. Further functions may be
+ * called afterwards in any order. WARNING: The modifications of ownership and
+ * readership do not "just work".
+ * 
  * @author fritz.ray@eduworks.com
  */
 public class EcAssertion extends Assertion
@@ -57,7 +55,7 @@ public class EcAssertion extends Assertion
 		EcPk subjectPk = getSubject();
 		EcIdentity identity = EcIdentityManager.getIdentity(subjectPk);
 		if (identity != null && identity.displayName != null)
-			return identity.displayName+" (You)";
+			return identity.displayName + " (You)";
 		EcContact contact = EcIdentityManager.getContact(subjectPk);
 		if (contact == null || contact.displayName == null)
 			return "Unknown Subject";
@@ -71,7 +69,7 @@ public class EcAssertion extends Assertion
 		EcPk agentPk = getAgent();
 		EcIdentity identity = EcIdentityManager.getIdentity(agentPk);
 		if (identity != null && identity.displayName != null)
-			return identity.displayName+" (You)";
+			return identity.displayName + " (You)";
 		EcContact contact = EcIdentityManager.getContact(agentPk);
 		if (contact == null || contact.displayName == null)
 			return "Unknown Agent";
@@ -108,7 +106,7 @@ public class EcAssertion extends Assertion
 			return 0;
 		return evidence.$length();
 	}
-	
+
 	public String getEvidence(int index)
 	{
 		if (evidence == null)
@@ -145,16 +143,17 @@ public class EcAssertion extends Assertion
 	}
 
 	/**
-	 * Sets the subject of an assertion. Makes a few assumptions:
-	 * Owners of the object should be able to see and change the encrypted value.
-	 * Owners and readers of the object should be persisted.
+	 * Sets the subject of an assertion. Makes a few assumptions: Owners of the
+	 * object should be able to see and change the encrypted value. Owners and
+	 * readers of the object should be persisted.
+	 * 
 	 * @param pk
 	 */
 	public void setSubject(EcPk pk)
 	{
 		Array<String> owners = new Array<String>();
 		Array<String> readers = reader;
-		if(readers == null)
+		if (readers == null)
 			readers = new Array<String>();
 		if (subject != null)
 		{
@@ -165,40 +164,40 @@ public class EcAssertion extends Assertion
 		readers.push(pk.toPem());
 		subject = EcEncryptedValue.encryptValue(pk.toPem(), id, "subject", owners, readers);
 	}
-	
+
 	public void setAgent(EcPk pk)
 	{
 		agent = EcEncryptedValue.encryptValue(pk.toPem(), id, "agent", subject.owner, subject.reader);
 	}
-	
+
 	public void setCompetency(String competencyUrl)
 	{
 		competency = competencyUrl;
 	}
-	
+
 	public void setLevel(String levelUrl)
 	{
 		level = levelUrl;
 	}
-	
+
 	public void setConfidence(Double confidenceZeroToOne)
 	{
 		confidence = confidenceZeroToOne;
 	}
-	
+
 	public void setEvidence(Array<String> evidences)
 	{
 		Array<EcEncryptedValue> encryptedValues = new Array<EcEncryptedValue>();
-		for (int i = 0;i < evidences.$length();i++)
+		for (int i = 0; i < evidences.$length(); i++)
 			encryptedValues.push(EcEncryptedValue.encryptValue(evidences.$get(i), id, "evidence", subject.owner, subject.reader));
 		evidence = encryptedValues;
 	}
-	
+
 	public void setAssertionDate(Long assertionDateMs)
 	{
 		assertionDate = EcEncryptedValue.encryptValue(assertionDateMs.toString(), id, "assertionDate", subject.owner, subject.reader);
 	}
-	
+
 	public void setExpirationDate(Long expirationDateMs)
 	{
 		expirationDate = EcEncryptedValue.encryptValue(expirationDateMs.toString(), id, "expirationDate", subject.owner, subject.reader);
@@ -213,65 +212,92 @@ public class EcAssertion extends Assertion
 	{
 		negative = EcEncryptedValue.encryptValue(negativeB.toString(), id, "negative", subject.owner, subject.reader);
 	}
-	
-	public void save(Callback1<String> success, Callback1<String> failure){
-		if(competency == null || competency == ""){
+
+	public void save(Callback1<String> success, Callback1<String> failure)
+	{
+		if (competency == null || competency == "")
+		{
 			String msg = "Failing to save: Competency cannot be missing";
-			if(failure != null)
+			if (failure != null)
 				failure.$invoke(msg);
 			else
 				Global.console.error(msg);
 			return;
 		}
-		
-		if(subject == null){
+
+		if (subject == null)
+		{
 			String msg = "Failing to save: Subject cannot be missing";
-			if(failure != null)
+			if (failure != null)
 				failure.$invoke(msg);
 			else
 				Global.console.error(msg);
 			return;
 		}
-		
-		if(agent == null){
+
+		if (agent == null)
+		{
 			String msg = "Failing to save: Agent cannot be missing";
-			if(failure != null)
+			if (failure != null)
 				failure.$invoke(msg);
 			else
 				Global.console.error(msg);
 			return;
 		}
-		
-		if(confidence == null){
+
+		if (confidence == null)
+		{
 			String msg = "Failing to save: Confidence cannot be missing";
-			if(failure != null)
+			if (failure != null)
 				failure.$invoke(msg);
 			else
 				Global.console.error(msg);
 			return;
 		}
-		
-		if(assertionDate == null){
+
+		if (assertionDate == null)
+		{
 			String msg = "Failing to save: Assertion Date cannot be missing";
-			if(failure != null)
+			if (failure != null)
 				failure.$invoke(msg);
 			else
 				Global.console.error(msg);
 			return;
 		}
-		
-		if(decayFunction == null){
+
+		if (decayFunction == null)
+		{
 			String msg = "Failing to save: Decay Function cannot be missing";
-			if(failure != null)
+			if (failure != null)
 				failure.$invoke(msg);
 			else
 				Global.console.error(msg);
 			return;
 		}
-		
+
 		EcRepository._save(this, success, failure);
 	}
-	
+
+	@Override
+	public void addReader(EcPk newReader)
+	{
+		if (agent != null)
+			agent.addReader(newReader);
+		if (assertionDate != null)
+			assertionDate.addReader(newReader);
+		if (decayFunction != null)
+			decayFunction.addReader(newReader);
+		if (evidence != null)
+			for (int i = 0; i < evidence.$length(); i++)
+				evidence.$get(i).addReader(newReader);
+		if (expirationDate != null)
+			expirationDate.addReader(newReader);
+		if (negative != null)
+			negative.addReader(newReader);
+		if (subject != null)
+			subject.addReader(newReader);
+	}
+
 	public static void get(String id, final Callback1<EcAssertion> success, final Callback1<String> failure)
 	{
 		EcRepository.get(id, new Callback1<EcRemoteLinkedData>()
@@ -304,6 +330,6 @@ public class EcAssertion extends Assertion
 
 	public String getSearchStringByTypeAndCompetency(EcCompetency competency)
 	{
-		return "("+getSearchStringByType() + " AND competency:\""+competency.shortId()+"\")";
+		return "(" + getSearchStringByType() + " AND competency:\"" + competency.shortId() + "\")";
 	}
 }
