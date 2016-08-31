@@ -207,11 +207,15 @@ public class EcLinkedData
 	{
 		Map<String, Object> me = JSObjectAdapter.$properties(this);
 		for (String key : me)
-			me.$delete(key);
+		{
+			if (JSGlobal.typeof(me.$get(key)) != "function")
+				me.$delete(key);
+		}
 		Map<String, Object> you = JSObjectAdapter.$properties(that);
 		for (String key : you)
 		{
-			me.$put(key.replace("@", ""), you.$get(key));
+			if (JSGlobal.typeof(you.$get(key)) != "function")
+				me.$put(key.replace("@", ""), you.$get(key));
 		}
 		upgrade();
 		if (!isAny(getTypes()))
