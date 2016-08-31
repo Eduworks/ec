@@ -67,7 +67,7 @@ self.addEventListener('message', function(e) {
 		break;
 	case 'encryptAesCtr':
 		var c = forge.cipher.createCipher("AES-CTR", forge.util
-				.decode64(secret));
+				.decode64(data.secret));
 		c.start({
 			iv : forge.util.decode64(data.iv)
 		});
@@ -80,9 +80,11 @@ self.addEventListener('message', function(e) {
 		break;
 	case 'decryptAesCtr':
 		var c = forge.cipher.createDecipher("AES-CTR", forge.util
-				.decode64(secret));
-		c.start(new EcAesParameters(iv));
-		c.update(forge.util.createBuffer(forge.util.decode64(text)));
+				.decode64(data.secret));
+		c.start({
+			iv : forge.util.decode64(data.iv)
+		});
+		c.update(forge.util.createBuffer(forge.util.decode64(data.text)));
 		c.finish();
 		var decrypted = c.output;
 		self.postMessage({

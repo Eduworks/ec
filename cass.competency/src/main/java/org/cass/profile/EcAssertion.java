@@ -282,20 +282,41 @@ public class EcAssertion extends Assertion
 	public void addReader(EcPk newReader)
 	{
 		if (agent != null)
+		{
+			agent = EcEncryptedValue.revive(agent);
 			agent.addReader(newReader);
+		}
 		if (assertionDate != null)
+		{
+			assertionDate = EcEncryptedValue.revive(assertionDate);
 			assertionDate.addReader(newReader);
+		}
 		if (decayFunction != null)
+		{
+			decayFunction = EcEncryptedValue.revive(decayFunction);
 			decayFunction.addReader(newReader);
+		}
 		if (evidence != null)
 			for (int i = 0; i < evidence.$length(); i++)
+			{
+				evidence.$set(i, EcEncryptedValue.revive(evidence.$get(i)));
 				evidence.$get(i).addReader(newReader);
+			}
 		if (expirationDate != null)
+		{
+			expirationDate = EcEncryptedValue.revive(expirationDate);
 			expirationDate.addReader(newReader);
+		}
 		if (negative != null)
+		{
+			negative = EcEncryptedValue.revive(negative);
 			negative.addReader(newReader);
+		}
 		if (subject != null)
+		{
+			subject = EcEncryptedValue.revive(subject);
 			subject.addReader(newReader);
+		}
 	}
 
 	public static void get(String id, final Callback1<EcAssertion> success, final Callback1<String> failure)

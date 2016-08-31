@@ -18,6 +18,7 @@ public class EcAsyncHelper<T>
 			after.$invoke(array);
 		for (int i = 0; i < array.$length(); i++)
 		{
+			if (counter > 0)
 			each.$invoke(array.$get(i), new Callback0()
 			{
 				@Override
@@ -29,5 +30,9 @@ public class EcAsyncHelper<T>
 				}
 			});
 		}
+	}
+	public void stop()
+	{
+		counter = -1;
 	}
 }

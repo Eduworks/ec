@@ -41,6 +41,13 @@ public class EcEncryptedValue extends EbacEncryptedValue
 	{
 
 	}
+	
+	public static EcEncryptedValue revive(EcEncryptedValue partiallyRehydratedObject)
+	{
+		EcEncryptedValue v = new EcEncryptedValue();
+		v.copyFrom(partiallyRehydratedObject);
+		return v;
+	}
 
 	public static EcEncryptedValue toEncryptedValue(EcRemoteLinkedData d, boolean hideType)
 	{
@@ -283,6 +290,25 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		}, failure);
 	}
 
+	public void decryptIntoObjectUsingIvAndSecretAsync(String iv, String secret, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure)
+	{
+		decryptIntoStringUsingIvAndSecretAsync(iv,secret,new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String decryptRaw)
+			{
+				if (decryptRaw == null)
+					failure.$invoke("Could not decrypt data.");
+				if (!EcLinkedData.isProbablyJson(decryptRaw))
+					failure.$invoke("Could not decrypt data.");
+				EcRemoteLinkedData decrypted = new EcRemoteLinkedData("", "");
+				decrypted.copyFrom((EcRemoteLinkedData) JSGlobal.JSON.parse(decryptRaw));
+				decrypted.privateEncrypted = true;
+				success.$invoke((EcRemoteLinkedData) decrypted.deAtify());
+			}
+		}, failure);
+	}
+
 	public String decryptIntoString()
 	{
 		EbacEncryptedSecret decryptSecret = decryptSecret();
@@ -303,6 +329,11 @@ public class EcEncryptedValue extends EbacEncryptedValue
 					EcAesCtrAsync.decrypt(me.payload, decryptSecret.secret, decryptSecret.iv, success, failure);
 			}
 		}, failure);
+	}
+
+	public void decryptIntoStringUsingIvAndSecretAsync(final String iv, final String secret,final Callback1<String> success, final Callback1<String> failure)
+	{
+		EcAesCtrAsync.decrypt(payload, secret, iv, success, failure);
 	}
 
 	public EbacEncryptedSecret decryptSecret()
