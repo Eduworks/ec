@@ -92,6 +92,8 @@ public class EcRemote
 		p.cache = false;
 		p.async = async;
 		p.processData = false;
+		
+		p.dataType = "json";
 
 		p.success = getSuccessJSONCallback(success,failure);
 		p.error = getFailureCallback(failure);
