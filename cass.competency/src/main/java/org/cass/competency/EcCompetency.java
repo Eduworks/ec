@@ -188,12 +188,24 @@ public class EcCompetency extends Competency
 			return;
 		}
 		
-		if(privateEncrypted != null && privateEncrypted.booleanValue()){
+		if(this.invalid()){
+			String msg = "Cannot save competency. It is missing a vital component.";
+			if(failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return;
+		}
+		
+		if (privateEncrypted != null && privateEncrypted)
+		{
 			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(this, false);
 			EcRepository._save(encrypted, success, failure);
-		}else{
+		} else
+		{
 			EcRepository._save(this, success, failure);
 		}
+		
 	}
 	
 	public void _delete(final Callback1<String> success, final Callback1<String> failure, final EcRepository repo)
@@ -273,27 +285,76 @@ public class EcCompetency extends Competency
 		{
 			@Override
 			public void $invoke(EcRemoteLinkedData p1)
-			{
-				if (success == null)
-					return;
-				if (!p1.isA(EcCompetency.myType))
+			{				
+				EcCompetency competency = new EcCompetency();
+				
+				if (p1.isA(EcEncryptedValue.myType))
 				{
-					if (failure != null)
-						failure.$invoke("Resultant object is not a competency.");
-					return;
+					EcEncryptedValue encrypted = new EcEncryptedValue();
+					encrypted.copyFrom(p1);
+					p1 = encrypted.decryptIntoObject();
+					
+					p1.privateEncrypted = true;
 				}
-				EcCompetency c = new EcCompetency();
-				c.copyFrom(p1);
-				success.$invoke(c);
+				if (p1.isAny(competency.getTypes()))
+				{
+					competency.copyFrom(p1);
+					
+					if(success != null)
+						success.$invoke(competency);
+				}
+				else
+				{
+					String msg = "Retrieved object was not a competency";
+					if(failure != null)
+						failure.$invoke(msg);
+					else
+						Global.console.error(msg);
+				}
+
 			}
-		}, new Callback1<String>()
-		{
+
+		}, failure);
+	}
+	
+	public static void search(EcRepository repo, String query, final Callback1<Array<EcCompetency>> success, Callback1<String> failure, Object paramObj){
+		String queryAdd = "";
+		queryAdd = new EcCompetency().getSearchStringByType();
+
+		if (query == null || query == "")
+			query = queryAdd;
+		else
+			query = "(" + query + ") AND " + queryAdd;
+		
+		repo.searchWithParams(query, paramObj, null, new Callback1<Array<EcRemoteLinkedData>>(){
+
 			@Override
-			public void $invoke(String p1)
-			{
-				if (failure != null)
-					failure.$invoke(p1);
+			public void $invoke(Array<EcRemoteLinkedData> p1) {
+				if(success != null)
+				{
+					Array<EcCompetency> ret = JSCollections.$array();
+					for(int i = 0; i < p1.$length(); i++){
+						EcCompetency comp = new EcCompetency();
+						if(p1.$get(i).isAny(comp.getTypes())){
+							comp.copyFrom(p1.$get(i));
+						}else if(p1.$get(i).isA(EcEncryptedValue.myType)){
+							EcEncryptedValue val = new EcEncryptedValue();
+							val.copyFrom(p1.$get(i));
+							if(val.isAnEncrypted(EcCompetency.myType)){
+								EcRemoteLinkedData obj = val.decryptIntoObject();
+								comp.copyFrom(obj);
+								comp.privateEncrypted = true;
+							}
+						}
+
+						ret.$set(i, comp);
+					}
+					
+					success.$invoke(ret);
+				}
 			}
-		});
+			
+		}, failure);
+		
 	}
 }

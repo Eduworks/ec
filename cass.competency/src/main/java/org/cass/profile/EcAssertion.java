@@ -1,5 +1,6 @@
 package org.cass.profile;
 
+import org.cass.competency.EcAlignment;
 import org.cass.competency.EcCompetency;
 import org.cassproject.ebac.identity.EcContact;
 import org.cassproject.ebac.identity.EcIdentity;
@@ -10,6 +11,7 @@ import org.cassproject.schema.cass.profile.Assertion;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
+import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.functions.Callback1;
 
 import com.eduworks.ec.crypto.EcPk;
@@ -275,7 +277,14 @@ public class EcAssertion extends Assertion
 			return;
 		}
 
-		EcRepository._save(this, success, failure);
+		if (privateEncrypted != null && privateEncrypted)
+		{
+			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(this, false);
+			EcRepository._save(encrypted, success, failure);
+		} else
+		{
+			EcRepository._save(this, success, failure);
+		}
 	}
 
 	@Override
@@ -326,27 +335,53 @@ public class EcAssertion extends Assertion
 			@Override
 			public void $invoke(EcRemoteLinkedData p1)
 			{
-				if (success == null)
-					return;
-				if (!p1.isA(EcAssertion.myType))
+				EcAssertion assertion = new EcAssertion();
+				if (p1.isAny(assertion.getTypes()))
 				{
-					if (failure != null)
-						failure.$invoke("Resultant object is not an assertion.");
-					return;
+					assertion.copyFrom(p1);
+
+					if(success != null)
+						success.$invoke(assertion);
 				}
-				EcAssertion c = new EcAssertion();
-				c.copyFrom(p1);
-				success.$invoke(c);
+				else
+				{
+					String msg = "Retrieved object was not an assertion";
+					if(failure != null)
+						failure.$invoke(msg);
+					else
+						Global.console.error(msg);
+				}
 			}
-		}, new Callback1<String>()
-		{
+		}, failure);
+	}
+	
+	public static void search(EcRepository repo, String query, final Callback1<Array<EcAssertion>> success, Callback1<String> failure, Object paramObj)
+	{
+		String queryAdd = new EcAssertion().getSearchStringByType();
+
+		if (query == null || query == "")
+			query = queryAdd;
+		else
+			query = "(" + query + ") AND " + queryAdd;
+		
+		repo.searchWithParams(query, paramObj, null, new Callback1<Array<EcRemoteLinkedData>>(){
+
 			@Override
-			public void $invoke(String p1)
-			{
-				if (failure != null)
-					failure.$invoke(p1);
+			public void $invoke(Array<EcRemoteLinkedData> p1) {
+				if(success != null)
+				{
+					Array<EcAssertion> ret = JSCollections.$array();
+					for(int i = 0; i < p1.$length(); i++){
+						EcAssertion assertion = new EcAssertion();
+						assertion.copyFrom(p1.$get(i));
+						ret.$set(i, assertion);
+					}
+					
+					success.$invoke(ret);
+				}
 			}
-		});
+			
+		}, failure);
 	}
 
 	public String getSearchStringByTypeAndCompetency(EcCompetency competency)

@@ -1,5 +1,6 @@
 package org.cass.competency;
 
+import org.cassproject.ebac.repository.EcEncryptedValue;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.cass.competency.RollupRule;
 import org.cassproject.schema.general.EcRemoteLinkedData;
@@ -39,7 +40,14 @@ public class EcRollupRule extends RollupRule
 			return;
 		}
 		
-		EcRepository._save(this, success, failure);
+		if (privateEncrypted != null && privateEncrypted)
+		{
+			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(this, false);
+			EcRepository._save(encrypted, success, failure);
+		} else
+		{
+			EcRepository._save(this, success, failure);
+		}
 	}
 	
 	public void _delete(Callback1<String> success, Callback1<String> failure, EcRepository repo){

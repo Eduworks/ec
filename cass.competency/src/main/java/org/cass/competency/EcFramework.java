@@ -181,10 +181,12 @@ public class EcFramework extends Framework
 			return;
 		}
 
-		if(privateEncrypted != null && privateEncrypted.booleanValue()){
+		if (privateEncrypted != null && privateEncrypted)
+		{
 			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(this, false);
 			EcRepository._save(encrypted, success, failure);
-		}else{
+		} else
+		{
 			EcRepository._save(this, success, failure);
 		}
 		
@@ -202,17 +204,32 @@ public class EcFramework extends Framework
 			@Override
 			public void $invoke(EcRemoteLinkedData p1)
 			{
-				if (success == null)
-					return;
-				if (!p1.isA(EcFramework.myType))
+				EcFramework framework = new EcFramework();
+				
+				if (p1.isA(EcEncryptedValue.myType))
 				{
-					if (failure != null)
-						failure.$invoke("Resultant object is not a framework.");
-					return;
+					EcEncryptedValue encrypted = new EcEncryptedValue();
+					encrypted.copyFrom(p1);
+					p1 = encrypted.decryptIntoObject();
+					
+					p1.privateEncrypted = true;
 				}
-				EcFramework c = new EcFramework();
-				c.copyFrom(p1);
-				success.$invoke(c);
+				if (p1.isAny(framework.getTypes()))
+				{
+					framework.copyFrom(p1);
+					
+					if(success != null)
+						success.$invoke(framework);
+				}
+				else
+				{
+					String msg = "Resultant object is not a framework.";
+					if (failure != null)
+						failure.$invoke(msg);
+					else
+						Global.console.error(msg);
+				}
+				
 			}
 		}, new Callback1<String>()
 		{
@@ -223,5 +240,46 @@ public class EcFramework extends Framework
 					failure.$invoke(p1);
 			}
 		});
+	}
+	
+	public static void search(EcRepository repo, String query, final Callback1<Array<EcFramework>> success, Callback1<String> failure, Object paramObj){
+		String queryAdd = "";
+		queryAdd = new EcFramework().getSearchStringByType();
+
+		if (query == null || query == "")
+			query = queryAdd;
+		else
+			query = "(" + query + ") AND " + queryAdd;
+		
+		repo.searchWithParams(query, paramObj, null, new Callback1<Array<EcRemoteLinkedData>>(){
+
+			@Override
+			public void $invoke(Array<EcRemoteLinkedData> p1) {
+				if(success != null)
+				{
+					Array<EcFramework> ret = JSCollections.$array();
+					for(int i = 0; i < p1.$length(); i++){
+						
+						EcFramework framework = new EcFramework();
+						if(p1.$get(i).isAny(framework.getTypes())){
+							framework.copyFrom(p1.$get(i));
+						}else if(p1.$get(i).isA(EcEncryptedValue.myType)){
+							EcEncryptedValue val = new EcEncryptedValue();
+							val.copyFrom(p1.$get(i));
+							if(val.isAnEncrypted(EcFramework.myType)){
+								EcRemoteLinkedData obj = val.decryptIntoObject();
+								framework.copyFrom(obj);
+								framework.privateEncrypted = true;
+							}
+						}
+						
+						ret.$set(i, framework);
+					}
+					
+					success.$invoke(ret);
+				}
+			}
+			
+		}, failure);
 	}
 }

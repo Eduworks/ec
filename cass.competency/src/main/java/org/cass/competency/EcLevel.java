@@ -1,8 +1,13 @@
 package org.cass.competency;
 
+import org.cassproject.ebac.repository.EcEncryptedValue;
 import org.cassproject.ebac.repository.EcRepository;
+import org.cassproject.schema.cass.Cass;
 import org.cassproject.schema.cass.competency.Level;
+import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
+import org.stjs.javascript.JSCollections;
+import org.stjs.javascript.JSObjectAdapter;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.functions.Callback1;
 
@@ -51,7 +56,14 @@ public class EcLevel extends Level
 			return;
 		}
 		
-		EcRepository._save(this, success, failure);
+		if (privateEncrypted != null && privateEncrypted)
+		{
+			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(this, false);
+			EcRepository._save(encrypted, success, failure);
+		} else
+		{
+			EcRepository._save(this, success, failure);
+		}
 	}
 	
 	public void _delete(Callback1<String> success, Callback1<String> failure, EcRepository repo){
@@ -65,26 +77,82 @@ public class EcLevel extends Level
 			@Override
 			public void $invoke(EcRemoteLinkedData p1)
 			{
-				if (success == null)
-					return;
-				if (!p1.isA(EcLevel.myType))
+				EcLevel level = new EcLevel();
+				
+				if (p1.isA(EcEncryptedValue.myType))
 				{
-					if (failure != null)
-						failure.$invoke("Resultant object is not a level.");
-					return;
+					EcEncryptedValue encrypted = new EcEncryptedValue();
+					encrypted.copyFrom(p1);
+					p1 = encrypted.decryptIntoObject();
+					
+					p1.privateEncrypted = true;
 				}
-				EcLevel c = new EcLevel();
-				c.copyFrom(p1);
-				success.$invoke(c);
+				if (p1.isAny(level.getTypes()))
+				{
+					level.copyFrom(p1);
+					
+					if(success != null)
+						success.$invoke(level);
+				}
+				else
+				{
+					String msg = "Resultant object is not a level.";
+					if (failure != null)
+						failure.$invoke(msg);
+					else
+						Global.console.error(msg);
+				}
 			}
-		}, new Callback1<String>()
+		}, failure);
+	}
+	
+	public static void searchByCompetency(EcRepository repo, final String competencyId, final Callback1<Array<EcLevel>> success, Callback1<String> failure, Object paramObj){
+		if(competencyId == null || competencyId == "")
 		{
+			failure.$invoke("No Competency Specified");
+			return;
+		}
+		
+		String query = "("+new EcLevel().getSearchStringByType();
+		
+		query += " AND ( competency:\"" + competencyId + "\" OR competency:\""+EcRemoteLinkedData.trimVersionFromUrl(competencyId)+"\"))";
+		
+		query += " OR @encryptedType:\""+EcLevel.myType+"\" OR @encryptedType:\""+EcLevel.myType.replace(Cass.context+"/", "")+"\"";
+		
+		repo.searchWithParams(query, paramObj, null, new Callback1<Array<EcRemoteLinkedData>>(){
+
 			@Override
-			public void $invoke(String p1)
-			{
-				if (failure != null)
-					failure.$invoke(p1);
+			public void $invoke(Array<EcRemoteLinkedData> p1) {
+				if(success != null)
+				{
+					Array<EcLevel> levels = JSCollections.$array();
+					
+					for(int i = 0; i < p1.$length(); i++){
+						EcLevel level = new EcLevel();
+						
+						if(p1.$get(i).isAny(level.getTypes())){
+							level.copyFrom(p1.$get(i));
+						}else if(p1.$get(i).isA(EcEncryptedValue.myType)){
+							EcEncryptedValue val = new EcEncryptedValue();
+							val.copyFrom(p1.$get(i));
+							if(val.isAnEncrypted(EcLevel.myType)){
+								EcRemoteLinkedData obj = val.decryptIntoObject();
+								if(JSObjectAdapter.$get(obj, "competency") != competencyId){
+									continue;
+								}
+								level.copyFrom(obj);
+								level.privateEncrypted = true;
+							}
+						}
+						level.copyFrom(p1.$get(i));
+						levels.$set(i, level);
+					}
+					
+					if(success != null)
+						success.$invoke(levels);
+				}
 			}
-		});
+			
+		}, failure);
 	}
 }
