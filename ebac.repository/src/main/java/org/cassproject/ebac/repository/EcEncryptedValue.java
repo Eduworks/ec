@@ -8,7 +8,6 @@ import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.JSObjectAdapter;
-import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback2;
@@ -268,11 +267,13 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		EcRemoteLinkedData decrypted = new EcRemoteLinkedData("", "");
 		decrypted.copyFrom((EcRemoteLinkedData) JSGlobal.JSON.parse(decryptRaw));
 		decrypted.privateEncrypted = true;
+		decrypted.id = this.id;
 		return (EcRemoteLinkedData) decrypted.deAtify();
 	}
 
 	public void decryptIntoObjectAsync(final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure)
 	{
+		final String id = this.id;
 		decryptIntoStringAsync(new Callback1<String>()
 		{
 			@Override
@@ -285,6 +286,7 @@ public class EcEncryptedValue extends EbacEncryptedValue
 				EcRemoteLinkedData decrypted = new EcRemoteLinkedData("", "");
 				decrypted.copyFrom((EcRemoteLinkedData) JSGlobal.JSON.parse(decryptRaw));
 				decrypted.privateEncrypted = true;
+				decrypted.id = id;
 				success.$invoke((EcRemoteLinkedData) decrypted.deAtify());
 			}
 		}, failure);

@@ -1,5 +1,8 @@
-package org.cassproject.schema.general;
+package org.cassproject.general.repository;
 
+import org.cassproject.schema.general.EcRemoteLinkedData;
+import org.cassproject.schema.general.FileSaver;
+import org.cassproject.schema.general.General;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
@@ -12,13 +15,13 @@ import com.eduworks.ec.blob.BlobHelper;
  * @author fritz.ray@eduworks.com
  *
  */
-public class EcFile extends EcRemoteLinkedData
+public class File extends EcRemoteLinkedData
 {
 	private static final String TYPE_0_1 = "http://schema.eduworks.com/general/0.1/file";
 	private static final String TYPE_0_2 = "http://schema.eduworks.com/general/0.2/file";
 	public static final String myType = TYPE_0_2;
 
-	public EcFile()
+	public File()
 	{
 		super(General.context, myType);
 	}
@@ -39,11 +42,9 @@ public class EcFile extends EcRemoteLinkedData
 	 * in a direct get.
 	 */
 	public String data;
-	/**
-	 * Name of the file.
-	 */
-	public String name;
 
+	public String name;
+	
 	/**
 	 * Helper method to force the browser to download the file.
 	 */

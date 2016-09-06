@@ -1,5 +1,6 @@
 package org.cassproject.ebac.repository;
 
+import org.cassproject.ebac.identity.EcIdentity;
 import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
@@ -7,6 +8,7 @@ import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSON;
 import org.stjs.javascript.JSObjectAdapter;
+import org.stjs.javascript.Map;
 import org.stjs.javascript.Window;
 import org.stjs.javascript.functions.Callback1;
 
@@ -97,6 +99,10 @@ public class EcRepository
 					{
 						EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
 						d.copyFrom(p1);
+						if (d.type == "" || d.type == null || d.context == "" || d.context == null) {
+			                failure.$invoke(Global.JSON.stringify(p1));
+			                return;
+			            }
 						if (caching)
 							JSObjectAdapter.$put(cache, url, d);
 						success.$invoke(d);
@@ -144,9 +150,54 @@ public class EcRepository
 	 * @param failure
 	 *            Failure event.
 	 */
-	public void searchWithParams(String query, Object params, final Callback1<EcRemoteLinkedData> eachSuccess,
-			final Callback1<Array<EcRemoteLinkedData>> success, final Callback1<String> failure)
+	public void searchWithParams(String query, Object paramObj, 
+			final Callback1<EcRemoteLinkedData> eachSuccess,
+			final Callback1<Array<EcRemoteLinkedData>> success, 
+			final Callback1<String> failure)
 	{
+		if(paramObj == null)
+			paramObj = new Object();
+		
+		Object params = new Object();
+		Map<String, Object> paramProps = JSObjectAdapter.$properties(params);
+		if(JSObjectAdapter.$get(paramObj, "start") != null)
+			paramProps.$put("start", JSObjectAdapter.$get(paramObj, "start"));
+		if(JSObjectAdapter.$get(paramObj, "size") != null)
+			paramProps.$put("size", JSObjectAdapter.$get(paramObj, "size"));
+		if(JSObjectAdapter.$get(paramObj, "types") != null)
+			paramProps.$put("types", JSObjectAdapter.$get(paramObj, "types"));
+			
+		if(JSObjectAdapter.$get(paramObj, "ownership") != null)
+		{
+			String ownership = (String) JSObjectAdapter.$get(paramObj, "ownership");
+			if(!query.startsWith("(") || !query.endsWith(")")){
+				query = "("+query+")";
+			}
+			
+			if(ownership.equals("public")){
+				query +=" AND (_missing_:@owner)";
+			}else if(ownership.equals("owned")){
+				query +=" AND (_exists_:@owner)";
+			}else if(ownership.equals("me")){
+				query +=" AND (";
+				for(int i = 0; i < EcIdentityManager.ids.$length(); i++){
+					if(i != 0){
+						query+=" OR ";
+					}
+					EcIdentity id = EcIdentityManager.ids.$get(i);
+					
+					query+="@owner:\""+id.ppk.toPk().toPem()+"\"";
+				}
+				
+				query += ")";
+			}
+		}
+		
+		if(JSObjectAdapter.$get(paramObj, "fields") != null)
+			paramProps.$put("fields", JSObjectAdapter.$get(paramObj, "fields"));
+		
+		
+		
 		final FormData fd = new FormData();
 		fd.append("data", query);
 		if (params != null)
@@ -320,6 +371,16 @@ public class EcRepository
 	{
 		Global.console.warn("Watch out! " + data.id + " is being saved with the repository save function, no value checking will occur");
 
+		if(data.invalid())
+		{
+			String msg = "Cannot save data. It is missing a vital component.";
+			if(failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return;
+		}
+		
 		if (data.privateEncrypted != null && data.privateEncrypted)
 		{
 			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(data, false);
@@ -328,9 +389,8 @@ public class EcRepository
 		{
 			_save(data, success, failure);
 		}
-
 	}
-
+	
 	/**
 	 * Attempts to save a piece of data.
 	 * 
@@ -357,8 +417,9 @@ public class EcRepository
 	 * @param success
 	 * @param failure
 	 */
-	public static void _saveWithoutSigning(final EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
-	{
+	private static void _saveWithoutSigning(final EcRemoteLinkedData data, final Callback1<String> success,
+			final Callback1<String> failure) {
+	
 		if (caching)
 		{
 			JSObjectAdapter.$properties(cache).$delete(data.id);
@@ -369,7 +430,9 @@ public class EcRepository
 			failure.$invoke("Data is malformed.");
 			return;
 		}
+		
 		data.updateTimestamp();
+		
 		final FormData fd = new FormData();
 		fd.append("data", data.toJson());
 		EcIdentityManager.signatureSheetForAsync(data.owner, 60000, data.id, new Callback1<String>()

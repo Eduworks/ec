@@ -41,5 +41,10 @@
 		<artifactId>jquery</artifactId>
 		<version>1.11.3.bv1</version>
 	</dependency>
+	<dependency>
+		<groupId>org.schema</groupId>
+		<artifactId>org.schema</artifactId>
+		<version>0.0.1</version>
+	</dependency>
   </dependencies>
 </project>

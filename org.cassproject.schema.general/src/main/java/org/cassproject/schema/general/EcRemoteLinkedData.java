@@ -360,7 +360,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 			result += "@type:\"" + types.$get(i) + "\"";
 
 			int lastSlash = types.$get(i).lastIndexOf("/");
-			result += " OR (@context:\"" + types.$get(i).substring(0, lastSlash) + "\" AND @type:\"" + types.$get(i).substring(lastSlash) + "\")";
+			result += " OR (@context:\"" + types.$get(i).substring(0, lastSlash) + "\" AND @type:\"" + types.$get(i).substring(lastSlash+1) + "\")";
 		}
 		for (int i = 0; i < types.$length(); i++)
 		{
@@ -369,7 +369,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 			result += "@encryptedType:\"" + types.$get(i) + "\"";
 
 			int lastSlash = types.$get(i).lastIndexOf("/");
-			result += " OR (@context:\"" + Ebac.context + "\" AND @encryptedType:\"" + types.$get(i).substring(lastSlash) + "\")";
+			result += " OR (@context:\"" + Ebac.context + "\" AND @encryptedType:\"" + types.$get(i).substring(lastSlash+1) + "\")";
 		}
 		return "(" + result + ")";
 	}
