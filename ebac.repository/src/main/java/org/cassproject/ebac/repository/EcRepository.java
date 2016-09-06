@@ -417,8 +417,8 @@ public class EcRepository
 	 * @param success
 	 * @param failure
 	 */
-	private static void _saveWithoutSigning(final EcRemoteLinkedData data, final Callback1<String> success,
-			final Callback1<String> failure) {
+	private static void _saveWithoutSigning(final EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure) 
+	{
 	
 		if (caching)
 		{
