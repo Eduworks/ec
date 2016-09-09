@@ -214,6 +214,7 @@
 		<module>org.cassproject.schema.ebac</module>
 		<module>org.cassproject.schema.cass</module>
 		<module>cass.competency</module>
+		<module>cass.import</module>
 		<module>cass.rollup</module>
 		<module>ec.ui.framework</module>
 	</modules>
