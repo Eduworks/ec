@@ -99,8 +99,9 @@ public class EcRepository
 					{
 						EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
 						d.copyFrom(p1);
-						if (d.type == "" || d.type == null || d.context == "" || d.context == null) {
-			                failure.$invoke(Global.JSON.stringify(p1));
+						if (d.getFullType() == null) {
+							if (failure != null)
+								failure.$invoke(Global.JSON.stringify(p1));
 			                return;
 			            }
 						if (caching)
