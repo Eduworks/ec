@@ -141,7 +141,7 @@ public class EcRepository
 	 * @param query
 	 *            ElasticSearch compatible query string, similar to Google query
 	 *            strings.
-	 * @param params
+	 * @param paramObj
 	 *            Additional parameters that can be used to tailor the search.
 	 * @param eachSuccess
 	 *            Success event for each found object.

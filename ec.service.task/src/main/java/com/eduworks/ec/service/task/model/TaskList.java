@@ -51,7 +51,7 @@ public class TaskList {
 		return new TaskList(name, tasks);
 	}
 	
-	public static void getList(Callback1<TaskList> success, Callback1<String> failure)
+	public static void getList(final Callback1<TaskList> success, final Callback1<String> failure)
 	{
 		TaskListManager.readTaskList(new Callback1<Object>()
 		{

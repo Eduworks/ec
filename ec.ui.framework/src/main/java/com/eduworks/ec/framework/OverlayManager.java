@@ -125,7 +125,7 @@ public class OverlayManager extends ScreenManager {
 	
 	/**
 	 * Hides the overlay container and sets the inOverlay flag to false, adds the last screen to the history array so
-	 * there is a chain from initial screen -> overlay (could be multiple) -> initial screen. This way we can press the
+	 * there is a chain from initial screen to overlay (could be multiple) to initial screen. This way we can press the
 	 * back button and be shown the last overlay.
 	 */
 	public static void hideOverlay()

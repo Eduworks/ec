@@ -26,7 +26,7 @@ public abstract class EcView {
 	public abstract void display(String containerId, Callback0 callback);
 	
 	
-	/**
+	/***
 	 * Function that will convert a view to a certain other view class as long as it the converted type inherits the
 	 * current type of the view
 	 * 

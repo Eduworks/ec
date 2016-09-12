@@ -89,6 +89,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 	 * for comparison.
 	 * 
 	 * @param pk
+	 *            Public Key of the owner in object (forge) form.
 	 * @return True if owner is represented by the PK, false otherwise.
 	 */
 	public boolean hasOwner(EcPk pk)
@@ -109,6 +110,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 	 * for comparison.
 	 * 
 	 * @param pk
+	 *            Public Key of the owner in object (forge) form.
 	 * @return True if owner is represented by the PK, false otherwise.
 	 */
 	public boolean canEdit(EcPk pk)
@@ -126,7 +128,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 	public String toSignableJson()
 	{
 		EcLinkedData d = (EcLinkedData) JSGlobal.JSON.parse(toJson());
-		
+
 		if (type.contains("http://schema.eduworks.com/") && type.contains("/0.1/"))
 		{
 			JSObjectAdapter.$properties(d).$delete("@signature");
@@ -137,11 +139,15 @@ public class EcRemoteLinkedData extends EcLinkedData
 		}
 		else
 		{
-			//Whom else has signed the object does not change the contents of the object.
+			// Whom else has signed the object does not change the contents of
+			// the object.
 			JSObjectAdapter.$properties(d).$delete("@signature");
-			//Where the object resides does not change the contents of the object, and provides server administration capabilities.
+			// Where the object resides does not change the contents of the
+			// object, and provides server administration capabilities.
 			JSObjectAdapter.$properties(d).$delete("@id");
-			//Who owns the object, or who can read the object *does* matter though, as administrators should not be able to change the ownership properties of the object in a clandestine fashion.
+			// Who owns the object, or who can read the object *does* matter
+			// though, as administrators should not be able to change the
+			// ownership properties of the object in a clandestine fashion.
 			JSObjectAdapter.$properties(d).$delete("privateEncrypted");
 		}
 
@@ -154,6 +160,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 	 * Sign this object with a private key.
 	 * 
 	 * @param ppk
+	 *            Private Key of the owner in object (forge) form.
 	 */
 	public void signWith(EcPpk ppk)
 	{
@@ -237,14 +244,15 @@ public class EcRemoteLinkedData extends EcLinkedData
 			if (owner.$get(i).equals(pem))
 				return;
 		owner.push(pem);
-		//Changing an owner invalidates the signatures in order to prevent server admins from injecting owners or readers into the object.
+		// Changing an owner invalidates the signatures in order to prevent
+		// server admins from injecting owners or readers into the object.
 		signature = null;
 	}
 
 	/**
 	 * Removes an owner from the object, if the owner does exist.
 	 * 
-	 * @param owner
+	 * @param oldOwner
 	 *            PK of the new owner.
 	 */
 	public void removeOwner(EcPk oldOwner)
@@ -255,7 +263,8 @@ public class EcRemoteLinkedData extends EcLinkedData
 		for (int i = 0; i < owner.$length(); i++)
 			if (owner.$get(i).equals(pem))
 				owner.splice(i, 1);
-		//Changing an owner invalidates the signatures in order to prevent server admins from injecting owners or readers into the object.
+		// Changing an owner invalidates the signatures in order to prevent
+		// server admins from injecting owners or readers into the object.
 		signature = null;
 	}
 
@@ -274,7 +283,8 @@ public class EcRemoteLinkedData extends EcLinkedData
 			if (reader.$get(i).equals(pem))
 				return;
 		reader.push(pem);
-		//Changing an owner invalidates the signatures in order to prevent server admins from injecting owners or readers into the object.
+		// Changing an owner invalidates the signatures in order to prevent
+		// server admins from injecting owners or readers into the object.
 		signature = null;
 	}
 
@@ -292,7 +302,8 @@ public class EcRemoteLinkedData extends EcLinkedData
 		for (int i = 0; i < reader.$length(); i++)
 			if (reader.$get(i).equals(pem))
 				reader.splice(i, 1);
-		//Changing an owner invalidates the signatures in order to prevent server admins from injecting owners or readers into the object.
+		// Changing an owner invalidates the signatures in order to prevent
+		// server admins from injecting owners or readers into the object.
 		signature = null;
 	}
 
@@ -306,9 +317,10 @@ public class EcRemoteLinkedData extends EcLinkedData
 	{
 		if (id == null)
 			return true;
-//		Allow relative pathed data.
-//		if (id.contains("http://") == false && id.contains("https://") == false)
-//			return true;
+		// Allow relative pathed data.
+		// if (id.contains("http://") == false && id.contains("https://") ==
+		// false)
+		// return true;
 		if (context == null)
 			return true;
 		if (getFullType() == null)
@@ -336,7 +348,10 @@ public class EcRemoteLinkedData extends EcLinkedData
 	{
 		if (id == null)
 			return null;
-		if (id.substring(id.lastIndexOf("/")).contains("-"))
+		// May not be a GUID, may be more canonical. Check to see if it is a
+		// parsable long.
+
+		if (!id.substring(id.lastIndexOf("/")).matches("^\\/[0-9]+$"))
 			return id;
 		String rawId = id.substring(0, id.lastIndexOf("/"));
 		if (rawId.endsWith("/"))

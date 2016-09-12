@@ -44,7 +44,7 @@ public class EcLinkedData
 	 * Determines which fields to serialize into @fields.
 	 * 
 	 * @param s
-	 * @return
+	 * @return True if property is in the set of atProperties.
 	 */
 	public static boolean isAtProperty(String s)
 	{

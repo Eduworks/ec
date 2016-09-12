@@ -26,7 +26,7 @@ public class TaskItem {
 		this.dueDate = dueDate;
 	}
 	
-	public void setComplete(Callback1<TaskItem> success, Callback1<String> failure)
+	public void setComplete(final Callback1<TaskItem> success, Callback1<String> failure)
 	{
 		completed = true;
 		
@@ -43,7 +43,7 @@ public class TaskItem {
 		
 	}
 	
-	public void setIncomplete(Callback1<TaskItem> success, Callback1<String> failure)
+	public void setIncomplete(final Callback1<TaskItem> success, Callback1<String> failure)
 	{
 		completed = false;
 		
@@ -78,7 +78,7 @@ public class TaskItem {
 		return new TaskItem(taskId, name, completed, due);
 	}
 	
-	public static void create(String taskName, String dueDate, Callback1<TaskItem> success, Callback1<String> failure){
+	public static void create(String taskName, String dueDate, final Callback1<TaskItem> success, Callback1<String> failure){
 		TaskItemManager.create(taskName, dueDate, new Callback1<Object>()
 		{
 			@Override

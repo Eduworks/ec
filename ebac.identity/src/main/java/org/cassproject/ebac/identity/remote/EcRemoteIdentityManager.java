@@ -227,6 +227,7 @@ public class EcRemoteIdentityManager
 	 *            Current password
 	 * @param newPassword
 	 *            Desired password
+	 * @return Valid password change request.
 	 */
 	public boolean changePassword(String username, String oldPassword, String newPassword)
 	{

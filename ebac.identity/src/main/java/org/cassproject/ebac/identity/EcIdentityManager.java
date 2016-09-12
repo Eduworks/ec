@@ -384,7 +384,7 @@ public class EcIdentityManager
 	/**
 	 * Get Contact from PK (if we have it)
 	 * 
-	 * @param fromPem
+	 * @param pk
 	 *            PK to use to look up PPK
 	 * @return PPK or null.
 	 */
@@ -401,7 +401,7 @@ public class EcIdentityManager
 	/**
 	 * Get Identity from PK (if we have it)
 	 * 
-	 * @param fromPem
+	 * @param pk
 	 *            PK to use to look up PPK
 	 * @return PPK or null.
 	 */

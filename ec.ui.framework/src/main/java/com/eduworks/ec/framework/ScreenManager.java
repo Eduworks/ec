@@ -281,7 +281,7 @@ public class ScreenManager extends ViewManager {
 	 * @param displayContainerId
 	 * 			DOM Element ID corresponding to where the screen will be displayed (likely the SCREEN_CONTAINER_ID)
 	 * @param params
-	 * 			Object containing key->value pairs that should be put in the url bar to remember state at this history point
+	 * 			Object containing key to value pairs that should be put in the url bar to remember state at this history point
 	 */
 	public static void replaceHistory(EcScreen screen, String displayContainerId, Object params)
 	{
