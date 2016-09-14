@@ -160,7 +160,7 @@ public class EvidenceProcessingTestBase
 	
 	protected void performTest(EcFramework context, EcCompetency target, Callback1<InquiryPacket> isTest)
 	{
-		EvidenceProcessor ep = new EvidenceProcessor();
+		PessimisticQuadnaryAssertionProcessor ep = new PessimisticQuadnaryAssertionProcessor();
 		ep.logFunction = logObject;
 		ep.repositories.push(repo);
 		

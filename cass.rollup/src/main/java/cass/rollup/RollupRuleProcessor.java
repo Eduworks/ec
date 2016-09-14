@@ -5,7 +5,7 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.functions.Callback1;
 
 import cass.rollup.RollupRulePacketGenerator.OperationType;
-import cass.rollup.js.context;
+import cass.rollup.js.bridges.context;
 import cass.rollup.rule.RrQuery;
 import cass.rollup.rule.RrS;
 import cass.rollup.rule.RrToken;
@@ -29,7 +29,7 @@ public class RollupRuleProcessor
 	
 	RollupRulePacketGenerator rollupRulePacketGenerator;
 
-	public RollupRuleProcessor(InquiryPacket ip,EvidenceProcessor ep)
+	public RollupRuleProcessor(InquiryPacket ip,PessimisticQuadnaryAssertionProcessor ep)
 	{
 	   this.ip = ip;
 	   rollupRulePacketGenerator = new RollupRulePacketGenerator(ip,ep);

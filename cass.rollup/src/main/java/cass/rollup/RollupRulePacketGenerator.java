@@ -16,9 +16,9 @@ public class RollupRulePacketGenerator
 	private Array<String> queries;
 	private Array<OperationType> queryOperations;
 	private InquiryPacket ip;
-	private EvidenceProcessor ep;
+	private PessimisticQuadnaryAssertionProcessor ep;
 
-	public RollupRulePacketGenerator(InquiryPacket ip, EvidenceProcessor ep)
+	public RollupRulePacketGenerator(InquiryPacket ip, PessimisticQuadnaryAssertionProcessor ep)
 	{
 		this.ip = ip;
 		this.ep = ep;
@@ -55,7 +55,7 @@ public class RollupRulePacketGenerator
 
 	private InquiryPacket generateComboAndPacket()
 	{
-		final EvidenceProcessor meEp = ep;
+		final PessimisticQuadnaryAssertionProcessor meEp = ep;
 		final InquiryPacket meIp = ip;
 		return new InquiryPacket(ip.subject, null, null, ip.context, new Callback1<InquiryPacket>()
 		{
@@ -70,7 +70,7 @@ public class RollupRulePacketGenerator
 
 	private InquiryPacket generateRollupRulePacket(String rule)
 	{
-		final EvidenceProcessor meEp = ep;
+		final PessimisticQuadnaryAssertionProcessor meEp = ep;
 		final InquiryPacket meIp = ip;
 		return new InquiryPacket(ip.subject, null, null, ip.context, new Callback1<InquiryPacket>()
 		{
@@ -138,7 +138,7 @@ public class RollupRulePacketGenerator
 	public InquiryPacket generatePacket()
 	{
 	   IPType ipt = getIPType();
-		final EvidenceProcessor meEp = ep;		
+		final PessimisticQuadnaryAssertionProcessor meEp = ep;		
 		final InquiryPacket meIp = ip;
 		InquiryPacket rollupIp = new InquiryPacket(ip.subject, null, null, ip.context, new Callback1<InquiryPacket>()
 		{

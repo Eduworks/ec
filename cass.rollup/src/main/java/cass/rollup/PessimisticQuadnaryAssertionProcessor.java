@@ -23,7 +23,7 @@ import com.eduworks.schema.ebac.EbacSignature;
 import cass.rollup.InquiryPacket.IPType;
 import cass.rollup.InquiryPacket.ResultType;
 
-public class EvidenceProcessor
+public class PessimisticQuadnaryAssertionProcessor
 {
 	public Array<EcRepository> repositories;
 	public boolean step;
@@ -33,7 +33,7 @@ public class EvidenceProcessor
 
 	private Map<String, String> processedEquivalencies;
 
-	public EvidenceProcessor()
+	public PessimisticQuadnaryAssertionProcessor()
 	{
 		repositories = new Array<EcRepository>();
 		step = DEF_STEP;
@@ -53,6 +53,14 @@ public class EvidenceProcessor
 		processedEquivalencies = JSCollections.$map();
 		log(ip, "Created new inquiry.");
 		continueProcessing(ip);
+	}
+
+	public boolean isIn(InquiryPacket ip,Array<InquiryPacket> alreadyDone)
+	{
+		for (int i = 0;i < alreadyDone.$length();i++)
+			if (ip == alreadyDone.$get(i))
+				return true;
+		return false;
 	}
 
 	public boolean continueProcessing(InquiryPacket ip)
@@ -216,14 +224,14 @@ public class EvidenceProcessor
 	private void findSubjectAssertionsForCompetency(final InquiryPacket ip)
 	{
 		ip.hasCheckedAssertionsForCompetency = true;
-		if (IPType.COMBINATOR_AND.equals(ip.type) || IPType.COMBINATOR_OR.equals(ip.type) || IPType.COMBINATOR_NARROWS.equals(ip.type)
+		if (IPType.COMBINATOR_AND.equals(ip.type) || IPType.COMBINATOR_OR.equals(ip.type) || IPType.COMBINATOR_NARROWS.equals(ip.type)|| IPType.COMBINATOR_BROADENS.equals(ip.type)
 				|| IPType.COMBINATOR_REQUIRES.equals(ip.type))
 		{
 			log(ip, "No assertions for combinator types");
 			checkStep(ip);
 			return;
 		}
-		final EvidenceProcessor ep = this;
+		final PessimisticQuadnaryAssertionProcessor ep = this;
 		log(ip, "Querying repositories for subject assertions on competency: " + ip.competency.id);
 		for (int i = 0; i < repositories.$length(); i++)
 		{
@@ -265,14 +273,14 @@ public class EvidenceProcessor
 	private void findCompetencyRelationships(final InquiryPacket ip)
 	{
 		ip.hasCheckedRelationshipsForCompetency = true;
-		if (IPType.COMBINATOR_AND.equals(ip.type) || IPType.COMBINATOR_OR.equals(ip.type) || IPType.COMBINATOR_NARROWS.equals(ip.type)
+		if (IPType.COMBINATOR_AND.equals(ip.type) || IPType.COMBINATOR_OR.equals(ip.type) || IPType.COMBINATOR_NARROWS.equals(ip.type)|| IPType.COMBINATOR_BROADENS.equals(ip.type)
 				|| IPType.COMBINATOR_REQUIRES.equals(ip.type))
 		{
 			log(ip, "No relationships for combinator types");
 			checkStep(ip);
 			return;
 		}
-		final EvidenceProcessor ep = this;
+		final PessimisticQuadnaryAssertionProcessor ep = this;
 		log(ip, "Finding relationships for competency: " + ip.competency.id);
 		RelationshipPacketGenerator rpg = new RelationshipPacketGenerator(ip, ep, processedEquivalencies);
 		rpg.failure = ip.failure;
@@ -306,7 +314,7 @@ public class EvidenceProcessor
 		// competency:Addition2) AND confidence>0.6]
 		if (!ip.competency.isId(rr.competency))
 			return;
-		final EvidenceProcessor ep = this;
+		final PessimisticQuadnaryAssertionProcessor ep = this;
 		log(ip, "Found rollup rule: " + rr.rule);
 		RollupRuleProcessor rrp = new RollupRuleProcessor(ip, this);
 		rrp.positive = ip.positive;
@@ -329,7 +337,7 @@ public class EvidenceProcessor
 	private void findRollupRulesForCompetency(final InquiryPacket ip)
 	{
 		ip.hasCheckedRollupRulesForCompetency = true;
-		if (IPType.COMBINATOR_AND.equals(ip.type) || IPType.COMBINATOR_OR.equals(ip.type) || IPType.COMBINATOR_NARROWS.equals(ip.type)
+		if (IPType.COMBINATOR_AND.equals(ip.type) || IPType.COMBINATOR_OR.equals(ip.type) || IPType.COMBINATOR_NARROWS.equals(ip.type)|| IPType.COMBINATOR_BROADENS.equals(ip.type)
 				|| IPType.COMBINATOR_REQUIRES.equals(ip.type))
 		{
 			log(ip, "No rollup rules for combinator types");
@@ -337,7 +345,7 @@ public class EvidenceProcessor
 			return;
 		}
 		log(ip, "Finding rollup rules for competency: " + ip.competency.id);
-		final EvidenceProcessor ep = this;
+		final PessimisticQuadnaryAssertionProcessor ep = this;
 		if (ip.getContext().rollupRule == null)
 			continueProcessing(ip);
 		else
@@ -375,6 +383,14 @@ public class EvidenceProcessor
 	}
 
 	private void determineCombinatorNarrowsResult(InquiryPacket ip)
+	{
+		if (ip.anyChildPacketsAreTrue())
+			ip.result = ResultType.TRUE;
+		else
+			ip.result = ResultType.UNKNOWN;
+	}
+
+	private void determineCombinatorBroadensResult(InquiryPacket ip)
 	{
 		if (ip.anyChildPacketsAreFalse())
 			ip.result = ResultType.FALSE;
@@ -533,6 +549,8 @@ public class EvidenceProcessor
 				determineCombinatorOrResult(ip);
 			else if (IPType.COMBINATOR_NARROWS.equals(ip.type))
 				determineCombinatorNarrowsResult(ip);
+			else if (IPType.COMBINATOR_BROADENS.equals(ip.type))
+				determineCombinatorBroadensResult(ip);
 			else if (IPType.COMBINATOR_REQUIRES.equals(ip.type))
 				determineCombinatorRequiresResult(ip);
 			else

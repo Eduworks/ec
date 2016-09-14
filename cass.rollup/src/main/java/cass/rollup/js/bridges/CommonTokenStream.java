@@ -1,15 +1,16 @@
-package cass.rollup.js;
+package cass.rollup.js.bridges;
 
 import org.stjs.javascript.annotation.Namespace;
 import org.stjs.javascript.annotation.STJSBridge;
 
 @Namespace("antlr4")
 @STJSBridge()
-public class InputStream
+public class CommonTokenStream
 {
 
-	public InputStream(String input)
+	public CommonTokenStream(RollupLexer lexer)
 	{
+		// TODO Auto-generated constructor stub
 	}
 
 }
