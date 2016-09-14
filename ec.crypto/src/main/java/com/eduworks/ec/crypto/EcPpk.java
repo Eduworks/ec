@@ -57,6 +57,8 @@ public class EcPpk
 	{
 		if (obj instanceof EcPpk)
 			return toPem().equals(((EcPpk) obj).toPem());
+		if (obj instanceof EcPk)
+			return toPk().toPem().equals(((EcPk) obj).toPem());
 		return super.equals(obj);
 	}
 

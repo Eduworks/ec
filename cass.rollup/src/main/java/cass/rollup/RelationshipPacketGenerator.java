@@ -159,14 +159,7 @@ public class RelationshipPacketGenerator
 	{
 		ip.numberOfQueriesRunning--;
 		log("Relationship found (" + alignment.relationType + ") source: " + alignment.source + " target: " + alignment.target);
-		if ((EcAlignment.IS_EQUIVALENT_TO.equals(alignment.relationType)))
-		{
-			numberOfRelationsProcessed++;
-			checkForFinish();
-		}
-		else
-		{
-
+		
 			String relatedCompetencyId = null;
 			if (ip.competency.isId(alignment.source))
 				relatedCompetencyId = alignment.target;
@@ -195,7 +188,6 @@ public class RelationshipPacketGenerator
 					rpg.processEventFailure(p1, ip);
 				}
 			});
-		}
 	}
 
 	public void go()

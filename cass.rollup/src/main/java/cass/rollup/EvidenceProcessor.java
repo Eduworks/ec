@@ -376,8 +376,8 @@ public class EvidenceProcessor
 
 	private void determineCombinatorNarrowsResult(InquiryPacket ip)
 	{
-		if (ip.anyChildPacketsAreTrue())
-			ip.result = ResultType.TRUE;
+		if (ip.anyChildPacketsAreFalse())
+			ip.result = ResultType.FALSE;
 		else
 			ip.result = ResultType.UNKNOWN;
 	}

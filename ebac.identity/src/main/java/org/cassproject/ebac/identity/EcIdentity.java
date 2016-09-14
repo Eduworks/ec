@@ -75,4 +75,17 @@ public class EcIdentity
 			i.displayName = EcAesCtr.decrypt(credential.displayName, secret, credential.iv);
 		return i;
 	}
+	
+	/**
+	 * Converts an identity to a contact.
+	 * @return Contact object.
+	 */
+	public EcContact toContact()
+	{
+		EcContact c = new EcContact();
+		c.displayName = displayName;
+		c.pk = ppk.toPk();
+		c.source = source;
+		return c;
+	}
 }

@@ -17,7 +17,7 @@ public class Relation extends Thing
 	public static final String NARROWS = "narrows";
 	public static final String IS_RELATED_TO = "isRelatedTo";
 	//TODO: Fix this misspelling... with upgrade.
-	public static final String IS_EQUIVALENT_TO = "isEquivalenTo";
+	public static final String IS_EQUIVALENT_TO = "isEquivalentTo";
 
 	public Relation()
 	{
@@ -35,6 +35,8 @@ public class Relation extends Thing
 	protected void upgrade()
 	{
 		super.upgrade();
+		if ("isEquivalenTo".equals(relationType))
+			relationType = IS_EQUIVALENT_TO;
 		if (TYPE_0_1.equals(type))
 		{
 			Map<String, Object> me = JSObjectAdapter.$properties(this);
