@@ -328,6 +328,47 @@ public class EcAssertion extends Assertion
 		}
 	}
 
+	@Override
+	public void removeReader(EcPk newReader)
+	{
+		if (agent != null)
+		{
+			agent = EcEncryptedValue.revive(agent);
+			agent.removeReader(newReader);
+		}
+		if (assertionDate != null)
+		{
+			assertionDate = EcEncryptedValue.revive(assertionDate);
+			assertionDate.removeReader(newReader);
+		}
+		if (decayFunction != null)
+		{
+			decayFunction = EcEncryptedValue.revive(decayFunction);
+			decayFunction.removeReader(newReader);
+		}
+		if (evidence != null)
+			for (int i = 0; i < evidence.$length(); i++)
+			{
+				evidence.$set(i, EcEncryptedValue.revive(evidence.$get(i)));
+				evidence.$get(i).removeReader(newReader);
+			}
+		if (expirationDate != null)
+		{
+			expirationDate = EcEncryptedValue.revive(expirationDate);
+			expirationDate.removeReader(newReader);
+		}
+		if (negative != null)
+		{
+			negative = EcEncryptedValue.revive(negative);
+			negative.removeReader(newReader);
+		}
+		if (subject != null)
+		{
+			subject = EcEncryptedValue.revive(subject);
+			subject.removeReader(newReader);
+		}
+	}
+
 	public static void get(String id, final Callback1<EcAssertion> success, final Callback1<String> failure)
 	{
 		EcRepository.get(id, new Callback1<EcRemoteLinkedData>()

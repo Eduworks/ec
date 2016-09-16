@@ -20,12 +20,12 @@ public class EcRemote
 
 	public static void postExpectingObject(String server, String service, FormData fd, final Callback1<Object> success, final Callback1<String> failure)
 	{
-		postInner(server, service, fd, getSuccessJSONCallback(success,failure), getFailureCallback(failure));
+		postInner(server, service, fd, getSuccessJSONCallback(success, failure), getFailureCallback(failure));
 	}
 
 	public static void postExpectingString(String server, String service, FormData fd, final Callback1<String> success, final Callback1<String> failure)
 	{
-		postInner(server, service, fd, getSuccessCallback(success,failure), getFailureCallback(failure));
+		postInner(server, service, fd, getSuccessCallback(success, failure), getFailureCallback(failure));
 	}
 
 	private static void postInner(String server, String service, FormData fd, Callback3<Object, String, JQueryXHR> successCallback,
@@ -40,28 +40,27 @@ public class EcRemote
 		AjaxParams p = new AjaxParams();
 		p.method = "POST";
 		p.url = url;
-		
-		//Node JS serialization check.
+
+		// Node JS serialization check.
 		if (JSObjectAdapter.$get(fd, "_streams") != null)
 		{
-			//We're in node. Serialize the 'form-data' object by hand.
+			// We're in node. Serialize the 'form-data' object by hand.
 			Array<String> chunks = (Array<String>) JSObjectAdapter.$get(fd, "_streams");
 			String all = "";
-			for (int i = 0;i < chunks.$length();i++)
+			for (int i = 0; i < chunks.$length(); i++)
 			{
 				if (JSGlobal.typeof(chunks.$get(i)) == "function")
 					all = all + "\r\n";
 				else
 					all = all + chunks.$get(i);
 			}
-			all = all +"\r\n"+ "\r\n"+"--"+JSObjectAdapter.$get(fd, "_boundary")+"--";
+			all = all + "\r\n" + "\r\n" + "--" + JSObjectAdapter.$get(fd, "_boundary") + "--";
 			p.headers = (Map<String, String>) new Object();
-			p.headers.$put("Content-Type","multipart/form-data; boundary="+JSObjectAdapter.$get(fd, "_boundary"));
+			p.headers.$put("Content-Type", "multipart/form-data; boundary=" + JSObjectAdapter.$get(fd, "_boundary"));
 			p.data = all;
-		}
-		else
+		} else
 		{
-			//We're in a browser.
+			// We're in a browser.
 			p.mimeType = "multipart/form-data";
 			p.data = fd;
 		}
@@ -95,7 +94,7 @@ public class EcRemote
 		
 		p.dataType = "json";
 
-		p.success = getSuccessJSONCallback(success,failure);
+		p.success = getSuccessJSONCallback(success, failure);
 		p.error = getFailureCallback(failure);
 
 		upgradeHttpToHttps(p);
@@ -111,7 +110,7 @@ public class EcRemote
 		p.headers = (Map<String, String>) new Object();
 		p.headers.$put("signatureSheet", signatureSheet);
 
-		p.success = getSuccessCallback(success,failure);
+		p.success = getSuccessCallback(success, failure);
 		p.error = getFailureCallback(failure);
 
 		upgradeHttpToHttps(p);
@@ -147,7 +146,7 @@ public class EcRemote
 				failure.$invoke("General error in AJAX request.");
 	}
 
-	protected static Callback3<Object, String, JQueryXHR> getSuccessCallback(final Callback1<String> success,final Callback1<String> failure)
+	protected static Callback3<Object, String, JQueryXHR> getSuccessCallback(final Callback1<String> success, final Callback1<String> failure)
 	{
 		return new Callback3<Object, String, JQueryXHR>()
 		{
@@ -156,14 +155,13 @@ public class EcRemote
 			{
 				if (arg2.status > 300 || arg2.status < 200)
 					failure.$invoke("Error with code: " + arg2.status);
-				else
-				if (success != null)
+				else if (success != null)
 					success.$invoke(arg2.responseText);
 			}
 		};
 	}
 
-	protected static Callback3<Object, String, JQueryXHR> getSuccessJSONCallback(final Callback1<Object> success,final Callback1<String> failure)
+	protected static Callback3<Object, String, JQueryXHR> getSuccessJSONCallback(final Callback1<Object> success, final Callback1<String> failure)
 	{
 		return new Callback3<Object, String, JQueryXHR>()
 		{
@@ -172,8 +170,7 @@ public class EcRemote
 			{
 				if (arg2.status > 300 || arg2.status < 200)
 					failure.$invoke("Error with code: " + arg2.status);
-				else
-				if (success != null)
+				else if (success != null)
 					success.$invoke(JSON.parse(arg2.responseText));
 			}
 		};
