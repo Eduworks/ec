@@ -438,7 +438,7 @@ public class PessimisticQuadnaryAssertionProcessor
 		{
 			if (ip.allSubPacketsTrueOrUnknown())
 				ip.result = ResultType.TRUE;
-			else if (ip.allEquivalentPacketsFalseOrUnknown())
+			else if (ip.allSubPacketsFalseOrUnknown())
 				ip.result = ResultType.FALSE;
 			else
 				ip.result = ResultType.INDETERMINANT;
