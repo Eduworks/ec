@@ -6,7 +6,7 @@ import static org.stjs.javascript.Global.console;
 import org.cassproject.ebac.identity.EcIdentity;
 import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.ebac.repository.EcRepository;
-import org.cassproject.general.repository.File;
+import org.cassproject.general.repository.GeneralFile;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.json.ld.EcLinkedData;
 import org.junit.Assert;
@@ -132,7 +132,7 @@ public class EcRepositoryTest
 			@Override
 			public void $invoke(EcRemoteLinkedData p1)
 			{
-				File retrieved = (File) p1;
+				GeneralFile retrieved = (GeneralFile) p1;
 
 				if (retrieved.owner != null)
 					Assert.assertEquals("File is not Public, has an owner", retrieved.owner.$length(), 0);
@@ -182,7 +182,7 @@ public class EcRepositoryTest
 			@Override
 			public void $invoke(EcRemoteLinkedData p1)
 			{
-				File retrieved = (File) p1;
+				GeneralFile retrieved = (GeneralFile) p1;
 
 				if (retrieved.owner != null)
 					Assert.assertEquals("File is not Public, has an owner", retrieved.owner.$length(), 0);
@@ -270,7 +270,7 @@ public class EcRepositoryTest
 			@Override
 			public void $invoke(EcRemoteLinkedData p1)
 			{
-				File retrieved = (File) p1;
+				GeneralFile retrieved = (GeneralFile) p1;
 
 				Assert.assertTrue("Object is not Owned by the Identity that Created It", retrieved.canEdit(newId1.ppk.toPk()));
 				Assert.assertEquals("Name Does Not Match Saved Object Name", JSObjectAdapter.$get(thing, "name"), retrieved.name);
@@ -369,7 +369,7 @@ public class EcRepositoryTest
 			@Override
 			public void $invoke(EcRemoteLinkedData p1)
 			{
-				File retrieved = (File) p1;
+				GeneralFile retrieved = (GeneralFile) p1;
 
 				Assert.assertEquals("Name Does Not Match Saved Object Name", JSObjectAdapter.$get(thing2, "name"), retrieved.name);
 				Assert.assertEquals("Id Does Not Match Saved Object Id", thing2.id, retrieved.id);
@@ -462,7 +462,7 @@ public class EcRepositoryTest
 			@Override
 			public void $invoke(EcRemoteLinkedData p1)
 			{
-				File retrieved = (File) p1;
+				GeneralFile retrieved = (GeneralFile) p1;
 
 				Assert.assertTrue("Object is not Owned by the Identity that Created It", retrieved.canEdit(newId1.ppk.toPk()));
 				Assert.assertEquals("Name Does Not Match Saved Object Name", JSObjectAdapter.$get(thing, "name"), retrieved.name);
@@ -544,7 +544,7 @@ public class EcRepositoryTest
 			@Override
 			public void $invoke(EcRemoteLinkedData p1)
 			{
-				File retrieved = (File) p1;
+				GeneralFile retrieved = (GeneralFile) p1;
 
 				Assert.assertEquals("Name Does Not Match Saved Object Name", JSObjectAdapter.$get(thing2, "name"), retrieved.name);
 				Assert.assertEquals("Id Does Not Match Saved Object Id", thing2.id, retrieved.id);

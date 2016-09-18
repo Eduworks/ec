@@ -10,7 +10,7 @@ import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
 
 
-public class EcFile extends File {
+public class EcFile extends GeneralFile {
 	
 	
 	public void save(final Callback1<String> success, Callback1<String> failure)
@@ -71,7 +71,7 @@ public class EcFile extends File {
 					
 					p1.privateEncrypted = true;
 				}
-				if (p1 != null && p1.isA(File.myType))
+				if (p1 != null && p1.isA(GeneralFile.myType))
 				{
 					f.copyFrom(p1);
 					
@@ -89,7 +89,7 @@ public class EcFile extends File {
 	public static void search(EcRepository repo, String query, final Callback1<Array<EcFile>> success, Callback1<String> failure, Object paramObj){
 		String queryAdd = "";
 
-		queryAdd = new File().getSearchStringByType();
+		queryAdd = new GeneralFile().getSearchStringByType();
 		
 		if (query == null || query == "")
 			query = queryAdd;

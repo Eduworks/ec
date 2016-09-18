@@ -15,13 +15,13 @@ import com.eduworks.ec.blob.BlobHelper;
  * @author fritz.ray@eduworks.com
  *
  */
-public class File extends EcRemoteLinkedData
+public class GeneralFile extends EcRemoteLinkedData
 {
 	private static final String TYPE_0_1 = "http://schema.eduworks.com/general/0.1/file";
 	private static final String TYPE_0_2 = "http://schema.eduworks.com/general/0.2/file";
 	public static final String myType = TYPE_0_2;
 
-	public File()
+	public GeneralFile()
 	{
 		super(General.context, myType);
 	}
