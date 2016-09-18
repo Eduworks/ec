@@ -174,6 +174,8 @@ public class PessimisticQuadnaryAssertionProcessor
 		for (int i = 0; i < ip.subject.$length(); i++)
 		{
 			currentSubject = ip.subject.$get(i);
+			if (a.getSubject() == null)
+				continue;
 			if (a.getSubject().equals(currentSubject))
 			{
 				log(ip, "Matching Assertion found.");

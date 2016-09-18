@@ -16,6 +16,7 @@ public class RollupRule extends Thing
 
 	public String rule;
 	public String competency;
+	public String language;
 
 	@Override
 	protected void upgrade()
