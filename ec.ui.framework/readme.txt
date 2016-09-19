@@ -22,8 +22,8 @@ The EC UI framework tries to encapsulate functionality with an MVC type of organ
 send specific messages and/or retrieve data from the server. Recommended written with ST-JS Java for easy access to Eduworks
 ST-JS Java LEVR Libraries.
 - 'View' classes manage HTML generation, browser event handlers, DOM manipulation, and error handling/display on the
-web page. Recommended defined with ST-JS Java but implemented in JavaScript for close connection with the jQuery and 
-DOM APIs.
+web page. I recommended defining them and their html files in ST-JS Java but then implementing event handlers and data display 
+in JavaScript for close connection with the jQuery and DOM APIs.
 - 'Model' classes are used to wrap the data/objects retrieved from the database. They contain fields for each of the 
 typical properties of the object type and also can contain methods that interact with the server to manipulate or 
 retrieve information related to the data contained in the instance. Recommended written with ST-JS Java for Object 
@@ -59,7 +59,7 @@ Manager classes for the different sub-types of views that extend the ViewManager
 	ModalManager - Provides functions for showing/hiding a modal and determining if we are currently showing a modal.
 		Also manages calling the current modal's closeModal function when it is closed. 
 
-All projects should also have an entry point, that runs any code needed to start the application, which includes
+All projects need an entry point, that runs any code needed to start the application, which includes
 initializing the EC UI Framework and configuring any controllers that needed to be pointed at servers.
 This entry point can be written either in ST-JS Java or JavaScript also.
 - In ST-JS Java an Application Manager Class can be created with a static main method that runs once all web 

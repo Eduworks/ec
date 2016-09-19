@@ -12,11 +12,16 @@ public abstract class EcModal extends EcView{
 	/**
 	 * To be overrided in subclasses, lets the developer define the size of the modal
 	 */
-	public String modalSize = "small";
+	private String modalSize = "small";
 	
 	/**
 	 * Function to be invoked when the modal is closed, can be overriden or left blank if nothing
 	 * needs to happen on the modal close 
 	 */
 	public Callback0 onClose;
+
+	/**
+	 * @return tiny, small, medium, large, or full depending on how large the modal should be
+	 */
+	public abstract String getModalSize();
 }

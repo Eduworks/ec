@@ -47,9 +47,8 @@ public class ScreenManager extends ViewManager {
 	 */
 	public final static EcScreen LOADING_STARTUP_PAGE = new EcScreen(){
 		@Override
-		public void display(String containerId, Callback0 callback) {
-			if(callback != null)
-				callback.$invoke();
+		public String getHtmlLocation() {
+			return null;
 		}
 	};
 	

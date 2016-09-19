@@ -3,6 +3,9 @@ package com.eduworks.ec.framework;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback0;
+import org.stjs.javascript.functions.Callback3;
+import org.stjs.javascript.jquery.GlobalJQuery;
+import org.stjs.javascript.jquery.JQueryXHR;
 
 import com.eduworks.ec.framework.view.EcView;
 
@@ -58,10 +61,36 @@ public class ViewManager {
 	 * @param callback
 	 * 			Callback function to be passed in to the view's display function (to be called once the view has been displayed)
 	 */
-	public static void showView(EcView view, String containerId, Callback0 callback)
-	{
-		setView(containerId, view);
+	public static void showView(final EcView view, String containerId, final Callback0 callback)
+	{	
+		String htmlLocation = view.getHtmlLocation();
 		
-		view.display(containerId, callback);
+		if(htmlLocation != null)
+		{
+			setView(containerId, view);
+			
+			GlobalJQuery.$(containerId).load(htmlLocation, null, new Callback3<Object,String,JQueryXHR>(){
+				@Override
+				public void $invoke(Object p1, String p2, JQueryXHR p3) {
+					view.display();
+					
+					if(callback != null)
+						callback.$invoke();
+				}
+			});
+		}
+		
+		GlobalJQuery.$(containerId).removeClass("hide");
+	}
+	
+	/**
+	 * Hides the container specified by the containerId by adding 'hide' class
+	 * 
+	 * @param containerId
+	 * 			DOM Selector for the element to add the 'hide' class to
+	 */
+	public static void hideView(String containerId)
+	{
+		GlobalJQuery.$(containerId).addClass("hide");
 	}
 }

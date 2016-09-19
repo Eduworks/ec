@@ -1,6 +1,7 @@
 package com.eduworks.ec.framework.view;
 
 import org.stjs.javascript.Array;
+import org.stjs.javascript.Global;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback0;
 
@@ -14,16 +15,21 @@ import org.stjs.javascript.functions.Callback0;
  */
 public abstract class EcView {
 	
+	
 	/**
-	 * Display function to override (usually in JavaScript) that will load the HTML into the container and then call
-	 * the callback passed in
-	 *  
-	 * @param containerId
-	 * 			ID of the DOM element to load the View's HTML into
-	 * @param callback
-	 * 			Function to invoke after the HTML has been loaded and the view is initalized
+	 * Function to be defined in subclasses that returns the location of the main html file associated with this view
+	 * 
+	 * @return
+	 * 			The string path to an html file
 	 */
-	public abstract void display(String containerId, Callback0 callback);
+	public abstract String getHtmlLocation();
+
+	/**
+	 * Display function to override (usually in JavaScript) that will set up any event handlers
+	 */
+	public void display(){
+		Global.console.error("Not Implemented");
+	}
 	
 	
 	/***
