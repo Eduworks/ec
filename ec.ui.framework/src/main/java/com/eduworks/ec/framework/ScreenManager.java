@@ -272,8 +272,7 @@ public class ScreenManager extends ViewManager {
 	
 	/**
 	 * Replaces the current end of the history array with a new HistoryClosure element that contains the screen and 
-	 * containerId passed in. This can also be used to set the url parameters on a page and reload it without 
-	 * adding another history element to the history array
+	 * containerId passed in.
 	 * 
 	 * @param screen
 	 * 			Screen to add to the history element that will replace the last in the history array
@@ -314,6 +313,16 @@ public class ScreenManager extends ViewManager {
 		((History)window.history).replaceState(new HistoryObject(){{
 			name = pageName;
 		}}, pageName, hash);
+	}
+	
+	/**
+	 * Sets the url parameters on the current page
+	 * @param params
+	 * 		url parameters json object
+	 */
+	public static void setScreenParameters(Object params)
+	{
+		replaceHistory(myHistory.$get(myHistory.$length()-1).screen,SCREEN_CONTAINER_ID, params);
 	}
 	
 	/**

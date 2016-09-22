@@ -61,7 +61,7 @@ public class ViewManager {
 	 * @param callback
 	 * 			Callback function to be passed in to the view's display function (to be called once the view has been displayed)
 	 */
-	public static void showView(final EcView view, String containerId, final Callback0 callback)
+	public static void showView(final EcView view, final String containerId, final Callback0 callback)
 	{	
 		String htmlLocation = view.getHtmlLocation();
 		
@@ -72,7 +72,7 @@ public class ViewManager {
 			GlobalJQuery.$(containerId).load(htmlLocation, null, new Callback3<Object,String,JQueryXHR>(){
 				@Override
 				public void $invoke(Object p1, String p2, JQueryXHR p3) {
-					view.display();
+					view.display(containerId);
 					
 					if(callback != null)
 						callback.$invoke();

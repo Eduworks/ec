@@ -27,7 +27,7 @@ public abstract class EcView {
 	/**
 	 * Display function to override (usually in JavaScript) that will set up any event handlers
 	 */
-	public void display(){
+	public void display(String containerId){
 		Global.console.error("Not Implemented");
 	}
 	
