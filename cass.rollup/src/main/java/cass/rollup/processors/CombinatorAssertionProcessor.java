@@ -71,8 +71,8 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor
 	protected void findSubjectAssertionsForCompetency(final InquiryPacket ip)
 	{
 		ip.hasCheckedAssertionsForCompetency = true;
-		if (IPType.RELATION_AND.equals(ip.type) || IPType.RELATION_OR.equals(ip.type) || IPType.RELATION_NARROWS.equals(ip.type)
-				|| IPType.RELATION_BROADENS.equals(ip.type) || IPType.RELATION_REQUIRES.equals(ip.type))
+
+		if (!IPType.COMPETENCY.equals(ip.type) && !IPType.ROLLUPRULE.equals(ip.type))
 		{
 			log(ip, "No assertions for combinator types");
 			checkStep(ip);
@@ -117,8 +117,8 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor
 	protected void findCompetencyRelationships(final InquiryPacket ip)
 	{
 		ip.hasCheckedRelationshipsForCompetency = true;
-		if (IPType.RELATION_AND.equals(ip.type) || IPType.RELATION_OR.equals(ip.type) || IPType.RELATION_NARROWS.equals(ip.type)
-				|| IPType.RELATION_BROADENS.equals(ip.type) || IPType.RELATION_REQUIRES.equals(ip.type))
+
+		if (!IPType.COMPETENCY.equals(ip.type) && !IPType.ROLLUPRULE.equals(ip.type))
 		{
 			log(ip, "No relationships for combinator types");
 			checkStep(ip);

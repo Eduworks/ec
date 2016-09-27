@@ -194,8 +194,7 @@ public abstract class AssertionProcessor
 	private void findRollupRulesForCompetency(final InquiryPacket ip)
 	{
 		ip.hasCheckedRollupRulesForCompetency = true;
-		if (IPType.RELATION_AND.equals(ip.type) || IPType.RELATION_OR.equals(ip.type) || IPType.RELATION_NARROWS.equals(ip.type)
-				|| IPType.RELATION_BROADENS.equals(ip.type) || IPType.RELATION_REQUIRES.equals(ip.type))
+		if (!IPType.COMPETENCY.equals(ip.type) && !IPType.ROLLUPRULE.equals(ip.type))
 		{
 			log(ip, "No rollup rules for combinator types");
 			checkStep(ip);

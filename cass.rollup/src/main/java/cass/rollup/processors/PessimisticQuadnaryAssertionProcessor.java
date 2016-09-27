@@ -26,6 +26,7 @@ import cass.rollup.InquiryPacket.ResultType;
 
 public class PessimisticQuadnaryAssertionProcessor extends CombinatorAssertionProcessor
 {
+	public boolean transferIndeterminateOptimistically = true;
 	private void determineCombinatorAndResult(InquiryPacket ip)
 	{
 		if (ip.anyChildPacketsAreFalse())
@@ -42,6 +43,8 @@ public class PessimisticQuadnaryAssertionProcessor extends CombinatorAssertionPr
 	{
 		if (ip.anyChildPacketsAreTrue())
 			ip.result = ResultType.TRUE;
+		else if (transferIndeterminateOptimistically && ip.anyIndeterminantChildPackets())
+			ip.result = ResultType.FALSE;
 		else
 			ip.result = ResultType.UNKNOWN;
 	}
@@ -50,6 +53,8 @@ public class PessimisticQuadnaryAssertionProcessor extends CombinatorAssertionPr
 	{
 		if (ip.anyChildPacketsAreFalse())
 			ip.result = ResultType.FALSE;
+		else if (transferIndeterminateOptimistically && ip.anyIndeterminantChildPackets())
+			ip.result = ResultType.TRUE;
 		else
 			ip.result = ResultType.UNKNOWN;
 	}
@@ -58,9 +63,22 @@ public class PessimisticQuadnaryAssertionProcessor extends CombinatorAssertionPr
 	{
 		if (ip.anyChildPacketsAreFalse())
 			ip.result = ResultType.FALSE;
+		else if (transferIndeterminateOptimistically && ip.anyIndeterminantChildPackets())
+			ip.result = ResultType.TRUE;
 		else
 			ip.result = ResultType.UNKNOWN;
 	}
+	
+	private void determineCombinatorIsRequiredByResult(InquiryPacket ip)
+	{
+		if (ip.anyChildPacketsAreTrue())
+			ip.result = ResultType.TRUE;
+		else if (transferIndeterminateOptimistically && ip.anyIndeterminantChildPackets())
+			ip.result = ResultType.FALSE;
+		else
+			ip.result = ResultType.UNKNOWN;
+	}
+
 
 	private void determineCombinatorOrResult(InquiryPacket ip)
 	{
@@ -209,13 +227,14 @@ public class PessimisticQuadnaryAssertionProcessor extends CombinatorAssertionPr
 				determineCombinatorBroadensResult(ip);
 			else if (IPType.RELATION_REQUIRES.equals(ip.type))
 				determineCombinatorRequiresResult(ip);
+			else if (IPType.RELATION_ISREQUIREDBY.equals(ip.type))
+				determineCombinatorIsRequiredByResult(ip);
 			else
 				determineCompetencyRollupRuleResult(ip);
 		}
 		else
 		{
 			log(ip, "We are not finished accumulating data to answer this query. Error: " + ip.numberOfQueriesRunning);
-
 		}
 	}
 
