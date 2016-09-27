@@ -1,4 +1,4 @@
-package cass.rollup;
+package cass.rollup.rule;
 
 import org.stjs.javascript.functions.Callback1;
 
@@ -13,7 +13,7 @@ public class RollupRuleInterface
 {
 	RollupListener listener;
 
-	Callback1<Object> logFunction;
+	public Callback1<Object> logFunction;
 
 	private RollupParser parser;
 	private RollupRuleProcessor processor;

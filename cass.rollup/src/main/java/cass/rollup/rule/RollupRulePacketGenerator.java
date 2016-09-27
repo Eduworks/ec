@@ -1,9 +1,11 @@
-package cass.rollup;
+package cass.rollup.rule;
 
 import org.stjs.javascript.Array;
 import org.stjs.javascript.functions.Callback1;
 
+import cass.rollup.InquiryPacket;
 import cass.rollup.InquiryPacket.IPType;
+import cass.rollup.processors.AssertionProcessor;
 
 public class RollupRulePacketGenerator
 {
@@ -16,9 +18,9 @@ public class RollupRulePacketGenerator
 	private Array<String> queries;
 	private Array<OperationType> queryOperations;
 	private InquiryPacket ip;
-	private PessimisticQuadnaryAssertionProcessor ep;
+	private AssertionProcessor ep;
 
-	public RollupRulePacketGenerator(InquiryPacket ip, PessimisticQuadnaryAssertionProcessor ep)
+	public RollupRulePacketGenerator(InquiryPacket ip, AssertionProcessor ep)
 	{
 		this.ip = ip;
 		this.ep = ep;
@@ -49,13 +51,13 @@ public class RollupRulePacketGenerator
 	private IPType getIPType()
 	{
 		if (hasOrOperation())
-			return IPType.COMBINATOR_OR;
-		return IPType.COMBINATOR_AND;
+			return IPType.RELATION_OR;
+		return IPType.RELATION_AND;
 	}
 
 	private InquiryPacket generateComboAndPacket()
 	{
-		final PessimisticQuadnaryAssertionProcessor meEp = ep;
+		final AssertionProcessor meEp = ep;
 		final InquiryPacket meIp = ip;
 		return new InquiryPacket(ip.subject, null, null, ip.context, new Callback1<InquiryPacket>()
 		{
@@ -65,12 +67,12 @@ public class RollupRulePacketGenerator
 				if (meEp != null)
 				   meEp.continueProcessing(meIp);
 			}
-		}, ip.failure, null, IPType.COMBINATOR_AND);
+		}, ip.failure, null, IPType.RELATION_AND);
 	}
 
 	private InquiryPacket generateRollupRulePacket(String rule)
 	{
-		final PessimisticQuadnaryAssertionProcessor meEp = ep;
+		final AssertionProcessor meEp = ep;
 		final InquiryPacket meIp = ip;
 		return new InquiryPacket(ip.subject, null, null, ip.context, new Callback1<InquiryPacket>()
 		{
@@ -138,7 +140,7 @@ public class RollupRulePacketGenerator
 	public InquiryPacket generatePacket()
 	{
 	   IPType ipt = getIPType();
-		final PessimisticQuadnaryAssertionProcessor meEp = ep;		
+		final AssertionProcessor meEp = ep;		
 		final InquiryPacket meIp = ip;
 		InquiryPacket rollupIp = new InquiryPacket(ip.subject, null, null, ip.context, new Callback1<InquiryPacket>()
 		{
@@ -149,7 +151,7 @@ public class RollupRulePacketGenerator
 				   meEp.continueProcessing(meIp);
 			}
 		}, ip.failure, null, ipt);
-		if (IPType.COMBINATOR_AND.equals(ipt))
+		if (IPType.RELATION_AND.equals(ipt))
 			addAllQueries(rollupIp);
 		else
 			buildQueryTree(rollupIp);

@@ -12,6 +12,8 @@ import org.stjs.testing.driver.STJSTestDriverRunner;
 import com.eduworks.ec.crypto.EcPk;
 
 import cass.rollup.InquiryPacket.IPType;
+import cass.rollup.rule.RollupRuleInterface;
+import cass.rollup.rule.RollupRuleProcessor;
 
 @RunWith(STJSTestDriverRunner.class)
 @ScriptsBefore({ "lib/require.js","rollupInit.js" })

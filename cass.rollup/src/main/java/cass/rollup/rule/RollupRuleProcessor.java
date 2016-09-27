@@ -1,14 +1,13 @@
-package cass.rollup;
+package cass.rollup.rule;
 
 import org.cass.profile.EcAssertion;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.functions.Callback1;
 
-import cass.rollup.RollupRulePacketGenerator.OperationType;
+import cass.rollup.InquiryPacket;
 import cass.rollup.js.bridges.context;
-import cass.rollup.rule.RrQuery;
-import cass.rollup.rule.RrS;
-import cass.rollup.rule.RrToken;
+import cass.rollup.processors.AssertionProcessor;
+import cass.rollup.rule.RollupRulePacketGenerator.OperationType;
 
 public class RollupRuleProcessor
 {
@@ -29,7 +28,7 @@ public class RollupRuleProcessor
 	
 	RollupRulePacketGenerator rollupRulePacketGenerator;
 
-	public RollupRuleProcessor(InquiryPacket ip,PessimisticQuadnaryAssertionProcessor ep)
+	public RollupRuleProcessor(InquiryPacket ip,AssertionProcessor ep)
 	{
 	   this.ip = ip;
 	   rollupRulePacketGenerator = new RollupRulePacketGenerator(ip,ep);

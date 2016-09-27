@@ -22,6 +22,8 @@ import com.eduworks.ec.crypto.EcPpk;
 import com.eduworks.ec.remote.EcRemote;
 import com.eduworks.schema.ebac.EbacSignature;
 
+import cass.rollup.processors.PessimisticQuadnaryAssertionProcessor;
+
 @ScriptsBefore({ "lib/require.js", "rollupInit.js", "/forge/forge.bundle.js" })
 public class EvidenceProcessingTestBase
 {

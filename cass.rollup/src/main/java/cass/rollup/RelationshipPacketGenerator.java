@@ -8,6 +8,7 @@ import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
 
 import cass.rollup.InquiryPacket.IPType;
+import cass.rollup.processors.AssertionProcessor;
 
 public class RelationshipPacketGenerator
 {
@@ -24,10 +25,10 @@ public class RelationshipPacketGenerator
 	public Array<InquiryPacket> requiredPackets;
 	private Map<String, String> processedAlignments;
 
-	private PessimisticQuadnaryAssertionProcessor ep;
+	private AssertionProcessor ep;
 	private InquiryPacket ip;
 
-	public RelationshipPacketGenerator(InquiryPacket ip, PessimisticQuadnaryAssertionProcessor ep, Map<String, String> processedAlignments)
+	public RelationshipPacketGenerator(InquiryPacket ip, AssertionProcessor ep, Map<String, String> processedAlignments)
 	{
 		this.ip = ip;
 		this.ep = ep;
@@ -53,7 +54,7 @@ public class RelationshipPacketGenerator
 	{
 		if (requiredPackets.$length() > 0)
 		{
-			final PessimisticQuadnaryAssertionProcessor meEp = ep;
+			final AssertionProcessor meEp = ep;
 			final InquiryPacket meIp = ip;
 			InquiryPacket rootRequiredPacket = new InquiryPacket(ip.subject, null, null, ip.context, new Callback1<InquiryPacket>()
 			{
@@ -63,7 +64,7 @@ public class RelationshipPacketGenerator
 					if (meEp != null)
 						meEp.continueProcessing(meIp);
 				}
-			}, ip.failure, null, IPType.COMBINATOR_REQUIRES);
+			}, ip.failure, null, IPType.RELATION_REQUIRES);
 			rootRequiredPacket.subPackets = requiredPackets;
 			ip.subPackets.push(rootRequiredPacket);
 		}
@@ -73,7 +74,7 @@ public class RelationshipPacketGenerator
 	{
 		if (narrowsPackets.$length() > 0)
 		{
-			final PessimisticQuadnaryAssertionProcessor meEp = ep;
+			final AssertionProcessor meEp = ep;
 			final InquiryPacket meIp = ip;
 			InquiryPacket rootNarrowsPacket = new InquiryPacket(ip.subject, null, null, ip.context, new Callback1<InquiryPacket>()
 			{
@@ -83,7 +84,7 @@ public class RelationshipPacketGenerator
 					if (meEp != null)
 						meEp.continueProcessing(meIp);
 				}
-			}, ip.failure, null, IPType.COMBINATOR_NARROWS);
+			}, ip.failure, null, IPType.RELATION_NARROWS);
 			rootNarrowsPacket.subPackets = narrowsPackets;
 			ip.subPackets.push(rootNarrowsPacket);
 		}
@@ -93,7 +94,7 @@ public class RelationshipPacketGenerator
 	{
 		if (broadensPackets.$length() > 0)
 		{
-			final PessimisticQuadnaryAssertionProcessor meEp = ep;
+			final AssertionProcessor meEp = ep;
 			final InquiryPacket meIp = ip;
 			InquiryPacket rootBroadensPacket = new InquiryPacket(ip.subject, null, null, ip.context, new Callback1<InquiryPacket>()
 			{
@@ -103,7 +104,7 @@ public class RelationshipPacketGenerator
 					if (meEp != null)
 						meEp.continueProcessing(meIp);
 				}
-			}, ip.failure, null, IPType.COMBINATOR_BROADENS);
+			}, ip.failure, null, IPType.RELATION_BROADENS);
 			rootBroadensPacket.subPackets = broadensPackets;
 			ip.subPackets.push(rootBroadensPacket);
 		}
@@ -120,7 +121,7 @@ public class RelationshipPacketGenerator
 	private void processGetRelatedCompetencySuccess(EcCompetency relatedCompetency, EcAlignment alignment)
 	{
 		numberOfRelationsProcessed++;
-		final PessimisticQuadnaryAssertionProcessor meEp = ep;
+		final AssertionProcessor meEp = ep;
 		final InquiryPacket meIp = ip;
 
 		if (processedAlignments.$get(alignment.shortId()) != null)
@@ -161,7 +162,7 @@ public class RelationshipPacketGenerator
 		}
 		else if (EcAlignment.NARROWS.equals(alignment.relationType))
 		{
-			if (ip.competency.isId(alignment.source))
+			if (ip.hasId(alignment.source))
 				narrowsPackets.push(new InquiryPacket(ip.subject, relatedCompetency, null, ip.context, new Callback1<InquiryPacket>()
 				{
 					@Override
@@ -196,9 +197,9 @@ public class RelationshipPacketGenerator
 	{
 		ip.numberOfQueriesRunning--;
 		String relatedCompetencyId = null;
-		if (ip.competency.isId(alignment.source))
+		if (ip.hasId(alignment.source))
 			relatedCompetencyId = alignment.target;
-		else if (ip.competency.isId(alignment.target))
+		else if (ip.hasId(alignment.target))
 			relatedCompetencyId = alignment.source;
 		else
 		{

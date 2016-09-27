@@ -15,7 +15,7 @@ public class InquiryPacket
 {
 	public enum IPType
 	{
-		COMPETENCY, ROLLUPRULE, COMBINATOR_AND, COMBINATOR_OR, COMBINATOR_NARROWS, COMBINATOR_BROADENS, COMBINATOR_REQUIRES
+		COMPETENCY, ROLLUPRULE, RELATION_AND, RELATION_OR, RELATION_NARROWS, RELATION_BROADENS, RELATION_REQUIRES
 	}
 
 	public enum ResultType
@@ -24,7 +24,7 @@ public class InquiryPacket
 	}
 
 	public Array<EcPk> subject;
-	public EcCompetency competency;
+	public Array<EcCompetency> competency;
 	public EcFramework context;
 	public Callback1<InquiryPacket> success;
 	public EcCallbackReturn1<String> ask;
@@ -63,7 +63,8 @@ public class InquiryPacket
 		subPackets = new Array<InquiryPacket>();
 		dateCreated = new Date().getTime();
 		this.subject = subject;
-		this.competency = competency;
+		this.competency = new Array<>();
+		this.competency.push(competency);
 		this.level = level;
 		this.context = context;
 		this.success = success;
@@ -202,6 +203,14 @@ public class InquiryPacket
 				return false;
 		}
 		return true;
+	}
+
+	public boolean hasId(String competencyId)
+	{
+		for (int i = 0;i < competency.$length();i++)
+			if (competency.$get(i).isId(competencyId))
+				return true;
+		return false;
 	}
 
 }

@@ -1,7 +1,9 @@
-package cass.rollup;
+package cass.rollup.rule;
 
 import org.cass.competency.EcAlignment;
 import org.stjs.javascript.functions.Callback1;
+
+import cass.rollup.InquiryPacket;
 
 public class RollupRuleGenerator
 {
