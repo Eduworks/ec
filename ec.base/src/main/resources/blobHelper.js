@@ -18,3 +18,7 @@ function base64ToBlob(base64Data, contentType) {
     }
     return new Blob(byteArrays, { type: contentType });
 }
+
+function ab2str(buf) {
+	return String.fromCharCode.apply(null, new Uint16Array(buf));
+}

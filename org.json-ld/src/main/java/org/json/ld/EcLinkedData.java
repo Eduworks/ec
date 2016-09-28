@@ -9,6 +9,7 @@ import org.stjs.javascript.Map;
 import org.stjs.javascript.SortFunction;
 
 import com.eduworks.ec.array.EcArray;
+import com.eduworks.ec.array.EcObject;
 
 public class EcLinkedData
 {
@@ -79,9 +80,11 @@ public class EcLinkedData
 		Array a = new Array();
 		for (int i = 0; i < o.$length(); i++)
 		{
-			if (o.$get(i) instanceof EcLinkedData)
-				a.$set(i, atIfyObject(o.$get(i)));
-			else if (EcArray.isArray(o.$get(i)))
+			if (EcObject.isObject(o.$get(i)))
+			{
+				if (o.$get(i) instanceof EcLinkedData)
+					a.$set(i, atIfyObject(o.$get(i)));
+			} else if (EcArray.isArray(o.$get(i)))
 				a.$set(i, atIfyArray((Array) o.$get(i)));
 			else
 				a.$set(i, o.$get(i));
@@ -165,7 +168,8 @@ public class EcLinkedData
 	public boolean isAny(Array<String> type)
 	{
 		String computedType = getFullType();
-		if (type.$length() == 0) return true;
+		if (type.$length() == 0)
+			return true;
 		for (int i = 0; i < type.$length(); i++)
 			if (type.$get(i).equals(computedType) || type.$get(i).equals(this.type))
 				return true;
@@ -184,7 +188,7 @@ public class EcLinkedData
 			return this.type;
 		if (this.type.contains("http"))
 			return this.type;
-		
+
 		String computedType = context;
 		if (!computedType.endsWith("/"))
 			computedType += "/";

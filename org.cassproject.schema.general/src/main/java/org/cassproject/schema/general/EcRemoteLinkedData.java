@@ -85,6 +85,26 @@ public class EcRemoteLinkedData extends EcLinkedData
 	}
 
 	/**
+	 * Will generate an identifier using the server URL provided (usually from
+	 * an EcRepository).
+	 * 
+	 * @param server
+	 *            Base URL of the server's repository functionality.
+	 */
+	public void assignId(String server, String newId)
+	{
+		id = server;
+		if (!id.endsWith("/"))
+			id += "/";
+		id += "data/";
+		id += getFullType().replace("http://", "").replaceAll("/", ".");
+		id += "/";
+		id += newId;
+		id += "/";
+		id += new Date().getTime();
+	}
+
+	/**
 	 * Determines if the object has pk as an owner. Homogenizes the PEM strings
 	 * for comparison.
 	 * 

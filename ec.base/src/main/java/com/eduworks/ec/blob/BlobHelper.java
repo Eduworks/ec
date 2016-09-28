@@ -8,4 +8,5 @@ import org.stjs.javascript.annotation.STJSBridge;
 public class BlobHelper
 {
 	public static Object base64ToBlob(String base64, String contentType){return null;}
+	public static String ab2str(Object ab){return null;}
 }
