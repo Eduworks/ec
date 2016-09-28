@@ -12,7 +12,6 @@ import cass.rollup.processors.AssertionProcessor;
 
 public class RelationshipPacketGenerator
 {
-
 	public Callback1<String> failure;
 	public Callback0 success;
 	public Callback1<Object> logFunction;

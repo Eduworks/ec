@@ -225,7 +225,6 @@ public abstract class AssertionProcessor
 			}
 	}
 
-	protected abstract void processFindRollupRuleSuccess(EcRollupRule rr, InquiryPacket ip)
-	;
+	protected abstract void processFindRollupRuleSuccess(EcRollupRule rr, InquiryPacket ip);
 
 }
