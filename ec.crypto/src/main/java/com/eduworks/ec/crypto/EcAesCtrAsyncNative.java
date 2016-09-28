@@ -25,7 +25,7 @@ import window.ArrayBuffer;
 import window.base64;
 import window.crypto;
 
-public class EcAesCtrAsync
+public class EcAesCtrAsyncNative
 {
 	static Worker<Object> w;
 	static Array<Callback1> q1;
