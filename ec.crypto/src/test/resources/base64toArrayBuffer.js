@@ -12,7 +12,7 @@
   for (var i = 0; i < chars.length; i++) {
     lookup[chars.charCodeAt(i)] = i;
   }
-  
+
   if (base64 === undefined)
 	  var base64 = {};
   

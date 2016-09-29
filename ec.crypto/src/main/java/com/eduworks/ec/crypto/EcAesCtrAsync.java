@@ -10,12 +10,7 @@ import org.stjs.javascript.worker.MessageEvent;
 import org.stjs.javascript.worker.Worker;
 import org.stjs.javascript.worker.WorkerGlobalScope;
 
-import com.eduworks.ec.array.EcAsyncHelper;
 import com.eduworks.ec.remote.EcRemote;
-
-import forge.cipher;
-import forge.cipheroutput;
-import forge.util;
 
 public class EcAesCtrAsync
 {

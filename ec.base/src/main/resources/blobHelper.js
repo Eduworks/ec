@@ -20,5 +20,9 @@ function base64ToBlob(base64Data, contentType) {
 }
 
 function ab2str(buf) {
-	return String.fromCharCode.apply(null, new Uint16Array(buf));
+	return new TextDecoder("utf-8").decode(buf);
+}
+
+function str2ab(str) {
+	return new TextEncoder("utf-8").encode(str).buffer;
 }

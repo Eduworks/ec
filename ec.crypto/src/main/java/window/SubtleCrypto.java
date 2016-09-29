@@ -3,15 +3,17 @@ package window;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.jquery.Promise;
 
+import com.eduworks.ec.blob.ArrayBuffer;
+
 public class SubtleCrypto
 {
-	public Promise encrypt(AlgorithmIdentifier algorithm, ArrayBuffer key, ArrayBuffer data){return null;}
+	public Promise encrypt(AlgorithmIdentifier algorithm, CryptoKey key, ArrayBuffer data){return null;}
 
-	public Promise decrypt(AlgorithmIdentifier algorithm, ArrayBuffer key, ArrayBuffer data){return null;}
+	public Promise decrypt(AlgorithmIdentifier algorithm, CryptoKey key, ArrayBuffer data){return null;}
 
-	public Promise sign(AlgorithmIdentifier algorithm, ArrayBuffer key, ArrayBuffer data){return null;}
+	public Promise sign(AlgorithmIdentifier algorithm, CryptoKey key, ArrayBuffer data){return null;}
 
-	public Promise verify(AlgorithmIdentifier algorithm, ArrayBuffer key, ArrayBuffer signature, ArrayBuffer data){return null;}
+	public Promise verify(AlgorithmIdentifier algorithm, CryptoKey key, ArrayBuffer signature, ArrayBuffer data){return null;}
 
 	//public Promise digest(AlgorithmIdentifier algorithm, ArrayBuffer data){return null;}
 
@@ -21,14 +23,14 @@ public class SubtleCrypto
 	//		sequence<KeyUsage> keyUsages){return null;}
 
 	public Promise deriveBits(AlgorithmIdentifier algorithm,
-		                          ArrayBuffer baseKey,
+			CryptoKey baseKey,
 		                          long length){return null;}
 
-//	public Promise importKey(KeyFormat format,
-//		                         (ArrayBuffer or JsonWebKey) keyData,
-//		                         AlgorithmIdentifier algorithm,
-//		                         boolean extractable,
-//		                         sequence<KeyUsage> keyUsages ){return null;}
+	public Promise importKey(String format,
+		                         ArrayBuffer keyData,
+		                         AlgorithmIdentifier algorithm,
+		                         boolean extractable,
+		                         Array<String> keyUsages){return null;}
 //
 //	public Promise exportKey(KeyFormat format, ArrayBuffer key){return null;}
 //
