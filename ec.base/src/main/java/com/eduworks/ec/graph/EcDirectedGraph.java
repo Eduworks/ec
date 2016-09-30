@@ -143,18 +143,6 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public boolean addEdge(E edge, Array<? extends V> vertices)
-	{
-		throw new RuntimeException("Hey, we're not being a hypergraph here. Sorry.");
-	}
-
-	@Override
-	public boolean addEdge(E edge, Array<? extends V> vertices, String edge_type)
-	{
-		throw new RuntimeException("Hey, we're not being a hypergraph here. Sorry.");
-	}
-
-	@Override
 	public boolean removeVertex(V vertex)
 	{
 		int indexOf = verticies.indexOf(vertex);
@@ -245,7 +233,7 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	public abstract String getDefaultEdgeType();
 
 	@Override
-	public Array<E> getEdges(String edge_type)
+	public Array<E> getEdgesOfType(String edge_type)
 	{
 		Array<E> results = new Array<>();
 		for (int i = 0; i < edges.$length(); i++)
@@ -257,9 +245,9 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public int getEdgeCount(String edge_type)
+	public int getEdgeCountOfType(String edge_type)
 	{
-		return getEdges(edge_type).$length();
+		return getEdgesOfType(edge_type).$length();
 	}
 
 	@Override

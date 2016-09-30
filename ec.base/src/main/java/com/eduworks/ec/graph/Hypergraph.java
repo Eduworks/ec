@@ -238,33 +238,7 @@ public interface Hypergraph<V, E>
 	 *             <code>edge</code>, or if <code>vertices</code> are not a
 	 *             legal vertex set for <code>edge</code>
 	 */
-	boolean addEdge(E edge, Array<? extends V> vertices);
-
-	/**
-	 * Adds <code>edge</code> to this graph with type <code>edge_type</code>.
-	 * Fails under the following circumstances:
-	 * <ul>
-	 * <li/><code>edge</code> is already an element of the graph
-	 * <li/>either <code>edge</code> or <code>vertices</code> is
-	 * <code>null</code>
-	 * <li/><code>vertices</code> has the wrong number of vertices for the graph
-	 * type
-	 * <li/><code>vertices</code> are already connected by another edge in this
-	 * graph, and this graph does not accept parallel edges
-	 * <li/><code>edge_type</code> is not legal for this graph
-	 * </ul>
-	 * 
-	 * @param edge
-	 * @param vertices
-	 * @return <code>true</code> if the add is successful, and
-	 *         <code>false</code> otherwise
-	 * @throws IllegalArgumentException
-	 *             if <code>edge</code> or <code>vertices</code> is null, or if
-	 *             a different vertex set in this graph is already connected by
-	 *             <code>edge</code>, or if <code>vertices</code> are not a
-	 *             legal vertex set for <code>edge</code>
-	 */
-	boolean addEdge(E edge, Array<? extends V> vertices, String edge_type);
+	boolean addHyperEdge(E edge, Array<? extends V> vertices);
 
 	/**
 	 * Removes <code>vertex</code> from this graph. As a side effect, removes
@@ -405,7 +379,7 @@ public interface Hypergraph<V, E>
 	 *         type
 	 * @see EdgeType
 	 */
-	Array<E> getEdges(String edge_type);
+	Array<E> getEdgesOfType(String edge_type);
 
 	/**
 	 * Returns the number of edges of type <code>edge_type</code> in this graph.
@@ -414,7 +388,7 @@ public interface Hypergraph<V, E>
 	 *            the type of edge for which the count is to be returned
 	 * @return the number of edges of type <code>edge_type</code> in this graph
 	 */
-	int getEdgeCount(String edge_type);
+	int getEdgeCountOfType(String edge_type);
 
 	/**
 	 * Returns a <code>Array</code> view of the incoming edges incident to
