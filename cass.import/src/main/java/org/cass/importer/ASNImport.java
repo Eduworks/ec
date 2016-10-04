@@ -1,4 +1,4 @@
-package org.cass.imports;
+package org.cass.importer;
 
 import org.cass.competency.EcAlignment;
 import org.cass.competency.EcCompetency;
@@ -12,7 +12,7 @@ import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback2;
 
-import FileReader.FileReader;
+import js.FileReader;
 
 public class ASNImport extends Importer{
 	

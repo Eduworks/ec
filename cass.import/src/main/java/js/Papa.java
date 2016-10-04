@@ -1,4 +1,4 @@
-package papa;
+package js;
 
 import org.stjs.javascript.annotation.STJSBridge;
 

@@ -1,4 +1,4 @@
-package org.cass.imports;
+package org.cass.importer;
 
 import org.cass.competency.EcCompetency;
 import org.cass.competency.EcFramework;

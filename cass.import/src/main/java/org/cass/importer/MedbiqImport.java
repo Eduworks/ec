@@ -1,4 +1,4 @@
-package org.cass.imports;
+package org.cass.importer;
 
 import org.cass.competency.EcCompetency;
 import org.cassproject.ebac.identity.EcIdentity;
@@ -10,8 +10,8 @@ import org.w3c.dom.events.Event;
 
 import com.eduworks.ec.array.toString;
 
-import FileReader.FileReader;
-import x2js.X2JS;
+import js.FileReader;
+import js.X2JS;
 
 public class MedbiqImport extends Importer {
 

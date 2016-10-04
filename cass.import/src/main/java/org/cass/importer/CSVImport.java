@@ -1,4 +1,4 @@
-package org.cass.imports;
+package org.cass.importer;
 
 import org.cass.competency.EcCompetency;
 import org.cassproject.ebac.identity.EcIdentity;
@@ -7,8 +7,8 @@ import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
 
-import papa.Papa;
-import papa.PapaParseParams;
+import js.Papa;
+import js.PapaParseParams;
 
 public class CSVImport {
 	

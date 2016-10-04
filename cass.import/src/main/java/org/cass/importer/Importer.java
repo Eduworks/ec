@@ -1,4 +1,4 @@
-package org.cass.imports;
+package org.cass.importer;
 
 import com.eduworks.ec.array.toString;
 

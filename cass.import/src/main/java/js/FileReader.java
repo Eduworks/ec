@@ -1,4 +1,4 @@
-package FileReader;
+package js;
 
 import org.stjs.javascript.annotation.STJSBridge;
 import org.stjs.javascript.functions.Callback1;
