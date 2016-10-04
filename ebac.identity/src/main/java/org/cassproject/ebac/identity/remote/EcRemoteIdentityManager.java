@@ -152,7 +152,8 @@ public class EcRemoteIdentityManager
 					return;
 				}
 				me.configured = true;
-				success.$invoke(p1);
+				if(success != null)
+					success.$invoke(p1);
 			}
 		}, new Callback1<String>()
 		{
@@ -160,7 +161,10 @@ public class EcRemoteIdentityManager
 			public void $invoke(String p1)
 			{
 				me.configured = false;
-				failure.$invoke(p1);
+				if(failure != null)
+					failure.$invoke(p1);
+				else
+					Global.console.error(p1);
 			}
 		});
 	}
