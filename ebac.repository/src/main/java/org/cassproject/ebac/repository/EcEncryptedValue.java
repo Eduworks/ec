@@ -50,6 +50,9 @@ public class EcEncryptedValue extends EbacEncryptedValue
 
 	public static EcEncryptedValue toEncryptedValue(EcRemoteLinkedData d, boolean hideType)
 	{
+		if(d.privateEncrypted != null)
+			JSObjectAdapter.$properties(d).$delete("privateEncrypted");
+		
 		d.updateTimestamp();
 
 		EcEncryptedValue v = new EcEncryptedValue();

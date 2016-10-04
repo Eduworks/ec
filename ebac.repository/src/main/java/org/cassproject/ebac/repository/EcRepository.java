@@ -370,8 +370,6 @@ public class EcRepository
 
 	public static void save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
 	{
-		Global.console.warn("Watch out! " + data.id + " is being saved with the repository save function, no value checking will occur");
-
 		if(data.invalid())
 		{
 			String msg = "Cannot save data. It is missing a vital component.";
@@ -383,11 +381,14 @@ public class EcRepository
 		}
 		
 		if (data.privateEncrypted != null && data.privateEncrypted)
-		{
+		{			
 			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(data, false);
 			_save(encrypted, success, failure);
 		} else
-		{
+		{			
+			if(data.privateEncrypted != null)
+				JSObjectAdapter.$properties(data).$delete("privateEncrypted");
+			
 			_save(data, success, failure);
 		}
 	}
@@ -459,8 +460,6 @@ public class EcRepository
 	 */
 	public static void _delete(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
 	{
-		Global.console.warn("Watch out! " + data.id + " is being deleted with the repository delete function, no clean up delete operations will occur");
-
 		DELETE(data, success, failure);
 	}
 
