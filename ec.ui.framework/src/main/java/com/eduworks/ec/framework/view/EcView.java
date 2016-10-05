@@ -2,7 +2,10 @@ package com.eduworks.ec.framework.view;
 
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
+import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSObjectAdapter;
+import org.stjs.javascript.JSStringAdapter;
+import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback0;
 
 /**
@@ -55,4 +58,20 @@ public abstract class EcView {
 		
 		return null;
 	}
+
+	public static Object getUrlParameters() {
+		Array<String> hashSplit = JSCollections.$castArray(Global.window.document.location.hash.split("?"));
+
+		if (hashSplit.$length() > 1) {
+			Object o = null;
+			Map<String, Object> params = JSObjectAdapter.$properties(o = new Object());
+			String paramString = hashSplit.$get(1);
+			Array<String> parts = JSStringAdapter.split(paramString, "&");
+			for (int i = 0; i < parts.$length(); i++)
+				params.$put(parts.$get(i).split("=")[0], parts.$get(i).replace(parts.$get(i).split("=")[0] + "=", ""));
+			return o;
+		}
+		return null;
+	}
+
 }
