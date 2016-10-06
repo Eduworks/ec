@@ -59,7 +59,9 @@ public abstract class EcView {
 		return null;
 	}
 
-	public static Object getUrlParameters() {
+	public Object getUrlParameters(){return EcView.urlParameters();} 
+	
+	public static Object urlParameters() {
 		Array<String> hashSplit = JSCollections.$castArray(Global.window.document.location.hash.split("?"));
 
 		if (hashSplit.$length() > 1) {
@@ -71,7 +73,7 @@ public abstract class EcView {
 				params.$put(parts.$get(i).split("=")[0], parts.$get(i).replace(parts.$get(i).split("=")[0] + "=", ""));
 			return o;
 		}
-		return null;
+		return new Object();
 	}
 
 }

@@ -62,8 +62,10 @@
 					<arguments>
 						<argument>-Dlanguage=JavaScript</argument>
 					</arguments>
+					<outputDirectory>${project.build.directory}/classes</outputDirectory>
 				</configuration>
 			</plugin>
+
 		</plugins>
 	</build>
 </project>

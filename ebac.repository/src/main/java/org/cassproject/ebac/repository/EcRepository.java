@@ -112,6 +112,37 @@ public class EcRepository
 			}
 		});
 	}
+	
+	public static EcRemoteLinkedData getBlocking(final String url)
+	{
+		if (caching)
+			if (JSObjectAdapter.$get(cache, url) != null)
+			{
+				return (EcRemoteLinkedData) JSObjectAdapter.$get(cache, url);
+			}
+		final FormData fd = new FormData();
+		String p1 = EcIdentityManager.signatureSheet(60000, url);
+		fd.append("signatureSheet", p1);
+		EcRemote.async = false;
+		EcRemote.postExpectingObject(url, null, fd, new Callback1<Object>()
+		{
+			@Override
+			public void $invoke(Object p1)
+			{
+				EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
+				d.copyFrom(p1);
+				if (d.getFullType() == null) {
+	                return;
+	            }
+				JSObjectAdapter.$put(cache, url, d);
+			}
+		}, null);
+		EcRemote.async = true;
+		EcRemoteLinkedData result = (EcRemoteLinkedData) JSObjectAdapter.$get(cache, url);
+		if (!caching)
+			JSObjectAdapter.$put(cache, url, null);
+		return result;
+	}
 
 	/**
 	 * Search a repository for JSON-LD compatible data.

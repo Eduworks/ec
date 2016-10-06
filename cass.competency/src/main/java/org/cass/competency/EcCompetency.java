@@ -30,7 +30,8 @@ public class EcCompetency extends Competency
 	public static String RELATIONSHIP_TYPE_LEVEL_IS_EQUIVALENT_TO = "isEquivalentTo";
 	public static String RELATIONSHIP_TYPE_LEVEL_OVERLAPS = "overlaps";
 
-	public EcAlignment addAlignment(EcCompetency target, final String alignmentType, final EcPpk owner, final String server, Callback1<String> success, Callback1<String> failure)
+	public EcAlignment addAlignment(EcCompetency target, final String alignmentType, final EcPpk owner,
+			final String server, Callback1<String> success, Callback1<String> failure)
 	{
 		final EcAlignment a = new EcAlignment();
 		a.generateId(server);
@@ -40,45 +41,53 @@ public class EcCompetency extends Competency
 		a.addOwner(owner.toPk());
 
 		EcRepository.save(a, success, failure);
-		
+
 		return a;
 	}
 
-	public void relationships(EcRepository repo, final Callback1<EcAlignment> eachSuccess, final Callback1<String> failure, final Callback1<Array<EcAlignment>> successAll)
+	public void relationships(EcRepository repo, final Callback1<EcAlignment> eachSuccess,
+			final Callback1<String> failure, final Callback1<Array<EcAlignment>> successAll)
 	{
-		repo.search(new EcAlignment().getSearchStringByType()+" AND (source:\"" + id + "\" OR target:\"" + id + "\" OR source:\"" + shortId() + "\" OR target:\"" + shortId() + "\")", new Callback1<EcRemoteLinkedData>()
-		{
-			@Override
-			public void $invoke(EcRemoteLinkedData p1)
-			{
-				EcAlignment a = new EcAlignment();
-				a.copyFrom(p1);
-				if(eachSuccess != null)
-					eachSuccess.$invoke(a);
-			}
-		}, new Callback1<Array<EcRemoteLinkedData>>(){
-
-			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1) {
-				if(successAll != null)
+		repo.search(
+				new EcAlignment().getSearchStringByType() + " AND (source:\"" + id + "\" OR target:\"" + id
+						+ "\" OR source:\"" + shortId() + "\" OR target:\"" + shortId() + "\")",
+				new Callback1<EcRemoteLinkedData>()
 				{
-					Array<EcAlignment> rels = JSCollections.$array();
-					
-					for(int i = 0; i < p1.$length(); i++){
+					@Override
+					public void $invoke(EcRemoteLinkedData p1)
+					{
 						EcAlignment a = new EcAlignment();
-						a.copyFrom(p1.$get(i));
-						rels.$set(i, a);
+						a.copyFrom(p1);
+						if (eachSuccess != null)
+							eachSuccess.$invoke(a);
 					}
-					
-					if(successAll != null)
-						successAll.$invoke(rels);
-				}
-			}
-			
-		}, failure);
+				}, new Callback1<Array<EcRemoteLinkedData>>()
+				{
+
+					@Override
+					public void $invoke(Array<EcRemoteLinkedData> p1)
+					{
+						if (successAll != null)
+						{
+							Array<EcAlignment> rels = JSCollections.$array();
+
+							for (int i = 0; i < p1.$length(); i++)
+							{
+								EcAlignment a = new EcAlignment();
+								a.copyFrom(p1.$get(i));
+								rels.$set(i, a);
+							}
+
+							if (successAll != null)
+								successAll.$invoke(rels);
+						}
+					}
+
+				}, failure);
 	}
 
-	public EcLevel addLevel(String name, String description, final EcPpk owner, final String server, Callback1<String> success, Callback1<String> failure)
+	public EcLevel addLevel(String name, String description, final EcPpk owner, final String server,
+			Callback1<String> success, Callback1<String> failure)
 	{
 		final EcLevel l = new EcLevel();
 		l.generateId(server);
@@ -86,18 +95,20 @@ public class EcCompetency extends Competency
 		l.description = description;
 		l.name = name;
 		l.addOwner(owner.toPk());
-		
+
 		EcRepository.save(l, success, failure);
-		
+
 		return l;
 	}
 
-	public void levels(EcRepository repo, final Callback1<EcLevel> success, final Callback1<String> failure, final Callback1<Array<EcLevel>> successAll)
+	public void levels(EcRepository repo, final Callback1<EcLevel> success, final Callback1<String> failure,
+			final Callback1<Array<EcLevel>> successAll)
 	{
-		String query = "("+new EcLevel().getSearchStringByType()+" AND ( competency:\"" + id + "\" OR competency:\""+shortId()+"\"))";
-		query += " OR @encryptedType:\""+EcLevel.myType+"\" OR @encryptedType:\""+EcLevel.myType.replace(Cass.context+"/", "")+"\"";
-		
-		
+		String query = "(" + new EcLevel().getSearchStringByType() + " AND ( competency:\"" + id + "\" OR competency:\""
+				+ shortId() + "\"))";
+		query += " OR @encryptedType:\"" + EcLevel.myType + "\" OR @encryptedType:\""
+				+ EcLevel.myType.replace(Cass.context + "/", "") + "\"";
+
 		final String competencyId = id;
 		final String shortId = shortId();
 		repo.search(query, new Callback1<EcRemoteLinkedData>()
@@ -105,61 +116,74 @@ public class EcCompetency extends Competency
 			@Override
 			public void $invoke(EcRemoteLinkedData p1)
 			{
-				if(success != null)
+				if (success != null)
 				{
 					EcLevel a = new EcLevel();
-					if(p1.isA(EcLevel.myType)){
+					if (p1.isA(EcLevel.myType))
+					{
 						a.copyFrom(p1);
-					}else if(p1.isA(EcEncryptedValue.myType)){
+					} else if (p1.isA(EcEncryptedValue.myType))
+					{
 						EcEncryptedValue val = new EcEncryptedValue();
 						val.copyFrom(p1);
-						if(val.isAnEncrypted(EcLevel.myType)){
+						if (val.isAnEncrypted(EcLevel.myType))
+						{
 							EcRemoteLinkedData obj = val.decryptIntoObject();
-							if(JSObjectAdapter.$get(obj, "competency") != competencyId && JSObjectAdapter.$get(obj, "competency") != shortId){
+							if (JSObjectAdapter.$get(obj, "competency") != competencyId
+									&& JSObjectAdapter.$get(obj, "competency") != shortId)
+							{
 								return;
 							}
 							a.copyFrom(obj);
 							a.privateEncrypted = true;
 						}
 					}
-					
+
 					success.$invoke(a);
 				}
 			}
-		}, new Callback1<Array<EcRemoteLinkedData>>(){
+		}, new Callback1<Array<EcRemoteLinkedData>>()
+		{
 
 			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1) {
-				if(successAll != null)
+			public void $invoke(Array<EcRemoteLinkedData> p1)
+			{
+				if (successAll != null)
 				{
 					Array<EcLevel> levels = JSCollections.$array();
-					
-					for(int i = 0; i < p1.$length(); i++){
+
+					for (int i = 0; i < p1.$length(); i++)
+					{
 						EcLevel a = new EcLevel();
-						
-						if(p1.$get(i).isA(EcLevel.myType)){
+
+						if (p1.$get(i).isA(EcLevel.myType))
+						{
 							a.copyFrom(p1.$get(i));
-						}else if(p1.$get(i).isA(EcEncryptedValue.myType)){
+						} else if (p1.$get(i).isA(EcEncryptedValue.myType))
+						{
 							EcEncryptedValue val = new EcEncryptedValue();
 							val.copyFrom(p1.$get(i));
-							if(val.isAnEncrypted(EcLevel.myType)){
+							if (val.isAnEncrypted(EcLevel.myType))
+							{
 								EcRemoteLinkedData obj = val.decryptIntoObject();
-								if(JSObjectAdapter.$get(obj, "competency") != competencyId && JSObjectAdapter.$get(obj, "competency") != shortId){
+								if (JSObjectAdapter.$get(obj, "competency") != competencyId
+										&& JSObjectAdapter.$get(obj, "competency") != shortId)
+								{
 									continue;
 								}
 								a.copyFrom(obj);
 								a.privateEncrypted = true;
 							}
 						}
-						
+
 						levels.$set(i, a);
 					}
-					
-					if(successAll != null)
+
+					if (successAll != null)
 						successAll.$invoke(levels);
 				}
 			}
-			
+
 		}, failure);
 	}
 
@@ -167,10 +191,12 @@ public class EcCompetency extends Competency
 	{
 		this.name = name;
 	}
+
 	public void setDescription(String description)
 	{
 		this.description = description;
 	}
+
 	public void setScope(String scope)
 	{
 		this.scope = scope;
@@ -178,25 +204,26 @@ public class EcCompetency extends Competency
 
 	public void save(Callback1<String> success, Callback1<String> failure)
 	{
-		if(this.name == null || this.name == "")
+		if (this.name == null || this.name == "")
 		{
 			String msg = "Competency Name can not be empty";
-			if(failure != null)
+			if (failure != null)
 				failure.$invoke(msg);
 			else
 				Global.console.error(msg);
 			return;
 		}
-		
-		if(this.invalid()){
+
+		if (this.invalid())
+		{
 			String msg = "Cannot save competency. It is missing a vital component.";
-			if(failure != null)
+			if (failure != null)
 				failure.$invoke(msg);
 			else
 				Global.console.error(msg);
 			return;
 		}
-		
+
 		if (privateEncrypted != null && privateEncrypted)
 		{
 			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(this, false);
@@ -205,26 +232,34 @@ public class EcCompetency extends Competency
 		{
 			EcRepository._save(this, success, failure);
 		}
-		
+
 	}
-	
+
 	public void _delete(final Callback1<String> success, final Callback1<String> failure, final EcRepository repo)
 	{
 		final EcCompetency me = this;
-		EcRepository.DELETE(this, new Callback1<String>(){
+		EcRepository.DELETE(this, new Callback1<String>()
+		{
 			@Override
-			public void $invoke(String p1) {
-				if(repo != null)
+			public void $invoke(String p1)
+			{
+				if (repo != null)
 				{
-					me.relationships(repo, new Callback1<EcAlignment>() {
+					me.relationships(repo, new Callback1<EcAlignment>()
+					{
 						@Override
-						public void $invoke(EcAlignment p1) {
-							for(int i = 0; i < EcIdentityManager.ids.$length(); i++){
-								if(p1.canEdit(EcIdentityManager.ids.$get(i).ppk.toPk())){
-									p1._delete(null, new Callback1<String>() {
+						public void $invoke(EcAlignment p1)
+						{
+							for (int i = 0; i < EcIdentityManager.ids.$length(); i++)
+							{
+								if (p1.canEdit(EcIdentityManager.ids.$get(i).ppk.toPk()))
+								{
+									p1._delete(null, new Callback1<String>()
+									{
 										@Override
-										public void $invoke(String p1) {
-											if(failure != null)
+										public void $invoke(String p1)
+										{
+											if (failure != null)
 												failure.$invoke("Unable to Delete Competency Relation");
 											else
 												Global.console.error("Unable to Delete Competency Relation");
@@ -234,24 +269,32 @@ public class EcCompetency extends Competency
 								}
 							}
 						}
-					}, failure, new Callback1<Array<EcAlignment>>(){
+					}, failure, new Callback1<Array<EcAlignment>>()
+					{
 						@Override
-						public void $invoke(Array<EcAlignment> p1) {
-							if(success != null)
+						public void $invoke(Array<EcAlignment> p1)
+						{
+							if (success != null)
 								success.$invoke("");
 						}
 					});
-					
-					me.levels(repo, new Callback1<EcLevel>(){
+
+					me.levels(repo, new Callback1<EcLevel>()
+					{
 
 						@Override
-						public void $invoke(EcLevel p1) {
-							for(int i = 0; i < EcIdentityManager.ids.$length(); i++){
-								if(p1.canEdit(EcIdentityManager.ids.$get(i).ppk.toPk())){
-									p1._delete(null, new Callback1<String>() {
+						public void $invoke(EcLevel p1)
+						{
+							for (int i = 0; i < EcIdentityManager.ids.$length(); i++)
+							{
+								if (p1.canEdit(EcIdentityManager.ids.$get(i).ppk.toPk()))
+								{
+									p1._delete(null, new Callback1<String>()
+									{
 										@Override
-										public void $invoke(String p1) {
-											if(failure != null)
+										public void $invoke(String p1)
+										{
+											if (failure != null)
 												failure.$invoke("Unable to Delete Competency Relation");
 											else
 												Global.console.error("Unable to Delete Competency Relation");
@@ -261,18 +304,19 @@ public class EcCompetency extends Competency
 								}
 							}
 						}
-						
-					}, failure, new Callback1<Array<EcLevel>>(){
+
+					}, failure, new Callback1<Array<EcLevel>>()
+					{
 						@Override
-						public void $invoke(Array<EcLevel> p1) {
-							if(success != null)
+						public void $invoke(Array<EcLevel> p1)
+						{
+							if (success != null)
 								success.$invoke("");
 						}
 					});
-				}
-				else
+				} else
 				{
-					if(success != null)
+					if (success != null)
 						success.$invoke(p1);
 				}
 			}
@@ -285,28 +329,27 @@ public class EcCompetency extends Competency
 		{
 			@Override
 			public void $invoke(EcRemoteLinkedData p1)
-			{				
+			{
 				EcCompetency competency = new EcCompetency();
-				
+
 				if (p1.isA(EcEncryptedValue.myType))
 				{
 					EcEncryptedValue encrypted = new EcEncryptedValue();
 					encrypted.copyFrom(p1);
 					p1 = encrypted.decryptIntoObject();
-					
+
 					p1.privateEncrypted = true;
 				}
 				if (p1.isAny(competency.getTypes()))
 				{
 					competency.copyFrom(p1);
-					
-					if(success != null)
+
+					if (success != null)
 						success.$invoke(competency);
-				}
-				else
+				} else
 				{
 					String msg = "Retrieved object was not a competency";
-					if(failure != null)
+					if (failure != null)
 						failure.$invoke(msg);
 					else
 						Global.console.error(msg);
@@ -316,8 +359,36 @@ public class EcCompetency extends Competency
 
 		}, failure);
 	}
-	
-	public static void search(EcRepository repo, String query, final Callback1<Array<EcCompetency>> success, Callback1<String> failure, Object paramObj){
+
+	public static EcCompetency getBlocking(String id)
+	{
+		EcRemoteLinkedData p1 = EcRepository.getBlocking(id);
+		EcCompetency competency = new EcCompetency();
+
+		if (p1.isA(EcEncryptedValue.myType))
+		{
+			EcEncryptedValue encrypted = new EcEncryptedValue();
+			encrypted.copyFrom(p1);
+			p1 = encrypted.decryptIntoObject();
+
+			p1.privateEncrypted = true;
+		}
+		if (p1.isAny(competency.getTypes()))
+		{
+			competency.copyFrom(p1);
+
+			return competency;
+		} else
+		{
+			String msg = "Retrieved object was not a competency";
+			Global.console.error(msg);
+			return null;
+		}
+	}
+
+	public static void search(EcRepository repo, String query, final Callback1<Array<EcCompetency>> success,
+			Callback1<String> failure, Object paramObj)
+	{
 		String queryAdd = "";
 		queryAdd = new EcCompetency().getSearchStringByType();
 
@@ -325,22 +396,28 @@ public class EcCompetency extends Competency
 			query = queryAdd;
 		else
 			query = "(" + query + ") AND " + queryAdd;
-		
-		repo.searchWithParams(query, paramObj, null, new Callback1<Array<EcRemoteLinkedData>>(){
+
+		repo.searchWithParams(query, paramObj, null, new Callback1<Array<EcRemoteLinkedData>>()
+		{
 
 			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1) {
-				if(success != null)
+			public void $invoke(Array<EcRemoteLinkedData> p1)
+			{
+				if (success != null)
 				{
 					Array<EcCompetency> ret = JSCollections.$array();
-					for(int i = 0; i < p1.$length(); i++){
+					for (int i = 0; i < p1.$length(); i++)
+					{
 						EcCompetency comp = new EcCompetency();
-						if(p1.$get(i).isAny(comp.getTypes())){
+						if (p1.$get(i).isAny(comp.getTypes()))
+						{
 							comp.copyFrom(p1.$get(i));
-						}else if(p1.$get(i).isA(EcEncryptedValue.myType)){
+						} else if (p1.$get(i).isA(EcEncryptedValue.myType))
+						{
 							EcEncryptedValue val = new EcEncryptedValue();
 							val.copyFrom(p1.$get(i));
-							if(val.isAnEncrypted(EcCompetency.myType)){
+							if (val.isAnEncrypted(EcCompetency.myType))
+							{
 								EcRemoteLinkedData obj = val.decryptIntoObject();
 								comp.copyFrom(obj);
 								comp.privateEncrypted = true;
@@ -349,12 +426,12 @@ public class EcCompetency extends Competency
 
 						ret.$set(i, comp);
 					}
-					
+
 					success.$invoke(ret);
 				}
 			}
-			
+
 		}, failure);
-		
+
 	}
 }
