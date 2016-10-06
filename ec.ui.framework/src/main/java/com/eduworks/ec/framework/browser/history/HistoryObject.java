@@ -1,4 +1,4 @@
-package com.eduworks.ec.framework.history;
+package com.eduworks.ec.framework.browser.history;
 
 import org.stjs.javascript.annotation.SyntheticType;
 

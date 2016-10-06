@@ -1,4 +1,4 @@
-package com.eduworks.ec.framework;
+package com.eduworks.ec.framework.view.manager;
 
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.Map;

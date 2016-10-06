@@ -1,4 +1,4 @@
-package com.eduworks.ec.framework;
+package com.eduworks.ec.framework.view.manager;
 
 import static org.stjs.javascript.Global.window;
 

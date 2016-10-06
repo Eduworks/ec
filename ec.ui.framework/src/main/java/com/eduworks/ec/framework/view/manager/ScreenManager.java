@@ -1,4 +1,4 @@
-package com.eduworks.ec.framework;
+package com.eduworks.ec.framework.view.manager;
 
 import static org.stjs.javascript.Global.console;
 import static org.stjs.javascript.Global.window;
@@ -15,8 +15,8 @@ import org.stjs.javascript.jquery.EventHandler;
 import org.stjs.javascript.jquery.GlobalJQuery;
 
 import com.eduworks.History.History;
-import com.eduworks.ec.framework.history.HistoryClosure;
-import com.eduworks.ec.framework.history.HistoryObject;
+import com.eduworks.ec.framework.browser.history.HistoryClosure;
+import com.eduworks.ec.framework.browser.history.HistoryObject;
 import com.eduworks.ec.framework.view.EcScreen;
 import com.eduworks.foundation.jquery.plugin.Foundation;
 
