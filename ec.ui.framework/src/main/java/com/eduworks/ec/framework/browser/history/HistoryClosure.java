@@ -23,6 +23,9 @@ public class HistoryClosure {
 	 */
 	public String containerId;
 	
+	
+	public Object screenParameters;
+	
 	/**
 	 * Constructor for the HistoryClosure Object
 	 * 
@@ -33,9 +36,10 @@ public class HistoryClosure {
 	 * @param containerId
 	 * 			DOM Selector (ID) of the HTML container to display the screen in on load history
 	 */
-	public HistoryClosure(String name, EcScreen screen, String containerId){
+	public HistoryClosure(String name, EcScreen screen, String containerId, Object params){
 		this.pageName = name;
 		this.screen = screen;
 		this.containerId = containerId;
+		this.screenParameters = params;
 	}
 }

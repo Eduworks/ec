@@ -7,6 +7,7 @@ import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.dom.Element;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.javascript.jquery.Event;
 import org.stjs.javascript.jquery.EventHandler;
 import org.stjs.javascript.jquery.GlobalJQuery;
@@ -84,6 +85,8 @@ public class OverlayManager extends ScreenManager {
 	 */
 	static EcScreen lastScreen;
 	
+	static Object lastScreenParams;
+	
 	/**
 	 * Set's the current overlay, then show's it by calling the display function and unhiding the overlay container.
 	 * Depending on the addHistory flag, will add the overlay passed in to the history array 
@@ -96,12 +99,16 @@ public class OverlayManager extends ScreenManager {
 	public static void showOverlay(EcOverlay overlay, Boolean addHistory)
 	{
 		if(!inOverlay && myHistory.$get(myHistory.$length()-1) != null)
+		{
 			lastScreen = myHistory.$get(myHistory.$length()-1).screen;
-			
+			lastScreenParams = myHistory.$get(myHistory.$length()-1).screenParameters;
+		}
+		
+		
 		if(addHistory == null)
 			addHistory = true;
 		if(addHistory)	// TODO : Figure out how to correctly fix history
-			addHistory(overlay, OVERLAY_CONTAINER_ID);
+			addHistory(overlay, OVERLAY_CONTAINER_ID, null);
 		
 		showView(overlay, OVERLAY_CONTAINER_ID, new Callback0(){
 			public void $invoke() {
@@ -134,7 +141,8 @@ public class OverlayManager extends ScreenManager {
 		
 		inOverlay = false;
 		
-		changeScreen(lastScreen, true, null);
+		if(myHistory.$length() <= 2)
+			OverlayManager.changeScreen(lastScreen, null, lastScreenParams, null);
 	}
 	
 	/**
@@ -151,15 +159,17 @@ public class OverlayManager extends ScreenManager {
 		GlobalJQuery.$(window).keydown(new EventHandler(){
 			public boolean onEvent(Event event, Element arg1) {
 				// If Escape pressed in Overlay
-				if(event.keyCode == 27 && inOverlay)
+				if(event.keyCode == 27 && inOverlay){
 					hideOverlay();
+				}
+					
 				
 				return true;
 			}
 		});
 		
-		loadHistoryCallback = new Callback1<EcScreen>() {
-			public void $invoke(EcScreen screen) {
+		loadHistoryCallback = new Callback2<EcScreen, Object>() {
+			public void $invoke(EcScreen screen, Object params) {
 				EcOverlay overlay = screen.as(EcOverlay.class);
 				if(overlay != null && !inOverlay)
 				{
@@ -168,6 +178,8 @@ public class OverlayManager extends ScreenManager {
 				else if(inOverlay)
 				{
 					hideOverlay();
+					
+					inOverlay = false;
 				}
 			}
 		};

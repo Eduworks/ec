@@ -10,6 +10,7 @@ import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.dom.Element;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.javascript.jquery.Event;
 import org.stjs.javascript.jquery.EventHandler;
 import org.stjs.javascript.jquery.GlobalJQuery;
@@ -73,7 +74,7 @@ public class ScreenManager extends ViewManager {
 	/**
 	 * Callback invoked during a history load (used in Overlay Manager to open an overlay if it was last history view)
 	 */
-	static Callback1<EcScreen> loadHistoryCallback;
+	static Callback2<EcScreen, Object> loadHistoryCallback;
 	
 	/**
 	 * Array of callbacks that will compare any markers saved in the browser to see if a specific startup screen
@@ -169,7 +170,7 @@ public class ScreenManager extends ViewManager {
 						if(startupCallback != null)
 							startupCallback.$invoke(locationHash);
 					}
-				});
+				}, null);
 				
 				return true;
 			}
@@ -187,12 +188,12 @@ public class ScreenManager extends ViewManager {
 	 * @param callback
 	 * 			Function to invoke after the page has been displayed and foundation has been set up on the new HTML
 	 */
-	public static void changeScreen(EcScreen page, Boolean addHistory, final Callback0 callback)
+	public static void changeScreen(EcScreen page, final Callback0 callback, Object params, Boolean addHistory)
 	{		
 		if(addHistory == null)
 			addHistory = true;
 		if(addHistory)
-			addHistory(page, SCREEN_CONTAINER_ID);
+			addHistory(page, SCREEN_CONTAINER_ID, params);
 			
 		showView(page, SCREEN_CONTAINER_ID, new Callback0(){
 			public void $invoke() {
@@ -214,9 +215,9 @@ public class ScreenManager extends ViewManager {
 	 * @param callback
 	 * 			Function to invoke after the page has been displayed and foundation has been set up on the new HTML
 	 */
-	public static void replaceScreen(EcScreen page, final Callback0 callback)
+	public static void replaceScreen(EcScreen page, final Callback0 callback, Object params)
 	{
-		replaceHistory(page, SCREEN_CONTAINER_ID, null);
+		replaceHistory(page, SCREEN_CONTAINER_ID, params);
 		
 		showView(page, SCREEN_CONTAINER_ID, new Callback0(){
 			public void $invoke() {
@@ -254,7 +255,7 @@ public class ScreenManager extends ViewManager {
 	 * @param displayContainerId
 	 * 			DOM Element ID corresponding to where the screen will be displayed (likely the SCREEN_CONTAINER_ID)
 	 */
-	public static void addHistory(EcScreen screen, String displayContainerId)
+	public static void addHistory(EcScreen screen, String displayContainerId, Object params)
 	{	
 		String name = screen.getDisplayName();
 		
@@ -263,11 +264,25 @@ public class ScreenManager extends ViewManager {
 		if(name.equals(""))
 			return;
 		
+		String hash = "#"+name;
+		if(params != null){
+			hash += "?";
+			for(String str : JSObjectAdapter.$properties(params))
+			{
+				if(!hash.endsWith("?"))
+					hash+="&";
+				hash += str + "=" + JSObjectAdapter.$get(params, str);
+			}
+		}
+		if(hash.endsWith("?")){
+			hash = hash.substring(0, hash.length()-1);
+		}
+		
 		final String pageName = name;
-		myHistory.$set(myHistory.$length(), new HistoryClosure(pageName, screen, displayContainerId));
+		myHistory.$set(myHistory.$length(), new HistoryClosure(pageName, screen, displayContainerId, params));
 		((History)window.history).pushState(new HistoryObject(){{
 			name = pageName;
-		}}, pageName, "#"+pageName);
+		}}, pageName, hash);
 	}
 	
 	/**
@@ -294,7 +309,7 @@ public class ScreenManager extends ViewManager {
 		int idx = myHistory.$length()-1;
 		if(idx < 0)
 			idx = 0;
-		myHistory.$set(idx, new HistoryClosure(pageName, screen, displayContainerId));
+		myHistory.$set(idx, new HistoryClosure(pageName, screen, displayContainerId, params));
 		
 		String hash = "#"+pageName;
 		if(params != null){
@@ -342,7 +357,7 @@ public class ScreenManager extends ViewManager {
 					EcScreen screen = myHistory.$get(i).screen;
 					
 					if(loadHistoryCallback != null)
-						loadHistoryCallback.$invoke(screen);
+						loadHistoryCallback.$invoke(screen, myHistory.$get(i).screenParameters);
 						
 					showView(screen, myHistory.$get(i).containerId, new Callback0(){
 						public void $invoke() {
@@ -350,7 +365,7 @@ public class ScreenManager extends ViewManager {
 						}
 					});					
 					
-					myHistory.$set(myHistory.$length(), new HistoryClosure(name, screen, myHistory.$get(i).containerId));
+					myHistory.$set(myHistory.$length(), new HistoryClosure(name, screen, myHistory.$get(i).containerId, myHistory.$get(i).screenParameters));
 					
 					return;
 				}
@@ -366,7 +381,7 @@ public class ScreenManager extends ViewManager {
 		}
 		
 		if(startupScreen != null)
-			changeScreen(startupScreen, false, null);
+			changeScreen(startupScreen, null, null, false);
 		
 		String tempName = defaultScreen.getDisplayName();
 		if(tempName.equals(""))
