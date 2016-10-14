@@ -7,7 +7,7 @@ import org.stjs.javascript.functions.Callback1;
 import com.eduworks.ec.remote.EcRemote;
 import com.eduworks.ec.remote.FormData;
 
-public class xapiConfig extends EcLinkedData {
+public class XapiConfig extends EcLinkedData {
 
 	public boolean enabled;
 	
@@ -16,7 +16,7 @@ public class xapiConfig extends EcLinkedData {
 	public String xapiEndpoint;
 	public String xapiHostName;
 	
-	public xapiConfig() {
+	public XapiConfig() {
 		super(null, null);
 	}
 	
