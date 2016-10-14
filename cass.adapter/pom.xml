@@ -23,5 +23,10 @@
   		<artifactId>ec.base</artifactId>
   		<version>0.0.1</version>
   	</dependency>
+  	<dependency>
+		<groupId>com.eduworks</groupId>
+		<artifactId>ebac.repository</artifactId>
+		<version>0.0.1</version>
+	</dependency>
   </dependencies>
 </project>
