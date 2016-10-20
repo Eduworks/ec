@@ -4,16 +4,14 @@ import org.cassproject.ebac.identity.EcIdentity;
 import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
+import org.stjs.javascript.Date;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
-import org.stjs.javascript.JSON;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
-import org.stjs.javascript.Window;
+import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
 
-import com.eduworks.ec.crypto.EcPpk;
-import com.eduworks.ec.crypto.EcRsaOaep;
 import com.eduworks.ec.remote.EcRemote;
 import com.eduworks.ec.remote.FormData;
 
@@ -22,9 +20,17 @@ public class EcRepository
 	public String selectedServer = null;
 	public static boolean caching = false;
 	public static Object cache = new Object();
+	public static Object fetching = new Object();
 
-	public void precache(Array<String> urls)
+	public void precache(Array<String> urls, final Callback0 success)
 	{
+		if (urls == null)
+		{
+			if (success != null)
+				success.$invoke();
+			return;
+		}
+
 		Array<String> cacheUrls = new Array<String>();
 		for (int i = 0; i < urls.$length(); i++)
 		{
@@ -35,7 +41,11 @@ public class EcRepository
 			}
 		}
 		if (cacheUrls.$length() == 0)
+		{
+			if (success != null)
+				success.$invoke();
 			return;
+		}
 		final FormData fd = new FormData();
 		fd.append("data", Global.JSON.stringify(cacheUrls));
 		final EcRepository me = this;
@@ -59,6 +69,8 @@ public class EcRepository
 							if (caching)
 								JSObjectAdapter.$put(cache, d.shortId(), d);
 						}
+						if (success != null)
+							success.$invoke();
 					}
 				}, null);
 			}
@@ -82,37 +94,74 @@ public class EcRepository
 		if (caching)
 			if (JSObjectAdapter.$get(cache, url) != null)
 			{
-				success.$invoke((EcRemoteLinkedData) JSObjectAdapter.$get(cache, url));
+				Global.setTimeout(new Callback0()
+				{
+					@Override
+					public void $invoke()
+					{
+						success.$invoke((EcRemoteLinkedData) JSObjectAdapter.$get(cache, url));
+					}
+				}, 0);
 				return;
 			}
+		if ((Double) JSObjectAdapter.$get(fetching, url) > new Date().getMilliseconds() - 1000)
+		{
+			Global.setTimeout(new Callback0()
+			{
+				@Override
+				public void $invoke()
+				{
+					get(url, success, failure);
+				}
+			}, 100);
+			return;
+		}
+		JSObjectAdapter.$put(fetching, url, new Date().getMilliseconds());
 		final FormData fd = new FormData();
 		EcIdentityManager.signatureSheetAsync(60000, url, new Callback1<String>()
 		{
 			@Override
 			public void $invoke(String p1)
 			{
+				if (JSObjectAdapter.$get(cache, url) != null)
+				{
+					success.$invoke((EcRemoteLinkedData) JSObjectAdapter.$get(cache, url));
+					return;
+				}
 				fd.append("signatureSheet", p1);
 				EcRemote.postExpectingObject(url, null, fd, new Callback1<Object>()
 				{
 					@Override
 					public void $invoke(Object p1)
 					{
+						JSObjectAdapter.$properties(fetching).$delete(url);
 						EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
 						d.copyFrom(p1);
-						if (d.getFullType() == null) {
+						if (d.getFullType() == null)
+						{
 							if (failure != null)
 								failure.$invoke(Global.JSON.stringify(p1));
-			                return;
-			            }
+							return;
+						}
 						if (caching)
 							JSObjectAdapter.$put(cache, url, d);
 						success.$invoke(d);
 					}
-				}, failure);
+				}, new Callback1<String>()
+				{
+
+					@Override
+					public void $invoke(String p1)
+					{
+						JSObjectAdapter.$properties(fetching).$delete(url);
+						if (failure != null)
+							failure.$invoke(p1);
+					}
+				});
 			}
 		});
 	}
-	
+
 	public static EcRemoteLinkedData getBlocking(final String url)
 	{
 		if (caching)
@@ -131,9 +180,10 @@ public class EcRepository
 			{
 				EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
 				d.copyFrom(p1);
-				if (d.getFullType() == null) {
-	                return;
-	            }
+				if (d.getFullType() == null)
+				{
+					return;
+				}
 				JSObjectAdapter.$put(cache, url, d);
 			}
 		}, null);
@@ -182,60 +232,62 @@ public class EcRepository
 	 * @param failure
 	 *            Failure event.
 	 */
-	public void searchWithParams(String query, Object paramObj, 
-			final Callback1<EcRemoteLinkedData> eachSuccess,
-			final Callback1<Array<EcRemoteLinkedData>> success, 
-			final Callback1<String> failure)
+	public void searchWithParams(String query, Object paramObj, final Callback1<EcRemoteLinkedData> eachSuccess,
+			final Callback1<Array<EcRemoteLinkedData>> success, final Callback1<String> failure)
 	{
-		if(paramObj == null)
+		if (paramObj == null)
 			paramObj = new Object();
-		
+
 		Object params = new Object();
 		Map<String, Object> paramProps = JSObjectAdapter.$properties(params);
-		if(JSObjectAdapter.$get(paramObj, "start") != null)
+		if (JSObjectAdapter.$get(paramObj, "start") != null)
 			paramProps.$put("start", JSObjectAdapter.$get(paramObj, "start"));
-		if(JSObjectAdapter.$get(paramObj, "size") != null)
+		if (JSObjectAdapter.$get(paramObj, "size") != null)
 			paramProps.$put("size", JSObjectAdapter.$get(paramObj, "size"));
-		if(JSObjectAdapter.$get(paramObj, "types") != null)
+		if (JSObjectAdapter.$get(paramObj, "types") != null)
 			paramProps.$put("types", JSObjectAdapter.$get(paramObj, "types"));
-			
-		if(JSObjectAdapter.$get(paramObj, "ownership") != null)
+
+		if (JSObjectAdapter.$get(paramObj, "ownership") != null)
 		{
 			String ownership = (String) JSObjectAdapter.$get(paramObj, "ownership");
-			if(!query.startsWith("(") || !query.endsWith(")")){
-				query = "("+query+")";
+			if (!query.startsWith("(") || !query.endsWith(")"))
+			{
+				query = "(" + query + ")";
 			}
-			
-			if(ownership.equals("public")){
-				query +=" AND (_missing_:@owner)";
-			}else if(ownership.equals("owned")){
-				query +=" AND (_exists_:@owner)";
-			}else if(ownership.equals("me")){
-				query +=" AND (";
-				for(int i = 0; i < EcIdentityManager.ids.$length(); i++){
-					if(i != 0){
-						query+=" OR ";
+
+			if (ownership.equals("public"))
+			{
+				query += " AND (_missing_:@owner)";
+			} else if (ownership.equals("owned"))
+			{
+				query += " AND (_exists_:@owner)";
+			} else if (ownership.equals("me"))
+			{
+				query += " AND (";
+				for (int i = 0; i < EcIdentityManager.ids.$length(); i++)
+				{
+					if (i != 0)
+					{
+						query += " OR ";
 					}
 					EcIdentity id = EcIdentityManager.ids.$get(i);
-					
-					query+="@owner:\""+id.ppk.toPk().toPem()+"\"";
+
+					query += "@owner:\"" + id.ppk.toPk().toPem() + "\"";
 				}
-				
+
 				query += ")";
 			}
 		}
-		
-		if(JSObjectAdapter.$get(paramObj, "fields") != null)
+
+		if (JSObjectAdapter.$get(paramObj, "fields") != null)
 			paramProps.$put("fields", JSObjectAdapter.$get(paramObj, "fields"));
-		
-		
-		
+
 		final FormData fd = new FormData();
 		fd.append("data", query);
 		if (params != null)
 			fd.append("searchParams", Global.JSON.stringify(params));
 		final EcRepository me = this;
-		EcIdentityManager.signatureSheetAsync(60000, selectedServer,new Callback1<String>()
+		EcIdentityManager.signatureSheetAsync(60000, selectedServer, new Callback1<String>()
 		{
 			@Override
 			public void $invoke(String signatureSheet)
@@ -401,29 +453,29 @@ public class EcRepository
 
 	public static void save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
 	{
-		if(data.invalid())
+		if (data.invalid())
 		{
 			String msg = "Cannot save data. It is missing a vital component.";
-			if(failure != null)
+			if (failure != null)
 				failure.$invoke(msg);
 			else
 				Global.console.error(msg);
 			return;
 		}
-		
+
 		if (data.privateEncrypted != null && data.privateEncrypted)
-		{			
+		{
 			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(data, false);
 			_save(encrypted, success, failure);
 		} else
-		{			
-			if(data.privateEncrypted != null)
+		{
+			if (data.privateEncrypted != null)
 				JSObjectAdapter.$properties(data).$delete("privateEncrypted");
-			
+
 			_save(data, success, failure);
 		}
 	}
-	
+
 	/**
 	 * Attempts to save a piece of data.
 	 * 
@@ -450,9 +502,9 @@ public class EcRepository
 	 * @param success
 	 * @param failure
 	 */
-	private static void _saveWithoutSigning(final EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure) 
+	private static void _saveWithoutSigning(final EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
 	{
-	
+
 		if (caching)
 		{
 			JSObjectAdapter.$properties(cache).$delete(data.id);
@@ -463,9 +515,9 @@ public class EcRepository
 			failure.$invoke("Data is malformed.");
 			return;
 		}
-		
+
 		data.updateTimestamp();
-		
+
 		final FormData fd = new FormData();
 		fd.append("data", data.toJson());
 		EcIdentityManager.signatureSheetForAsync(data.owner, 60000, data.id, new Callback1<String>()

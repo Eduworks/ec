@@ -64,7 +64,8 @@ public class InquiryPacket
 		dateCreated = new Date().getTime();
 		this.subject = subject;
 		this.competency = new Array<>();
-		this.competency.push(competency);
+		if (competency != null)
+			this.competency.push(competency);
 		this.level = level;
 		this.context = context;
 		this.success = success;
@@ -207,7 +208,7 @@ public class InquiryPacket
 
 	public boolean hasId(String competencyId)
 	{
-		for (int i = 0;i < competency.$length();i++)
+		for (int i = 0; i < competency.$length(); i++)
 			if (competency.$get(i).isId(competencyId))
 				return true;
 		return false;
