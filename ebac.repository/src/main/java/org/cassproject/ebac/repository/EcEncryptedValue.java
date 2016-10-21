@@ -469,6 +469,8 @@ public class EcEncryptedValue extends EbacEncryptedValue
 						@Override
 						public void $invoke(String decryptedSecret)
 						{
+							if (helper.counter == -1) 
+								return;
 							if (!EcLinkedData.isProbablyJson(decryptedSecret))
 								decrement.$invoke();
 							else
