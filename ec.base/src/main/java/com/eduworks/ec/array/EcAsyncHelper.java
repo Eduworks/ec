@@ -8,7 +8,7 @@ import org.stjs.javascript.functions.Callback2;
 public class EcAsyncHelper<T>
 {
 	public static String scriptPath = null;
-	Integer counter;
+	public Integer counter;
 
 	public void each(final Array<T> array, Callback2<T, Callback0> each, final Callback1<Array<T>> after)
 	{
