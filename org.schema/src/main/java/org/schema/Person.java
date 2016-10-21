@@ -2,13 +2,15 @@ package org.schema;
 
 import org.stjs.javascript.Date;
 
-public class Person extends Thing {
-	
+public class Person extends Thing
+{
+
 	public Person()
 	{
 		context = "http://schema.org/";
-		type = "http://schema.org/Person";
+		type = "Person";
 	}
+
 	public String additionalName;
 	public String address;
 	public Organization affiliation;
@@ -48,7 +50,7 @@ public class Person extends Thing {
 	public Person parent;
 	public Object performerIn;
 	public Person relatedTo;
-	public Object seeks;
+	public Demand seeks;
 	public Person sibling;
 	public Person spouse;
 	public String taxID;

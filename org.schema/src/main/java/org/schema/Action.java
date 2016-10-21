@@ -7,7 +7,7 @@ public class Action extends Thing
 	protected Action()
 	{
 		context = "http://schema.org/";
-		type = "http://schema.org/Action";
+		type = "Action";
 	}
 
 	public String agent;

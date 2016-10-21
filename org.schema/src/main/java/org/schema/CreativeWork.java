@@ -2,13 +2,15 @@ package org.schema;
 
 import org.stjs.javascript.Date;
 
-public class CreativeWork extends Thing {
-	
+public class CreativeWork extends Thing
+{
+
 	public CreativeWork()
 	{
 		context = "http://schema.org/";
-		type = "http://schema.org/CreativeWork";
+		type = "CreativeWork";
 	}
+
 	public Thing about;
 	public String accessibilityAPI;
 	public String accessibilityControl;

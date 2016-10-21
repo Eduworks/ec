@@ -1,15 +1,16 @@
 package org.schema;
 
-import org.stjs.javascript.Array;
 import org.stjs.javascript.Date;
 
-public class Organization extends Thing {
-	
+public class Organization extends Thing
+{
+
 	public Organization()
 	{
 		context = "http://schema.org/";
-		type = "http://schema.org/Organization";
+		type = "Organization";
 	}
+
 	public String address;
 	public Thing aggregateRating;
 	public Person alumni;
