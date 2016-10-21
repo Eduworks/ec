@@ -5,6 +5,8 @@ import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback2;
 
+import com.eduworks.ec.blob.ArrayBuffer;
+
 import forge.keypair;
 import forge.ppk;
 import forge.rsa;
@@ -69,6 +71,11 @@ public class EcPpk
 	public String toPem()
 	{
 		return forge.pki.privateKeyToPem(ppk).replaceAll("\r?\n", "");
+	}
+	
+	public ArrayBuffer toPKCS8()
+	{
+		return forge.pki.wrapRsaPrivateKey(forge.pki.privateKeyToAsn1(ppk));
 	}
 
 	public EcPk toPk()

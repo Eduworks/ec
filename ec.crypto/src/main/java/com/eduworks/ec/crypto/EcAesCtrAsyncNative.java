@@ -20,8 +20,7 @@ public class EcAesCtrAsyncNative
 		keyUsages.push("encrypt", "decrypt");
 		final AlgorithmIdentifier algorithm = new AlgorithmIdentifier();
 		algorithm.name = "AES-CTR";
-		algorithm.iv = base64.decode(iv);
-		algorithm.counter = new ArrayBuffer(16);
+		algorithm.counter = base64.decode(iv);
 		algorithm.length = 128;
 		final ArrayBuffer data;
 		data = BlobHelper.str2ab(text);
@@ -50,8 +49,7 @@ public class EcAesCtrAsyncNative
 		keyUsages.push("encrypt", "decrypt");
 		final AlgorithmIdentifier algorithm = new AlgorithmIdentifier();
 		algorithm.name = "AES-CTR";
-		algorithm.iv = base64.decode(iv);
-		algorithm.counter = new ArrayBuffer(16);
+		algorithm.counter = base64.decode(iv);
 		algorithm.length = 128;
 		final ArrayBuffer data;
 		data = base64.decode(text);

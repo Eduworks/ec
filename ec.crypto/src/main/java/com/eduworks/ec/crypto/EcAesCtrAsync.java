@@ -14,9 +14,10 @@ import com.eduworks.ec.remote.EcRemote;
 
 public class EcAesCtrAsync
 {
-	static Worker<Object> w;
-	static Array<Callback1> q1;
-	static Array<Callback1> q2;
+	static int rotator;
+	static Array<Worker<Object>> w;
+	static Array<Array<Callback1>> q1;
+	static Array<Array<Callback1>> q2;
 
 	public static void initWorker()
 	{
@@ -26,28 +27,41 @@ public class EcAesCtrAsync
 			return;
 		if (w != null)
 			return;
+		rotator = 0;
 		q1 = new Array<>();
 		q2 = new Array<>();
-		w = new Worker<Object>(JSObjectAdapter.$get(Global.window, "scriptPath") + "forgeAsync.js");
-		w.onmessage = new Callback1<MessageEvent<Object>>()
+		w = new Array<>();
+		for (int index = 0;index < 8;index++)
+		{
+			createWorker(index);
+		}
+	}
+
+	private static void createWorker(final int index)
+	{
+		q1.push(new Array<Callback1>());
+		q2.push(new Array<Callback1>());
+		Worker<Object> wkr;
+		w.push(wkr=new Worker<Object>(JSObjectAdapter.$get(Global.window, "scriptPath") + "forgeAsync.js"));
+		wkr.onmessage = new Callback1<MessageEvent<Object>>()
 		{
 			@Override
 			public void $invoke(MessageEvent<Object> p1)
 			{
 				Object o = p1.data;
-				Callback1 success = q1.shift();
-				Callback1 failure = q2.shift();
+				Callback1 success = q1.$get(index).shift();
+				Callback1 failure = q2.$get(index).shift();
 				if (success != null)
 					success.$invoke(JSObjectAdapter.$get(o, "result"));
 			}
 		};
-		w.onerror = new Callback1<ErrorEvent>()
+		wkr.onerror = new Callback1<ErrorEvent>()
 		{
 			@Override
 			public void $invoke(ErrorEvent p1)
 			{
-				Callback1 success = q1.shift();
-				Callback1 failure = q2.shift();
+				Callback1 success = q1.$get(index).shift();
+				Callback1 failure = q2.$get(index).shift();
 				if (failure != null)
 					failure.$invoke(p1.toString());
 			}
@@ -63,14 +77,16 @@ public class EcAesCtrAsync
 		}
 		else
 		{
+			int worker = rotator++;
+			rotator = rotator % 8;
 			Object o = new Object();
 			JSObjectAdapter.$put(o, "secret", secret);
 			JSObjectAdapter.$put(o, "iv", iv);
 			JSObjectAdapter.$put(o, "text", text);
 			JSObjectAdapter.$put(o, "cmd", "encryptAesCtr");
-			q1.push(success);
-			q2.push(failure);
-			w.postMessage(o);
+			q1.$get(worker).push(success);
+			q2.$get(worker).push(failure);
+			w.$get(worker).postMessage(o);
 		}
 	}
 
@@ -83,14 +99,16 @@ public class EcAesCtrAsync
 		}
 		else
 		{
+			int worker = rotator++;
+			rotator = rotator % 8;
 			Object o = new Object();
 			JSObjectAdapter.$put(o, "secret", secret);
 			JSObjectAdapter.$put(o, "iv", iv);
 			JSObjectAdapter.$put(o, "text", text);
 			JSObjectAdapter.$put(o, "cmd", "decryptAesCtr");
-			q1.push(success);
-			q2.push(failure);
-			w.postMessage(o);
+			q1.$get(worker).push(success);
+			q2.$get(worker).push(failure);
+			w.$get(worker).postMessage(o);
 		}
 	}
 

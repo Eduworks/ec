@@ -40,6 +40,11 @@ public class EcPk
 		return pki.publicKeyToPem(pk).replaceAll("\r?\n", "");
 	}
 
+	public String toRsaPublicKey()
+	{
+		return pki.publicKeyToRSAPublicKeyPem(pk).replaceAll("\r?\n", "");
+	}
+
 	public Boolean verify(bytes bytes, payload decode64)
 	{
 		return pk.verify(bytes, decode64);
