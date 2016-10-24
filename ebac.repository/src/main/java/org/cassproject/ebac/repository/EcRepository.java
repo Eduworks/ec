@@ -7,6 +7,7 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.Date;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
+import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback0;
@@ -19,6 +20,7 @@ public class EcRepository
 {
 	public String selectedServer = null;
 	public static boolean caching = false;
+	public static boolean cachingSearch = false;
 	public static Object cache = new Object();
 	public static Object fetching = new Object();
 
@@ -282,6 +284,18 @@ public class EcRepository
 		if (JSObjectAdapter.$get(paramObj, "fields") != null)
 			paramProps.$put("fields", JSObjectAdapter.$get(paramObj, "fields"));
 
+		final String cacheKey;
+		if (cachingSearch)
+		{
+			cacheKey = JSGlobal.JSON.stringify(paramProps) + query;
+			if (JSObjectAdapter.$get(cache, cacheKey) != null)
+			{
+				handleSearchResults((Array<EcRemoteLinkedData>) JSObjectAdapter.$get(cache, cacheKey), eachSuccess, success);
+				return;
+			}
+		} else
+			cacheKey = null;
+
 		final FormData fd = new FormData();
 		fd.append("data", query);
 		if (params != null)
@@ -298,21 +312,10 @@ public class EcRepository
 					@Override
 					public void $invoke(Object p1)
 					{
-						Array<EcRemoteLinkedData> results = (Array<EcRemoteLinkedData>) p1;
+						if (cachingSearch)
+							JSObjectAdapter.$put(cache, cacheKey, p1);
 
-						for (int i = 0; i < results.$length(); i++)
-						{
-							EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
-							d.copyFrom(results.$get(i));
-							results.$set(i, d);
-							if (caching)
-								JSObjectAdapter.$put(cache, d.shortId(), d);
-							if (eachSuccess != null)
-								eachSuccess.$invoke(results.$get(i));
-						}
-
-						if (success != null)
-							success.$invoke(results);
+						me.handleSearchResults((Array<EcRemoteLinkedData>) p1, eachSuccess, success);
 					}
 				}, failure);
 			}
@@ -421,6 +424,24 @@ public class EcRepository
 					success.$invoke(results);
 			}
 		}, failure);
+	}
+
+	private void handleSearchResults(Array<EcRemoteLinkedData> results, final Callback1<EcRemoteLinkedData> eachSuccess,
+			final Callback1<Array<EcRemoteLinkedData>> success)
+	{
+		for (int i = 0; i < results.$length(); i++)
+		{
+			EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
+			d.copyFrom(results.$get(i));
+			results.$set(i, d);
+			if (caching)
+				JSObjectAdapter.$put(cache, d.shortId(), d);
+			if (eachSuccess != null)
+				eachSuccess.$invoke(results.$get(i));
+		}
+
+		if (success != null)
+			success.$invoke(results);
 	}
 
 	public static String escapeSearch(String query)

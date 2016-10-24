@@ -30,8 +30,8 @@ public class EcCompetency extends Competency
 	public static String RELATIONSHIP_TYPE_LEVEL_IS_EQUIVALENT_TO = "isEquivalentTo";
 	public static String RELATIONSHIP_TYPE_LEVEL_OVERLAPS = "overlaps";
 
-	public EcAlignment addAlignment(EcCompetency target, final String alignmentType, final EcPpk owner,
-			final String server, Callback1<String> success, Callback1<String> failure)
+	public EcAlignment addAlignment(EcCompetency target, final String alignmentType, final EcPpk owner, final String server, Callback1<String> success,
+			Callback1<String> failure)
 	{
 		final EcAlignment a = new EcAlignment();
 		a.generateId(server);
@@ -45,13 +45,18 @@ public class EcCompetency extends Competency
 		return a;
 	}
 
-	public void relationships(EcRepository repo, final Callback1<EcAlignment> eachSuccess,
-			final Callback1<String> failure, final Callback1<Array<EcAlignment>> successAll)
+	public void relations(EcRepository repo, final Callback1<EcAlignment> eachSuccess, final Callback1<String> failure,
+			final Callback1<Array<EcAlignment>> successAll)
 	{
-		repo.search(
-				new EcAlignment().getSearchStringByType() + " AND (source:\"" + id + "\" OR target:\"" + id
-						+ "\" OR source:\"" + shortId() + "\" OR target:\"" + shortId() + "\")",
-				new Callback1<EcRemoteLinkedData>()
+		relationships(repo, eachSuccess, failure, successAll);
+	}
+
+	@Deprecated
+	public void relationships(EcRepository repo, final Callback1<EcAlignment> eachSuccess, final Callback1<String> failure,
+			final Callback1<Array<EcAlignment>> successAll)
+	{
+		repo.search(new EcAlignment().getSearchStringByType() + " AND (source:\"" + id + "\" OR target:\"" + id + "\" OR source:\"" + shortId()
+				+ "\" OR target:\"" + shortId() + "\")", new Callback1<EcRemoteLinkedData>()
 				{
 					@Override
 					public void $invoke(EcRemoteLinkedData p1)
@@ -86,8 +91,7 @@ public class EcCompetency extends Competency
 				}, failure);
 	}
 
-	public EcLevel addLevel(String name, String description, final EcPpk owner, final String server,
-			Callback1<String> success, Callback1<String> failure)
+	public EcLevel addLevel(String name, String description, final EcPpk owner, final String server, Callback1<String> success, Callback1<String> failure)
 	{
 		final EcLevel l = new EcLevel();
 		l.generateId(server);
@@ -101,13 +105,10 @@ public class EcCompetency extends Competency
 		return l;
 	}
 
-	public void levels(EcRepository repo, final Callback1<EcLevel> success, final Callback1<String> failure,
-			final Callback1<Array<EcLevel>> successAll)
+	public void levels(EcRepository repo, final Callback1<EcLevel> success, final Callback1<String> failure, final Callback1<Array<EcLevel>> successAll)
 	{
-		String query = "(" + new EcLevel().getSearchStringByType() + " AND ( competency:\"" + id + "\" OR competency:\""
-				+ shortId() + "\"))";
-		query += " OR @encryptedType:\"" + EcLevel.myType + "\" OR @encryptedType:\""
-				+ EcLevel.myType.replace(Cass.context + "/", "") + "\"";
+		String query = "(" + new EcLevel().getSearchStringByType() + " AND ( competency:\"" + id + "\" OR competency:\"" + shortId() + "\"))";
+		query += " OR @encryptedType:\"" + EcLevel.myType + "\" OR @encryptedType:\"" + EcLevel.myType.replace(Cass.context + "/", "") + "\"";
 
 		final String competencyId = id;
 		final String shortId = shortId();
@@ -129,8 +130,7 @@ public class EcCompetency extends Competency
 						if (val.isAnEncrypted(EcLevel.myType))
 						{
 							EcRemoteLinkedData obj = val.decryptIntoObject();
-							if (JSObjectAdapter.$get(obj, "competency") != competencyId
-									&& JSObjectAdapter.$get(obj, "competency") != shortId)
+							if (JSObjectAdapter.$get(obj, "competency") != competencyId && JSObjectAdapter.$get(obj, "competency") != shortId)
 							{
 								return;
 							}
@@ -166,8 +166,7 @@ public class EcCompetency extends Competency
 							if (val.isAnEncrypted(EcLevel.myType))
 							{
 								EcRemoteLinkedData obj = val.decryptIntoObject();
-								if (JSObjectAdapter.$get(obj, "competency") != competencyId
-										&& JSObjectAdapter.$get(obj, "competency") != shortId)
+								if (JSObjectAdapter.$get(obj, "competency") != competencyId && JSObjectAdapter.$get(obj, "competency") != shortId)
 								{
 									continue;
 								}
@@ -181,6 +180,102 @@ public class EcCompetency extends Competency
 
 					if (successAll != null)
 						successAll.$invoke(levels);
+				}
+			}
+
+		}, failure);
+	}
+
+	public EcRollupRule addRollupRule(String name, String description, final EcPpk owner, final String server, Callback1<String> success,
+			Callback1<String> failure)
+	{
+		final EcRollupRule r = new EcRollupRule();
+		r.generateId(server);
+		r.competency = shortId();
+		r.description = description;
+		r.name = name;
+		r.addOwner(owner.toPk());
+
+		EcRepository.save(r, success, failure);
+
+		return r;
+	}
+
+	public void rollupRules(EcRepository repo, final Callback1<EcRollupRule> success, final Callback1<String> failure,
+			final Callback1<Array<EcRollupRule>> successAll)
+	{
+		String query = "(" + new EcRollupRule().getSearchStringByType() + " AND ( competency:\"" + id + "\" OR competency:\"" + shortId() + "\"))";
+		query += " OR @encryptedType:\"" + EcRollupRule.myType + "\" OR @encryptedType:\"" + EcRollupRule.myType.replace(Cass.context + "/", "") + "\"";
+
+		final String competencyId = id;
+		final String shortId = shortId();
+		repo.search(query, new Callback1<EcRemoteLinkedData>()
+		{
+			@Override
+			public void $invoke(EcRemoteLinkedData p1)
+			{
+				if (success != null)
+				{
+					EcRollupRule a = new EcRollupRule();
+					if (p1.isA(EcRollupRule.myType))
+					{
+						a.copyFrom(p1);
+					} else if (p1.isA(EcEncryptedValue.myType))
+					{
+						EcEncryptedValue val = new EcEncryptedValue();
+						val.copyFrom(p1);
+						if (val.isAnEncrypted(EcRollupRule.myType))
+						{
+							EcRemoteLinkedData obj = val.decryptIntoObject();
+							if (JSObjectAdapter.$get(obj, "competency") != competencyId && JSObjectAdapter.$get(obj, "competency") != shortId)
+							{
+								return;
+							}
+							a.copyFrom(obj);
+							a.privateEncrypted = true;
+						}
+					}
+
+					success.$invoke(a);
+				}
+			}
+		}, new Callback1<Array<EcRemoteLinkedData>>()
+		{
+			@Override
+			public void $invoke(Array<EcRemoteLinkedData> p1)
+			{
+				if (successAll != null)
+				{
+					Array<EcRollupRule> rollupRules = JSCollections.$array();
+
+					for (int i = 0; i < p1.$length(); i++)
+					{
+						EcRollupRule a = new EcRollupRule();
+
+						if (p1.$get(i).isA(EcRollupRule.myType))
+						{
+							a.copyFrom(p1.$get(i));
+						} else if (p1.$get(i).isA(EcEncryptedValue.myType))
+						{
+							EcEncryptedValue val = new EcEncryptedValue();
+							val.copyFrom(p1.$get(i));
+							if (val.isAnEncrypted(EcRollupRule.myType))
+							{
+								EcRemoteLinkedData obj = val.decryptIntoObject();
+								if (JSObjectAdapter.$get(obj, "competency") != competencyId && JSObjectAdapter.$get(obj, "competency") != shortId)
+								{
+									continue;
+								}
+								a.copyFrom(obj);
+								a.privateEncrypted = true;
+							}
+						}
+
+						rollupRules.$set(i, a);
+					}
+
+					if (successAll != null)
+						successAll.$invoke(rollupRules);
 				}
 			}
 
@@ -386,8 +481,7 @@ public class EcCompetency extends Competency
 		}
 	}
 
-	public static void search(EcRepository repo, String query, final Callback1<Array<EcCompetency>> success,
-			Callback1<String> failure, Object paramObj)
+	public static void search(EcRepository repo, String query, final Callback1<Array<EcCompetency>> success, Callback1<String> failure, Object paramObj)
 	{
 		String queryAdd = "";
 		queryAdd = new EcCompetency().getSearchStringByType();

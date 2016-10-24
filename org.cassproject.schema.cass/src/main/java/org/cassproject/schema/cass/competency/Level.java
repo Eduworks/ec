@@ -1,7 +1,6 @@
 package org.cassproject.schema.cass.competency;
 
 import org.cassproject.schema.cass.Cass;
-import org.schema.AlignmentObject;
 import org.schema.Thing;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSObjectAdapter;
@@ -15,7 +14,7 @@ public class Level extends Thing
 
 	public Level()
 	{
-		setContextAndType(Cass.context,myType);
+		setContextAndType(Cass.context, myType);
 	}
 
 	public String competency;
@@ -33,9 +32,10 @@ public class Level extends Thing
 			// @context. Whoops.
 			if (me.$get("@context") == null && me.$get("@schema") != null)
 				me.$put("@context", me.$get("@schema"));
-			setContextAndType(Cass.context_0_2,TYPE_0_2);
+			setContextAndType(Cass.context_0_2, TYPE_0_2);
 		}
 	}
+
 	@Override
 	public Array<String> getTypes()
 	{

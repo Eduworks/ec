@@ -11,12 +11,13 @@ public class RollupRule extends Thing
 
 	public RollupRule()
 	{
-		setContextAndType(Cass.context,myType);
+		setContextAndType(Cass.context, myType);
 	}
 
 	public String rule;
+	public String outcome;
 	public String competency;
-	public String language;
+	public String mime;
 
 	@Override
 	protected void upgrade()
