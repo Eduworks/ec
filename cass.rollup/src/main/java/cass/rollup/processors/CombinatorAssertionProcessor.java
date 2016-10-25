@@ -13,8 +13,8 @@ import org.stjs.javascript.functions.Callback1;
 import com.eduworks.ec.crypto.EcPk;
 
 import cass.rollup.InquiryPacket;
-import cass.rollup.RelationshipPacketGenerator;
 import cass.rollup.InquiryPacket.IPType;
+import cass.rollup.RelationshipPacketGenerator;
 import cass.rollup.rule.RollupRuleInterface;
 import cass.rollup.rule.RollupRuleProcessor;
 
@@ -37,8 +37,7 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor
 				{
 					log(ip, "Assertion is made for a future date.");
 					return;
-				}
-				else if (a.getExpirationDate() <= (long) new Date().getTime())
+				} else if (a.getExpirationDate() <= (long) new Date().getTime())
 				{
 					log(ip, "Assertion is expired. Skipping.");
 					return;
@@ -48,8 +47,7 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor
 				{
 					log(ip, "Found valid negative assertion");
 					ip.negative.push(a);
-				}
-				else
+				} else
 				{
 					log(ip, "Found valid positive assertion");
 					ip.positive.push(a);
@@ -82,13 +80,41 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor
 		for (int i = 0; i < repositories.$length(); i++)
 		{
 			EcRepository currentRepository = repositories.$get(i);
-			ip.numberOfQueriesRunning++;
-			log(ip, "Searching: " + currentRepository.selectedServer);
+			if (IPType.COMPETENCY.equals(ip.type))
+				log(ip, "Searching: " + currentRepository.selectedServer);
 			for (int h = 0; h < ip.competency.$length(); h++)
 			{
+				ip.numberOfQueriesRunning++;
 				EcCompetency competency = ip.competency.$get(h);
 				log(ip, "Querying repositories for subject assertions on competency: " + competency.id);
 				currentRepository.search(buildAssertionSearchQuery(ip, competency), new Callback1<EcRemoteLinkedData>()
+				{
+					@Override
+					public void $invoke(EcRemoteLinkedData p1)
+					{
+						ep.processFoundAssertion(p1, ip);
+					}
+				}, new Callback1<Array<EcRemoteLinkedData>>()
+				{
+					@Override
+					public void $invoke(Array<EcRemoteLinkedData> p1)
+					{
+						ep.processFindAssertionsSuccess(p1, ip);
+					}
+				}, new Callback1<String>()
+				{
+					@Override
+					public void $invoke(String p1)
+					{
+						ep.processEventFailure(p1, ip);
+					}
+				});
+			}
+			if (IPType.ROLLUPRULE.equals(ip.type))
+			{
+				ip.numberOfQueriesRunning++;
+				log(ip, "Searching: " + currentRepository.selectedServer);
+				currentRepository.search(buildAssertionSearchQuery(ip, null), new Callback1<EcRemoteLinkedData>()
 				{
 					@Override
 					public void $invoke(EcRemoteLinkedData p1)
@@ -118,7 +144,7 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor
 	{
 		ip.hasCheckedRelationshipsForCompetency = true;
 
-		if (!IPType.COMPETENCY.equals(ip.type) && !IPType.ROLLUPRULE.equals(ip.type))
+		if (!IPType.COMPETENCY.equals(ip.type))
 		{
 			log(ip, "No relationships for combinator types");
 			checkStep(ip);
@@ -156,9 +182,12 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor
 		// checks is messed up
 		// Things like this will fail [(competency:Addition1 OR
 		// competency:Addition2) AND confidence>0.6]
-		if (!ip.hasId(rr.competency))
-			return;
 		final AssertionProcessor ep = this;
+		if (!ip.hasId(rr.competency))
+		{
+			ep.processRollupRuleInterpretSkipped(ip);
+			return;
+		}
 		log(ip, "Found rollup rule: " + rr.rule);
 		RollupRuleProcessor rrp = new RollupRuleProcessor(ip, this);
 		rrp.positive = ip.positive;

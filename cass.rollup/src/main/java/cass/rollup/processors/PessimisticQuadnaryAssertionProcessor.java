@@ -200,7 +200,7 @@ public class PessimisticQuadnaryAssertionProcessor extends CombinatorAssertionPr
 	 * ELSE INDETERMINANT
 	 * 
 	 */
-	private void determineCompetencyRollupRuleResult(InquiryPacket ip)
+	private void determineCompetencyOrRollupRuleResult(InquiryPacket ip)
 	{
 		ResultType assertionResult = getPacketAssertionResult(ip);
 		if (ResultType.INDETERMINANT.equals(assertionResult) || ip.anyIndeterminantChildPackets())
@@ -230,7 +230,7 @@ public class PessimisticQuadnaryAssertionProcessor extends CombinatorAssertionPr
 			else if (IPType.RELATION_ISREQUIREDBY.equals(ip.type))
 				determineCombinatorIsRequiredByResult(ip);
 			else
-				determineCompetencyRollupRuleResult(ip);
+				determineCompetencyOrRollupRuleResult(ip);
 		}
 		else
 		{

@@ -15,7 +15,7 @@ LOGICAL_OPERATOR : 'AND' | 'OR'
 	;
 MATH_OPERATOR : '+' | '-' | '*' | '/'
 	;
-QUANTATIVE_OPERATOR : '=' | ':' | '<' | '>' | '<=' | '>=' | '!='
+QUANTATIVE_OPERATOR : ':<' | ':>' | ':<=' | ':>=' | ':!=' | ':' 
 	;
 WS : (' '|'\t'|'\r'|'\n')+
 	;
@@ -36,7 +36,7 @@ token : cNumber=NUMBER | query | cBoolean=BOOLEAN
 	;
 query : LEFT_BRACE WS? cQuery=innerquery WS? RIGHT_BRACE
 	;
-innerquery : cKey=KEY WS? cOperator=QUANTATIVE_OPERATOR WS? (cValue=VALUE|cNumber=NUMBER) WS? (cLogic=LOGICAL_OPERATOR WS? innerquery)*
+innerquery : cKey=KEY cOperator=QUANTATIVE_OPERATOR WS? (cValue=VALUE|cNumber=NUMBER) WS? (cLogic=LOGICAL_OPERATOR WS? innerquery)*
 	;
 logical_or_math_operator : cLogic=LOGICAL_OPERATOR | cMath=MATH_OPERATOR
 	;

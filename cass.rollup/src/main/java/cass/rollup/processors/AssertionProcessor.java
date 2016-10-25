@@ -67,18 +67,15 @@ public abstract class AssertionProcessor
 			{
 				findSubjectAssertionsForCompetency(ip);
 				return true;
-			}
-			else if (!ip.hasCheckedRelationshipsForCompetency)
+			} else if (!ip.hasCheckedRelationshipsForCompetency)
 			{
 				findCompetencyRelationships(ip);
 				return true;
-			}
-			else if (!ip.hasCheckedRollupRulesForCompetency)
+			} else if (!ip.hasCheckedRollupRulesForCompetency)
 			{
 				findRollupRulesForCompetency(ip);
 				return true;
-			}
-			else
+			} else
 			{
 				ip.finished = true;
 			}
@@ -191,10 +188,17 @@ public abstract class AssertionProcessor
 		checkStep(ip);
 	}
 
+	protected void processRollupRuleInterpretSkipped(InquiryPacket ip)
+	{
+		log(ip, "Rollup rule skipped.");
+		ip.numberOfQueriesRunning--;
+		checkStep(ip);
+	}
+
 	private void findRollupRulesForCompetency(final InquiryPacket ip)
 	{
 		ip.hasCheckedRollupRulesForCompetency = true;
-		if (!IPType.COMPETENCY.equals(ip.type) && !IPType.ROLLUPRULE.equals(ip.type))
+		if (!IPType.COMPETENCY.equals(ip.type))
 		{
 			log(ip, "No rollup rules for combinator types");
 			checkStep(ip);

@@ -12,7 +12,7 @@ import org.stjs.javascript.functions.Callback1;
 
 public class EcFramework extends Framework
 {
-	
+
 	public void addCompetency(String id)
 	{
 		id = trimVersionFromUrl(id);
@@ -26,7 +26,7 @@ public class EcFramework extends Framework
 
 	static Map<String, Boolean> relDone = JSCollections.$map();
 	static Map<String, Boolean> levelDone = JSCollections.$map();
-			
+
 	public void removeCompetency(final String id, final Callback1<String> success, final Callback1<String> failure)
 	{
 		final String shortId = trimVersionFromUrl(id);
@@ -36,43 +36,52 @@ public class EcFramework extends Framework
 			if (competency.$get(i).equals(shortId) || competency.$get(i).equals(id))
 				competency.splice(i, 1);
 		if (relation == null && level == null)
-			if(success != null)
+			if (success != null)
 				success.$invoke("");
-		
+
 		relDone.$put(id, false);
 		levelDone.$put(id, false);
 
 		if (relation != null)
 		{
-			removeRelationshipsThatInclude(id, 0, new Callback1<String>() {
+			removeRelationshipsThatInclude(id, 0, new Callback1<String>()
+			{
 				@Override
-				public void $invoke(String p1) {
-					if(levelDone.$get(id)){
-						if(success != null)
+				public void $invoke(String p1)
+				{
+					if (levelDone.$get(id))
+					{
+						if (success != null)
 							success.$invoke(p1);
-					}else{
+					} else
+					{
 						relDone.$put(id, true);
 					}
 				}
 			}, failure);
-		}else{
+		} else
+		{
 			relDone.$put(id, true);
 		}
 		if (level != null)
 		{
-			removeLevelsThatInclude(id, 0, new Callback1<String>() {
+			removeLevelsThatInclude(id, 0, new Callback1<String>()
+			{
 				@Override
-				public void $invoke(String p1) {
-					if(relDone.$get(id)){
-						if(success != null)
+				public void $invoke(String p1)
+				{
+					if (relDone.$get(id))
+					{
+						if (success != null)
 							success.$invoke(p1);
-					}else{
+					} else
+					{
 						levelDone.$put(id, true);
 					}
 				}
 			}, failure);
-		}
-		else{
+		} else
+		{
 			levelDone.$put(id, true);
 		}
 	}
@@ -95,15 +104,14 @@ public class EcFramework extends Framework
 					{
 						me.relation.splice(i, 1);
 						me.removeRelationshipsThatInclude(id, i, success, failure);
-					}
-					else
+					} else
 						me.removeRelationshipsThatInclude(id, i + 1, success, failure);
 				}
 			}, failure);
 	}
 
 	private void removeLevelsThatInclude(final String id, final int i, final Callback1<String> success, final Callback1<String> failure)
-	{ 
+	{
 		final String shortId = trimVersionFromUrl(id);
 		final EcFramework me = this;
 		if (i >= level.$length() && success != null)
@@ -120,8 +128,7 @@ public class EcFramework extends Framework
 					{
 						me.level.splice(i, 1);
 						me.removeLevelsThatInclude(id, i, success, failure);
-					}
-					else
+					} else
 						me.removeLevelsThatInclude(id, i + 1, success, failure);
 				}
 			}, failure);
@@ -147,7 +154,7 @@ public class EcFramework extends Framework
 			if (relation.$get(i).equals(id))
 				relation.splice(i, 1);
 	}
-	
+
 	public void addLevel(String id)
 	{
 		id = trimVersionFromUrl(id);
@@ -168,13 +175,35 @@ public class EcFramework extends Framework
 			if (level.$get(i).equals(id))
 				level.splice(i, 1);
 	}
+
+	public void addRollupRule(String id)
+	{
+		id = trimVersionFromUrl(id);
+		if (rollupRule == null)
+			rollupRule = new Array<String>();
+		for (int i = 0; i < rollupRule.$length(); i++)
+			if (rollupRule.$get(i).equals(id))
+				return;
+		rollupRule.push(id);
+	}
+
+	public void removeRollupRule(String id)
+	{
+		id = trimVersionFromUrl(id);
+		if (rollupRule == null)
+			rollupRule = new Array<String>();
+		for (int i = 0; i < rollupRule.$length(); i++)
+			if (rollupRule.$get(i).equals(id))
+				rollupRule.splice(i, 1);
+	}
+
 	public void save(Callback1<String> success, Callback1<String> failure)
 	{
-		if(this.name == null || this.name == "")
+		if (this.name == null || this.name == "")
 		{
 			String msg = "Framework Name Cannot be Empty";
-			
-			if(failure != null)
+
+			if (failure != null)
 				failure.$invoke(msg);
 			else
 				Global.console.error(msg);
@@ -189,14 +218,14 @@ public class EcFramework extends Framework
 		{
 			EcRepository._save(this, success, failure);
 		}
-		
+
 	}
-	
+
 	public void _delete(Callback1<String> success, Callback1<String> failure)
 	{
 		EcRepository.DELETE(this, success, failure);
 	}
-	
+
 	public static void get(String id, final Callback1<EcFramework> success, final Callback1<String> failure)
 	{
 		EcRepository.get(id, new Callback1<EcRemoteLinkedData>()
@@ -205,23 +234,22 @@ public class EcFramework extends Framework
 			public void $invoke(EcRemoteLinkedData p1)
 			{
 				EcFramework framework = new EcFramework();
-				
+
 				if (p1.isA(EcEncryptedValue.myType))
 				{
 					EcEncryptedValue encrypted = new EcEncryptedValue();
 					encrypted.copyFrom(p1);
 					p1 = encrypted.decryptIntoObject();
-					
+
 					p1.privateEncrypted = true;
 				}
 				if (p1.isAny(framework.getTypes()))
 				{
 					framework.copyFrom(p1);
-					
-					if(success != null)
+
+					if (success != null)
 						success.$invoke(framework);
-				}
-				else
+				} else
 				{
 					String msg = "Resultant object is not a framework.";
 					if (failure != null)
@@ -229,7 +257,7 @@ public class EcFramework extends Framework
 					else
 						Global.console.error(msg);
 				}
-				
+
 			}
 		}, new Callback1<String>()
 		{
@@ -241,8 +269,9 @@ public class EcFramework extends Framework
 			}
 		});
 	}
-	
-	public static void search(EcRepository repo, String query, final Callback1<Array<EcFramework>> success, Callback1<String> failure, Object paramObj){
+
+	public static void search(EcRepository repo, String query, final Callback1<Array<EcFramework>> success, Callback1<String> failure, Object paramObj)
+	{
 		String queryAdd = "";
 		queryAdd = new EcFramework().getSearchStringByType();
 
@@ -250,36 +279,42 @@ public class EcFramework extends Framework
 			query = queryAdd;
 		else
 			query = "(" + query + ") AND " + queryAdd;
-		
-		repo.searchWithParams(query, paramObj, null, new Callback1<Array<EcRemoteLinkedData>>(){
+
+		repo.searchWithParams(query, paramObj, null, new Callback1<Array<EcRemoteLinkedData>>()
+		{
 
 			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1) {
-				if(success != null)
+			public void $invoke(Array<EcRemoteLinkedData> p1)
+			{
+				if (success != null)
 				{
 					Array<EcFramework> ret = JSCollections.$array();
-					for(int i = 0; i < p1.$length(); i++){
-						
+					for (int i = 0; i < p1.$length(); i++)
+					{
+
 						EcFramework framework = new EcFramework();
-						if(p1.$get(i).isAny(framework.getTypes())){
+						if (p1.$get(i).isAny(framework.getTypes()))
+						{
 							framework.copyFrom(p1.$get(i));
-						}else if(p1.$get(i).isA(EcEncryptedValue.myType)){
+						} else if (p1.$get(i).isA(EcEncryptedValue.myType))
+						{
 							EcEncryptedValue val = new EcEncryptedValue();
 							val.copyFrom(p1.$get(i));
-							if(val.isAnEncrypted(EcFramework.myType)){
+							if (val.isAnEncrypted(EcFramework.myType))
+							{
 								EcRemoteLinkedData obj = val.decryptIntoObject();
 								framework.copyFrom(obj);
 								framework.privateEncrypted = true;
 							}
 						}
-						
+
 						ret.$set(i, framework);
 					}
-					
+
 					success.$invoke(ret);
 				}
 			}
-			
+
 		}, failure);
 	}
 }
