@@ -17,6 +17,7 @@ public class MedbiqImport extends Importer {
 
 	static Array<EcCompetency> medbiqXmlCompetencies;
      
+	private final static int INCREMENTAL_STEP = 5;
 	
     
     public static void medbiqXmlLookForCompetencyObject(Object obj)
@@ -65,6 +66,14 @@ public class MedbiqImport extends Importer {
 			return;
 		}
 		
+		if(JSObjectAdapter.$get(file, "name") == null){
+			failure.$invoke("Invalid file");
+			return;
+		}else if(!((String)JSObjectAdapter.$get(file, "name")).endsWith(".xml")){
+			failure.$invoke("Invalid file type");
+			return;
+		}
+		
 		FileReader reader = new FileReader();
 		
 		reader.onload = new Callback1<Object>() {
@@ -92,10 +101,13 @@ public class MedbiqImport extends Importer {
 		reader.readAsText(file);
 	}
 	
-	static int saved = 0;
+	static Object progressObject;
+	static int saved;
 	public static void importCompetencies(final String serverUrl, final EcIdentity owner,
-			final Callback1<Array<EcCompetency>> success, final Callback1<Object> failure)
+			final Callback1<Array<EcCompetency>> success, final Callback1<Object> failure, final Callback1<Object> incremental)
 	{
+		progressObject = null;
+		saved = 0;
 		for (int i = 0; i < medbiqXmlCompetencies.$length(); i++) {
 			EcCompetency comp = medbiqXmlCompetencies.$get(i);
 			
@@ -108,8 +120,25 @@ public class MedbiqImport extends Importer {
 				@Override
 				public void $invoke(String p1) {
 					saved++;
-					if(saved == medbiqXmlCompetencies.$length())
+					
+					if(saved % INCREMENTAL_STEP == 0){
+						if(progressObject == null)
+							progressObject = new Object();
+						
+						JSObjectAdapter.$put(progressObject, "competencies", saved);
+							
+						incremental.$invoke(progressObject);
+					}
+					
+					if(saved == medbiqXmlCompetencies.$length()){
+						if(progressObject == null)
+							progressObject = new Object();
+						
+						JSObjectAdapter.$put(progressObject, "competencies", saved);
+						incremental.$invoke(progressObject);
+						
 						success.$invoke(medbiqXmlCompetencies);
+					}
 				} 
 			}, new Callback1<String>(){
 				@Override

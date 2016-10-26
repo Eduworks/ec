@@ -18,9 +18,22 @@ import js.PapaParseParams;
 
 public class CSVImport
 {
+	private final static int INCREMENTAL_STEP = 5;
+	
 
 	public static void analyzeFile(Object file, final Callback1<Object> success, final Callback1<Object> failure)
 	{
+		if(file == null){
+			failure.$invoke("No file to analyze");	
+			return;
+		}
+		
+		if(JSObjectAdapter.$get(file, "name") == null){
+			failure.$invoke("Invalid file");
+		}else if(!((String)JSObjectAdapter.$get(file, "name")).endsWith(".csv")){
+			failure.$invoke("Invalid file type");
+		}
+		
 		Papa.parse(file, new PapaParseParams()
 		{
 			{
@@ -41,6 +54,8 @@ public class CSVImport
 	static Object importCsvLookup;
 	static int saved;
 
+	static Object progressObject;
+	
 	public static void transformId(String oldId, EcRemoteLinkedData newObject, String selectedServer)
 	{
 		if (oldId.indexOf("http") != -1)
@@ -68,8 +83,10 @@ public class CSVImport
 	public static void importCompetencies(Object file, final String serverUrl, final EcIdentity owner,
 			final Integer nameIndex, final Integer descriptionIndex, final Integer scopeIndex, final Integer idIndex,
 			final Object relations, final Integer sourceIndex, final Integer relationTypeIndex, final Integer destIndex,
-			final Callback2<Array<EcCompetency>, Array<EcAlignment>> success, final Callback1<Object> failure)
+			final Callback2<Array<EcCompetency>, Array<EcAlignment>> success, final Callback1<Object> failure,
+			final Callback1<Object> incremental)
 	{
+		progressObject = null;
 		importCsvLookup = new Object();
 		if (nameIndex < 0)
 		{
@@ -105,19 +122,19 @@ public class CSVImport
 								competency.scope = tabularData.$get(i).$get(scopeIndex);
 
 							String shortId = null;
-							if (idIndex != null)
+							if (idIndex != null && idIndex >= 0)
 							{
 								competency.id = tabularData.$get(i).$get(idIndex);
 								shortId = competency.shortId();
 							}
-							if (idIndex != null)
+							if (idIndex != null && idIndex >= 0)
 								transformId(tabularData.$get(i).$get(idIndex), competency, serverUrl);
 							else
 								competency.generateId(serverUrl);
-							if (idIndex != null)
+							if (idIndex != null && idIndex >= 0)
 								JSObjectAdapter.$put(importCsvLookup, tabularData.$get(i).$get(idIndex), competency.shortId());
 							JSObjectAdapter.$put(importCsvLookup, competency.name, competency.shortId());
-							if (shortId != null)
+							if (shortId != null && idIndex >= 0)
 								JSObjectAdapter.$put(importCsvLookup, shortId, competency.shortId());
 
 							if (owner != null)
@@ -136,13 +153,22 @@ public class CSVImport
 								{
 									saved++;
 
+									if(saved % INCREMENTAL_STEP == 0){
+										if(progressObject == null)
+											progressObject = new Object();
+										
+										JSObjectAdapter.$put(progressObject, "competencies", saved);
+											
+										incremental.$invoke(progressObject);
+									}
+									
 									if (saved == competencies.$length())
 									{
 										if (relations == null)
 											success.$invoke(competencies, new Array<EcAlignment>());
 										else
 											importRelations(serverUrl, owner, relations, sourceIndex, relationTypeIndex,
-													destIndex, competencies, success, failure);
+													destIndex, competencies, success, failure, incremental);
 									}
 								}
 
@@ -169,7 +195,7 @@ public class CSVImport
 	public static void importRelations(final String serverUrl, final EcIdentity owner, Object file,
 			final Integer sourceIndex, final Integer relationTypeIndex, final Integer destIndex,
 			final Array<EcCompetency> competencies, final Callback2<Array<EcCompetency>, Array<EcAlignment>> success,
-			final Callback1<Object> failure)
+			final Callback1<Object> failure, final Callback1<Object> incremental)
 	{
 		final Array<EcAlignment> relations = new Array<>();
 
@@ -229,6 +255,17 @@ public class CSVImport
 								{
 									saved++;
 
+									if(saved % INCREMENTAL_STEP == 0){
+										if(progressObject == null)
+											progressObject = new Object();
+										
+										JSObjectAdapter.$put(progressObject, "relations", saved);
+											
+										incremental.$invoke(progressObject);
+										
+										incremental.$invoke(saved);
+									}
+									
 									if (saved == relations.$length())
 									{
 										success.$invoke(competencies, relations);

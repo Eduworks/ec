@@ -9,6 +9,7 @@ import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
+import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback2;
 
@@ -16,10 +17,15 @@ import js.FileReader;
 
 public class ASNImport extends Importer{
 	
+	private final static int INCREMENTAL_STEP = 5;
+	
 	static Object jsonFramework;
 	static String frameworkUrl;
 	
 	static Map<String, Object> jsonCompetencies;
+	
+	static int competencyCount;
+	static int relationCount;
 	
 	public static void asnJsonPrime(Object obj, String key){
 		Object value = JSObjectAdapter.$get(obj, key);
@@ -29,9 +35,11 @@ public class ASNImport extends Importer{
 	        	Object stringVal = JSObjectAdapter.$get(JSObjectAdapter.$get(JSObjectAdapter.$get(value,"http://www.w3.org/1999/02/22-rdf-syntax-ns#type"), "0"), "value");
 	            if (stringVal == "http://purl.org/ASN/schema/core/Statement") {
 	            	jsonCompetencies.$put(key, value);
+	            	competencyCount++;
 	                Array<Object> children = (Array<Object>) JSObjectAdapter.$get(value, "http://purl.org/gem/qualifiers/hasChild");
 	                if (children != null)
 	                    for (int j = 0; j < children.$length(); j++) {
+	                    	relationCount++;
 	                        asnJsonPrime(obj, (String)JSObjectAdapter.$get(children.$get(j),"value"));
 	                    }
 	            }
@@ -41,6 +49,8 @@ public class ASNImport extends Importer{
 	
 	public static void lookThroughSource(Object obj)
 	{
+		competencyCount = 0;
+		relationCount = 0;
 		for (String key : JSObjectAdapter.$properties(obj)) {
 	        Object value = JSObjectAdapter.$get(obj, key);
 	        if (isObject(value)) {
@@ -64,7 +74,15 @@ public class ASNImport extends Importer{
 	{
 		if(file == null)
 		{
-			failure.$invoke("No File to Analyze");
+			failure.$invoke("No file to analyze");
+			return;
+		}
+		
+		if(JSObjectAdapter.$get(file, "name") == null){
+			failure.$invoke("Invalid file");
+			return;
+		}else if(!((String)JSObjectAdapter.$get(file, "name")).endsWith(".json")){
+			failure.$invoke("Invalid file type");
 			return;
 		}
 		
@@ -99,8 +117,10 @@ public class ASNImport extends Importer{
 	
 	static Map<String, EcCompetency> competencies;
 	
-	public static void importCompetencies(String serverUrl, EcIdentity owner, boolean createFramework,
-			final Callback2<Array<EcCompetency>, EcFramework> success, final Callback1<Object> failure)
+	static Object progressObject;
+	public static void importCompetencies(final String serverUrl, final EcIdentity owner, final boolean createFramework,
+			final Callback2<Array<EcCompetency>, EcFramework> success, final Callback1<Object> failure,
+			final Callback1<Object> incremental)
 	{
 		competencies = JSCollections.$map();
 		if(createFramework)
@@ -113,31 +133,40 @@ public class ASNImport extends Importer{
 		{
 			importedFramework = null;
 		}
-			
-		createCompetencies(serverUrl, owner, failure);
-		createRelationships(serverUrl, owner, jsonFramework, null, failure);
 		
+		progressObject = null;
 		
-		
-		
-		
-		if(createFramework){
-			createFramework(serverUrl, owner, success, failure);
-		}else{
-			Array<EcCompetency> compList = JSCollections.$array();
-			for(String key : competencies){
-				compList.push(competencies.$get(key));
+		createCompetencies(serverUrl, owner, new Callback0() {
+			@Override
+			public void $invoke() {
+				createRelationships(serverUrl, owner, jsonFramework, null, new Callback0() {
+					@Override
+					public void $invoke() {
+						if(createFramework){
+							createFramework(serverUrl, owner, success, failure);
+						}else{
+							Array<EcCompetency> compList = JSCollections.$array();
+							for(String key : competencies){
+								compList.push(competencies.$get(key));
+							}
+							
+							if(success != null)
+								success.$invoke(compList, null);
+						}
+					}
+				},failure, incremental);
 			}
-			
-			if(success != null)
-				success.$invoke(compList, null);
-		}
-		
+		}, failure, incremental);
 		
 	}
 	
-	public static void createCompetencies(String serverUrl, EcIdentity owner, final Callback1<Object> failure)
+	
+	static int savedCompetencies = 0;
+	public static void createCompetencies(String serverUrl, EcIdentity owner, final Callback0 success, 
+			final Callback1<Object> failure, final Callback1<Object> incremental)
 	{
+		savedCompetencies = 0;
+		
 		for (String key : jsonCompetencies) {
 	        EcCompetency comp = new EcCompetency();
 			Object jsonComp = jsonCompetencies.$get(key);
@@ -165,7 +194,26 @@ public class ASNImport extends Importer{
 			comp.save(new Callback1<String>() {
 				@Override
 				public void $invoke(String p1) {
+					savedCompetencies++;
 					
+					if(savedCompetencies % INCREMENTAL_STEP == 0){
+						if(progressObject == null)
+							progressObject = new Object();
+						
+						JSObjectAdapter.$put(progressObject, "competencies", savedCompetencies);
+							
+						incremental.$invoke(progressObject);
+					}
+					
+					if(savedCompetencies == competencyCount){
+						if(progressObject == null)
+							progressObject = new Object();
+						
+						JSObjectAdapter.$put(progressObject, "competencies", savedCompetencies);
+						incremental.$invoke(progressObject);
+						
+						success.$invoke();
+					}
 				}
 			}, new Callback1<String>() {
 				@Override
@@ -176,8 +224,16 @@ public class ASNImport extends Importer{
 	    }
 	}
 	
-	public static void createRelationships(String serverUrl, EcIdentity owner, Object node, String nodeId, final Callback1<Object> failure)
+	static int savedRelations = 0;
+	public static void createRelationships(String serverUrl, EcIdentity owner, Object node, String nodeId, 
+			final Callback0 success, final Callback1<Object> failure, final Callback1<Object> incremental)
 	{
+		savedRelations = 0;
+		
+		if(relationCount == 0){
+			success.$invoke();
+		}
+		
 	    Array<Object> children = (Array<Object>)JSObjectAdapter.$get(node, "http://purl.org/gem/qualifiers/hasChild");
 	    if (children != null)
 	        for (int j = 0; j < children.$length(); j++) {
@@ -201,7 +257,20 @@ public class ASNImport extends Importer{
 	            	relation.save(new Callback1<String>() {
 	            		@Override
 	            		public void $invoke(String p1) {
+	            			savedRelations++;
 	            			
+	            			if(savedRelations % INCREMENTAL_STEP == 0){
+	    						if(progressObject == null)
+	    							progressObject = new Object();
+	    						
+	    						JSObjectAdapter.$put(progressObject, "relations", savedRelations);
+	    							
+	    						incremental.$invoke(progressObject);
+	    					}
+	            			
+	            			if(savedRelations == relationCount){
+	            				success.$invoke();
+	            			}
 	            		}
 	            	}, new Callback1<String>() {
 	            		@Override
@@ -214,7 +283,7 @@ public class ASNImport extends Importer{
 	            createRelationships(serverUrl, owner, 
 	            		jsonCompetencies.$get( (String) JSObjectAdapter.$get(children.$get(j), "value") ),
 	            		(String) JSObjectAdapter.$get(children.$get(j), "value"),
-	            		failure
+	            		success, failure, incremental
 	            	);
 	        }
 	}
