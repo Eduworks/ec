@@ -108,6 +108,12 @@ public class CSVImport
 						for (int i = 1; i < tabularData.$length(); i++)
 						{
 							EcCompetency competency = new EcCompetency();
+							if(tabularData.$get(i).$length() == 0 || 
+									(tabularData.$get(i).$length() == 1 && 
+										(tabularData.$get(i).$get(0) == null || tabularData.$get(i).$get(0) == "")))
+							{
+								continue;
+							}
 							if (tabularData.$get(i).$get(nameIndex) == null
 									|| tabularData.$get(i).$get(nameIndex) == "")
 							{
