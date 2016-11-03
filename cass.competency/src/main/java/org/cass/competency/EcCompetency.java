@@ -20,16 +20,6 @@ import com.eduworks.ec.crypto.EcPpk;
  */
 public class EcCompetency extends Competency
 {
-	public static String RELATIONSHIP_TYPE_REQUIRES = "requires";
-	public static String RELATIONSHIP_TYPE_DESIRES = "desires";
-	public static String RELATIONSHIP_TYPE_IS_ENABLED_BY = "isEnabledBy";
-	public static String RELATIONSHIP_TYPE_IS_RELATED_TO = "isRelatedTo";
-	public static String RELATIONSHIP_TYPE_IS_EQUIVALENT_TO = "isEquivalentTo";
-
-	public static String RELATIONSHIP_TYPE_LEVEL_GREATER_THAN = "greaterThan";
-	public static String RELATIONSHIP_TYPE_LEVEL_IS_EQUIVALENT_TO = "isEquivalentTo";
-	public static String RELATIONSHIP_TYPE_LEVEL_OVERLAPS = "overlaps";
-
 	public EcAlignment addAlignment(EcCompetency target, final String alignmentType, final EcPpk owner, final String server, Callback1<String> success,
 			Callback1<String> failure)
 	{
