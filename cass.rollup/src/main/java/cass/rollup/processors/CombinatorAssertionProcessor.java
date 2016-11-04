@@ -33,15 +33,23 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor
 			if (a.getSubject().equals(currentSubject))
 			{
 				log(ip, "Matching Assertion found.");
-				if (a.getAssertionDate() > (long) new Date().getTime())
-				{
-					log(ip, "Assertion is made for a future date.");
-					return;
-				} else if (a.getExpirationDate() <= (long) new Date().getTime())
-				{
-					log(ip, "Assertion is expired. Skipping.");
-					return;
-				}
+				Long assertionDate = a.getAssertionDate();
+				if (assertionDate != null)
+					if (assertionDate > (long) new Date().getTime())
+					{
+						log(ip, "Assertion is made for a future date.");
+						return;
+					} else
+					{
+						Long expirationDate = a.getExpirationDate();
+						if (expirationDate != null)
+
+							if (expirationDate <= (long) new Date().getTime())
+							{
+								log(ip, "Assertion is expired. Skipping.");
+								return;
+							}
+					}
 				logFoundAssertion(a, ip);
 				if (a.getNegative())
 				{

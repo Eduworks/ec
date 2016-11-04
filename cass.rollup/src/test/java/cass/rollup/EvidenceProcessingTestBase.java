@@ -14,9 +14,9 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.Date;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Function1;
 import org.stjs.testing.annotation.ScriptsBefore;
 
-import com.eduworks.ec.callback.EcCallbackReturn1;
 import com.eduworks.ec.crypto.EcPk;
 import com.eduworks.ec.crypto.EcPpk;
 import com.eduworks.ec.remote.EcRemote;
@@ -32,7 +32,7 @@ public class EvidenceProcessingTestBase
 	EcIdentity newId1;
 	protected Callback1<String> failure;
 	protected Callback1<Object> logObject;
-	protected EcCallbackReturn1 ask;
+	public Function1<String, String> ask;
 
 	@Before
 	public void setup()
@@ -55,10 +55,10 @@ public class EvidenceProcessingTestBase
 				Global.console.log(p1);
 			}
 		};
-		ask = new EcCallbackReturn1()
+		ask = new Function1<String, String>()
 		{
 			@Override
-			public String callback(Object param1)
+			public String $invoke(String param1)
 			{
 				Global.console.log(param1);
 				return null;
@@ -159,21 +159,20 @@ public class EvidenceProcessingTestBase
 
 		return r;
 	}
-	
+
 	protected void performTest(EcFramework context, EcCompetency target, Callback1<InquiryPacket> isTest)
 	{
 		PessimisticQuadnaryAssertionProcessor ep = new PessimisticQuadnaryAssertionProcessor();
 		ep.logFunction = logObject;
 		ep.repositories.push(repo);
-		
+
 		Array<EcPk> subject = new Array<>();
 		subject.push(EcIdentityManager.ids.$get(0).ppk.toPk());
-		
+
 		Array<EbacSignature> additionalSignatures = null;
-		
+
 		ep.has(subject, target, null, context, additionalSignatures, isTest, ask, failure);
 	}
-	
 
 	protected EcFramework newFramework(String frameworkName)
 	{

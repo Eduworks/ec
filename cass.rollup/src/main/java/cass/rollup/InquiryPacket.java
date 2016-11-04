@@ -7,8 +7,8 @@ import org.cass.profile.EcAssertion;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Date;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Function1;
 
-import com.eduworks.ec.callback.EcCallbackReturn1;
 import com.eduworks.ec.crypto.EcPk;
 
 public class InquiryPacket
@@ -27,7 +27,7 @@ public class InquiryPacket
 	public Array<EcCompetency> competency;
 	public EcFramework context;
 	public Callback1<InquiryPacket> success;
-	public EcCallbackReturn1<String> ask;
+	public Function1<String, String> ask;
 	public Callback1<String> failure;
 	public EcLevel level;
 

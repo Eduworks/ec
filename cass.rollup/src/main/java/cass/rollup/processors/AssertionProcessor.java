@@ -10,8 +10,8 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Function1;
 
-import com.eduworks.ec.callback.EcCallbackReturn1;
 import com.eduworks.ec.crypto.EcPk;
 import com.eduworks.schema.ebac.EbacSignature;
 
@@ -42,7 +42,7 @@ public abstract class AssertionProcessor
 	}
 
 	public void has(Array<EcPk> subject, EcCompetency competency, EcLevel level, EcFramework context, Array<EbacSignature> additionalSignatures,
-			Callback1<InquiryPacket> success, EcCallbackReturn1<String> ask, Callback1<String> failure)
+			Callback1<InquiryPacket> success, Function1<String, String> ask, Callback1<String> failure)
 	{
 		InquiryPacket ip = new InquiryPacket(subject, competency, level, context, success, failure, null, IPType.COMPETENCY);
 		processedEquivalencies = JSCollections.$map();

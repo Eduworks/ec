@@ -7,8 +7,8 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Function0;
 
-import com.eduworks.ec.callback.EcCallbackReturn0;
 import com.eduworks.ec.remote.EcRemote;
 import com.eduworks.ec.remote.FormData;
 import com.eduworks.schema.ebac.EbacContact;
@@ -152,7 +152,7 @@ public class EcRemoteIdentityManager
 					return;
 				}
 				me.configured = true;
-				if(success != null)
+				if (success != null)
 					success.$invoke(p1);
 			}
 		}, new Callback1<String>()
@@ -161,7 +161,7 @@ public class EcRemoteIdentityManager
 			public void $invoke(String p1)
 			{
 				me.configured = false;
-				if(failure != null)
+				if (failure != null)
 					failure.$invoke(p1);
 				else
 					Global.console.error(p1);
@@ -333,7 +333,7 @@ public class EcRemoteIdentityManager
 	 * @param failure
 	 * @param padGenerationCallback
 	 */
-	public void commit(final Callback1<String> success, final Callback1<String> failure, EcCallbackReturn0 padGenerationCallback)
+	public void commit(final Callback1<String> success, final Callback1<String> failure, Function0<String> padGenerationCallback)
 	{
 		String service = "sky/id/commit";
 		sendCredentials(success, failure, padGenerationCallback, service);
@@ -353,13 +353,14 @@ public class EcRemoteIdentityManager
 	 * @param failure
 	 * @param padGenerationCallback
 	 */
-	public void create(final Callback1<String> success, final Callback1<String> failure, EcCallbackReturn0 padGenerationCallback)
+	public void create(final Callback1<String> success, final Callback1<String> failure, Function0<String> padGenerationCallback)
 	{
 		String service = "sky/id/create";
 		sendCredentials(success, failure, padGenerationCallback, service);
 	}
 
-	private void sendCredentials(final Callback1<String> success, final Callback1<String> failure, EcCallbackReturn0 padGenerationCallback, final String service)
+	private void sendCredentials(final Callback1<String> success, final Callback1<String> failure, Function0<String> padGenerationCallback,
+			final String service)
 	{
 		if (!configured)
 			Global.alert("Remote Identity not configured.");
@@ -372,7 +373,7 @@ public class EcRemoteIdentityManager
 		Array<EbacCredential> credentials = new Array<EbacCredential>();
 		Array<EbacContact> contacts = new Array<EbacContact>();
 		if (pad == null && padGenerationCallback != null)
-			pad = padGenerationCallback.callback();
+			pad = padGenerationCallback.$invoke();
 
 		for (int i = 0; i < EcIdentityManager.ids.$length(); i++)
 		{
@@ -462,8 +463,7 @@ public class EcRemoteIdentityManager
 		if (server.endsWith("/"))
 		{
 			service = "sky/admin";
-		}
-		else
+		} else
 		{
 			service = "/sky/admin";
 		}
