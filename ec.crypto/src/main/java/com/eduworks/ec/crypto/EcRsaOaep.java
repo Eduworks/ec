@@ -4,18 +4,54 @@ import forge.sha1;
 import forge.sha256;
 import forge.util;
 
+/**
+ * Helper methods for performing RSA Encryption methods. 
+ * Uses Optimal Asymmetric Encryption Padding (OAEP) encryption and decryption.
+ * Uses RSA SSA PKCS#1 v1.5 (RSASSA-PKCS1-V1_5) signing and verifying with UTF8 encoding.
+ * @author fritz.ray@eduworks.com
+ * @class EcRsaOaep
+ *
+ */
 public class EcRsaOaep
 {
-	public static String encrypt(EcPk pk, String text)
+	/**
+	 * Encrypts a block of plaintext (no more than 256 bytes) with a public key using RSA OAEP encryption.
+	 * Returns a base64 encoded ciphertext.
+	 * @method encrypt
+	 * @static
+	 * @param {EcPk} pk Public Key.
+	 * @param {string} plaintext Plaintext. Does not perform encoding.
+	 */
+	public static String encrypt(EcPk pk, String plaintext)
 	{
-		return forge.util.encode64(pk.pk.encrypt(text, "RSA-OAEP"));
+		return forge.util.encode64(pk.pk.encrypt(plaintext, "RSA-OAEP"));
 	}
 
-	public static String decrypt(EcPpk ppk, String text)
+	/**
+	 * Decrypts a block of ciphertext (no more than 256 bytes) with a private key using RSA OAEP encryption.
+	 * Returns a unencoded plaintext.
+	 * @method decrypt
+	 * @static
+	 * @param {EcPpk} ppk Public private keypair.
+	 * @param {string} ciphertext Ciphertext.
+	 * @return {string} Unencoded plaintext.
+	 */
+	public static String decrypt(EcPpk ppk, String ciphertext)
 	{
-		return ppk.ppk.decrypt(forge.util.decode64(text), "RSA-OAEP");
+		return ppk.ppk.decrypt(forge.util.decode64(ciphertext), "RSA-OAEP");
 	}
 
+	/**
+	 * Creates a signature for the provided text using the public private keypair.
+	 * May be verified with the public key.
+	 * Uses SHA1 hash with a UTF8 decoding of the text.
+	 * Returns base64 encoded signature.
+	 * @method sign
+	 * @static
+	 * @param {EcPpk} ppk Public private keypair.
+	 * @param {string} text Text to sign.
+	 * @return Base64 encoded signature.
+	 */
 	public static String sign(EcPpk ppk, String text)
 	{
 		sha1 s = sha1.create();
@@ -23,6 +59,17 @@ public class EcRsaOaep
 		return util.encode64(ppk.ppk.sign(s));
 	}
 
+	/**
+	 * Creates a signature for the provided text using the public private keypair.
+	 * May be verified with the public key.
+	 * Uses SHA256 hash with a UTF8 decoding of the text.
+	 * Returns base64 encoded signature.
+	 * @method sign
+	 * @static
+	 * @param {EcPpk} ppk Public private keypair.
+	 * @param {string} text Text to sign.
+	 * @return Base64 encoded signature.
+	 */
 	public static String signSha256(EcPpk ppk, String text)
 	{
 		sha256 s = sha256.create();
@@ -30,6 +77,14 @@ public class EcRsaOaep
 		return util.encode64(ppk.ppk.sign(s));
 	}
 
+	/**
+	 * Verifies the integrity of the provided text using a signature and a public key.
+	 * Uses SHA1 hash with a UTF8 decoding of the text.
+	 * @param {EcPk} pk Public key.
+	 * @param {string} text Text to verify.
+	 * @param {string} signature Base64 encoded signature.
+	 * @return True IFF the signature is valid.
+	 */
 	public static Boolean verify(EcPk pk, String text, String signature)
 	{
 		sha1 s = sha1.create();
@@ -37,8 +92,7 @@ public class EcRsaOaep
 		try
 		{
 			return pk.verify(s.digest().bytes(), util.decode64(signature));
-		}
-		catch (Exception ex)
+		} catch (Exception ex)
 		{
 			return false;
 		}

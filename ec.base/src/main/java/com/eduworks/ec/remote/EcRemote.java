@@ -8,21 +8,57 @@ import org.stjs.javascript.Global;
 import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
-import org.stjs.javascript.Window;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback3;
 import org.stjs.javascript.jquery.AjaxParams;
 import org.stjs.javascript.jquery.JQueryXHR;
 
+/**
+ * Wrapper to handle all remote web service invocations.
+ * @class EcRemote
+ * @author fritz.ray@eduworks.com
+ * @author devlin.junker@eduworks.com
+ *
+ */
 public class EcRemote
 {
+	/**
+	 * Turn this property off to cause all remote web service calls to be synchronous. Can be useful for test scripts, blocking calls, etc.
+	 * @property async
+	 * @static
+	 * @type boolean
+	 */
 	public static boolean async = true;
 
+	/**
+	 * POSTs a request to a remote endpoint. 
+	 * Composed of a server endpoint (root URL) and a service (service path).
+	 * Sends form data as a multi-part mime request.
+	 * @method postExpectingObject
+	 * @static
+	 * @param {string} server Protocol, hostname and path to the remote handler.
+	 * @param {string} service Path to service to invoke.
+	 * @param {FormData} fd Form data to send as multi-part mime.
+	 * @param {function(object)} success Method that is invoked if the server responds with a success (per jQuery ajax)
+	 * @param {function(string)} failure Method that is invoked if the server responds with an error (per jQuery ajax) or a non-200/300.
+	 */
 	public static void postExpectingObject(String server, String service, FormData fd, final Callback1<Object> success, final Callback1<String> failure)
 	{
 		postInner(server, service, fd, getSuccessJSONCallback(success, failure), getFailureCallback(failure));
 	}
 
+	/**
+	 * POSTs a request to a remote endpoint. 
+	 * Composed of a server endpoint (root URL) and a service (service path).
+	 * Sends form data as a multi-part mime request.
+	 * @method postExpectingString
+	 * @static
+	 * @param {string} server Protocol, hostname and path to the remote handler.
+	 * @param {string} service Path to service to invoke.
+	 * @param {FormData} fd Form data to send as multi-part mime.
+	 * @param {function(string)} success Method that is invoked if the server responds with a success (per jQuery ajax)
+	 * @param {function(string)} failure Method that is invoked if the server responds with an error (per jQuery ajax) or a non-200/300.
+	 */
 	public static void postExpectingString(String server, String service, FormData fd, final Callback1<String> success, final Callback1<String> failure)
 	{
 		postInner(server, service, fd, getSuccessCallback(success, failure), getFailureCallback(failure));
@@ -77,6 +113,16 @@ public class EcRemote
 		$.ajax(p);
 	}
 
+	/**
+	 * GETs something from a remote endpoint. 
+	 * Composed of a server endpoint (root URL) and a service (service path).
+	 * @method postExpectingString
+	 * @static
+	 * @param {string} server Protocol, hostname and path to the remote handler.
+	 * @param {string} service Path to service to invoke.
+	 * @param {function(object)} success Method that is invoked if the server responds with a success (per jQuery ajax)
+	 * @param {function(string)} failure Method that is invoked if the server responds with an error (per jQuery ajax) or a non-200/300.
+	 */
 	public static void getExpectingObject(String server, String service, final Callback1<Object> success, final Callback1<String> failure)
 	{
 		String url = server;
@@ -91,7 +137,7 @@ public class EcRemote
 		p.cache = false;
 		p.async = async;
 		p.processData = false;
-		
+
 		p.dataType = "json";
 
 		p.success = getSuccessJSONCallback(success, failure);
@@ -101,6 +147,16 @@ public class EcRemote
 		$.ajax(p);
 	}
 
+	/**
+	 * DELETEs something at a remote endpoint. 
+	 * Composed of a server endpoint (root URL) and a service (service path).
+	 * @method _delete
+	 * @static
+	 * @param {string} server Protocol, hostname and path to the remote handler.
+	 * @param {string} service Path to service to invoke.
+	 * @param {function(object)} success Method that is invoked if the server responds with a success (per jQuery ajax)
+	 * @param {function(string)} failure Method that is invoked if the server responds with an error (per jQuery ajax) or a non-200/300.
+	 */
 	public static void _delete(String url, String signatureSheet, final Callback1<String> success, final Callback1<String> failure)
 	{
 		AjaxParams p = new AjaxParams();

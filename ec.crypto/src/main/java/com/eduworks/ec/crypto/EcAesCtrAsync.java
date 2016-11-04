@@ -12,6 +12,12 @@ import org.stjs.javascript.worker.WorkerGlobalScope;
 
 import com.eduworks.ec.remote.EcRemote;
 
+/**
+ * Asynchronous implementation of {{#crossLink "EcAesCtr"}}EcAesCtr{{/crossLink}}. Uses web workers and assumes 8 workers.
+ * @class EcAesCtrAsync
+ * @author fritz.ray@eduworks.com
+ *
+ */
 public class EcAesCtrAsync
 {
 	static int rotator;
@@ -19,7 +25,7 @@ public class EcAesCtrAsync
 	static Array<Array<Callback1>> q1;
 	static Array<Array<Callback1>> q2;
 
-	public static void initWorker()
+	private static void initWorker()
 	{
 		if (JSGlobal.typeof(WorkerGlobalScope.self).equals("undefined"))
 			return;
@@ -31,7 +37,7 @@ public class EcAesCtrAsync
 		q1 = new Array<>();
 		q2 = new Array<>();
 		w = new Array<>();
-		for (int index = 0;index < 8;index++)
+		for (int index = 0; index < 8; index++)
 		{
 			createWorker(index);
 		}
@@ -42,7 +48,7 @@ public class EcAesCtrAsync
 		q1.push(new Array<Callback1>());
 		q2.push(new Array<Callback1>());
 		Worker<Object> wkr;
-		w.push(wkr=new Worker<Object>(JSObjectAdapter.$get(Global.window, "scriptPath") + "forgeAsync.js"));
+		w.push(wkr = new Worker<Object>(JSObjectAdapter.$get(Global.window, "scriptPath") + "forgeAsync.js"));
 		wkr.onmessage = new Callback1<MessageEvent<Object>>()
 		{
 			@Override
@@ -68,21 +74,30 @@ public class EcAesCtrAsync
 		};
 	}
 
-	public static void encrypt(String text, String secret, String iv, Callback1<String> success, Callback1<String> failure)
+	/**
+	 * Asynchronous form of {{#crossLink "EcAesCtr/encrypt:method"}}EcAesCtr.encrypt{{/crossLink}}
+	 * @method encrypt
+	 * @static
+	 * @param {string} plaintext Text to encrypt.
+	 * @param {string} secret Secret to use to encrypt.
+	 * @param {string} iv Initialization Vector to use to encrypt.
+	 * @param {function(string)} success Success method, result is Base64 encoded Ciphertext.
+	 * @param {function(string)} failure Failure method, parameter is error message.
+	 */
+	public static void encrypt(String plaintext, String secret, String iv, Callback1<String> success, Callback1<String> failure)
 	{
 		initWorker();
 		if (!EcRemote.async || w == null)
 		{
-			success.$invoke(EcAesCtr.encrypt(text, secret, iv));
-		}
-		else
+			success.$invoke(EcAesCtr.encrypt(plaintext, secret, iv));
+		} else
 		{
 			int worker = rotator++;
 			rotator = rotator % 8;
 			Object o = new Object();
 			JSObjectAdapter.$put(o, "secret", secret);
 			JSObjectAdapter.$put(o, "iv", iv);
-			JSObjectAdapter.$put(o, "text", text);
+			JSObjectAdapter.$put(o, "text", plaintext);
 			JSObjectAdapter.$put(o, "cmd", "encryptAesCtr");
 			q1.$get(worker).push(success);
 			q2.$get(worker).push(failure);
@@ -90,21 +105,30 @@ public class EcAesCtrAsync
 		}
 	}
 
-	public static void decrypt(String text, String secret, String iv, Callback1<String> success, Callback1<String> failure)
+	/**
+	 * Asynchronous form of {{#crossLink "EcAesCtr/decrypt:method"}}EcAesCtr.decrypt{{/crossLink}}
+	 * @method decrypt
+	 * @static
+	 * @param {string} ciphertext Text to decrypt.
+	 * @param {string} secret Secret to use to decrypt.
+	 * @param {string} iv Initialization Vector to use to decrypt.
+	 * @param {function(string)} success Success method, result is Plaintext with no encoding.
+	 * @param {function(string)} failure Failure method, parameter is error message.
+	 */
+	public static void decrypt(String ciphertext, String secret, String iv, Callback1<String> success, Callback1<String> failure)
 	{
 		initWorker();
 		if (!EcRemote.async || w == null)
 		{
-			success.$invoke(EcAesCtr.decrypt(text, secret, iv));
-		}
-		else
+			success.$invoke(EcAesCtr.decrypt(ciphertext, secret, iv));
+		} else
 		{
 			int worker = rotator++;
 			rotator = rotator % 8;
 			Object o = new Object();
 			JSObjectAdapter.$put(o, "secret", secret);
 			JSObjectAdapter.$put(o, "iv", iv);
-			JSObjectAdapter.$put(o, "text", text);
+			JSObjectAdapter.$put(o, "text", ciphertext);
 			JSObjectAdapter.$put(o, "cmd", "decryptAesCtr");
 			q1.$get(worker).push(success);
 			q2.$get(worker).push(failure);

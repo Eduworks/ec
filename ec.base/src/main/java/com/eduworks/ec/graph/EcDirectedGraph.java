@@ -1,12 +1,18 @@
 package com.eduworks.ec.graph;
 
-import java.util.Iterator;
-
 import org.stjs.javascript.Array;
-import org.stjs.javascript.Map;
 
 import com.eduworks.ec.array.EcArray;
 
+/**
+ * A directed implementation of {{#crossLink "Graph"}}Graph{{/crossLink}}. Edges have types. Two vertices may have many edges between them.
+ * @class EcDirectedGraph
+ * @extends Graph
+ * @author fray
+ *
+ * @param <V>
+ * @param <E>
+ */
 public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 {
 	Array<Triple<V, V, E>> edges;
@@ -401,15 +407,15 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	{
 		addVertex(v1);
 		addVertex(v2);
-		
+
 		Triple<V, V, E> t = new Triple<>();
 		t.source = v1;
 		t.destination = v2;
 		t.edge = e;
-		
+
 		if (edges.indexOf(t) != -1)
 			return false;
-		
+
 		edges.push(t);
 		return true;
 	}
