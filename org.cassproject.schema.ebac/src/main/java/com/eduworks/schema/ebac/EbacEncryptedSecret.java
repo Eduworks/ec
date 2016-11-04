@@ -7,8 +7,6 @@ import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
 
-import forge.pkcs5;
-
 /**
  * Component of EbacEncryptedValue that contains data needed to decrypt
  * encrypted payload. Is, in itself, encrypted.
@@ -26,10 +24,11 @@ public class EbacEncryptedSecret extends EcLinkedData
 {
 	private static final String TYPE_0_1 = "http://schema.eduworks.com/ebac/0.1/encryptedSecret";
 	private static final String TYPE_0_2 = "http://schema.eduworks.com/ebac/0.2/encryptedSecret";
+	private static final String TYPE_0_3 = "http://schema.cassproject.org/kbac/0.2/EncryptedSecret";
 
 	public EbacEncryptedSecret()
 	{
-		super(Ebac.context, TYPE_0_2);
+		super(Ebac.context, TYPE_0_3);
 	}
 
 	/**
@@ -89,7 +88,11 @@ public class EbacEncryptedSecret extends EcLinkedData
 			// @context. Whoops.
 			if (me.$get("@context") == null && me.$get("@schema") != null)
 				me.$put("@context", me.$get("@schema"));
-			setContextAndType(Ebac.context_0_2,TYPE_0_2);
+			setContextAndType(Ebac.context_0_2, TYPE_0_2);
+		}
+		if (TYPE_0_2.equals(getFullType()))
+		{
+			setContextAndType(Ebac.context_0_3, TYPE_0_3);
 		}
 	}
 
@@ -97,6 +100,7 @@ public class EbacEncryptedSecret extends EcLinkedData
 	public Array<String> getTypes()
 	{
 		Array<String> a = new Array<String>();
+		a.push(TYPE_0_3);
 		a.push(TYPE_0_2);
 		a.push(TYPE_0_1);
 		return a;

@@ -11,11 +11,12 @@ public class Assertion extends Thing
 {
 	private static final String TYPE_0_1 = "http://schema.eduworks.com/cass/0.1/assertion";
 	private static final String TYPE_0_2 = "http://schema.eduworks.com/cass/0.2/assertion";
-	public static final String myType = TYPE_0_2;
+	private static final String TYPE_0_3 = "http://schema.cassproject.org/0.2/Assertion";
+	public static final String myType = TYPE_0_3;
 
 	public Assertion()
 	{
-		setContextAndType(Cass.context,myType);
+		setContextAndType(Cass.context, myType);
 	}
 
 	// URL of the competency.
@@ -40,7 +41,7 @@ public class Assertion extends Thing
 	protected EcEncryptedValue expirationDate;
 	//
 	protected EcEncryptedValue decayFunction;
-	
+
 	protected EcEncryptedValue negative;
 
 	@Override
@@ -54,7 +55,11 @@ public class Assertion extends Thing
 			// @context. Whoops.
 			if (me.$get("@context") == null && me.$get("@schema") != null)
 				me.$put("@context", me.$get("@schema"));
-			setContextAndType(Cass.context_0_2,TYPE_0_2);
+			setContextAndType(Cass.context_0_2, TYPE_0_2);
+		}
+		if (TYPE_0_2.equals(getFullType()))
+		{
+			setContextAndType(Cass.context_0_3, TYPE_0_3);
 		}
 	}
 
@@ -62,6 +67,7 @@ public class Assertion extends Thing
 	public Array<String> getTypes()
 	{
 		Array<String> a = new Array<String>();
+		a.push(TYPE_0_3);
 		a.push(TYPE_0_2);
 		a.push(TYPE_0_1);
 		return a;

@@ -16,8 +16,9 @@ public class EbacEncryptedValue extends EcRemoteLinkedData
 {
 	private static final String TYPE_0_1 = "http://schema.eduworks.com/ebac/0.1/encryptedValue";
 	private static final String TYPE_0_2 = "http://schema.eduworks.com/ebac/0.2/encryptedValue";
+	private static final String TYPE_0_3 = "http://schema.cassproject.org/kbac/0.2/EncryptedValue";
 
-	public static final String myType = TYPE_0_2;
+	public static final String myType = TYPE_0_3;
 
 	public EbacEncryptedValue()
 	{
@@ -41,6 +42,13 @@ public class EbacEncryptedValue extends EcRemoteLinkedData
 	 */
 	public String name;
 
+	/**
+	 * Array of EbacEncryptedSecret objects encoded in Base-64, encrypted using
+	 * RSA public keys of owners or readers (or unknown parties) to allow them
+	 * access to the payload.
+	 */
+	public Array<String> secret;
+
 	@Override
 	public void copyFrom(Object that)
 	{
@@ -48,7 +56,8 @@ public class EbacEncryptedValue extends EcRemoteLinkedData
 		for (String key : me)
 			me.$delete(key);
 		Map<String, Object> you = JSObjectAdapter.$properties(that);
-		//We do not upgrade encrypted objects, as it invalidates the signatures.
+		// We do not upgrade encrypted objects, as it invalidates the
+		// signatures.
 		for (String key : you)
 		{
 			if (me.$get(key) == null)
@@ -57,7 +66,7 @@ public class EbacEncryptedValue extends EcRemoteLinkedData
 		if (!isAny(getTypes()))
 			throw new RuntimeException("Incompatible type: " + getFullType());
 	}
-	
+
 	@Override
 	protected void upgrade()
 	{
@@ -69,13 +78,19 @@ public class EbacEncryptedValue extends EcRemoteLinkedData
 			// @context. Whoops.
 			if (me.$get("@context") == null && me.$get("@schema") != null)
 				me.$put("@context", me.$get("@schema"));
-			setContextAndType(Ebac.context_0_2,TYPE_0_2);
+			setContextAndType(Ebac.context_0_2, TYPE_0_2);
+		}
+		if (TYPE_0_2.equals(getFullType()))
+		{
+			setContextAndType(Ebac.context_0_3, TYPE_0_3);
 		}
 	}
+
 	@Override
 	public Array<String> getTypes()
 	{
 		Array<String> a = new Array<String>();
+		a.push(TYPE_0_3);
 		a.push(TYPE_0_2);
 		a.push(TYPE_0_1);
 		return a;
