@@ -12,11 +12,12 @@ import com.eduworks.ec.crypto.EcRsaOaep;
 import com.eduworks.ec.random.EcRandom;
 
 /**
- * Data wrapper to represent remotely hosted data. Includes necessary fields for
- * permission controls, signing, and identification of the object.
+ * Data wrapper to represent remotely hosted data. Includes necessary KBAC fields for
+ * permission controls, signing, identifying and locating the object.
  * 
+ * @class EcRemoteLinkedData
+ * @extends EcLinkedData
  * @author fritz.ray@eduworks.com
- *
  */
 public class EcRemoteLinkedData extends EcLinkedData
 {
@@ -27,6 +28,8 @@ public class EcRemoteLinkedData extends EcLinkedData
 	 * receiving a write operation, will ensure either the data did not
 	 * previously exist, or that an owner has provided a signature authorizing
 	 * the replacement of the old data with the new data.
+	 * @property owner
+	 * @type string[] (PEM)
 	 */
 	public Array<String> owner;
 
@@ -35,30 +38,37 @@ public class EcRemoteLinkedData extends EcLinkedData
 	 * signature field. Encode the object and its fields in ascii-sort order
 	 * JSON-LD using a space-free, tab-free encoding. Sign the aforementioned
 	 * string.
+	 * @property signature
+	 * @type string[] (Base64)
 	 */
 	public Array<String> signature;
 
 	/**
-	 * URL/URI used to retrieve and store the object, plus identify the object.
+	 * URL/URI used to retrieve, store and identify the object.
+	 * @property id
+	 * @type string (URL)
 	 */
 	public String id;
 
+	@Deprecated
+	// Needs more discussion, but marking it here to spur said discussion.
 	public Boolean privateEncrypted;
 
 	/**
 	 * PEM encoded public keys of identities authorized to view the object. A
 	 * repository will ignore write operations from these identities, but will
 	 * allow them to read the object.
+	 * @property reader
+	 * @type string[] (PEM)
 	 */
 	public Array<String> reader;
 
 	/**
-	 * Array of EbacEncryptedSecret objects encoded in Base-64, encrypted using
-	 * RSA public keys of owners or readers (or unknown parties) to allow them
-	 * access to the payload.
+	 * Constructor for remote linked data object.
+	 * @constructor
+	 * @param {string} context JSON-LD Context.
+	 * @param {string} type JSON-LD Type.
 	 */
-	public Array<String> secret;
-
 	public EcRemoteLinkedData(String context, String type)
 	{
 		super(context, type);
@@ -68,8 +78,8 @@ public class EcRemoteLinkedData extends EcLinkedData
 	 * Will generate an identifier using the server URL provided (usually from
 	 * an EcRepository).
 	 * 
-	 * @param server
-	 *            Base URL of the server's repository functionality.
+	 * @method generateId
+	 * @param {string} server Base URL of the server's repository functionality.
 	 */
 	public void generateId(String server)
 	{
@@ -86,12 +96,13 @@ public class EcRemoteLinkedData extends EcLinkedData
 
 	/**
 	 * Will generate an identifier using the server URL provided (usually from
-	 * an EcRepository).
+	 * an EcRepository) and unique identifier.
 	 * 
-	 * @param server
-	 *            Base URL of the server's repository functionality.
+	 * @method assignId
+	 * @param {string} server Base URL of the server's repository functionality.
+	 * @param {string} uniqueIdentifier Canonical identifier. Must contain a letter or symbol.
 	 */
-	public void assignId(String server, String newId)
+	public void assignId(String server, String uniqueIdentifier)
 	{
 		id = server;
 		if (!id.endsWith("/"))
@@ -99,18 +110,19 @@ public class EcRemoteLinkedData extends EcLinkedData
 		id += "data/";
 		id += getFullType().replace("http://", "").replaceAll("/", ".");
 		id += "/";
-		id += newId;
+		id += uniqueIdentifier;
 		id += "/";
 		id += new Date().getTime();
 	}
 
 	/**
-	 * Determines if the object has pk as an owner. Homogenizes the PEM strings
-	 * for comparison.
+	 * Determines if the object has an owner identified by pk. 
+	 * Homogenizes the PEM strings for comparison. 
+	 * Homogenization is necessary for comparing PKCS#1 and PKCS#8 or PKs with Certificates, etc.
 	 * 
-	 * @param pk
-	 *            Public Key of the owner in object (forge) form.
-	 * @return True if owner is represented by the PK, false otherwise.
+	 * @method hasOwner
+	 * @param {EcPk} pk Public Key of the owner.
+	 * @return {boolean} True if owner is represented by the PK, false otherwise.
 	 */
 	public boolean hasOwner(EcPk pk)
 	{
@@ -119,19 +131,19 @@ public class EcRemoteLinkedData extends EcLinkedData
 
 		String pkPem = pk.toPem();
 		for (int i = 0; i < owner.$length(); i++)
-			// Homogenizing the owner's PEM string.
 			if (pkPem.equals(EcPk.fromPem(owner.$get(i)).toPem()))
 				return true;
 		return false;
 	}
 
 	/**
-	 * Determines if the object has pk as an owner. Homogenizes the PEM strings
-	 * for comparison.
+	 * Determines if the PK matches an owner or if the object is public. 
+	 * Homogenizes the PEM strings for comparison. 
+	 * Homogenization is necessary for comparing PKCS#1 and PKCS#8 or PKs with Certificates, etc.
 	 * 
-	 * @param pk
-	 *            Public Key of the owner in object (forge) form.
-	 * @return True if owner is represented by the PK, false otherwise.
+	 * @method canEdit
+	 * @param {EcPk} pk Public Key of the owner.
+	 * @return {boolean} True if owner is represented by the PK, false otherwise.
 	 */
 	public boolean canEdit(EcPk pk)
 	{
@@ -141,8 +153,10 @@ public class EcRemoteLinkedData extends EcLinkedData
 	}
 
 	/**
-	 * Encodes the object in a form where it is ready to be signed.
+	 * Encodes the object in a form where it is ready to be signed. 
+	 * This method is under long term review, and may change from version to version.
 	 * 
+	 * @method toSignableJson
 	 * @return ASCII-sort order encoded space-free and tab-free JSON-LD.
 	 */
 	public String toSignableJson()
@@ -156,8 +170,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 			JSObjectAdapter.$properties(d).$delete("@reader");
 			JSObjectAdapter.$properties(d).$delete("@id");
 			JSObjectAdapter.$properties(d).$delete("privateEncrypted");
-		}
-		else
+		} else
 		{
 			// Whom else has signed the object does not change the contents of
 			// the object.
@@ -177,10 +190,11 @@ public class EcRemoteLinkedData extends EcLinkedData
 	}
 
 	/**
-	 * Sign this object with a private key.
+	 * Sign this object using a private key. 
+	 * Does not check for ownership, objects signed with keys absent from @owner or @reader may be removed.
 	 * 
-	 * @param ppk
-	 *            Private Key of the owner in object (forge) form.
+	 * @method signWith
+	 * @param {EcPpk} ppk Public private keypair.
 	 */
 	public void signWith(EcPpk ppk)
 	{
@@ -191,8 +205,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 			for (int i = 0; i < signature.$length(); i++)
 				if (signature.$get(i).equals(signed))
 					return;
-		}
-		else
+		} else
 		{
 			signature = new Array<String>();
 		}
@@ -200,10 +213,10 @@ public class EcRemoteLinkedData extends EcLinkedData
 	}
 
 	/**
-	 * Verify's the object's signatures
+	 * Verifies the object's signatures.
 	 * 
-	 * @return true if all of the signatures could be verified, false if they
-	 *         could not
+	 * @method verify
+	 * @return {boolean} true if all of the signatures could be verified, false if they could not
 	 */
 	public boolean verify()
 	{
@@ -223,8 +236,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 						try
 						{
 							verify = EcRsaOaep.verify(pk, toSignableJson(), sig);
-						}
-						catch (Exception ex)
+						} catch (Exception ex)
 						{
 						}
 						if (verify)
@@ -251,9 +263,10 @@ public class EcRemoteLinkedData extends EcLinkedData
 
 	/**
 	 * Adds an owner to the object, if the owner does not exist.
+	 * Note that this method invalidates all signatures.
 	 * 
-	 * @param newOwner
-	 *            PK of the new owner.
+	 * @method addOwner
+	 * @param {EcPk} newOwner PK of the new owner.
 	 */
 	public void addOwner(EcPk newOwner)
 	{
@@ -271,9 +284,10 @@ public class EcRemoteLinkedData extends EcLinkedData
 
 	/**
 	 * Removes an owner from the object, if the owner does exist.
+	 * Note that this method invalidates all signatures.
 	 * 
-	 * @param oldOwner
-	 *            PK of the new owner.
+	 * @method removeOwner
+	 * @param {EcPk} oldOwner PK to remove.
 	 */
 	public void removeOwner(EcPk oldOwner)
 	{
@@ -290,9 +304,10 @@ public class EcRemoteLinkedData extends EcLinkedData
 
 	/**
 	 * Adds a reader to the object, if the reader does not exist.
+	 * Note that this method invalidates all signatures.
 	 * 
-	 * @param newReader
-	 *            PK of the new reader.
+	 * @method addReader
+	 * @param {EcPk} newReader PK of the new reader.
 	 */
 	public void addReader(EcPk newReader)
 	{
@@ -310,9 +325,10 @@ public class EcRemoteLinkedData extends EcLinkedData
 
 	/**
 	 * Removes a reader from the object, if the reader does exist.
+	 * Note that this method invalidates all signatures.
 	 * 
-	 * @param oldReader
-	 *            PK of the old reader.
+	 * @method removeReader
+	 * @param {EcPk} oldReader PK of the old reader.
 	 */
 	public void removeReader(EcPk oldReader)
 	{
@@ -328,10 +344,10 @@ public class EcRemoteLinkedData extends EcLinkedData
 	}
 
 	/**
-	 * Determines if the object will survive and be retreivable from a server,
-	 * should it be written.
+	 * Determines if the object is not retrievable from a repository should it be written.
 	 * 
-	 * @return True if the object is NOT VALID for storage, false otherwise.
+	 * @method invalid
+	 * @return {boolean} True if the object is NOT VALID for storage, false otherwise.
 	 */
 	public boolean invalid()
 	{
@@ -350,6 +366,10 @@ public class EcRemoteLinkedData extends EcLinkedData
 		return false;
 	}
 
+	/**
+	 * Updates the ID timestamp of the object, for versioning purposes.
+	 * @method updateTimestamp
+	 */
 	public void updateTimestamp()
 	{
 		String rawId = id.substring(0, id.lastIndexOf("/"));
@@ -359,11 +379,26 @@ public class EcRemoteLinkedData extends EcLinkedData
 		id = rawId;
 	}
 
+	/**
+	 * Returns true if the provided ID represents this object. 
+	 * Use this, as version information can make direct comparison difficult.
+	 * @method isId
+	 * @param {string} id
+	 * @return {boolean} True if the provided ID represents this object.
+	 */
 	public boolean isId(String id)
 	{
 		return trimVersionFromUrl(this.id).equals(trimVersionFromUrl(id));
 	}
 
+	/**
+	 * Removes the version information from an identifier.
+	 * Warning: Will remove identifier if the identifier is composed solely of digits!!!
+	 * @method trimVersionFromUrl
+	 * @static
+	 * @param {string} id Slash delimited URL or path.
+	 * @return ID without version.
+	 */
 	public static String trimVersionFromUrl(String id)
 	{
 		if (id == null)
@@ -379,11 +414,23 @@ public class EcRemoteLinkedData extends EcLinkedData
 		return rawId;
 	}
 
+	/**
+	 * Return the ID of this object without the version information. 
+	 * Used to reference the latest version of an object.
+	 * 
+	 * @method shortId
+	 * @return {string} ID of the latest version of this object.
+	 */
 	public String shortId()
 	{
 		return trimVersionFromUrl(id);
 	}
 
+	/**
+	 * Return a valid ElasticSearch search string that will retrieve all objects with this type.
+	 * @method getSearchStringByType
+	 * @return {string} ElasticSearch compatible search string.
+	 */
 	public String getSearchStringByType()
 	{
 		Array<String> types = getTypes();
@@ -395,7 +442,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 			result += "@type:\"" + types.$get(i) + "\"";
 
 			int lastSlash = types.$get(i).lastIndexOf("/");
-			result += " OR (@context:\"" + types.$get(i).substring(0, lastSlash) + "\" AND @type:\"" + types.$get(i).substring(lastSlash+1) + "\")";
+			result += " OR (@context:\"" + types.$get(i).substring(0, lastSlash) + "\" AND @type:\"" + types.$get(i).substring(lastSlash + 1) + "\")";
 		}
 		for (int i = 0; i < types.$length(); i++)
 		{
@@ -404,7 +451,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 			result += "@encryptedType:\"" + types.$get(i) + "\"";
 
 			int lastSlash = types.$get(i).lastIndexOf("/");
-			result += " OR (@context:\"" + Ebac.context + "\" AND @encryptedType:\"" + types.$get(i).substring(lastSlash+1) + "\")";
+			result += " OR (@context:\"" + Ebac.context + "\" AND @encryptedType:\"" + types.$get(i).substring(lastSlash + 1) + "\")";
 		}
 		return "(" + result + ")";
 	}

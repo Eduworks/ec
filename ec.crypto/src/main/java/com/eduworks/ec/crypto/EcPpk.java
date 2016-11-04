@@ -113,7 +113,7 @@ public class EcPpk
 	/**
 	 * Encodes the private key into a PEM encoded RSAPrivateKey (PKCS#1) formatted RSA Public Key.
 	 * (In case you were curious.)
-	 * @method toPem
+	 * @method toPkcs1Pem
 	 * @return {string} PEM encoded public key without whitespace.
 	 */
 	public String toPkcs1Pem()
@@ -124,7 +124,7 @@ public class EcPpk
 	/**
 	 * Encodes the private key into a PEM encoded PrivateKeyInfo (PKCS#8) formatted RSA Public Key.
 	 * (In case you were curious.)
-	 * @method toPem
+	 * @method toPkcs8Pem
 	 * @return {string} PEM encoded public key without whitespace.
 	 */
 	public String toPkcs8Pem()

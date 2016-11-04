@@ -12,6 +12,12 @@ import org.stjs.javascript.worker.WorkerGlobalScope;
 
 import com.eduworks.ec.remote.EcRemote;
 
+/**
+ * Asynchronous implementation of {{#crossLink "EcRsaOaep"}}EcRsaOaep{{/crossLink}}. Uses web workers and assumes 8 workers.
+ * @class EcRsaOaepAsync
+ * @author fritz.ray@eduworks.com
+ *
+ */
 public class EcRsaOaepAsync
 {
 	static int rotator;
@@ -31,7 +37,7 @@ public class EcRsaOaepAsync
 		q1 = new Array<>();
 		q2 = new Array<>();
 		w = new Array<>();
-		for (int index = 0;index < 8;index++)
+		for (int index = 0; index < 8; index++)
 		{
 			createWorker(index);
 		}
@@ -42,7 +48,7 @@ public class EcRsaOaepAsync
 		q1.push(new Array<Callback1>());
 		q2.push(new Array<Callback1>());
 		Worker<Object> wkr;
-		w.push(wkr=new Worker<Object>(JSObjectAdapter.$get(Global.window, "scriptPath") + "forgeAsync.js"));
+		w.push(wkr = new Worker<Object>(JSObjectAdapter.$get(Global.window, "scriptPath") + "forgeAsync.js"));
 		wkr.onmessage = new Callback1<MessageEvent<Object>>()
 		{
 			@Override
@@ -68,20 +74,28 @@ public class EcRsaOaepAsync
 		};
 	}
 
-	public static void encrypt(EcPk pk, String text, Callback1<String> success, Callback1<String> failure)
+	/**
+	 * Asynchronous form of {{#crossLink "EcRsaOaep/encrypt:method"}}EcRsaOaep.encrypt{{/crossLink}}
+	 * @method encrypt
+	 * @static
+	 * @param {EcPk} pk Public Key to use to encrypt.
+	 * @param {string} plaintext Plaintext to encrypt.
+	 * @param {function(string)} success Success method, result is Base64 encoded Ciphertext.
+	 * @param {function(string)} failure Failure method, parameter is error message.
+	 */
+	public static void encrypt(EcPk pk, String plaintext, Callback1<String> success, Callback1<String> failure)
 	{
 		initWorker();
 		if (!EcRemote.async || w == null)
 		{
-			success.$invoke(EcRsaOaep.encrypt(pk, text));
-		}
-		else
+			success.$invoke(EcRsaOaep.encrypt(pk, plaintext));
+		} else
 		{
 			int worker = rotator++;
 			rotator = rotator % 8;
 			Object o = new Object();
 			JSObjectAdapter.$put(o, "pk", pk.toPem());
-			JSObjectAdapter.$put(o, "text", text);
+			JSObjectAdapter.$put(o, "text", plaintext);
 			JSObjectAdapter.$put(o, "cmd", "encryptRsaOaep");
 			q1.$get(worker).push(success);
 			q2.$get(worker).push(failure);
@@ -89,20 +103,28 @@ public class EcRsaOaepAsync
 		}
 	}
 
-	public static void decrypt(EcPpk ppk, String text, Callback1<String> success, Callback1<String> failure)
+	/**
+	 * Asynchronous form of {{#crossLink "EcRsaOaep/decrypt:method"}}EcRsaOaep.decrypt{{/crossLink}}
+	 * @method decrypt
+	 * @static
+	 * @param {EcPpk} ppk Public private keypair to use to decrypt.
+	 * @param {string} ciphertext Ciphertext to decrypt.
+	 * @param {function(string)} success Success method, result is unencoded plaintext.
+	 * @param {function(string)} failure Failure method, parameter is error message.
+	 */
+	public static void decrypt(EcPpk ppk, String ciphertext, Callback1<String> success, Callback1<String> failure)
 	{
 		initWorker();
 		if (!EcRemote.async || w == null)
 		{
-			success.$invoke(EcRsaOaep.decrypt(ppk, text));
-		}
-		else
+			success.$invoke(EcRsaOaep.decrypt(ppk, ciphertext));
+		} else
 		{
 			int worker = rotator++;
 			rotator = rotator % 8;
 			Object o = new Object();
 			JSObjectAdapter.$put(o, "ppk", ppk.toPem());
-			JSObjectAdapter.$put(o, "text", text);
+			JSObjectAdapter.$put(o, "text", ciphertext);
 			JSObjectAdapter.$put(o, "cmd", "decryptRsaOaep");
 			q1.$get(worker).push(success);
 			q2.$get(worker).push(failure);
@@ -110,14 +132,22 @@ public class EcRsaOaepAsync
 		}
 	}
 
+	/**
+	 * Asynchronous form of {{#crossLink "EcRsaOaep/sign:method"}}EcRsaOaep.sign{{/crossLink}}
+	 * @method sign
+	 * @static
+	 * @param {EcPpk} ppk Public private keypair to use to sign message.
+	 * @param {string} text Text to sign.
+	 * @param {function(string)} success Success method, result is Base64 encoded signature.
+	 * @param {function(string)} failure Failure method, parameter is error message.
+	 */
 	public static void sign(EcPpk ppk, String text, Callback1<String> success, Callback1<String> failure)
 	{
 		initWorker();
 		if (!EcRemote.async || w == null)
 		{
 			success.$invoke(EcRsaOaep.sign(ppk, text));
-		}
-		else
+		} else
 		{
 			int worker = rotator++;
 			rotator = rotator % 8;
@@ -131,14 +161,22 @@ public class EcRsaOaepAsync
 		}
 	}
 
+	/**
+	 * Asynchronous form of {{#crossLink "EcRsaOaep/signSha256:method"}}EcRsaOaep.signSha256{{/crossLink}}
+	 * @method signSha256
+	 * @static
+	 * @param {EcPpk} ppk Public private keypair to use to sign message.
+	 * @param {string} text Text to sign.
+	 * @param {function(string)} success Success method, result is Base64 encoded signature.
+	 * @param {function(string)} failure Failure method, parameter is error message.
+	 */
 	public static void signSha256(EcPpk ppk, String text, Callback1<String> success, Callback1<String> failure)
 	{
 		initWorker();
 		if (!EcRemote.async || w == null)
 		{
 			success.$invoke(EcRsaOaep.signSha256(ppk, text));
-		}
-		else
+		} else
 		{
 			int worker = rotator++;
 			rotator = rotator % 8;
@@ -152,14 +190,23 @@ public class EcRsaOaepAsync
 		}
 	}
 
+	/**
+	 * Asynchronous form of {{#crossLink "EcRsaOaep/verify:method"}}EcRsaOaep.verify{{/crossLink}}
+	 * @method verify
+	 * @static
+	 * @param {EcPk} pk Public key to use to verify message.
+	 * @param {string} text Text to use in verification.
+	 * @param {string} signature Signature to use in verification.
+	 * @param {function(boolean)} success Success method, result is whether signature is valid.
+	 * @param {function(string)} failure Failure method, parameter is error message.
+	 */
 	public static void verify(EcPk pk, String text, String signature, Callback1<Boolean> success, Callback1<String> failure)
 	{
 		initWorker();
 		if (!EcRemote.async || w == null)
 		{
 			success.$invoke(EcRsaOaep.verify(pk, text, signature));
-		}
-		else
+		} else
 		{
 			int worker = rotator++;
 			rotator = rotator % 8;

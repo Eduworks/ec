@@ -2,6 +2,11 @@ package org.schema;
 
 import org.stjs.javascript.Array;
 
+/**
+ * Schema.org/Action.
+ * @author schema.org
+ * @class Action
+ */
 public class Action extends Thing
 {
 	protected Action()
@@ -10,6 +15,11 @@ public class Action extends Thing
 		type = "Action";
 	}
 
+	/**
+	 * Schema.org/agent
+	 * @property agent
+	 * @type Person | URL
+	 */
 	public String agent;
 	public String endTime;
 	public String startTime;

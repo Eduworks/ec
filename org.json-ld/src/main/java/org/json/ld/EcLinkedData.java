@@ -3,7 +3,6 @@ package org.json.ld;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSGlobal;
-import org.stjs.javascript.JSON;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
 import org.stjs.javascript.SortFunction;
@@ -11,22 +10,45 @@ import org.stjs.javascript.SortFunction;
 import com.eduworks.ec.array.EcArray;
 import com.eduworks.ec.array.EcObject;
 
+/**
+ * Represents a JSON-LD linked data object and performs serialization.
+ * Note: Serialization and deserialization remove parameters that begin with '@'.
+ * Note: This Linked Data Object is not assumed to have an @id field.
+ * @author fritz.ray@eduworks.com
+ * @class EcLinkedData
+ */
 public class EcLinkedData
 {
 	/**
-	 * Represents the @type field in JSON-LD.
+	 * JSON-LD @type field.
+	 * @property type
+	 * @type string
 	 */
 	public String type;
 	/**
-	 * Represents the @context field in JSON-LD.
+	 * JSON-LD @context field.
+	 * @property context
+	 * @type string
 	 */
 	public String context;
 
+	/**
+	 * Create a linked data object.
+	 * @constructor
+	 * @param {string} context JSON-LD Context.
+	 * @param {string} type JSON-LD Type.
+	 */
 	public EcLinkedData(String context, String type)
 	{
 		setContextAndType(context, type);
 	}
 
+	/**
+	 * Set the JSON-LD @context and @type.
+	 * @method setContextAndType
+	 * @param {string} context JSON-LD Context.
+	 * @param {string} type JSON-LD Type.
+	 */
 	protected void setContextAndType(String context, String type)
 	{
 		this.context = context;
@@ -44,17 +66,26 @@ public class EcLinkedData
 	/**
 	 * Determines which fields to serialize into @fields.
 	 * 
-	 * @param s
-	 * @return True if property is in the set of atProperties.
+	 * @internal
+	 * @static
+	 * @method isAtProperty
+	 * @param {string} key Property name to check if it should be an @property.
+	 * @return {boolean} True if property is in the set of atProperties.
 	 */
-	public static boolean isAtProperty(String s)
+	public static boolean isAtProperty(String key)
 	{
 		for (int i = 0; i < atProperties.$length(); i++)
-			if (atProperties.$get(i).equals(s))
+			if (atProperties.$get(i).equals(key))
 				return true;
 		return false;
 	}
 
+	/**
+	 * Serializes this object to JSON.
+	 * 
+	 * @method toJson
+	 * @return {string} JSON formatted object (with JSON-LD fields).
+	 */
 	public String toJson()
 	{
 		// This method serializes the fields in alphabetical order.
@@ -68,7 +99,9 @@ public class EcLinkedData
 	 * make signature based actions more viable. Also places @(at) symbols in
 	 * front of appropriate fields.
 	 * 
-	 * @return Serializable JSON object.
+	 * @internal
+	 * @method atIfy
+	 * @return {Object} Serializable JSON object.
 	 */
 	public Object atIfy()
 	{
@@ -135,8 +168,10 @@ public class EcLinkedData
 	 * Helper function to determine if a piece of data is probably a JSON
 	 * object.
 	 * 
-	 * @param probableJson
-	 * @return True if is probably JSON. False if not.
+	 * @method isProbablyJson
+	 * @static 
+	 * @param {string} probableJson JSON to test.
+	 * @return {boolean} True if it is probably JSON. False if not.
 	 */
 	public static boolean isProbablyJson(String probableJson)
 	{
@@ -147,9 +182,9 @@ public class EcLinkedData
 	 * Uses the object's fully qualified type name and compares it to the
 	 * provided type.
 	 * 
-	 * @param type
-	 *            Fully qualified type name uri.
-	 * @return True if match, False if not.
+	 * @method isA
+	 * @param {string} type Fully qualified type name uri.
+	 * @return {boolean} True if match, False if not.
 	 */
 	public boolean isA(String type)
 	{
@@ -161,9 +196,9 @@ public class EcLinkedData
 	 * Uses the object's fully qualified type name and compares it to the
 	 * provided type.
 	 * 
-	 * @param type
-	 *            Fully qualified type name uri.
-	 * @return True if match, False if not.
+	 * @method isAny
+	 * @param {string[]} type Fully qualified type name uris.
+	 * @return {boolean} True if match, False if not.
 	 */
 	public boolean isAny(Array<String> type)
 	{
@@ -180,7 +215,8 @@ public class EcLinkedData
 	 * Gets the fully qualified type name, as JSON-LD allows the "namespace" of
 	 * the type to be defined in @context.
 	 * 
-	 * @return Fully qualified type name.
+	 * @method getFullType
+	 * @return {string} Fully qualified type name.
 	 */
 	public String getFullType()
 	{
@@ -203,9 +239,8 @@ public class EcLinkedData
 	 * deserialized javascript objects do not inherently attach the functions of
 	 * their type, it is this or factory hell.
 	 * 
-	 * @param that
-	 *            The freshly deserialized object, or the object to upcast into
-	 *            this object.
+	 * @method copyFrom
+	 * @param that The freshly deserialized object, or the object to upcast into this object.
 	 */
 	public void copyFrom(Object that)
 	{
@@ -227,7 +262,9 @@ public class EcLinkedData
 	}
 
 	/***
-	 * Upgrades the object if necessary.
+	 * Upgrades the object to the latest version, performing transforms and the like.
+	 * 
+	 * @method upgrade
 	 */
 	protected void upgrade()
 	{
@@ -237,7 +274,9 @@ public class EcLinkedData
 	 * Removes the @ symbol from properties in order to make them more
 	 * accessible in Javascript.
 	 * 
-	 * @return This object, with @ properties converted to @-less properties.
+	 * @method deAtify
+	 * @internal
+	 * @return {EcLinkedData} This object, with @ properties converted to @-less properties.
 	 */
 	public EcLinkedData deAtify()
 	{
@@ -259,7 +298,8 @@ public class EcLinkedData
 	/**
 	 * Gets all versions of JSON-LD type strings for this type of object.
 	 * 
-	 * @return Array of URIs.
+	 * @method getTypes
+	 * @return {string[]} Array of URIs.
 	 */
 	public Array<String> getTypes()
 	{

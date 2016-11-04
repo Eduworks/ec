@@ -2,9 +2,13 @@ package org.schema;
 
 import org.stjs.javascript.Date;
 
+/**
+ * Schema.org/Person.
+ * @author schema.org
+ * @class Person
+ */
 public class Person extends Thing
 {
-
 	public Person()
 	{
 		context = "http://schema.org/";

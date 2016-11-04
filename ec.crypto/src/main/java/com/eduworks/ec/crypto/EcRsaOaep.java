@@ -64,7 +64,7 @@ public class EcRsaOaep
 	 * May be verified with the public key.
 	 * Uses SHA256 hash with a UTF8 decoding of the text.
 	 * Returns base64 encoded signature.
-	 * @method sign
+	 * @method signSha256
 	 * @static
 	 * @param {EcPpk} ppk Public private keypair.
 	 * @param {string} text Text to sign.
@@ -80,6 +80,8 @@ public class EcRsaOaep
 	/**
 	 * Verifies the integrity of the provided text using a signature and a public key.
 	 * Uses SHA1 hash with a UTF8 decoding of the text.
+	 * @static
+	 * @method verify
 	 * @param {EcPk} pk Public key.
 	 * @param {string} text Text to verify.
 	 * @param {string} signature Base64 encoded signature.
