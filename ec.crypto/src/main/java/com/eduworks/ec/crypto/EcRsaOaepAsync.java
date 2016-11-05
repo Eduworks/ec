@@ -15,6 +15,7 @@ import com.eduworks.ec.remote.EcRemote;
 /**
  * Asynchronous implementation of {{#crossLink "EcRsaOaep"}}EcRsaOaep{{/crossLink}}. Uses web workers and assumes 8 workers.
  * @class EcRsaOaepAsync
+ * @module com.eduworks.ec
  * @author fritz.ray@eduworks.com
  *
  */

@@ -5,7 +5,6 @@ import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
 
-import com.eduworks.ec.callback.EcCallback;
 import com.eduworks.ec.remote.EcRemote;
 import com.eduworks.ec.remote.FormData;
 import com.eduworks.ec.service.user.model.EcLoginCredentials;

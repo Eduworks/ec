@@ -14,6 +14,7 @@ import forge.rsa;
 /**
  * Helper classes for dealing with RSA Private Keys.
  * @class EcPpk
+ * @module com.eduworks.ec
  * @author fritz.ray@eduworks.com
  */
 public class EcPpk

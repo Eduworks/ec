@@ -3,6 +3,7 @@ package com.eduworks.ec.graph;
 /**
  * Object to hold a triple, used in graph.
  * @class Triple
+ * @module com.eduworks.ec
  * @author fritz.ray@eduworks.com
  *
  */

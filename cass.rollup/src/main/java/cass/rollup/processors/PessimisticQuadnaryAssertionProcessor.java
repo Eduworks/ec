@@ -1,25 +1,5 @@
 package cass.rollup.processors;
 
-import org.cass.competency.EcAlignment;
-import org.cass.competency.EcCompetency;
-import org.cass.competency.EcFramework;
-import org.cass.competency.EcLevel;
-import org.cass.competency.EcRollupRule;
-import org.cass.profile.EcAssertion;
-import org.cassproject.ebac.repository.EcRepository;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-import org.stjs.javascript.Array;
-import org.stjs.javascript.Date;
-import org.stjs.javascript.JSCollections;
-import org.stjs.javascript.Map;
-import org.stjs.javascript.functions.Callback0;
-import org.stjs.javascript.functions.Callback1;
-
-import com.eduworks.ec.callback.EcCallbackReturn0;
-import com.eduworks.ec.callback.EcCallbackReturn1;
-import com.eduworks.ec.crypto.EcPk;
-import com.eduworks.schema.ebac.EbacSignature;
-
 import cass.rollup.InquiryPacket;
 import cass.rollup.InquiryPacket.IPType;
 import cass.rollup.InquiryPacket.ResultType;

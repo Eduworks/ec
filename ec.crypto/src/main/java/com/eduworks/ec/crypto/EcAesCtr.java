@@ -8,6 +8,7 @@ import forge.util;
  * Encrypts data synchronously using AES-256-CTR. Requires secret and iv to be 32 bytes.
  * Output is encoded in base64 for easier handling.
  * @author fritz.ray@eduworks.com
+ * @module com.eduworks.ec
  * @class EcAesCtr
  */
 public class EcAesCtr

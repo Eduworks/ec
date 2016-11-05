@@ -5,6 +5,7 @@ import org.stjs.javascript.JSGlobal;
 /**
  * Object Helper Functions
  * @class EcObject
+ * @module com.eduworks.ec
  * @author fritz.ray@eduworks.com
  */
 public class EcObject

@@ -9,6 +9,7 @@ import forge.util;
  * Uses Optimal Asymmetric Encryption Padding (OAEP) encryption and decryption.
  * Uses RSA SSA PKCS#1 v1.5 (RSASSA-PKCS1-V1_5) signing and verifying with UTF8 encoding.
  * @author fritz.ray@eduworks.com
+ * @module com.eduworks.ec
  * @class EcRsaOaep
  *
  */

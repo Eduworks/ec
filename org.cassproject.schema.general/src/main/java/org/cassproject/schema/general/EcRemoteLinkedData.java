@@ -17,6 +17,7 @@ import com.eduworks.ec.random.EcRandom;
  * 
  * @class EcRemoteLinkedData
  * @extends EcLinkedData
+ * @module org.cassproject
  * @author fritz.ray@eduworks.com
  */
 public class EcRemoteLinkedData extends EcLinkedData

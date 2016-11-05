@@ -11,6 +11,7 @@ import org.stjs.javascript.functions.Callback2;
  * Every 'each' needs to call the callback. This callback can be passed down through several asynchronous calls. 
  * When all callbacks have been called, 'after(array)' is called. 
  * @author fritz.ray@eduworks.com
+ * @module com.eduworks.ec
  * @class EcAsyncHelper
  */
 public class EcAsyncHelper<T>

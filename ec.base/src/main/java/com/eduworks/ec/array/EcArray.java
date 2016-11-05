@@ -5,6 +5,7 @@ import org.stjs.javascript.Array;
 /**
  * Array Helper Functions
  * @class EcArray
+ * @module com.eduworks.ec
  * @author fritz.ray@eduworks.com
  */
 public class EcArray

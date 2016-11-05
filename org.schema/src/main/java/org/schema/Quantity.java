@@ -1,0 +1,26 @@
+package org.schema;
+
+import org.stjs.javascript.Date;
+import org.cassproject.schema.general.EcRemoteLinkedData;
+
+/**
+ * Schema.org/Quantity
+ * Quantities such as distance, time, mass, weight, etc. Particular instances of say Mass are entities like '3 Kg' or '4 milligrams'.
+ * @author schema.org
+ * @module schema.org
+ * @class Quantity
+ * @extends Intangible
+ */
+public class Quantity extends Intangible
+{
+	/**
+	 * Constructor, automatically sets @context and @type.
+	 * @constructor
+	 */
+	public Quantity()
+	{
+		context="http://schema.org/";
+		type="Quantity";
+	}
+
+}

@@ -7,6 +7,7 @@ import com.eduworks.ec.array.EcArray;
 /**
  * A directed implementation of {{#crossLink "Graph"}}Graph{{/crossLink}}. Edges have types. Two vertices may have many edges between them.
  * @class EcDirectedGraph
+ * @module com.eduworks.ec
  * @extends Graph
  * @author fray
  *

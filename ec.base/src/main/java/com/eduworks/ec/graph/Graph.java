@@ -48,6 +48,7 @@ import org.stjs.javascript.Array;
  * </ul> 
  * 
  * @class Graph
+ * @module com.eduworks.ec
  * @extends Hypergraph
  * @author Joshua O'Madadhain
  * 

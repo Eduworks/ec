@@ -3,6 +3,7 @@ package org.cassproject.schema.general;
 /**
  * Location of strings that store the current namespace for EBAC/KBAC.
  * @class Ebac
+ * @module org.cassproject
  * @author fritz.ray@eduworks.com
  */
 public class Ebac

@@ -8,6 +8,7 @@ import forge.pki;
 /**
  * Helper classes for dealing with RSA Public Keys.
  * @class EcPk
+ * @module com.eduworks.ec
  * @author fritz.ray@eduworks.com
  */
 public class EcPk

@@ -16,6 +16,7 @@ import org.stjs.javascript.jquery.JQueryXHR;
 /**
  * Wrapper to handle all remote web service invocations.
  * @class EcRemote
+ * @module com.eduworks.ec
  * @author fritz.ray@eduworks.com
  * @author devlin.junker@eduworks.com
  *

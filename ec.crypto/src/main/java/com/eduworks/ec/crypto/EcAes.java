@@ -6,6 +6,7 @@ import forge.util;
 /***
  * AES encryption tasks common across all variants of AES.
  * @class EcAes 
+ * @module com.eduworks.ec
  * @author fritz.ray@eduworks.com
  */
 public class EcAes

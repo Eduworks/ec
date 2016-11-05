@@ -47,6 +47,7 @@ import org.stjs.javascript.Array;
  * </ul>
  * 
  * @class Hypergraph
+ * @module com.eduworks.ec
  * @author Joshua O'Madadhain
  *  
  * Ported to Javascript by:

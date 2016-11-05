@@ -3,6 +3,7 @@ package org.cassproject.schema.general;
 /**
  * Location of strings that store the current namespace for general Eduworks Objects.
  * @class General
+ * @module com.eduworks.ec
  * @author fritz.ray@eduworks.com
  */
 public class General
