@@ -16,11 +16,29 @@ import org.stjs.javascript.functions.Callback2;
 import js.Papa;
 import js.PapaParseParams;
 
+/**
+ * 
+ * @class CSVImport
+ * @static
+ * @extends Importer
+ * 
+ * @author devlin.junker@eduworks.com
+ * @author fritz.ray@eduworks.com
+ */
 public class CSVImport
 {
 	private final static int INCREMENTAL_STEP = 5;
 	
 
+	/**
+	 * 
+	 * @memberOf CSVImport
+	 * @method analyzeFile
+	 * @static
+	 * @param {Object} file
+	 * @param {Callback1<Object>} success
+	 * @param {Callback1<Object>} failure
+	 */
 	public static void analyzeFile(Object file, final Callback1<Object> success, final Callback1<Object> failure)
 	{
 		if(file == null){
@@ -56,7 +74,16 @@ public class CSVImport
 
 	static Object progressObject;
 	
-	public static void transformId(String oldId, EcRemoteLinkedData newObject, String selectedServer)
+	/**
+	 * @memberOf CSVImport
+	 * @method transformId
+	 * @private
+	 * @static
+	 * @param {String} oldId
+	 * @param {EcRemoteLinkedData} newObject
+	 * @param {String} selectedServer
+	 */
+	private static void transformId(String oldId, EcRemoteLinkedData newObject, String selectedServer)
 	{
 		if (oldId.indexOf("http") != -1)
 		{
@@ -80,6 +107,25 @@ public class CSVImport
 			newObject.assignId(selectedServer, oldId);
 	}
 
+	/**
+	 * @memberOf CSVImport
+	 * @method importCompetencies
+	 * @static
+	 * @param {Object} file
+	 * @param {String} serverUrl
+	 * @param {EcIdentity} owner
+	 * @param {int} nameIndex
+	 * @param {int} descriptionIndex
+	 * @param {int} scopeIndex
+	 * @param {int} idIndex
+	 * @param {Object} relations
+	 * @param {int} sourceIndex
+	 * @param {int} relationTypeIndex
+	 * @param {int} destIndex
+	 * @param {Callback2<Array<EcCompetency>, Array<EcAlignment>>} success
+	 * @param {Callback1<Object>} failure
+	 * @param {Callback1<Object>} incremental
+	 */
 	public static void importCompetencies(Object file, final String serverUrl, final EcIdentity owner,
 			final Integer nameIndex, final Integer descriptionIndex, final Integer scopeIndex, final Integer idIndex,
 			final Object relations, final Integer sourceIndex, final Integer relationTypeIndex, final Integer destIndex,
@@ -198,7 +244,23 @@ public class CSVImport
 		});
 	}
 
-	public static void importRelations(final String serverUrl, final EcIdentity owner, Object file,
+	/**
+	 * @memberOf CSVImport
+	 * @method importRelations
+	 * @private
+	 * @static
+	 * @param {String} serverUrl
+	 * @param {EcIdentity} owner
+	 * @param {Object} file
+	 * @param {int} sourceIndex
+	 * @param {int} relationTypeIndex
+	 * @param {int} destIndex
+	 * @param {Array<EcCompetency>} competencies
+	 * @param {Callback2<Array<EcCompetency>, Array<EcAlignment>>} success
+	 * @param {Callback1<Object>} failure
+	 * @param {Callback1<Object>} incremental
+	 */
+	private static void importRelations(final String serverUrl, final EcIdentity owner, Object file,
 			final Integer sourceIndex, final Integer relationTypeIndex, final Integer destIndex,
 			final Array<EcCompetency> competencies, final Callback2<Array<EcCompetency>, Array<EcAlignment>> success,
 			final Callback1<Object> failure, final Callback1<Object> incremental)

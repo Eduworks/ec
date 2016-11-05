@@ -13,6 +13,15 @@ import com.eduworks.ec.array.toString;
 import js.FileReader;
 import js.X2JS;
 
+/**
+ * 
+ * @class MedbiqImport
+ * @static
+ * @extends Importer
+ * 
+ * @author devlin.junker@eduworks.com
+ * @author fritz.ray@eduworks.com
+ */
 public class MedbiqImport extends Importer {
 
 	static Array<EcCompetency> medbiqXmlCompetencies;
@@ -20,7 +29,15 @@ public class MedbiqImport extends Importer {
 	private final static int INCREMENTAL_STEP = 5;
 	
     
-    public static void medbiqXmlLookForCompetencyObject(Object obj)
+	/**
+	 * 
+	 * @memberOf MedbiqImport
+	 * @method medbiqXmlLookForCompetencyObject
+	 * @private
+	 * @static
+	 * @param {Object} obj
+	 */
+    private static void medbiqXmlLookForCompetencyObject(Object obj)
     {
  	    if (isObject(obj) || isArray(obj))
  	    	for (String key : JSObjectAdapter.$properties(obj)) {
@@ -31,7 +48,14 @@ public class MedbiqImport extends Importer {
  	        }
     }
     
-    public static void medbiqXmlParseCompetencyObject(Object obj)
+    /**
+     * @memberOf MedbiqImport
+	 * @method medbiqXmlParseCompetencyObject
+	 * @private
+	 * @static 
+     * @param {Object} obj
+     */
+    private static void medbiqXmlParseCompetencyObject(Object obj)
     {
     	if (isArray(obj)) {
 	        for (String key : JSObjectAdapter.$properties(obj)) {
@@ -58,6 +82,15 @@ public class MedbiqImport extends Importer {
 	    }
     }
     
+    /**
+     * 
+     * @memberOf MedbiqImport
+     * @method analyzeFile
+     * @static
+     * @param {Object} file
+     * @param {Callback1<Array<EcCompetency>>} success
+     * @param {Callback1<String>} failure
+     */
 	public static void analyzeFile(Object file, final Callback1<Array<EcCompetency>> success, final Callback1<String> failure)
 	{
 		if(file == null)
@@ -103,6 +136,17 @@ public class MedbiqImport extends Importer {
 	
 	static Object progressObject;
 	static int saved;
+	/**
+	 * 
+	 * @memberOf MedbiqImport
+     * @method importCompetencies
+     * @static
+	 * @param {String} serverUrl
+	 * @param {EcIdentity} owner
+	 * @param {Callback1<Array<EcCompetency>>} success
+	 * @param {Callback1<Object>} failure
+	 * @param {Callback1<Object>} incremental
+	 */
 	public static void importCompetencies(final String serverUrl, final EcIdentity owner,
 			final Callback1<Array<EcCompetency>> success, final Callback1<Object> failure, final Callback1<Object> incremental)
 	{

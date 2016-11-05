@@ -9,6 +9,14 @@ import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
 
+/**
+ * 
+ * @class FrameworkImport
+ * @static
+ * @extends Importer
+ * 
+ * @author devlin.junker@eduworks.com
+ */
 public class FrameworkImport {
 
 	public static int saved;
@@ -18,6 +26,19 @@ public class FrameworkImport {
 	static Array<EcCompetency> competencies;
 	
 	
+	/**
+	 * 
+	 * @memberOf FrameworkImport
+	 * @method importCompetencies
+	 * @static
+	 * @param {EcFramework} source
+	 * @param {EcFramework} target
+	 * @param {boolean} copy
+	 * @param {String} serverUrl
+	 * @param {EcIdentity} owner
+	 * @param {Callback1<Array<EcCompetency>>} success
+	 * @param {Callback1<Object>} failure
+	 */
 	public static void importCompetencies(final EcFramework source, EcFramework target, boolean copy, 
 			final String serverUrl, final EcIdentity owner,
 			final Callback1<Array<EcCompetency>> success, final Callback1<Object> failure)

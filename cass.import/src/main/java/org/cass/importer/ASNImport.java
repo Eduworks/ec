@@ -15,6 +15,17 @@ import org.stjs.javascript.functions.Callback2;
 
 import js.FileReader;
 
+/**
+ * Import methods to handle an ASN XML file of competencies and
+ * store them in the CASS instance
+ * 
+ * @class ASNImport
+ * @static
+ * @extends Importer
+ * 
+ * @author devlin.junker@eduworks.com
+ * @author fritz.ray@eduworks.com
+ */
 public class ASNImport extends Importer{
 	
 	private final static int INCREMENTAL_STEP = 5;
@@ -27,7 +38,15 @@ public class ASNImport extends Importer{
 	static int competencyCount;
 	static int relationCount;
 	
-	public static void asnJsonPrime(Object obj, String key){
+	/**
+	 * @memberOf ASNImport
+	 * @method asnJsonPrime
+	 * @private
+	 * @static
+	 * @param {Object} obj	
+	 * @param {String} key
+	 */
+	private static void asnJsonPrime(Object obj, String key){
 		Object value = JSObjectAdapter.$get(obj, key);
 	    
 		if (isObject(value)) {
@@ -47,7 +66,16 @@ public class ASNImport extends Importer{
 	    }
 	}
 	
-	public static void lookThroughSource(Object obj)
+	
+	/**
+	 * @memberOf ASNImport
+	 * @method lookThroughSource
+	 * @private
+	 * @static
+	 * @param {Object} obj
+	 * 			
+	 */
+	private static void lookThroughSource(Object obj)
 	{
 		competencyCount = 0;
 		relationCount = 0;
@@ -70,6 +98,15 @@ public class ASNImport extends Importer{
 	    }
 	}
 	
+	/**
+	 * 
+	 * @memberOf ASNImport
+	 * @method analyzeFile
+	 * @static
+	 * @param {Object} file
+	 * @param {Callback1<Object>} success
+	 * @param {Callback1<Object>} failure
+	 */
 	public static void analyzeFile(Object file, final Callback1<Object> success, final Callback1<Object> failure)
 	{
 		if(file == null)
@@ -118,6 +155,19 @@ public class ASNImport extends Importer{
 	static Map<String, EcCompetency> competencies;
 	
 	static Object progressObject;
+	
+	/**
+	 * 
+	 * @memberOf ASNImport
+	 * @method importCompetencies
+	 * @static
+	 * @param {String} serverUrl
+	 * @param {EcIdentity} owner
+	 * @param {boolean} createFramework
+	 * @param {Callback2<Array<EcCompetency>, EcFramework>} success
+	 * @param {Callback1<Object>} failure
+	 * @param {Callback1<Object>} incremental
+	 */
 	public static void importCompetencies(final String serverUrl, final EcIdentity owner, final boolean createFramework,
 			final Callback2<Array<EcCompetency>, EcFramework> success, final Callback1<Object> failure,
 			final Callback1<Object> incremental)
@@ -162,7 +212,19 @@ public class ASNImport extends Importer{
 	
 	
 	static int savedCompetencies = 0;
-	public static void createCompetencies(String serverUrl, EcIdentity owner, final Callback0 success, 
+	/**
+	 * 
+	 * @memberOf ASNImport
+	 * @method createCompetencies
+	 * @private
+	 * @static
+	 * @param {String} serverUrl
+	 * @param {EcIdentity} owner
+	 * @param {Callback0} success
+	 * @param {Callback1<Object>} failure
+	 * @param {Callback1<Object>} incremental
+	 */
+	private static void createCompetencies(String serverUrl, EcIdentity owner, final Callback0 success, 
 			final Callback1<Object> failure, final Callback1<Object> incremental)
 	{
 		savedCompetencies = 0;
@@ -225,7 +287,21 @@ public class ASNImport extends Importer{
 	}
 	
 	static int savedRelations = 0;
-	public static void createRelationships(String serverUrl, EcIdentity owner, Object node, String nodeId, 
+	/**
+	 * 
+	 * @memberOf ASNImport
+	 * @method createRelationships
+	 * @private
+	 * @static
+	 * @param {String} serverUrl
+	 * @param {EcIdentity} owner
+	 * @param {Object} node
+	 * @param {String} nodeId
+	 * @param {Callback0} success
+	 * @param {Callback1<Object>} failure
+	 * @param {Callback1<Object>} incremental
+	 */
+	private static void createRelationships(String serverUrl, EcIdentity owner, Object node, String nodeId, 
 			final Callback0 success, final Callback1<Object> failure, final Callback1<Object> incremental)
 	{
 		savedRelations = 0;
@@ -289,7 +365,18 @@ public class ASNImport extends Importer{
 	}
 	
 	
-	public static void createFramework(String serverUrl, EcIdentity owner, final Callback2<Array<EcCompetency>, EcFramework> success, final Callback1<Object> failure)
+	/**
+	 * 
+	 * @meberOf ASNImport
+	 * @method createFramework
+	 * @private
+	 * @static
+	 * @param {String} serverUrl
+	 * @param {EcIdentity} owner
+	 * @param {Callback2<Array<EcCompetency>, EcFramework>} success
+	 * @param {Callback1<Object>} failure
+	 */
+	private static void createFramework(String serverUrl, EcIdentity owner, final Callback2<Array<EcCompetency>, EcFramework> success, final Callback1<Object> failure)
 	{
 		importedFramework.name = (String) JSObjectAdapter.$get(JSObjectAdapter.$get(JSObjectAdapter.$get(jsonFramework, "http://purl.org/dc/elements/1.1/title"), "0"), "value");
 		
