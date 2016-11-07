@@ -9,11 +9,12 @@ import org.stjs.javascript.Map;
 /**
  * Message used to commit credentials to a remote login server.
  * 
- * TODO: Semi-vulnerable to replay attacks. Token field prevents some replay
+ * TODO: Vulnerable to replay attacks. Token field prevents some replay
  * attacks.
  * 
  * @author fritz.ray@eduworks.com
- *
+ * @class EbacCredentialCommit
+ * @module org.cassproject
  */
 public class EbacCredentialCommit extends EcLinkedData
 {
@@ -29,19 +30,27 @@ public class EbacCredentialCommit extends EcLinkedData
 
 	/**
 	 * Hashed username.
+	 * @property username
+	 * @type string
 	 */
 	public String username;
 	/**
 	 * Hashed password to authorize commit.
+	 * @property password
+	 * @type string
 	 */
 	public String password;
 	/**
 	 * Token provided to client when previously executed Request was done. May
 	 * be empty if this is used as part of Create action.
+	 * @property token
+	 * @type string
 	 */
 	public String token;
 	/**
 	 * List of credentials to commit to the login server storage.
+	 * @property credentials
+	 * @type EbacCredentials
 	 */
 	public EbacCredentials credentials;
 

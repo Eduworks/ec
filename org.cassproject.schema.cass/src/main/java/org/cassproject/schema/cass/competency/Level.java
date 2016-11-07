@@ -1,12 +1,18 @@
 package org.cassproject.schema.cass.competency;
 
 import org.cassproject.schema.cass.Cass;
-import org.schema.Thing;
+import org.schema.Intangible;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
 
-public class Level extends Thing
+/**
+ * When an individual's performance in a competency can be measured, a level specifies milestones that an individual can reach, creating fine-grained distinction between the proficient and the adept.
+ * @author fritz.ray@eduworks.com
+ * @class Level
+ * @module org.cassproject
+ */
+public class Level extends Intangible
 {
 	private static final String TYPE_0_1 = "http://schema.eduworks.com/cass/0.1/level";
 	private static final String TYPE_0_2 = "http://schema.eduworks.com/cass/0.2/level";
@@ -18,8 +24,24 @@ public class Level extends Thing
 		setContextAndType(Cass.context, myType);
 	}
 
+	/**
+	 * Specifies the URL of the competency this level relates to.
+	 * @property competency
+	 * @type string(URL) 
+	 */
 	public String competency;
+	/**
+	 * The title that one who holds this performance level may assume.
+	 * @property title
+	 * @type string
+	 */
 	public String title;
+	/**
+	 * The performance characteristics required by this level in text form.
+	 * TBD: Isn't this what description represents?
+	 * @property performance
+	 * @type string
+	 */
 	public String performance;
 
 	@Override

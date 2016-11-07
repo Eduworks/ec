@@ -12,7 +12,8 @@ import org.stjs.javascript.Map;
  * systems.
  * 
  * @author fritz.ray@eduworks.com
- *
+ * @class EbacCredential
+ * @module org.cassproject
  */
 public class EbacCredential extends EcLinkedData
 {
@@ -26,19 +27,27 @@ public class EbacCredential extends EcLinkedData
 	}
 
 	/**
-	 * AES Initialization Vector used to decode PPK.
+	 * AES Initialization Vector used to decode PPK. Base64 encoded.
+	 * @property iv
+	 * @type string
 	 */
 	public String iv;
 	/**
 	 * AES encrypted Private Key in PEM form.
+	 * @property ppk
+	 * @type string
 	 */
 	public String ppk;
 	/**
-	 * AES Initialization Vector used to decode displayName.
+	 * AES Initialization Vector used to decode displayName. Base64 encoded.
+	 * @property displayNameIv
+	 * @type string
 	 */
 	public String displayNameIv;
 	/**
 	 * AES encrypted display name for identity.
+	 * @property displayName
+	 * @type string
 	 */
 	public String displayName;
 

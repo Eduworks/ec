@@ -12,7 +12,8 @@ import org.stjs.javascript.Map;
  * systems.
  * 
  * @author fritz.ray@eduworks.com
- *
+ * @class EbacContact
+ * @module org.cassproject
  */
 public class EbacContact extends EcLinkedData
 {
@@ -26,23 +27,42 @@ public class EbacContact extends EcLinkedData
 	}
 
 	/**
-	 * AES Initialization Vector used to decode PPK.
+	 * AES Initialization Vector used to decode PPK. Base64 encoded.
+	 * @property iv
+	 * @type string
 	 */
 	public String iv;
 	/**
-	 * AES encrypted Private Key in PEM form.
+	 * AES encrypted Private Key in PEM format.
+	 * @property pk
+	 * @type string
 	 */
 	public String pk;
 	/**
-	 * AES Initialization Vector used to decode displayName.
+	 * AES Initialization Vector used to decode displayName. Base64 encoded.
+	 * @property displayNameIv
+	 * @type string
 	 */
 	public String displayNameIv;
 	/**
 	 * AES encrypted display name for identity.
+	 * @property displayName
+	 * @type string
 	 */
 	public String displayName;
 
+	/**
+	 * AES Initialization Vector of the home server of the contact. Base64 encoded.
+	 * @property sourceIv
+	 * @type string
+	 */
 	public String sourceIv;
+
+	/**
+	 * URL to the home server of the contact.
+	 * @property source
+	 * @type string
+	 */
 	public String source;
 
 	@Override

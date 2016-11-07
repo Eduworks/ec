@@ -1,19 +1,19 @@
 package org.cassproject.schema.cass.competency;
 
 import org.cassproject.schema.cass.Cass;
-import org.schema.Thing;
+import org.schema.Intangible;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
 
 /**
- * Under construction.
- * 
- * Working model of a CASS competency.
- * 
+ * Competencies include skills, knowledge, abilities, traits, and combinations thereof that are needed to perform a task or job. In CASS, competencies are identified and located using a globally unique ID. Competencies can be further described using titles, descriptions, levels, indicators (coming soon), roll-up rules, and relationships to other competencies.
+ *  
  * @author fritz.ray@eduworks.com
+ * @class Competency
+ * @module org.cassproject
  */
-public class Competency extends Thing
+public class Competency extends Intangible
 {
 	private static final String TYPE_0_1 = "http://schema.eduworks.com/cass/0.1/competency";
 	private static final String TYPE_0_2 = "http://schema.eduworks.com/cass/0.2/competency";
@@ -25,6 +25,11 @@ public class Competency extends Thing
 		setContextAndType(Cass.context, myType);
 	}
 
+	/**
+	 * Scope in which the competency may be applied. e.g. Underwater.
+	 * @property scope
+	 * @type string
+	 */
 	public String scope;
 
 	@Override

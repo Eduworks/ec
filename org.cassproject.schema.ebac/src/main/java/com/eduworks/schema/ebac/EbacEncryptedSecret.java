@@ -9,16 +9,17 @@ import org.stjs.javascript.Map;
 
 /**
  * Component of EbacEncryptedValue that contains data needed to decrypt
- * encrypted payload. Is, in itself, encrypted.
+ * encrypted payload. Is, itself, encrypted.
  * 
  * Also contains data used to verify that encrypted-data substitution attacks
  * were not performed on the data.
  * 
- * Must be encryptable by RSA, therefore, serialized form is less than 256
+ * Must be encryptable by RSA-2048, therefore, serialized form must less than 256
  * bytes.
  * 
  * @author fritz.ray@eduworks.com
- *
+ * @class EbacEncryptedSecret
+ * @module org.cassproject
  */
 public class EbacEncryptedSecret extends EcLinkedData
 {
@@ -32,26 +33,40 @@ public class EbacEncryptedSecret extends EcLinkedData
 	}
 
 	/**
-	 * IV used to encrypt/decrypt payload.
+	 * IV used to encrypt/decrypt payload. Base64 encoded.
+	 * @property iv
+	 * @type string
 	 */
 	public String iv;
 
 	/**
 	 * Hashed and Base64 encoded ID of the parent (if any) object.
+	 * Used to verify the data has not been copied from elsewhere.
+	 * @property id
+	 * @type string
 	 */
 	public String id;
 
 	/**
 	 * Secret used to encrypt/decrypt payload.
+	 * @property secret
+	 * @type string
 	 */
 	public String secret;
 
 	/**
 	 * Dot and Bracket notated index of the field in the parent-most object (if
-	 * any).
+	 * any). Used to verify the field has not been copied from elsewhere.
+	 * @property field
+	 * @type string
 	 */
 	public String field;
 
+	/**
+	 * Serializes the field into a compact form for RSA encryption.
+	 * @method toEncryptableJson
+	 * @return {string} string
+	 */
 	public String toEncryptableJson()
 	{
 		Map<String, Object> o = JSObjectAdapter.$properties(new Object());
@@ -64,6 +79,13 @@ public class EbacEncryptedSecret extends EcLinkedData
 		return JSGlobal.JSON.stringify(o);
 	}
 
+	/**
+	 * Deserializes the field from a compact form used in RSA encryption.
+	 * @method fromEncryptableJson
+	 * @static
+	 * @param {JSONObject} obj Object to deserialize from.
+	 * @return {EbacEncryptedSecret} Secret in object form.
+	 */
 	public static EbacEncryptedSecret fromEncryptableJson(Object obj)
 	{
 		EbacEncryptedSecret secret = new EbacEncryptedSecret();

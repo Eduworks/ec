@@ -12,7 +12,8 @@ import org.stjs.javascript.Map;
  * TODO: Vulnerable to replay attacks.
  * 
  * @author fritz.ray@eduworks.com
- *
+ * @class EbacCredentialRequest
+ * @module org.cassproject
  */
 public class EbacCredentialRequest extends EcLinkedData
 {
@@ -27,10 +28,14 @@ public class EbacCredentialRequest extends EcLinkedData
 
 	/**
 	 * Hashed username.
+	 * @property username
+	 * @type string
 	 */
 	public String username;
 	/**
 	 * Hashed password to authorize request.
+	 * @property password
+	 * @type string
 	 */
 	public String password;
 

@@ -11,7 +11,8 @@ import org.stjs.javascript.Map;
  * commit actions.
  * 
  * @author fritz.ray@eduworks.com
- *
+ * @class EbacCredentials
+ * @module org.cassproject
  */
 public class EbacCredentials extends EcLinkedData
 {
@@ -25,19 +26,27 @@ public class EbacCredentials extends EcLinkedData
 	}
 
 	/**
-	 * One time pad (aka perfect cipher)
+	 * One time pad that may be used in password recovery. Base64 encoded.
+	 * @property pad
+	 * @type string
 	 */
 	public String pad;
 	/**
 	 * Token provided by server to use in commit actions.
+	 * @property token
+	 * @type string
 	 */
 	public String token;
 	/**
 	 * Credential array.
+	 * @property credentials
+	 * @type EbacCredential[]
 	 */
 	public Array<EbacCredential> credentials;
 	/**
 	 * Contact array.
+	 * @property contacts
+	 * @type EbacContact[]
 	 */
 	public Array<EbacContact> contacts;
 

@@ -1,20 +1,19 @@
 package org.cassproject.schema.cass.competency;
 
 import org.cassproject.schema.cass.Cass;
-import org.schema.Thing;
+import org.schema.Intangible;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
 
 /**
- * A composition of references to competencies, alignments, and levels that
- * embody a competency framework. It is reasonable safe to assume the maker of
- * this framework implicitly accepts all data referred to by this object.
+ * A Competency Framework or simply Framework is a collection of competencies and relations between competencies in the framework and potentially between competencies in the framework and competencies in other frameworks. In practice, a Framework represents competencies related to a specific job, task, organization, career, knowledge domain, etc.
  * 
  * @author fritz.ray@eduworks.com
- *
+ * @class Framework
+ * @module org.cassproject
  */
-public class Framework extends Thing
+public class Framework extends Intangible
 {
 	private static final String TYPE_0_1 = "http://schema.eduworks.com/cass/0.1/framework";
 	private static final String TYPE_0_2 = "http://schema.eduworks.com/cass/0.2/framework";
@@ -26,11 +25,30 @@ public class Framework extends Thing
 		setContextAndType(Cass.context, myType);
 	}
 
+	/**
+	 * URLs of competencies included in this framework.
+	 * @property competency
+	 * @type string[]
+	 */
 	public Array<String> competency;
+	/**
+	 * URLs of relations included in this framework.
+	 * @property relation
+	 * @type string[]
+	 */
 	public Array<String> relation;
+	/**
+	 * URLs of levels included in this framework.
+	 * @property level
+	 * @type string[]
+	 */
 	public Array<String> level;
+	/**
+	 * URLs of RollupRules included in this framework.
+	 * @property rollupRule
+	 * @type string[]
+	 */
 	public Array<String> rollupRule;
-	public Source source;
 
 	@Override
 	protected void upgrade()

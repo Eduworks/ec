@@ -7,10 +7,11 @@ import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
 
 /**
- * Encrypted JSON-LD object.
+ * Encrypted JSON-LD object or string.
  * 
  * @author fritz.ray@eduworks.com
- *
+ * @class EbacEncryptedValue
+ * @module org.cassproject
  */
 public class EbacEncryptedValue extends EcRemoteLinkedData
 {
@@ -26,26 +27,34 @@ public class EbacEncryptedValue extends EcRemoteLinkedData
 	}
 
 	/**
-	 * Optional Hint used to aid search, showing the type of the inner encrypted
-	 * object.
+	 * Optional Hint used to aid in search.
+	 * Displays the type of the encrypted object.
+	 * @property encryptedType
+	 * @type string
 	 */
 	public String encryptedType;
 
 	/**
-	 * Base-64 encoded, AES encrypted form of the encrypted object (or data).
+	 * Base-64 encoded, AES encrypted form of the encrypted object (or string).
+	 * @property payload
+	 * @type string
 	 */
 	public String payload;
 
 	/**
-	 * Optional Hint used to aid view, showing a name of the inner encrypted
-	 * object.
+	 * Optional Hint used to aid in search and display.
+	 * Name of the inner encrypted object.
+	 * @property name
+	 * @type string
 	 */
 	public String name;
 
 	/**
 	 * Array of EbacEncryptedSecret objects encoded in Base-64, encrypted using
-	 * RSA public keys of owners or readers (or unknown parties) to allow them
+	 * RSA public keys of owners, readers, or other parties to allow them
 	 * access to the payload.
+	 * @property secret
+	 * @type string[]
 	 */
 	public Array<String> secret;
 

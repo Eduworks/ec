@@ -7,12 +7,14 @@ import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
 
 /**
- * AES encrypted public key and display name. Contains Initialization Vectors,
- * but not secrets. Used to encrypt public identities for storage on remote
- * systems.
+ * AES encrypted public key and display name message. 
+ * Used to grant access to a contact. 
+ * Contains Initialization Vectors, but not secrets. 
+ * Used to encrypt public identities for storage on remote systems.
  * 
  * @author fritz.ray@eduworks.com
- *
+ * @class EbacContactGrant
+ * @module org.cassproject
  */
 public class EbacContactGrant extends EcRemoteLinkedData
 {
@@ -25,11 +27,36 @@ public class EbacContactGrant extends EcRemoteLinkedData
 		super(Ebac.context, TYPE_0_3);
 	}
 
-	public String iv;
+	/**
+	 * Public key being granted to the owner of this message.
+	 * @property pk
+	 * @type string(pem)
+	 */
 	public String pk;
+	/**
+	 * Display name of the contact.
+	 * @property displayName
+	 * @type string
+	 */
 	public String displayName;
+	/**
+	 * Source server of the contact.
+	 * @property source
+	 * @type string
+	 */
 	public String source;
+	/**
+	 * Response token used to validate that this grant is in response to a contact request you sent.
+	 * @property responseToken
+	 * @type string
+	 */
 	public String responseToken;
+	/**
+	 * Signature (Base64 encoded) of the response token to verify against your own public key 
+	 * to ensure that this grant is in response to a contact request you sent.
+	 * @property responseSignature
+	 * @type string
+	 */
 	public String responseSignature;
 
 	@Override
