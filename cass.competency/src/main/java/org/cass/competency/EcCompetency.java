@@ -15,13 +15,42 @@ import org.stjs.javascript.functions.Callback1;
 import com.eduworks.ec.crypto.EcPpk;
 
 /**
+ * Implementation of a Competency object with methods for interacting with CASS
+ * services on a server.
+ * 
+ * @module org.cassproject
+ * @class EcCompetency
+ * @constructor
+ * @extends Competency
+ * 
  * @author fritz.ray@eduworks.com
- *
+ * @author devlin.junker@eduworks.com
  */
 public class EcCompetency extends Competency
 {
-	public EcAlignment addAlignment(EcCompetency target, final String alignmentType, final EcPpk owner, final String server, Callback1<String> success,
-			Callback1<String> failure)
+	/**
+	 * Adds a new alignment on the server specified with this competency as its 
+	 * source and the specified target competency 
+	 * 
+	 * @memberOf EcCompetency
+	 * @method addAlignment
+	 * @param {EcCompetency} target
+	 * 			Competency to be related with
+	 * @param {String} alignmentType
+	 * 			String defining the relationship type
+	 * @param {EcPpk} owner
+	 * 			Private Key that will own the relationship created
+	 * @param {String} server
+	 * 			URL Prefix of the new relationship (Server it will be saved on)
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered after successfully creating and saving the relationship
+	 * @param {Callback1<String>} [failure]
+	 * 			Callback triggered if error creating and saving relationship
+	 * @return EcAlignment
+	 * 			Created relationship
+	 */
+	public EcAlignment addAlignment(EcCompetency target, final String alignmentType, final EcPpk owner, 
+			final String server, Callback1<String> success, Callback1<String> failure)
 	{
 		final EcAlignment a = new EcAlignment();
 		a.generateId(server);
@@ -35,12 +64,41 @@ public class EcCompetency extends Competency
 		return a;
 	}
 
+	/**
+	 * Searches the repository given for any relationships that contain this competency
+	 * 
+	 * @memberOf EcCompetency
+	 * @method relations
+	 * @param {EcRepository} repo
+	 * 			Repository to search for relationships
+	 * @param {Callback1<EcAlignment>} eachSuccess
+	 * 			Callback triggered for each relationship found
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if an error finding relationships
+	 * @param {Callback1<Array<EcAlignment>>} successAll
+	 * 			Callback triggered once all of the relationships have been found
+	 */
 	public void relations(EcRepository repo, final Callback1<EcAlignment> eachSuccess, final Callback1<String> failure,
 			final Callback1<Array<EcAlignment>> successAll)
 	{
 		relationships(repo, eachSuccess, failure, successAll);
 	}
 
+	/**
+	 * Searches the repository given for any relationships that contain this competency
+	 * 
+	 * @memberOf EcCompetency
+	 * @method relations
+	 * @deprecated
+	 * @param {EcRepository} repo
+	 * 			Repository to search for relationships
+	 * @param {Callback1<EcAlignment>} eachSuccess
+	 * 			Callback triggered for each relationship found
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if an error finding relationships
+	 * @param {Callback1<Array<EcAlignment>>} successAll
+	 * 			Callback triggered once all of the relationships have been found
+	 */
 	@Deprecated
 	public void relationships(EcRepository repo, final Callback1<EcAlignment> eachSuccess, final Callback1<String> failure,
 			final Callback1<Array<EcAlignment>> successAll)
@@ -81,6 +139,26 @@ public class EcCompetency extends Competency
 				}, failure);
 	}
 
+	/**
+	 * Adds a new level on the server specified for this competency.
+	 * 
+	 * @memberOf EcCompetency
+	 * @method addLevel
+	 * @param {String} name
+	 * 			Name of the new level to create
+	 * @param {String} description
+	 * 			Description of the new level to create
+	 * @param {String} owner
+	 * 			Private key of the owner of the new level
+	 * @param {String} server
+	 * 			URL Prefix for the new level's ID (Server saved on)
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered after successfully creating and saving the level
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if an error creating and saving the level
+	 * @return EcLevel
+	 * 			Level created
+	 */
 	public EcLevel addLevel(String name, String description, final EcPpk owner, final String server, Callback1<String> success, Callback1<String> failure)
 	{
 		final EcLevel l = new EcLevel();
@@ -95,6 +173,20 @@ public class EcCompetency extends Competency
 		return l;
 	}
 
+	/**
+	 * Searches the repository given for any levels of this competency
+	 * 
+	 * @memberOf EcCompetency
+	 * @method levels
+	 * @param {EcRepository} repo
+	 * 			Repository to search for levels
+	 * @param {Callback1<EcLevel>} success
+	 * 			Callback triggered for each level found
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if an error finding levels
+	 * @param {Callback1<Array<EcLevel>>} successAll
+	 * 			Callback triggered once all of the levels have been found
+	 */
 	public void levels(EcRepository repo, final Callback1<EcLevel> success, final Callback1<String> failure, final Callback1<Array<EcLevel>> successAll)
 	{
 		String query = "(" + new EcLevel().getSearchStringByType() + " AND ( competency:\"" + id + "\" OR competency:\"" + shortId() + "\"))";
@@ -176,6 +268,26 @@ public class EcCompetency extends Competency
 		}, failure);
 	}
 
+	/**
+	 * Adds a new rollup rule on the server specified for this competency
+	 * 
+	 * @memberOf EcCompetency
+	 * @method addRollupRule
+	 * @param {String} name
+	 * 			Name of the rollup rule to create
+	 * @param {String} description
+	 * 			Description of the rollup rule to create
+	 * @param {EcPpk} owner
+	 * 			Private key that will own the new rollup rule
+	 * @param {String} server
+	 * 			URL Prefix for the new rollup rule's ID (Server that it will be saved on)
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered if successfully save the rollup rule
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered fi error during save of rollup rule
+	 * @return EcRollupRule
+	 * 			Created rollup rule
+	 */
 	public EcRollupRule addRollupRule(String name, String description, final EcPpk owner, final String server, Callback1<String> success,
 			Callback1<String> failure)
 	{
@@ -191,6 +303,21 @@ public class EcCompetency extends Competency
 		return r;
 	}
 
+	
+	/**
+	 * Searches the repository given for any rollup rules of this competency
+	 * 
+	 * @memberOf EcCompetency
+	 * @method rollupRules
+	 * @param {EcRepository} repo
+	 * 			Repository to search for levels
+	 * @param {Callback1<EcRollupRule>} success
+	 * 			Callback triggered for each rollup rule found
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if an error finding rollup rule
+	 * @param {Callback1<Array<EcRollupRule>} successAll
+	 * 			Callback triggered once all of the rollup rules have been found
+	 */
 	public void rollupRules(EcRepository repo, final Callback1<EcRollupRule> success, final Callback1<String> failure,
 			final Callback1<Array<EcRollupRule>> successAll)
 	{
@@ -272,21 +399,56 @@ public class EcCompetency extends Competency
 		}, failure);
 	}
 
+	/**
+	 * Method to set competency name
+	 * 
+	 * @memberOf EcCompetency
+	 * @method setName
+	 * @param {String} name
+	 *			Name to set for this competency
+	 */
 	public void setName(String name)
 	{
 		this.name = name;
 	}
 
+	/**
+	 * Method to set competency description
+	 * 
+	 * @memberOf EcCompetency
+	 * @method setDescription
+	 * @param {String} description
+	 * 			Description to set for its competency
+	 */
 	public void setDescription(String description)
 	{
 		this.description = description;
 	}
 
+	/**
+	 * Method to set competency scope
+	 * 
+	 * @memberOf EcCompetency
+	 * @method setScope
+	 * @param {String} scope
+	 * 			Scope to set for its competency
+	 */
 	public void setScope(String scope)
 	{
 		this.scope = scope;
 	}
 
+	
+	/**
+	 * Saves the competency details to the server
+	 * 
+	 * @memberOf EcCompetency
+	 * @method save
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered on successfully saving the competency
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error saving competency
+	 */
 	public void save(Callback1<String> success, Callback1<String> failure)
 	{
 		if (this.name == null || this.name == "")
@@ -320,6 +482,21 @@ public class EcCompetency extends Competency
 
 	}
 
+	
+	/**
+	 * Deletes the competency from the server
+	 * 
+	 * TODO: Delete rollup rules?
+	 * 
+	 * @memberOf EcCompetency
+	 * @method _delete
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered on successful deleting the competency
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error deleting the competency
+	 * @param {EcRepository} repo
+	 * 			Repository to delete from and to check for levels or relationships to delete
+	 */
 	public void _delete(final Callback1<String> success, final Callback1<String> failure, final EcRepository repo)
 	{
 		final EcCompetency me = this;
@@ -384,7 +561,7 @@ public class EcCompetency extends Competency
 											else
 												Global.console.error("Unable to Delete Competency Relation");
 										}
-									}, repo);
+									});
 									return;
 								}
 							}
@@ -408,6 +585,21 @@ public class EcCompetency extends Competency
 		}, failure);
 	}
 
+	
+	/**
+	 * Retrieves a competency from it's server asynchronously
+	 * 
+	 * @memberOf EcCompetency
+	 * @method get
+	 * @static
+	 * @param {String} id
+	 * 			ID of the competency to retrieve from the server
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered after retrieving the competency,
+	 * 			returns the competency retrieved
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error retrieving competency
+	 */
 	public static void get(String id, final Callback1<EcCompetency> success, final Callback1<String> failure)
 	{
 		EcRepository.get(id, new Callback1<EcRemoteLinkedData>()
@@ -445,6 +637,19 @@ public class EcCompetency extends Competency
 		}, failure);
 	}
 
+	
+	/**
+	 * Retrieves a competency from it's server synchronously, the call 
+	 * blocks until it is successful or an error occurs
+	 * 
+	 * @memberOf EcCompetency
+	 * @method getBlocking
+	 * @static
+	 * @param {String} id
+	 * 			ID of the competency to retrieve
+	 * @return EcCompetency
+	 * 			The competency retrieved
+	 */
 	public static EcCompetency getBlocking(String id)
 	{
 		EcRemoteLinkedData p1 = EcRepository.getBlocking(id);
@@ -471,6 +676,26 @@ public class EcCompetency extends Competency
 		}
 	}
 
+	
+	/**
+	 * Searches a repository for competencies that match the search query 
+	 * 
+	 * @memberOf EcCompetency
+	 * @method search
+	 * @static
+	 * @param {EcRepository} repo
+	 * 			Repository to search using the query
+	 * @param {String} query
+	 * 			Query string to pass to the search web service
+	 * @param {Callback1<Array<EcCompetency>> success
+	 * 			Callback triggered after completing the search, returns the results
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error searching
+	 * @param {Object} paramObj
+	 * 			Parameter object for search
+	 * 		@param start
+	 * 		@param size
+	 */
 	public static void search(EcRepository repo, String query, final Callback1<Array<EcCompetency>> success, Callback1<String> failure, Object paramObj)
 	{
 		String queryAdd = "";

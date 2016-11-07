@@ -101,7 +101,7 @@ public class MedbiqImport extends Importer {
      * @param {Callback1<Array<EcCompetency>>} success
      * 			Callback triggered on succesfully analyzing competencies, 
      * 			returns an array of all of the competencies found
-     * @param {Callback1<String>} failure
+     * @param {Callback1<String>} [failure]
      * 			Callback triggered on error analyzing file
      */
 	public static void analyzeFile(Object file, final Callback1<Array<EcCompetency>> success, final Callback1<String> failure)
@@ -162,9 +162,9 @@ public class MedbiqImport extends Importer {
 	 * 			EcIdentity that will own the created competencies (and relationships?)
 	 * @param {Callback1<Array<EcCompetency>>} success
 	 * 			Callback triggered after successfully creating the competencies from the XML file
-	 * @param {Callback1<Object>} failure
+	 * @param {Callback1<Object>} [failure]
 	 * 			Callback triggered if there is an error while creating the competencies
-	 * @param {Callback1<Object>} incremental
+	 * @param {Callback1<Object>} [incremental]
 	 * 			Callback triggered incrementally while the competencies are being created to show progress,
 	 * 			returns an object indicating the number of competencies created so far
 	 */

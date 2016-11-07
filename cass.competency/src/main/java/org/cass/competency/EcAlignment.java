@@ -12,23 +12,58 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.functions.Callback1;
 
 /**
- * TODO: Test case where an absent relation is in the framework.
+ * Implementation of an alignment object with methods for interacting with CASS
+ * services on a server.
+ * 
+ * @module org.cassproject
+ * @class EcAlignment
+ * @constructor
+ * @extends Relation
+ * 
  * @author fritz.ray@eduworks.com
- *
+ * @author devlin.junker@eduworks.com
+ * 
+ * TODO: Test case where an absent relation is in the framework.
  */
 public class EcAlignment extends Relation
 {
 
+	/**
+	 * Setter for alignment name
+	 * 
+	 * @memberOf EcAlignment
+	 * @method setName
+	 * @param {String} name
+	 * 			name to give this alignment
+	 */
 	public void setName(String name)
 	{
 		this.name = name;
 	}
 	
+	/**
+	 * Setter for alignment description
+	 * 
+	 * @memberOf EcAlignment
+	 * @method setDescription
+	 * @param {String} description
+	 * 			description to give this alignment
+	 */
 	public void setDescription(String description)
 	{
 		this.description = description;
 	}
 	
+	/**
+	 * Saves this alignment details on the server corresponding to its ID 
+	 * 
+	 * @memberOf EcAlignment
+	 * @method save
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered on successfully saving the alignment
+	 * @param {Callback1<String>} [failure]
+	 * 			Callback triggered if error while saving alignment
+	 */
 	public void save(Callback1<String> success, Callback1<String> failure){
 		if(source == null || source == ""){
 			String msg = "Source Competency cannot be missing";
@@ -67,10 +102,34 @@ public class EcAlignment extends Relation
 		}
 	}
 	
+	/**
+	 * Deletes the alignment from the server corresponding to its ID
+	 * 
+	 * @memberOf EcAlignment
+	 * @method _delete
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered on successfully deleting the alignment
+	 * @param {Callback1<String>} [failure]
+	 * 			Callback triggered if error while deleting alignment
+	 */
 	public void _delete(Callback1<String> success, Callback1<String> failure){
 		EcRepository.DELETE(this, success, failure);
 	}
 	
+	/**
+	 * Retrieves the alignment specified with the ID from the server
+	 * 
+	 * @memberOf EcAlignment
+	 * @method get
+	 * @static
+	 * @param {String} id
+	 * 			ID of the alignment to retrieve
+	 * @param {Callback1<EcAlignment>} success
+	 * 			Callback triggered on successfully retrieving the alignment,
+	 * 			returns the alignment
+	 * @param {Callback1<String>} [failure]
+	 * 			Callback triggered if error while retrieving alignment
+	 */
 	public static void get(String id, final Callback1<EcAlignment> success, final Callback1<String> failure)
 	{
 		EcRepository.get(id, new Callback1<EcRemoteLinkedData>()
@@ -108,6 +167,25 @@ public class EcAlignment extends Relation
 		}, failure);
 	}
 	
+	/**
+	 * Searches the repository using the query and optional parameters provided
+	 * 
+	 * @memberOf EcAlignment
+	 * @method search
+	 * @static
+	 * @param {EcRepository} repo
+	 * 			Repository to search using the query provided
+	 * @param {String} query
+	 * 			The query to send to the search
+	 * @param {Callback1<Array<EcAlignment>>} success
+	 * 			Callback triggered on successful search return
+	 * @param {Callback1<String>} [failure]
+	 * 			Callback triggered if error searching
+	 * @param {Object} [paramObj]
+	 * 			Parameters to include in the search
+	 * 		@param start
+	 * 		@param size
+	 */
 	public static void search(EcRepository repo, String query, final Callback1<Array<EcAlignment>> success, Callback1<String> failure, Object paramObj){
 		String queryAdd = new EcAlignment().getSearchStringByType();
 		
@@ -147,6 +225,25 @@ public class EcAlignment extends Relation
 		}, failure);
 	}
 	
+	/**
+	 * Searches the repository for alignments with a specific ID in the source field
+	 * 
+	 * @memberOf EcAlignment
+	 * @method searchBySource
+	 * @static
+	 * @param {EcRepository} repo
+	 * 			Repository to search for alignments with the source specified
+	 * @param {String} sourceId
+	 * 			ID in the source field of the alignments to find
+	 * @param {Callback1<Array<EcAlignment>>} success
+	 *			Callback triggered on successful search return
+	 * @param {Callback1<String>} [failure]
+	 * 			Callback triggered if error searching
+	 * @param {Object} [paramObj]
+	 * 			Parameters to include in the search
+	 * 		@param start
+	 * 		@param size
+	 */
 	public static void searchBySource(EcRepository repo, final String sourceId, final Callback1<Array<EcAlignment>> success, Callback1<String> failure, Object paramObj){
 		String query = "";
 		query = "("+new EcAlignment().getSearchStringByType();
@@ -193,6 +290,25 @@ public class EcAlignment extends Relation
 		}, failure);
 	}
 	
+	/**
+	 * Searches the repository for alignments with a specific ID in the target field
+	 * 
+	 * @memberOf EcAlignment
+	 * @method searchByCompetency
+	 * @static
+	 * @param {EcRepository} repo
+	 * 			Repository to search for alignments with the source specified
+	 * @param {String} competencyId
+	 * 			ID in the target field of the alignments to find
+	 * @param {Callback1<Array<EcAlignment>>} success
+	 *			Callback triggered on successful search return
+	 * @param {Callback1<String>} [failure]
+	 * 			Callback triggered if error searching
+	 * @param {Object} [paramObj]
+	 * 			Parameters to include in the search
+	 * 		@param start
+	 * 		@param size
+	 */
 	public static void searchByCompetency(EcRepository repo, final String competencyId, final Callback1<Array<EcAlignment>> success, Callback1<String> failure, Object paramObj)
 	{
 		String query = "";

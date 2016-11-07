@@ -123,7 +123,7 @@ public class ASNImport extends Importer{
 	 * 			ASN JSON file
 	 * @param {Callback1<Object>} success
 	 * 			Callback triggered on successful analysis of file
-	 * @param {Callback1<Object>} failure
+	 * @param {Callback1<Object>} [failure]
 	 * 			Callback triggered if there is an error during analysis of the file
 	 */
 	public static void analyzeFile(Object file, final Callback1<Object> success, final Callback1<Object> failure)
@@ -192,7 +192,7 @@ public class ASNImport extends Importer{
 	 * 			Callback triggered after the competencies (and framework?) are created
 	 * @param {Callback1<Object>} failure
 	 * 			Callback triggered if an error occurs while creating the competencies 
-	 * @param {Callback1<Object>} incremental
+	 * @param {Callback1<Object>} [incremental]
 	 * 			Callback triggered incrementally during the creation of competencies to indicate progress,
 	 * 			returns an object indicating the number of competencies (and relationships?) created so far
 	 */
@@ -256,7 +256,7 @@ public class ASNImport extends Importer{
 	 * 			Callback triggered after the competencies are created
 	 * @param {Callback1<Object>} failure
 	 * 			Callback triggered if an error occurs while creating the competencies 
-	 * @param {Callback1<Object>} incremental
+	 * @param {Callback1<Object>} [incremental]
 	 * 			Callback triggered incrementally during the creation of competencies to indicate progress
 	 */
 	private static void createCompetencies(String serverUrl, EcIdentity owner, final Callback0 success, 

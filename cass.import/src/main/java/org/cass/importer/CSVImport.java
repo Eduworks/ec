@@ -44,7 +44,7 @@ public class CSVImport
 	 * 			CSV file to be analyzed
 	 * @param {Callback1<Object>} success
 	 * 			Callback triggered after successfully analyzing the CSV file
-	 * @param {Callback1<Object>} failure
+	 * @param {Callback1<Object>} [failure]
 	 * 			Callback triggered if there is an error analyzing the CSV file
 	 */
 	public static void analyzeFile(Object file, final Callback1<Object> success, final Callback1<Object> failure)
@@ -142,19 +142,19 @@ public class CSVImport
 	 * 			Index of the column that contains the competency scopes
 	 * @param {int} idIndex
 	 * 			Index of the column that contains the old competency ID (Optional, if not exists pass null or negative)
-	 * @param {Object} relations
-	 * 			CSV File to import relationships from
-	 * @param {int} sourceIndex
-	 * 			Index (in relation file) of the column containing the relationship source competency ID
-	 * @param {int} relationTypeIndex
-	 * 			Index (in relation file) of the column containing the relationship type
-	 * @param {int} destIndex
-	 * 			Index (in relation file) of the column containing the relationship destination competency ID
+	 * @param {Object} [relations]
+	 * 			CSV File to import relationships from (Optional, if not exists pass null)
+	 * @param {int} [sourceIndex]
+	 * 			Index (in relation file) of the column containing the relationship source competency ID (Optional, if not exists pass null or negative)
+	 * @param {int} [relationTypeIndex]
+	 * 			Index (in relation file) of the column containing the relationship type (Optional, if not exists pass null or negative)
+	 * @param {int} [destIndex]
+	 * 			Index (in relation file) of the column containing the relationship destination competency ID (Optional, if not exists pass null or negative)
 	 * @param {Callback2<Array<EcCompetency>, Array<EcAlignment>>} success
 	 * 			Callback triggered after the competencies (and relationships?) have been created
-	 * @param {Callback1<Object>} failure
+	 * @param {Callback1<Object>} [failure]
 	 * 			Callback triggered if an error during creating the competencies
-	 * @param {Callback1<Object>} incremental
+	 * @param {Callback1<Object>} [incremental]
 	 * 			Callback triggered incrementally during creation of competencies to indicate progress,
 	 * 			returns an object indicating the number of competencies (and relationships?) created so far
 	 * 			

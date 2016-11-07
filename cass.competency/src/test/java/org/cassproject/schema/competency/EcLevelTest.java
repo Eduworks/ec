@@ -87,7 +87,7 @@ public class EcLevelTest {
 			public void $invoke(String p1) {
 				Assert.fail("Unable to delete Level");
 			}
-		}, null);
+		});
 		
 		comp._delete(null,  new Callback1<String>(){
 			@Override
@@ -275,7 +275,7 @@ public class EcLevelTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to delete Level");
 			}
-		}, null);
+		});
 		
 		Global.console.log("searching for deleted level...");
 		repo.search("@type:\""+toDelete.myType+"\"", null, new Callback1<Array<EcRemoteLinkedData>>() {

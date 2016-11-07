@@ -10,9 +10,32 @@ import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback1;
 
+/**
+ * Implementation of a Framework object with methods for interacting with CASS
+ * services on a server.
+ * 
+ * @module org.cassproject
+ * @class EcFramework
+ * @constructor
+ * @extends Framework
+ * 
+ * @author fritz.ray@eduworks.com
+ * @author devlin.junker@eduworks.com
+ */
 public class EcFramework extends Framework
 {
 
+	static Map<String, Boolean> relDone = JSCollections.$map();
+	static Map<String, Boolean> levelDone = JSCollections.$map();
+
+	/**
+	 * Adds the competency ID specified to the frameworks list of competency IDs
+	 * 
+	 * @memberOf EcFramework
+	 * @method addCompetency
+	 * @param {String} id
+	 * 			ID of the competency to add
+	 */
 	public void addCompetency(String id)
 	{
 		id = trimVersionFromUrl(id);
@@ -23,10 +46,22 @@ public class EcFramework extends Framework
 				return;
 		competency.push(id);
 	}
-
-	static Map<String, Boolean> relDone = JSCollections.$map();
-	static Map<String, Boolean> levelDone = JSCollections.$map();
-
+	
+	/**
+	 * Removes a competency ID from the framework's list, also removes any
+	 * levels and relations associated with that competency
+	 * 
+	 * TODO: remove rollup rules? should we add flag to remove these extras
+	 * 
+	 * @memberOf EcFramework
+	 * @method removeCompetency
+	 * @param {String} id
+	 * 			ID of the competency to remove
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered after succesfully removing the competency and levels and relationships
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error occurs when removing competency and levels and relationships
+	 */
 	public void removeCompetency(final String id, final Callback1<String> success, final Callback1<String> failure)
 	{
 		final String shortId = trimVersionFromUrl(id);
@@ -86,6 +121,21 @@ public class EcFramework extends Framework
 		}
 	}
 
+	/**
+	 * Helper method to remove relationships associated with a competency from this framework
+	 * 
+	 * @memberOf EcFramework
+	 * @method removeRelationshipsThatInclude
+	 * @private
+	 * @param {String} id
+	 * 			ID of the competency being removed, to find relationships on
+	 * @param {int} i
+	 * 			recursive index parameter
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered after all relationships in the framework have been checked
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error occurs looking through relationships
+	 */
 	private void removeRelationshipsThatInclude(final String id, final int i, final Callback1<String> success, final Callback1<String> failure)
 	{
 		final String shortId = trimVersionFromUrl(id);
@@ -110,6 +160,21 @@ public class EcFramework extends Framework
 			}, failure);
 	}
 
+	/**
+	 * Helper method to remove levels associated with a competency from this framework
+	 * 
+	 * @memberOf EcFramework
+	 * @method removeLevelsThatInclude
+	 * @private
+	 * @param {String} id
+	 * 			ID of the competency being removed, to find levels on
+	 * @param {int} i
+	 * 			recursive index parameter
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered after all levels in the framework have been checked
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error occurs looking through levels
+	 */
 	private void removeLevelsThatInclude(final String id, final int i, final Callback1<String> success, final Callback1<String> failure)
 	{
 		final String shortId = trimVersionFromUrl(id);
@@ -134,6 +199,14 @@ public class EcFramework extends Framework
 			}, failure);
 	}
 
+	/**
+	 * Adds a relation ID to the framework's list of relations
+	 * 
+	 * @memberOf EcFramework
+	 * @method addRelation
+	 * @param {String} id
+	 * 			ID to add to the framework's relation list
+	 */
 	public void addRelation(String id)
 	{
 		id = trimVersionFromUrl(id);
@@ -145,6 +218,14 @@ public class EcFramework extends Framework
 		relation.push(id);
 	}
 
+	/**
+	 * Removes a relation ID from the framework's list of relations
+	 * 
+	 * @memberOf EcFramework
+	 * @method removeCompetency
+	 * @param {String} id
+	 * 			ID to remove from the framework's relation list
+	 */
 	public void removeRelation(String id)
 	{
 		id = trimVersionFromUrl(id);
@@ -155,6 +236,14 @@ public class EcFramework extends Framework
 				relation.splice(i, 1);
 	}
 
+	/**
+	 * Adds a level ID to the framework's list of levels
+	 * 
+	 * @memberOf EcFramework
+	 * @method addLevel
+	 * @param {String} id
+	 * 			ID of the level to add to framework's list
+	 */
 	public void addLevel(String id)
 	{
 		id = trimVersionFromUrl(id);
@@ -166,6 +255,14 @@ public class EcFramework extends Framework
 		level.push(id);
 	}
 
+	/**
+	 * Removes a level ID from the framework's list of levels
+	 * 
+	 * @memberOf EcFramework
+	 * @method removeLevel
+	 * @param {String} id
+	 * 			ID to remove from framework's level list
+	 */
 	public void removeLevel(String id)
 	{
 		id = trimVersionFromUrl(id);
@@ -176,6 +273,14 @@ public class EcFramework extends Framework
 				level.splice(i, 1);
 	}
 
+	/**
+	 * Adds a rollup rule ID to the framework's list of rollup rules
+	 * 
+	 * @memberOf EcFramework
+	 * @method addRollupRule
+	 * @param {String} id
+	 * 			ID of the rollup rule to add
+	 */
 	public void addRollupRule(String id)
 	{
 		id = trimVersionFromUrl(id);
@@ -187,6 +292,14 @@ public class EcFramework extends Framework
 		rollupRule.push(id);
 	}
 
+	/**
+	 * Removes a rollup rule ID from the framework's list of rollup rules
+	 * 
+	 * @memberOf EcFramework
+	 * @method removeRollupRule
+	 * @param {String} id
+	 * 			ID to remove from rollup rule list
+	 */
 	public void removeRollupRule(String id)
 	{
 		id = trimVersionFromUrl(id);
@@ -197,6 +310,16 @@ public class EcFramework extends Framework
 				rollupRule.splice(i, 1);
 	}
 
+	/**
+	 * Saves this frameworks details on the server specified by it's ID
+	 * 
+	 * @memberOf EcFramework
+	 * @method save
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered after successfully saving the framework
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error occurs while saving the framework
+	 */
 	public void save(Callback1<String> success, Callback1<String> failure)
 	{
 		if (this.name == null || this.name == "")
@@ -221,11 +344,36 @@ public class EcFramework extends Framework
 
 	}
 
+	/**
+	 * Deletes this framework from the server specified by it's ID
+	 * 
+	 * @memberOf EcFramework
+	 * @method _delete
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered if successfully deleted framework
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error occurs when deleting the framework
+	 */
 	public void _delete(Callback1<String> success, Callback1<String> failure)
 	{
 		EcRepository.DELETE(this, success, failure);
 	}
 
+	
+	/**
+	 * Retrieves a framework from the server, specified by the ID
+	 * 
+	 * @memberOf EcFramework
+	 * @method get
+	 * @static
+	 * @param {String} id
+	 * 			ID of the framework to retrieve
+	 * @param {Callback1<EcFramework>} success
+	 * 			Callback triggered after successfully retrieving the framework,
+	 * 			returns the retrieved framework
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if an error occurs while retrieving the framework
+	 */
 	public static void get(String id, final Callback1<EcFramework> success, final Callback1<String> failure)
 	{
 		EcRepository.get(id, new Callback1<EcRemoteLinkedData>()
@@ -270,6 +418,27 @@ public class EcFramework extends Framework
 		});
 	}
 
+	
+	/**
+	 * Searches the repository given for frameworks using the query passed in
+	 * 
+	 * @memberOf EcFramework
+	 * @method search
+	 * @static
+	 * @param {EcRepository} repo
+	 * 			Repository to search for frameworks
+	 * @param {String} query
+	 * 			Query string used to search for a framework
+	 * @param {Callback1<Array<EcFramework>} success
+	 * 			Callback triggered when the search successfully returns,
+	 * 			returns search results
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if an error occurs while searching
+	 * @param {Object} paramObj
+	 * 			Parameter object for search
+	 * 		@param size
+	 * 		@param start
+	 */
 	public static void search(EcRepository repo, String query, final Callback1<Array<EcFramework>> success, Callback1<String> failure, Object paramObj)
 	{
 		String queryAdd = "";

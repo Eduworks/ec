@@ -14,11 +14,35 @@ import org.stjs.javascript.functions.Callback1;
 import com.eduworks.ec.crypto.EcPpk;
 
 /**
+ * Implementation of a Level object with methods for interacting with CASS
+ * services on a server.
+ * 
+ * @module org.cassproject
+ * @class EcLevel
+ * @constructor
+ * @extends Level
+ * 
  * @author fritz.ray@eduworks.com
+ * @author devlin.junker@eduworks.com
  */
 public class EcLevel extends Level
 {
-	public void addRelationship(EcLevel level, EcLevel targetLevel, String alignmentType, final EcPpk identity, final String server	)
+	/**
+	 * Adds a relationship between this level and a target level to define
+	 * how they correspond to one another
+	 * 
+	 * @memberOf EcLevel
+	 * @method addRelationship
+	 * @param {EcLevel} targetLevel
+	 * 			Target level of the relationship
+	 * @param {String} alignmentType
+	 * 			Type of relationship
+	 * @param {EcPpk} identity
+	 * 			Private key that will own the new relationship
+	 * @param {String} server
+	 * 			URL Prefix of the new relationship ID (Server it will be saved on)
+	 */
+	public void addRelationship(EcLevel targetLevel, String alignmentType, final EcPpk identity, final String server)
 	{
 		final EcAlignment a = new EcAlignment();
 		a.source = id;
@@ -28,15 +52,43 @@ public class EcLevel extends Level
 		a.generateId(server);
 		a.signWith(identity);
 	}
+	
+	/**
+	 * Method to set the name of this level
+	 * 
+	 * @memberOf EcLevel
+	 * @method setName
+	 * @param {String} name
+	 * 			Name to set on the level
+	 */
 	public void setName(String name)
 	{
 		this.name = name;
 	}
+	
+	/**
+	 * Method to set the description of the level
+	 * 
+	 * @memberOf EcLevel
+	 * @method setDescription
+	 * @param {String} description
+	 * 			Description to set on the level
+	 */
 	public void setDescription(String description)
 	{
 		this.description = description;
 	}
 	
+	/**
+	 * Saves this levels details to the server
+	 * 
+	 * @memberOf EcLevel
+	 * @method save
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered on successfully saving the level to the server
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error occurs while saving the level to the server
+	 */
 	public void save(Callback1<String> success, Callback1<String> failure){
 		if(name == null || name == ""){
 			String msg = "Level name cannot be empty";
@@ -66,10 +118,34 @@ public class EcLevel extends Level
 		}
 	}
 	
-	public void _delete(Callback1<String> success, Callback1<String> failure, EcRepository repo){
+	/**
+	 * Deletes the level from it's repository
+	 * 
+	 * @memberOf EcLevel
+	 * @method _delete
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered when the level is successfully deleted from the server
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if an error occurs while deleting the level
+	 */
+	public void _delete(Callback1<String> success, Callback1<String> failure){
 		EcRepository.DELETE(this, success, failure);
 	}
 	
+	/**
+	 * Retrieves a level from the server specified by its ID
+	 * 
+	 * @memberOf EcLevel
+	 * @method get
+	 * @static
+	 * @param {String} id
+	 * 			ID of the level to retrieve
+	 * @param {Callback1<EcLevel>} success
+	 * 			Callback triggered when successfully retrieving the level, 
+	 * 			returns the level
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error occurs when retrieving the level
+	 */
 	public static void get(String id, final Callback1<EcLevel> success, final Callback1<String> failure)
 	{
 		EcRepository.get(id, new Callback1<EcRemoteLinkedData>()
@@ -106,6 +182,25 @@ public class EcLevel extends Level
 		}, failure);
 	}
 	
+	/**
+	 * Searches for levels using a competency that the results must be related to
+	 * 
+	 * @memberOf EcLevel
+	 * @method searchByCompetency
+	 * @static
+	 * @param {EcRepository} repo
+	 * 			Repository to search for levels
+	 * @param {String} competencyId
+	 * 			competency ID that the levels are rleated to
+	 * @param {Callback1<Array<EcLevel>>} success
+	 * 			Callback triggered when searches successfully
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if an error occurs while searching
+	 * @param {Object} paramObj
+	 * 			Search parameters object to pass in
+	 * 		@param size
+	 * 		@param start
+	 */
 	public static void searchByCompetency(EcRepository repo, final String competencyId, final Callback1<Array<EcLevel>> success, Callback1<String> failure, Object paramObj){
 		if(competencyId == null || competencyId == "")
 		{

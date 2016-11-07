@@ -49,7 +49,7 @@ public class FrameworkImport {
 	 * @param {Callback1<Array<EcCompetency>>} success
 	 * 			Callback triggered after succesfully copying or linking all of the competencies,
 	 * 			returns an array of the new or linked competencies
-	 * @param {Callback1<Object>} failure
+	 * @param {Callback1<Object>} [failure]
 	 * 			Callback triggered if an error occurred while creating the competencies
 	 */
 	public static void importCompetencies(final EcFramework source, EcFramework target, boolean copy, 
