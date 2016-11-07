@@ -10,7 +10,10 @@ import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
 
 /**
+ * Importer methods to copy or link to competencies that already
+ * exist in another framework in a CASS instance.
  * 
+ * @module org.cassproject
  * @class FrameworkImport
  * @static
  * @extends Importer
@@ -27,17 +30,27 @@ public class FrameworkImport {
 	
 	
 	/**
+	 * Copies or links competencies that exist in one framework in a CASS instance, 
+	 * to another different framework in the same CASS instance.
 	 * 
 	 * @memberOf FrameworkImport
 	 * @method importCompetencies
 	 * @static
 	 * @param {EcFramework} source
+	 * 			Framework to copy or link the competencies from
 	 * @param {EcFramework} target
+	 * 			Framework to add the copied or linked competencies to
 	 * @param {boolean} copy
+	 * 			Flag indicating whether or not to copy or link the competencies in the source framework
 	 * @param {String} serverUrl
+	 * 			URL Prefix for the created competencies if copied
 	 * @param {EcIdentity} owner
+	 * 			EcIdentity that will own the created competencies if copied
 	 * @param {Callback1<Array<EcCompetency>>} success
+	 * 			Callback triggered after succesfully copying or linking all of the competencies,
+	 * 			returns an array of the new or linked competencies
 	 * @param {Callback1<Object>} failure
+	 * 			Callback triggered if an error occurred while creating the competencies
 	 */
 	public static void importCompetencies(final EcFramework source, EcFramework target, boolean copy, 
 			final String serverUrl, final EcIdentity owner,

@@ -16,9 +16,10 @@ import org.stjs.javascript.functions.Callback2;
 import js.FileReader;
 
 /**
- * Import methods to handle an ASN XML file of competencies and
- * store them in the CASS instance
+ * Import methods to handle an ASN JSON file containing a framework,
+ * competencies and relationships, and store them in a CASS instance
  * 
+ * @module org.cassproject
  * @class ASNImport
  * @static
  * @extends Importer
@@ -39,12 +40,18 @@ public class ASNImport extends Importer{
 	static int relationCount;
 	
 	/**
+	 * Recursive function that looks through the file and saves each
+	 * competency object in a map for use during importing. It also counts 
+	 * the number of competencies and relationships that it finds
+	 * 
 	 * @memberOf ASNImport
 	 * @method asnJsonPrime
 	 * @private
 	 * @static
 	 * @param {Object} obj	
+	 * 			The current JSON object we're examining for comepetencies and reationships
 	 * @param {String} key
+	 * 			The ASN identifier of the current object
 	 */
 	private static void asnJsonPrime(Object obj, String key){
 		Object value = JSObjectAdapter.$get(obj, key);
@@ -68,12 +75,17 @@ public class ASNImport extends Importer{
 	
 	
 	/**
+	 * Does the actual legwork of looking for competencies and relationships. 
+	 * 
+	 * This function finds the framework information, and pulls out the competency 
+	 * objects array to be scanned by asnJsonPrime
+	 * 
 	 * @memberOf ASNImport
 	 * @method lookThroughSource
 	 * @private
 	 * @static
 	 * @param {Object} obj
-	 * 			
+	 * 			ASN JSON Object from file that contains framework information and competencies/relationships
 	 */
 	private static void lookThroughSource(Object obj)
 	{
@@ -99,13 +111,20 @@ public class ASNImport extends Importer{
 	}
 	
 	/**
+	 * Analyzes an ASN File for competencies and relationships. 
+	 * 
+	 * This should be called before import, the sucess callback returns an object
+	 * indicating the number of competencies and relationships found.
 	 * 
 	 * @memberOf ASNImport
 	 * @method analyzeFile
 	 * @static
 	 * @param {Object} file
+	 * 			ASN JSON file
 	 * @param {Callback1<Object>} success
+	 * 			Callback triggered on successful analysis of file
 	 * @param {Callback1<Object>} failure
+	 * 			Callback triggered if there is an error during analysis of the file
 	 */
 	public static void analyzeFile(Object file, final Callback1<Object> success, final Callback1<Object> failure)
 	{
@@ -157,16 +176,25 @@ public class ASNImport extends Importer{
 	static Object progressObject;
 	
 	/**
+	 * Method to import the competencies from an ASN JSON file, 
+	 * should be called after analyzing the file
 	 * 
 	 * @memberOf ASNImport
 	 * @method importCompetencies
 	 * @static
 	 * @param {String} serverUrl
+	 * 			URL Prefix for the competencies to be imported
 	 * @param {EcIdentity} owner
+	 * 			EcIdentity that will own the new competencies
 	 * @param {boolean} createFramework
+	 * 			Flag to create a framework and include the competencies and relationships created 
 	 * @param {Callback2<Array<EcCompetency>, EcFramework>} success
+	 * 			Callback triggered after the competencies (and framework?) are created
 	 * @param {Callback1<Object>} failure
+	 * 			Callback triggered if an error occurs while creating the competencies 
 	 * @param {Callback1<Object>} incremental
+	 * 			Callback triggered incrementally during the creation of competencies to indicate progress,
+	 * 			returns an object indicating the number of competencies (and relationships?) created so far
 	 */
 	public static void importCompetencies(final String serverUrl, final EcIdentity owner, final boolean createFramework,
 			final Callback2<Array<EcCompetency>, EcFramework> success, final Callback1<Object> failure,
@@ -213,16 +241,23 @@ public class ASNImport extends Importer{
 	
 	static int savedCompetencies = 0;
 	/**
+	 * Handles creating the competencies found during analysis, iterates through the
+	 * competency ASN objects saved and creates them in the CASS repository at the URL given. 
 	 * 
 	 * @memberOf ASNImport
 	 * @method createCompetencies
 	 * @private
 	 * @static
 	 * @param {String} serverUrl
+	 * 			URL Prefix for the competencies to be imported
 	 * @param {EcIdentity} owner
+	 * 			EcIdentity that will own the new competencies
 	 * @param {Callback0} success
+	 * 			Callback triggered after the competencies are created
 	 * @param {Callback1<Object>} failure
+	 * 			Callback triggered if an error occurs while creating the competencies 
 	 * @param {Callback1<Object>} incremental
+	 * 			Callback triggered incrementally during the creation of competencies to indicate progress
 	 */
 	private static void createCompetencies(String serverUrl, EcIdentity owner, final Callback0 success, 
 			final Callback1<Object> failure, final Callback1<Object> incremental)
@@ -288,18 +323,28 @@ public class ASNImport extends Importer{
 	
 	static int savedRelations = 0;
 	/**
+	 * Handles creating the relationships from the file analyzed earlier.
+	 * Recursively travels through looking for the hasChild field and creates
+	 * relationships based off of that.
 	 * 
 	 * @memberOf ASNImport
 	 * @method createRelationships
 	 * @private
 	 * @static
 	 * @param {String} serverUrl
+	 * 			URL Prefix for the relationships to be imported
 	 * @param {EcIdentity} owner
+	 * 			EcIdentity that will own the new relationships
 	 * @param {Object} node
+	 * 
 	 * @param {String} nodeId
+	 * 
 	 * @param {Callback0} success
+	 * 			Callback triggered after the relationships are created
 	 * @param {Callback1<Object>} failure
+	 * 			Callback triggered if an error occurs while creating the relationships 
 	 * @param {Callback1<Object>} incremental
+	 * 			Callback triggered incrementally during the creation of relationships to indicate progress
 	 */
 	private static void createRelationships(String serverUrl, EcIdentity owner, Object node, String nodeId, 
 			final Callback0 success, final Callback1<Object> failure, final Callback1<Object> incremental)
@@ -366,15 +411,20 @@ public class ASNImport extends Importer{
 	
 	
 	/**
+	 * Handles creating the framework if the createFramework flag was set
 	 * 
 	 * @meberOf ASNImport
 	 * @method createFramework
 	 * @private
 	 * @static
 	 * @param {String} serverUrl
+	 * 			URL Prefix for the framework to be imported
 	 * @param {EcIdentity} owner
+	 * 			EcIdentity that will own the new framework
 	 * @param {Callback2<Array<EcCompetency>, EcFramework>} success
+	 * 			Callback triggered after the framework is created
 	 * @param {Callback1<Object>} failure
+	 * 			Callback triggered if there is an error during the creation of framework
 	 */
 	private static void createFramework(String serverUrl, EcIdentity owner, final Callback2<Array<EcCompetency>, EcFramework> success, final Callback1<Object> failure)
 	{

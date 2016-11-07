@@ -6,7 +6,7 @@ import com.eduworks.ec.array.toString;
  * Base class for all importers, can hold helper functions 
  * that are useful for all importers
  * 
- * @module cass.import
+ * @module org.cassproject
  * @class Importer
  * @abstract
  * @author devlin.junker@eduworks.com

@@ -17,7 +17,10 @@ import js.Papa;
 import js.PapaParseParams;
 
 /**
+ * Import methods to handle an CSV file of competencies and a 
+ * CSV file of relationships and store them in a CASS instance
  * 
+ * @module org.cassproject
  * @class CSVImport
  * @static
  * @extends Importer
@@ -31,13 +34,18 @@ public class CSVImport
 	
 
 	/**
+	 * Analyzes a CSV File to return the column names to the user for specifying
+	 * which columns contain which data. This should be called before import.
 	 * 
 	 * @memberOf CSVImport
 	 * @method analyzeFile
 	 * @static
 	 * @param {Object} file
+	 * 			CSV file to be analyzed
 	 * @param {Callback1<Object>} success
+	 * 			Callback triggered after successfully analyzing the CSV file
 	 * @param {Callback1<Object>} failure
+	 * 			Callback triggered if there is an error analyzing the CSV file
 	 */
 	public static void analyzeFile(Object file, final Callback1<Object> success, final Callback1<Object> failure)
 	{
@@ -75,13 +83,18 @@ public class CSVImport
 	static Object progressObject;
 	
 	/**
+	 * Helper function to transform a competencies oldID to match the new server url
+	 * 
 	 * @memberOf CSVImport
 	 * @method transformId
 	 * @private
 	 * @static
 	 * @param {String} oldId
+	 * 			Old ID found in the CSV file
 	 * @param {EcRemoteLinkedData} newObject
+	 * 			New competency being created
 	 * @param {String} selectedServer
+	 * 			New URL Prefix that the new competency's ID should match
 	 */
 	private static void transformId(String oldId, EcRemoteLinkedData newObject, String selectedServer)
 	{
@@ -108,23 +121,43 @@ public class CSVImport
 	}
 
 	/**
+	 * Method to create competencies (and relationships if the parameters are passed in)
+	 * based on a CSV file and references to which columns correspond to which pieces
+	 * of data.
+	 * 
 	 * @memberOf CSVImport
 	 * @method importCompetencies
 	 * @static
 	 * @param {Object} file
+	 * 			CSV File to import competencies from
 	 * @param {String} serverUrl
+	 * 			URL Prefix for the created competencies (and relationships?)
 	 * @param {EcIdentity} owner
+	 * 			EcIdentity that will own the created competencies (and relationships?)
 	 * @param {int} nameIndex
+	 * 			Index of the column that contains the competency names
 	 * @param {int} descriptionIndex
+	 * 			Index of the column that contains the competency descriptions
 	 * @param {int} scopeIndex
+	 * 			Index of the column that contains the competency scopes
 	 * @param {int} idIndex
+	 * 			Index of the column that contains the old competency ID (Optional, if not exists pass null or negative)
 	 * @param {Object} relations
+	 * 			CSV File to import relationships from
 	 * @param {int} sourceIndex
+	 * 			Index (in relation file) of the column containing the relationship source competency ID
 	 * @param {int} relationTypeIndex
+	 * 			Index (in relation file) of the column containing the relationship type
 	 * @param {int} destIndex
+	 * 			Index (in relation file) of the column containing the relationship destination competency ID
 	 * @param {Callback2<Array<EcCompetency>, Array<EcAlignment>>} success
+	 * 			Callback triggered after the competencies (and relationships?) have been created
 	 * @param {Callback1<Object>} failure
+	 * 			Callback triggered if an error during creating the competencies
 	 * @param {Callback1<Object>} incremental
+	 * 			Callback triggered incrementally during creation of competencies to indicate progress,
+	 * 			returns an object indicating the number of competencies (and relationships?) created so far
+	 * 			
 	 */
 	public static void importCompetencies(Object file, final String serverUrl, final EcIdentity owner,
 			final Integer nameIndex, final Integer descriptionIndex, final Integer scopeIndex, final Integer idIndex,
@@ -245,20 +278,32 @@ public class CSVImport
 	}
 
 	/**
+	 * Handles actually importing the relationships from the relationship CSV file
+	 * 
 	 * @memberOf CSVImport
 	 * @method importRelations
 	 * @private
 	 * @static
 	 * @param {String} serverUrl
+	 * 			URL Prefix for the created competencies (and relationships?)
 	 * @param {EcIdentity} owner
+	 * 			EcIdentity that will own the created competencies (and relationships?)
 	 * @param {Object} file
+	 * 			CSV File to import competencies from
 	 * @param {int} sourceIndex
+	 *			Index (in relation file) of the column containing the relationship source competency ID
 	 * @param {int} relationTypeIndex
+	 * 			Index (in relation file) of the column containing the relationship type
 	 * @param {int} destIndex
+	 * 			Index (in relation file) of the column containing the relationship destination competency ID
 	 * @param {Array<EcCompetency>} competencies
+	 * 			Array of newly created competencies
 	 * @param {Callback2<Array<EcCompetency>, Array<EcAlignment>>} success
+	 * 			Callback triggered after the relationships have been created
 	 * @param {Callback1<Object>} failure
+	 * 			Callback triggered if an error during creating the relationships
 	 * @param {Callback1<Object>} incremental
+	 * 			Callback triggered incrementally during creation to indicate progress
 	 */
 	private static void importRelations(final String serverUrl, final EcIdentity owner, Object file,
 			final Integer sourceIndex, final Integer relationTypeIndex, final Integer destIndex,
