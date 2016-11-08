@@ -31,8 +31,11 @@ import forge.util;
  * encryption/decryption of JSON-LD objects, and provides some searchability of
  * the data within.
  * 
+ * @module com.eduworks.ec
+ * @class EcEncryptedValue
+ * @extends EbacEncryptedValue
+ * 
  * @author fritz.ray@eduworks.com
- *
  */
 public class EcEncryptedValue extends EbacEncryptedValue
 {
@@ -48,6 +51,19 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		return v;
 	}
 
+	/**
+	 * Converts a piece of remote linked data to an encrypted value
+	 * 
+	 * @memberOf EcEncryptedValue
+	 * @method toEncryptedValue
+	 * @static
+	 * @param {EcRemoteLinkedData} d
+	 * 			Data to encrypt
+	 * @param {boolean} hideType
+	 * 			Flag to hide the type of the encrypted value when encrypting
+	 * @return {EcEncryptedValue}
+	 * 			Encrypted value
+	 */
 	public static EcEncryptedValue toEncryptedValue(EcRemoteLinkedData d, boolean hideType)
 	{
 		if(d.privateEncrypted != null)
@@ -92,6 +108,22 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		return v;
 	}
 
+	/**
+	 * Converts a piece of remote linked data to an encrypted value, asynchronously
+	 * 
+	 * @memberOf EcEncryptedValue
+	 * @method toEncryptedValueAsync
+	 * @static
+	 * @param {EcRemoteLinkedData} d
+	 * 			Data to encrypt
+	 * @param {boolean} hideType
+	 * 			Flag to hide the type of the encrypted value when encrypting
+	 * @param {Callback1<EcEncryptedValue>} success
+	 * 			Callback triggered with successfully encrypted,
+	 * 			returns the encrypted value
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered on error during encryption
+	 */
 	public static void toEncryptedValueAsync(final EcRemoteLinkedData d, boolean hideType, final Callback1<EcEncryptedValue> success,
 			final Callback1<String> failure)
 	{
@@ -176,6 +208,24 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		}, failure);
 	}
 
+	/**
+	 * Encrypts a text value with the key provided
+	 * 
+	 * @memberOf EcEncryptedValue
+	 * @method encryptValueOld
+	 * @static
+	 * @deprecated
+	 * @param {String} text
+	 * 			Text to encrypt
+	 * @param {String} id
+	 * 			ID of the encrypted value
+	 * @param {String} fieldName
+	 * 			Unused TODO: Remove
+	 * @param {EcPk} owner
+	 * 			Key to Encrypt
+	 * @return {EcEncryptedValue}
+	 * 			Encrypted value
+	 */
 	@Deprecated
 	public static EcEncryptedValue encryptValueOld(String text, String id, String fieldName, EcPk owner)
 	{
@@ -204,6 +254,25 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		return v;
 	}
 
+	/**
+	 * Encrypts a text value with the owners and readers provided
+	 *
+	 * @memberOf EcEncryptedValue
+	 * @method encryptValue
+	 * @static
+	 * @param {String} text
+	 * 			Text to encrypt
+	 * @param {String} id
+	 * 			ID of the value to encrypt
+	 * @param {String} fieldName
+	 * 			Unused TODO: Remove
+	 * @param {String[]} owners
+	 * 			Owner keys to encrypt value with
+	 * @param {String[]} readers
+	 * 			Reader keys to encrypt value with
+	 * @return {EcEncryptedValue}
+	 * 			Encrypted value
+	 */
 	public static EcEncryptedValue encryptValue(String text, String id, String fieldName, Array<String> owners, Array<String> readers)
 	{
 		EcEncryptedValue v = new EcEncryptedValue();
@@ -233,6 +302,28 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		return v;
 	}
 
+	/**
+	 * Encrypt a value with a specific IV and secret
+	 * 
+	 * @memberOf EcEncryptedValue
+	 * @method encryptValueUsingIvAndSecret
+	 * @static 
+	 * @param {String} iv
+	 * 			Initialization Vector for encryption
+	 * @param {String} secret
+	 * 			Encryption secret
+	 * @param {String} text
+	 * 			Text to encrypt
+	 * @param {String} id
+	 * 			ID of value to encrypt
+	 * @param {String} fieldName
+	 * 			Unused TODO: Remove
+	 * @param {String[]} owners
+	 * 			Owners keys to encrypt with
+	 * @param {String[]} readers
+	 * 			Reader Keys to encrypt with
+	 * @return {EcEncryptedValue}
+	 */
 	public static EcEncryptedValue encryptValueUsingIvAndSecret(String iv, String secret, String text, String id, String fieldName, Array<String> owners, Array<String> readers)
 	{
 		EcEncryptedValue v = new EcEncryptedValue();
@@ -260,6 +351,14 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		return v;
 	}
 
+	/**
+	 * Decrypts this encrypted value into an object
+	 * 
+	 * @memberOf EcEncryptedValue
+	 * @method decryptIntoObject
+	 * @return
+	 * 			The Decrypted Object
+	 */
 	public EcRemoteLinkedData decryptIntoObject()
 	{
 		String decryptRaw = decryptIntoString();
@@ -274,6 +373,17 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		return (EcRemoteLinkedData) decrypted.deAtify();
 	}
 
+	/**
+	 * Asynchronously decrypts this encrypted value into an object 
+	 * 
+	 * @memberOf EcEncryptedValue
+	 * @method decryptIntoObjectAsync
+	 * @param {Callback1<EcRemoteLinkedDat>} success
+	 * 			Callback triggered on successful encryption,
+	 * 			returns the decrypted object
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error during encryption
+	 */
 	public void decryptIntoObjectAsync(final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure)
 	{
 		final String id = this.id;
@@ -295,6 +405,20 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		}, failure);
 	}
 
+	/**
+	 * Asynchronously decrypts this encrypted value into an object with a IV and secret provided
+	 * 
+	 * @memberOf EcEncryptedValue
+	 * @method decryptIntoObjectUsingIvAndSecretAsync
+	 * @param {String} iv
+	 * 			Initialization Vector for decryption
+	 * @param {String} secret
+	 * 			Secret for decryption
+	 * @param {Callback1<EcRemoteLinkedData>} success
+	 * 			Callback triggered after successful decryption
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error during decryption
+	 */
 	public void decryptIntoObjectUsingIvAndSecretAsync(String iv, String secret, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure)
 	{
 		decryptIntoStringUsingIvAndSecretAsync(iv,secret,new Callback1<String>()
@@ -314,6 +438,14 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		}, failure);
 	}
 
+	/**
+	 * Decrypts an encrypted value into a string
+	 * 
+	 * @memberOf EcEncryptedValue
+	 * @method decryptIntoString
+	 * @return {String}
+	 * 			Decrypted string value
+	 */
 	public String decryptIntoString()
 	{
 		EbacEncryptedSecret decryptSecret = decryptSecret();
@@ -322,6 +454,17 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		return null;
 	}
 
+	/**
+	 * Asynchronously decrypts an encrypted value into a string 
+	 * 
+	 * @memberOf EcEncryptedValue
+	 * @method decryptIntoStringAsync
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered after successfully decrypted,
+	 * 			returns decrypted string
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error during decryption
+	 */
 	public void decryptIntoStringAsync(final Callback1<String> success, final Callback1<String> failure)
 	{
 		final EcEncryptedValue me = this;
@@ -336,11 +479,33 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		}, failure);
 	}
 
-	public void decryptIntoStringUsingIvAndSecretAsync(final String iv, final String secret,final Callback1<String> success, final Callback1<String> failure)
+	/**
+	 * Asynchronously decrypts an encrypted value into a string with an IV and secrete provided
+	 * 
+	 * @memberOf EcEncryptedValue
+	 * @method decryptIntoStringUsingIvAndSecretAsync
+	 * @param {String} iv
+	 * 			Initialization Vector for decryption
+	 * @param {String} secret
+	 * 			Secret for decryption
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered on successful decryption
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error during decryption
+	 */
+	public void decryptIntoStringUsingIvAndSecretAsync(final String iv, final String secret, final Callback1<String> success, final Callback1<String> failure)
 	{
 		EcAesCtrAsync.decrypt(payload, secret, iv, success, failure);
 	}
 
+	/**
+	 * Attempts to decrypt the secret by using all Identities in the Identity Manager
+	 * 
+	 * @memberOf EcEncryptedValue
+	 * @method decryptSecret
+	 * @return {EbacEncryptedSecret}
+	 * 			Secret after decrypted
+	 */
 	public EbacEncryptedSecret decryptSecret()
 	{
 		// See if I am an owner.
@@ -377,6 +542,17 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		return null;
 	}
 
+	/**
+	 * Asynchronously attempts to decrypt secret using all identities in Identity Manager
+	 * 
+	 * @memberOf EcEncryptedValue
+	 * @method decryptSecretAsync
+	 * @param {Callback1<EbacEncryptedSecret>} success
+	 * 			Callback triggered after successfully decrypting secret,
+	 * 			returns the decrypted secret
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error decrypting secret
+	 */
 	public void decryptSecretAsync(final Callback1<EbacEncryptedSecret> success, final Callback1<String> failure)
 	{
 		Array<EcPpk> ppks = new Array<>();
@@ -432,6 +608,16 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		});
 	}
 
+	/**
+	 * Attempts to decrypt secret with a specific key
+	 * 
+	 * @memberOf EcEncryptedValue
+	 * @method decryptSecretByKey
+	 * @param {EcPpk} decryptionKey
+	 * 			Key to attempt secret decryption
+	 * @return {EbacEncryptedSecret}
+	 * 			Decrypted Secret
+	 */
 	private EbacEncryptedSecret decryptSecretByKey(EcPpk decryptionKey)
 	{
 		EbacEncryptedSecret encryptedSecret = null;
@@ -453,6 +639,19 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		return encryptedSecret;
 	}
 
+	/**
+	 * Asynchronously attempts to decrypt secret with a specific key
+	 * 
+	 * @memberOf EcEncryptedValue
+	 * @method decryptSecretByKeyAsync
+	 * @param {EcPpk} decryptionKey
+	 * 			Key to attempt secret decryption
+	 * @param {Callback1<EbacEncryptedSecret>} success
+	 * 			Callback triggered after successful decryption of secret,
+	 * 			returns decrypted secret
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error during secret decryption
+	 */
 	private void decryptSecretByKeyAsync(final EcPpk decryptionKey, final Callback1<EbacEncryptedSecret> success, final Callback1<String> failure)
 	{
 		EbacEncryptedSecret encryptedSecret = null;
@@ -500,6 +699,17 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		}
 	}
 
+	/**
+	 * Checks if this encrypted value is an encrypted version of a specific type, 
+	 * only works if the type wasn't hidden during encryption
+	 * 
+	 * @memberOf EcEncryptedValue
+	 * @method isAnEncrypted
+	 * @param {String} type
+	 * 			Type to compare if an encrypted type
+	 * @return {boolean}
+	 * 			True if encrypted version of type, false if not or can't tell
+	 */
 	public boolean isAnEncrypted(String type)
 	{
 		if (this.encryptedType == null)
@@ -513,7 +723,9 @@ public class EcEncryptedValue extends EbacEncryptedValue
 	/**
 	 * Adds a reader to the object, if the reader does not exist.
 	 * 
-	 * @param newReader
+	 * @memberOf EcEncryptedValue
+	 * @method addReader
+	 * @param {EcPk} newReader
 	 *            PK of the new reader.
 	 */
 	public void addReader(EcPk newReader)
@@ -540,7 +752,9 @@ public class EcEncryptedValue extends EbacEncryptedValue
 	/**
 	 * Removes a reader from the object, if the reader does exist.
 	 * 
-	 * @param oldReader
+	 * @memberOf EcEncryptedValue
+	 * @method removeReader
+	 * @param {EcPk} oldReader
 	 *            PK of the old reader.
 	 */
 	public void removeReader(EcPk oldReader)

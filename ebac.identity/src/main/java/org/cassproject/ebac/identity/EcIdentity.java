@@ -12,14 +12,38 @@ import com.eduworks.schema.ebac.EbacCredential;
  * messages, ensuring the recipient knows that we sent the message and it was
  * not altered.
  * 
- * @author fray
- *
+ * @module com.eduworks.ec
+ * @class EcIdentity
+ * @constructor
+ * 
+ * @author fritz.ray@eduworks.com
  */
 public class EcIdentity
 {
-	public static int identityCounter = 1;
+	private static int identityCounter = 1;
+	
+	/**
+	 * Private Key of this identity
+	 * 
+	 * @property ppk
+	 * @type EcPpk
+	 */
 	public EcPpk ppk;
+	
+	/**
+	 * Display name of this identity
+	 * 
+	 * @property displayName
+	 * @type String
+	 */
 	public String displayName;
+	
+	/**
+	 * String identifying where this identity came from
+	 * 
+	 * @property displayName
+	 * @type String
+	 */
 	public String source;
 
 	public EcIdentity()
@@ -39,9 +63,12 @@ public class EcIdentity
 	 * Helper function to encrypt an identity into a credential (storable
 	 * version of an identity)
 	 * 
-	 * @param secret
-	 *            AES secret used to encrypt the credential.
-	 * @return Encrypted credential object.
+	 * @memberOf EcIdentity
+	 * @method toCredential
+	 * @param {String} secret
+	 *          AES secret used to encrypt the credential.
+	 * @return {EbacCredential} 
+	 * 			Encrypted credential object.
 	 */
 	public EbacCredential toCredential(String secret)
 	{
@@ -57,14 +84,18 @@ public class EcIdentity
 	 * Helper function to decrypt a credential (storable version of an identity)
 	 * into an identity)
 	 * 
-	 * @param credential
-	 *            Credential to decrypt.
-	 * @param secret
-	 *            AES secret used to decrypt the credential.
-	 * @param source
-	 *            Source of the credential, used to track where a credential
-	 *            came from.
-	 * @return Decrypted identity object, ready for use.
+	 * @memberOf EcIdentity
+	 * @method fromCredential
+	 * @static
+	 * @param {EbacCredential} credential
+	 *          Credential to decrypt.
+	 * @param {String} secret
+	 *          AES secret used to decrypt the credential.
+	 * @param {String} source
+	 *          Source of the credential, used to track where a credential
+	 *          came from.
+	 * @return {EcIdentity}
+	 * 			Decrypted identity object, ready for use.
 	 */
 	public static EcIdentity fromCredential(EbacCredential credential, String secret, String source)
 	{
@@ -78,7 +109,11 @@ public class EcIdentity
 	
 	/**
 	 * Converts an identity to a contact.
-	 * @return Contact object.
+	 * 
+	 * @memberOf EcIdentity
+	 * @method toContact
+	 * @return {EcContact}
+	 * 			Contact object.
 	 */
 	public EcContact toContact()
 	{

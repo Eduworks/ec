@@ -3,8 +3,25 @@ package org.cassproject.ebac.identity;
 import com.eduworks.ec.crypto.EcRsaOaep;
 import com.eduworks.schema.ebac.EbacContactGrant;
 
+/**
+ * Contact Grant that is used to share your public key with another user
+ * 
+ * @module com.eduworks.ebac
+ * @class EcContact
+ * @extends EbacContactGrant
+ * @constructor
+ * 
+ * @author fritz.ray@eduworks.com
+ * @author devlin.junker@eduworks.com
+ */
 public class EcContactGrant extends EbacContactGrant
 {
+	/**
+	 * Verifies that the contact grant is valid
+	 * 
+	 * @return {boolean}
+	 * 		true if valid, false if not
+	 */
 	public boolean valid()
 	{
 		if (!verify())

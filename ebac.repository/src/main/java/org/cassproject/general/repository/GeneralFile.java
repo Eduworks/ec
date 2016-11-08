@@ -12,8 +12,12 @@ import com.eduworks.ec.blob.BlobHelper;
 /**
  * A representation of a file.
  * 
+ * @module com.eduworks.ec
+ * @class GeneralFile
+ * @extends EcRemoteLinkedData
+ * @constructor
+ * 
  * @author fritz.ray@eduworks.com
- *
  */
 public class GeneralFile extends EcRemoteLinkedData
 {
@@ -29,24 +33,41 @@ public class GeneralFile extends EcRemoteLinkedData
 	/**
 	 * Optional checksum of the file, used to verify if the file has been
 	 * transmitted correctly.
+	 * 
+	 * @property checksum
+	 * @type String
 	 */
 	public String checksum;
+	
 	/**
 	 * Mime type of the file.
+	 * 
+	 * @property mimeType
+	 * @type String
 	 */
 	public String mimeType;
+	
 	/**
 	 * Base-64 encoded version of the bytestream of a file.
 	 * 
-	 * Please note: This field will be empty in search results, but be populated
-	 * in a direct get.
+	 * @property data
+	 * @type String
 	 */
 	public String data;
 
+	/**
+	 * Name of the file, used to distinguish it
+	 * 
+	 * @property name
+	 * @type String
+	 */
 	public String name;
 	
 	/**
 	 * Helper method to force the browser to download the file.
+	 * 
+	 * @memberOf GeneralFile
+	 * @method download
 	 */
 	public void download()
 	{

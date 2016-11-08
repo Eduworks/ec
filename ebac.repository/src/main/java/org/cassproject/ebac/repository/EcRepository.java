@@ -16,6 +16,15 @@ import org.stjs.javascript.functions.Callback1;
 import com.eduworks.ec.remote.EcRemote;
 import com.eduworks.ec.remote.FormData;
 
+/**
+ * Repository object used to interact with the CASS Repository
+ * web services. Should be used for all CRUD and search operations
+ * 
+ * @module com.eduworks.ec
+ * @class EcRepository
+ * 
+ * @author fritz.ray@eduworks.com
+ */
 public class EcRepository
 {
 	public String selectedServer = null;
@@ -24,6 +33,18 @@ public class EcRepository
 	public static Object cache = new Object();
 	public static Object fetching = new Object();
 
+	/**
+	 * Retrieves data from the server and caches it for use later during 
+	 * the application. This should be called before the data is needed if
+	 * possible, so loading displays can be faster.
+	 * 
+	 * @memberOf EcRepository
+	 * @method precache
+	 * @param {String[]} urls
+	 * 			List of Data ID Urls that should be precached
+	 * @param {Callback0} success
+	 * 			Callback triggered once all of the data has been retrieved
+	 */
 	public void precache(Array<String> urls, final Callback0 success)
 	{
 		if (urls == null)
@@ -84,11 +105,14 @@ public class EcRepository
 	 * 
 	 * Uses a signature sheet gathered from {@link EcIdentityManager}.
 	 * 
-	 * @param url
+	 * @memberOf EcRepository
+	 * @method get
+	 * @static
+	 * @param {String} url
 	 *            URL of the remote object.
-	 * @param success
+	 * @param {Callback1<EcRemoteLinkedData>}success
 	 *            Event to call upon successful retrieval.
-	 * @param failure
+	 * @param {Callback1<String>} failure
 	 *            Event to call upon spectacular failure.
 	 */
 	public static void get(final String url, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure)
@@ -164,6 +188,18 @@ public class EcRepository
 		});
 	}
 
+	/**
+	 * Retrieves a piece of data synchronously from the server, blocking
+	 * until it is returned
+	 * 
+	 * @memberOf EcRepository
+	 * @method getBlocking
+	 * @static
+	 * @param {String} url
+	 * 			URL ID of the data to be retrieved
+	 * @return {EcRemoteLinkedData}
+	 * 			Data retrieved, corresponding to the ID
+	 */
 	public static EcRemoteLinkedData getBlocking(final String url)
 	{
 		if (caching)
@@ -201,14 +237,16 @@ public class EcRepository
 	 * 
 	 * Uses a signature sheet gathered from {@link EcIdentityManager}.
 	 * 
-	 * @param query
-	 *            ElasticSearch compatible query string, similar to Google query
-	 *            strings.
-	 * @param eachSuccess
-	 *            Success event for each found object.
-	 * @param success
+	 * @memberOf EcRepository
+	 * @method search
+	 * @param {String} query
+	 *          ElasticSearch compatible query string, similar to Google query
+	 *          strings.
+	 * @param {Callback1<EcRemoteLinkedData>} eachSuccess
+	 *          Success event for each found object.
+	 * @param {Callback1<EcRemoteLinkedData[]>} success
 	 *            Success event, called after eachSuccess.
-	 * @param failure
+	 * @param {Callback1<String>} failure
 	 *            Failure event.
 	 */
 	public void search(String query, final Callback1<EcRemoteLinkedData> eachSuccess, final Callback1<Array<EcRemoteLinkedData>> success,
@@ -222,17 +260,21 @@ public class EcRepository
 	 * 
 	 * Uses a signature sheet gathered from {@link EcIdentityManager}.
 	 * 
-	 * @param query
-	 *            ElasticSearch compatible query string, similar to Google query
-	 *            strings.
-	 * @param paramObj
-	 *            Additional parameters that can be used to tailor the search.
-	 * @param eachSuccess
-	 *            Success event for each found object.
-	 * @param success
-	 *            Success event, called after eachSuccess.
-	 * @param failure
-	 *            Failure event.
+	 * @memberOf EcRepository
+	 * @method searchWithParams
+	 * @param {String} query
+	 *          ElasticSearch compatible query string, similar to Google query
+	 *          strings.
+	 * @param {Object} paramObj
+	 *          Additional parameters that can be used to tailor the search.
+	 *         	@param size
+	 *        	@param start
+	 * @param {Callback1<EcRemoteLinkedData>} eachSuccess
+	 *          Success event for each found object.
+	 * @param {Callback1<EcRemoteLinkedData[]>} success
+	 *          Success event, called after eachSuccess.
+	 * @param {Callback1<String>} failure
+	 *          Failure event.
 	 */
 	public void searchWithParams(String query, Object paramObj, final Callback1<EcRemoteLinkedData> eachSuccess,
 			final Callback1<Array<EcRemoteLinkedData>> success, final Callback1<String> failure)
@@ -322,6 +364,13 @@ public class EcRepository
 		});
 	}
 
+	/**
+	 * Searches known repository endpoints to set the server configuration for this
+	 * repositories instance
+	 * 
+	 * @memberOf EcRepository
+	 * @method autoDetectRepository
+	 */
 	public void autoDetectRepository()
 	{
 		EcRemote.async = false;
@@ -358,7 +407,18 @@ public class EcRepository
 
 	public boolean autoDetectFound = false;
 
-	public boolean autoDetectRepositoryActual(final String guess)
+	/**
+	 * Handles the actual detection of repository endpoint /ping service
+	 * 
+	 * @memberOf EcRepository
+	 * @method autoDetectRepository
+	 * @private
+	 * @param {String} guess
+	 * 			The server prefix 
+	 * @return {boolean}
+	 * 			Whether the detection successfully found the endpoint
+	 */
+	private boolean autoDetectRepositoryActual(final String guess)
 	{
 		final EcRepository me = this;
 		Callback1<Object> successCheck = new Callback1<Object>()
@@ -404,9 +464,11 @@ public class EcRepository
 	 * 
 	 * Uses a signature sheet gathered from {@link EcIdentityManager}.
 	 * 
-	 * @param success
+	 * @memberOf EcRepository
+	 * @method listTypes
+	 * @param {Callback1<Object[]>} success
 	 *            Success event
-	 * @param failure
+	 * @param {Callback1<String>} failure
 	 *            Failure event.
 	 */
 	public void listTypes(final Callback1<Array<Object>> success, final Callback1<String> failure)
@@ -426,6 +488,20 @@ public class EcRepository
 		}, failure);
 	}
 
+	/**
+	 * Handles the search results in search by params, before returning
+	 * them with the callback passed into search method
+	 * 
+	 * @memberOf EcRepository
+	 * @method handleSearchResults
+	 * @private
+	 * @param {EcRemoteLinkedData[]} results
+	 * 			Results to handle before returning
+	 * @param {Callback1<EcRemoteLinkedData>} eachSuccess
+	 * 			Callback function to trigger for each search result
+	 * @param {Callback1<EcRemoteLinkedData[]>} success
+	 * 			Callback function to trigger with all search results
+	 */
 	private void handleSearchResults(Array<EcRemoteLinkedData> results, final Callback1<EcRemoteLinkedData> eachSuccess,
 			final Callback1<Array<EcRemoteLinkedData>> success)
 	{
@@ -444,6 +520,17 @@ public class EcRepository
 			success.$invoke(results);
 	}
 
+	/**
+	 * Escapes a search query
+	 * 
+	 * @memberOf EcRepository
+	 * @method escapeSearch
+	 * @static
+	 * @param {String} query
+	 * 			Query string to escape
+	 * @return {String}
+	 * 			Escaped query string
+	 */
 	public static String escapeSearch(String query)
 	{
 		String s = null;
@@ -472,6 +559,22 @@ public class EcRepository
 		return s;
 	}
 
+	/**
+	 * Attempts to save a piece of data. Does some checks before saving
+	 * to ensure the data is valid and cleans some values (These should be removed in future)
+	 * 
+	 * Uses a signature sheet informed by the owner field of the data.
+	 *
+	 * @memberOf EcRepository
+	 * @method save
+	 * @static
+	 * @param {EcRemoteLinkedData} data
+	 *            Data to save to the location designated by its id.
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered on successful save
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error during save
+	 */
 	public static void save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
 	{
 		if (data.invalid())
@@ -498,14 +601,19 @@ public class EcRepository
 	}
 
 	/**
-	 * Attempts to save a piece of data.
+	 * Attempts to save a piece of data. 
 	 * 
 	 * Uses a signature sheet informed by the owner field of the data.
 	 * 
-	 * @param data
+	 * @memberOf EcRepository
+	 * @method _save
+	 * @static
+	 * @param {EcRemoteLinkedData} data
 	 *            Data to save to the location designated by its id.
-	 * @param success
-	 * @param failure
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered on successful save
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error during save
 	 */
 	public static void _save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
 	{
@@ -518,10 +626,15 @@ public class EcRepository
 	 * 
 	 * Uses a signature sheet informed by the owner field of the data.
 	 * 
-	 * @param data
+	 * @memberOf EcRepository
+	 * @method _saveWithoutSigning
+	 * @static
+	 * @param {EcRemoteLinkedData} data
 	 *            Data to save to the location designated by its id.
-	 * @param success
-	 * @param failure
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered on successful save
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error during save
 	 */
 	private static void _saveWithoutSigning(final EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
 	{
@@ -557,16 +670,36 @@ public class EcRepository
 	 * 
 	 * Uses a signature sheet informed by the owner field of the data.
 	 * 
-	 * @param data
+	 * @memberOf EcRepository
+	 * @method _delete
+	 * @static
+	 * @param {EcRemoteLinkedData} data
 	 *            Data to save to the location designated by its id.
-	 * @param success
-	 * @param failure
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered on successful delete
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error during delete
 	 */
 	public static void _delete(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
 	{
 		DELETE(data, success, failure);
 	}
 
+	/**
+	 * Attempts to delete a piece of data.
+	 * 
+	 * Uses a signature sheet informed by the owner field of the data.
+	 * 
+	 * @memberOf EcRepository
+	 * @method DELETE
+	 * @static
+	 * @param {EcRemoteLinkedData} data
+	 * 			Data to save to the location designated by its id.
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered on successful delete
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error during delete
+	 */
 	public static void DELETE(final EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
 	{
 		if (caching)

@@ -26,10 +26,15 @@ import forge.util;
 /**
  * Manages identities and contacts, provides hooks to respond to identity and
  * contact events, and builds signatures and signature sheets for authorizing
- * movement of data. Also provides helper functions for identity management.
+ * movement of data. Also provides helper functions for identity management and
+ * reads the users contacts on application start with a static constructor that
+ * pulls them out of any temporary storage
+ * 
+ * @module com.eduworks.ec
+ * @class EcIdentityManager
+ * @static
  * 
  * @author fritz.ray@eduworks.com
- *
  */
 public class EcIdentityManager
 {
@@ -38,22 +43,66 @@ public class EcIdentityManager
 		readContacts();
 	}
 
-	// Identities (also called Aliases)
+	/**
+	 * The current user's owned identities (keys+displayName)
+	 *  
+	 * @property ids
+	 * @type EcIdentity[]
+	 * @static
+	 */
 	public static Array<EcIdentity> ids = new Array<EcIdentity>();
-	// Contacts (Identities that we do not own)
-	public static Array<EcContact> contacts = new Array<EcContact>();
 
-	// Identity change hook.
+	/**
+	 * Contacts (Keys that we do not own)
+	 * 
+	 * @property contacts
+	 * @type EcContact[]
+	 * @static
+	 */
+	public static Array<EcContact> contacts = new Array<EcContact>();
+	
+	/**
+	 * Identity change hook.
+	 * 
+	 * @property onIdentityChange
+	 * @type Callback1<EcIdentity>
+	 * @static
+	 */
 	public static Callback1<EcIdentity> onIdentityChanged = null;
-	// Contacts change hook.
+	
+	/**
+	 * Contacts change hook.
+	 * 
+	 * @property onIdentityChange
+	 * @type Callback1<EcIdentity>
+	 * @static
+	 */
 	public static Callback1<EcContact> onContactChanged = null;
 
+	/**
+	 * Trigger for the onIdentityChanged hook
+	 * 
+	 * @memberOf EcIdentityManager
+	 * @method identityChanged
+	 * @static
+	 * @param {EcIdentity} identity
+	 * 			Identity that has changed
+	 */
 	public static void identityChanged(EcIdentity identity)
 	{
 		if (onIdentityChanged != null)
 			onIdentityChanged.$invoke(identity);
 	}
 
+	/**
+	 * Trigger for the onContactChanged hook
+	 * 
+	 * @memberOf EcIdentityManager
+	 * @method contactChanged
+	 * @static
+	 * @param {EcContact} contact
+	 * 			Contact that has changed
+	 */
 	public static void contactChanged(EcContact contact)
 	{
 		if (onContactChanged != null)
@@ -63,6 +112,10 @@ public class EcIdentityManager
 
 	/**
 	 * Reads contact data from localstorage.
+	 * 
+	 * @memberOf EcIdentityManager
+	 * @method readContacts
+	 * @static
 	 */
 	public static void readContacts()
 	{
@@ -94,6 +147,10 @@ public class EcIdentityManager
 
 	/**
 	 * Writes contact data to localstorage.
+	 * 
+	 * @memberOf EcIdentityManager
+	 * @method saveContacts
+	 * @static
 	 */
 	private static void saveContacts()
 	{
@@ -113,6 +170,10 @@ public class EcIdentityManager
 
 	/**
 	 * Reads contact data from localstorage.
+	 * 
+	 * @memberOf EcIdentityManager
+	 * @method readIdentities
+	 * @static
 	 */
 	public static void readIdentities()
 	{
@@ -144,6 +205,10 @@ public class EcIdentityManager
 
 	/**
 	 * Writes contact data to localstorage.
+	 * 
+	 * @memberOf EcIdentityManager
+	 * @method saveIdentities
+	 * @static
 	 */
 	public static void saveIdentities()
 	{
@@ -161,6 +226,13 @@ public class EcIdentityManager
 		Global.localStorage.$put("identities", JSGlobal.JSON.stringify(c));
 	}
 
+	/**
+	 * Clears the contacts from the local storage
+	 * 
+	 * @memberOf EcIdentityManager
+	 * @method clearContacts
+	 * @static
+	 */
 	public static void clearContacts()
 	{
 		Global.localStorage.$delete("contacts");
@@ -171,8 +243,11 @@ public class EcIdentityManager
 	 * Adds an identity to the identity manager. Checks for duplicates. Triggers
 	 * events.
 	 * 
-	 * @param identity
-	 *            Identity to add.
+	 * @memberOf EcIdentityManager
+	 * @method addIdentity
+	 * @static
+	 * @param {EcIdentity} identity
+	 * 			Identity to add.
 	 */
 	public static void addIdentity(EcIdentity identity)
 	{
@@ -187,8 +262,11 @@ public class EcIdentityManager
 	 * Adds a contact to the identity manager. Checks for duplicates. Triggers
 	 * events.
 	 * 
-	 * @param contact
-	 *            Contact to add.
+	 * @memberOf EcIdentityManager
+	 * @method addContact
+	 * @static
+	 * @param {EcContact} contact
+	 *          Contact to add.
 	 */
 	public static void addContact(EcContact contact)
 	{
@@ -218,13 +296,17 @@ public class EcIdentityManager
 	 * Create a signature sheet, authorizing movement of data outside of our
 	 * control.
 	 * 
-	 * @param identityPksinPem
-	 *            Which identities to create signatures for.
-	 * @param duration
-	 *            Length of time in milliseconds to authorize control.
-	 * @param server
-	 *            Server that we are authorizing.
-	 * @return JSON Array containing signatures.
+	 * @memberOf EcIdentityManager
+	 * @method signatureSheetFor
+	 * @static
+	 * @param {String[]} identityPksinPem
+	 *          Which identities to create signatures for.
+	 * @param {long} duration
+	 *          Length of time in milliseconds to authorize control.
+	 * @param {String} server
+	 *          Server that we are authorizing.
+	 * @return {String} 
+	 * 		JSON Array containing signatures.
 	 */
 	public static String signatureSheetFor(Array<String> identityPksinPem, long duration, String server)
 	{
@@ -244,6 +326,22 @@ public class EcIdentityManager
 		return JSGlobal.JSON.stringify(signatures);
 	}
 
+	/**
+	 * Asynchronous version of creating a signature sheet for a list of identities
+	 * 
+	 * @memberOf EcIdentityManager
+	 * @method signatureSheetForAsync
+	 * @static
+	 * @param {String[]} identityPksinPem
+	 * 			Which identities to create signatures for.
+	 * @param {long} duration
+	 * 			Length of time in milliseconds to authorize control.
+	 * @param {String} server
+	 * 			 Server that we are authorizing.
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered once the signature sheet has been created,
+	 *  		returns the signature sheet
+	 */
 	public static void signatureSheetForAsync(final Array<String> identityPksinPem, final long duration, final String server, final Callback1<String> success)
 	{
 		final Array<Object> signatures = new Array<Object>();
@@ -290,11 +388,15 @@ public class EcIdentityManager
 	 * Create a signature sheet for all identities, authorizing movement of data
 	 * outside of our control.
 	 * 
-	 * @param duration
-	 *            Length of time in milliseconds to authorize control.
-	 * @param server
-	 *            Server that we are authorizing.
-	 * @return JSON Array containing signatures.
+	 * @memberOf EcIdentityManager
+	 * @method signatureSheet
+	 * @static
+	 * @param {long} duration
+	 *          Length of time in milliseconds to authorize control.
+	 * @param {String} server
+	 *          Server that we are authorizing.
+	 * @return {String}
+	 * 			JSON Array containing signatures.
 	 */
 	public static String signatureSheet(long duration, String server)
 	{
@@ -307,6 +409,20 @@ public class EcIdentityManager
 		return JSGlobal.JSON.stringify(signatures);
 	}
 
+	/**
+	 * Asynchronous version of creating a signature sheet for all identities
+	 * 
+	 * @memberOf EcIdentityManager
+	 * @method signatureSheetAsync
+	 * @static
+	 * @param {long} duration
+	 * 			Length of time in milliseconds to authorize control.
+	 * @param {String} server
+	 * 			 Server that we are authorizing.
+	 * @param {Callback<String>} success
+	 * 			Callback triggered once the signature sheet has been created,
+	 *  		returns the signature sheet
+	 */
 	public static void signatureSheetAsync(final long duration, final String server, final Callback1<String> success)
 	{
 		final Array<Object> signatures = new Array<Object>();
@@ -336,6 +452,22 @@ public class EcIdentityManager
 		});
 	}
 
+	/**
+	 * Create a signature for a specific identity, authorizing movement of data
+	 * outside of our control.
+	 * 
+	 * @memberOf EcIdentityManager
+	 * @method createSignature
+	 * @static
+	 * @param {long} duration
+	 * 			Length of time in milliseconds to authorize control.
+	 * @param {String} server
+	 * 			 Server that we are authorizing.
+	 * @param {EcPpk} ppk
+	 * 			Key of the identity to create a signature for
+	 * @return {Ebac Signature}
+	 * 			Signature created
+	 */
 	private static EbacSignature createSignature(long duration, String server, EcPpk ppk)
 	{
 		EbacSignature s = new EbacSignature();
@@ -346,6 +478,22 @@ public class EcIdentityManager
 		return s;
 	}
 
+	/**
+	 * Asynchronously create a signature for a specific identity
+	 * 
+	 * @memberOf EcIdentityManager
+	 * @method createSignatureAsync
+	 * @static
+	 * @param {long} duration
+	 * 			Length of time in milliseconds to authorize control.
+	 * @param {String} server
+	 * 			 Server that we are authorizing.
+	 * @param {EcPpk} ppk
+	 * 			Key of the identity to create a signature for
+	 * @param success
+	 * 			Callback triggered once the signature sheet has been created,
+	 *  		returns the signature 
+	 */
 	private static void createSignatureAsync(long duration, String server, EcPpk ppk, final Callback1<EbacSignature> success)
 	{
 		final EbacSignature s = new EbacSignature();
@@ -366,9 +514,13 @@ public class EcIdentityManager
 	/**
 	 * Get PPK from PK (if we have it)
 	 * 
-	 * @param fromPem
-	 *            PK to use to look up PPK
-	 * @return PPK or null.
+	 * @memberOf EcIdentityManager
+	 * @method getPpk
+	 * @static
+	 * @param {EcPk} fromPem
+	 *          PK to use to look up PPK
+	 * @return {EcPpk}
+	 * 			PPK or null.
 	 */
 	public static EcPpk getPpk(EcPk fromPem)
 	{
@@ -384,9 +536,13 @@ public class EcIdentityManager
 	/**
 	 * Get Contact from PK (if we have it)
 	 * 
-	 * @param pk
-	 *            PK to use to look up PPK
-	 * @return PPK or null.
+	 * @memberOf EcIdentityManager
+	 * @method getContact
+	 * @static
+	 * @param {EcPk} pk
+	 *          PK to use to look up PPK
+	 * @return {EcPpk}
+	 * 			PPK or null.
 	 */
 	public static EcContact getContact(EcPk pk)
 	{
@@ -401,9 +557,13 @@ public class EcIdentityManager
 	/**
 	 * Get Identity from PK (if we have it)
 	 * 
-	 * @param pk
-	 *            PK to use to look up PPK
-	 * @return PPK or null.
+	 * @memberOf EcIdentityManager
+	 * @method getIdentity
+	 * @static
+	 * @param {EcPk} pk
+	 *          PK to use to look up PPK
+	 * @return {EcIdentity}
+	 * 			identity or null.
 	 */
 	public static EcIdentity getIdentity(EcPk pk)
 	{
@@ -418,8 +578,11 @@ public class EcIdentityManager
 	/**
 	 * Sign a piece of data with all available keys that own that data.
 	 * 
-	 * @param d
-	 *            Data to sign.
+	 * @memberOf EcIdentityManager
+	 * @method sign
+	 * @static
+	 * @param {EcRemoteLinkedData} d
+	 *          Data to sign.
 	 */
 	public static void sign(EcRemoteLinkedData d)
 	{

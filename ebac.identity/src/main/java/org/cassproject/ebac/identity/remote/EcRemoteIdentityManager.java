@@ -38,8 +38,10 @@ import forge.util;
  * forget their password, they are not able to recover or reset their password,
  * and their data should be considered lost.
  * 
+ * @module com.eduworks.ec
+ * @class EcRemoteIdentityManager
+ * 
  * @author fritz.ray@eduworks.com
- *
  */
 public class EcRemoteIdentityManager
 {
@@ -64,21 +66,23 @@ public class EcRemoteIdentityManager
 	/**
 	 * Configure parameters of the remote login storage.
 	 * 
-	 * @param usernameSalt
+	 * @memberOf EcRemote
+	 * @method configure
+	 * @param {String} usernameSalt
 	 *            Salt used in hashing the username.
-	 * @param usernameIterations
+	 * @param {int} usernameIterations
 	 *            Number of times to hash the username.
-	 * @param usernameWidth
+	 * @param {int} usernameWidth
 	 *            Resultant width of username in bytes.
-	 * @param passwordSalt
+	 * @param {String} passwordSalt
 	 *            Salt used to hash password.
-	 * @param passwordIterations
+	 * @param {int} passwordIterations
 	 *            Number of times to hash password.
-	 * @param passwordWidth
+	 * @param {int} passwordWidth
 	 *            Resultant width of password in bytes.
-	 * @param secretSalt
+	 * @param {String} secretSalt
 	 *            Salt used to hash secret (composed of username + password)
-	 * @param secretIterations
+	 * @param {int} secretIterations
 	 *            Number of times to hash secret.
 	 */
 	public void configure(String usernameSalt, int usernameIterations, int usernameWidth, String passwordSalt, int passwordIterations, int passwordWidth,
@@ -95,6 +99,16 @@ public class EcRemoteIdentityManager
 		configured = true;
 	}
 
+	/**
+	 * Configures parameters of the remote server by accessing configuration details via webservice
+	 * 
+	 * @memberOf EcRemoteIdentityManager
+	 * @method configureFromServer
+	 * @param {Callback1<Object>} success
+	 * 			Callback triggered after successfully configured
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if an error during failure
+	 */
 	public void configureFromServer(final Callback1<Object> success, final Callback1<String> failure)
 	{
 		final EcRemoteIdentityManager me = this;
@@ -171,6 +185,9 @@ public class EcRemoteIdentityManager
 
 	/**
 	 * Wipes login data.
+	 * 
+	 * @memberOf EcRemoteIdentityManager
+	 * @method clear
 	 */
 	public void clear()
 	{
@@ -184,7 +201,9 @@ public class EcRemoteIdentityManager
 	/**
 	 * Configure compatible remote identity management server.
 	 * 
-	 * @param server
+	 * @memberOf EcRemoteIdentityManager
+	 * @method setDefaultIdentityManagementServer
+	 * @param {String} server
 	 *            URL to remote identity management server.
 	 */
 	public void setDefaultIdentityManagementServer(String server)
@@ -198,10 +217,12 @@ public class EcRemoteIdentityManager
 	 * 
 	 * Please clear username and password fields after this function is called.
 	 * 
-	 * @param username
-	 *            Username
-	 * @param password
-	 *            Password
+	 * @memberOf EcRemoteIdentityManager
+	 * @method startLogin
+	 * @param {String} username
+	 *          Username to login with
+	 * @param {String} password
+	 *          Password to authenticate username with
 	 */
 	public void startLogin(String username, String password)
 	{
@@ -225,13 +246,16 @@ public class EcRemoteIdentityManager
 	 * 
 	 * Please clear username and password fields after this function is called.
 	 * 
-	 * @param username
-	 *            Username
-	 * @param oldPassword
-	 *            Current password
-	 * @param newPassword
-	 *            Desired password
-	 * @return Valid password change request.
+	 * @memberOf EcRemoteIdentityManager
+	 * @method changePassword
+	 * @param {String} username
+	 *          Username
+	 * @param {String} oldPassword
+	 *          Current password
+	 * @param {String} newPassword
+	 *          Desired password
+	 * @return {boolean}
+	 * 			Valid password change request.
 	 */
 	public boolean changePassword(String username, String oldPassword, String newPassword)
 	{
@@ -266,8 +290,10 @@ public class EcRemoteIdentityManager
 	 * 
 	 * Requires login().
 	 * 
-	 * @param success
-	 * @param failure
+	 * @memberOf EcRemoteIdentityManager
+	 * @method fetch
+	 * @param {Callback1<Object>} success
+	 * @param {Callback1<String>} failure
 	 */
 	public void fetch(final Callback1<Object> success, final Callback1<String> failure)
 	{
@@ -329,8 +355,10 @@ public class EcRemoteIdentityManager
 	 * 
 	 * Will trigger pad generation and fail if the pad has not been specified.
 	 * 
-	 * @param success
-	 * @param failure
+	 * @memberOf EcRemoteIdentityManager
+	 * @method commit
+	 * @param {Callback1<String>} success
+	 * @param {Callback1<String>} failure
 	 * @param padGenerationCallback
 	 */
 	public void commit(final Callback1<String> success, final Callback1<String> failure, Function0<String> padGenerationCallback)
@@ -349,9 +377,14 @@ public class EcRemoteIdentityManager
 	 * 
 	 * Will trigger pad generation and fail if the pad has not been specified.
 	 * 
-	 * @param success
-	 * @param failure
+	 * @memberOf EcRemoteIdentityManager
+	 * @method create
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered after successfully creating an account
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error creating an account
 	 * @param padGenerationCallback
+	 * 			Callback triggered if pad not specified
 	 */
 	public void create(final Callback1<String> success, final Callback1<String> failure, Function0<String> padGenerationCallback)
 	{
@@ -359,6 +392,20 @@ public class EcRemoteIdentityManager
 		sendCredentials(success, failure, padGenerationCallback, service);
 	}
 
+	/**
+	 * Sends the identity managers credentials to the service specified
+	 * 
+	 * @memberOf EcRemoteIdentityManager
+	 * @method sendCredentials
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered if credentials sent successfully
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error sending credentials
+	 * @param padGenerationCallback
+	 * 			Callback triggered if pad needed
+	 * @param service
+	 * 			Service to send credentials to on server
+	 */
 	private void sendCredentials(final Callback1<String> success, final Callback1<String> failure, Function0<String> padGenerationCallback,
 			final String service)
 	{
@@ -434,9 +481,12 @@ public class EcRemoteIdentityManager
 	 * Splices together passwords (in a fashion more like shuffling a deck of
 	 * cards, not appending).
 	 * 
-	 * @param passwords
-	 *            Passwords to splice.
-	 * @return Spliced password.
+	 * @memberOf EcRemoteIdentityManager
+	 * @method splicePasswords
+	 * @param {String[]} passwords
+	 *          Passwords to splice.
+	 * @return {String}  
+	 * 			Spliced password.
 	 */
 	public String splicePasswords(Array<String> passwords)
 	{
@@ -457,6 +507,18 @@ public class EcRemoteIdentityManager
 		return passwordSplice;
 	}
 
+	/**
+	 * Fetches the admin keys from the server to compare for check if current
+	 * user is an admin user
+	 * 
+	 * @memberOf EcRemoteIdentityManager
+	 * @method fetchServerAdminKeys
+	 * @param {Callback1<String[]>} success
+	 * 			Callback triggered when the admin keys are successfully returned,
+	 * 			returns an array of the admin public keys
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error occurs fetching admin keys
+	 */
 	public void fetchServerAdminKeys(final Callback1<Array<String>> success, final Callback1<String> failure)
 	{
 		String service;

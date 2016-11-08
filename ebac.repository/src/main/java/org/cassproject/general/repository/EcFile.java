@@ -6,13 +6,30 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
-import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
 
-
+/**
+ * Implementation of a file with methods for communicating with repository services
+ * 
+ * @module com.eduworks.ec
+ * @class EcFile
+ * @extends GeneralFile
+ * @constructor
+ * 
+ * @author devlin.junker@eduworks.com
+ */
 public class EcFile extends GeneralFile {
 	
-	
+	/**
+	 * Saves this file in the repository using the repository web services
+	 * 
+	 * @memberOf EcFile
+	 * @method save
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered if successfully saved
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error occurs while saving
+	 */
 	public void save(final Callback1<String> success, Callback1<String> failure)
 	{
 		if(this.name == null || this.name == "")
@@ -42,11 +59,35 @@ public class EcFile extends GeneralFile {
 		}
 	}
 	
+	/**
+	 * Deletes the file from the repository using repository web services
+	 * 
+	 * @memberOf EcFile
+	 * @method _delete
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered if successfully deleted
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error occurs while deleting
+	 */
 	public void _delete(final Callback1<String> success, final Callback1<String> failure){
 		EcRepository.DELETE(this, success, failure);
 	}
 	
-	
+	/**
+	 * Factory method for creating a file with certain values
+	 * 
+	 * @memberOf EcFile
+	 * @method create
+	 * @static
+	 * @param {String} name
+	 * 			Name of the file to be created
+	 * @param {String} base64Data
+	 * 			Base 64 encoded file data
+	 * @param {String} mimeType
+	 * 			MIME Type of the file
+	 * @return {EcFile}
+	 * 			The file created
+	 */
 	public static EcFile create(String name, String base64Data, String mimeType){
 		EcFile f = new EcFile();
 		f.data = base64Data;
@@ -56,6 +97,20 @@ public class EcFile extends GeneralFile {
 		return f;
 	}
 	
+	/**
+	 * Retrieves a file from the server specified by it's ID
+	 * 
+	 * @memberOf EcFile
+	 * @method get
+	 * @static
+	 * @param {String} id
+	 * 			ID of the file data to be retrieved
+	 * @param {Callback1<EcFile>} success
+	 * 			Callback triggered if successfully retrieved from the server,
+	 * 			returns the retrieved file
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error occurs while retrieving file from server
+	 */
 	public static void get(String id, final Callback1<EcFile> success, final Callback1<String> failure){
 		EcRepository.get(id, new Callback1<EcRemoteLinkedData>()
 		{
@@ -86,6 +141,26 @@ public class EcFile extends GeneralFile {
 		}, failure);
 	}
 	
+	/**
+	 * Searches the repository given for files that match the query passed in
+	 * 
+	 * @memberOf EcFile
+	 * @method search
+	 * @static
+	 * @param {EcRepository} repo
+	 * 			Repository to search for files
+	 * @param {String} query
+	 * 			Query to user for search
+	 * @param {Callback1<EcFile[]> success
+	 * 			Callback triggered after search completes,
+	 * 			returns results
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error occurs while searching
+	 * @param {Object} paramObj
+	 * 			Parameters to pass to search
+	 * 		@param start
+	 * 		@param size
+	 */
 	public static void search(EcRepository repo, String query, final Callback1<Array<EcFile>> success, Callback1<String> failure, Object paramObj){
 		String queryAdd = "";
 
