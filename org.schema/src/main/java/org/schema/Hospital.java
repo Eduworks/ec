@@ -7,11 +7,11 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Hospital
  * A hospital.
  * @author schema.org
- * @module schema.org
  * @class Hospital
- * @extends MedicalOrganization
+ * @module org.schema
+ * @extends EmergencyService
  */
-public class Hospital extends MedicalOrganization
+public class Hospital extends EmergencyService
 {
 	/**
 	 * Constructor, automatically sets @context and @type.

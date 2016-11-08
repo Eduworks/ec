@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/SportsActivityLocation
  * A sports location, such as a playing field.
  * @author schema.org
- * @module schema.org
  * @class SportsActivityLocation
+ * @module org.schema
  * @extends LocalBusiness
  */
 public class SportsActivityLocation extends LocalBusiness

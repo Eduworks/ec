@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ProfilePage
  * Web page type: Profile page.
  * @author schema.org
- * @module schema.org
  * @class ProfilePage
+ * @module org.schema
  * @extends WebPage
  */
 public class ProfilePage extends WebPage

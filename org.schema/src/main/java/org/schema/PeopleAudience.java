@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/PeopleAudience
  * A set of characteristics belonging to people, e.g. who compose an item's target audience.
  * @author schema.org
- * @module schema.org
  * @class PeopleAudience
+ * @module org.schema
  * @extends Audience
  */
 public class PeopleAudience extends Audience

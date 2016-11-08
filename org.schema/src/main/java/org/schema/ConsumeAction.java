@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ConsumeAction
  * The act of ingesting information/resources/food.
  * @author schema.org
- * @module schema.org
  * @class ConsumeAction
+ * @module org.schema
  * @extends Action
  */
 public class ConsumeAction extends Action

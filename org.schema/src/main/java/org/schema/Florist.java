@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Florist
  * A florist.
  * @author schema.org
- * @module schema.org
  * @class Florist
+ * @module org.schema
  * @extends Store
  */
 public class Florist extends Store

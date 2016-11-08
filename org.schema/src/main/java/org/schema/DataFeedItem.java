@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/DataFeedItem
  * A single item within a larger data feed.
  * @author schema.org
- * @module schema.org
  * @class DataFeedItem
+ * @module org.schema
  * @extends Intangible
  */
 public class DataFeedItem extends Intangible
@@ -35,7 +35,8 @@ public class DataFeedItem extends Intangible
 	 * Schema.org/dateCreated
 	 * The date on which the CreativeWork was created or the item was added to a DataFeed.
 	 * @property dateCreated
-	 * @type schema,DateTime | schema,Date	 */
+	 * @type schema,DateTime | schema,Date
+	 */
 	public Object dateCreated;
 
 	/**
@@ -50,7 +51,8 @@ public class DataFeedItem extends Intangible
 	 * Schema.org/dateModified
 	 * The date on which the CreativeWork was most recently modified or when the item's entry was modified within a DataFeed.
 	 * @property dateModified
-	 * @type schema,DateTime | schema,Date	 */
+	 * @type schema,DateTime | schema,Date
+	 */
 	public Object dateModified;
 
 }

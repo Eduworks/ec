@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/VisualArtsEvent
  * Event type: Visual arts event.
  * @author schema.org
- * @module schema.org
  * @class VisualArtsEvent
+ * @module org.schema
  * @extends Event
  */
 public class VisualArtsEvent extends Event

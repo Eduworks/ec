@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/BookFormatType
  * The publication format of the book.
  * @author schema.org
- * @module schema.org
  * @class BookFormatType
+ * @module org.schema
  * @extends Enumeration
  */
 public class BookFormatType extends Enumeration

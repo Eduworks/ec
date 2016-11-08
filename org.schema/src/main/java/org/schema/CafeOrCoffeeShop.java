@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/CafeOrCoffeeShop
  * A cafe or coffee shop.
  * @author schema.org
- * @module schema.org
  * @class CafeOrCoffeeShop
+ * @module org.schema
  * @extends FoodEstablishment
  */
 public class CafeOrCoffeeShop extends FoodEstablishment

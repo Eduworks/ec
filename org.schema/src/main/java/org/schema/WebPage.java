@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/WebPage
  * A web page. Every web page is implicitly assumed to be declared to be of type WebPage, so the various properties about that webpage, such as <code>breadcrumb</code> may be used. We recommend explicit declaration if these properties are specified, but if they are found outside of an itemscope, they will be assumed to be about the page.
  * @author schema.org
- * @module schema.org
  * @class WebPage
+ * @module org.schema
  * @extends CreativeWork
  */
 public class WebPage extends CreativeWork
@@ -27,7 +27,8 @@ public class WebPage extends CreativeWork
 	 * Schema.org/breadcrumb
 	 * A set of links that can help a user understand and navigate a website hierarchy.
 	 * @property breadcrumb
-	 * @type schema,BreadcrumbList | schema,Text	 */
+	 * @type schema,BreadcrumbList | schema,Text
+	 */
 	public Object breadcrumb;
 
 	/**
@@ -45,14 +46,6 @@ public class WebPage extends CreativeWork
 	 * @type ImageObject
 	 */
 	public ImageObject primaryImageOfPage;
-
-	/**
-	 * Schema.org/specialty
-	 * One of the domain specialities to which this web page's content applies.
-	 * @property specialty
-	 * @type Specialty
-	 */
-	public Specialty specialty;
 
 	/**
 	 * Schema.org/significantLink
@@ -79,18 +72,27 @@ public class WebPage extends CreativeWork
 	public String significantLinks;
 
 	/**
-	 * Schema.org/reviewedBy
-	 * People or organizations that have reviewed the content on this web page for accuracy and/or completeness.
-	 * @property reviewedBy
-	 * @type schema,Organization | schema,Person	 */
-	public Object reviewedBy;
-
-	/**
 	 * Schema.org/lastReviewed
 	 * Date on which the content on this web page was last reviewed for accuracy and/or completeness.
 	 * @property lastReviewed
 	 * @type Date
 	 */
 	public String lastReviewed;
+
+	/**
+	 * Schema.org/reviewedBy
+	 * People or organizations that have reviewed the content on this web page for accuracy and/or completeness.
+	 * @property reviewedBy
+	 * @type schema,Organization | schema,Person
+	 */
+	public Object reviewedBy;
+
+	/**
+	 * Schema.org/specialty
+	 * One of the domain specialities to which this web page's content applies.
+	 * @property specialty
+	 * @type Specialty
+	 */
+	public Specialty specialty;
 
 }

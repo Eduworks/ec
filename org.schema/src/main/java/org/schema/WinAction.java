@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/WinAction
  * The act of achieving victory in a competitive activity.
  * @author schema.org
- * @module schema.org
  * @class WinAction
+ * @module org.schema
  * @extends AchieveAction
  */
 public class WinAction extends AchieveAction

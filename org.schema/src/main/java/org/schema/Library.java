@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Library
  * A library.
  * @author schema.org
- * @module schema.org
  * @class Library
+ * @module org.schema
  * @extends LocalBusiness
  */
 public class Library extends LocalBusiness

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/MusicRelease
  * A MusicRelease is a specific release of a music album.
  * @author schema.org
- * @module schema.org
  * @class MusicRelease
+ * @module org.schema
  * @extends MusicPlaylist
  */
 public class MusicRelease extends MusicPlaylist
@@ -27,7 +27,8 @@ public class MusicRelease extends MusicPlaylist
 	 * Schema.org/creditedTo
 	 * The group the release is credited to if different than the byArtist. For example, Red and Blue is credited to "Stefani Germanotta Band", but by Lady Gaga.
 	 * @property creditedTo
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object creditedTo;
 
 	/**

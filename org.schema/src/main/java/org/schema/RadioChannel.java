@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/RadioChannel
  * A unique instance of a radio BroadcastService on a CableOrSatelliteService lineup.
  * @author schema.org
- * @module schema.org
  * @class RadioChannel
+ * @module org.schema
  * @extends BroadcastChannel
  */
 public class RadioChannel extends BroadcastChannel

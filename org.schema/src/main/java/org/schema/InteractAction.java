@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/InteractAction
  * The act of interacting with another person or organization.
  * @author schema.org
- * @module schema.org
  * @class InteractAction
+ * @module org.schema
  * @extends Action
  */
 public class InteractAction extends Action

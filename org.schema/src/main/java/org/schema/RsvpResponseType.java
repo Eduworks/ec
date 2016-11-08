@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/RsvpResponseType
  * RsvpResponseType is an enumeration type whose instances represent responding to an RSVP request.
  * @author schema.org
- * @module schema.org
  * @class RsvpResponseType
+ * @module org.schema
  * @extends Enumeration
  */
 public class RsvpResponseType extends Enumeration

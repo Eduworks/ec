@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ChildrensEvent
  * Event type: Children's event.
  * @author schema.org
- * @module schema.org
  * @class ChildrensEvent
+ * @module org.schema
  * @extends Event
  */
 public class ChildrensEvent extends Event

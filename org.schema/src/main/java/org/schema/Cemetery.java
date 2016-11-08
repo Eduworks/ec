@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Cemetery
  * A graveyard.
  * @author schema.org
- * @module schema.org
  * @class Cemetery
+ * @module org.schema
  * @extends CivicStructure
  */
 public class Cemetery extends CivicStructure

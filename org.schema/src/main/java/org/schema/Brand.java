@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Brand
  * A brand is a name used by an organization or business person for labeling a product, product group, or similar.
  * @author schema.org
- * @module schema.org
  * @class Brand
+ * @module org.schema
  * @extends Intangible
  */
 public class Brand extends Intangible
@@ -43,7 +43,8 @@ public class Brand extends Intangible
 	 * Schema.org/logo
 	 * An associated logo.
 	 * @property logo
-	 * @type schema,ImageObject | schema,URL	 */
+	 * @type schema,ImageObject | schema,URL
+	 */
 	public Object logo;
 
 }

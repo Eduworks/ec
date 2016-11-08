@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Offer
  * An offer to transfer some rights to an item or to provide a service — for example, an offer to sell tickets to an event, to rent the DVD of a movie, to stream a TV show over the internet, to repair a motorcycle, or to loan a book.\n\nFor [GTIN](http://www.gs1.org/barcodes/technical/idkeys/gtin)-related fields, see [Check Digit calculator](http://www.gs1.org/barcodes/support/check_digit_calculator) and [validation guide](http://www.gs1us.org/resources/standards/gtin-validation-guide) from [GS1](http://www.gs1.org/).
  * @author schema.org
- * @module schema.org
  * @class Offer
+ * @module org.schema
  * @extends Intangible
  */
 public class Offer extends Intangible
@@ -83,8 +83,26 @@ public class Offer extends Intangible
 	 * Schema.org/itemOffered
 	 * The item being offered.
 	 * @property itemOffered
-	 * @type schema,Product | schema,Service	 */
+	 * @type schema,Product | schema,Service
+	 */
 	public Object itemOffered;
+
+	/**
+	 * Schema.org/ineligibleRegion
+	 * The ISO 3166-1 (ISO 3166-1 alpha-2) or ISO 3166-2 code, the place, or the GeoShape for the geo-political region(s) for which the offer or delivery charge specification is not valid, e.g. a region where the transaction is not allowed.\n\nSee also [[eligibleRegion]].
+      
+	 * @property ineligibleRegion
+	 * @type schema,GeoShape | schema,Place | schema,Text
+	 */
+	public Object ineligibleRegion;
+
+	/**
+	 * Schema.org/eligibleDuration
+	 * The duration for which the given offer is valid.
+	 * @property eligibleDuration
+	 * @type QuantitativeValue
+	 */
+	public QuantitativeValue eligibleDuration;
 
 	/**
 	 * Schema.org/includesObject
@@ -135,12 +153,12 @@ public class Offer extends Intangible
 	public WarrantyPromise warranty;
 
 	/**
-	 * Schema.org/serialNumber
-	 * The serial number or any alphanumeric identifier of a particular product. When attached to an offer, it is a shortcut for the serial number of the product included in the offer.
-	 * @property serialNumber
-	 * @type Text
+	 * Schema.org/addOn
+	 * An additional offer that can only be obtained in combination with the first base offer (e.g. supplements and extensions that are available for a surcharge).
+	 * @property addOn
+	 * @type Offer
 	 */
-	public String serialNumber;
+	public Offer addOn;
 
 	/**
 	 * Schema.org/inventoryLevel
@@ -154,7 +172,8 @@ public class Offer extends Intangible
 	 * Schema.org/offeredBy
 	 * A pointer to the organization or person making the offer.
 	 * @property offeredBy
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object offeredBy;
 
 	/**
@@ -164,14 +183,6 @@ public class Offer extends Intangible
 	 * @type DateTime
 	 */
 	public String availabilityStarts;
-
-	/**
-	 * Schema.org/eligibleDuration
-	 * The duration for which the given offer is valid.
-	 * @property eligibleDuration
-	 * @type QuantitativeValue
-	 */
-	public QuantitativeValue eligibleDuration;
 
 	/**
 	 * Schema.org/review
@@ -201,21 +212,32 @@ public class Offer extends Intangible
 	 * Schema.org/areaServed
 	 * The geographic area where a service or offered item is provided.
 	 * @property areaServed
-	 * @type schema,Text | schema,GeoShape | schema,AdministrativeArea | schema,Place	 */
+	 * @type schema,GeoShape | schema,AdministrativeArea | schema,Place | schema,Text
+	 */
 	public Object areaServed;
+
+	/**
+	 * Schema.org/serialNumber
+	 * The serial number or any alphanumeric identifier of a particular product. When attached to an offer, it is a shortcut for the serial number of the product included in the offer.
+	 * @property serialNumber
+	 * @type Text
+	 */
+	public String serialNumber;
 
 	/**
 	 * Schema.org/seller
 	 * An entity which offers (sells / leases / lends / loans) the services / goods.  A seller may also be a provider.
 	 * @property seller
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object seller;
 
 	/**
 	 * Schema.org/acceptedPaymentMethod
 	 * The payment method(s) accepted by seller for this offer.
 	 * @property acceptedPaymentMethod
-	 * @type schema,LoanOrCredit | schema,PaymentMethod	 */
+	 * @type schema,PaymentMethod | schema,LoanOrCredit
+	 */
 	public Object acceptedPaymentMethod;
 
 	/**
@@ -264,7 +286,8 @@ public class Offer extends Intangible
       including [ambiguous symbols](http://en.wikipedia.org/wiki/Dollar_sign#Currencies_that_use_the_dollar_or_peso_sign) such as '$' in the value.\n* Use '.' (Unicode 'FULL STOP' (U+002E)) rather than ',' to indicate a decimal point. Avoid using these symbols as a readability separator.\n* Note that both [RDFa](http://www.w3.org/TR/xhtml-rdfa-primer/#using-the-content-attribute) and Microdata syntax allow the use of a "content=" attribute for publishing simple machine-readable values alongside more human-friendly formatting.\n* Use values from 0123456789 (Unicode 'DIGIT ZERO' (U+0030) to 'DIGIT NINE' (U+0039)) rather than superficially similiar Unicode symbols.
       
 	 * @property price
-	 * @type schema,Text | schema,Number	 */
+	 * @type schema,Number | schema,Text
+	 */
 	public Object price;
 
 	/**
@@ -284,22 +307,6 @@ public class Offer extends Intangible
 	public QuantitativeValue eligibleQuantity;
 
 	/**
-	 * Schema.org/ineligibleRegion
-	 * The ISO 3166-1 (ISO 3166-1 alpha-2) or ISO 3166-2 code, the place, or the GeoShape for the geo-political region(s) for which the offer or delivery charge specification is not valid, e.g. a region where the transaction is not allowed.\n\nSee also [[eligibleRegion]].
-      
-	 * @property ineligibleRegion
-	 * @type schema,Text | schema,GeoShape | schema,Place	 */
-	public Object ineligibleRegion;
-
-	/**
-	 * Schema.org/addOn
-	 * An additional offer that can only be obtained in combination with the first base offer (e.g. supplements and extensions that are available for a surcharge).
-	 * @property addOn
-	 * @type Offer
-	 */
-	public Offer addOn;
-
-	/**
 	 * Schema.org/itemCondition
 	 * A predefined value from OfferItemCondition or a textual description of the condition of the product or service, or the products or services included in the offer.
 	 * @property itemCondition
@@ -312,7 +319,8 @@ public class Offer extends Intangible
 	 * The ISO 3166-1 (ISO 3166-1 alpha-2) or ISO 3166-2 code, the place, or the GeoShape for the geo-political region(s) for which the offer or delivery charge specification is valid.\n\nSee also [[ineligibleRegion]].
     
 	 * @property eligibleRegion
-	 * @type schema,Text | schema,GeoShape | schema,Place	 */
+	 * @type schema,GeoShape | schema,Place | schema,Text
+	 */
 	public Object eligibleRegion;
 
 	/**
@@ -343,7 +351,8 @@ public class Offer extends Intangible
 	 * Schema.org/category
 	 * A category for the item. Greater signs or slashes can be used to informally indicate a category hierarchy.
 	 * @property category
-	 * @type schema,Thing | schema,Text	 */
+	 * @type schema,Thing | schema,Text
+	 */
 	public Object category;
 
 }

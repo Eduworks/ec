@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ExerciseAction
  * The act of participating in exertive activity for the purposes of improving health and fitness.
  * @author schema.org
- * @module schema.org
  * @class ExerciseAction
+ * @module org.schema
  * @extends PlayAction
  */
 public class ExerciseAction extends PlayAction

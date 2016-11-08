@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/EducationalOrganization
  * An educational organization.
  * @author schema.org
- * @module schema.org
  * @class EducationalOrganization
+ * @module org.schema
  * @extends Organization
  */
 public class EducationalOrganization extends Organization

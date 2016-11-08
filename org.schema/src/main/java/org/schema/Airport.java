@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Airport
  * An airport.
  * @author schema.org
- * @module schema.org
  * @class Airport
+ * @module org.schema
  * @extends CivicStructure
  */
 public class Airport extends CivicStructure

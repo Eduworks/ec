@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/MobilePhoneStore
  * A store that sells mobile phones and related accessories.
  * @author schema.org
- * @module schema.org
  * @class MobilePhoneStore
+ * @module org.schema
  * @extends Store
  */
 public class MobilePhoneStore extends Store

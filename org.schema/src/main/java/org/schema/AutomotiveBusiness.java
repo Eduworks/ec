@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/AutomotiveBusiness
  * Car repair, sales, or parts.
  * @author schema.org
- * @module schema.org
  * @class AutomotiveBusiness
+ * @module org.schema
  * @extends LocalBusiness
  */
 public class AutomotiveBusiness extends LocalBusiness

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/PlanAction
  * The act of planning the execution of an event/task/action/reservation/plan to a future date.
  * @author schema.org
- * @module schema.org
  * @class PlanAction
+ * @module org.schema
  * @extends OrganizeAction
  */
 public class PlanAction extends OrganizeAction

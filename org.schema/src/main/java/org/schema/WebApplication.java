@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/WebApplication
  * Web applications.
  * @author schema.org
- * @module schema.org
  * @class WebApplication
+ * @module org.schema
  * @extends SoftwareApplication
  */
 public class WebApplication extends SoftwareApplication

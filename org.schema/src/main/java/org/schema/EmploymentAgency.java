@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/EmploymentAgency
  * An employment agency.
  * @author schema.org
- * @module schema.org
  * @class EmploymentAgency
+ * @module org.schema
  * @extends LocalBusiness
  */
 public class EmploymentAgency extends LocalBusiness

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/CreateAction
  * The act of deliberately creating/producing/generating/building a result out of the agent.
  * @author schema.org
- * @module schema.org
  * @class CreateAction
+ * @module org.schema
  * @extends Action
  */
 public class CreateAction extends Action

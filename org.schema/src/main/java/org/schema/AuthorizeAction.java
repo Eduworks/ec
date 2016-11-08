@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/AuthorizeAction
  * The act of granting permission to an object.
  * @author schema.org
- * @module schema.org
  * @class AuthorizeAction
+ * @module org.schema
  * @extends AllocateAction
  */
 public class AuthorizeAction extends AllocateAction
@@ -27,7 +27,8 @@ public class AuthorizeAction extends AllocateAction
 	 * Schema.org/recipient
 	 * A sub property of participant. The participant who is at the receiving end of the action.
 	 * @property recipient
-	 * @type schema,Organization | schema,Person | schema,Audience	 */
+	 * @type schema,Organization | schema,Person | schema,Audience
+	 */
 	public Object recipient;
 
 }

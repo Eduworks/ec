@@ -11,6 +11,7 @@ import org.stjs.javascript.Map;
  * @author fritz.ray@eduworks.com
  * @class Level
  * @module org.cassproject
+ * @extends Intangible
  */
 public class Level extends Intangible
 {

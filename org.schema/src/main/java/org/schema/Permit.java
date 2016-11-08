@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Permit
  * A permit issued by an organization, e.g. a parking pass.
  * @author schema.org
- * @module schema.org
  * @class Permit
+ * @module org.schema
  * @extends Intangible
  */
 public class Permit extends Intangible

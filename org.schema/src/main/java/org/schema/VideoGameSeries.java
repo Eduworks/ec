@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/VideoGameSeries
  * A video game series.
  * @author schema.org
- * @module schema.org
  * @class VideoGameSeries
+ * @module org.schema
  * @extends CreativeWorkSeries
  */
 public class VideoGameSeries extends CreativeWorkSeries
@@ -27,14 +27,16 @@ public class VideoGameSeries extends CreativeWorkSeries
 	 * Schema.org/musicBy
 	 * The composer of the soundtrack.
 	 * @property musicBy
-	 * @type schema,MusicGroup | schema,Person	 */
+	 * @type schema,Person | schema,MusicGroup
+	 */
 	public Object musicBy;
 
 	/**
 	 * Schema.org/gameLocation
 	 * Real or fictional location of the game (or part of game).
 	 * @property gameLocation
-	 * @type schema,PostalAddress | schema,URL | schema,Place	 */
+	 * @type schema,PostalAddress | schema,Place | schema,URL
+	 */
 	public Object gameLocation;
 
 	/**
@@ -76,6 +78,14 @@ public class VideoGameSeries extends CreativeWorkSeries
 	 * @type Episode
 	 */
 	public Episode episode;
+
+	/**
+	 * Schema.org/gamePlatform
+	 * The electronic systems used to play <a href="http://en.wikipedia.org/wiki/Category:Video_game_platforms">video games</a>.
+	 * @property gamePlatform
+	 * @type schema,URL | schema,Thing | schema,Text
+	 */
+	public Object gamePlatform;
 
 	/**
 	 * Schema.org/actor
@@ -140,13 +150,6 @@ public class VideoGameSeries extends CreativeWorkSeries
 	 * @type CreativeWorkSeason
 	 */
 	public CreativeWorkSeason season;
-
-	/**
-	 * Schema.org/gamePlatform
-	 * The electronic systems used to play <a href="http://en.wikipedia.org/wiki/Category:Video_game_platforms">video games</a>.
-	 * @property gamePlatform
-	 * @type schema,Thing | schema,Text | schema,URL	 */
-	public Object gamePlatform;
 
 	/**
 	 * Schema.org/gameItem

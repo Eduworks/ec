@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Recipe
  * A recipe. For dietary restrictions covered by the recipe, a few common restrictions are enumerated via [[suitableForDiet]]. The [[keywords]] property can also be used to add more detail.
  * @author schema.org
- * @module schema.org
  * @class Recipe
+ * @module org.schema
  * @extends CreativeWork
  */
 public class Recipe extends CreativeWork
@@ -22,6 +22,14 @@ public class Recipe extends CreativeWork
 		context="http://schema.org/";
 		type="Recipe";
 	}
+
+	/**
+	 * Schema.org/recipeYield
+	 * The quantity produced by the recipe (for example, number of people served, number of servings, etc).
+	 * @property recipeYield
+	 * @type Text
+	 */
+	public String recipeYield;
 
 	/**
 	 * Schema.org/cookingMethod
@@ -51,7 +59,8 @@ public class Recipe extends CreativeWork
 	 * Schema.org/recipeInstructions
 	 * A step or instruction involved in making the recipe.
 	 * @property recipeInstructions
-	 * @type schema,Text | schema,ItemList	 */
+	 * @type schema,ItemList | schema,Text
+	 */
 	public Object recipeInstructions;
 
 	/**
@@ -61,14 +70,6 @@ public class Recipe extends CreativeWork
 	 * @type Duration
 	 */
 	public Duration cookTime;
-
-	/**
-	 * Schema.org/recipeYield
-	 * The quantity produced by the recipe (for example, number of people served, number of servings, etc).
-	 * @property recipeYield
-	 * @type Text
-	 */
-	public String recipeYield;
 
 	/**
 	 * Schema.org/prepTime

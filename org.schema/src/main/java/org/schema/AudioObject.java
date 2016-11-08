@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/AudioObject
  * An audio file.
  * @author schema.org
- * @module schema.org
  * @class AudioObject
+ * @module org.schema
  * @extends MediaObject
  */
 public class AudioObject extends MediaObject

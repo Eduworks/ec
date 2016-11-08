@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Corporation
  * Organization: A business corporation.
  * @author schema.org
- * @module schema.org
  * @class Corporation
+ * @module org.schema
  * @extends Organization
  */
 public class Corporation extends Organization

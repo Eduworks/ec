@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Invoice
  * A statement of the money due for goods or services; a bill.
  * @author schema.org
- * @module schema.org
  * @class Invoice
+ * @module org.schema
  * @extends Intangible
  */
 public class Invoice extends Intangible
@@ -35,14 +35,16 @@ public class Invoice extends Intangible
 	 * Schema.org/broker
 	 * An entity that arranges for an exchange between a buyer and a seller.  In most cases a broker never acquires or releases ownership of a product or service involved in an exchange.  If it is not clear whether an entity is a broker, seller, or buyer, the latter two terms are preferred.
 	 * @property broker
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object broker;
 
 	/**
 	 * Schema.org/minimumPaymentDue
 	 * The minimum payment required at this time.
 	 * @property minimumPaymentDue
-	 * @type schema,MonetaryAmount | schema,PriceSpecification	 */
+	 * @type schema,PriceSpecification | schema,MonetaryAmount
+	 */
 	public Object minimumPaymentDue;
 
 	/**
@@ -62,6 +64,14 @@ public class Invoice extends Intangible
 	public PaymentMethod paymentMethod;
 
 	/**
+	 * Schema.org/paymentDueDate
+	 * The date that payment is due.
+	 * @property paymentDueDate
+	 * @type DateTime
+	 */
+	public String paymentDueDate;
+
+	/**
 	 * Schema.org/paymentMethodId
 	 * An identifier for the method of payment used (e.g. the last 4 digits of the credit card).
 	 * @property paymentMethodId
@@ -73,14 +83,16 @@ public class Invoice extends Intangible
 	 * Schema.org/totalPaymentDue
 	 * The total amount due.
 	 * @property totalPaymentDue
-	 * @type schema,MonetaryAmount | schema,PriceSpecification	 */
+	 * @type schema,PriceSpecification | schema,MonetaryAmount
+	 */
 	public Object totalPaymentDue;
 
 	/**
 	 * Schema.org/customer
 	 * Party placing the order or paying the invoice.
 	 * @property customer
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object customer;
 
 	/**
@@ -95,16 +107,9 @@ public class Invoice extends Intangible
 	 * Schema.org/paymentStatus
 	 * The status of payment; whether the invoice has been paid or not.
 	 * @property paymentStatus
-	 * @type schema,Text | schema,PaymentStatusType	 */
-	public Object paymentStatus;
-
-	/**
-	 * Schema.org/paymentDueDate
-	 * The date that payment is due.
-	 * @property paymentDueDate
-	 * @type DateTime
+	 * @type schema,PaymentStatusType | schema,Text
 	 */
-	public String paymentDueDate;
+	public Object paymentStatus;
 
 	/**
 	 * Schema.org/accountId
@@ -118,7 +123,8 @@ public class Invoice extends Intangible
 	 * Schema.org/provider
 	 * The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.
 	 * @property provider
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object provider;
 
 	/**
@@ -141,7 +147,8 @@ public class Invoice extends Intangible
 	 * Schema.org/category
 	 * A category for the item. Greater signs or slashes can be used to informally indicate a category hierarchy.
 	 * @property category
-	 * @type schema,Thing | schema,Text	 */
+	 * @type schema,Thing | schema,Text
+	 */
 	public Object category;
 
 }

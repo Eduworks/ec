@@ -9,8 +9,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
         [[AccountingService]], [[Attorney]], [[Notary]], as well as types for several kinds of [[HomeAndConstructionBusiness]]: [[Electrician]], [[GeneralContractor]],
         [[HousePainter]], [[Locksmith]], [[Plumber]], [[RoofingContractor]]. [[LegalService]] was introduced as a more inclusive supertype of [[Attorney]].
  * @author schema.org
- * @module schema.org
  * @class ProfessionalService
+ * @module org.schema
  * @extends LocalBusiness
  */
 public class ProfessionalService extends LocalBusiness

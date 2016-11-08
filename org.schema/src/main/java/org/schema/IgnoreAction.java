@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/IgnoreAction
  * The act of intentionally disregarding the object. An agent ignores an object.
  * @author schema.org
- * @module schema.org
  * @class IgnoreAction
+ * @module org.schema
  * @extends AssessAction
  */
 public class IgnoreAction extends AssessAction

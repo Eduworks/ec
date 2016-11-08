@@ -9,8 +9,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
 The place is __open__ if the [[opens]] property is specified, and __closed__ otherwise.\n\nIf the value for the [[closes]] property is less than the value for the [[opens]] property then the hour range is assumed to span over the next day.
       
  * @author schema.org
- * @module schema.org
  * @class OpeningHoursSpecification
+ * @module org.schema
  * @extends StructuredValue
  */
 public class OpeningHoursSpecification extends StructuredValue
@@ -24,14 +24,6 @@ public class OpeningHoursSpecification extends StructuredValue
 		context="http://schema.org/";
 		type="OpeningHoursSpecification";
 	}
-
-	/**
-	 * Schema.org/opens
-	 * The opening hour of the place or service on the given day(s) of the week.
-	 * @property opens
-	 * @type Time
-	 */
-	public String opens;
 
 	/**
 	 * Schema.org/dayOfWeek
@@ -64,5 +56,13 @@ public class OpeningHoursSpecification extends StructuredValue
 	 * @type DateTime
 	 */
 	public String validThrough;
+
+	/**
+	 * Schema.org/opens
+	 * The opening hour of the place or service on the given day(s) of the week.
+	 * @property opens
+	 * @type Time
+	 */
+	public String opens;
 
 }

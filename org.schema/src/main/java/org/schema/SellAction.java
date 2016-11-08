@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/SellAction
  * The act of taking money from a buyer in exchange for goods or services rendered. An agent sells an object, product, or service to a buyer for a price. Reciprocal of BuyAction.
  * @author schema.org
- * @module schema.org
  * @class SellAction
+ * @module org.schema
  * @extends TradeAction
  */
 public class SellAction extends TradeAction

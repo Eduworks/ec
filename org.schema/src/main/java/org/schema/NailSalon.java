@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/NailSalon
  * A nail salon.
  * @author schema.org
- * @module schema.org
  * @class NailSalon
+ * @module org.schema
  * @extends HealthAndBeautyBusiness
  */
 public class NailSalon extends HealthAndBeautyBusiness

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Sculpture
  * A piece of sculpture.
  * @author schema.org
- * @module schema.org
  * @class Sculpture
+ * @module org.schema
  * @extends CreativeWork
  */
 public class Sculpture extends CreativeWork

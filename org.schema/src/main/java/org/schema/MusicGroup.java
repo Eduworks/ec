@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/MusicGroup
  * A musical group, such as a band, an orchestra, or a choir. Can also be a solo musician.
  * @author schema.org
- * @module schema.org
  * @class MusicGroup
+ * @module org.schema
  * @extends PerformingGroup
  */
 public class MusicGroup extends PerformingGroup
@@ -35,7 +35,8 @@ public class MusicGroup extends PerformingGroup
 	 * Schema.org/genre
 	 * Genre of the creative work or group.
 	 * @property genre
-	 * @type schema,Text | schema,URL	 */
+	 * @type schema,URL | schema,Text
+	 */
 	public Object genre;
 
 	/**
@@ -47,19 +48,20 @@ public class MusicGroup extends PerformingGroup
 	public Person musicGroupMember;
 
 	/**
-	 * Schema.org/track
-	 * A music recording (track)&#x2014;usually a single song. If an ItemList is given, the list should contain items of type MusicRecording.
-	 * @property track
-	 * @type schema,ItemList | schema,MusicRecording	 */
-	public Object track;
-
-	/**
 	 * Schema.org/tracks
 	 * A music recording (track)&#x2014;usually a single song.
 	 * @property tracks
 	 * @type MusicRecording
 	 */
 	public MusicRecording tracks;
+
+	/**
+	 * Schema.org/track
+	 * A music recording (track)&#x2014;usually a single song. If an ItemList is given, the list should contain items of type MusicRecording.
+	 * @property track
+	 * @type schema,ItemList | schema,MusicRecording
+	 */
+	public Object track;
 
 	/**
 	 * Schema.org/album

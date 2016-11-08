@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/AppendAction
  * The act of inserting at the end if an ordered collection.
  * @author schema.org
- * @module schema.org
  * @class AppendAction
+ * @module org.schema
  * @extends InsertAction
  */
 public class AppendAction extends InsertAction

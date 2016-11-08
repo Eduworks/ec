@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/TVClip
  * A short TV program or a segment/part of a TV program.
  * @author schema.org
- * @module schema.org
  * @class TVClip
+ * @module org.schema
  * @extends Clip
  */
 public class TVClip extends Clip

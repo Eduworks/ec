@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/MovieTheater
  * A movie theater.
  * @author schema.org
- * @module schema.org
  * @class MovieTheater
+ * @module org.schema
  * @extends EntertainmentBusiness
  */
 public class MovieTheater extends EntertainmentBusiness

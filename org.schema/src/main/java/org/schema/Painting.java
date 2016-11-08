@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Painting
  * A painting.
  * @author schema.org
- * @module schema.org
  * @class Painting
+ * @module org.schema
  * @extends CreativeWork
  */
 public class Painting extends CreativeWork

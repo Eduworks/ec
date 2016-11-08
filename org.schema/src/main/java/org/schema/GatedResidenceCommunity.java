@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/GatedResidenceCommunity
  * Residence type: Gated community.
  * @author schema.org
- * @module schema.org
  * @class GatedResidenceCommunity
+ * @module org.schema
  * @extends Residence
  */
 public class GatedResidenceCommunity extends Residence

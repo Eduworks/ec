@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/BroadcastService
  * A delivery service through which content is provided via broadcast over the air or online.
  * @author schema.org
- * @module schema.org
  * @class BroadcastService
+ * @module org.schema
  * @extends Service
  */
 public class BroadcastService extends Service

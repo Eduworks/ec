@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/SearchAction
  * The act of searching for an object.\n\nRelated actions:\n\n* [[FindAction]]: SearchAction generally leads to a FindAction, but not necessarily.
  * @author schema.org
- * @module schema.org
  * @class SearchAction
+ * @module org.schema
  * @extends Action
  */
 public class SearchAction extends Action

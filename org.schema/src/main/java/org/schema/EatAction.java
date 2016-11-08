@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/EatAction
  * The act of swallowing solid objects.
  * @author schema.org
- * @module schema.org
  * @class EatAction
+ * @module org.schema
  * @extends ConsumeAction
  */
 public class EatAction extends ConsumeAction

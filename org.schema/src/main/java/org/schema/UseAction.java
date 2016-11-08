@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/UseAction
  * The act of applying an object to its intended purpose.
  * @author schema.org
- * @module schema.org
  * @class UseAction
+ * @module org.schema
  * @extends ConsumeAction
  */
 public class UseAction extends ConsumeAction

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/SomeProducts
  * A placeholder for multiple similar products of the same kind.
  * @author schema.org
- * @module schema.org
  * @class SomeProducts
+ * @module org.schema
  * @extends Product
  */
 public class SomeProducts extends Product

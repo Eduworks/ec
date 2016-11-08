@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/DeactivateAction
  * The act of stopping or deactivating a device or application (e.g. stopping a timer or turning off a flashlight).
  * @author schema.org
- * @module schema.org
  * @class DeactivateAction
+ * @module org.schema
  * @extends ControlAction
  */
 public class DeactivateAction extends ControlAction

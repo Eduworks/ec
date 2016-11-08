@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Enumeration
  * Lists or enumerations—for example, a list of cuisines or music genres, etc.
  * @author schema.org
- * @module schema.org
  * @class Enumeration
+ * @module org.schema
  * @extends Intangible
  */
 public class Enumeration extends Intangible

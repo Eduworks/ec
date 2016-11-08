@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/LocalBusiness
  * A particular physical business or branch of an organization. Examples of LocalBusiness include a restaurant, a particular branch of a restaurant chain, a branch of a bank, a medical practice, a club, a bowling alley, etc.
  * @author schema.org
- * @module schema.org
  * @class LocalBusiness
+ * @module org.schema
  * @extends Organization
  */
 public class LocalBusiness extends Organization
@@ -22,6 +22,14 @@ public class LocalBusiness extends Organization
 		context="http://schema.org/";
 		type="LocalBusiness";
 	}
+
+	/**
+	 * Schema.org/currenciesAccepted
+	 * The currency accepted (in [ISO 4217 currency format](http://en.wikipedia.org/wiki/ISO_4217)).
+	 * @property currenciesAccepted
+	 * @type Text
+	 */
+	public String currenciesAccepted;
 
 	/**
 	 * Schema.org/openingHours
@@ -46,14 +54,6 @@ public class LocalBusiness extends Organization
 	 * @type Text
 	 */
 	public String priceRange;
-
-	/**
-	 * Schema.org/currenciesAccepted
-	 * The currency accepted (in [ISO 4217 currency format](http://en.wikipedia.org/wiki/ISO_4217)).
-	 * @property currenciesAccepted
-	 * @type Text
-	 */
-	public String currenciesAccepted;
 
 	/**
 	 * Schema.org/branchOf

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Event
  * An event happening at a certain time and location, such as a concert, lecture, or festival. Ticketing information may be added via the [[offers]] property. Repeated events may be structured as separate Event objects.
  * @author schema.org
- * @module schema.org
  * @class Event
+ * @module org.schema
  * @extends Thing
  */
 public class Event extends Thing
@@ -36,35 +36,40 @@ public class Event extends Thing
 	 * Schema.org/contributor
 	 * A secondary contributor to the CreativeWork or Event.
 	 * @property contributor
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object contributor;
 
 	/**
 	 * Schema.org/attendees
 	 * A person attending the event.
 	 * @property attendees
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object attendees;
 
 	/**
 	 * Schema.org/performers
 	 * The main performer or performers of the event&#x2014;for example, a presenter, musician, or actor.
 	 * @property performers
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object performers;
 
 	/**
 	 * Schema.org/composer
 	 * The person or organization who wrote a composition, or who is the composer of a work performed at some event.
 	 * @property composer
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object composer;
 
 	/**
 	 * Schema.org/performer
 	 * A performer at the event&#x2014;for example, a presenter, musician, musical group or actor.
 	 * @property performer
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object performer;
 
 	/**
@@ -103,7 +108,8 @@ public class Event extends Thing
 	 * Schema.org/translator
 	 * Organization or person who adapts a creative work to different languages, regional differences and technical requirements of a target market, or that translates during some event.
 	 * @property translator
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object translator;
 
 	/**
@@ -150,14 +156,16 @@ public class Event extends Thing
 	 * Schema.org/attendee
 	 * A person or organization attending the event.
 	 * @property attendee
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object attendee;
 
 	/**
 	 * Schema.org/funder
 	 * A person or organization that supports (sponsors) something through some kind of financial contribution.
 	 * @property funder
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object funder;
 
 	/**
@@ -180,14 +188,16 @@ public class Event extends Thing
 	 * Schema.org/sponsor
 	 * A person or organization that supports a thing through a pledge, promise, or financial contribution. e.g. a sponsor of a Medical Study or a corporate sponsor of an event.
 	 * @property sponsor
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object sponsor;
 
 	/**
 	 * Schema.org/location
 	 * The location of for example where the event is happening, an organization is located, or where an action takes place.
 	 * @property location
-	 * @type schema,Text | schema,PostalAddress | schema,Place	 */
+	 * @type schema,PostalAddress | schema,Place | schema,Text
+	 */
 	public Object location;
 
 	/**
@@ -202,7 +212,8 @@ public class Event extends Thing
 	 * Schema.org/organizer
 	 * An organizer of an Event.
 	 * @property organizer
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object organizer;
 
 	/**
@@ -217,7 +228,8 @@ public class Event extends Thing
 	 * Schema.org/startDate
 	 * The start date and time of the item (in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601)).
 	 * @property startDate
-	 * @type schema,DateTime | schema,Date	 */
+	 * @type schema,DateTime | schema,Date
+	 */
 	public Object startDate;
 
 	/**
@@ -240,14 +252,16 @@ public class Event extends Thing
 	 * Schema.org/endDate
 	 * The end date and time of the item (in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601)).
 	 * @property endDate
-	 * @type schema,DateTime | schema,Date	 */
+	 * @type schema,DateTime | schema,Date
+	 */
 	public Object endDate;
 
 	/**
 	 * Schema.org/inLanguage
 	 * The language of the content or performance or used in an action. Please use one of the language codes from the [IETF BCP 47 standard](http://tools.ietf.org/html/bcp47). See also [[availableLanguage]].
 	 * @property inLanguage
-	 * @type schema,Language | schema,Text	 */
+	 * @type schema,Language | schema,Text
+	 */
 	public Object inLanguage;
 
 	/**

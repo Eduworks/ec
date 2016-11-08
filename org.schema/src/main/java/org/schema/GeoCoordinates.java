@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/GeoCoordinates
  * The geographic coordinates of a place or event.
  * @author schema.org
- * @module schema.org
  * @class GeoCoordinates
+ * @module org.schema
  * @extends StructuredValue
  */
 public class GeoCoordinates extends StructuredValue
@@ -27,7 +27,8 @@ public class GeoCoordinates extends StructuredValue
 	 * Schema.org/latitude
 	 * The latitude of a location. For example ```37.42242``` ([WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)).
 	 * @property latitude
-	 * @type schema,Text | schema,Number	 */
+	 * @type schema,Number | schema,Text
+	 */
 	public Object latitude;
 
 	/**
@@ -42,28 +43,32 @@ public class GeoCoordinates extends StructuredValue
 	 * Schema.org/elevation
 	 * The elevation of a location ([WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)).
 	 * @property elevation
-	 * @type schema,Text | schema,Number	 */
+	 * @type schema,Number | schema,Text
+	 */
 	public Object elevation;
 
 	/**
 	 * Schema.org/longitude
 	 * The longitude of a location. For example ```-122.08585``` ([WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)).
 	 * @property longitude
-	 * @type schema,Text | schema,Number	 */
+	 * @type schema,Number | schema,Text
+	 */
 	public Object longitude;
 
 	/**
 	 * Schema.org/addressCountry
 	 * The country. For example, USA. You can also provide the two-letter [ISO 3166-1 alpha-2 country code](http://en.wikipedia.org/wiki/ISO_3166-1).
 	 * @property addressCountry
-	 * @type schema,Text | schema,Country	 */
+	 * @type schema,Country | schema,Text
+	 */
 	public Object addressCountry;
 
 	/**
 	 * Schema.org/address
 	 * Physical address of the item.
 	 * @property address
-	 * @type schema,Text | schema,PostalAddress	 */
+	 * @type schema,PostalAddress | schema,Text
+	 */
 	public Object address;
 
 }

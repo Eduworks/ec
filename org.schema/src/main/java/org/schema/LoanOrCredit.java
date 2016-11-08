@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/LoanOrCredit
  * A financial product for the loaning of an amount of money under agreed terms and charges.
  * @author schema.org
- * @module schema.org
  * @class LoanOrCredit
+ * @module org.schema
  * @extends FinancialProduct
  */
 public class LoanOrCredit extends FinancialProduct
@@ -24,18 +24,20 @@ public class LoanOrCredit extends FinancialProduct
 	}
 
 	/**
-	 * Schema.org/amount
-	 * The amount of money.
-	 * @property amount
-	 * @type schema,MonetaryAmount | schema,Number	 */
-	public Object amount;
-
-	/**
 	 * Schema.org/requiredCollateral
 	 * Assets required to secure loan or credit repayments. It may take form of third party pledge, goods, financial instruments (cash, securities, etc.)
 	 * @property requiredCollateral
-	 * @type schema,Thing | schema,Text	 */
+	 * @type schema,Thing | schema,Text
+	 */
 	public Object requiredCollateral;
+
+	/**
+	 * Schema.org/amount
+	 * The amount of money.
+	 * @property amount
+	 * @type schema,MonetaryAmount | schema,Number
+	 */
+	public Object amount;
 
 	/**
 	 * Schema.org/loanTerm

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ApartmentComplex
  * Residence type: Apartment complex.
  * @author schema.org
- * @module schema.org
  * @class ApartmentComplex
+ * @module org.schema
  * @extends Residence
  */
 public class ApartmentComplex extends Residence

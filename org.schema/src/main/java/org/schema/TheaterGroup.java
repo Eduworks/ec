@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/TheaterGroup
  * A theater group or company, for example, the Royal Shakespeare Company or Druid Theatre.
  * @author schema.org
- * @module schema.org
  * @class TheaterGroup
+ * @module org.schema
  * @extends PerformingGroup
  */
 public class TheaterGroup extends PerformingGroup

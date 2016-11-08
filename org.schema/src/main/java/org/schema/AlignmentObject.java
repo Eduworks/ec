@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/AlignmentObject
  * An intangible item that describes an alignment between a learning resource and a node in an educational framework.
  * @author schema.org
- * @module schema.org
  * @class AlignmentObject
+ * @module org.schema
  * @extends Intangible
  */
 public class AlignmentObject extends Intangible
@@ -22,14 +22,6 @@ public class AlignmentObject extends Intangible
 		context="http://schema.org/";
 		type="AlignmentObject";
 	}
-
-	/**
-	 * Schema.org/educationalFramework
-	 * The framework to which the resource being described is aligned.
-	 * @property educationalFramework
-	 * @type Text
-	 */
-	public String educationalFramework;
 
 	/**
 	 * Schema.org/targetName
@@ -54,6 +46,14 @@ public class AlignmentObject extends Intangible
 	 * @type Text
 	 */
 	public String targetDescription;
+
+	/**
+	 * Schema.org/educationalFramework
+	 * The framework to which the resource being described is aligned.
+	 * @property educationalFramework
+	 * @type Text
+	 */
+	public String educationalFramework;
 
 	/**
 	 * Schema.org/targetUrl

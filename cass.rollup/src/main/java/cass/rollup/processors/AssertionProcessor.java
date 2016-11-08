@@ -18,6 +18,14 @@ import com.eduworks.schema.ebac.EbacSignature;
 import cass.rollup.InquiryPacket;
 import cass.rollup.InquiryPacket.IPType;
 
+/**
+ * Processor used in Assertion Processing.
+ * Can estimate or determine competence of individuals.
+ * @class AssertionProcessor
+ * @module org.cassproject
+ * @author fritz.ray@eduworks.com
+ * @author tom.buskirk@eduworks.com
+ */
 public abstract class AssertionProcessor
 {
 	public Array<EcRepository> repositories;
@@ -41,6 +49,18 @@ public abstract class AssertionProcessor
 		ip.log += "\n" + string;
 	}
 
+	/**
+	 * Asynchronously processes and provides an answer to the question: Does an individual hold a competency?
+	 * @method has
+	 * @param {EcPk[]} subject Public keys that identify the subject.
+	 * @param {EcCompetency} competency The Competency being inquired about.
+	 * @param {EcLevel} level The Level of the Competency at which the question is being asked.
+	 * @param {EcFramework} context The Framework in which to scope the inquiry.
+	 * @param {EbacSignature[]} additionalSignatures Additional signatures provided by an authority, used to request additional access on a one-time basis.
+	 * @param {function(InquiryPacket)} success The method that is invoked when a decision has been reached.
+	 * @param {string function(string)} ask The method that is invoked when the assertion processor detects that it needs information. (Usernames, passwords, etc)
+	 * @param {function(string)} failure The method that is invoked when the assertion processor has failed.
+	 */
 	public void has(Array<EcPk> subject, EcCompetency competency, EcLevel level, EcFramework context, Array<EbacSignature> additionalSignatures,
 			Callback1<InquiryPacket> success, Function1<String, String> ask, Callback1<String> failure)
 	{

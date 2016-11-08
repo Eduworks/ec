@@ -8,8 +8,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * 
           A Series in schema.org is a group of related items, typically but not necessarily of the same kind. 
  * @author schema.org
- * @module schema.org
  * @class Series
+ * @module org.schema
  * @extends CreativeWork
  */
 public class Series extends CreativeWork

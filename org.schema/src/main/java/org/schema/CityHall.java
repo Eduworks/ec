@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/CityHall
  * A city hall.
  * @author schema.org
- * @module schema.org
  * @class CityHall
+ * @module org.schema
  * @extends GovernmentBuilding
  */
 public class CityHall extends GovernmentBuilding

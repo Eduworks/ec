@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/OrderItem
  * An order item is a line of an order. It includes the quantity and shipping details of a bought offer.
  * @author schema.org
- * @module schema.org
  * @class OrderItem
+ * @module org.schema
  * @extends Intangible
  */
 public class OrderItem extends Intangible
@@ -22,14 +22,6 @@ public class OrderItem extends Intangible
 		context="http://schema.org/";
 		type="OrderItem";
 	}
-
-	/**
-	 * Schema.org/orderItemStatus
-	 * The current status of the order item.
-	 * @property orderItemStatus
-	 * @type OrderStatus
-	 */
-	public OrderStatus orderItemStatus;
 
 	/**
 	 * Schema.org/orderQuantity
@@ -48,10 +40,19 @@ public class OrderItem extends Intangible
 	public ParcelDelivery orderDelivery;
 
 	/**
+	 * Schema.org/orderItemStatus
+	 * The current status of the order item.
+	 * @property orderItemStatus
+	 * @type OrderStatus
+	 */
+	public OrderStatus orderItemStatus;
+
+	/**
 	 * Schema.org/orderedItem
 	 * The item ordered.
 	 * @property orderedItem
-	 * @type schema,Product | schema,OrderItem	 */
+	 * @type schema,Product | schema,OrderItem
+	 */
 	public Object orderedItem;
 
 	/**

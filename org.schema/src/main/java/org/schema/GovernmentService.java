@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/GovernmentService
  * A service provided by a government organization, e.g. food stamps, veterans benefits, etc.
  * @author schema.org
- * @module schema.org
  * @class GovernmentService
+ * @module org.schema
  * @extends Service
  */
 public class GovernmentService extends Service

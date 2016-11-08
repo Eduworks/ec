@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/CheckoutPage
  * Web page type: Checkout page.
  * @author schema.org
- * @module schema.org
  * @class CheckoutPage
+ * @module org.schema
  * @extends WebPage
  */
 public class CheckoutPage extends WebPage

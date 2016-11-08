@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/SpreadsheetDigitalDocument
  * A spreadsheet file.
  * @author schema.org
- * @module schema.org
  * @class SpreadsheetDigitalDocument
+ * @module org.schema
  * @extends DigitalDocument
  */
 public class SpreadsheetDigitalDocument extends DigitalDocument

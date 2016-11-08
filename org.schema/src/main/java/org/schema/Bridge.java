@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Bridge
  * A bridge.
  * @author schema.org
- * @module schema.org
  * @class Bridge
+ * @module org.schema
  * @extends CivicStructure
  */
 public class Bridge extends CivicStructure

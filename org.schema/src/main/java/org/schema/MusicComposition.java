@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/MusicComposition
  * A musical composition.
  * @author schema.org
- * @module schema.org
  * @class MusicComposition
+ * @module org.schema
  * @extends CreativeWork
  */
 public class MusicComposition extends CreativeWork
@@ -35,7 +35,8 @@ public class MusicComposition extends CreativeWork
 	 * Schema.org/composer
 	 * The person or organization who wrote a composition, or who is the composer of a work performed at some event.
 	 * @property composer
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object composer;
 
 	/**
@@ -45,6 +46,14 @@ public class MusicComposition extends CreativeWork
 	 * @type MusicRecording
 	 */
 	public MusicRecording recordedAs;
+
+	/**
+	 * Schema.org/lyricist
+	 * The person who wrote the words.
+	 * @property lyricist
+	 * @type Person
+	 */
+	public Person lyricist;
 
 	/**
 	 * Schema.org/musicCompositionForm
@@ -93,13 +102,5 @@ public class MusicComposition extends CreativeWork
 	 * @type Event
 	 */
 	public Event firstPerformance;
-
-	/**
-	 * Schema.org/lyricist
-	 * The person who wrote the words.
-	 * @property lyricist
-	 * @type Person
-	 */
-	public Person lyricist;
 
 }

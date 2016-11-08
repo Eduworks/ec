@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Barcode
  * An image of a visual machine-readable code such as a barcode or QR code.
  * @author schema.org
- * @module schema.org
  * @class Barcode
+ * @module org.schema
  * @extends ImageObject
  */
 public class Barcode extends ImageObject

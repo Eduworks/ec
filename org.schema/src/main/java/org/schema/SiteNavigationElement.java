@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/SiteNavigationElement
  * A navigation element of the page.
  * @author schema.org
- * @module schema.org
  * @class SiteNavigationElement
+ * @module org.schema
  * @extends WebPageElement
  */
 public class SiteNavigationElement extends WebPageElement

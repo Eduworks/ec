@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/CollegeOrUniversity
  * A college, university, or other third-level educational institution.
  * @author schema.org
- * @module schema.org
  * @class CollegeOrUniversity
+ * @module org.schema
  * @extends EducationalOrganization
  */
 public class CollegeOrUniversity extends EducationalOrganization

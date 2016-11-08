@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/SingleFamilyResidence
  * Residence type: Single-family home.
  * @author schema.org
- * @module schema.org
  * @class SingleFamilyResidence
+ * @module org.schema
  * @extends House
  */
 public class SingleFamilyResidence extends House
@@ -28,7 +28,8 @@ public class SingleFamilyResidence extends House
 	 * The number of rooms (excluding bathrooms and closets) of the acccommodation or lodging business.
 Typical unit code(s): ROM for room or C62 for no unit. The type of room can be put in the unitText property of the QuantitativeValue.
 	 * @property numberOfRooms
-	 * @type schema,QuantitativeValue | schema,Number	 */
+	 * @type schema,QuantitativeValue | schema,Number
+	 */
 	public Object numberOfRooms;
 
 	/**

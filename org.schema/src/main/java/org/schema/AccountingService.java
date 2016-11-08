@@ -8,8 +8,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Accountancy business.\n\nAs a [[LocalBusiness]] it can be described as a [[provider]] of one or more [[Service]]\(s).
       
  * @author schema.org
- * @module schema.org
  * @class AccountingService
+ * @module org.schema
  * @extends FinancialService
  */
 public class AccountingService extends FinancialService

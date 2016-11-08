@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Mosque
  * A mosque.
  * @author schema.org
- * @module schema.org
  * @class Mosque
+ * @module org.schema
  * @extends PlaceOfWorship
  */
 public class Mosque extends PlaceOfWorship

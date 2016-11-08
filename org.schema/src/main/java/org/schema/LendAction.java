@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/LendAction
  * The act of providing an object under an agreement that it will be returned at a later date. Reciprocal of BorrowAction.\n\nRelated actions:\n\n* [[BorrowAction]]: Reciprocal of LendAction.
  * @author schema.org
- * @module schema.org
  * @class LendAction
+ * @module org.schema
  * @extends TransferAction
  */
 public class LendAction extends TransferAction

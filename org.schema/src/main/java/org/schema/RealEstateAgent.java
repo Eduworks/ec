@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/RealEstateAgent
  * A real-estate agent.
  * @author schema.org
- * @module schema.org
  * @class RealEstateAgent
+ * @module org.schema
  * @extends LocalBusiness
  */
 public class RealEstateAgent extends LocalBusiness

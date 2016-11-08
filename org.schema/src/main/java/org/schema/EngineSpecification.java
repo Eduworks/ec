@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/EngineSpecification
  * Information about the engine of the vehicle. A vehicle can have multiple engines represented by multiple engine specification entities.
  * @author schema.org
- * @module schema.org
  * @class EngineSpecification
+ * @module org.schema
  * @extends StructuredValue
  */
 public class EngineSpecification extends StructuredValue
@@ -27,7 +27,8 @@ public class EngineSpecification extends StructuredValue
 	 * Schema.org/fuelType
 	 * The type of fuel suitable for the engine or engines of the vehicle. If the vehicle has only one engine, this property can be attached directly to the vehicle.
 	 * @property fuelType
-	 * @type schema,Text | schema,URL | schema,QualitativeValue	 */
+	 * @type schema,QualitativeValue | schema,URL | schema,Text
+	 */
 	public Object fuelType;
 
 }

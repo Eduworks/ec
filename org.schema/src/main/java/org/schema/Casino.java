@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Casino
  * A casino.
  * @author schema.org
- * @module schema.org
  * @class Casino
+ * @module org.schema
  * @extends EntertainmentBusiness
  */
 public class Casino extends EntertainmentBusiness

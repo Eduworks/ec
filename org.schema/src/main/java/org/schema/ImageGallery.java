@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ImageGallery
  * Web page type: Image gallery page.
  * @author schema.org
- * @module schema.org
  * @class ImageGallery
+ * @module org.schema
  * @extends CollectionPage
  */
 public class ImageGallery extends CollectionPage

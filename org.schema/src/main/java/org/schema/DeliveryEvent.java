@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/DeliveryEvent
  * An event involving the delivery of an item.
  * @author schema.org
- * @module schema.org
  * @class DeliveryEvent
+ * @module org.schema
  * @extends Event
  */
 public class DeliveryEvent extends Event
@@ -32,20 +32,20 @@ public class DeliveryEvent extends Event
 	public String accessCode;
 
 	/**
-	 * Schema.org/availableThrough
-	 * After this date, the item will no longer be available for pickup.
-	 * @property availableThrough
-	 * @type DateTime
-	 */
-	public String availableThrough;
-
-	/**
 	 * Schema.org/availableFrom
 	 * When the item is available for pickup from the store, locker, etc.
 	 * @property availableFrom
 	 * @type DateTime
 	 */
 	public String availableFrom;
+
+	/**
+	 * Schema.org/availableThrough
+	 * After this date, the item will no longer be available for pickup.
+	 * @property availableThrough
+	 * @type DateTime
+	 */
+	public String availableThrough;
 
 	/**
 	 * Schema.org/hasDeliveryMethod

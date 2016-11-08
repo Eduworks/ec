@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ParcelDelivery
  * The delivery of a parcel either via the postal service or a commercial service.
  * @author schema.org
- * @module schema.org
  * @class ParcelDelivery
+ * @module org.schema
  * @extends Intangible
  */
 public class ParcelDelivery extends Intangible
@@ -91,7 +91,8 @@ public class ParcelDelivery extends Intangible
 	 * Schema.org/provider
 	 * The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.
 	 * @property provider
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object provider;
 
 	/**

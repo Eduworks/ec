@@ -9,8 +9,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
 
       <br/><br/>See also <a href="http://blog.schema.org/2014/09/schemaorg-support-for-bibliographic_2.html">blog post</a>.
  * @author schema.org
- * @module schema.org
  * @class PublicationVolume
+ * @module org.schema
  * @extends CreativeWork
  */
 public class PublicationVolume extends CreativeWork
@@ -29,21 +29,24 @@ public class PublicationVolume extends CreativeWork
 	 * Schema.org/pageStart
 	 * The page on which the work starts; for example "135" or "xiii".
 	 * @property pageStart
-	 * @type schema,Text | schema,Integer	 */
+	 * @type schema,Integer | schema,Text
+	 */
 	public Object pageStart;
 
 	/**
 	 * Schema.org/pageEnd
 	 * The page on which the work ends; for example "138" or "xvi".
 	 * @property pageEnd
-	 * @type schema,Text | schema,Integer	 */
+	 * @type schema,Integer | schema,Text
+	 */
 	public Object pageEnd;
 
 	/**
 	 * Schema.org/volumeNumber
 	 * Identifies the volume of publication or multi-part work; for example, "iii" or "2".
 	 * @property volumeNumber
-	 * @type schema,Text | schema,Integer	 */
+	 * @type schema,Integer | schema,Text
+	 */
 	public Object volumeNumber;
 
 	/**

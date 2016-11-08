@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Movie
  * A movie.
  * @author schema.org
- * @module schema.org
  * @class Movie
+ * @module org.schema
  * @extends CreativeWork
  */
 public class Movie extends CreativeWork
@@ -27,7 +27,8 @@ public class Movie extends CreativeWork
 	 * Schema.org/musicBy
 	 * The composer of the soundtrack.
 	 * @property musicBy
-	 * @type schema,MusicGroup | schema,Person	 */
+	 * @type schema,Person | schema,MusicGroup
+	 */
 	public Object musicBy;
 
 	/**
@@ -50,7 +51,8 @@ public class Movie extends CreativeWork
 	 * Schema.org/subtitleLanguage
 	 * Languages in which subtitles/captions are available, in [IETF BCP 47 standard format](http://tools.ietf.org/html/bcp47).
 	 * @property subtitleLanguage
-	 * @type schema,Language | schema,Text	 */
+	 * @type schema,Language | schema,Text
+	 */
 	public Object subtitleLanguage;
 
 	/**

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/VideoObject
  * A video file.
  * @author schema.org
- * @module schema.org
  * @class VideoObject
+ * @module org.schema
  * @extends MediaObject
  */
 public class VideoObject extends MediaObject
@@ -27,7 +27,8 @@ public class VideoObject extends MediaObject
 	 * Schema.org/musicBy
 	 * The composer of the soundtrack.
 	 * @property musicBy
-	 * @type schema,MusicGroup | schema,Person	 */
+	 * @type schema,Person | schema,MusicGroup
+	 */
 	public Object musicBy;
 
 	/**

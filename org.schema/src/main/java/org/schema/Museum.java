@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Museum
  * A museum.
  * @author schema.org
- * @module schema.org
  * @class Museum
+ * @module org.schema
  * @extends CivicStructure
  */
 public class Museum extends CivicStructure

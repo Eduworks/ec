@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/SearchResultsPage
  * Web page type: Search results page.
  * @author schema.org
- * @module schema.org
  * @class SearchResultsPage
+ * @module org.schema
  * @extends WebPage
  */
 public class SearchResultsPage extends WebPage

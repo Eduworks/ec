@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/PawnShop
  * A shop that will buy, or lend money against the security of, personal possessions.
  * @author schema.org
- * @module schema.org
  * @class PawnShop
+ * @module org.schema
  * @extends Store
  */
 public class PawnShop extends Store

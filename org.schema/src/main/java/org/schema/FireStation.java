@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/FireStation
  * A fire station. With firemen.
  * @author schema.org
- * @module schema.org
  * @class FireStation
+ * @module org.schema
  * @extends EmergencyService
  */
 public class FireStation extends EmergencyService

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Crematorium
  * A crematorium.
  * @author schema.org
- * @module schema.org
  * @class Crematorium
+ * @module org.schema
  * @extends CivicStructure
  */
 public class Crematorium extends CivicStructure

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Mountain
  * A mountain, like Mount Whitney or Mount Everest.
  * @author schema.org
- * @module schema.org
  * @class Mountain
+ * @module org.schema
  * @extends Landform
  */
 public class Mountain extends Landform

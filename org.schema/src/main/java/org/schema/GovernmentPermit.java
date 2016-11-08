@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/GovernmentPermit
  * A permit issued by a government agency.
  * @author schema.org
- * @module schema.org
  * @class GovernmentPermit
+ * @module org.schema
  * @extends Permit
  */
 public class GovernmentPermit extends Permit

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Church
  * A church.
  * @author schema.org
- * @module schema.org
  * @class Church
+ * @module org.schema
  * @extends PlaceOfWorship
  */
 public class Church extends PlaceOfWorship

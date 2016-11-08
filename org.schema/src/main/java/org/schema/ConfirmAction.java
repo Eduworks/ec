@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ConfirmAction
  * The act of notifying someone that a future event/action is going to happen as expected.\n\nRelated actions:\n\n* [[CancelAction]]: The antonym of ConfirmAction.
  * @author schema.org
- * @module schema.org
  * @class ConfirmAction
+ * @module org.schema
  * @extends InformAction
  */
 public class ConfirmAction extends InformAction

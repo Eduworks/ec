@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ReviewAction
  * The act of producing a balanced opinion about the object for an audience. An agent reviews an object with participants resulting in a review.
  * @author schema.org
- * @module schema.org
  * @class ReviewAction
+ * @module org.schema
  * @extends AssessAction
  */
 public class ReviewAction extends AssessAction

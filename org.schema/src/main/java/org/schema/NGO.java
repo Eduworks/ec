@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/NGO
  * Organization: Non-governmental Organization.
  * @author schema.org
- * @module schema.org
  * @class NGO
+ * @module org.schema
  * @extends Organization
  */
 public class NGO extends Organization

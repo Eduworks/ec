@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/PerformAction
  * The act of participating in performance arts.
  * @author schema.org
- * @module schema.org
  * @class PerformAction
+ * @module org.schema
  * @extends PlayAction
  */
 public class PerformAction extends PlayAction

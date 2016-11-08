@@ -10,8 +10,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
           The center of the circle can be indicated via the 'geoMidpoint' property, or more approximately using 'address', 'postalCode'.
        
  * @author schema.org
- * @module schema.org
  * @class GeoCircle
+ * @module org.schema
  * @extends GeoShape
  */
 public class GeoCircle extends GeoShape
@@ -38,7 +38,8 @@ public class GeoCircle extends GeoShape
 	 * Schema.org/geoRadius
 	 * Indicates the approximate radius of a GeoCircle (metres unless indicated otherwise via Distance notation).
 	 * @property geoRadius
-	 * @type schema,Text | schema,Distance | schema,Number	 */
+	 * @type schema,Distance | schema,Number | schema,Text
+	 */
 	public Object geoRadius;
 
 }

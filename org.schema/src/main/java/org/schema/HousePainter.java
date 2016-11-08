@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/HousePainter
  * A house painting service.
  * @author schema.org
- * @module schema.org
  * @class HousePainter
+ * @module org.schema
  * @extends HomeAndConstructionBusiness
  */
 public class HousePainter extends HomeAndConstructionBusiness

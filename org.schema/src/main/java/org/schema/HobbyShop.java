@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/HobbyShop
  * A store that sells materials useful or necessary for various hobbies.
  * @author schema.org
- * @module schema.org
  * @class HobbyShop
+ * @module org.schema
  * @extends Store
  */
 public class HobbyShop extends Store

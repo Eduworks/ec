@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Beach
  * Beach.
  * @author schema.org
- * @module schema.org
  * @class Beach
+ * @module org.schema
  * @extends CivicStructure
  */
 public class Beach extends CivicStructure

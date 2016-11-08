@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Season
  * A media season e.g. tv, radio, video game etc.
  * @author schema.org
- * @module schema.org
  * @class Season
+ * @module org.schema
  * @extends CreativeWork
  */
 public class Season extends CreativeWork

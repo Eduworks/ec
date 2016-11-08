@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/PaintAction
  * The act of producing a painting, typically with paint and canvas as instruments.
  * @author schema.org
- * @module schema.org
  * @class PaintAction
+ * @module org.schema
  * @extends CreateAction
  */
 public class PaintAction extends CreateAction

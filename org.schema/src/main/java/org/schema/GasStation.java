@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/GasStation
  * A gas station.
  * @author schema.org
- * @module schema.org
  * @class GasStation
+ * @module org.schema
  * @extends AutomotiveBusiness
  */
 public class GasStation extends AutomotiveBusiness

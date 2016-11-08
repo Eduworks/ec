@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Dataset
  * A body of structured information describing some topic(s) of interest.
  * @author schema.org
- * @module schema.org
  * @class Dataset
+ * @module org.schema
  * @extends CreativeWork
  */
 public class Dataset extends CreativeWork
@@ -22,6 +22,14 @@ public class Dataset extends CreativeWork
 		context="http://schema.org/";
 		type="Dataset";
 	}
+
+	/**
+	 * Schema.org/datasetTimeInterval
+	 * The range of temporal applicability of a dataset, e.g. for a 2011 census dataset, the year 2011 (in ISO 8601 time interval format).
+	 * @property datasetTimeInterval
+	 * @type DateTime
+	 */
+	public String datasetTimeInterval;
 
 	/**
 	 * Schema.org/spatial
@@ -54,14 +62,6 @@ public class Dataset extends CreativeWork
 	 * @type DateTime
 	 */
 	public String temporal;
-
-	/**
-	 * Schema.org/datasetTimeInterval
-	 * The range of temporal applicability of a dataset, e.g. for a 2011 census dataset, the year 2011 (in ISO 8601 time interval format).
-	 * @property datasetTimeInterval
-	 * @type DateTime
-	 */
-	public String datasetTimeInterval;
 
 	/**
 	 * Schema.org/distribution

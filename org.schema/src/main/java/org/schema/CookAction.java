@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/CookAction
  * The act of producing/preparing food.
  * @author schema.org
- * @module schema.org
  * @class CookAction
+ * @module org.schema
  * @extends CreateAction
  */
 public class CookAction extends CreateAction
@@ -27,7 +27,8 @@ public class CookAction extends CreateAction
 	 * Schema.org/foodEstablishment
 	 * A sub property of location. The specific food establishment where the action occurred.
 	 * @property foodEstablishment
-	 * @type schema,FoodEstablishment | schema,Place	 */
+	 * @type schema,Place | schema,FoodEstablishment
+	 */
 	public Object foodEstablishment;
 
 	/**

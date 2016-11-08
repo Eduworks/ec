@@ -12,7 +12,7 @@ import org.stjs.javascript.Map;
  * @author fritz.ray@eduworks.com
  * @class Assertion
  * @module org.cassproject
- *
+ * @extends Intangible
  */
 public class Assertion extends Intangible
 {

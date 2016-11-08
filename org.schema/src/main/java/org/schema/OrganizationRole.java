@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/OrganizationRole
  * A subclass of Role used to describe roles within organizations.
  * @author schema.org
- * @module schema.org
  * @class OrganizationRole
+ * @module org.schema
  * @extends Role
  */
 public class OrganizationRole extends Role

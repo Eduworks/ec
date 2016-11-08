@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Review
  * A review of an item - for example, of a restaurant, movie, or store.
  * @author schema.org
- * @module schema.org
  * @class Review
+ * @module org.schema
  * @extends CreativeWork
  */
 public class Review extends CreativeWork

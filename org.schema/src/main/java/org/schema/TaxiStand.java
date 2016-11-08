@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/TaxiStand
  * A taxi stand.
  * @author schema.org
- * @module schema.org
  * @class TaxiStand
+ * @module org.schema
  * @extends CivicStructure
  */
 public class TaxiStand extends CivicStructure

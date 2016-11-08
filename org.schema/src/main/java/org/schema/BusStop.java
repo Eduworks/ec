@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/BusStop
  * A bus stop.
  * @author schema.org
- * @module schema.org
  * @class BusStop
+ * @module org.schema
  * @extends CivicStructure
  */
 public class BusStop extends CivicStructure

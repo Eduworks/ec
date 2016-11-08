@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/SteeringPositionValue
  * A value indicating a steering position.
  * @author schema.org
- * @module schema.org
  * @class SteeringPositionValue
+ * @module org.schema
  * @extends QualitativeValue
  */
 public class SteeringPositionValue extends QualitativeValue

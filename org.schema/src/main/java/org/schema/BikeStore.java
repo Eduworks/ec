@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/BikeStore
  * A bike store.
  * @author schema.org
- * @module schema.org
  * @class BikeStore
+ * @module org.schema
  * @extends Store
  */
 public class BikeStore extends Store

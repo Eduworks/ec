@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/MediaObject
  * A media object, such as an image, video, or audio object embedded in a web page or a downloadable dataset i.e. DataDownload. Note that a creative work may have many media objects associated with it on the same web page. For example, a page about a single song (MusicRecording) may have a music video (VideoObject), and a high and low bandwidth audio stream (2 AudioObject's).
  * @author schema.org
- * @module schema.org
  * @class MediaObject
+ * @module org.schema
  * @extends CreativeWork
  */
 public class MediaObject extends CreativeWork
@@ -88,10 +88,19 @@ public class MediaObject extends CreativeWork
 	public String contentUrl;
 
 	/**
+	 * Schema.org/height
+	 * The height of the item.
+	 * @property height
+	 * @type schema,QuantitativeValue | schema,Distance
+	 */
+	public Object height;
+
+	/**
 	 * Schema.org/width
 	 * The width of the item.
 	 * @property width
-	 * @type schema,QuantitativeValue | schema,Distance	 */
+	 * @type schema,QuantitativeValue | schema,Distance
+	 */
 	public Object width;
 
 	/**
@@ -101,14 +110,6 @@ public class MediaObject extends CreativeWork
 	 * @type NewsArticle
 	 */
 	public NewsArticle associatedArticle;
-
-	/**
-	 * Schema.org/contentSize
-	 * File size in (mega/kilo) bytes.
-	 * @property contentSize
-	 * @type Text
-	 */
-	public String contentSize;
 
 	/**
 	 * Schema.org/productionCompany
@@ -143,10 +144,11 @@ public class MediaObject extends CreativeWork
 	public CreativeWork encodesCreativeWork;
 
 	/**
-	 * Schema.org/height
-	 * The height of the item.
-	 * @property height
-	 * @type schema,QuantitativeValue | schema,Distance	 */
-	public Object height;
+	 * Schema.org/contentSize
+	 * File size in (mega/kilo) bytes.
+	 * @property contentSize
+	 * @type Text
+	 */
+	public String contentSize;
 
 }

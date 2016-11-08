@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/PropertyValueSpecification
  * A Property value specification.
  * @author schema.org
- * @module schema.org
  * @class PropertyValueSpecification
+ * @module org.schema
  * @extends Intangible
  */
 public class PropertyValueSpecification extends Intangible
@@ -56,6 +56,14 @@ public class PropertyValueSpecification extends Intangible
 	public Double minValue;
 
 	/**
+	 * Schema.org/valueRequired
+	 * Whether the property must be filled in to complete the action.  Default is false.
+	 * @property valueRequired
+	 * @type Boolean
+	 */
+	public Boolean valueRequired;
+
+	/**
 	 * Schema.org/stepValue
 	 * The stepValue attribute indicates the granularity that is expected (and required) of the value in a PropertyValueSpecification.
 	 * @property stepValue
@@ -88,14 +96,6 @@ public class PropertyValueSpecification extends Intangible
 	public Double maxValue;
 
 	/**
-	 * Schema.org/valueRequired
-	 * Whether the property must be filled in to complete the action.  Default is false.
-	 * @property valueRequired
-	 * @type Boolean
-	 */
-	public Boolean valueRequired;
-
-	/**
 	 * Schema.org/multipleValues
 	 * Whether multiple values are allowed for the property.  Default is false.
 	 * @property multipleValues
@@ -107,7 +107,8 @@ public class PropertyValueSpecification extends Intangible
 	 * Schema.org/defaultValue
 	 * The default value of the input.  For properties that expect a literal, the default is a literal value, for properties that expect an object, it's an ID reference to one of the current values.
 	 * @property defaultValue
-	 * @type schema,Thing | schema,Text	 */
+	 * @type schema,Thing | schema,Text
+	 */
 	public Object defaultValue;
 
 }

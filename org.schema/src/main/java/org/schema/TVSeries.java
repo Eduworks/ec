@@ -7,11 +7,11 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/TVSeries
  * CreativeWorkSeries dedicated to TV broadcast and associated online delivery.
  * @author schema.org
- * @module schema.org
  * @class TVSeries
- * @extends CreativeWork
+ * @module org.schema
+ * @extends CreativeWorkSeries
  */
-public class TVSeries extends CreativeWork
+public class TVSeries extends CreativeWorkSeries
 {
 	/**
 	 * Constructor, automatically sets @context and @type.
@@ -27,7 +27,8 @@ public class TVSeries extends CreativeWork
 	 * Schema.org/musicBy
 	 * The composer of the soundtrack.
 	 * @property musicBy
-	 * @type schema,MusicGroup | schema,Person	 */
+	 * @type schema,Person | schema,MusicGroup
+	 */
 	public Object musicBy;
 
 	/**

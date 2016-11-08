@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/EventStatusType
  * EventStatusType is an enumeration type whose instances represent several states that an Event may be in.
  * @author schema.org
- * @module schema.org
  * @class EventStatusType
+ * @module org.schema
  * @extends Enumeration
  */
 public class EventStatusType extends Enumeration

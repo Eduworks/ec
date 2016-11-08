@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/EntertainmentBusiness
  * A business providing entertainment.
  * @author schema.org
- * @module schema.org
  * @class EntertainmentBusiness
+ * @module org.schema
  * @extends LocalBusiness
  */
 public class EntertainmentBusiness extends LocalBusiness

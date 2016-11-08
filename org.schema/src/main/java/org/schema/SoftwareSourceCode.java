@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/SoftwareSourceCode
  * Computer programming source code. Example: Full (compile ready) solutions, code snippet samples, scripts, templates.
  * @author schema.org
- * @module schema.org
  * @class SoftwareSourceCode
+ * @module org.schema
  * @extends CreativeWork
  */
 public class SoftwareSourceCode extends CreativeWork
@@ -75,7 +75,8 @@ public class SoftwareSourceCode extends CreativeWork
 	 * Schema.org/programmingLanguage
 	 * The computer programming language.
 	 * @property programmingLanguage
-	 * @type schema,Text | schema,ComputerLanguage	 */
+	 * @type schema,ComputerLanguage | schema,Text
+	 */
 	public Object programmingLanguage;
 
 }

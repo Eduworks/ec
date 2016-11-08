@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Notary
  * A notary.
  * @author schema.org
- * @module schema.org
  * @class Notary
+ * @module org.schema
  * @extends LegalService
  */
 public class Notary extends LegalService

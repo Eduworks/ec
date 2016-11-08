@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/RsvpAction
  * The act of notifying an event organizer as to whether you expect to attend the event.
  * @author schema.org
- * @module schema.org
  * @class RsvpAction
+ * @module org.schema
  * @extends InformAction
  */
 public class RsvpAction extends InformAction

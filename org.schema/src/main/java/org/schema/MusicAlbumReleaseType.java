@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/MusicAlbumReleaseType
  * The kind of release which this album is: single, EP or album.
  * @author schema.org
- * @module schema.org
  * @class MusicAlbumReleaseType
+ * @module org.schema
  * @extends Enumeration
  */
 public class MusicAlbumReleaseType extends Enumeration

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Physician
  * A doctor's office.
  * @author schema.org
- * @module schema.org
  * @class Physician
+ * @module org.schema
  * @extends MedicalOrganization
  */
 public class Physician extends MedicalOrganization

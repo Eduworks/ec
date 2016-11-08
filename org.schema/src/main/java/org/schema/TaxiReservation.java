@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/TaxiReservation
  * A reservation for a taxi.\n\nNote: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations. For offers of tickets, use [[Offer]].
  * @author schema.org
- * @module schema.org
  * @class TaxiReservation
+ * @module org.schema
  * @extends Reservation
  */
 public class TaxiReservation extends Reservation
@@ -43,7 +43,8 @@ public class TaxiReservation extends Reservation
 	 * Schema.org/partySize
 	 * Number of people the reservation should accommodate.
 	 * @property partySize
-	 * @type schema,QuantitativeValue | schema,Integer	 */
+	 * @type schema,Integer | schema,QuantitativeValue
+	 */
 	public Object partySize;
 
 }

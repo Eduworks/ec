@@ -6,8 +6,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Thing
  * The most generic type of item.
  * @author schema.org
- * @module schema.org
  * @class Thing
+ * @module org.schema
  */
 public class Thing extends EcRemoteLinkedData
 {
@@ -40,7 +40,8 @@ public class Thing extends EcRemoteLinkedData
 	 * Schema.org/image
 	 * An image of the item. This can be a [[URL]] or a fully described [[ImageObject]].
 	 * @property image
-	 * @type schema,ImageObject | schema,URL	 */
+	 * @type schema,ImageObject | schema,URL
+	 */
 	public Object image;
 
 	/**
@@ -95,7 +96,8 @@ public class Thing extends EcRemoteLinkedData
 	 * Schema.org/mainEntityOfPage
 	 * Indicates a page (or other CreativeWork) for which this thing is the main entity being described. See [background notes](/docs/datamodel.html#mainEntityBackground) for details.
 	 * @property mainEntityOfPage
-	 * @type schema,CreativeWork | schema,URL	 */
+	 * @type schema,URL | schema,CreativeWork
+	 */
 	public Object mainEntityOfPage;
 
 }

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/BoardingPolicyType
  * A type of boarding policy used by an airline.
  * @author schema.org
- * @module schema.org
  * @class BoardingPolicyType
+ * @module org.schema
  * @extends Enumeration
  */
 public class BoardingPolicyType extends Enumeration

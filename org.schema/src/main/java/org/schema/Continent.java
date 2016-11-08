@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Continent
  * One of the continents (for example, Europe or Africa).
  * @author schema.org
- * @module schema.org
  * @class Continent
+ * @module org.schema
  * @extends Landform
  */
 public class Continent extends Landform

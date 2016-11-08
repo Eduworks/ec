@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Pharmacy
  * A pharmacy or drugstore.
  * @author schema.org
- * @module schema.org
  * @class Pharmacy
+ * @module org.schema
  * @extends MedicalOrganization
  */
 public class Pharmacy extends MedicalOrganization

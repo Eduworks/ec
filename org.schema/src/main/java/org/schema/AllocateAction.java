@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/AllocateAction
  * The act of organizing tasks/objects/events by associating resources to it.
  * @author schema.org
- * @module schema.org
  * @class AllocateAction
+ * @module org.schema
  * @extends OrganizeAction
  */
 public class AllocateAction extends OrganizeAction

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/PaymentChargeSpecification
  * The costs of settling the payment using a particular payment method.
  * @author schema.org
- * @module schema.org
  * @class PaymentChargeSpecification
+ * @module org.schema
  * @extends PriceSpecification
  */
 public class PaymentChargeSpecification extends PriceSpecification

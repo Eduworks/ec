@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Park
  * A park.
  * @author schema.org
- * @module schema.org
  * @class Park
+ * @module org.schema
  * @extends CivicStructure
  */
 public class Park extends CivicStructure

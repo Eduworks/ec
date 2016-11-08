@@ -7,11 +7,11 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/VideoGame
  * A video game is an electronic game that involves human interaction with a user interface to generate visual feedback on a video device.
  * @author schema.org
- * @module schema.org
  * @class VideoGame
- * @extends SoftwareApplication
+ * @module org.schema
+ * @extends Game
  */
-public class VideoGame extends SoftwareApplication
+public class VideoGame extends Game
 {
 	/**
 	 * Constructor, automatically sets @context and @type.
@@ -27,7 +27,8 @@ public class VideoGame extends SoftwareApplication
 	 * Schema.org/musicBy
 	 * The composer of the soundtrack.
 	 * @property musicBy
-	 * @type schema,MusicGroup | schema,Person	 */
+	 * @type schema,Person | schema,MusicGroup
+	 */
 	public Object musicBy;
 
 	/**
@@ -63,6 +64,14 @@ public class VideoGame extends SoftwareApplication
 	public CreativeWork cheatCode;
 
 	/**
+	 * Schema.org/gamePlatform
+	 * The electronic systems used to play <a href="http://en.wikipedia.org/wiki/Category:Video_game_platforms">video games</a>.
+	 * @property gamePlatform
+	 * @type schema,URL | schema,Thing | schema,Text
+	 */
+	public Object gamePlatform;
+
+	/**
 	 * Schema.org/actor
 	 * An actor, e.g. in tv, radio, movie, video games etc., or in an event. Actors can be associated with individual items or with a series, episode, clip.
 	 * @property actor
@@ -93,13 +102,6 @@ public class VideoGame extends SoftwareApplication
 	 * @type GamePlayMode
 	 */
 	public GamePlayMode playMode;
-
-	/**
-	 * Schema.org/gamePlatform
-	 * The electronic systems used to play <a href="http://en.wikipedia.org/wiki/Category:Video_game_platforms">video games</a>.
-	 * @property gamePlatform
-	 * @type schema,Thing | schema,Text | schema,URL	 */
-	public Object gamePlatform;
 
 	/**
 	 * Schema.org/directors

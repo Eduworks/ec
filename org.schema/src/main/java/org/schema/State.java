@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/State
  * A state or province of a country.
  * @author schema.org
- * @module schema.org
  * @class State
+ * @module org.schema
  * @extends AdministrativeArea
  */
 public class State extends AdministrativeArea

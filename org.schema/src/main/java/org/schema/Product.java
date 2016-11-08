@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Product
  * Any offered product or service. For example: a pair of shoes; a concert ticket; the rental of a car; a haircut; or an episode of a TV show streamed online.
  * @author schema.org
- * @module schema.org
  * @class Product
+ * @module org.schema
  * @extends Thing
  */
 public class Product extends Thing
@@ -38,13 +38,6 @@ public class Product extends Thing
 	 * @type Audience
 	 */
 	public Audience audience;
-
-	/**
-	 * Schema.org/depth
-	 * The depth of the item.
-	 * @property depth
-	 * @type schema,QuantitativeValue | schema,Distance	 */
-	public Object depth;
 
 	/**
 	 * Schema.org/award
@@ -99,7 +92,8 @@ public class Product extends Thing
 	 * Schema.org/isRelatedTo
 	 * A pointer to another, somehow related product (or multiple products).
 	 * @property isRelatedTo
-	 * @type schema,Product | schema,Service	 */
+	 * @type schema,Product | schema,Service
+	 */
 	public Object isRelatedTo;
 
 	/**
@@ -146,8 +140,17 @@ public class Product extends Thing
 	 * Schema.org/brand
 	 * The brand(s) associated with a product or service, or the brand(s) maintained by an organization or business person.
 	 * @property brand
-	 * @type schema,Organization | schema,Brand	 */
+	 * @type schema,Organization | schema,Brand
+	 */
 	public Object brand;
+
+	/**
+	 * Schema.org/depth
+	 * The depth of the item.
+	 * @property depth
+	 * @type schema,QuantitativeValue | schema,Distance
+	 */
+	public Object depth;
 
 	/**
 	 * Schema.org/awards
@@ -161,7 +164,8 @@ public class Product extends Thing
 	 * Schema.org/model
 	 * The model of the product. Use with the URL of a ProductModel or a textual representation of the model identifier. The URL of the ProductModel can be from an external source. It is recommended to additionally provide strong product identifiers via the gtin8/gtin13/gtin14 and mpn properties.
 	 * @property model
-	 * @type schema,Text | schema,ProductModel	 */
+	 * @type schema,ProductModel | schema,Text
+	 */
 	public Object model;
 
 	/**
@@ -221,17 +225,27 @@ public class Product extends Thing
 	public QuantitativeValue weight;
 
 	/**
+	 * Schema.org/height
+	 * The height of the item.
+	 * @property height
+	 * @type schema,QuantitativeValue | schema,Distance
+	 */
+	public Object height;
+
+	/**
 	 * Schema.org/isSimilarTo
 	 * A pointer to another, functionally similar product (or multiple products).
 	 * @property isSimilarTo
-	 * @type schema,Product | schema,Service	 */
+	 * @type schema,Product | schema,Service
+	 */
 	public Object isSimilarTo;
 
 	/**
 	 * Schema.org/width
 	 * The width of the item.
 	 * @property width
-	 * @type schema,QuantitativeValue | schema,Distance	 */
+	 * @type schema,QuantitativeValue | schema,Distance
+	 */
 	public Object width;
 
 	/**
@@ -251,20 +265,6 @@ public class Product extends Thing
 	public AggregateRating aggregateRating;
 
 	/**
-	 * Schema.org/logo
-	 * An associated logo.
-	 * @property logo
-	 * @type schema,ImageObject | schema,URL	 */
-	public Object logo;
-
-	/**
-	 * Schema.org/height
-	 * The height of the item.
-	 * @property height
-	 * @type schema,QuantitativeValue | schema,Distance	 */
-	public Object height;
-
-	/**
 	 * Schema.org/manufacturer
 	 * The manufacturer of the product.
 	 * @property manufacturer
@@ -273,10 +273,19 @@ public class Product extends Thing
 	public Organization manufacturer;
 
 	/**
+	 * Schema.org/logo
+	 * An associated logo.
+	 * @property logo
+	 * @type schema,ImageObject | schema,URL
+	 */
+	public Object logo;
+
+	/**
 	 * Schema.org/category
 	 * A category for the item. Greater signs or slashes can be used to informally indicate a category hierarchy.
 	 * @property category
-	 * @type schema,Thing | schema,Text	 */
+	 * @type schema,Thing | schema,Text
+	 */
 	public Object category;
 
 }

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ListItem
  * An list item, e.g. a step in a checklist or how-to description.
  * @author schema.org
- * @module schema.org
  * @class ListItem
+ * @module org.schema
  * @extends Intangible
  */
 public class ListItem extends Intangible
@@ -27,7 +27,8 @@ public class ListItem extends Intangible
 	 * Schema.org/position
 	 * The position of an item in a series or sequence of items.
 	 * @property position
-	 * @type schema,Text | schema,Integer	 */
+	 * @type schema,Integer | schema,Text
+	 */
 	public Object position;
 
 	/**

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Audience
  * Intended audience for an item, i.e. the group for whom the item was created.
  * @author schema.org
- * @module schema.org
  * @class Audience
+ * @module org.schema
  * @extends Intangible
  */
 public class Audience extends Intangible

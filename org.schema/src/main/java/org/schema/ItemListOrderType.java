@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ItemListOrderType
  * Enumerated for values for itemListOrder for indicating how an ordered ItemList is organized.
  * @author schema.org
- * @module schema.org
  * @class ItemListOrderType
+ * @module org.schema
  * @extends Enumeration
  */
 public class ItemListOrderType extends Enumeration

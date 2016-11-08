@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/LodgingBusiness
  * A lodging business, such as a motel, hotel, or inn.
  * @author schema.org
- * @module schema.org
  * @class LodgingBusiness
+ * @module org.schema
  * @extends LocalBusiness
  */
 public class LodgingBusiness extends LocalBusiness
@@ -43,7 +43,8 @@ public class LodgingBusiness extends LocalBusiness
 	 * Schema.org/availableLanguage
 	 * A language someone may use with the item. Please use one of the language codes from the [IETF BCP 47 standard](http://tools.ietf.org/html/bcp47). See also [[inLanguage]]
 	 * @property availableLanguage
-	 * @type schema,Language | schema,Text	 */
+	 * @type schema,Language | schema,Text
+	 */
 	public Object availableLanguage;
 
 	/**
@@ -53,13 +54,6 @@ public class LodgingBusiness extends LocalBusiness
 	 * @type Rating
 	 */
 	public Rating starRating;
-
-	/**
-	 * Schema.org/petsAllowed
-	 * Indicates whether pets are allowed to enter the accommodation or lodging business. More detailed information can be put in a text value.
-	 * @property petsAllowed
-	 * @type schema,Text | schema,Boolean	 */
-	public Object petsAllowed;
 
 	/**
 	 * Schema.org/checkoutTime
@@ -76,5 +70,13 @@ public class LodgingBusiness extends LocalBusiness
 	 * @type DateTime
 	 */
 	public String checkinTime;
+
+	/**
+	 * Schema.org/petsAllowed
+	 * Indicates whether pets are allowed to enter the accommodation or lodging business. More detailed information can be put in a text value.
+	 * @property petsAllowed
+	 * @type schema,Boolean | schema,Text
+	 */
+	public Object petsAllowed;
 
 }

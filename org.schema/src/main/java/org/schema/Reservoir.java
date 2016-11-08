@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Reservoir
  * A reservoir of water, typically an artificially created lake, like the Lake Kariba reservoir.
  * @author schema.org
- * @module schema.org
  * @class Reservoir
+ * @module org.schema
  * @extends BodyOfWater
  */
 public class Reservoir extends BodyOfWater

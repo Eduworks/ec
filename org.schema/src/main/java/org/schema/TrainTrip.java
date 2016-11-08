@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/TrainTrip
  * A trip on a commercial train line.
  * @author schema.org
- * @module schema.org
  * @class TrainTrip
+ * @module org.schema
  * @extends Intangible
  */
 public class TrainTrip extends Intangible
@@ -24,12 +24,12 @@ public class TrainTrip extends Intangible
 	}
 
 	/**
-	 * Schema.org/departureTime
-	 * The expected departure time.
-	 * @property departureTime
-	 * @type DateTime
+	 * Schema.org/trainName
+	 * The name of the train (e.g. The Orient Express).
+	 * @property trainName
+	 * @type Text
 	 */
-	public String departureTime;
+	public String trainName;
 
 	/**
 	 * Schema.org/departureStation
@@ -48,20 +48,20 @@ public class TrainTrip extends Intangible
 	public TrainStation arrivalStation;
 
 	/**
+	 * Schema.org/departureTime
+	 * The expected departure time.
+	 * @property departureTime
+	 * @type DateTime
+	 */
+	public String departureTime;
+
+	/**
 	 * Schema.org/arrivalTime
 	 * The expected arrival time.
 	 * @property arrivalTime
 	 * @type DateTime
 	 */
 	public String arrivalTime;
-
-	/**
-	 * Schema.org/trainName
-	 * The name of the train (e.g. The Orient Express).
-	 * @property trainName
-	 * @type Text
-	 */
-	public String trainName;
 
 	/**
 	 * Schema.org/departurePlatform
@@ -75,7 +75,8 @@ public class TrainTrip extends Intangible
 	 * Schema.org/provider
 	 * The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.
 	 * @property provider
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object provider;
 
 	/**

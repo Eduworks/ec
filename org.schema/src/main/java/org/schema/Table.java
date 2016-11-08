@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Table
  * A table on a Web page.
  * @author schema.org
- * @module schema.org
  * @class Table
+ * @module org.schema
  * @extends WebPageElement
  */
 public class Table extends WebPageElement

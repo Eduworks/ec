@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ComedyClub
  * A comedy club.
  * @author schema.org
- * @module schema.org
  * @class ComedyClub
+ * @module org.schema
  * @extends EntertainmentBusiness
  */
 public class ComedyClub extends EntertainmentBusiness

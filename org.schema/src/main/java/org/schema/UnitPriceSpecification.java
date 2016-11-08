@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/UnitPriceSpecification
  * The price asked for a given offer by the respective organization or person.
  * @author schema.org
- * @module schema.org
  * @class UnitPriceSpecification
+ * @module org.schema
  * @extends PriceSpecification
  */
 public class UnitPriceSpecification extends PriceSpecification
@@ -43,7 +43,8 @@ public class UnitPriceSpecification extends PriceSpecification
 	 * Schema.org/unitCode
 	 * The unit of measurement given using the UN/CEFACT Common Code (3 characters) or a URL. Other codes than the UN/CEFACT Common Code may be used with a prefix followed by a colon.
 	 * @property unitCode
-	 * @type schema,Text | schema,URL	 */
+	 * @type schema,URL | schema,Text
+	 */
 	public Object unitCode;
 
 	/**

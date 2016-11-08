@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/LandmarksOrHistoricalBuildings
  * An historical landmark or building.
  * @author schema.org
- * @module schema.org
  * @class LandmarksOrHistoricalBuildings
+ * @module org.schema
  * @extends Place
  */
 public class LandmarksOrHistoricalBuildings extends Place

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ContactPage
  * Web page type: Contact page.
  * @author schema.org
- * @module schema.org
  * @class ContactPage
+ * @module org.schema
  * @extends WebPage
  */
 public class ContactPage extends WebPage

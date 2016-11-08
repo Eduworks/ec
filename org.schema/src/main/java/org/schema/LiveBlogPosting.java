@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/LiveBlogPosting
  * A blog post intended to provide a rolling textual coverage of an ongoing event through continuous updates.
  * @author schema.org
- * @module schema.org
  * @class LiveBlogPosting
+ * @module org.schema
  * @extends BlogPosting
  */
 public class LiveBlogPosting extends BlogPosting

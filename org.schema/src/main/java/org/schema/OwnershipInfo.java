@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/OwnershipInfo
  * A structured value providing information about when a certain organization or person owned a certain product.
  * @author schema.org
- * @module schema.org
  * @class OwnershipInfo
+ * @module org.schema
  * @extends StructuredValue
  */
 public class OwnershipInfo extends StructuredValue
@@ -35,14 +35,16 @@ public class OwnershipInfo extends StructuredValue
 	 * Schema.org/acquiredFrom
 	 * The organization or person from which the product was acquired.
 	 * @property acquiredFrom
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object acquiredFrom;
 
 	/**
 	 * Schema.org/typeOfGood
 	 * The product that this structured value is referring to.
 	 * @property typeOfGood
-	 * @type schema,Product | schema,Service	 */
+	 * @type schema,Product | schema,Service
+	 */
 	public Object typeOfGood;
 
 	/**

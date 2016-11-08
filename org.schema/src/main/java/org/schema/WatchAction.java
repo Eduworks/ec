@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/WatchAction
  * The act of consuming dynamic/moving visual content.
  * @author schema.org
- * @module schema.org
  * @class WatchAction
+ * @module org.schema
  * @extends ConsumeAction
  */
 public class WatchAction extends ConsumeAction

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/InformAction
  * The act of notifying someone of information pertinent to them, with no expectation of a response.
  * @author schema.org
- * @module schema.org
  * @class InformAction
+ * @module org.schema
  * @extends CommunicateAction
  */
 public class InformAction extends CommunicateAction

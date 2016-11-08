@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/MusicVideoObject
  * A music video file.
  * @author schema.org
- * @module schema.org
  * @class MusicVideoObject
+ * @module org.schema
  * @extends MediaObject
  */
 public class MusicVideoObject extends MediaObject

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Blog
  * A blog.
  * @author schema.org
- * @module schema.org
  * @class Blog
+ * @module org.schema
  * @extends CreativeWork
  */
 public class Blog extends CreativeWork

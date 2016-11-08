@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/TattooParlor
  * A tattoo parlor.
  * @author schema.org
- * @module schema.org
  * @class TattooParlor
+ * @module org.schema
  * @extends HealthAndBeautyBusiness
  */
 public class TattooParlor extends HealthAndBeautyBusiness

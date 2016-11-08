@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/InstallAction
  * The act of installing an application.
  * @author schema.org
- * @module schema.org
  * @class InstallAction
+ * @module org.schema
  * @extends ConsumeAction
  */
 public class InstallAction extends ConsumeAction

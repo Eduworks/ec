@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Flight
  * An airline flight.
  * @author schema.org
- * @module schema.org
  * @class Flight
+ * @module org.schema
  * @extends Intangible
  */
 public class Flight extends Intangible
@@ -35,16 +35,9 @@ public class Flight extends Intangible
 	 * Schema.org/aircraft
 	 * The kind of aircraft (e.g., "Boeing 747").
 	 * @property aircraft
-	 * @type schema,Text | schema,Vehicle	 */
-	public Object aircraft;
-
-	/**
-	 * Schema.org/departureTime
-	 * The expected departure time.
-	 * @property departureTime
-	 * @type DateTime
+	 * @type schema,Vehicle | schema,Text
 	 */
-	public String departureTime;
+	public Object aircraft;
 
 	/**
 	 * Schema.org/arrivalTerminal
@@ -63,6 +56,14 @@ public class Flight extends Intangible
 	public String flightNumber;
 
 	/**
+	 * Schema.org/departureTime
+	 * The expected departure time.
+	 * @property departureTime
+	 * @type DateTime
+	 */
+	public String departureTime;
+
+	/**
 	 * Schema.org/mealService
 	 * Description of the meals that will be provided or available for purchase.
 	 * @property mealService
@@ -74,7 +75,8 @@ public class Flight extends Intangible
 	 * Schema.org/seller
 	 * An entity which offers (sells / leases / lends / loans) the services / goods.  A seller may also be a provider.
 	 * @property seller
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object seller;
 
 	/**
@@ -97,7 +99,8 @@ public class Flight extends Intangible
 	 * Schema.org/estimatedFlightDuration
 	 * The estimated time the flight will take.
 	 * @property estimatedFlightDuration
-	 * @type schema,Text | schema,Duration	 */
+	 * @type schema,Duration | schema,Text
+	 */
 	public Object estimatedFlightDuration;
 
 	/**
@@ -112,7 +115,8 @@ public class Flight extends Intangible
 	 * Schema.org/flightDistance
 	 * The distance of the flight.
 	 * @property flightDistance
-	 * @type schema,Text | schema,Distance	 */
+	 * @type schema,Distance | schema,Text
+	 */
 	public Object flightDistance;
 
 	/**
@@ -127,7 +131,8 @@ public class Flight extends Intangible
 	 * Schema.org/provider
 	 * The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.
 	 * @property provider
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object provider;
 
 	/**

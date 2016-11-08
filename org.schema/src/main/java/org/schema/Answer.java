@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Answer
  * An answer offered to a question; perhaps correct, perhaps opinionated or wrong.
  * @author schema.org
- * @module schema.org
  * @class Answer
+ * @module org.schema
  * @extends Comment
  */
 public class Answer extends Comment

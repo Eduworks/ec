@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/CreativeWork
  * The most generic kind of creative work, including books, movies, photographs, software programs, etc.
  * @author schema.org
- * @module schema.org
  * @class CreativeWork
+ * @module org.schema
  * @extends Thing
  */
 public class CreativeWork extends Thing
@@ -27,7 +27,8 @@ public class CreativeWork extends Thing
 	 * Schema.org/contributor
 	 * A secondary contributor to the CreativeWork or Event.
 	 * @property contributor
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object contributor;
 
 	/**
@@ -63,13 +64,6 @@ public class CreativeWork extends Thing
 	public Duration timeRequired;
 
 	/**
-	 * Schema.org/genre
-	 * Genre of the creative work or group.
-	 * @property genre
-	 * @type schema,Text | schema,URL	 */
-	public Object genre;
-
-	/**
 	 * Schema.org/publication
 	 * A publication event associated with the item.
 	 * @property publication
@@ -91,8 +85,17 @@ public class CreativeWork extends Thing
       the case of a Dataset it will typically indicate the relevant time period in a precise notation (e.g. for a 2011 census dataset, the year 2011 would be written "2011/2012"). Other forms of content e.g. ScholarlyArticle, Book, TVSeries or TVEpisode may indicate their temporalCoverage in broader terms - textually or via well-known URL.
       Written works such as books may sometimes have precise temporal coverage too, e.g. a work set in 1939 - 1945 can be indicated in ISO 8601 interval format format via "1939/1945".
 	 * @property temporalCoverage
-	 * @type schema,Text | schema,DateTime | schema,URL	 */
+	 * @type schema,URL | schema,DateTime | schema,Text
+	 */
 	public Object temporalCoverage;
+
+	/**
+	 * Schema.org/accessibilityAPI
+	 * Indicates that the resource is compatible with the referenced accessibility API ([WebSchemas wiki lists possible values](http://www.w3.org/wiki/WebSchemas/Accessibility)).
+	 * @property accessibilityAPI
+	 * @type Text
+	 */
+	public String accessibilityAPI;
 
 	/**
 	 * Schema.org/headline
@@ -103,11 +106,12 @@ public class CreativeWork extends Thing
 	public String headline;
 
 	/**
-	 * Schema.org/fileFormat
-	 * Media type, typically MIME format (see [IANA site](http://www.iana.org/assignments/media-types/media-types.xhtml)) of the content e.g. application/zip of a SoftwareApplication binary. In cases where a CreativeWork has several media type representations, 'encoding' can be used to indicate each MediaObject alongside particular fileFormat information. Unregistered or niche file formats can be indicated instead via the most appropriate URL, e.g. defining Web page or a Wikipedia entry.
-	 * @property fileFormat
-	 * @type schema,Text | schema,URL	 */
-	public Object fileFormat;
+	 * Schema.org/isFamilyFriendly
+	 * Indicates whether this content is family friendly.
+	 * @property isFamilyFriendly
+	 * @type Boolean
+	 */
+	public Boolean isFamilyFriendly;
 
 	/**
 	 * Schema.org/interactionStatistic
@@ -126,20 +130,20 @@ public class CreativeWork extends Thing
 	public Event recordedAt;
 
 	/**
-	 * Schema.org/isAccessibleForFree
-	 * A flag to signal that the publication is accessible for free.
-	 * @property isAccessibleForFree
-	 * @type Boolean
-	 */
-	public Boolean isAccessibleForFree;
-
-	/**
 	 * Schema.org/isPartOf
 	 * Indicates a CreativeWork that this CreativeWork is (in some sense) part of.
 	 * @property isPartOf
 	 * @type CreativeWork
 	 */
 	public CreativeWork isPartOf;
+
+	/**
+	 * Schema.org/isAccessibleForFree
+	 * A flag to signal that the publication is accessible for free.
+	 * @property isAccessibleForFree
+	 * @type Boolean
+	 */
+	public Boolean isAccessibleForFree;
 
 	/**
 	 * Schema.org/contentLocation
@@ -169,7 +173,8 @@ public class CreativeWork extends Thing
 	 * Schema.org/dateCreated
 	 * The date on which the CreativeWork was created or the item was added to a DataFeed.
 	 * @property dateCreated
-	 * @type schema,DateTime | schema,Date	 */
+	 * @type schema,DateTime | schema,Date
+	 */
 	public Object dateCreated;
 
 	/**
@@ -184,16 +189,9 @@ public class CreativeWork extends Thing
 	 * Schema.org/publisher
 	 * The publisher of the creative work.
 	 * @property publisher
-	 * @type schema,Organization | schema,Person	 */
-	public Object publisher;
-
-	/**
-	 * Schema.org/accountablePerson
-	 * Specifies the Person that is legally accountable for the CreativeWork.
-	 * @property accountablePerson
-	 * @type Person
+	 * @type schema,Organization | schema,Person
 	 */
-	public Person accountablePerson;
+	public Object publisher;
 
 	/**
 	 * Schema.org/accessibilityControl
@@ -202,14 +200,6 @@ public class CreativeWork extends Thing
 	 * @type Text
 	 */
 	public String accessibilityControl;
-
-	/**
-	 * Schema.org/isFamilyFriendly
-	 * Indicates whether this content is family friendly.
-	 * @property isFamilyFriendly
-	 * @type Boolean
-	 */
-	public Boolean isFamilyFriendly;
 
 	/**
 	 * Schema.org/encoding
@@ -239,7 +229,8 @@ public class CreativeWork extends Thing
 	 * Schema.org/creator
 	 * The creator/author of this CreativeWork. This is the same as the Author property for CreativeWork.
 	 * @property creator
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object creator;
 
 	/**
@@ -254,14 +245,16 @@ public class CreativeWork extends Thing
 	 * Schema.org/license
 	 * A license document that applies to this content, typically indicated by URL.
 	 * @property license
-	 * @type schema,CreativeWork | schema,URL	 */
+	 * @type schema,URL | schema,CreativeWork
+	 */
 	public Object license;
 
 	/**
 	 * Schema.org/translator
 	 * Organization or person who adapts a creative work to different languages, regional differences and technical requirements of a target market, or that translates during some event.
 	 * @property translator
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object translator;
 
 	/**
@@ -284,7 +277,8 @@ public class CreativeWork extends Thing
 	 * Schema.org/schemaVersion
 	 * Indicates (by URL or string) a particular version of a schema used in some CreativeWork. For example, a document could declare a schemaVersion using an URL such as http://schema.org/version/2.0/ if precise indication of schema version was required by some application. 
 	 * @property schemaVersion
-	 * @type schema,Text | schema,URL	 */
+	 * @type schema,URL | schema,Text
+	 */
 	public Object schemaVersion;
 
 	/**
@@ -299,8 +293,17 @@ public class CreativeWork extends Thing
 	 * Schema.org/position
 	 * The position of an item in a series or sequence of items.
 	 * @property position
-	 * @type schema,Text | schema,Integer	 */
+	 * @type schema,Integer | schema,Text
+	 */
 	public Object position;
+
+	/**
+	 * Schema.org/genre
+	 * Genre of the creative work or group.
+	 * @property genre
+	 * @type schema,URL | schema,Text
+	 */
+	public Object genre;
 
 	/**
 	 * Schema.org/character
@@ -338,7 +341,8 @@ public class CreativeWork extends Thing
 	 * Schema.org/producer
 	 * The person or organization who produced the work (e.g. music album, movie, tv/radio series etc.).
 	 * @property producer
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object producer;
 
 	/**
@@ -393,7 +397,8 @@ public class CreativeWork extends Thing
 	 * Schema.org/funder
 	 * A person or organization that supports (sponsors) something through some kind of financial contribution.
 	 * @property funder
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object funder;
 
 	/**
@@ -405,26 +410,19 @@ public class CreativeWork extends Thing
 	public String typicalAgeRange;
 
 	/**
-	 * Schema.org/text
-	 * The textual content of this CreativeWork.
-	 * @property text
-	 * @type Text
+	 * Schema.org/accountablePerson
+	 * Specifies the Person that is legally accountable for the CreativeWork.
+	 * @property accountablePerson
+	 * @type Person
 	 */
-	public String text;
-
-	/**
-	 * Schema.org/interactivityType
-	 * The predominant mode of learning supported by the learning resource. Acceptable values are 'active', 'expositive', or 'mixed'.
-	 * @property interactivityType
-	 * @type Text
-	 */
-	public String interactivityType;
+	public Person accountablePerson;
 
 	/**
 	 * Schema.org/author
 	 * The author of this content or rating. Please note that author is special in that HTML 5 provides a special mechanism for indicating authorship via the rel tag. That is equivalent to this and may be used interchangeably.
 	 * @property author
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object author;
 
 	/**
@@ -447,14 +445,24 @@ public class CreativeWork extends Thing
 	 * Schema.org/sponsor
 	 * A person or organization that supports a thing through a pledge, promise, or financial contribution. e.g. a sponsor of a Medical Study or a corporate sponsor of an event.
 	 * @property sponsor
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object sponsor;
+
+	/**
+	 * Schema.org/fileFormat
+	 * Media type, typically MIME format (see [IANA site](http://www.iana.org/assignments/media-types/media-types.xhtml)) of the content e.g. application/zip of a SoftwareApplication binary. In cases where a CreativeWork has several media type representations, 'encoding' can be used to indicate each MediaObject alongside particular fileFormat information. Unregistered or niche file formats can be indicated instead via the most appropriate URL, e.g. defining Web page or a Wikipedia entry.
+	 * @property fileFormat
+	 * @type schema,URL | schema,Text
+	 */
+	public Object fileFormat;
 
 	/**
 	 * Schema.org/provider
 	 * The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.
 	 * @property provider
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object provider;
 
 	/**
@@ -469,16 +477,25 @@ public class CreativeWork extends Thing
 	 * Schema.org/copyrightHolder
 	 * The party holding the legal copyright to the CreativeWork.
 	 * @property copyrightHolder
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object copyrightHolder;
 
 	/**
-	 * Schema.org/accessibilityAPI
-	 * Indicates that the resource is compatible with the referenced accessibility API ([WebSchemas wiki lists possible values](http://www.w3.org/wiki/WebSchemas/Accessibility)).
-	 * @property accessibilityAPI
+	 * Schema.org/text
+	 * The textual content of this CreativeWork.
+	 * @property text
 	 * @type Text
 	 */
-	public String accessibilityAPI;
+	public String text;
+
+	/**
+	 * Schema.org/interactivityType
+	 * The predominant mode of learning supported by the learning resource. Acceptable values are 'active', 'expositive', or 'mixed'.
+	 * @property interactivityType
+	 * @type Text
+	 */
+	public String interactivityType;
 
 	/**
 	 * Schema.org/comment
@@ -492,7 +509,8 @@ public class CreativeWork extends Thing
 	 * Schema.org/isBasedOn
 	 * A resource that was used in the creation of this resource. This term can be repeated for multiple sources. For example, http://example.com/great-multiplication-intro.html.
 	 * @property isBasedOn
-	 * @type schema,Product | schema,CreativeWork | schema,URL	 */
+	 * @type schema,Product | schema,URL | schema,CreativeWork
+	 */
 	public Object isBasedOn;
 
 	/**
@@ -541,7 +559,8 @@ public class CreativeWork extends Thing
 	 * Schema.org/version
 	 * The version of the CreativeWork embodied by a specified resource.
 	 * @property version
-	 * @type schema,Text | schema,Number	 */
+	 * @type schema,Number | schema,Text
+	 */
 	public Object version;
 
 	/**
@@ -588,7 +607,8 @@ public class CreativeWork extends Thing
 	 * Schema.org/citation
 	 * A citation or reference to another creative work, such as another publication, web page, scholarly article, etc.
 	 * @property citation
-	 * @type schema,Text | schema,CreativeWork	 */
+	 * @type schema,CreativeWork | schema,Text
+	 */
 	public Object citation;
 
 	/**
@@ -603,21 +623,24 @@ public class CreativeWork extends Thing
 	 * Schema.org/dateModified
 	 * The date on which the CreativeWork was most recently modified or when the item's entry was modified within a DataFeed.
 	 * @property dateModified
-	 * @type schema,DateTime | schema,Date	 */
+	 * @type schema,DateTime | schema,Date
+	 */
 	public Object dateModified;
 
 	/**
 	 * Schema.org/inLanguage
 	 * The language of the content or performance or used in an action. Please use one of the language codes from the [IETF BCP 47 standard](http://tools.ietf.org/html/bcp47). See also [[availableLanguage]].
 	 * @property inLanguage
-	 * @type schema,Language | schema,Text	 */
+	 * @type schema,Language | schema,Text
+	 */
 	public Object inLanguage;
 
 	/**
 	 * Schema.org/isBasedOnUrl
 	 * A resource that was used in the creation of this resource. This term can be repeated for multiple sources. For example, http://example.com/great-multiplication-intro.html.
 	 * @property isBasedOnUrl
-	 * @type schema,Product | schema,CreativeWork | schema,URL	 */
+	 * @type schema,Product | schema,URL | schema,CreativeWork
+	 */
 	public Object isBasedOnUrl;
 
 }

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/AskAction
  * The act of posing a question / favor to someone.\n\nRelated actions:\n\n* [[ReplyAction]]: Appears generally as a response to AskAction.
  * @author schema.org
- * @module schema.org
  * @class AskAction
+ * @module org.schema
  * @extends CommunicateAction
  */
 public class AskAction extends CommunicateAction

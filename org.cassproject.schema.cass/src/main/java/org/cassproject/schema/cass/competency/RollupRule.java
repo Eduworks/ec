@@ -8,8 +8,9 @@ import org.stjs.javascript.Array;
  * A segment of script that defines in a domain specific language how competence is transferred from one competency to another.
  * 
  * @author fritz.ray@eduworks.com
- * 
- *
+ * @class RollupRule
+ * @module org.cassproject
+ * @extends Intangible
  */
 public class RollupRule extends Intangible
 {

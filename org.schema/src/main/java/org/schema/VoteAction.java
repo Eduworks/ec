@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/VoteAction
  * The act of expressing a preference from a fixed/finite/structured set of choices/options.
  * @author schema.org
- * @module schema.org
  * @class VoteAction
+ * @module org.schema
  * @extends ChooseAction
  */
 public class VoteAction extends ChooseAction

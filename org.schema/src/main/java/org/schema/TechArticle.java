@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/TechArticle
  * A technical article - Example: How-to (task) topics, step-by-step, procedural troubleshooting, specifications, etc.
  * @author schema.org
- * @module schema.org
  * @class TechArticle
+ * @module org.schema
  * @extends Article
  */
 public class TechArticle extends Article

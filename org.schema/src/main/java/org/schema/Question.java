@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Question
  * A specific question - e.g. from a user seeking answers online, or collected in a Frequently Asked Questions (FAQ) document.
  * @author schema.org
- * @module schema.org
  * @class Question
+ * @module org.schema
  * @extends CreativeWork
  */
 public class Question extends CreativeWork

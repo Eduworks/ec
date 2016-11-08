@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/OrderAction
  * An agent orders an object/product/service to be delivered/sent.
  * @author schema.org
- * @module schema.org
  * @class OrderAction
+ * @module org.schema
  * @extends TradeAction
  */
 public class OrderAction extends TradeAction

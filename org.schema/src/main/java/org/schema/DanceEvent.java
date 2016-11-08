@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/DanceEvent
  * Event type: A social dance.
  * @author schema.org
- * @module schema.org
  * @class DanceEvent
+ * @module org.schema
  * @extends Event
  */
 public class DanceEvent extends Event

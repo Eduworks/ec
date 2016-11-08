@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/AggregateRating
  * The average rating based on multiple ratings or reviews.
  * @author schema.org
- * @module schema.org
  * @class AggregateRating
+ * @module org.schema
  * @extends Rating
  */
 public class AggregateRating extends Rating

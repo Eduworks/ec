@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/SeaBodyOfWater
  * A sea (for example, the Caspian sea).
  * @author schema.org
- * @module schema.org
  * @class SeaBodyOfWater
+ * @module org.schema
  * @extends BodyOfWater
  */
 public class SeaBodyOfWater extends BodyOfWater

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Plumber
  * A plumbing service.
  * @author schema.org
- * @module schema.org
  * @class Plumber
+ * @module org.schema
  * @extends HomeAndConstructionBusiness
  */
 public class Plumber extends HomeAndConstructionBusiness

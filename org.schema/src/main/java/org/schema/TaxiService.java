@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/TaxiService
  * A service for a vehicle for hire with a driver for local travel. Fares are usually calculated based on distance traveled.
  * @author schema.org
- * @module schema.org
  * @class TaxiService
+ * @module org.schema
  * @extends Service
  */
 public class TaxiService extends Service

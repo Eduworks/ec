@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Car
  * A car is a wheeled, self-powered motor vehicle used for transportation.
  * @author schema.org
- * @module schema.org
  * @class Car
+ * @module org.schema
  * @extends Vehicle
  */
 public class Car extends Vehicle

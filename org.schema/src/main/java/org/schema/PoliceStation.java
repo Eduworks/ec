@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/PoliceStation
  * A police station.
  * @author schema.org
- * @module schema.org
  * @class PoliceStation
+ * @module org.schema
  * @extends EmergencyService
  */
 public class PoliceStation extends EmergencyService

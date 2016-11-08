@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/IndividualProduct
  * A single, identifiable product instance (e.g. a laptop with a particular serial number).
  * @author schema.org
- * @module schema.org
  * @class IndividualProduct
+ * @module org.schema
  * @extends Product
  */
 public class IndividualProduct extends Product

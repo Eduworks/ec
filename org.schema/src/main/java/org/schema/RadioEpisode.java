@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/RadioEpisode
  * A radio episode which can be part of a series or season.
  * @author schema.org
- * @module schema.org
  * @class RadioEpisode
+ * @module org.schema
  * @extends Episode
  */
 public class RadioEpisode extends Episode

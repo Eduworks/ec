@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/MovingCompany
  * A moving company.
  * @author schema.org
- * @module schema.org
  * @class MovingCompany
+ * @module org.schema
  * @extends HomeAndConstructionBusiness
  */
 public class MovingCompany extends HomeAndConstructionBusiness

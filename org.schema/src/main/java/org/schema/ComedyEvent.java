@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ComedyEvent
  * Event type: Comedy event.
  * @author schema.org
- * @module schema.org
  * @class ComedyEvent
+ * @module org.schema
  * @extends Event
  */
 public class ComedyEvent extends Event

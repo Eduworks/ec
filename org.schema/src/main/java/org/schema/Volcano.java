@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Volcano
  * A volcano, like Fuji san.
  * @author schema.org
- * @module schema.org
  * @class Volcano
+ * @module org.schema
  * @extends Landform
  */
 public class Volcano extends Landform

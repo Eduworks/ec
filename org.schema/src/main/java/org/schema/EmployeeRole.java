@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/EmployeeRole
  * A subclass of OrganizationRole used to describe employee relationships.
  * @author schema.org
- * @module schema.org
  * @class EmployeeRole
+ * @module org.schema
  * @extends OrganizationRole
  */
 public class EmployeeRole extends OrganizationRole
@@ -27,7 +27,8 @@ public class EmployeeRole extends OrganizationRole
 	 * Schema.org/baseSalary
 	 * The base salary of the job or of an employee in an EmployeeRole.
 	 * @property baseSalary
-	 * @type schema,MonetaryAmount | schema,Number | schema,PriceSpecification	 */
+	 * @type schema,PriceSpecification | schema,MonetaryAmount | schema,Number
+	 */
 	public Object baseSalary;
 
 	/**

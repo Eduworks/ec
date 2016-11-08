@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Action
  * An action performed by a direct agent and indirect participants upon a direct object. Optionally happens at a location with the help of an inanimate instrument. The execution of the action may produce a result. Specific action sub-type documentation specifies the exact expectation of each argument/role.\n\nSee also [blog post](http://blog.schema.org/2014/04/announcing-schemaorg-actions.html) and [Actions overview document](http://schema.org/docs/actions.html).
  * @author schema.org
- * @module schema.org
  * @class Action
+ * @module org.schema
  * @extends Thing
  */
 public class Action extends Thing
@@ -43,7 +43,8 @@ public class Action extends Thing
 	 * Schema.org/participant
 	 * Other co-agents that participated in the action indirectly. e.g. John wrote a book with *Steve*.
 	 * @property participant
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object participant;
 
 	/**
@@ -58,7 +59,8 @@ public class Action extends Thing
 	 * Schema.org/agent
 	 * The direct performer or driver of the action (animate or inanimate). e.g. *John* wrote a book.
 	 * @property agent
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object agent;
 
 	/**
@@ -70,14 +72,6 @@ public class Action extends Thing
 	public Thing object;
 
 	/**
-	 * Schema.org/actionStatus
-	 * Indicates the current disposition of the Action.
-	 * @property actionStatus
-	 * @type ActionStatusType
-	 */
-	public ActionStatusType actionStatus;
-
-	/**
 	 * Schema.org/result
 	 * The result produced in the action. e.g. John wrote *a book*.
 	 * @property result
@@ -86,10 +80,19 @@ public class Action extends Thing
 	public Thing result;
 
 	/**
+	 * Schema.org/actionStatus
+	 * Indicates the current disposition of the Action.
+	 * @property actionStatus
+	 * @type ActionStatusType
+	 */
+	public ActionStatusType actionStatus;
+
+	/**
 	 * Schema.org/location
 	 * The location of for example where the event is happening, an organization is located, or where an action takes place.
 	 * @property location
-	 * @type schema,Text | schema,PostalAddress | schema,Place	 */
+	 * @type schema,PostalAddress | schema,Place | schema,Text
+	 */
 	public Object location;
 
 	/**

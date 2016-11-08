@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ResumeAction
  * The act of resuming a device or application which was formerly paused (e.g. resume music playback or resume a timer).
  * @author schema.org
- * @module schema.org
  * @class ResumeAction
+ * @module org.schema
  * @extends ControlAction
  */
 public class ResumeAction extends ControlAction

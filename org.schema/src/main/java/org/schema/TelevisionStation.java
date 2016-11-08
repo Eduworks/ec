@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/TelevisionStation
  * A television station.
  * @author schema.org
- * @module schema.org
  * @class TelevisionStation
+ * @module org.schema
  * @extends LocalBusiness
  */
 public class TelevisionStation extends LocalBusiness

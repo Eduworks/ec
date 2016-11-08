@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ImageObject
  * An image file.
  * @author schema.org
- * @module schema.org
  * @class ImageObject
+ * @module org.schema
  * @extends MediaObject
  */
 public class ImageObject extends MediaObject
@@ -27,7 +27,8 @@ public class ImageObject extends MediaObject
 	 * Schema.org/exifData
 	 * exif data for this object.
 	 * @property exifData
-	 * @type schema,Text | schema,PropertyValue	 */
+	 * @type schema,PropertyValue | schema,Text
+	 */
 	public Object exifData;
 
 	/**

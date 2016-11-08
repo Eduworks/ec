@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/FastFoodRestaurant
  * A fast-food restaurant.
  * @author schema.org
- * @module schema.org
  * @class FastFoodRestaurant
+ * @module org.schema
  * @extends FoodEstablishment
  */
 public class FastFoodRestaurant extends FoodEstablishment

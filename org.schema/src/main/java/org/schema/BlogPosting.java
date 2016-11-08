@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/BlogPosting
  * A blog post.
  * @author schema.org
- * @module schema.org
  * @class BlogPosting
+ * @module org.schema
  * @extends SocialMediaPosting
  */
 public class BlogPosting extends SocialMediaPosting

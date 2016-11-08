@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/RiverBodyOfWater
  * A river (for example, the broad majestic Shannon).
  * @author schema.org
- * @module schema.org
  * @class RiverBodyOfWater
+ * @module org.schema
  * @extends BodyOfWater
  */
 public class RiverBodyOfWater extends BodyOfWater

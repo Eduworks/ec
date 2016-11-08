@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ReactAction
  * The act of responding instinctively and emotionally to an object, expressing a sentiment.
  * @author schema.org
- * @module schema.org
  * @class ReactAction
+ * @module org.schema
  * @extends AssessAction
  */
 public class ReactAction extends AssessAction

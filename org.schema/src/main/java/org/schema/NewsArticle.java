@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/NewsArticle
  * A news article.
  * @author schema.org
- * @module schema.org
  * @class NewsArticle
+ * @module org.schema
  * @extends Article
  */
 public class NewsArticle extends Article

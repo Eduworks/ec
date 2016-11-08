@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Canal
  * A canal, like the Panama Canal.
  * @author schema.org
- * @module schema.org
  * @class Canal
+ * @module org.schema
  * @extends BodyOfWater
  */
 public class Canal extends BodyOfWater

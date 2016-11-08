@@ -10,11 +10,11 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
 See also the <a href="/docs/hotels.html">dedicated document on the use of schema.org for marking up hotels and other forms of accommodations</a>.
 
  * @author schema.org
- * @module schema.org
  * @class Campground
- * @extends LodgingBusiness
+ * @module org.schema
+ * @extends CivicStructure
  */
-public class Campground extends LodgingBusiness
+public class Campground extends CivicStructure
 {
 	/**
 	 * Constructor, automatically sets @context and @type.

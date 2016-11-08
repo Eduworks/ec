@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/WPHeader
  * The header section of the page.
  * @author schema.org
- * @module schema.org
  * @class WPHeader
+ * @module org.schema
  * @extends WebPageElement
  */
 public class WPHeader extends WebPageElement

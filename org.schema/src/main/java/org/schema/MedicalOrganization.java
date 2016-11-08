@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/MedicalOrganization
  * A medical organization (physical or not), such as hospital, institution or clinic.
  * @author schema.org
- * @module schema.org
  * @class MedicalOrganization
+ * @module org.schema
  * @extends Organization
  */
 public class MedicalOrganization extends Organization

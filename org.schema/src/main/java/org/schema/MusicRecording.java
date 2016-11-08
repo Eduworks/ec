@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/MusicRecording
  * A music recording (track), usually a single song.
  * @author schema.org
- * @module schema.org
  * @class MusicRecording
+ * @module org.schema
  * @extends CreativeWork
  */
 public class MusicRecording extends CreativeWork

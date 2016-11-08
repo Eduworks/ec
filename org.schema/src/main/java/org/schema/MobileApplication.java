@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/MobileApplication
  * A software application designed specifically to work well on a mobile device such as a telephone.
  * @author schema.org
- * @module schema.org
  * @class MobileApplication
+ * @module org.schema
  * @extends SoftwareApplication
  */
 public class MobileApplication extends SoftwareApplication

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/AssignAction
  * The act of allocating an action/event/task to some destination (someone or something).
  * @author schema.org
- * @module schema.org
  * @class AssignAction
+ * @module org.schema
  * @extends AllocateAction
  */
 public class AssignAction extends AllocateAction

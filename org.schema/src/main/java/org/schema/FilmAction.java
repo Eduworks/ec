@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/FilmAction
  * The act of capturing sound and moving images on film, video, or digitally.
  * @author schema.org
- * @module schema.org
  * @class FilmAction
+ * @module org.schema
  * @extends CreateAction
  */
 public class FilmAction extends CreateAction

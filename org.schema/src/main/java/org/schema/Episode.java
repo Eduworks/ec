@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Episode
  * A media episode (e.g. TV, radio, video game) which can be part of a series or season.
  * @author schema.org
- * @module schema.org
  * @class Episode
+ * @module org.schema
  * @extends CreativeWork
  */
 public class Episode extends CreativeWork
@@ -27,7 +27,8 @@ public class Episode extends CreativeWork
 	 * Schema.org/musicBy
 	 * The composer of the soundtrack.
 	 * @property musicBy
-	 * @type schema,MusicGroup | schema,Person	 */
+	 * @type schema,Person | schema,MusicGroup
+	 */
 	public Object musicBy;
 
 	/**
@@ -66,7 +67,8 @@ public class Episode extends CreativeWork
 	 * Schema.org/episodeNumber
 	 * Position of the episode within an ordered group of episodes.
 	 * @property episodeNumber
-	 * @type schema,Text | schema,Integer	 */
+	 * @type schema,Integer | schema,Text
+	 */
 	public Object episodeNumber;
 
 	/**

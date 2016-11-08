@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/DaySpa
  * A day spa.
  * @author schema.org
- * @module schema.org
  * @class DaySpa
+ * @module org.schema
  * @extends HealthAndBeautyBusiness
  */
 public class DaySpa extends HealthAndBeautyBusiness

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/InteractionCounter
  * A summary of how users have interacted with this CreativeWork. In most cases, authors will use a subtype to specify the specific type of interaction.
  * @author schema.org
- * @module schema.org
  * @class InteractionCounter
+ * @module org.schema
  * @extends StructuredValue
  */
 public class InteractionCounter extends StructuredValue
@@ -27,7 +27,8 @@ public class InteractionCounter extends StructuredValue
 	 * Schema.org/interactionService
 	 * The WebSite or SoftwareApplication where the interactions took place.
 	 * @property interactionService
-	 * @type schema,SoftwareApplication | schema,WebSite	 */
+	 * @type schema,SoftwareApplication | schema,WebSite
+	 */
 	public Object interactionService;
 
 	/**

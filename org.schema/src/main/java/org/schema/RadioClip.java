@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/RadioClip
  * A short radio program or a segment/part of a radio program.
  * @author schema.org
- * @module schema.org
  * @class RadioClip
+ * @module org.schema
  * @extends Clip
  */
 public class RadioClip extends Clip

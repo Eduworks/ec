@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Electrician
  * An electrician.
  * @author schema.org
- * @module schema.org
  * @class Electrician
+ * @module org.schema
  * @extends HomeAndConstructionBusiness
  */
 public class Electrician extends HomeAndConstructionBusiness

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/RoofingContractor
  * A roofing contractor.
  * @author schema.org
- * @module schema.org
  * @class RoofingContractor
+ * @module org.schema
  * @extends HomeAndConstructionBusiness
  */
 public class RoofingContractor extends HomeAndConstructionBusiness

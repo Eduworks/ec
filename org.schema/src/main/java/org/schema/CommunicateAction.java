@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/CommunicateAction
  * The act of conveying information to another person via a communication medium (instrument) such as speech, email, or telephone conversation.
  * @author schema.org
- * @module schema.org
  * @class CommunicateAction
+ * @module org.schema
  * @extends InteractAction
  */
 public class CommunicateAction extends InteractAction
@@ -43,14 +43,16 @@ public class CommunicateAction extends InteractAction
 	 * Schema.org/inLanguage
 	 * The language of the content or performance or used in an action. Please use one of the language codes from the [IETF BCP 47 standard](http://tools.ietf.org/html/bcp47). See also [[availableLanguage]].
 	 * @property inLanguage
-	 * @type schema,Language | schema,Text	 */
+	 * @type schema,Language | schema,Text
+	 */
 	public Object inLanguage;
 
 	/**
 	 * Schema.org/recipient
 	 * A sub property of participant. The participant who is at the receiving end of the action.
 	 * @property recipient
-	 * @type schema,Organization | schema,Person | schema,Audience	 */
+	 * @type schema,Organization | schema,Person | schema,Audience
+	 */
 	public Object recipient;
 
 }

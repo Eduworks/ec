@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/PerformingArtsTheater
  * A theater or other performing art center.
  * @author schema.org
- * @module schema.org
  * @class PerformingArtsTheater
+ * @module org.schema
  * @extends CivicStructure
  */
 public class PerformingArtsTheater extends CivicStructure

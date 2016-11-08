@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/DiscussionForumPosting
  * A posting to a discussion forum.
  * @author schema.org
- * @module schema.org
  * @class DiscussionForumPosting
+ * @module org.schema
  * @extends SocialMediaPosting
  */
 public class DiscussionForumPosting extends SocialMediaPosting

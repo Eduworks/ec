@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/OrganizeAction
  * The act of manipulating/administering/supervising/controlling one or more objects.
  * @author schema.org
- * @module schema.org
  * @class OrganizeAction
+ * @module org.schema
  * @extends Action
  */
 public class OrganizeAction extends Action

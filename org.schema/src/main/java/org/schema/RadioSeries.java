@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/RadioSeries
  * CreativeWorkSeries dedicated to radio broadcast and associated online delivery.
  * @author schema.org
- * @module schema.org
  * @class RadioSeries
+ * @module org.schema
  * @extends CreativeWorkSeries
  */
 public class RadioSeries extends CreativeWorkSeries
@@ -27,7 +27,8 @@ public class RadioSeries extends CreativeWorkSeries
 	 * Schema.org/musicBy
 	 * The composer of the soundtrack.
 	 * @property musicBy
-	 * @type schema,MusicGroup | schema,Person	 */
+	 * @type schema,Person | schema,MusicGroup
+	 */
 	public Object musicBy;
 
 	/**

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/OrderStatus
  * Enumerated status values for Order.
  * @author schema.org
- * @module schema.org
  * @class OrderStatus
+ * @module org.schema
  * @extends Enumeration
  */
 public class OrderStatus extends Enumeration

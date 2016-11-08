@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/QuantitativeValue
  *  A point value or interval for product characteristics and other purposes.
  * @author schema.org
- * @module schema.org
  * @class QuantitativeValue
+ * @module org.schema
  * @extends StructuredValue
  */
 public class QuantitativeValue extends StructuredValue
@@ -36,7 +36,8 @@ public class QuantitativeValue extends StructuredValue
 	 * Schema.org/unitCode
 	 * The unit of measurement given using the UN/CEFACT Common Code (3 characters) or a URL. Other codes than the UN/CEFACT Common Code may be used with a prefix followed by a colon.
 	 * @property unitCode
-	 * @type schema,Text | schema,URL	 */
+	 * @type schema,URL | schema,Text
+	 */
 	public Object unitCode;
 
 	/**
@@ -60,14 +61,16 @@ public class QuantitativeValue extends StructuredValue
 	 * Schema.org/valueReference
 	 * A pointer to a secondary value that provides additional information on the original value, e.g. a reference temperature.
 	 * @property valueReference
-	 * @type schema,QuantitativeValue | schema,Enumeration | schema,PropertyValue | schema,StructuredValue | schema,QualitativeValue	 */
+	 * @type schema,StructuredValue | schema,QualitativeValue | schema,PropertyValue | schema,QuantitativeValue | schema,Enumeration
+	 */
 	public Object valueReference;
 
 	/**
 	 * Schema.org/value
 	 * The value of the quantitative value or property value node.\n\n* For [[QuantitativeValue]] and [[MonetaryAmount]], the recommended type for values is 'Number'.\n* For [[PropertyValue]], it can be 'Text;', 'Number', 'Boolean', or 'StructuredValue'.
 	 * @property value
-	 * @type schema,Text | schema,StructuredValue | schema,Boolean | schema,Number	 */
+	 * @type schema,StructuredValue | schema,Boolean | schema,Number | schema,Text
+	 */
 	public Object value;
 
 	/**

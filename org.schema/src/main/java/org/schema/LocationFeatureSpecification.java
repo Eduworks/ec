@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/LocationFeatureSpecification
  * Specifies a location feature by providing a structured value representing a feature of an accommodation as a property-value pair of varying degrees of formality.
  * @author schema.org
- * @module schema.org
  * @class LocationFeatureSpecification
+ * @module org.schema
  * @extends PropertyValue
  */
 public class LocationFeatureSpecification extends PropertyValue

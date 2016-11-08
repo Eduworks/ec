@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/EntryPoint
  * An entry point, within some Web-based protocol.
  * @author schema.org
- * @module schema.org
  * @class EntryPoint
+ * @module org.schema
  * @extends Intangible
  */
 public class EntryPoint extends Intangible
@@ -35,7 +35,8 @@ public class EntryPoint extends Intangible
 	 * Schema.org/actionPlatform
 	 * The high level platform(s) where the Action can be performed for the given URL. To specify a specific application or operating system instance, use actionApplication.
 	 * @property actionPlatform
-	 * @type schema,Text | schema,URL	 */
+	 * @type schema,URL | schema,Text
+	 */
 	public Object actionPlatform;
 
 	/**

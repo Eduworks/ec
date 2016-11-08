@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/DataCatalog
  * A collection of datasets.
  * @author schema.org
- * @module schema.org
  * @class DataCatalog
+ * @module org.schema
  * @extends CreativeWork
  */
 public class DataCatalog extends CreativeWork

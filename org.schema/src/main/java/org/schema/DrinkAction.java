@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/DrinkAction
  * The act of swallowing liquids.
  * @author schema.org
- * @module schema.org
  * @class DrinkAction
+ * @module org.schema
  * @extends ConsumeAction
  */
 public class DrinkAction extends ConsumeAction

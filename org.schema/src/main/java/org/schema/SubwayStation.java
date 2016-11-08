@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/SubwayStation
  * A subway station.
  * @author schema.org
- * @module schema.org
  * @class SubwayStation
+ * @module org.schema
  * @extends CivicStructure
  */
 public class SubwayStation extends CivicStructure

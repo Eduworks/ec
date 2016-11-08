@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/APIReference
  * Reference documentation for application programming interfaces (APIs).
  * @author schema.org
- * @module schema.org
  * @class APIReference
+ * @module org.schema
  * @extends TechArticle
  */
 public class APIReference extends TechArticle

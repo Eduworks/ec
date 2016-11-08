@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Taxi
  * A taxi.
  * @author schema.org
- * @module schema.org
  * @class Taxi
+ * @module org.schema
  * @extends Service
  */
 public class Taxi extends Service

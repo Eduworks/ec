@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/WearAction
  * The act of dressing oneself in clothing.
  * @author schema.org
- * @module schema.org
  * @class WearAction
+ * @module org.schema
  * @extends UseAction
  */
 public class WearAction extends UseAction

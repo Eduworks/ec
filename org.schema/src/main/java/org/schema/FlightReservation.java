@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/FlightReservation
  * A reservation for air travel.\n\nNote: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations. For offers of tickets, use [[Offer]].
  * @author schema.org
- * @module schema.org
  * @class FlightReservation
+ * @module org.schema
  * @extends Reservation
  */
 public class FlightReservation extends Reservation
@@ -43,7 +43,8 @@ public class FlightReservation extends Reservation
 	 * Schema.org/passengerPriorityStatus
 	 * The priority status assigned to a passenger for security or boarding (e.g. FastTrack or Priority).
 	 * @property passengerPriorityStatus
-	 * @type schema,Text | schema,QualitativeValue	 */
+	 * @type schema,QualitativeValue | schema,Text
+	 */
 	public Object passengerPriorityStatus;
 
 	/**

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Service
  * A service provided by an organization, e.g. delivery service, print services, etc.
  * @author schema.org
- * @module schema.org
  * @class Service
+ * @module org.schema
  * @extends Intangible
  */
 public class Service extends Intangible
@@ -43,7 +43,8 @@ public class Service extends Intangible
 	 * Schema.org/isRelatedTo
 	 * A pointer to another, somehow related product (or multiple products).
 	 * @property isRelatedTo
-	 * @type schema,Product | schema,Service	 */
+	 * @type schema,Product | schema,Service
+	 */
 	public Object isRelatedTo;
 
 	/**
@@ -74,21 +75,24 @@ public class Service extends Intangible
 	 * Schema.org/serviceArea
 	 * The geographic area where the service is provided.
 	 * @property serviceArea
-	 * @type schema,GeoShape | schema,AdministrativeArea | schema,Place	 */
+	 * @type schema,GeoShape | schema,AdministrativeArea | schema,Place
+	 */
 	public Object serviceArea;
 
 	/**
 	 * Schema.org/brand
 	 * The brand(s) associated with a product or service, or the brand(s) maintained by an organization or business person.
 	 * @property brand
-	 * @type schema,Organization | schema,Brand	 */
+	 * @type schema,Organization | schema,Brand
+	 */
 	public Object brand;
 
 	/**
 	 * Schema.org/areaServed
 	 * The geographic area where a service or offered item is provided.
 	 * @property areaServed
-	 * @type schema,Text | schema,GeoShape | schema,AdministrativeArea | schema,Place	 */
+	 * @type schema,GeoShape | schema,AdministrativeArea | schema,Place | schema,Text
+	 */
 	public Object areaServed;
 
 	/**
@@ -119,14 +123,16 @@ public class Service extends Intangible
 	 * Schema.org/isSimilarTo
 	 * A pointer to another, functionally similar product (or multiple products).
 	 * @property isSimilarTo
-	 * @type schema,Product | schema,Service	 */
+	 * @type schema,Product | schema,Service
+	 */
 	public Object isSimilarTo;
 
 	/**
 	 * Schema.org/provider
 	 * The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.
 	 * @property provider
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object provider;
 
 	/**
@@ -157,7 +163,8 @@ public class Service extends Intangible
 	 * Schema.org/logo
 	 * An associated logo.
 	 * @property logo
-	 * @type schema,ImageObject | schema,URL	 */
+	 * @type schema,ImageObject | schema,URL
+	 */
 	public Object logo;
 
 	/**
@@ -169,18 +176,19 @@ public class Service extends Intangible
 	public Audience serviceAudience;
 
 	/**
+	 * Schema.org/category
+	 * A category for the item. Greater signs or slashes can be used to informally indicate a category hierarchy.
+	 * @property category
+	 * @type schema,Thing | schema,Text
+	 */
+	public Object category;
+
+	/**
 	 * Schema.org/serviceType
 	 * The type of service being offered, e.g. veterans' benefits, emergency relief, etc.
 	 * @property serviceType
 	 * @type Text
 	 */
 	public String serviceType;
-
-	/**
-	 * Schema.org/category
-	 * A category for the item. Greater signs or slashes can be used to informally indicate a category hierarchy.
-	 * @property category
-	 * @type schema,Thing | schema,Text	 */
-	public Object category;
 
 }

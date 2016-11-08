@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/BedDetails
  * An entity holding detailed information about the available bed types, e.g. the quantity of twin beds for a hotel room. For the single case of just one bed of a certain type, you can use bed directly with a text. See also [[BedType]] (under development).
  * @author schema.org
- * @module schema.org
  * @class BedDetails
+ * @module org.schema
  * @extends Intangible
  */
 public class BedDetails extends Intangible

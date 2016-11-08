@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Ticket
  * Used to describe a ticket to an event, a flight, a bus ride, etc.
  * @author schema.org
- * @module schema.org
  * @class Ticket
+ * @module org.schema
  * @extends Intangible
  */
 public class Ticket extends Intangible
@@ -35,7 +35,8 @@ public class Ticket extends Intangible
 	 * Schema.org/totalPrice
 	 * The total price for the reservation or ticket, including applicable taxes, shipping, etc.
 	 * @property totalPrice
-	 * @type schema,Text | schema,Number | schema,PriceSpecification	 */
+	 * @type schema,PriceSpecification | schema,Number | schema,Text
+	 */
 	public Object totalPrice;
 
 	/**
@@ -50,7 +51,8 @@ public class Ticket extends Intangible
 	 * Schema.org/ticketToken
 	 * Reference to an asset (e.g., Barcode, QR code image or PDF) usable for entrance.
 	 * @property ticketToken
-	 * @type schema,Text | schema,URL	 */
+	 * @type schema,URL | schema,Text
+	 */
 	public Object ticketToken;
 
 	/**
@@ -81,7 +83,8 @@ public class Ticket extends Intangible
 	 * Schema.org/underName
 	 * The person or organization the reservation or ticket is for.
 	 * @property underName
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object underName;
 
 }

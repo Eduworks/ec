@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ShoppingCenter
  * A shopping center or mall.
  * @author schema.org
- * @module schema.org
  * @class ShoppingCenter
+ * @module org.schema
  * @extends LocalBusiness
  */
 public class ShoppingCenter extends LocalBusiness

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/GeoShape
  * The geographic shape of a place. A GeoShape can be described using several properties whose values are based on latitude/longitude pairs. Either whitespace or commas can be used to separate latitude and longitude; whitespace should be used when writing a list of several such points.
  * @author schema.org
- * @module schema.org
  * @class GeoShape
+ * @module org.schema
  * @extends StructuredValue
  */
 public class GeoShape extends StructuredValue
@@ -35,7 +35,8 @@ public class GeoShape extends StructuredValue
 	 * Schema.org/elevation
 	 * The elevation of a location ([WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)).
 	 * @property elevation
-	 * @type schema,Text | schema,Number	 */
+	 * @type schema,Number | schema,Text
+	 */
 	public Object elevation;
 
 	/**
@@ -50,14 +51,16 @@ public class GeoShape extends StructuredValue
 	 * Schema.org/addressCountry
 	 * The country. For example, USA. You can also provide the two-letter [ISO 3166-1 alpha-2 country code](http://en.wikipedia.org/wiki/ISO_3166-1).
 	 * @property addressCountry
-	 * @type schema,Text | schema,Country	 */
+	 * @type schema,Country | schema,Text
+	 */
 	public Object addressCountry;
 
 	/**
 	 * Schema.org/address
 	 * Physical address of the item.
 	 * @property address
-	 * @type schema,Text | schema,PostalAddress	 */
+	 * @type schema,PostalAddress | schema,Text
+	 */
 	public Object address;
 
 	/**

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Waterfall
  * A waterfall, like Niagara.
  * @author schema.org
- * @module schema.org
  * @class Waterfall
+ * @module org.schema
  * @extends BodyOfWater
  */
 public class Waterfall extends BodyOfWater

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/InviteAction
  * The act of asking someone to attend an event. Reciprocal of RsvpAction.
  * @author schema.org
- * @module schema.org
  * @class InviteAction
+ * @module org.schema
  * @extends CommunicateAction
  */
 public class InviteAction extends CommunicateAction

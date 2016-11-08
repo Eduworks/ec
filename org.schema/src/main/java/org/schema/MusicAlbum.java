@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/MusicAlbum
  * A collection of music tracks.
  * @author schema.org
- * @module schema.org
  * @class MusicAlbum
+ * @module org.schema
  * @extends MusicPlaylist
  */
 public class MusicAlbum extends MusicPlaylist

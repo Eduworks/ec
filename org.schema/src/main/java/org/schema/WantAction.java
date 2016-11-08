@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/WantAction
  * The act of expressing a desire about the object. An agent wants an object.
  * @author schema.org
- * @module schema.org
  * @class WantAction
+ * @module org.schema
  * @extends ReactAction
  */
 public class WantAction extends ReactAction

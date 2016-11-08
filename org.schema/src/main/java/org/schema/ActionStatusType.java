@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ActionStatusType
  * The status of an Action.
  * @author schema.org
- * @module schema.org
  * @class ActionStatusType
+ * @module org.schema
  * @extends Enumeration
  */
 public class ActionStatusType extends Enumeration

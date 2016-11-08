@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Reservation
  * Describes a reservation for travel, dining or an event. Some reservations require tickets. \n\nNote: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations. For offers of tickets, restaurant reservations, flights, or rental cars, use [[Offer]].
  * @author schema.org
- * @module schema.org
  * @class Reservation
+ * @module org.schema
  * @extends Intangible
  */
 public class Reservation extends Intangible
@@ -27,7 +27,8 @@ public class Reservation extends Intangible
 	 * Schema.org/bookingAgent
 	 * 'bookingAgent' is an out-dated term indicating a 'broker' that serves as a booking agent.
 	 * @property bookingAgent
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object bookingAgent;
 
 	/**
@@ -50,14 +51,16 @@ public class Reservation extends Intangible
 	 * Schema.org/totalPrice
 	 * The total price for the reservation or ticket, including applicable taxes, shipping, etc.
 	 * @property totalPrice
-	 * @type schema,Text | schema,Number | schema,PriceSpecification	 */
+	 * @type schema,PriceSpecification | schema,Number | schema,Text
+	 */
 	public Object totalPrice;
 
 	/**
 	 * Schema.org/broker
 	 * An entity that arranges for an exchange between a buyer and a seller.  In most cases a broker never acquires or releases ownership of a product or service involved in an exchange.  If it is not clear whether an entity is a broker, seller, or buyer, the latter two terms are preferred.
 	 * @property broker
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object broker;
 
 	/**
@@ -67,6 +70,14 @@ public class Reservation extends Intangible
 	 * @type DateTime
 	 */
 	public String modifiedTime;
+
+	/**
+	 * Schema.org/reservationId
+	 * A unique identifier for the reservation.
+	 * @property reservationId
+	 * @type Text
+	 */
+	public String reservationId;
 
 	/**
 	 * Schema.org/reservedTicket
@@ -96,7 +107,8 @@ public class Reservation extends Intangible
 	 * Schema.org/provider
 	 * The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.
 	 * @property provider
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object provider;
 
 	/**
@@ -108,18 +120,11 @@ public class Reservation extends Intangible
 	public Thing reservationFor;
 
 	/**
-	 * Schema.org/reservationId
-	 * A unique identifier for the reservation.
-	 * @property reservationId
-	 * @type Text
-	 */
-	public String reservationId;
-
-	/**
 	 * Schema.org/underName
 	 * The person or organization the reservation or ticket is for.
 	 * @property underName
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object underName;
 
 }

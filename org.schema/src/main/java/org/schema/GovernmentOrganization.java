@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/GovernmentOrganization
  * A governmental organization or agency.
  * @author schema.org
- * @module schema.org
  * @class GovernmentOrganization
+ * @module org.schema
  * @extends Organization
  */
 public class GovernmentOrganization extends Organization

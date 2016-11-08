@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Map
  * A map.
  * @author schema.org
- * @module schema.org
  * @class Map
+ * @module org.schema
  * @extends CreativeWork
  */
 public class Map extends CreativeWork

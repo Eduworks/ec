@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/RecyclingCenter
  * A recycling center.
  * @author schema.org
- * @module schema.org
  * @class RecyclingCenter
+ * @module org.schema
  * @extends LocalBusiness
  */
 public class RecyclingCenter extends LocalBusiness

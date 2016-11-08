@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/EventVenue
  * An event venue.
  * @author schema.org
- * @module schema.org
  * @class EventVenue
+ * @module org.schema
  * @extends CivicStructure
  */
 public class EventVenue extends CivicStructure

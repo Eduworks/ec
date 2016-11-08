@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Order
  * An order is a confirmation of a transaction (a receipt), which can contain multiple line items, each represented by an Offer that has been accepted by the customer.
  * @author schema.org
- * @module schema.org
  * @class Order
+ * @module org.schema
  * @extends Intangible
  */
 public class Order extends Intangible
@@ -43,7 +43,8 @@ public class Order extends Intangible
 	 * Schema.org/broker
 	 * An entity that arranges for an exchange between a buyer and a seller.  In most cases a broker never acquires or releases ownership of a product or service involved in an exchange.  If it is not clear whether an entity is a broker, seller, or buyer, the latter two terms are preferred.
 	 * @property broker
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object broker;
 
 	/**
@@ -63,20 +64,20 @@ public class Order extends Intangible
 	public PaymentMethod paymentMethod;
 
 	/**
-	 * Schema.org/paymentUrl
-	 * The URL for sending a payment.
-	 * @property paymentUrl
-	 * @type URL
-	 */
-	public String paymentUrl;
-
-	/**
 	 * Schema.org/billingAddress
 	 * The billing address for the order.
 	 * @property billingAddress
 	 * @type PostalAddress
 	 */
 	public PostalAddress billingAddress;
+
+	/**
+	 * Schema.org/paymentDueDate
+	 * The date that payment is due.
+	 * @property paymentDueDate
+	 * @type DateTime
+	 */
+	public String paymentDueDate;
 
 	/**
 	 * Schema.org/paymentMethodId
@@ -95,24 +96,35 @@ public class Order extends Intangible
 	public OrderStatus orderStatus;
 
 	/**
+	 * Schema.org/paymentUrl
+	 * The URL for sending a payment.
+	 * @property paymentUrl
+	 * @type URL
+	 */
+	public String paymentUrl;
+
+	/**
 	 * Schema.org/orderedItem
 	 * The item ordered.
 	 * @property orderedItem
-	 * @type schema,Product | schema,OrderItem	 */
+	 * @type schema,Product | schema,OrderItem
+	 */
 	public Object orderedItem;
 
 	/**
 	 * Schema.org/seller
 	 * An entity which offers (sells / leases / lends / loans) the services / goods.  A seller may also be a provider.
 	 * @property seller
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object seller;
 
 	/**
 	 * Schema.org/customer
 	 * Party placing the order or paying the invoice.
 	 * @property customer
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object customer;
 
 	/**
@@ -130,14 +142,6 @@ public class Order extends Intangible
 	 * @type Offer
 	 */
 	public Offer acceptedOffer;
-
-	/**
-	 * Schema.org/paymentDueDate
-	 * The date that payment is due.
-	 * @property paymentDueDate
-	 * @type DateTime
-	 */
-	public String paymentDueDate;
 
 	/**
 	 * Schema.org/confirmationNumber
@@ -167,7 +171,8 @@ public class Order extends Intangible
 	 * Schema.org/merchant
 	 * 'merchant' is an out-dated term for 'seller'.
 	 * @property merchant
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object merchant;
 
 	/**
@@ -190,7 +195,8 @@ public class Order extends Intangible
 	 * Schema.org/discount
 	 * Any discount applied (to an Order).
 	 * @property discount
-	 * @type schema,Text | schema,Number	 */
+	 * @type schema,Number | schema,Text
+	 */
 	public Object discount;
 
 }

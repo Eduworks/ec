@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Place
  * Entities that have a somewhat fixed, physical extension.
  * @author schema.org
- * @module schema.org
  * @class Place
+ * @module org.schema
  * @extends Thing
  */
 public class Place extends Thing
@@ -81,6 +81,14 @@ public class Place extends Thing
 	public Event event;
 
 	/**
+	 * Schema.org/maps
+	 * A URL to a map of the place.
+	 * @property maps
+	 * @type URL
+	 */
+	public String maps;
+
+	/**
 	 * Schema.org/containedIn
 	 * The basic containment relation between a place and one that contains it.
 	 * @property containedIn
@@ -97,14 +105,6 @@ public class Place extends Thing
 	public Review review;
 
 	/**
-	 * Schema.org/maps
-	 * A URL to a map of the place.
-	 * @property maps
-	 * @type URL
-	 */
-	public String maps;
-
-	/**
 	 * Schema.org/containedInPlace
 	 * The basic containment relation between a place and one that contains it.
 	 * @property containedInPlace
@@ -116,21 +116,24 @@ public class Place extends Thing
 	 * Schema.org/photo
 	 * A photograph of this place.
 	 * @property photo
-	 * @type schema,ImageObject | schema,Photograph	 */
+	 * @type schema,ImageObject | schema,Photograph
+	 */
 	public Object photo;
 
 	/**
 	 * Schema.org/address
 	 * Physical address of the item.
 	 * @property address
-	 * @type schema,Text | schema,PostalAddress	 */
+	 * @type schema,PostalAddress | schema,Text
+	 */
 	public Object address;
 
 	/**
 	 * Schema.org/geo
 	 * The geo coordinates of the place.
 	 * @property geo
-	 * @type schema,GeoCoordinates | schema,GeoShape	 */
+	 * @type schema,GeoShape | schema,GeoCoordinates
+	 */
 	public Object geo;
 
 	/**
@@ -145,7 +148,8 @@ public class Place extends Thing
 	 * Schema.org/photos
 	 * Photographs of this place.
 	 * @property photos
-	 * @type schema,ImageObject | schema,Photograph	 */
+	 * @type schema,ImageObject | schema,Photograph
+	 */
 	public Object photos;
 
 	/**
@@ -160,7 +164,8 @@ public class Place extends Thing
 	 * Schema.org/hasMap
 	 * A URL to a map of the place.
 	 * @property hasMap
-	 * @type schema,URL | schema,Map	 */
+	 * @type schema,Map | schema,URL
+	 */
 	public Object hasMap;
 
 	/**
@@ -217,7 +222,8 @@ public class Place extends Thing
 	 * Schema.org/logo
 	 * An associated logo.
 	 * @property logo
-	 * @type schema,ImageObject | schema,URL	 */
+	 * @type schema,ImageObject | schema,URL
+	 */
 	public Object logo;
 
 	/**

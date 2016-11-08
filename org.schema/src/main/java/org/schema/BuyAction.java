@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/BuyAction
  * The act of giving money to a seller in exchange for goods or services rendered. An agent buys an object, product, or service from a seller for a price. Reciprocal of SellAction.
  * @author schema.org
- * @module schema.org
  * @class BuyAction
+ * @module org.schema
  * @extends TradeAction
  */
 public class BuyAction extends TradeAction
@@ -35,14 +35,16 @@ public class BuyAction extends TradeAction
 	 * Schema.org/vendor
 	 * 'vendor' is an earlier term for 'seller'.
 	 * @property vendor
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object vendor;
 
 	/**
 	 * Schema.org/seller
 	 * An entity which offers (sells / leases / lends / loans) the services / goods.  A seller may also be a provider.
 	 * @property seller
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object seller;
 
 }

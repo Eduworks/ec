@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/QualitativeValue
  * A predefined value for a product characteristic, e.g. the power cord plug type 'US' or the garment sizes 'S', 'M', 'L', and 'XL'.
  * @author schema.org
- * @module schema.org
  * @class QualitativeValue
+ * @module org.schema
  * @extends Enumeration
  */
 public class QualitativeValue extends Enumeration
@@ -84,7 +84,8 @@ public class QualitativeValue extends Enumeration
 	 * Schema.org/valueReference
 	 * A pointer to a secondary value that provides additional information on the original value, e.g. a reference temperature.
 	 * @property valueReference
-	 * @type schema,QuantitativeValue | schema,Enumeration | schema,PropertyValue | schema,StructuredValue | schema,QualitativeValue	 */
+	 * @type schema,StructuredValue | schema,QualitativeValue | schema,PropertyValue | schema,QuantitativeValue | schema,Enumeration
+	 */
 	public Object valueReference;
 
 }

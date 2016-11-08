@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/WPSideBar
  * A sidebar section of the page.
  * @author schema.org
- * @module schema.org
  * @class WPSideBar
+ * @module org.schema
  * @extends WebPageElement
  */
 public class WPSideBar extends WebPageElement

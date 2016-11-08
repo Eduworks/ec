@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/HealthClub
  * A health club.
  * @author schema.org
- * @module schema.org
  * @class HealthClub
+ * @module org.schema
  * @extends HealthAndBeautyBusiness
  */
 public class HealthClub extends HealthAndBeautyBusiness

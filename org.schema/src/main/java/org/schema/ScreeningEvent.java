@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ScreeningEvent
  * A screening of a movie or other video.
  * @author schema.org
- * @module schema.org
  * @class ScreeningEvent
+ * @module org.schema
  * @extends Event
  */
 public class ScreeningEvent extends Event
@@ -27,7 +27,8 @@ public class ScreeningEvent extends Event
 	 * Schema.org/subtitleLanguage
 	 * Languages in which subtitles/captions are available, in [IETF BCP 47 standard format](http://tools.ietf.org/html/bcp47).
 	 * @property subtitleLanguage
-	 * @type schema,Language | schema,Text	 */
+	 * @type schema,Language | schema,Text
+	 */
 	public Object subtitleLanguage;
 
 	/**

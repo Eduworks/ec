@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/PaymentStatusType
  * A specific payment status. For example, PaymentDue, PaymentComplete, etc.
  * @author schema.org
- * @module schema.org
  * @class PaymentStatusType
+ * @module org.schema
  * @extends Enumeration
  */
 public class PaymentStatusType extends Enumeration

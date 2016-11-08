@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Winery
  * A winery.
  * @author schema.org
- * @module schema.org
  * @class Winery
+ * @module org.schema
  * @extends FoodEstablishment
  */
 public class Winery extends FoodEstablishment

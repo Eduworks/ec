@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Article
  * An article, such as a news article or piece of investigative report. Newspapers and magazines have articles of many different types and this is intended to cover them all.\n\nSee also [blog post](http://blog.schema.org/2014/09/schemaorg-support-for-bibliographic_2.html).
  * @author schema.org
- * @module schema.org
  * @class Article
+ * @module org.schema
  * @extends CreativeWork
  */
 public class Article extends CreativeWork
@@ -27,14 +27,16 @@ public class Article extends CreativeWork
 	 * Schema.org/pageStart
 	 * The page on which the work starts; for example "135" or "xiii".
 	 * @property pageStart
-	 * @type schema,Text | schema,Integer	 */
+	 * @type schema,Integer | schema,Text
+	 */
 	public Object pageStart;
 
 	/**
 	 * Schema.org/pageEnd
 	 * The page on which the work ends; for example "138" or "xvi".
 	 * @property pageEnd
-	 * @type schema,Text | schema,Integer	 */
+	 * @type schema,Integer | schema,Text
+	 */
 	public Object pageEnd;
 
 	/**

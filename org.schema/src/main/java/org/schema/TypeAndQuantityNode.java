@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/TypeAndQuantityNode
  * A structured value indicating the quantity, unit of measurement, and business function of goods included in a bundle offer.
  * @author schema.org
- * @module schema.org
  * @class TypeAndQuantityNode
+ * @module org.schema
  * @extends StructuredValue
  */
 public class TypeAndQuantityNode extends StructuredValue
@@ -35,7 +35,8 @@ public class TypeAndQuantityNode extends StructuredValue
 	 * Schema.org/unitCode
 	 * The unit of measurement given using the UN/CEFACT Common Code (3 characters) or a URL. Other codes than the UN/CEFACT Common Code may be used with a prefix followed by a colon.
 	 * @property unitCode
-	 * @type schema,Text | schema,URL	 */
+	 * @type schema,URL | schema,Text
+	 */
 	public Object unitCode;
 
 	/**
@@ -51,7 +52,8 @@ public class TypeAndQuantityNode extends StructuredValue
 	 * Schema.org/typeOfGood
 	 * The product that this structured value is referring to.
 	 * @property typeOfGood
-	 * @type schema,Product | schema,Service	 */
+	 * @type schema,Product | schema,Service
+	 */
 	public Object typeOfGood;
 
 	/**

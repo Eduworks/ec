@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Message
  * A single message from a sender to one or more organizations or people.
  * @author schema.org
- * @module schema.org
  * @class Message
+ * @module org.schema
  * @extends CreativeWork
  */
 public class Message extends CreativeWork
@@ -27,7 +27,8 @@ public class Message extends CreativeWork
 	 * Schema.org/sender
 	 * A sub property of participant. The participant who is at the sending end of the action.
 	 * @property sender
-	 * @type schema,Organization | schema,Person | schema,Audience	 */
+	 * @type schema,Organization | schema,Person | schema,Audience
+	 */
 	public Object sender;
 
 	/**
@@ -66,7 +67,8 @@ public class Message extends CreativeWork
 	 * Schema.org/recipient
 	 * A sub property of participant. The participant who is at the receiving end of the action.
 	 * @property recipient
-	 * @type schema,Organization | schema,Person | schema,Audience	 */
+	 * @type schema,Organization | schema,Person | schema,Audience
+	 */
 	public Object recipient;
 
 }

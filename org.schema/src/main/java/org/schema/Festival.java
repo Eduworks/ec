@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Festival
  * Event type: Festival.
  * @author schema.org
- * @module schema.org
  * @class Festival
+ * @module org.schema
  * @extends Event
  */
 public class Festival extends Event

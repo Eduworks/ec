@@ -12,6 +12,7 @@ import org.stjs.javascript.Map;
  * @author fritz.ray@eduworks.com
  * @class Competency
  * @module org.cassproject
+ * @extends Intangible
  */
 public class Competency extends Intangible
 {

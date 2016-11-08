@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/DataDownload
  * A dataset in downloadable form.
  * @author schema.org
- * @module schema.org
  * @class DataDownload
+ * @module org.schema
  * @extends MediaObject
  */
 public class DataDownload extends MediaObject

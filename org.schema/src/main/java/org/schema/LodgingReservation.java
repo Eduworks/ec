@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/LodgingReservation
  * A reservation for lodging at a hotel, motel, inn, etc.\n\nNote: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations.
  * @author schema.org
- * @module schema.org
  * @class LodgingReservation
+ * @module org.schema
  * @extends Reservation
  */
 public class LodgingReservation extends Reservation
@@ -27,21 +27,24 @@ public class LodgingReservation extends Reservation
 	 * Schema.org/lodgingUnitType
 	 * Textual description of the unit type (including suite vs. room, size of bed, etc.).
 	 * @property lodgingUnitType
-	 * @type schema,Text | schema,QualitativeValue	 */
+	 * @type schema,QualitativeValue | schema,Text
+	 */
 	public Object lodgingUnitType;
 
 	/**
 	 * Schema.org/numChildren
 	 * The number of children staying in the unit.
 	 * @property numChildren
-	 * @type schema,QuantitativeValue | schema,Integer	 */
+	 * @type schema,Integer | schema,QuantitativeValue
+	 */
 	public Object numChildren;
 
 	/**
 	 * Schema.org/numAdults
 	 * The number of adults staying in the unit.
 	 * @property numAdults
-	 * @type schema,QuantitativeValue | schema,Integer	 */
+	 * @type schema,Integer | schema,QuantitativeValue
+	 */
 	public Object numAdults;
 
 	/**

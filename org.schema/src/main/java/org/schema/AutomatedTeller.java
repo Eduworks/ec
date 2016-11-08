@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/AutomatedTeller
  * ATM/cash machine.
  * @author schema.org
- * @module schema.org
  * @class AutomatedTeller
+ * @module org.schema
  * @extends FinancialService
  */
 public class AutomatedTeller extends FinancialService

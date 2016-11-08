@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Person
  * A person (alive, dead, undead, or fictional).
  * @author schema.org
- * @module schema.org
  * @class Person
+ * @module org.schema
  * @extends Thing
  */
 public class Person extends Thing
@@ -43,15 +43,25 @@ public class Person extends Thing
 	 * Schema.org/alumniOf
 	 * An organization that the person is an alumni of.
 	 * @property alumniOf
-	 * @type schema,Organization | schema,EducationalOrganization	 */
+	 * @type schema,Organization | schema,EducationalOrganization
+	 */
 	public Object alumniOf;
 
 	/**
 	 * Schema.org/memberOf
 	 * An Organization (or ProgramMembership) to which this Person or Organization belongs.
 	 * @property memberOf
-	 * @type schema,Organization | schema,ProgramMembership	 */
+	 * @type schema,Organization | schema,ProgramMembership
+	 */
 	public Object memberOf;
+
+	/**
+	 * Schema.org/affiliation
+	 * An organization that this person is affiliated with. For example, a school/university, a club, or a team.
+	 * @property affiliation
+	 * @type Organization
+	 */
+	public Organization affiliation;
 
 	/**
 	 * Schema.org/award
@@ -110,6 +120,14 @@ public class Person extends Thing
 	public Person colleagues;
 
 	/**
+	 * Schema.org/additionalName
+	 * An additional name for a Person, can be used for a middle name.
+	 * @property additionalName
+	 * @type Text
+	 */
+	public String additionalName;
+
+	/**
 	 * Schema.org/honorificSuffix
 	 * An honorific suffix preceding a Person's name such as M.D. /PhD/MSCSW.
 	 * @property honorificSuffix
@@ -137,7 +155,8 @@ public class Person extends Thing
 	 * Schema.org/brand
 	 * The brand(s) associated with a product or service, or the brand(s) maintained by an organization or business person.
 	 * @property brand
-	 * @type schema,Organization | schema,Brand	 */
+	 * @type schema,Organization | schema,Brand
+	 */
 	public Object brand;
 
 	/**
@@ -152,16 +171,9 @@ public class Person extends Thing
 	 * Schema.org/homeLocation
 	 * A contact location for a person's residence.
 	 * @property homeLocation
-	 * @type schema,ContactPoint | schema,Place	 */
-	public Object homeLocation;
-
-	/**
-	 * Schema.org/jobTitle
-	 * The job title of the person (for example, Financial Manager).
-	 * @property jobTitle
-	 * @type Text
+	 * @type schema,ContactPoint | schema,Place
 	 */
-	public String jobTitle;
+	public Object homeLocation;
 
 	/**
 	 * Schema.org/siblings
@@ -175,7 +187,8 @@ public class Person extends Thing
 	 * Schema.org/address
 	 * Physical address of the item.
 	 * @property address
-	 * @type schema,Text | schema,PostalAddress	 */
+	 * @type schema,PostalAddress | schema,Text
+	 */
 	public Object address;
 
 	/**
@@ -203,20 +216,20 @@ public class Person extends Thing
 	public Person knows;
 
 	/**
-	 * Schema.org/affiliation
-	 * An organization that this person is affiliated with. For example, a school/university, a club, or a team.
-	 * @property affiliation
-	 * @type Organization
-	 */
-	public Organization affiliation;
-
-	/**
 	 * Schema.org/contactPoint
 	 * A contact point for a person or organization.
 	 * @property contactPoint
 	 * @type ContactPoint
 	 */
 	public ContactPoint contactPoint;
+
+	/**
+	 * Schema.org/jobTitle
+	 * The job title of the person (for example, Financial Manager).
+	 * @property jobTitle
+	 * @type Text
+	 */
+	public String jobTitle;
 
 	/**
 	 * Schema.org/performerIn
@@ -230,8 +243,17 @@ public class Person extends Thing
 	 * Schema.org/funder
 	 * A person or organization that supports (sponsors) something through some kind of financial contribution.
 	 * @property funder
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object funder;
+
+	/**
+	 * Schema.org/sibling
+	 * A sibling of the person.
+	 * @property sibling
+	 * @type Person
+	 */
+	public Person sibling;
 
 	/**
 	 * Schema.org/vatID
@@ -245,7 +267,8 @@ public class Person extends Thing
 	 * Schema.org/gender
 	 * Gender of the person. While http://schema.org/Male and http://schema.org/Female may be used, text strings are also acceptable for people who do not identify as a binary gender.
 	 * @property gender
-	 * @type schema,Text | schema,GenderType	 */
+	 * @type schema,GenderType | schema,Text
+	 */
 	public Object gender;
 
 	/**
@@ -268,7 +291,8 @@ public class Person extends Thing
 	 * Schema.org/sponsor
 	 * A person or organization that supports a thing through a pledge, promise, or financial contribution. e.g. a sponsor of a Medical Study or a corporate sponsor of an event.
 	 * @property sponsor
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object sponsor;
 
 	/**
@@ -304,20 +328,20 @@ public class Person extends Thing
 	public String faxNumber;
 
 	/**
+	 * Schema.org/height
+	 * The height of the item.
+	 * @property height
+	 * @type schema,QuantitativeValue | schema,Distance
+	 */
+	public Object height;
+
+	/**
 	 * Schema.org/hasPOS
 	 * Points-of-Sales operated by the organization or person.
 	 * @property hasPOS
 	 * @type Place
 	 */
 	public Place hasPOS;
-
-	/**
-	 * Schema.org/sibling
-	 * A sibling of the person.
-	 * @property sibling
-	 * @type Person
-	 */
-	public Person sibling;
 
 	/**
 	 * Schema.org/hasOfferCatalog
@@ -344,25 +368,19 @@ public class Person extends Thing
 	public Place deathPlace;
 
 	/**
-	 * Schema.org/additionalName
-	 * An additional name for a Person, can be used for a middle name.
-	 * @property additionalName
-	 * @type Text
-	 */
-	public String additionalName;
-
-	/**
 	 * Schema.org/colleague
 	 * A colleague of the person.
 	 * @property colleague
-	 * @type schema,URL | schema,Person	 */
+	 * @type schema,Person | schema,URL
+	 */
 	public Object colleague;
 
 	/**
 	 * Schema.org/netWorth
 	 * The total financial value of the person as calculated by subtracting assets from liabilities.
 	 * @property netWorth
-	 * @type schema,MonetaryAmount | schema,PriceSpecification	 */
+	 * @type schema,PriceSpecification | schema,MonetaryAmount
+	 */
 	public Object netWorth;
 
 	/**
@@ -393,7 +411,8 @@ public class Person extends Thing
 	 * Schema.org/owns
 	 * Products owned by the organization or person.
 	 * @property owns
-	 * @type schema,Product | schema,OwnershipInfo	 */
+	 * @type schema,Product | schema,OwnershipInfo
+	 */
 	public Object owns;
 
 	/**
@@ -416,15 +435,9 @@ public class Person extends Thing
 	 * Schema.org/workLocation
 	 * A contact location for a person's place of work.
 	 * @property workLocation
-	 * @type schema,ContactPoint | schema,Place	 */
+	 * @type schema,ContactPoint | schema,Place
+	 */
 	public Object workLocation;
-
-	/**
-	 * Schema.org/height
-	 * The height of the item.
-	 * @property height
-	 * @type schema,QuantitativeValue | schema,Distance	 */
-	public Object height;
 
 	/**
 	 * Schema.org/makesOffer

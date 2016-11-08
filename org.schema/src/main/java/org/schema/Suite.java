@@ -10,8 +10,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
 See also the <a href="/docs/hotels.html">dedicated document on the use of schema.org for marking up hotels and other forms of accommodations</a>.
 
  * @author schema.org
- * @module schema.org
  * @class Suite
+ * @module org.schema
  * @extends Accommodation
  */
 public class Suite extends Accommodation
@@ -31,7 +31,8 @@ public class Suite extends Accommodation
 	 * The type of bed or beds included in the accommodation. For the single case of just one bed of a certain type, you use bed directly with a text.
       If you want to indicate the quantity of a certain kind of bed, use an instance of BedDetails. For more detailed information, use the amenityFeature property.
 	 * @property bed
-	 * @type schema,Text | schema,BedDetails	 */
+	 * @type schema,BedDetails | schema,Text
+	 */
 	public Object bed;
 
 	/**
@@ -39,7 +40,8 @@ public class Suite extends Accommodation
 	 * The number of rooms (excluding bathrooms and closets) of the acccommodation or lodging business.
 Typical unit code(s): ROM for room or C62 for no unit. The type of room can be put in the unitText property of the QuantitativeValue.
 	 * @property numberOfRooms
-	 * @type schema,QuantitativeValue | schema,Number	 */
+	 * @type schema,QuantitativeValue | schema,Number
+	 */
 	public Object numberOfRooms;
 
 	/**

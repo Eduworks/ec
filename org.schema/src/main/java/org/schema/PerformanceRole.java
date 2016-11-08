@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/PerformanceRole
  * A PerformanceRole is a Role that some entity places with regard to a theatrical performance, e.g. in a Movie, TVSeries etc.
  * @author schema.org
- * @module schema.org
  * @class PerformanceRole
+ * @module org.schema
  * @extends Role
  */
 public class PerformanceRole extends Role

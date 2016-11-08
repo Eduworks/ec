@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/InternetCafe
  * An internet cafe.
  * @author schema.org
- * @module schema.org
  * @class InternetCafe
+ * @module org.schema
  * @extends LocalBusiness
  */
 public class InternetCafe extends LocalBusiness

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ReservationStatusType
  * Enumerated status values for Reservation.
  * @author schema.org
- * @module schema.org
  * @class ReservationStatusType
+ * @module org.schema
  * @extends Enumeration
  */
 public class ReservationStatusType extends Enumeration

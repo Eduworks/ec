@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ReplyAction
  * The act of responding to a question/message asked/sent by the object. Related to [[AskAction]]\n\nRelated actions:\n\n* [[AskAction]]: Appears generally as an origin of a ReplyAction.
  * @author schema.org
- * @module schema.org
  * @class ReplyAction
+ * @module org.schema
  * @extends CommunicateAction
  */
 public class ReplyAction extends CommunicateAction

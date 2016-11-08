@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/NutritionInformation
  * Nutritional information about the recipe.
  * @author schema.org
- * @module schema.org
  * @class NutritionInformation
+ * @module org.schema
  * @extends StructuredValue
  */
 public class NutritionInformation extends StructuredValue
@@ -48,12 +48,12 @@ public class NutritionInformation extends StructuredValue
 	public Mass sugarContent;
 
 	/**
-	 * Schema.org/transFatContent
-	 * The number of grams of trans fat.
-	 * @property transFatContent
+	 * Schema.org/cholesterolContent
+	 * The number of milligrams of cholesterol.
+	 * @property cholesterolContent
 	 * @type Mass
 	 */
-	public Mass transFatContent;
+	public Mass cholesterolContent;
 
 	/**
 	 * Schema.org/proteinContent
@@ -70,6 +70,14 @@ public class NutritionInformation extends StructuredValue
 	 * @type Mass
 	 */
 	public Mass fatContent;
+
+	/**
+	 * Schema.org/transFatContent
+	 * The number of grams of trans fat.
+	 * @property transFatContent
+	 * @type Mass
+	 */
+	public Mass transFatContent;
 
 	/**
 	 * Schema.org/carbohydrateContent
@@ -94,14 +102,6 @@ public class NutritionInformation extends StructuredValue
 	 * @type Mass
 	 */
 	public Mass saturatedFatContent;
-
-	/**
-	 * Schema.org/cholesterolContent
-	 * The number of milligrams of cholesterol.
-	 * @property cholesterolContent
-	 * @type Mass
-	 */
-	public Mass cholesterolContent;
 
 	/**
 	 * Schema.org/sodiumContent

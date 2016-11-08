@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/TouristAttraction
  * A tourist attraction.
  * @author schema.org
- * @module schema.org
  * @class TouristAttraction
+ * @module org.schema
  * @extends Place
  */
 public class TouristAttraction extends Place

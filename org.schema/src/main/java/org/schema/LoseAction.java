@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/LoseAction
  * The act of being defeated in a competitive activity.
  * @author schema.org
- * @module schema.org
  * @class LoseAction
+ * @module org.schema
  * @extends AchieveAction
  */
 public class LoseAction extends AchieveAction

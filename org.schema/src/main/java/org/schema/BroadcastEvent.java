@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/BroadcastEvent
  * An over the air or online broadcast event.
  * @author schema.org
- * @module schema.org
  * @class BroadcastEvent
+ * @module org.schema
  * @extends PublicationEvent
  */
 public class BroadcastEvent extends PublicationEvent

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/RadioSeason
  * Season dedicated to radio broadcast and associated online delivery.
  * @author schema.org
- * @module schema.org
  * @class RadioSeason
+ * @module org.schema
  * @extends CreativeWorkSeason
  */
 public class RadioSeason extends CreativeWorkSeason

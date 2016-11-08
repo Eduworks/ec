@@ -8,8 +8,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * A private parcel service as the delivery mode available for a certain offer.\n\nCommonly used values:\n\n* http://purl.org/goodrelations/v1#DHL\n* http://purl.org/goodrelations/v1#FederalExpress\n* http://purl.org/goodrelations/v1#UPS
       
  * @author schema.org
- * @module schema.org
  * @class ParcelService
+ * @module org.schema
  * @extends DeliveryMethod
  */
 public class ParcelService extends DeliveryMethod

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/AnimalShelter
  * Animal shelter.
  * @author schema.org
- * @module schema.org
  * @class AnimalShelter
+ * @module org.schema
  * @extends LocalBusiness
  */
 public class AnimalShelter extends LocalBusiness

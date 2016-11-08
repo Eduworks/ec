@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ListenAction
  * The act of consuming audio content.
  * @author schema.org
- * @module schema.org
  * @class ListenAction
+ * @module org.schema
  * @extends ConsumeAction
  */
 public class ListenAction extends ConsumeAction

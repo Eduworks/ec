@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Preschool
  * A preschool.
  * @author schema.org
- * @module schema.org
  * @class Preschool
+ * @module org.schema
  * @extends EducationalOrganization
  */
 public class Preschool extends EducationalOrganization

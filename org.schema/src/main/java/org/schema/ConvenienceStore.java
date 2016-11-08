@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ConvenienceStore
  * A convenience store.
  * @author schema.org
- * @module schema.org
  * @class ConvenienceStore
+ * @module org.schema
  * @extends Store
  */
 public class ConvenienceStore extends Store

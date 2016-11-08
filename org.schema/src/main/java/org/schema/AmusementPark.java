@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/AmusementPark
  * An amusement park.
  * @author schema.org
- * @module schema.org
  * @class AmusementPark
+ * @module org.schema
  * @extends EntertainmentBusiness
  */
 public class AmusementPark extends EntertainmentBusiness

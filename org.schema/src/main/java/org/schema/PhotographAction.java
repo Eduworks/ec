@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/PhotographAction
  * The act of capturing still images of objects using a camera.
  * @author schema.org
- * @module schema.org
  * @class PhotographAction
+ * @module org.schema
  * @extends CreateAction
  */
 public class PhotographAction extends CreateAction

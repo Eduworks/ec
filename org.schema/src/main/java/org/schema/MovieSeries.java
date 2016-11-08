@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/MovieSeries
  * A series of movies. Included movies can be indicated with the hasPart property.
  * @author schema.org
- * @module schema.org
  * @class MovieSeries
+ * @module org.schema
  * @extends CreativeWorkSeries
  */
 public class MovieSeries extends CreativeWorkSeries
@@ -27,7 +27,8 @@ public class MovieSeries extends CreativeWorkSeries
 	 * Schema.org/musicBy
 	 * The composer of the soundtrack.
 	 * @property musicBy
-	 * @type schema,MusicGroup | schema,Person	 */
+	 * @type schema,Person | schema,MusicGroup
+	 */
 	public Object musicBy;
 
 	/**

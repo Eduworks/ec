@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/JobPosting
  * A listing that describes a job opening in a certain organization.
  * @author schema.org
- * @module schema.org
  * @class JobPosting
+ * @module org.schema
  * @extends Intangible
  */
 public class JobPosting extends Intangible
@@ -27,7 +27,8 @@ public class JobPosting extends Intangible
 	 * Schema.org/baseSalary
 	 * The base salary of the job or of an employee in an EmployeeRole.
 	 * @property baseSalary
-	 * @type schema,MonetaryAmount | schema,Number | schema,PriceSpecification	 */
+	 * @type schema,PriceSpecification | schema,MonetaryAmount | schema,Number
+	 */
 	public Object baseSalary;
 
 	/**

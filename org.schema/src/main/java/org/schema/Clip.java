@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Clip
  * A short TV or radio program or a segment/part of a program.
  * @author schema.org
- * @module schema.org
  * @class Clip
+ * @module org.schema
  * @extends CreativeWork
  */
 public class Clip extends CreativeWork
@@ -27,14 +27,16 @@ public class Clip extends CreativeWork
 	 * Schema.org/musicBy
 	 * The composer of the soundtrack.
 	 * @property musicBy
-	 * @type schema,MusicGroup | schema,Person	 */
+	 * @type schema,Person | schema,MusicGroup
+	 */
 	public Object musicBy;
 
 	/**
 	 * Schema.org/clipNumber
 	 * Position of the clip within an ordered group of clips.
 	 * @property clipNumber
-	 * @type schema,Text | schema,Integer	 */
+	 * @type schema,Integer | schema,Text
+	 */
 	public Object clipNumber;
 
 	/**

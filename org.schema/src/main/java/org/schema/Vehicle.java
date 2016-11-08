@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Vehicle
  * A vehicle is a device that is designed or used to transport people or cargo over land, water, air, or through space.
  * @author schema.org
- * @module schema.org
  * @class Vehicle
+ * @module org.schema
  * @extends Product
  */
 public class Vehicle extends Product
@@ -35,7 +35,8 @@ public class Vehicle extends Product
 	 * Schema.org/driveWheelConfiguration
 	 * The drive wheel configuration, i.e. which roadwheels will receive torque from the vehicle's engine via the drivetrain.
 	 * @property driveWheelConfiguration
-	 * @type schema,Text | schema,DriveWheelConfigurationValue	 */
+	 * @type schema,DriveWheelConfigurationValue | schema,Text
+	 */
 	public Object driveWheelConfiguration;
 
 	/**
@@ -50,21 +51,24 @@ public class Vehicle extends Product
 	 * Schema.org/numberOfDoors
 	 * The number of doors.\n\nTypical unit code(s): C62
 	 * @property numberOfDoors
-	 * @type schema,QuantitativeValue | schema,Number	 */
+	 * @type schema,QuantitativeValue | schema,Number
+	 */
 	public Object numberOfDoors;
 
 	/**
 	 * Schema.org/vehicleTransmission
 	 * The type of component used for transmitting the power from a rotating power source to the wheels or other relevant component(s) ("gearbox" for cars).
 	 * @property vehicleTransmission
-	 * @type schema,Text | schema,URL | schema,QualitativeValue	 */
+	 * @type schema,QualitativeValue | schema,URL | schema,Text
+	 */
 	public Object vehicleTransmission;
 
 	/**
 	 * Schema.org/vehicleSeatingCapacity
 	 * The number of passengers that can be seated in the vehicle, both in terms of the physical space available, and in terms of limitations set by law.\n\nTypical unit code(s): C62 for persons.
 	 * @property vehicleSeatingCapacity
-	 * @type schema,QuantitativeValue | schema,Number	 */
+	 * @type schema,QuantitativeValue | schema,Number
+	 */
 	public Object vehicleSeatingCapacity;
 
 	/**
@@ -90,14 +94,6 @@ public class Vehicle extends Product
 	 * @type EngineSpecification
 	 */
 	public EngineSpecification vehicleEngine;
-
-	/**
-	 * Schema.org/dateVehicleFirstRegistered
-	 * The date of the first registration of the vehicle with the respective public authorities.
-	 * @property dateVehicleFirstRegistered
-	 * @type Date
-	 */
-	public String dateVehicleFirstRegistered;
 
 	/**
 	 * Schema.org/steeringPosition
@@ -135,7 +131,8 @@ public class Vehicle extends Product
 	 * Schema.org/numberOfForwardGears
 	 * The total number of forward gears available for the transmission system of the vehicle.\n\nTypical unit code(s): C62
 	 * @property numberOfForwardGears
-	 * @type schema,QuantitativeValue | schema,Number	 */
+	 * @type schema,QuantitativeValue | schema,Number
+	 */
 	public Object numberOfForwardGears;
 
 	/**
@@ -150,7 +147,8 @@ public class Vehicle extends Product
 	 * Schema.org/numberOfAirbags
 	 * The number or type of airbags in the vehicle.
 	 * @property numberOfAirbags
-	 * @type schema,Text | schema,Number	 */
+	 * @type schema,Number | schema,Text
+	 */
 	public Object numberOfAirbags;
 
 	/**
@@ -165,8 +163,17 @@ public class Vehicle extends Product
 	 * Schema.org/numberOfPreviousOwners
 	 * The number of owners of the vehicle, including the current one.\n\nTypical unit code(s): C62
 	 * @property numberOfPreviousOwners
-	 * @type schema,QuantitativeValue | schema,Number	 */
+	 * @type schema,QuantitativeValue | schema,Number
+	 */
 	public Object numberOfPreviousOwners;
+
+	/**
+	 * Schema.org/dateVehicleFirstRegistered
+	 * The date of the first registration of the vehicle with the respective public authorities.
+	 * @property dateVehicleFirstRegistered
+	 * @type Date
+	 */
+	public String dateVehicleFirstRegistered;
 
 	/**
 	 * Schema.org/mileageFromOdometer
@@ -188,14 +195,16 @@ public class Vehicle extends Product
 	 * Schema.org/fuelType
 	 * The type of fuel suitable for the engine or engines of the vehicle. If the vehicle has only one engine, this property can be attached directly to the vehicle.
 	 * @property fuelType
-	 * @type schema,Text | schema,URL | schema,QualitativeValue	 */
+	 * @type schema,QualitativeValue | schema,URL | schema,Text
+	 */
 	public Object fuelType;
 
 	/**
 	 * Schema.org/numberOfAxles
 	 * The number of axles.\n\nTypical unit code(s): C62
 	 * @property numberOfAxles
-	 * @type schema,QuantitativeValue | schema,Number	 */
+	 * @type schema,QuantitativeValue | schema,Number
+	 */
 	public Object numberOfAxles;
 
 	/**

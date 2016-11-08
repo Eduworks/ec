@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/CivicStructure
  * A public structure, such as a town hall or concert hall.
  * @author schema.org
- * @module schema.org
  * @class CivicStructure
+ * @module org.schema
  * @extends Place
  */
 public class CivicStructure extends Place

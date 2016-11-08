@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/SaleEvent
  * Event type: Sales event.
  * @author schema.org
- * @module schema.org
  * @class SaleEvent
+ * @module org.schema
  * @extends Event
  */
 public class SaleEvent extends Event

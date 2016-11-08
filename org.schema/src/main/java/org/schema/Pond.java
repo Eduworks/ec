@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Pond
  * A pond.
  * @author schema.org
- * @module schema.org
  * @class Pond
+ * @module org.schema
  * @extends BodyOfWater
  */
 public class Pond extends BodyOfWater

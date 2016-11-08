@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Game
  * The Game type represents things which are games. These are typically rule-governed recreational activities, e.g. role-playing games in which players assume the role of characters in a fictional setting.
  * @author schema.org
- * @module schema.org
  * @class Game
+ * @module org.schema
  * @extends CreativeWork
  */
 public class Game extends CreativeWork
@@ -27,7 +27,8 @@ public class Game extends CreativeWork
 	 * Schema.org/gameLocation
 	 * Real or fictional location of the game (or part of game).
 	 * @property gameLocation
-	 * @type schema,PostalAddress | schema,URL | schema,Place	 */
+	 * @type schema,PostalAddress | schema,Place | schema,URL
+	 */
 	public Object gameLocation;
 
 	/**

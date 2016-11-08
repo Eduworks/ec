@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/BusinessAudience
  * A set of characteristics belonging to businesses, e.g. who compose an item's target audience.
  * @author schema.org
- * @module schema.org
  * @class BusinessAudience
+ * @module org.schema
  * @extends Audience
  */
 public class BusinessAudience extends Audience

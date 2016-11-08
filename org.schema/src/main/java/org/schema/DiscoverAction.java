@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/DiscoverAction
  * The act of discovering/finding an object.
  * @author schema.org
- * @module schema.org
  * @class DiscoverAction
+ * @module org.schema
  * @extends FindAction
  */
 public class DiscoverAction extends FindAction

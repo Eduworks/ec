@@ -35,8 +35,8 @@ function codeGenerate(graph, node) {
     text += " * " + classId.replace("schema:", "Schema.org/") + "\n";
     text += " * " + node["rdfs:comment"] + "\n";
     text += " * @author schema.org\n";
-    text += " * @module org.schema\n";
     text += " * @class " + className + "\n";
+    text += " * @module org.schema\n";
 
     if (node["rdfs:subClassOf"] != null)
         if (node["rdfs:subClassOf"].toString().indexOf(",") != -1)
@@ -97,6 +97,7 @@ function codeGenerate(graph, node) {
                     text += " | ";
                 text += gr[j]["@id"].split(":");
             }
+            text += "\n";
         }
         text += "\t */\n";
         if (gr.toString().indexOf(",") == -1) {

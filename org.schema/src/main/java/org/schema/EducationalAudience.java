@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/EducationalAudience
  * An EducationalAudience.
  * @author schema.org
- * @module schema.org
  * @class EducationalAudience
+ * @module org.schema
  * @extends Audience
  */
 public class EducationalAudience extends Audience

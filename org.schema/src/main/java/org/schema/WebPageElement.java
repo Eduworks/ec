@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/WebPageElement
  * A web page element, like a table or an image.
  * @author schema.org
- * @module schema.org
  * @class WebPageElement
+ * @module org.schema
  * @extends CreativeWork
  */
 public class WebPageElement extends CreativeWork

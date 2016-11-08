@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ShareAction
  * The act of distributing content to people for their amusement or edification.
  * @author schema.org
- * @module schema.org
  * @class ShareAction
+ * @module org.schema
  * @extends CommunicateAction
  */
 public class ShareAction extends CommunicateAction

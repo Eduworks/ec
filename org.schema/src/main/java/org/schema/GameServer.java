@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/GameServer
  * Server that provides game interaction in a multiplayer game.
  * @author schema.org
- * @module schema.org
  * @class GameServer
+ * @module org.schema
  * @extends Intangible
  */
 public class GameServer extends Intangible
@@ -32,19 +32,19 @@ public class GameServer extends Intangible
 	public VideoGame game;
 
 	/**
-	 * Schema.org/playersOnline
-	 * Number of players on the server.
-	 * @property playersOnline
-	 * @type Integer
-	 */
-	public Integer playersOnline;
-
-	/**
 	 * Schema.org/serverStatus
 	 * Status of a game server.
 	 * @property serverStatus
 	 * @type GameServerStatus
 	 */
 	public GameServerStatus serverStatus;
+
+	/**
+	 * Schema.org/playersOnline
+	 * Number of players on the server.
+	 * @property playersOnline
+	 * @type Integer
+	 */
+	public Integer playersOnline;
 
 }

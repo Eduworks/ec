@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/DigitalDocument
  * An electronic file or document.
  * @author schema.org
- * @module schema.org
  * @class DigitalDocument
+ * @module org.schema
  * @extends CreativeWork
  */
 public class DigitalDocument extends CreativeWork

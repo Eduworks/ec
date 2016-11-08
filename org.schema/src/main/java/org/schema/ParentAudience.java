@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ParentAudience
  * A set of characteristics describing parents, who can be interested in viewing some content.
  * @author schema.org
- * @module schema.org
  * @class ParentAudience
+ * @module org.schema
  * @extends PeopleAudience
  */
 public class ParentAudience extends PeopleAudience

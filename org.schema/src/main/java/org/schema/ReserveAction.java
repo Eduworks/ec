@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ReserveAction
  * Reserving a concrete object.\n\nRelated actions:\n\n* [[ScheduleAction]]</a>: Unlike ScheduleAction, ReserveAction reserves concrete objects (e.g. a table, a hotel) towards a time slot / spatial allocation.
  * @author schema.org
- * @module schema.org
  * @class ReserveAction
+ * @module org.schema
  * @extends PlanAction
  */
 public class ReserveAction extends PlanAction

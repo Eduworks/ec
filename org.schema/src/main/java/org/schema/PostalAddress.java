@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/PostalAddress
  * The mailing address.
  * @author schema.org
- * @module schema.org
  * @class PostalAddress
+ * @module org.schema
  * @extends ContactPoint
  */
 public class PostalAddress extends ContactPoint
@@ -51,7 +51,8 @@ public class PostalAddress extends ContactPoint
 	 * Schema.org/addressCountry
 	 * The country. For example, USA. You can also provide the two-letter [ISO 3166-1 alpha-2 country code](http://en.wikipedia.org/wiki/ISO_3166-1).
 	 * @property addressCountry
-	 * @type schema,Text | schema,Country	 */
+	 * @type schema,Country | schema,Text
+	 */
 	public Object addressCountry;
 
 	/**

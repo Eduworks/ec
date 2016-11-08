@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ArtGallery
  * An art gallery.
  * @author schema.org
- * @module schema.org
  * @class ArtGallery
+ * @module org.schema
  * @extends EntertainmentBusiness
  */
 public class ArtGallery extends EntertainmentBusiness

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/EndorseAction
  * An agent approves/certifies/likes/supports/sanction an object.
  * @author schema.org
- * @module schema.org
  * @class EndorseAction
+ * @module org.schema
  * @extends ReactAction
  */
 public class EndorseAction extends ReactAction
@@ -27,7 +27,8 @@ public class EndorseAction extends ReactAction
 	 * Schema.org/endorsee
 	 * A sub property of participant. The person/organization being supported.
 	 * @property endorsee
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object endorsee;
 
 }

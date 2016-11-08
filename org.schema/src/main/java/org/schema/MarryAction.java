@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/MarryAction
  * The act of marrying a person.
  * @author schema.org
- * @module schema.org
  * @class MarryAction
+ * @module org.schema
  * @extends InteractAction
  */
 public class MarryAction extends InteractAction

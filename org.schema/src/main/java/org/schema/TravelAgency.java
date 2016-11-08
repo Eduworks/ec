@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/TravelAgency
  * A travel agency.
  * @author schema.org
- * @module schema.org
  * @class TravelAgency
+ * @module org.schema
  * @extends LocalBusiness
  */
 public class TravelAgency extends LocalBusiness

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/BroadcastChannel
  * A unique instance of a BroadcastService on a CableOrSatelliteService lineup.
  * @author schema.org
- * @module schema.org
  * @class BroadcastChannel
+ * @module org.schema
  * @extends Intangible
  */
 public class BroadcastChannel extends Intangible

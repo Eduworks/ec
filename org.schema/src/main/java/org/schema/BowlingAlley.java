@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/BowlingAlley
  * A bowling alley.
  * @author schema.org
- * @module schema.org
  * @class BowlingAlley
+ * @module org.schema
  * @extends SportsActivityLocation
  */
 public class BowlingAlley extends SportsActivityLocation

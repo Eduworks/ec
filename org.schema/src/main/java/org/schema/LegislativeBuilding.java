@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/LegislativeBuilding
  * A legislative building&#x2014;for example, the state capitol.
  * @author schema.org
- * @module schema.org
  * @class LegislativeBuilding
+ * @module org.schema
  * @extends GovernmentBuilding
  */
 public class LegislativeBuilding extends GovernmentBuilding

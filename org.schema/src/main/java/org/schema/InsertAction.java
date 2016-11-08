@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/InsertAction
  * The act of adding at a specific location in an ordered collection.
  * @author schema.org
- * @module schema.org
  * @class InsertAction
+ * @module org.schema
  * @extends AddAction
  */
 public class InsertAction extends AddAction

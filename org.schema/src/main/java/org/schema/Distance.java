@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Distance
  * Properties that take Distances as values are of the form '&lt;Number&gt; &lt;Length unit of measure&gt;'. E.g., '7 ft'.
  * @author schema.org
- * @module schema.org
  * @class Distance
+ * @module org.schema
  * @extends Quantity
  */
 public class Distance extends Quantity

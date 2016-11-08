@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Zoo
  * A zoo.
  * @author schema.org
- * @module schema.org
  * @class Zoo
+ * @module org.schema
  * @extends CivicStructure
  */
 public class Zoo extends CivicStructure

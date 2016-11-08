@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/AchieveAction
  * The act of accomplishing something via previous efforts. It is an instantaneous action rather than an ongoing process.
  * @author schema.org
- * @module schema.org
  * @class AchieveAction
+ * @module org.schema
  * @extends Action
  */
 public class AchieveAction extends Action

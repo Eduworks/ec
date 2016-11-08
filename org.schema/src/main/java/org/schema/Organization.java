@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Organization
  * An organization such as a school, NGO, corporation, club, etc.
  * @author schema.org
- * @module schema.org
  * @class Organization
+ * @module org.schema
  * @extends Thing
  */
 public class Organization extends Thing
@@ -35,14 +35,16 @@ public class Organization extends Thing
 	 * Schema.org/member
 	 * A member of an Organization or a ProgramMembership. Organizations can be members of organizations; ProgramMembership is typically for individuals.
 	 * @property member
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object member;
 
 	/**
 	 * Schema.org/memberOf
 	 * An Organization (or ProgramMembership) to which this Person or Organization belongs.
 	 * @property memberOf
-	 * @type schema,Organization | schema,ProgramMembership	 */
+	 * @type schema,Organization | schema,ProgramMembership
+	 */
 	public Object memberOf;
 
 	/**
@@ -129,7 +131,8 @@ public class Organization extends Thing
 	 * Schema.org/serviceArea
 	 * The geographic area where the service is provided.
 	 * @property serviceArea
-	 * @type schema,GeoShape | schema,AdministrativeArea | schema,Place	 */
+	 * @type schema,GeoShape | schema,AdministrativeArea | schema,Place
+	 */
 	public Object serviceArea;
 
 	/**
@@ -141,17 +144,27 @@ public class Organization extends Thing
 	public Organization department;
 
 	/**
+	 * Schema.org/members
+	 * A member of this organization.
+	 * @property members
+	 * @type schema,Organization | schema,Person
+	 */
+	public Object members;
+
+	/**
 	 * Schema.org/brand
 	 * The brand(s) associated with a product or service, or the brand(s) maintained by an organization or business person.
 	 * @property brand
-	 * @type schema,Organization | schema,Brand	 */
+	 * @type schema,Organization | schema,Brand
+	 */
 	public Object brand;
 
 	/**
 	 * Schema.org/areaServed
 	 * The geographic area where a service or offered item is provided.
 	 * @property areaServed
-	 * @type schema,Text | schema,GeoShape | schema,AdministrativeArea | schema,Place	 */
+	 * @type schema,GeoShape | schema,AdministrativeArea | schema,Place | schema,Text
+	 */
 	public Object areaServed;
 
 	/**
@@ -166,7 +179,8 @@ public class Organization extends Thing
 	 * Schema.org/address
 	 * Physical address of the item.
 	 * @property address
-	 * @type schema,Text | schema,PostalAddress	 */
+	 * @type schema,PostalAddress | schema,Text
+	 */
 	public Object address;
 
 	/**
@@ -189,7 +203,8 @@ public class Organization extends Thing
 	 * Schema.org/funder
 	 * A person or organization that supports (sponsors) something through some kind of financial contribution.
 	 * @property funder
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object funder;
 
 	/**
@@ -236,7 +251,8 @@ public class Organization extends Thing
 	 * Schema.org/sponsor
 	 * A person or organization that supports a thing through a pledge, promise, or financial contribution. e.g. a sponsor of a Medical Study or a corporate sponsor of an event.
 	 * @property sponsor
-	 * @type schema,Organization | schema,Person	 */
+	 * @type schema,Organization | schema,Person
+	 */
 	public Object sponsor;
 
 	/**
@@ -246,13 +262,6 @@ public class Organization extends Thing
 	 * @type Text
 	 */
 	public String email;
-
-	/**
-	 * Schema.org/members
-	 * A member of this organization.
-	 * @property members
-	 * @type schema,Organization | schema,Person	 */
-	public Object members;
 
 	/**
 	 * Schema.org/faxNumber
@@ -266,7 +275,8 @@ public class Organization extends Thing
 	 * Schema.org/location
 	 * The location of for example where the event is happening, an organization is located, or where an action takes place.
 	 * @property location
-	 * @type schema,Text | schema,PostalAddress | schema,Place	 */
+	 * @type schema,PostalAddress | schema,Place | schema,Text
+	 */
 	public Object location;
 
 	/**
@@ -329,14 +339,16 @@ public class Organization extends Thing
 	 * Schema.org/logo
 	 * An associated logo.
 	 * @property logo
-	 * @type schema,ImageObject | schema,URL	 */
+	 * @type schema,ImageObject | schema,URL
+	 */
 	public Object logo;
 
 	/**
 	 * Schema.org/owns
 	 * Products owned by the organization or person.
 	 * @property owns
-	 * @type schema,Product | schema,OwnershipInfo	 */
+	 * @type schema,Product | schema,OwnershipInfo
+	 */
 	public Object owns;
 
 	/**

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/BookmarkAction
  * An agent bookmarks/flags/labels/tags/marks an object.
  * @author schema.org
- * @module schema.org
  * @class BookmarkAction
+ * @module org.schema
  * @extends OrganizeAction
  */
 public class BookmarkAction extends OrganizeAction

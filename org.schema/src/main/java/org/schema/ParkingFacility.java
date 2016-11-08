@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ParkingFacility
  * A parking lot or other parking facility.
  * @author schema.org
- * @module schema.org
  * @class ParkingFacility
+ * @module org.schema
  * @extends CivicStructure
  */
 public class ParkingFacility extends CivicStructure

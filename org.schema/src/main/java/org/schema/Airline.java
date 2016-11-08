@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Airline
  * An organization that provides flights for passengers.
  * @author schema.org
- * @module schema.org
  * @class Airline
+ * @module org.schema
  * @extends Organization
  */
 public class Airline extends Organization

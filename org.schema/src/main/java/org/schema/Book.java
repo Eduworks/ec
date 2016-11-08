@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Book
  * A book.
  * @author schema.org
- * @module schema.org
  * @class Book
+ * @module org.schema
  * @extends CreativeWork
  */
 public class Book extends CreativeWork
@@ -22,14 +22,6 @@ public class Book extends CreativeWork
 		context="http://schema.org/";
 		type="Book";
 	}
-
-	/**
-	 * Schema.org/numberOfPages
-	 * The number of pages in the book.
-	 * @property numberOfPages
-	 * @type Integer
-	 */
-	public Integer numberOfPages;
 
 	/**
 	 * Schema.org/illustrator
@@ -62,5 +54,13 @@ public class Book extends CreativeWork
 	 * @type Text
 	 */
 	public String isbn;
+
+	/**
+	 * Schema.org/numberOfPages
+	 * The number of pages in the book.
+	 * @property numberOfPages
+	 * @type Integer
+	 */
+	public Integer numberOfPages;
 
 }

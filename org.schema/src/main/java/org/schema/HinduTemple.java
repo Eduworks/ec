@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/HinduTemple
  * A Hindu temple.
  * @author schema.org
- * @module schema.org
  * @class HinduTemple
+ * @module org.schema
  * @extends PlaceOfWorship
  */
 public class HinduTemple extends PlaceOfWorship

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/TransferAction
  * The act of transferring/moving (abstract or concrete) animate or inanimate objects from one place to another.
  * @author schema.org
- * @module schema.org
  * @class TransferAction
+ * @module org.schema
  * @extends Action
  */
 public class TransferAction extends Action

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/BarOrPub
  * A bar or pub.
  * @author schema.org
- * @module schema.org
  * @class BarOrPub
+ * @module org.schema
  * @extends FoodEstablishment
  */
 public class BarOrPub extends FoodEstablishment

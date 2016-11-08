@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/SportsEvent
  * Event type: Sports event.
  * @author schema.org
- * @module schema.org
  * @class SportsEvent
+ * @module org.schema
  * @extends Event
  */
 public class SportsEvent extends Event
@@ -27,21 +27,24 @@ public class SportsEvent extends Event
 	 * Schema.org/awayTeam
 	 * The away team in a sports event.
 	 * @property awayTeam
-	 * @type schema,SportsTeam | schema,Person	 */
+	 * @type schema,Person | schema,SportsTeam
+	 */
 	public Object awayTeam;
 
 	/**
 	 * Schema.org/competitor
 	 * A competitor in a sports event.
 	 * @property competitor
-	 * @type schema,SportsTeam | schema,Person	 */
+	 * @type schema,Person | schema,SportsTeam
+	 */
 	public Object competitor;
 
 	/**
 	 * Schema.org/homeTeam
 	 * The home team in a sports event.
 	 * @property homeTeam
-	 * @type schema,SportsTeam | schema,Person	 */
+	 * @type schema,Person | schema,SportsTeam
+	 */
 	public Object homeTeam;
 
 }

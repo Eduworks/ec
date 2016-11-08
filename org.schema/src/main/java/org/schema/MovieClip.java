@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/MovieClip
  * A short segment/part of a movie.
  * @author schema.org
- * @module schema.org
  * @class MovieClip
+ * @module org.schema
  * @extends Clip
  */
 public class MovieClip extends Clip

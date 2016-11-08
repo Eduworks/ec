@@ -12,6 +12,7 @@ import org.stjs.javascript.Map;
  * @author fritz.ray@eduworks.com
  * @class Framework
  * @module org.cassproject
+ * @extends Intangible
  */
 public class Framework extends Intangible
 {

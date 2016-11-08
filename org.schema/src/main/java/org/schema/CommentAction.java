@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/CommentAction
  * The act of generating a comment about a subject.
  * @author schema.org
- * @module schema.org
  * @class CommentAction
+ * @module org.schema
  * @extends CommunicateAction
  */
 public class CommentAction extends CommunicateAction

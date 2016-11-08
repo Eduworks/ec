@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/LiteraryEvent
  * Event type: Literary event.
  * @author schema.org
- * @module schema.org
  * @class LiteraryEvent
+ * @module org.schema
  * @extends Event
  */
 public class LiteraryEvent extends Event

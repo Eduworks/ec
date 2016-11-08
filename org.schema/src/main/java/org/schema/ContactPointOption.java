@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ContactPointOption
  * Enumerated options related to a ContactPoint.
  * @author schema.org
- * @module schema.org
  * @class ContactPointOption
+ * @module org.schema
  * @extends Enumeration
  */
 public class ContactPointOption extends Enumeration

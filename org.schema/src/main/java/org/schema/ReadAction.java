@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/ReadAction
  * The act of consuming written content.
  * @author schema.org
- * @module schema.org
  * @class ReadAction
+ * @module org.schema
  * @extends ConsumeAction
  */
 public class ReadAction extends ConsumeAction

@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/SoftwareApplication
  * A software application.
  * @author schema.org
- * @module schema.org
  * @class SoftwareApplication
+ * @module org.schema
  * @extends CreativeWork
  */
 public class SoftwareApplication extends CreativeWork
@@ -27,7 +27,8 @@ public class SoftwareApplication extends CreativeWork
 	 * Schema.org/storageRequirements
 	 * Storage requirements (free space required).
 	 * @property storageRequirements
-	 * @type schema,Text | schema,URL	 */
+	 * @type schema,URL | schema,Text
+	 */
 	public Object storageRequirements;
 
 	/**
@@ -66,7 +67,8 @@ public class SoftwareApplication extends CreativeWork
 	 * Schema.org/memoryRequirements
 	 * Minimum memory requirements.
 	 * @property memoryRequirements
-	 * @type schema,Text | schema,URL	 */
+	 * @type schema,URL | schema,Text
+	 */
 	public Object memoryRequirements;
 
 	/**
@@ -81,14 +83,16 @@ public class SoftwareApplication extends CreativeWork
 	 * Schema.org/applicationSubCategory
 	 * Subcategory of the application, e.g. 'Arcade Game'.
 	 * @property applicationSubCategory
-	 * @type schema,Text | schema,URL	 */
+	 * @type schema,URL | schema,Text
+	 */
 	public Object applicationSubCategory;
 
 	/**
 	 * Schema.org/featureList
 	 * Features or modules provided by this application (and possibly required by other applications).
 	 * @property featureList
-	 * @type schema,Text | schema,URL	 */
+	 * @type schema,URL | schema,Text
+	 */
 	public Object featureList;
 
 	/**
@@ -103,7 +107,8 @@ public class SoftwareApplication extends CreativeWork
 	 * Schema.org/screenshot
 	 * A link to a screenshot image of the app.
 	 * @property screenshot
-	 * @type schema,ImageObject | schema,URL	 */
+	 * @type schema,ImageObject | schema,URL
+	 */
 	public Object screenshot;
 
 	/**
@@ -118,21 +123,24 @@ public class SoftwareApplication extends CreativeWork
 	 * Schema.org/requirements
 	 * Component dependency requirements for application. This includes runtime environments and shared libraries that are not included in the application distribution package, but required to run the application (Examples: DirectX, Java or .NET runtime).
 	 * @property requirements
-	 * @type schema,Text | schema,URL	 */
+	 * @type schema,URL | schema,Text
+	 */
 	public Object requirements;
 
 	/**
 	 * Schema.org/applicationCategory
 	 * Type of software application, e.g. 'Game, Multimedia'.
 	 * @property applicationCategory
-	 * @type schema,Text | schema,URL	 */
+	 * @type schema,URL | schema,Text
+	 */
 	public Object applicationCategory;
 
 	/**
 	 * Schema.org/releaseNotes
 	 * Description of what changed in this version.
 	 * @property releaseNotes
-	 * @type schema,Text | schema,URL	 */
+	 * @type schema,URL | schema,Text
+	 */
 	public Object releaseNotes;
 
 	/**
@@ -171,7 +179,8 @@ public class SoftwareApplication extends CreativeWork
 	 * Schema.org/softwareRequirements
 	 * Component dependency requirements for application. This includes runtime environments and shared libraries that are not included in the application distribution package, but required to run the application (Examples: DirectX, Java or .NET runtime).
 	 * @property softwareRequirements
-	 * @type schema,Text | schema,URL	 */
+	 * @type schema,URL | schema,Text
+	 */
 	public Object softwareRequirements;
 
 	/**

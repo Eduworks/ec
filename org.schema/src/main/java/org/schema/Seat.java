@@ -7,8 +7,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * Schema.org/Seat
  * Used to describe a seat, such as a reserved seat in an event reservation.
  * @author schema.org
- * @module schema.org
  * @class Seat
+ * @module org.schema
  * @extends Intangible
  */
 public class Seat extends Intangible
@@ -27,7 +27,8 @@ public class Seat extends Intangible
 	 * Schema.org/seatingType
 	 * The type/class of the seat.
 	 * @property seatingType
-	 * @type schema,Text | schema,QualitativeValue	 */
+	 * @type schema,QualitativeValue | schema,Text
+	 */
 	public Object seatingType;
 
 	/**
