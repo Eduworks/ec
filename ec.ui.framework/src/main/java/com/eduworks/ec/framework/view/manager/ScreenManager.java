@@ -27,18 +27,27 @@ import com.eduworks.foundation.jquery.plugin.Foundation;
  * session, so  when the back button is pressed, the application will load the previous screen with any data that 
  * was associated with it.
  * 
+ * @module com.eduworks.ec.ui
+ * @class Screenmanager
+ * @extends ViewManager
+ * 
  * @author devlin.junker@eduworks.com
- *
  */
 public class ScreenManager extends ViewManager {
 	
 	/**
 	 * DOM Selector (ID) of the Screen Container that will display all of the screen views
+	 * 
+	 * @property SCREEN_CONTAINER_ID
+	 * @type String
 	 */
 	static String SCREEN_CONTAINER_ID = "#screenContainer";
 	
 	/**
 	 * Array to track the history of the current session
+	 * 
+	 * @property myHistory
+	 * @type HistoryClosure[]
 	 */
 	static Array<HistoryClosure> myHistory = JSCollections.$array();
 	
@@ -56,23 +65,35 @@ public class ScreenManager extends ViewManager {
 	/**
 	 * Screen to be set by application on application startup, dictates what the screen should be if the startup
 	 * Screen hasn't been set
+	 * 
+	 * @property defaultScreen
+	 * @type EcScreen
 	 */
 	public static EcScreen defaultScreen = null;
 	
 	/**
 	 * Screen to be set by application if it notices that a certain screen should be loaded on startup that is 
 	 * different from the default Screen
+	 * 
+	 * @property startupScreen
+	 * @type EcScreen
 	 */
 	public static EcScreen startupScreen = null;
 	
 	/**
 	 * Callback to be invoked once the application has started and the first screen has been completely loaded
 	 * and displayed
+	 * 
+	 * @property startupCallback
+	 * @type Callback1<String>
 	 */
 	static Callback1<String> startupCallback;
 	
 	/**
 	 * Callback invoked during a history load (used in Overlay Manager to open an overlay if it was last history view)
+	 * 
+	 * @property loadHistoryCallback
+	 * @type Callback2<EcScreen, Object>
 	 */
 	static Callback2<EcScreen, Object> loadHistoryCallback;
 	
@@ -80,13 +101,19 @@ public class ScreenManager extends ViewManager {
 	 * Array of callbacks that will compare any markers saved in the browser to see if a specific startup screen
 	 * should be set. These callbacks should be defined in the screen Java implementation to check if the screen
 	 * should be loaded.
+	 * 
+	 * @property startupScreenCallbacks
+	 * @type Callback0[]
 	 */
 	static Array<Callback0> startupScreenCallbacks = JSCollections.$array();
 	
 	/**
 	 * Function to add startup screen callbacks to the array of callbacks
 	 * 
-	 * @param callback
+	 * @memberOf ScreenManager
+	 * @method addStartupScreenCallback
+	 * @static
+	 * @param {Callback0} callback
 	 * 			callback to add, all callbacks will be invoked on the application startup
 	 */
 	public static void addStartupScreenCallback(Callback0 callback){
@@ -96,7 +123,10 @@ public class ScreenManager extends ViewManager {
 	/**
 	 * Retrieves the current view that corresponds to the Screen Container Element (Should be a screen)
 	 * 
-	 * @return
+	 * @memberOf ScreenManager
+	 * @method getCurrentScreen
+	 * @static
+	 * @return {EcScreen}
 	 * 		EcScreen instance that is currently being shown in the screen container element
 	 */
 	public static EcScreen getCurrentScreen(){
@@ -110,7 +140,10 @@ public class ScreenManager extends ViewManager {
 	 * to see if there is a startup screen different than the defaultScreen, then displays it or the
 	 * defaultScreen depending on the results
 	 * 
-	 * @param page
+	 * @memberOf ScreenManager
+	 * @method setDefaultScreen
+	 * @static
+	 * @param {EcPage} page
 	 * 			The default screen that will be displayed if no startup screen is defined during load
 	 */
 	public static void setDefaultScreen(EcScreen page)
@@ -181,12 +214,18 @@ public class ScreenManager extends ViewManager {
 	 * Set's the current screen, then show's it by calling the display function. Depending on the
 	 * addHistory flag, will add the page passed in to the history array, tracking session page history
 	 * 
-	 * @param page
+	 * @memberOf ScreenManager
+	 * @method changeScreen
+	 * @static
+	 * @param {EcScreen} page
 	 * 			The screen to set as current and display
-	 * @param addHistory
-	 * 			Flag for whether to store this page in the history array
-	 * @param callback
+	 * @param {Callback0} callback
 	 * 			Function to invoke after the page has been displayed and foundation has been set up on the new HTML
+	 * @param {Object} params
+	 * 			URL parameters to set when the screen changes
+	 * @param {boolean} addHistory
+	 * 			Flag for whether to store this page in the history array
+	 * 
 	 */
 	public static void changeScreen(EcScreen page, final Callback0 callback, Object params, Boolean addHistory)
 	{		
@@ -210,10 +249,15 @@ public class ScreenManager extends ViewManager {
 	 * element for the current screen in the history array, rather than leaving it and (potentially) adding another
 	 * history array element like changeScreen
 	 * 
-	 * @param page
+	 * @memberOf ScreenManager
+	 * @method replaceScreen
+	 * @static
+	 * @param {EcScreen} page
 	 * 			Screen to set as current and display
-	 * @param callback
+	 * @param {Callback0} callback
 	 * 			Function to invoke after the page has been displayed and foundation has been set up on the new HTML
+	 * @param {Object} params
+	 * 			URL Parameters to set when replacing screen
 	 */
 	public static void replaceScreen(EcScreen page, final Callback0 callback, Object params)
 	{
@@ -232,7 +276,10 @@ public class ScreenManager extends ViewManager {
 	/**
 	 * Reloads the current screen, leaving the history alone
 	 * 
-	 * @param callback
+	 * @memberOf ScreenManager
+	 * @method reloadCurrentScreen
+	 * @static
+	 * @param {Callback0} callback
 	 * 			Function to invoke after the page has been redisplayed and foundation has been set up on the new HTML
 	 */
 	public static void reloadCurrentScreen(final Callback0 callback){
@@ -250,10 +297,15 @@ public class ScreenManager extends ViewManager {
 	 * Adds the screen passed in and the display container to a HistoryClosure element and pushes it 
 	 * on the end of the history cache array. This does not ensure that the screen is displayed though.
 	 * 
-	 * @param screen
+	 * @memberOf ScreenManager
+	 * @method addHistory
+	 * @static
+	 * @param {EcScreen} screen
 	 * 			The screen to add to the history cache array
-	 * @param displayContainerId
+	 * @param {String} displayContainerId
 	 * 			DOM Element ID corresponding to where the screen will be displayed (likely the SCREEN_CONTAINER_ID)
+	 * @param {Object} params
+	 * 			Object containing key to value pairs that should be put in the url bar to store in history
 	 */
 	public static void addHistory(EcScreen screen, String displayContainerId, Object params)
 	{	
@@ -289,11 +341,14 @@ public class ScreenManager extends ViewManager {
 	 * Replaces the current end of the history array with a new HistoryClosure element that contains the screen and 
 	 * containerId passed in.
 	 * 
-	 * @param screen
+	 * @memberOf ScreenManager
+	 * @method replaceHistory
+	 * @static
+	 * @param {EcScreen} screen
 	 * 			Screen to add to the history element that will replace the last in the history array
-	 * @param displayContainerId
+	 * @param {String} displayContainerId
 	 * 			DOM Element ID corresponding to where the screen will be displayed (likely the SCREEN_CONTAINER_ID)
-	 * @param params
+	 * @param {Object{ params
 	 * 			Object containing key to value pairs that should be put in the url bar to remember state at this history point
 	 */
 	public static void replaceHistory(EcScreen screen, String displayContainerId, Object params)
@@ -332,8 +387,12 @@ public class ScreenManager extends ViewManager {
 	
 	/**
 	 * Sets the url parameters on the current page
-	 * @param params
-	 * 		url parameters json object
+	 * 
+	 * @memberOf ScreenManager
+	 * @method setScreenParameters
+	 * @static
+	 * @param {Object} params
+	 * 			url parameters json object
 	 */
 	public static void setScreenParameters(Object params)
 	{
@@ -345,7 +404,10 @@ public class ScreenManager extends ViewManager {
 	 * it in the container that it was associated with. If there is no screen in the history, then check
 	 * if there is a startupScreen that can be loaded right now, otherwise load the default screen
 	 * 
-	 * @param name
+	 * @memberOf ScreenManager
+	 * @method loadHistoryScreen
+	 * @static
+	 * @param {String} name
 	 * 			Name of the screen to search for in the history array
 	 */
 	protected static void loadHistoryScreen(String name){

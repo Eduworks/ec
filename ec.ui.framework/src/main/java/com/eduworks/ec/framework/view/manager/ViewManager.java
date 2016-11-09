@@ -15,23 +15,31 @@ import com.eduworks.ec.framework.view.EcView;
  * to correspond to a selector and displaying a view after it has been added to
  * the cache.
  * 
+ * @module com.eduworks.ec.ui
+ * @class ViewManager
+ * 
  * @author devlin.junker@eduworks.com
- *
  */
 public class ViewManager
 {
 
 	/**
 	 * Storage that maps view class instances to DOM Elements
+	 * 
+	 * @private
+	 * @property viewMap
+	 * @type Map<String, EcView>
 	 */
 	private static Map<String, EcView> viewMap = JSCollections.$map();
 
 	/**
 	 * Set's the view instance for a specific DOM selector
 	 * 
-	 * @param containerId
+	 * @memberOf ViewManager
+	 * @method setView
+	 * @param {String} containerId
 	 *            DOM Selector for the element that will correspond to the view
-	 * @param view
+	 * @param {EcView} view
 	 *            View that will correspond to the DOM Selector
 	 */
 	protected static void setView(String containerId, EcView view)
@@ -43,10 +51,13 @@ public class ViewManager
 	 * Returns the view instance that currently corresponds to a specific DOM
 	 * selector
 	 * 
-	 * @param containerId
-	 *            DOM Selector that corresponds to the view to be returned
-	 * @return The view that corresponds to the DOM Selector passed in, or null
-	 *         if no view corresponds with it
+	 * @memberOf ViewManager
+	 * @method getView
+	 * @param {String} containerId
+	 *          DOM Selector that corresponds to the view to be returned
+	 * @return {EcView} 
+	 * 			The view that corresponds to the DOM Selector passed in, or null
+	 *         	if no view corresponds with it
 	 */
 	public static EcView getView(String containerId)
 	{
@@ -57,11 +68,13 @@ public class ViewManager
 	 * Relates the view to a DOM Selector and calls the view's display function
 	 * to populate the inner html of the DOM Selector Element
 	 * 
-	 * @param view
+	 * @memberOf ViewManager
+	 * @method showView
+	 * @param {EcView} view
 	 *            View to be displayed in the DOM Selector Element
-	 * @param containerId
+	 * @param {String} containerId
 	 *            DOM Selector for element that the view will be displayed in
-	 * @param callback
+	 * @param {Callback0} callback
 	 *            Callback function to be passed in to the view's display
 	 *            function (to be called once the view has been displayed)
 	 */
@@ -92,7 +105,9 @@ public class ViewManager
 	/**
 	 * Hides the container specified by the containerId by adding 'hide' class
 	 * 
-	 * @param containerId
+	 * @memberOf ViewManager
+	 * @method hideView
+	 * @param {String} containerId
 	 *            DOM Selector for the element to add the 'hide' class to
 	 */
 	public static void hideView(String containerId)

@@ -13,6 +13,8 @@ import org.stjs.javascript.functions.Callback0;
  * a display function that loads HTML into the container element on the page and then finally calls the callback once
  * the view has been completely initialized
  * 
+ * @module com.eduworks.ec.ui
+ * @class EcView
  * @author devlin.junker@eduworks.com
  *
  */
@@ -22,13 +24,20 @@ public abstract class EcView {
 	/**
 	 * Function to be defined in subclasses that returns the location of the main html file associated with this view
 	 * 
-	 * @return
+	 * @memberOf EcView
+	 * @method getHtmlLocation
+	 * @abstract
+	 * @return {String}
 	 * 			The string path to an html file
 	 */
 	public abstract String getHtmlLocation();
 
 	/**
 	 * Display function to override (usually in JavaScript) that will set up any event handlers
+	 * 
+	 * @memberOf EcView
+	 * @method display
+	 * @param {String} containerId
 	 */
 	public void display(String containerId){
 		Global.console.error("Not Implemented");
@@ -39,9 +48,11 @@ public abstract class EcView {
 	 * Function that will convert a view to a certain other view class as long as it the converted type inherits the
 	 * current type of the view
 	 * 
-	 * @param _interface
+	 * @memberOf EcView
+	 * @method as
+	 * @param {Class} _interface
 	 * 			Class type that the instance should be converted to
-	 * @return
+	 * @return {Object}
 	 * 			The converted instance of the type passed in
 	 */
 	public <T> T as(Class<T> _interface){
@@ -59,8 +70,25 @@ public abstract class EcView {
 		return null;
 	}
 
+	/**
+	 * Returns the URL parameters of the browser window
+	 * 
+	 * @memberOf EcView
+	 * @method getUrlParameters
+	 * @return {Map<String, String>}
+	 * 			URL Parameters in a map
+	 */
 	public Object getUrlParameters(){return EcView.urlParameters();} 
 	
+	/**
+	 * Returns the URL parameters of the browser window
+	 * 
+	 * @memberOf EcView
+	 * @method urlParameters
+	 * @static
+	 * @return {Map<String, String>}
+	 * 			URL Parameters in a map
+	 */
 	public static Object urlParameters() {
 		Array<String> hashSplit = JSCollections.$castArray(Global.window.document.location.hash.split("?"));
 

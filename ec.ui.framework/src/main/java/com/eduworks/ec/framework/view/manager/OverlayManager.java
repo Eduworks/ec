@@ -20,6 +20,10 @@ import com.eduworks.foundation.jquery.plugin.Foundation;
  * View Manager that manages displaying overlay views (views that take over the screen, but can be exited to return to
  * the previous screen) with a few helper functions for managing overlays
  * 
+ * @module com.eduuworks.ec.ui
+ * @class OverlayManager
+ * @extends ScreenManager
+ * 
  * @author devlin.junker@eduworks.com
  * (NOT TESTED MUCH YET)
  */
@@ -27,28 +31,43 @@ public class OverlayManager extends ScreenManager {
 	
 	/**
 	 * DOM Selector of the overlay wrapper (Should contain the overlay container and overlay close button)
+	 * 
+	 * @property OVERLAY_WRAPPER_ID
+	 * @type String
 	 */
 	static String OVERLAY_WRAPPER_ID = "#overlay";
 	
 	/**
-	 * DOM Selector of the overlay close button (clicking this should hide the current overlay) 
+	 * DOM Selector of the overlay close button (clicking this should hide the current overlay)
+	 * 
+	 * @property OVERLAY_CLOSE_BTN_ID
+	 * @type String
 	 */
 	static String OVERLAY_CLOSE_BTN_ID = "#closeOverlay";
 	
 	/**
 	 * DOM Selector of the HTML Element that will display the Overlay's HTML
+	 * 
+	 * @property OVERLAY_CONTAINER_ID
+	 * @type String
 	 */
 	static String OVERLAY_CONTAINER_ID = "#overlayContainer";
 	
 	/**
 	 * Used if one of the startupOverlayCallbacks decides that it should be displayed on startup (usually using
 	 * the URL to check what should be displayed on start)
+	 * 
+	 * @property startupOverlay
+	 * @type EcOverlay
 	 */
 	public static EcOverlay startupOverlay = null;
 	
 	/**
 	 * Callbacks that can be defined and run on startup, that should check to see if an overlay should be displayed
 	 * immediately when the application starts
+	 * 
+	 * @property startupOverlayCallbacks
+	 * @type Callback1<String>[] 
 	 */
 	static Array<Callback1<String>> startupOverlayCallbacks = JSCollections.$array();
 	
@@ -56,7 +75,9 @@ public class OverlayManager extends ScreenManager {
 	 * Adds a callback to be run on startup that can check if an overlay should be displayed (the callback should
 	 * be defined in the overlay)
 	 * 
-	 * @param callback
+	 * @memberOf OverlayManager
+	 * @method addStartupOverlayCallback
+	 * @param {Callback1<String>} callback
 	 * 			callback to be added to the startupOverlayCallbacks list
 	 */
 	public static void addStartupOverlayCallback(Callback1<String> callback){
@@ -65,14 +86,19 @@ public class OverlayManager extends ScreenManager {
 	
 	/**
 	 * Application flag to check if we're currently in an overlay or not
+	 * 
+	 * @property inOverlay
+	 * @type boolean
 	 */
 	static boolean inOverlay = false;
 	
 	/**
 	 * Retrieves the current view that corresponds to the Overlay Container Element (Should be a Overlay)
 	 * 
-	 * @return
-	 * 		EcModal instance that is currently being shown in the Overlay container element
+	 * @memberOf OverlayManager
+	 * @method getCurrentOverlay
+	 * @return {EcOverlay}
+	 * 		EcOverlay instance that is currently being shown in the Overlay container element
 	 */
 	public static EcOverlay getCurrentOverlay()
 	{
@@ -82,18 +108,29 @@ public class OverlayManager extends ScreenManager {
 	/**
 	 * Variable to hold the last screen, this is useful if we follow a chain of overlays and then want to close them,
 	 * we'll make sure to go back to the last screen that was visible to the user
+	 * 
+	 * @property lastScreen
+	 * @type EcScreen
 	 */
 	static EcScreen lastScreen;
 	
+	/**
+	 * Variable to hold the last screen URL Parameters
+	 * 
+	 * @property lastScreenParams
+	 * @type Object
+	 */
 	static Object lastScreenParams;
 	
 	/**
 	 * Set's the current overlay, then show's it by calling the display function and unhiding the overlay container.
 	 * Depending on the addHistory flag, will add the overlay passed in to the history array 
 	 * 
-	 * @param overlay
+	 * @memberOf OverlayManager
+	 * @method showOverlay
+	 * @param {EcOverlay} overlay
 	 * 			The overlay to set as current and display
-	 * @param addHistory
+	 * @param {boolean} addHistory
 	 * 			Flag for whether to store this overlay in the history array
 	 */
 	public static void showOverlay(EcOverlay overlay, Boolean addHistory)
@@ -134,6 +171,9 @@ public class OverlayManager extends ScreenManager {
 	 * Hides the overlay container and sets the inOverlay flag to false, adds the last screen to the history array so
 	 * there is a chain from initial screen to overlay (could be multiple) to initial screen. This way we can press the
 	 * back button and be shown the last overlay.
+	 * 
+	 * @memberOf OverlayManager
+	 * @method hideOverlay
 	 */
 	public static void hideOverlay()
 	{
