@@ -204,7 +204,6 @@ public abstract class AssertionProcessor
 	{
 		log(ip, "Rollup rule successfully interpreted.");
 		ip.numberOfQueriesRunning--;
-		ip.status = status;
 		checkStep(ip);
 	}
 

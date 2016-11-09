@@ -10,24 +10,101 @@ import org.stjs.javascript.functions.Callback1;
 import cass.rollup.InquiryPacket.IPType;
 import cass.rollup.processors.AssertionProcessor;
 
+/**
+ * Creates child packets for an InquiryPacket based on its context. 
+ * @class RelationshipPacketGenerator
+ * @author fritz.ray@eduworks.com
+ * @author tom.buskirk@eduworks.com
+ * @module org.cassproject
+ *
+ */
 public class RelationshipPacketGenerator
 {
+	/**
+	 * Method to call when any operation fails.
+	 * @property failure
+	 * @type function(string)
+	 */
 	public Callback1<String> failure;
+	/**
+	 * Method to call when the operation succeeds.
+	 * @property success
+	 * @type function()
+	 */
 	public Callback0 success;
+	/**
+	 * Method to call when the generator has log statements to emit.
+	 * @property logFunction
+	 * @type function(any)
+	 */
 	public Callback1<Object> logFunction;
 
+	/**
+	 * Async counter to keep track of number of outstanding requests.
+	 * @property numberOfRelationsToProcess
+	 * @type integer
+	 */
 	private int numberOfRelationsToProcess = 0;
+	/**
+	 * Number of relations that have been processed.
+	 * @property numberOfRelationsProcessed
+	 * @type integer
+	 */
 	private int numberOfRelationsProcessed = 0;
 
+	/**
+	 * List of packets representing the narrows relation.
+	 * @property narrowsPackets
+	 * @type InquiryPacket[]
+	 */
 	public Array<InquiryPacket> narrowsPackets;
+	/**
+	 * List of packets representing the broadens relation.
+	 * @property broadensPackets
+	 * @type InquiryPacket[]
+	 */
 	public Array<InquiryPacket> broadensPackets;
+	/**
+	 * List of packets representing the required relation.
+	 * @property requiredPackets
+	 * @type InquiryPacket[]
+	 */
 	public Array<InquiryPacket> requiredPackets;
+	/**
+	 * List of packets representing the isRequiredBy relation.
+	 * @property isRequiredByPackets
+	 * @type InquiryPacket[]
+	 */
 	public Array<InquiryPacket> isRequiredByPackets;
+
+	/**
+	 * Alignments to ignore, as they have already been processed.
+	 * @property processedAlignments;
+	 * @type Object (Map<String,String>)
+	 */
 	private Map<String, String> processedAlignments;
 
+	/**
+	 * Assertion Processor that invoked this generator.
+	 * @property ep
+	 * @type AssertionProcessor
+	 */
 	private AssertionProcessor ep;
+
+	/**
+	 * Inquiry Packet that this generator is creating relationships for.
+	 * @property ip
+	 * @type InquiryPacket
+	 */
 	private InquiryPacket ip;
 
+	/**
+	 * Constructor for the RelationshipPacketGenerator
+	 * @constructor
+	 * @param {InquiryPacket} ip Inquiry Packet to generate and fill with relationship packets.
+	 * @param {AssertionProcessor} ep Assertion processor to tell to resume when complete.
+	 * @param {object} processedAlignments An object to fill with keys to ensure that relations are not processed twice.
+	 */
 	public RelationshipPacketGenerator(InquiryPacket ip, AssertionProcessor ep, Map<String, String> processedAlignments)
 	{
 		this.ip = ip;
@@ -168,8 +245,7 @@ public class RelationshipPacketGenerator
 				}
 			}, ip.failure, null, IPType.COMPETENCY));
 			// ip2.equivalentPackets.push(ip);
-		}
-		else if (EcAlignment.REQUIRES.equals(alignment.relationType))
+		} else if (EcAlignment.REQUIRES.equals(alignment.relationType))
 		{
 			if (ip.hasId(alignment.source))
 				requiredPackets.push(new InquiryPacket(ip.subject, relatedCompetency, null, ip.context, new Callback1<InquiryPacket>()
@@ -191,8 +267,7 @@ public class RelationshipPacketGenerator
 							meEp.continueProcessing(meIp);
 					}
 				}, ip.failure, null, IPType.COMPETENCY));
-		}
-		else if (EcAlignment.NARROWS.equals(alignment.relationType))
+		} else if (EcAlignment.NARROWS.equals(alignment.relationType))
 		{
 			if (ip.hasId(alignment.source))
 				narrowsPackets.push(new InquiryPacket(ip.subject, relatedCompetency, null, ip.context, new Callback1<InquiryPacket>()
@@ -260,6 +335,10 @@ public class RelationshipPacketGenerator
 		});
 	}
 
+	/**
+	 * Method to invoke to begin relation processing.
+	 * @method go
+	 */
 	public void go()
 	{
 		final RelationshipPacketGenerator rpg = this;
