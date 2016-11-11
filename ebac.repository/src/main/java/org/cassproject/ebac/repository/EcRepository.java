@@ -151,6 +151,7 @@ public class EcRepository
 			{
 				if (JSObjectAdapter.$get(cache, url) != null)
 				{
+					JSObjectAdapter.$properties(fetching).$delete(url);
 					success.$invoke((EcRemoteLinkedData) JSObjectAdapter.$get(cache, url));
 					return;
 				}
