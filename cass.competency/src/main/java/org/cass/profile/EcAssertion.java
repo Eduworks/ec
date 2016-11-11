@@ -38,6 +38,28 @@ public class EcAssertion extends Assertion
 		return EcPk.fromPem(decryptedString);
 	}
 
+	public void getSubjectAsync(final Callback1<EcPk> success, final Callback1<String> failure)
+	{
+		if (subject == null)
+		{
+			failure.$invoke("Subject not found.");
+			return;
+		}
+		EcEncryptedValue v = new EcEncryptedValue();
+		v.copyFrom(subject);
+		v.decryptIntoStringAsync(new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String decryptedString)
+			{
+				if (decryptedString == null)
+					failure.$invoke("Could not decrypt subject.");
+				else
+					success.$invoke(EcPk.fromPem(decryptedString));
+			}
+		}, failure);
+	}
+
 	public EcPk getAgent()
 	{
 		if (agent == null)
@@ -48,6 +70,28 @@ public class EcAssertion extends Assertion
 		if (decryptedString == null)
 			return null;
 		return EcPk.fromPem(decryptedString);
+	}
+
+	public void getAgentAsync(final Callback1<EcPk> success, final Callback1<String> failure)
+	{
+		if (agent == null)
+		{
+			failure.$invoke("Agent not found.");
+			return;
+		}
+		EcEncryptedValue v = new EcEncryptedValue();
+		v.copyFrom(agent);
+		v.decryptIntoStringAsync(new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String decryptedString)
+			{
+				if (decryptedString == null)
+					failure.$invoke("Could not decrypt agent.");
+				else
+					success.$invoke(EcPk.fromPem(decryptedString));
+			}
+		}, failure);
 	}
 
 	public String getSubjectName()
@@ -64,6 +108,35 @@ public class EcAssertion extends Assertion
 		return contact.displayName;
 	}
 
+	public void getSubjectNameAsync(final Callback1<String> success, final Callback1<String> failure)
+	{
+		if (subject == null)
+		{
+			success.$invoke("Nobody");
+			return;
+		}
+		getSubjectAsync(new Callback1<EcPk>()
+		{
+			@Override
+			public void $invoke(EcPk subjectPk)
+			{
+				EcIdentity identity = EcIdentityManager.getIdentity(subjectPk);
+				if (identity != null && identity.displayName != null)
+				{
+					success.$invoke(identity.displayName + " (You)");
+					return;
+				}
+				EcContact contact = EcIdentityManager.getContact(subjectPk);
+				if (contact == null || contact.displayName == null)
+				{
+					success.$invoke("Unknown Subject");
+					return;
+				}
+				success.$invoke(contact.displayName);
+			}
+		}, failure);
+	}
+
 	public String getAgentName()
 	{
 		if (agent == null)
@@ -78,6 +151,35 @@ public class EcAssertion extends Assertion
 		return contact.displayName;
 	}
 
+	public void getAgentNameAsync(final Callback1<String> success, final Callback1<String> failure)
+	{
+		if (subject == null)
+		{
+			success.$invoke("Nobody");
+			return;
+		}
+		getAgentAsync(new Callback1<EcPk>()
+		{
+			@Override
+			public void $invoke(EcPk subjectPk)
+			{
+				EcIdentity identity = EcIdentityManager.getIdentity(subjectPk);
+				if (identity != null && identity.displayName != null)
+				{
+					success.$invoke(identity.displayName + " (You)");
+					return;
+				}
+				EcContact contact = EcIdentityManager.getContact(subjectPk);
+				if (contact == null || contact.displayName == null)
+				{
+					success.$invoke("Unknown Agent");
+					return;
+				}
+				success.$invoke(contact.displayName);
+			}
+		}, failure);
+	}
+
 	public Long getAssertionDate()
 	{
 		if (assertionDate == null)
@@ -90,6 +192,28 @@ public class EcAssertion extends Assertion
 		return Long.parseLong(decryptedString);
 	}
 
+	public void getAssertionDateAsync(final Callback1<Long> success, final Callback1<String> failure)
+	{
+		if (assertionDate == null)
+		{
+			failure.$invoke("Assertion date not found.");
+			return;
+		}
+		EcEncryptedValue v = new EcEncryptedValue();
+		v.copyFrom(assertionDate);
+		v.decryptIntoStringAsync(new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String decryptedString)
+			{
+				if (decryptedString == null)
+					failure.$invoke("Could not decrypt assertion date.");
+				else
+					success.$invoke(Long.parseLong(decryptedString));
+			}
+		}, failure);
+	}
+
 	public Long getExpirationDate()
 	{
 		if (expirationDate == null)
@@ -100,6 +224,28 @@ public class EcAssertion extends Assertion
 		if (decryptedString == null)
 			return null;
 		return Long.parseLong(decryptedString);
+	}
+
+	public void getExpirationDateAsync(final Callback1<Long> success, final Callback1<String> failure)
+	{
+		if (expirationDate == null)
+		{
+			failure.$invoke("Expiration date not found.");
+			return;
+		}
+		EcEncryptedValue v = new EcEncryptedValue();
+		v.copyFrom(expirationDate);
+		v.decryptIntoStringAsync(new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String decryptedString)
+			{
+				if (decryptedString == null)
+					failure.$invoke("Could not decrypt expiration date.");
+				else
+					success.$invoke(Long.parseLong(decryptedString));
+			}
+		}, failure);
 	}
 
 	public int getEvidenceCount()
@@ -120,6 +266,28 @@ public class EcAssertion extends Assertion
 		return decryptedString;
 	}
 
+	public void getEvidenceAsync(int index, final Callback1<String> success, final Callback1<String> failure)
+	{
+		if (evidence.$get(index) == null)
+		{
+			failure.$invoke("Evidence not found.");
+			return;
+		}
+		EcEncryptedValue v = new EcEncryptedValue();
+		v.copyFrom(evidence.$get(index));
+		v.decryptIntoStringAsync(new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String decryptedString)
+			{
+				if (decryptedString == null)
+					failure.$invoke("Could not decrypt evidence.");
+				else
+					success.$invoke(decryptedString);
+			}
+		}, failure);
+	}
+
 	public String getDecayFunction()
 	{
 		if (decayFunction == null)
@@ -132,6 +300,28 @@ public class EcAssertion extends Assertion
 		return decryptedString;
 	}
 
+	public void getDecayFunctionAsync(final Callback1<String> success, final Callback1<String> failure)
+	{
+		if (decayFunction == null)
+		{
+			failure.$invoke("Decay function not found.");
+			return;
+		}
+		EcEncryptedValue v = new EcEncryptedValue();
+		v.copyFrom(decayFunction);
+		v.decryptIntoStringAsync(new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String decryptedString)
+			{
+				if (decryptedString == null)
+					failure.$invoke("Could not decrypt decay function.");
+				else
+					success.$invoke(decryptedString);
+			}
+		}, failure);
+	}
+
 	public Boolean getNegative()
 	{
 		if (negative == null)
@@ -142,6 +332,32 @@ public class EcAssertion extends Assertion
 		if (decryptedString != null)
 			decryptedString.toLowerCase();
 		return "true".equals(decryptedString);
+	}
+
+	public void getNegativeAsync(final Callback1<Boolean> success, final Callback1<String> failure)
+	{
+		if (negative == null)
+		{
+			failure.$invoke("Negative not found.");
+			return;
+		}
+		EcEncryptedValue v = new EcEncryptedValue();
+		v.copyFrom(negative);
+		v.decryptIntoStringAsync(new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String decryptedString)
+			{
+				if (decryptedString == null)
+				{
+					failure.$invoke("Could not decrypt negative.");
+					return;
+				}
+				if (decryptedString != null)
+					decryptedString.toLowerCase();
+				success.$invoke("true".equals(decryptedString));
+			}
+		}, failure);
 	}
 
 	/**
@@ -381,13 +597,12 @@ public class EcAssertion extends Assertion
 				{
 					assertion.copyFrom(p1);
 
-					if(success != null)
+					if (success != null)
 						success.$invoke(assertion);
-				}
-				else
+				} else
 				{
 					String msg = "Retrieved object was not an assertion";
-					if(failure != null)
+					if (failure != null)
 						failure.$invoke(msg);
 					else
 						Global.console.error(msg);
@@ -395,7 +610,7 @@ public class EcAssertion extends Assertion
 			}
 		}, failure);
 	}
-	
+
 	public static void search(EcRepository repo, String query, final Callback1<Array<EcAssertion>> success, Callback1<String> failure, Object paramObj)
 	{
 		String queryAdd = new EcAssertion().getSearchStringByType();
@@ -404,24 +619,27 @@ public class EcAssertion extends Assertion
 			query = queryAdd;
 		else
 			query = "(" + query + ") AND " + queryAdd;
-		
-		repo.searchWithParams(query, paramObj, null, new Callback1<Array<EcRemoteLinkedData>>(){
+
+		repo.searchWithParams(query, paramObj, null, new Callback1<Array<EcRemoteLinkedData>>()
+		{
 
 			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1) {
-				if(success != null)
+			public void $invoke(Array<EcRemoteLinkedData> p1)
+			{
+				if (success != null)
 				{
 					Array<EcAssertion> ret = JSCollections.$array();
-					for(int i = 0; i < p1.$length(); i++){
+					for (int i = 0; i < p1.$length(); i++)
+					{
 						EcAssertion assertion = new EcAssertion();
 						assertion.copyFrom(p1.$get(i));
 						ret.$set(i, assertion);
 					}
-					
+
 					success.$invoke(ret);
 				}
 			}
-			
+
 		}, failure);
 	}
 

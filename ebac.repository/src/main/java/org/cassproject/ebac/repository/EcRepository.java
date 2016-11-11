@@ -130,7 +130,7 @@ public class EcRepository
 				}, 0);
 				return;
 			}
-		if ((Double) JSObjectAdapter.$get(fetching, url) > new Date().getMilliseconds() - 1000)
+		if ((Double) JSObjectAdapter.$get(fetching, url) > new Date().getTime() - 1000)
 		{
 			Global.setTimeout(new Callback0()
 			{
@@ -142,7 +142,7 @@ public class EcRepository
 			}, 100);
 			return;
 		}
-		JSObjectAdapter.$put(fetching, url, new Date().getMilliseconds());
+		JSObjectAdapter.$put(fetching, url, new Date().getTime());
 		final FormData fd = new FormData();
 		EcIdentityManager.signatureSheetAsync(60000, url, new Callback1<String>()
 		{
