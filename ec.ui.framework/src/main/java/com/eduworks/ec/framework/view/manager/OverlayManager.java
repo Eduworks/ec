@@ -20,7 +20,7 @@ import com.eduworks.foundation.jquery.plugin.Foundation;
  * View Manager that manages displaying overlay views (views that take over the screen, but can be exited to return to
  * the previous screen) with a few helper functions for managing overlays
  * 
- * @module com.eduuworks.ec.ui
+ * @module com.eduworks.ec.ui
  * @class OverlayManager
  * @extends ScreenManager
  * 
