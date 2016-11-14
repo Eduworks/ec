@@ -41,18 +41,11 @@ public class EcRemote
 	 * 
 	 * @method postExpectingObject
 	 * @static
-	 * @param {string}
-	 *            server Protocol, hostname and path to the remote handler.
-	 * @param {string}
-	 *            service Path to service to invoke.
-	 * @param {FormData}
-	 *            fd Form data to send as multi-part mime.
-	 * @param {function(object)}
-	 *            success Method that is invoked if the server responds with a
-	 *            success (per jQuery ajax)
-	 * @param {function(string)}
-	 *            failure Method that is invoked if the server responds with an
-	 *            error (per jQuery ajax) or a non-200/300.
+	 * @param {string} server Protocol, hostname and path to the remote handler.
+	 * @param {string} service Path to service to invoke.
+	 * @param {FormData} fd Form data to send as multi-part mime.
+	 * @param {function(object)} success Method that is invoked if the server responds with a success (per jQuery ajax)
+	 * @param {function(string)} failure Method that is invoked if the server responds with an error (per jQuery ajax) or a non-200/300.
 	 */
 	public static void postExpectingObject(String server, String service, FormData fd, final Callback1<Object> success, final Callback1<String> failure)
 	{
@@ -66,18 +59,11 @@ public class EcRemote
 	 * 
 	 * @method postExpectingString
 	 * @static
-	 * @param {string}
-	 *            server Protocol, hostname and path to the remote handler.
-	 * @param {string}
-	 *            service Path to service to invoke.
-	 * @param {FormData}
-	 *            fd Form data to send as multi-part mime.
-	 * @param {function(string)}
-	 *            success Method that is invoked if the server responds with a
-	 *            success (per jQuery ajax)
-	 * @param {function(string)}
-	 *            failure Method that is invoked if the server responds with an
-	 *            error (per jQuery ajax) or a non-200/300.
+	 * @param {string} server Protocol, hostname and path to the remote handler.
+	 * @param {string} service Path to service to invoke.
+	 * @param {FormData} fd Form data to send as multi-part mime.
+	 * @param {function(string)} success Method that is invoked if the server responds with a success (per jQuery ajax)
+	 * @param {function(string)} failure Method that is invoked if the server responds with an error (per jQuery ajax) or a non-200/300.
 	 */
 	public static void postExpectingString(String server, String service, FormData fd, final Callback1<String> success, final Callback1<String> failure)
 	{
@@ -139,16 +125,10 @@ public class EcRemote
 	 * 
 	 * @method postExpectingString
 	 * @static
-	 * @param {string}
-	 *            server Protocol, hostname and path to the remote handler.
-	 * @param {string}
-	 *            service Path to service to invoke.
-	 * @param {function(object)}
-	 *            success Method that is invoked if the server responds with a
-	 *            success (per jQuery ajax)
-	 * @param {function(string)}
-	 *            failure Method that is invoked if the server responds with an
-	 *            error (per jQuery ajax) or a non-200/300.
+	 * @param {string} server Protocol, hostname and path to the remote handler.
+	 * @param {string} service Path to service to invoke.
+	 * @param {function(object)} success Method that is invoked if the server responds with a success (per jQuery ajax)
+	 * @param {function(string)} failure Method that is invoked if the server responds with an error (per jQuery ajax) or a non-200/300.
 	 */
 	public static void getExpectingObject(String server, String service, final Callback1<Object> success, final Callback1<String> failure)
 	{
@@ -180,16 +160,10 @@ public class EcRemote
 	 * 
 	 * @method _delete
 	 * @static
-	 * @param {string}
-	 *            server Protocol, hostname and path to the remote handler.
-	 * @param {string}
-	 *            service Path to service to invoke.
-	 * @param {function(object)}
-	 *            success Method that is invoked if the server responds with a
-	 *            success (per jQuery ajax)
-	 * @param {function(string)}
-	 *            failure Method that is invoked if the server responds with an
-	 *            error (per jQuery ajax) or a non-200/300.
+	 * @param {string} server Protocol, hostname and path to the remote handler.
+	 * @param {string} service Path to service to invoke.
+	 * @param {function(object)} success Method that is invoked if the server responds with a success (per jQuery ajax)
+	 * @param {function(string)} failure Method that is invoked if the server responds with an error (per jQuery ajax) or a non-200/300.
 	 */
 	public static void _delete(String url, String signatureSheet, final Callback1<String> success, final Callback1<String> failure)
 	{
@@ -230,8 +204,7 @@ public class EcRemote
 					failure.$invoke(paramP1.statusText.toString());
 				else
 					failure.$invoke("General error in AJAX request.");
-			}
-			else if (paramP2 != null)
+			} else if (paramP2 != null)
 				failure.$invoke(paramP2);
 			else if (paramP3 != null)
 				failure.$invoke(paramP3);
@@ -268,10 +241,9 @@ public class EcRemote
 					try
 					{
 						success.$invoke(JSON.parse(arg2.responseText));
-					}
-					catch (ex)
+					} catch (Exception ex)
 					{
-						failure.$invoke(ex);
+						failure.$invoke(ex.getMessage());
 					}
 			}
 		};
