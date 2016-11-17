@@ -353,7 +353,8 @@ public class CSVImport
 							alignment.source = (String) JSObjectAdapter.$get(importCsvLookup, sourceKey);
 							alignment.relationType = relationTypeKey;
 							alignment.target = (String) JSObjectAdapter.$get(importCsvLookup, destKey);
-							alignment.addOwner(owner.ppk.toPk());
+							if (owner != null)
+								alignment.addOwner(owner.ppk.toPk());
 							alignment.generateId(serverUrl);
 							relations.push(alignment);
 						}
