@@ -347,9 +347,9 @@ public class CSVImport
 							String relationTypeKey = tabularData.$get(i).$get(relationTypeIndex);
 							String destKey = tabularData.$get(i).$get(destIndex);
 							if (JSObjectAdapter.$get(importCsvLookup, sourceKey) == null)
-								return;
+								continue;
 							if (JSObjectAdapter.$get(importCsvLookup, destKey) == null)
-								return;
+								continue;
 							alignment.source = (String) JSObjectAdapter.$get(importCsvLookup, sourceKey);
 							alignment.relationType = relationTypeKey;
 							alignment.target = (String) JSObjectAdapter.$get(importCsvLookup, destKey);
