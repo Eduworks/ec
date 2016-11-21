@@ -562,7 +562,9 @@ public class EcRepository
 
 	/**
 	 * Attempts to save a piece of data. Does some checks before saving
-	 * to ensure the data is valid and cleans some values (These should be removed in future)
+	 * to ensure the data is valid. Warns the developer that they are using 
+	 * the repository save function rather than an object specific version, 
+	 * this can be avoided by calling _save
 	 * 
 	 * Uses a signature sheet informed by the owner field of the data.
 	 *
@@ -578,31 +580,13 @@ public class EcRepository
 	 */
 	public static void save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
 	{
-		if (data.invalid())
-		{
-			String msg = "Cannot save data. It is missing a vital component.";
-			if (failure != null)
-				failure.$invoke(msg);
-			else
-				Global.console.error(msg);
-			return;
-		}
-
-		if (data.privateEncrypted != null && data.privateEncrypted)
-		{
-			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(data, false);
-			_save(encrypted, success, failure);
-		} else
-		{
-			if (data.privateEncrypted != null)
-				JSObjectAdapter.$properties(data).$delete("privateEncrypted");
-
-			_save(data, success, failure);
-		}
+		Global.console.warn("Using EcRepository 'save' method, if this is intentional consider calling '_save'");
+		_save(data, success, failure);
 	}
 
 	/**
-	 * Attempts to save a piece of data. 
+	 * Attempts to save a piece of data. Does some checks before saving
+	 * to ensure the data is valid. This version does not send a console warning,
 	 * 
 	 * Uses a signature sheet informed by the owner field of the data.
 	 * 
@@ -618,8 +602,32 @@ public class EcRepository
 	 */
 	public static void _save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure)
 	{
-		EcIdentityManager.sign(data);
-		_saveWithoutSigning(data, success, failure);
+		if (data.invalid())
+		{
+			String msg = "Cannot save data. It is missing a vital component.";
+			if (failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return;
+		}
+
+		if(data.reader != null && data.reader.$length() == 0)
+			JSObjectAdapter.$properties(data).$delete("reader");
+		
+		if(data.owner != null && data.owner.$length() == 0)
+			JSObjectAdapter.$properties(data).$delete("owner");
+		
+		if (EcEncryptedValue.encryptOnSave(data.id, null))
+		{
+			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(data, false);
+			EcIdentityManager.sign(data);
+			_saveWithoutSigning(data, success, failure);
+		} else
+		{
+			EcIdentityManager.sign(data);
+			_saveWithoutSigning(data, success, failure);
+		}
 	}
 
 	/**
@@ -655,15 +663,31 @@ public class EcRepository
 
 		final FormData fd = new FormData();
 		fd.append("data", data.toJson());
-		EcIdentityManager.signatureSheetForAsync(data.owner, 60000, data.id, new Callback1<String>()
+		if(data.owner != null && data.owner.$length() > 0)
 		{
-			@Override
-			public void $invoke(String arg0)
+			EcIdentityManager.signatureSheetForAsync(data.owner, 60000, data.id, new Callback1<String>()
 			{
-				fd.append("signatureSheet", arg0);
-				EcRemote.postExpectingString(data.id, "", fd, success, failure);
-			}
-		});
+				@Override
+				public void $invoke(String arg0)
+				{
+					fd.append("signatureSheet", arg0);
+					EcRemote.postExpectingString(data.id, "", fd, success, failure);
+				}
+			});
+		}
+		else
+		{
+			EcIdentityManager.signatureSheetAsync(60000, data.id, new Callback1<String>()
+			{
+				@Override
+				public void $invoke(String arg0)
+				{
+					fd.append("signatureSheet", arg0);
+					EcRemote.postExpectingString(data.id, "", fd, success, failure);
+				}
+			});
+		}
+		
 	}
 
 	/**

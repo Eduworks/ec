@@ -380,12 +380,12 @@ public class EcAssertion extends Assertion
 		}
 		owners = owners.concat(owner);
 		readers.push(pk.toPem());
-		subject = EcEncryptedValue.encryptValue(pk.toPem(), id, "subject", owners, readers);
+		subject = EcEncryptedValue.encryptValue(pk.toPem(), id, owners, readers);
 	}
 
 	public void setAgent(EcPk pk)
 	{
-		agent = EcEncryptedValue.encryptValue(pk.toPem(), id, "agent", subject.owner, subject.reader);
+		agent = EcEncryptedValue.encryptValue(pk.toPem(), id, subject.owner, subject.reader);
 	}
 
 	public void setCompetency(String competencyUrl)
@@ -407,28 +407,28 @@ public class EcAssertion extends Assertion
 	{
 		Array<EcEncryptedValue> encryptedValues = new Array<EcEncryptedValue>();
 		for (int i = 0; i < evidences.$length(); i++)
-			encryptedValues.push(EcEncryptedValue.encryptValue(evidences.$get(i), id, "evidence", subject.owner, subject.reader));
+			encryptedValues.push(EcEncryptedValue.encryptValue(evidences.$get(i), id, subject.owner, subject.reader));
 		evidence = encryptedValues;
 	}
 
 	public void setAssertionDate(Long assertionDateMs)
 	{
-		assertionDate = EcEncryptedValue.encryptValue(assertionDateMs.toString(), id, "assertionDate", subject.owner, subject.reader);
+		assertionDate = EcEncryptedValue.encryptValue(assertionDateMs.toString(), id, subject.owner, subject.reader);
 	}
 
 	public void setExpirationDate(Long expirationDateMs)
 	{
-		expirationDate = EcEncryptedValue.encryptValue(expirationDateMs.toString(), id, "expirationDate", subject.owner, subject.reader);
+		expirationDate = EcEncryptedValue.encryptValue(expirationDateMs.toString(), id, subject.owner, subject.reader);
 	}
 
 	public void setDecayFunction(String decayFunctionText)
 	{
-		decayFunction = EcEncryptedValue.encryptValue(decayFunctionText.toString(), id, "decayFunction", subject.owner, subject.reader);
+		decayFunction = EcEncryptedValue.encryptValue(decayFunctionText.toString(), id, subject.owner, subject.reader);
 	}
 
 	public void setNegative(Boolean negativeB)
 	{
-		negative = EcEncryptedValue.encryptValue(negativeB.toString(), id, "negative", subject.owner, subject.reader);
+		negative = EcEncryptedValue.encryptValue(negativeB.toString(), id, subject.owner, subject.reader);
 	}
 
 	public void save(Callback1<String> success, Callback1<String> failure)
@@ -493,14 +493,7 @@ public class EcAssertion extends Assertion
 			return;
 		}
 
-		if (privateEncrypted != null && privateEncrypted)
-		{
-			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(this, false);
-			EcRepository._save(encrypted, success, failure);
-		} else
-		{
-			EcRepository._save(this, success, failure);
-		}
+		EcRepository._save(this, success, failure);
 	}
 
 	@Override

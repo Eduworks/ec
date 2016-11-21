@@ -629,5 +629,8 @@ public class EcIdentityManager
 					d.signWith(attempt);
 			}
 		}
+		if(d.signature != null && d.signature.$length() == 0){
+			JSObjectAdapter.$properties(d).$delete("signature");
+		}
 	}
 }

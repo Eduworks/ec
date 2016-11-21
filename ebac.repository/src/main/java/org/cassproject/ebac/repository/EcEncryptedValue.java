@@ -8,6 +8,7 @@ import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.JSObjectAdapter;
+import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback2;
@@ -39,6 +40,9 @@ import forge.util;
  */
 public class EcEncryptedValue extends EbacEncryptedValue
 {
+	
+	
+	
 	public EcEncryptedValue()
 	{
 
@@ -66,9 +70,6 @@ public class EcEncryptedValue extends EbacEncryptedValue
 	 */
 	public static EcEncryptedValue toEncryptedValue(EcRemoteLinkedData d, boolean hideType)
 	{
-		if(d.privateEncrypted != null)
-			JSObjectAdapter.$properties(d).$delete("privateEncrypted");
-		
 		d.updateTimestamp();
 
 		EcEncryptedValue v = new EcEncryptedValue();
@@ -219,15 +220,13 @@ public class EcEncryptedValue extends EbacEncryptedValue
 	 * 			Text to encrypt
 	 * @param {String} id
 	 * 			ID of the encrypted value
-	 * @param {String} fieldName
-	 * 			Unused TODO: Remove
 	 * @param {EcPk} owner
 	 * 			Key to Encrypt
 	 * @return {EcEncryptedValue}
 	 * 			Encrypted value
 	 */
 	@Deprecated
-	public static EcEncryptedValue encryptValueOld(String text, String id, String fieldName, EcPk owner)
+	public static EcEncryptedValue encryptValueOld(String text, String id, EcPk owner)
 	{
 		EcEncryptedValue v = new EcEncryptedValue();
 
@@ -264,8 +263,6 @@ public class EcEncryptedValue extends EbacEncryptedValue
 	 * 			Text to encrypt
 	 * @param {String} id
 	 * 			ID of the value to encrypt
-	 * @param {String} fieldName
-	 * 			Unused TODO: Remove
 	 * @param {String[]} owners
 	 * 			Owner keys to encrypt value with
 	 * @param {String[]} readers
@@ -273,7 +270,7 @@ public class EcEncryptedValue extends EbacEncryptedValue
 	 * @return {EcEncryptedValue}
 	 * 			Encrypted value
 	 */
-	public static EcEncryptedValue encryptValue(String text, String id, String fieldName, Array<String> owners, Array<String> readers)
+	public static EcEncryptedValue encryptValue(String text, String id, Array<String> owners, Array<String> readers)
 	{
 		EcEncryptedValue v = new EcEncryptedValue();
 
@@ -316,15 +313,13 @@ public class EcEncryptedValue extends EbacEncryptedValue
 	 * 			Text to encrypt
 	 * @param {String} id
 	 * 			ID of value to encrypt
-	 * @param {String} fieldName
-	 * 			Unused TODO: Remove
 	 * @param {String[]} owners
 	 * 			Owners keys to encrypt with
 	 * @param {String[]} readers
 	 * 			Reader Keys to encrypt with
 	 * @return {EcEncryptedValue}
 	 */
-	public static EcEncryptedValue encryptValueUsingIvAndSecret(String iv, String secret, String text, String id, String fieldName, Array<String> owners, Array<String> readers)
+	public static EcEncryptedValue encryptValueUsingIvAndSecret(String iv, String secret, String text, String id, Array<String> owners, Array<String> readers)
 	{
 		EcEncryptedValue v = new EcEncryptedValue();
 
@@ -368,7 +363,7 @@ public class EcEncryptedValue extends EbacEncryptedValue
 			return null;
 		EcRemoteLinkedData decrypted = new EcRemoteLinkedData("", "");
 		decrypted.copyFrom((EcRemoteLinkedData) JSGlobal.JSON.parse(decryptRaw));
-		decrypted.privateEncrypted = true;
+		encryptOnSave(decrypted.id, true);
 		decrypted.id = this.id;
 		return (EcRemoteLinkedData) decrypted.deAtify();
 	}
@@ -398,7 +393,7 @@ public class EcEncryptedValue extends EbacEncryptedValue
 					failure.$invoke("Could not decrypt data.");
 				EcRemoteLinkedData decrypted = new EcRemoteLinkedData("", "");
 				decrypted.copyFrom((EcRemoteLinkedData) JSGlobal.JSON.parse(decryptRaw));
-				decrypted.privateEncrypted = true;
+				encryptOnSave(decrypted.id, true);
 				decrypted.id = id;
 				success.$invoke((EcRemoteLinkedData) decrypted.deAtify());
 			}
@@ -432,7 +427,7 @@ public class EcEncryptedValue extends EbacEncryptedValue
 					failure.$invoke("Could not decrypt data.");
 				EcRemoteLinkedData decrypted = new EcRemoteLinkedData("", "");
 				decrypted.copyFrom((EcRemoteLinkedData) JSGlobal.JSON.parse(decryptRaw));
-				decrypted.privateEncrypted = true;
+				encryptOnSave(decrypted.id, true);
 				success.$invoke((EcRemoteLinkedData) decrypted.deAtify());
 			}
 		}, failure);
@@ -766,5 +761,40 @@ public class EcEncryptedValue extends EbacEncryptedValue
 		for (int i = 0; i < reader.$length(); i++)
 			if (reader.$get(i).equals(pem))
 				reader.splice(i, 1);
+	}
+	
+	private static Map<String, Boolean> encryptOnSaveMap;
+	
+	/**
+	 * Setter and getter function for encryptOnSave of an identifier,
+	 * encryptOnSave is used by the static save functions of a class to 
+	 * determine whether or not to encrypt something when it is saved.
+	 * This value is usually set when an object is decrypted using one
+	 * of the decrypt functions above.
+	 * 
+	 * @memberOf EcEncryptedValue
+	 * @method encryptOnSave
+	 * @static
+	 * @param {String} id 
+	 * 			ID of the data to get/set encryptOnSave for
+	 * @param {boolean} [val]
+	 * 			If passed in, sets the value, if null this function gets the encryptOnSave value
+	 * @return {boolean}
+	 * 			if val is null/ignored returns value in the map, if val is passed in returns val
+	 */
+	public static boolean encryptOnSave(String id, Boolean val){
+		if(encryptOnSaveMap == null)
+			encryptOnSaveMap = JSCollections.$map();
+		
+		if(val == null){
+			if(encryptOnSaveMap.$get(id) != null)
+				return encryptOnSaveMap.$get(id);
+			else
+				return false;
+		}else{
+			encryptOnSaveMap.$put(id, val);
+			
+			return val;
+		}
 	}
 }

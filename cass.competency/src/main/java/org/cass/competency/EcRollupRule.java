@@ -74,14 +74,7 @@ public class EcRollupRule extends RollupRule
 			return;
 		}
 		
-		if (privateEncrypted != null && privateEncrypted)
-		{
-			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(this, false);
-			EcRepository._save(encrypted, success, failure);
-		} else
-		{
-			EcRepository._save(this, success, failure);
-		}
+		EcRepository._save(this, success, failure);
 	}
 	
 	/**

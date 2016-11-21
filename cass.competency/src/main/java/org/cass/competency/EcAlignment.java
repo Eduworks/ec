@@ -92,14 +92,7 @@ public class EcAlignment extends Relation
 			return;
 		}
 		
-		if (privateEncrypted != null && privateEncrypted)
-		{
-			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(this, false);
-			EcRepository._save(encrypted, success, failure);
-		} else
-		{
-			EcRepository._save(this, success, failure);
-		}
+		EcRepository._save(this, success, failure);
 	}
 	
 	/**
@@ -144,8 +137,6 @@ public class EcAlignment extends Relation
 					EcEncryptedValue encrypted = new EcEncryptedValue();
 					encrypted.copyFrom(p1);
 					p1 = encrypted.decryptIntoObject();
-					
-					p1.privateEncrypted = true;
 				}
 				if (p1.isAny(relation.getTypes()))
 				{
@@ -211,7 +202,6 @@ public class EcAlignment extends Relation
 							if(val.isAnEncrypted(EcAlignment.myType)){
 								EcRemoteLinkedData obj = val.decryptIntoObject();
 								alignment.copyFrom(obj);
-								alignment.privateEncrypted = true;
 							}
 						}
 						
@@ -277,7 +267,6 @@ public class EcAlignment extends Relation
 									continue;
 								}
 								alignment.copyFrom(obj);
-								alignment.privateEncrypted = true;
 							}
 						}
 						ret.$set(i, alignment);
@@ -346,7 +335,6 @@ public class EcAlignment extends Relation
 									continue;
 								}
 								alignment.copyFrom(obj);
-								alignment.privateEncrypted = true;
 							}
 						}
 						ret.$set(i, alignment);

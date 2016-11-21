@@ -333,15 +333,7 @@ public class EcFramework extends Framework
 			return;
 		}
 
-		if (privateEncrypted != null && privateEncrypted)
-		{
-			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(this, false);
-			EcRepository._save(encrypted, success, failure);
-		} else
-		{
-			EcRepository._save(this, success, failure);
-		}
-
+		EcRepository._save(this, success, failure);
 	}
 
 	/**
@@ -389,7 +381,7 @@ public class EcFramework extends Framework
 					encrypted.copyFrom(p1);
 					p1 = encrypted.decryptIntoObject();
 
-					p1.privateEncrypted = true;
+					EcEncryptedValue.encryptOnSave(p1.id, true);
 				}
 				if (p1.isAny(framework.getTypes()))
 				{
@@ -473,7 +465,7 @@ public class EcFramework extends Framework
 							{
 								EcRemoteLinkedData obj = val.decryptIntoObject();
 								framework.copyFrom(obj);
-								framework.privateEncrypted = true;
+								EcEncryptedValue.encryptOnSave(framework.id, true);
 							}
 						}
 
