@@ -59,7 +59,7 @@ public class EcCompetency extends Competency
 		a.relationType = alignmentType;
 		a.addOwner(owner.toPk());
 
-		EcRepository.save(a, success, failure);
+		EcRepository._save(a, success, failure);
 
 		return a;
 	}
@@ -168,7 +168,7 @@ public class EcCompetency extends Competency
 		l.name = name;
 		l.addOwner(owner.toPk());
 
-		EcRepository.save(l, success, failure);
+		EcRepository._save(l, success, failure);
 
 		return l;
 	}
@@ -217,7 +217,7 @@ public class EcCompetency extends Competency
 								return;
 							}
 							a.copyFrom(obj);
-							a.privateEncrypted = true;
+							EcEncryptedValue.encryptOnSave(a.id, true);
 						}
 					}
 
@@ -253,7 +253,7 @@ public class EcCompetency extends Competency
 									continue;
 								}
 								a.copyFrom(obj);
-								a.privateEncrypted = true;
+								EcEncryptedValue.encryptOnSave(a.id, true);
 							}
 						}
 
@@ -298,7 +298,7 @@ public class EcCompetency extends Competency
 		r.name = name;
 		r.addOwner(owner.toPk());
 
-		EcRepository.save(r, success, failure);
+		EcRepository._save(r, success, failure);
 
 		return r;
 	}
@@ -349,7 +349,7 @@ public class EcCompetency extends Competency
 								return;
 							}
 							a.copyFrom(obj);
-							a.privateEncrypted = true;
+							EcEncryptedValue.encryptOnSave(a.id, true);
 						}
 					}
 
@@ -384,7 +384,7 @@ public class EcCompetency extends Competency
 									continue;
 								}
 								a.copyFrom(obj);
-								a.privateEncrypted = true;
+								EcEncryptedValue.encryptOnSave(a.id, true);
 							}
 						}
 
@@ -461,25 +461,7 @@ public class EcCompetency extends Competency
 			return;
 		}
 
-		if (this.invalid())
-		{
-			String msg = "Cannot save competency. It is missing a vital component.";
-			if (failure != null)
-				failure.$invoke(msg);
-			else
-				Global.console.error(msg);
-			return;
-		}
-
-		if (privateEncrypted != null && privateEncrypted)
-		{
-			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(this, false);
-			EcRepository._save(encrypted, success, failure);
-		} else
-		{
-			EcRepository._save(this, success, failure);
-		}
-
+		EcRepository._save(this, success, failure);
 	}
 
 	
@@ -615,7 +597,8 @@ public class EcCompetency extends Competency
 					encrypted.copyFrom(p1);
 					p1 = encrypted.decryptIntoObject();
 
-					p1.privateEncrypted = true;
+					EcEncryptedValue.encryptOnSave(p1.id, true);
+					
 				}
 				if (p1.isAny(competency.getTypes()))
 				{
@@ -661,7 +644,7 @@ public class EcCompetency extends Competency
 			encrypted.copyFrom(p1);
 			p1 = encrypted.decryptIntoObject();
 
-			p1.privateEncrypted = true;
+			EcEncryptedValue.encryptOnSave(p1.id, true);
 		}
 		if (p1.isAny(competency.getTypes()))
 		{
@@ -729,7 +712,7 @@ public class EcCompetency extends Competency
 							{
 								EcRemoteLinkedData obj = val.decryptIntoObject();
 								comp.copyFrom(obj);
-								comp.privateEncrypted = true;
+								EcEncryptedValue.encryptOnSave(comp.id, true);
 							}
 						}
 

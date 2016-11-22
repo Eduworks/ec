@@ -51,10 +51,6 @@ public class EcRemoteLinkedData extends EcLinkedData
 	 */
 	public String id;
 
-	@Deprecated
-	// Needs more discussion, but marking it here to spur said discussion.
-	public Boolean privateEncrypted;
-
 	/**
 	 * PEM encoded public keys of identities authorized to view the object. A
 	 * repository will ignore write operations from these identities, but will
@@ -170,7 +166,6 @@ public class EcRemoteLinkedData extends EcLinkedData
 			JSObjectAdapter.$properties(d).$delete("@owner");
 			JSObjectAdapter.$properties(d).$delete("@reader");
 			JSObjectAdapter.$properties(d).$delete("@id");
-			JSObjectAdapter.$properties(d).$delete("privateEncrypted");
 		} else
 		{
 			// Whom else has signed the object does not change the contents of
@@ -179,10 +174,10 @@ public class EcRemoteLinkedData extends EcLinkedData
 			// Where the object resides does not change the contents of the
 			// object, and provides server administration capabilities.
 			JSObjectAdapter.$properties(d).$delete("@id");
+			
 			// Who owns the object, or who can read the object *does* matter
 			// though, as administrators should not be able to change the
 			// ownership properties of the object in a clandestine fashion.
-			JSObjectAdapter.$properties(d).$delete("privateEncrypted");
 		}
 
 		EcLinkedData e = new EcLinkedData(d.context, d.type);

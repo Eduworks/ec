@@ -108,14 +108,7 @@ public class EcLevel extends Level
 			return;
 		}
 		
-		if (privateEncrypted != null && privateEncrypted)
-		{
-			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(this, false);
-			EcRepository._save(encrypted, success, failure);
-		} else
-		{
-			EcRepository._save(this, success, failure);
-		}
+		EcRepository._save(this, success, failure);
 	}
 	
 	/**
@@ -161,7 +154,7 @@ public class EcLevel extends Level
 					encrypted.copyFrom(p1);
 					p1 = encrypted.decryptIntoObject();
 					
-					p1.privateEncrypted = true;
+					EcEncryptedValue.encryptOnSave(p1.id, true);
 				}
 				if (p1.isAny(level.getTypes()))
 				{
@@ -236,7 +229,7 @@ public class EcLevel extends Level
 									continue;
 								}
 								level.copyFrom(obj);
-								level.privateEncrypted = true;
+								EcEncryptedValue.encryptOnSave(level.id, true);
 							}
 						}
 						level.copyFrom(p1.$get(i));

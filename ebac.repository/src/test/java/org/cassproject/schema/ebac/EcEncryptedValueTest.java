@@ -52,7 +52,7 @@ public class EcEncryptedValueTest
 		EcIdentityManager.addIdentity(newId1);
 		EcEncryptedValue v = null;
 		console.log("Encrypting: " + f.name);
-		v = EcEncryptedValue.encryptValueOld(f.name, f.id, "name", ppk.toPk());
+		v = EcEncryptedValue.encryptValueOld(f.name, f.id, ppk.toPk());
 		console.log("Encrypted object: " + v.toJson());
 		assertTrue("Owner exists in encrypted object.", v.hasOwner(ppk.toPk()));
 		assertTrue("Owner can decrypt object.", v.decryptIntoString().equals(f.name));
@@ -60,7 +60,7 @@ public class EcEncryptedValueTest
 		readers.push(ppk2.toPk().toPem());
 		EcEncryptedValue v2 = null;
 		console.log("Encrypting: " + f.name);
-		v2 = EcEncryptedValue.encryptValue(f.name, f.id, "name", f.owner, readers);
+		v2 = EcEncryptedValue.encryptValue(f.name, f.id, f.owner, readers);
 		console.log("Encrypted object: " + v2.toJson());
 
 		EcIdentity newId2 = new EcIdentity();
@@ -170,7 +170,7 @@ public class EcEncryptedValueTest
 		EcIdentity newId1 = new EcIdentity();
 		newId1.ppk = ppk;
 		EcIdentityManager.addIdentity(newId1);
-		JSObjectAdapter.$put(f, "encryptedName", EcEncryptedValue.encryptValue(f.name, f.shortId(), "encryptedName", f.owner, null));
+		JSObjectAdapter.$put(f, "encryptedName", EcEncryptedValue.encryptValue(f.name, f.shortId(), f.owner, null));
 		console.log(f.toJson());
 		EcRepository.save(f, new Callback1<String>()
 		{
@@ -258,7 +258,7 @@ public class EcEncryptedValueTest
 		EcIdentityManager.addIdentity(newId1);
 		Array<String> readers = new Array<String>();
 		readers.push(ppk2.toPk().toPem());
-		JSObjectAdapter.$put(f, "encryptedName", EcEncryptedValue.encryptValue(f.name, f.shortId(), "encryptedName", f.owner, readers));
+		JSObjectAdapter.$put(f, "encryptedName", EcEncryptedValue.encryptValue(f.name, f.shortId(), f.owner, readers));
 		console.log(f.toJson());
 		EcRepository.save(f, new Callback1<String>()
 		{

@@ -42,21 +42,7 @@ public class EcFile extends GeneralFile {
 			return;
 		}
 		
-		if(this.invalid()){
-			String msg = "Cannot save file. It is missing a vital component.";
-			if(failure != null)
-				failure.$invoke(msg);
-			else
-				Global.console.error(msg);
-			return;
-		}
-		
-		if(privateEncrypted != null && privateEncrypted){
-			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(this, false);
-			EcRepository._save(encrypted, success, failure);
-		}else{
-			EcRepository._save(this, success, failure);
-		}
+		EcRepository._save(this, success, failure);
 	}
 	
 	/**
@@ -124,7 +110,7 @@ public class EcFile extends GeneralFile {
 					encrypted.copyFrom(p1);
 					p1 = encrypted.decryptIntoObject();
 					
-					p1.privateEncrypted = true;
+					EcEncryptedValue.encryptOnSave(p1.id, true);
 				}
 				if (p1 != null && p1.isA(GeneralFile.myType))
 				{
@@ -187,7 +173,7 @@ public class EcFile extends GeneralFile {
 							if(val.isAnEncrypted(EcFile.myType)){
 								EcRemoteLinkedData obj = val.decryptIntoObject();
 								file.copyFrom(obj);
-								file.privateEncrypted = true;
+								EcEncryptedValue.encryptOnSave(file.id, true);
 							}
 						}
 
