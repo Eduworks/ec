@@ -16,6 +16,11 @@
 			<version>0.0.1</version>
 		</dependency>
 		<dependency>
+			<groupId>com.eduworks</groupId>
+			<artifactId>ebac.repository</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+		<dependency>
 			<groupId>org.st-js.bridge</groupId>
 			<artifactId>html</artifactId>
 			<version>5.0.bv2</version>
