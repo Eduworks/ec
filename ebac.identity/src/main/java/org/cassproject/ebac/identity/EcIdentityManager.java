@@ -5,14 +5,11 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.Date;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSGlobal;
-import org.stjs.javascript.JSON;
 import org.stjs.javascript.JSObjectAdapter;
-import org.stjs.javascript.JSStringAdapterBase;
 import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback2;
-import org.stjs.javascript.stjs.STJS;
 
 import com.eduworks.ec.array.EcAsyncHelper;
 import com.eduworks.ec.crypto.EcPk;
@@ -20,8 +17,6 @@ import com.eduworks.ec.crypto.EcPpk;
 import com.eduworks.ec.crypto.EcRsaOaep;
 import com.eduworks.ec.crypto.EcRsaOaepAsync;
 import com.eduworks.schema.ebac.EbacSignature;
-
-import forge.util;
 
 /**
  * Manages identities and contacts, provides hooks to respond to identity and
@@ -60,7 +55,7 @@ public class EcIdentityManager
 	 * @static
 	 */
 	public static Array<EcContact> contacts = new Array<EcContact>();
-	
+
 	/**
 	 * Identity change hook.
 	 * 
@@ -69,7 +64,7 @@ public class EcIdentityManager
 	 * @static
 	 */
 	public static Callback1<EcIdentity> onIdentityChanged = null;
-	
+
 	/**
 	 * Contacts change hook.
 	 * 
@@ -607,7 +602,8 @@ public class EcIdentityManager
 								works = true;
 								break;
 							}
-						} catch (Exception ex)
+						}
+						catch (Exception ex)
 						{
 
 						}
@@ -629,8 +625,23 @@ public class EcIdentityManager
 					d.signWith(attempt);
 			}
 		}
-		if(d.signature != null && d.signature.$length() == 0){
+		if (d.signature != null && d.signature.$length() == 0)
+		{
 			JSObjectAdapter.$properties(d).$delete("signature");
 		}
+	}
+
+	public static String myIdentitiesSearchString()
+	{
+		String searchString = "";
+		for (int i = 0; i < ids.$length(); i++)
+		{
+			if (i > 0)
+				searchString += " OR ";
+			searchString += "(@reader:\"" + ids.$get(i).ppk.toPk().toPem() + "\")";
+			searchString += " OR ";
+			searchString += "(@owner:\"" + ids.$get(i).ppk.toPk().toPem() + "\")";
+		}
+		return "(" + searchString + ")";
 	}
 }
