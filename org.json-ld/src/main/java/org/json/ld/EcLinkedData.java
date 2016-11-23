@@ -118,7 +118,8 @@ public class EcLinkedData
 			{
 				if (o.$get(i) instanceof EcLinkedData)
 					a.$set(i, atIfyObject(o.$get(i)));
-			} else if (EcArray.isArray(o.$get(i)))
+			}
+			else if (EcArray.isArray(o.$get(i)))
 				a.$set(i, atIfyArray((Array) o.$get(i)));
 			else
 				a.$set(i, o.$get(i));
@@ -305,8 +306,8 @@ public class EcLinkedData
 	public Array<String> getTypes()
 	{
 		Array<String> a = new Array<>();
-		if (type != null)
-			a.push(type);
+		if (context != null && type != null)
+			a.push(context + type);
 		return a;
 	}
 
