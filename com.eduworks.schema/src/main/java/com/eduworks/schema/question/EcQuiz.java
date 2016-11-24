@@ -8,11 +8,11 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.functions.Callback1;
 
-public class Quiz extends CreativeWork
+public class EcQuiz extends CreativeWork
 {
 	public static String myType = "http://schema.eduworks.com/0.1/Quiz";
 
-	public Quiz()
+	public EcQuiz()
 	{
 		type = "Quiz";
 		context = "http://schema.eduworks.com/0.1/";
@@ -39,10 +39,10 @@ public class Quiz extends CreativeWork
 	 * 		@param start
 	 * 		@param size
 	 */
-	public static void search(EcRepository repo, String query, final Callback1<Array<Quiz>> success, Callback1<String> failure, Object paramObj)
+	public static void search(EcRepository repo, String query, final Callback1<Array<EcQuiz>> success, Callback1<String> failure, Object paramObj)
 	{
 		String queryAdd = "";
-		queryAdd = new Quiz().getSearchStringByType();
+		queryAdd = new EcQuiz().getSearchStringByType();
 
 		if (query == null || query == "")
 			query = queryAdd;
@@ -56,10 +56,10 @@ public class Quiz extends CreativeWork
 			{
 				if (success != null)
 				{
-					Array<Quiz> ret = JSCollections.$array();
+					Array<EcQuiz> ret = JSCollections.$array();
 					for (int i = 0; i < p1.$length(); i++)
 					{
-						Quiz comp = new Quiz();
+						EcQuiz comp = new EcQuiz();
 						if (p1.$get(i).isAny(comp.getTypes()))
 						{
 							comp.copyFrom(p1.$get(i));
@@ -68,7 +68,7 @@ public class Quiz extends CreativeWork
 						{
 							EcEncryptedValue val = new EcEncryptedValue();
 							val.copyFrom(p1.$get(i));
-							if (val.isAnEncrypted(Quiz.myType))
+							if (val.isAnEncrypted(EcQuiz.myType))
 							{
 								EcRemoteLinkedData obj = val.decryptIntoObject();
 								comp.copyFrom(obj);

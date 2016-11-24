@@ -29,7 +29,11 @@ public class EcQuestion extends Question
 		if (m == 0)
 			return "Hand-graded Essay";
 		if (suggestedAnswer == null)
+		{
+			if (text != null && text.indexOf("__") != -1)
+				return "Fill in the Blank";
 			return "Short Answer";
+		}
 		int l = ((Array<String>) (Object) suggestedAnswer).$length();
 		if (l == 0)
 		{
@@ -117,7 +121,16 @@ public class EcQuestion extends Question
 
 	public Array<String> acceptedAnswers()
 	{
+		if (acceptedAnswer == null)
+			return new Array<>();
 		return (Array<String>) (Object) acceptedAnswer;
+	}
+
+	public Array<String> suggestedAnswers()
+	{
+		if (suggestedAnswer == null)
+			return new Array<>();
+		return (Array<String>) (Object) suggestedAnswer;
 	}
 
 	public void addSuggestedAnswer(EcAnswer answer)
@@ -128,5 +141,31 @@ public class EcQuestion extends Question
 			throw new RuntimeException("Suggested Answer is not Array");
 		Array<String> ary = (Array<String>) (Object) suggestedAnswer;
 		ary.push(answer.shortId());
+	}
+
+	public void removeSuggestedAnswerById(String id)
+	{
+		if (suggestedAnswer == null)
+			return;
+
+		if (!EcArray.isArray(suggestedAnswer))
+			throw new RuntimeException("Suggested Answer is not Array");
+		Array<String> ary = (Array<String>) (Object) suggestedAnswer;
+		for (int i = 0; i < ary.$length(); i++)
+			if (EcRemoteLinkedData.trimVersionFromUrl(ary.$get(i)) == EcRemoteLinkedData.trimVersionFromUrl(id))
+				ary.splice(i, 1);
+	}
+
+	public void removeAcceptedAnswerById(String id)
+	{
+		if (acceptedAnswer == null)
+			return;
+
+		if (!EcArray.isArray(acceptedAnswer))
+			throw new RuntimeException("Accepted Answer is not Array");
+		Array<String> ary = (Array<String>) (Object) acceptedAnswer;
+		for (int i = 0; i < ary.$length(); i++)
+			if (EcRemoteLinkedData.trimVersionFromUrl(ary.$get(i)) == EcRemoteLinkedData.trimVersionFromUrl(id))
+				ary.splice(i, 1);
 	}
 }

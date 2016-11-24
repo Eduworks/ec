@@ -236,11 +236,11 @@ public abstract class EcScreen extends EcView
 
 	public JQueryCore<?> autoAppend(JQueryCore<?> from, String template)
 	{
-		if (from.is("[ec-container='" + template + "']"))
+		if (from.is("[ec-container~='" + template + "']"))
 		{
 			return from.append((String) JSObjectAdapter.$get(nameToTemplate, template)).children().last();
 		}
-		return from.find("[ec-container='" + template + "']").append((String) JSObjectAdapter.$get(nameToTemplate, template)).children().last();
+		return from.find("[ec-container~='" + template + "']").append((String) JSObjectAdapter.$get(nameToTemplate, template)).children().last();
 	}
 
 	Object nameToTemplate = null;
