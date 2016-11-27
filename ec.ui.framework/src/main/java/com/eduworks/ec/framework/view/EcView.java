@@ -6,7 +6,6 @@ import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.JSStringAdapter;
 import org.stjs.javascript.Map;
-import org.stjs.javascript.functions.Callback0;
 
 /**
  * Class that represents a "view" that can be displayed in an container element on the page. The View should define 
@@ -18,9 +17,9 @@ import org.stjs.javascript.functions.Callback0;
  * @author devlin.junker@eduworks.com
  *
  */
-public abstract class EcView {
-	
-	
+public abstract class EcView
+{
+
 	/**
 	 * Function to be defined in subclasses that returns the location of the main html file associated with this view
 	 * 
@@ -39,11 +38,11 @@ public abstract class EcView {
 	 * @method display
 	 * @param {String} containerId
 	 */
-	public void display(String containerId){
+	public void display(String containerId)
+	{
 		Global.console.error("Not Implemented");
 	}
-	
-	
+
 	/***
 	 * Function that will convert a view to a certain other view class as long as it the converted type inherits the
 	 * current type of the view
@@ -55,18 +54,21 @@ public abstract class EcView {
 	 * @return {Object}
 	 * 			The converted instance of the type passed in
 	 */
-	public <T> T as(Class<T> _interface){
+	public <T> T as(Class<T> _interface)
+	{
 		Object prototype = JSObjectAdapter.$get(this, "__proto__");
 		Object constructor = JSObjectAdapter.$get(prototype, "constructor");
-		Array inherits = (Array)JSObjectAdapter.$get(constructor, "$inherit");
-		
-		if(inherits != null)
-			for(int i = 0; i < inherits.$length(); i++){
-				if(inherits.$get(i) == _interface){
+		Array inherits = (Array) JSObjectAdapter.$get(constructor, "$inherit");
+
+		if (inherits != null)
+			for (int i = 0; i < inherits.$length(); i++)
+			{
+				if (inherits.$get(i) == _interface)
+				{
 					return (T) this;
 				}
 			}
-		
+
 		return null;
 	}
 
@@ -78,8 +80,11 @@ public abstract class EcView {
 	 * @return {Map<String, String>}
 	 * 			URL Parameters in a map
 	 */
-	public Object getUrlParameters(){return EcView.urlParameters();} 
-	
+	public Object getUrlParameters()
+	{
+		return EcView.urlParameters();
+	}
+
 	/**
 	 * Returns the URL parameters of the browser window
 	 * 
@@ -89,10 +94,14 @@ public abstract class EcView {
 	 * @return {Map<String, String>}
 	 * 			URL Parameters in a map
 	 */
-	public static Object urlParameters() {
-		Array<String> hashSplit = JSCollections.$castArray(Global.window.document.location.hash.split("?"));
+	public static Object urlParameters()
+	{
+		if (Global.window.document.location.search == null)
+			return new Object();
+		Array<String> hashSplit = JSCollections.$castArray(Global.window.document.location.search.split("?"));
 
-		if (hashSplit.$length() > 1) {
+		if (hashSplit.$length() > 1)
+		{
 			Object o = null;
 			Map<String, Object> params = JSObjectAdapter.$properties(o = new Object());
 			String paramString = hashSplit.$get(1);
