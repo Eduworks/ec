@@ -13,6 +13,13 @@ import com.eduworks.ec.array.EcArray;
 
 public class EcQuestion extends Question
 {
+	public static final String MULTIPLE_CHOICE = "Multiple Choice";
+	public static final String MULTIPLE_SELECT = "Multiple Select";
+	public static final String SHORT_ANSWER = "Short Answer";
+	public static final String FILL_IN_THE_BLANK = "Fill in the Blank";
+	public static final String ESSAY_OR_SHORT_ANSWER = "Essay or Short Answer";
+	public static final String HAND_GRADED_ESSAY = "Hand-graded Essay";
+
 	/**
 	 * Heuristic method of determining the format this question can be asked.
 	 * @return
@@ -22,29 +29,29 @@ public class EcQuestion extends Question
 		Array<String> acceptedAnswers = acceptedAnswers();
 		if (acceptedAnswers == null)
 			if (canEdit(EcIdentityManager.ids.$get(0).ppk.toPk()))
-				return "Hand-graded Essay";
+				return HAND_GRADED_ESSAY;
 			else
-				return "Essay or Short Answer";
+				return ESSAY_OR_SHORT_ANSWER;
 		int m = acceptedAnswers.$length();
 		if (m == 0)
-			return "Hand-graded Essay";
+			return HAND_GRADED_ESSAY;
 		if (suggestedAnswer == null)
 		{
 			if (text != null && text.indexOf("__") != -1)
-				return "Fill in the Blank";
-			return "Short Answer";
+				return FILL_IN_THE_BLANK;
+			return SHORT_ANSWER;
 		}
 		int l = ((Array<String>) (Object) suggestedAnswer).$length();
 		if (l == 0)
 		{
 			if (text != null && text.indexOf("__") != -1)
-				return "Fill in the Blank";
-			return "Short Answer";
+				return FILL_IN_THE_BLANK;
+			return SHORT_ANSWER;
 		}
 		if (m > 1)
-			return "Multiple Select";
+			return MULTIPLE_SELECT;
 		if (l > 0)
-			return "Multiple Choice";
+			return MULTIPLE_CHOICE;
 		return "Not sure.";
 	}
 
