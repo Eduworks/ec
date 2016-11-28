@@ -21,7 +21,7 @@ public class EcQuestion extends Question
 	public static final String HAND_GRADED_ESSAY = "Hand-graded Essay";
 
 	/**
-	 * Heuristic method of determining the format this question can be asked.
+	 * Heuristic method of determining how this question should be asked.
 	 * @return
 	 */
 	public String getQuestionType()
