@@ -1,9 +1,12 @@
 package com.eduworks.ec.crypto;
 
+import org.stjs.javascript.JSObjectAdapter;
+
 import forge.bytes;
 import forge.payload;
 import forge.pk;
 import forge.pki;
+import forge.ssh;
 
 /**
  * Helper classes for dealing with RSA Public Keys.
@@ -27,7 +30,8 @@ public class EcPk
 		try
 		{
 			pk.pk = pki.publicKeyFromPem(pem);
-		} catch (Exception ex)
+		}
+		catch (Exception ex)
 		{
 			return null;
 		}
@@ -85,6 +89,18 @@ public class EcPk
 	public String toPkcs8Pem()
 	{
 		return pki.publicKeyToPem(pk).replaceAll("\r?\n", "");
+	}
+
+	/**
+	 * Hashes the public key into an SSH compatible fingerprint.
+	 * @method toHash
+	 * @return {string} Public key fingerprint.
+	 */
+	public String fingerprint()
+	{
+		Object o = new Object();
+		JSObjectAdapter.$put(o, "encoding", "hex");
+		return ssh.getPublicKeyFingerprint(pk, o);
 	}
 
 	public Boolean verify(bytes bytes, payload decode64)
