@@ -166,7 +166,8 @@ public class EcRemoteLinkedData extends EcLinkedData
 			JSObjectAdapter.$properties(d).$delete("@owner");
 			JSObjectAdapter.$properties(d).$delete("@reader");
 			JSObjectAdapter.$properties(d).$delete("@id");
-		} else
+		}
+		else
 		{
 			// Whom else has signed the object does not change the contents of
 			// the object.
@@ -174,7 +175,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 			// Where the object resides does not change the contents of the
 			// object, and provides server administration capabilities.
 			JSObjectAdapter.$properties(d).$delete("@id");
-			
+
 			// Who owns the object, or who can read the object *does* matter
 			// though, as administrators should not be able to change the
 			// ownership properties of the object in a clandestine fashion.
@@ -201,7 +202,8 @@ public class EcRemoteLinkedData extends EcLinkedData
 			for (int i = 0; i < signature.$length(); i++)
 				if (signature.$get(i).equals(signed))
 					return;
-		} else
+		}
+		else
 		{
 			signature = new Array<String>();
 		}
@@ -232,7 +234,8 @@ public class EcRemoteLinkedData extends EcLinkedData
 						try
 						{
 							verify = EcRsaOaep.verify(pk, toSignableJson(), sig);
-						} catch (Exception ex)
+						}
+						catch (Exception ex)
 						{
 						}
 						if (verify)
@@ -438,7 +441,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 			result += "@type:\"" + types.$get(i) + "\"";
 
 			int lastSlash = types.$get(i).lastIndexOf("/");
-			result += " OR (@context:\"" + types.$get(i).substring(0, lastSlash) + "\" AND @type:\"" + types.$get(i).substring(lastSlash + 1) + "\")";
+			result += " OR (@context:\"" + types.$get(i).substring(0, lastSlash + 1) + "\" AND @type:\"" + types.$get(i).substring(lastSlash + 1) + "\")";
 		}
 		for (int i = 0; i < types.$length(); i++)
 		{
