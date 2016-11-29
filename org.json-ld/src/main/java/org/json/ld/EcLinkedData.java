@@ -307,7 +307,10 @@ public class EcLinkedData
 	{
 		Array<String> a = new Array<>();
 		if (context != null && type != null)
+		{
+			String context = (!this.context.endsWith("/") ? this.context+"/" : this.context);
 			a.push(context + type);
+		}
 		return a;
 	}
 
