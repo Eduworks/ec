@@ -74,6 +74,7 @@
                         </execution>
                         <execution>
                             <id>test</id>
+                            <phase>install</phase>
                             <goals>
                                 <goal>generate-test</goal>
                             </goals>
