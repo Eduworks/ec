@@ -100,7 +100,8 @@ public class EcRemote
 			p.headers = (Map<String, String>) new Object();
 			p.headers.$put("Content-Type", "multipart/form-data; boundary=" + JSObjectAdapter.$get(fd, "_boundary"));
 			p.data = all;
-		} else
+		}
+		else
 		{
 			// We're in a browser.
 			p.mimeType = "multipart/form-data";
@@ -204,7 +205,8 @@ public class EcRemote
 					failure.$invoke(paramP1.statusText.toString());
 				else
 					failure.$invoke("General error in AJAX request.");
-			} else if (paramP2 != null)
+			}
+			else if (paramP2 != null)
 				failure.$invoke(paramP2);
 			else if (paramP3 != null)
 				failure.$invoke(paramP3);
@@ -241,9 +243,16 @@ public class EcRemote
 					try
 					{
 						success.$invoke(JSON.parse(arg2.responseText));
-					} catch (Exception ex)
+					}
+					catch (Exception ex)
 					{
-						failure.$invoke(ex.getMessage());
+						if (ex != null)
+						{
+							if (JSObjectAdapter.$get(ex, "getMessage") != null)
+								failure.$invoke(ex.getMessage());
+							else
+								failure.$invoke((String) (Object) ex);
+						}
 					}
 			}
 		};
