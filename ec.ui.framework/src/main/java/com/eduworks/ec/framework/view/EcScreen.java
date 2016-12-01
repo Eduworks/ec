@@ -151,7 +151,7 @@ public abstract class EcScreen extends EcView
 		Object v = props.$get(key);
 		if (EcArray.isArray(v))
 		{
-			JQueryCore containers = scope.find("[ec-container='" + key + "']");
+			JQueryCore containers = scope.find("[ec-container~='" + key + "']");
 			for (int idx = 0; idx < containers.length(); idx++)
 			{
 				JQueryCore container = containers.eq(idx);

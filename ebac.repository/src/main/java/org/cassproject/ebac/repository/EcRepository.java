@@ -303,10 +303,12 @@ public class EcRepository
 			if (ownership.equals("public"))
 			{
 				query += " AND (_missing_:@owner)";
-			} else if (ownership.equals("owned"))
+			}
+			else if (ownership.equals("owned"))
 			{
 				query += " AND (_exists_:@owner)";
-			} else if (ownership.equals("me"))
+			}
+			else if (ownership.equals("me"))
 			{
 				query += " AND (";
 				for (int i = 0; i < EcIdentityManager.ids.$length(); i++)
@@ -336,7 +338,8 @@ public class EcRepository
 				handleSearchResults((Array<EcRemoteLinkedData>) JSObjectAdapter.$get(cache, cacheKey), eachSuccess, success);
 				return;
 			}
-		} else
+		}
+		else
 			cacheKey = null;
 
 		final FormData fd = new FormData();
@@ -398,7 +401,7 @@ public class EcRepository
 		for (int j = 0; j < hostnames.$length(); j++)
 			for (int k = 0; k < servicePrefixes.$length(); k++)
 				for (int i = 0; i < protocols.$length(); i++)
-					if (autoDetectRepositoryActual(protocols.$get(i) + "//" + hostnames.$get(j) + servicePrefixes.$get(k)))
+					if (autoDetectRepositoryActual(protocols.$get(i) + "//" + hostnames.$get(j) + servicePrefixes.$get(k).replaceAll("//", "/")))
 					{
 						EcRemote.async = true;
 						return;
@@ -453,7 +456,8 @@ public class EcRepository
 			try
 			{
 				EcRemote.getExpectingObject(guess, "ping", successCheck, failureCheck);
-			} catch (Exception ex)
+			}
+			catch (Exception ex)
 			{
 
 			}
@@ -612,18 +616,19 @@ public class EcRepository
 			return;
 		}
 
-		if(data.reader != null && data.reader.$length() == 0)
+		if (data.reader != null && data.reader.$length() == 0)
 			JSObjectAdapter.$properties(data).$delete("reader");
-		
-		if(data.owner != null && data.owner.$length() == 0)
+
+		if (data.owner != null && data.owner.$length() == 0)
 			JSObjectAdapter.$properties(data).$delete("owner");
-		
+
 		if (EcEncryptedValue.encryptOnSave(data.id, null))
 		{
 			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(data, false);
 			EcIdentityManager.sign(data);
 			_saveWithoutSigning(data, success, failure);
-		} else
+		}
+		else
 		{
 			EcIdentityManager.sign(data);
 			_saveWithoutSigning(data, success, failure);
@@ -663,7 +668,7 @@ public class EcRepository
 
 		final FormData fd = new FormData();
 		fd.append("data", data.toJson());
-		if(data.owner != null && data.owner.$length() > 0)
+		if (data.owner != null && data.owner.$length() > 0)
 		{
 			EcIdentityManager.signatureSheetForAsync(data.owner, 60000, data.id, new Callback1<String>()
 			{
@@ -687,7 +692,7 @@ public class EcRepository
 				}
 			});
 		}
-		
+
 	}
 
 	/**
