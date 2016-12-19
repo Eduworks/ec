@@ -23,7 +23,7 @@ public class Competency extends org.cassproject.schema.cass.competency.Competenc
 	private static final String TYPE_0_3 = "http://schema.cassproject.org/0.2/Competency";
 	private static final String TYPE_0_4 = "http://schema.eduworks.com/cfd/0.1/skill";
 	private static final String TYPE_0_5 = "http://schema.eduworks.com/cfd/0.1/knowledge";
-	private static final String TYPE_0_6 = "http://schema.eduworks.com/cfd/0.1/attitudes";
+	private static final String TYPE_0_6 = "http://schema.eduworks.com/cfd/0.1/attitude";
 	private static final String TYPE_0_7 = "http://schema.eduworks.com/cfd/0.1/belief";
 	private static final String TYPE_0_8 = "http://schema.eduworks.com/cfd/0.1/assessment";
 	public static final String myType = TYPE_0_3;
