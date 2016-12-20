@@ -18,6 +18,7 @@ public class EcQuiz extends CreativeWork
 		context = "http://schema.eduworks.com/0.1/";
 	}
 
+        public Integer duration;
 	public Array<String> question;
 
 	/**
