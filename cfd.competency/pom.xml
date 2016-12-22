@@ -8,15 +8,23 @@
 		<artifactId>ec</artifactId>
 		<version>0.0.1</version>
 	</parent>
-	<groupId>com.eduworks</groupId>
-	<artifactId>com.eduworks.schema.cfd</artifactId>
-	<version>0.1</version>
+	<artifactId>cfd.competency</artifactId>
 	<name>com.eduworks.schema.cfd</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
+	<dependency>
+			<groupId>org.st-js.bridge</groupId>
+			<artifactId>html</artifactId>
+			<version>5.0.bv2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.eduworks</groupId>
+			<artifactId>ec.base</artifactId>
+			<version>0.0.1</version>
+		</dependency>
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>ec.crypto</artifactId>
@@ -29,33 +37,8 @@
 		</dependency>
 		<dependency>
 			<groupId>com.eduworks</groupId>
-			<artifactId>org.json-ld</artifactId>
+			<artifactId>cass.competency</artifactId>
 			<version>0.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.schema</groupId>
-			<artifactId>org.schema</artifactId>
-			<version>0.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.eduworks</groupId>
-			<artifactId>org.cassproject.schema.general</artifactId>
-			<version>0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.st-js.bridge</groupId>
-			<artifactId>html</artifactId>
-			<version>5.0.bv2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.st-js.bridge</groupId>
-			<artifactId>jquery</artifactId>
-			<version>1.11.3.bv1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.eduworks</groupId>
-			<artifactId>org.cassproject.schema.cass</artifactId>
-			<version>0.1</version>
 		</dependency>
 	</dependencies>
 </project>
