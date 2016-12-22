@@ -7,7 +7,7 @@ package com.eduworks.schema.cfd.competency;
  * 
  * @author debbie.brown@eduworks.com
  * @author devlin.junker@eduworks.com
- * @class Attitude
+ * @class Belief
  * @module com.eduworks
  * @extends org.cassproject.schema.cass.competency.Competency
  */
