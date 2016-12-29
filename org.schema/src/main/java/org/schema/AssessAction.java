@@ -23,4 +23,8 @@ public class AssessAction extends Action
 		type="AssessAction";
 	}
 
+    public String prettyStartTime()
+    {
+        return new Date(startTime).toLocaleString();
+    }
 }
