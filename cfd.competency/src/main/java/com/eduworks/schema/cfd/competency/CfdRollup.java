@@ -19,6 +19,6 @@ public class CfdRollup extends CfdCompetency{
 	 * @property subtype
 	 * @type string
 	 */
-	public final String subtype = "Assessment";
+	public final String subtype = "Rollup";
 
 }
