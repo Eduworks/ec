@@ -130,7 +130,7 @@ public class EcRepository
 				}, 0);
 				return;
 			}
-		if ((Double) JSObjectAdapter.$get(fetching, url) > new Date().getTime() - 1000)
+		if ((Double) JSObjectAdapter.$get(fetching, url) > new Date().getTime() - 60000)
 		{
 			Global.setTimeout(new Callback0()
 			{
