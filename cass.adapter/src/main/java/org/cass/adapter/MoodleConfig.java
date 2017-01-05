@@ -35,11 +35,11 @@ public class MoodleConfig extends EcLinkedData {
 	 * 
 	 * @memberOf MoodleConfig
 	 * @method save
-	 * @param serverUrl
+	 * @param {String} serverUrl
 	 * 			URL of server to save configuration values to
-	 * @param success
+	 * @param {Callback1<Object>} success
 	 * 			Callback triggered on successfully saving config values to server
-	 * @param failure
+	 * @param {Callback1<String>} failure
 	 * 			Callback triggered if an error occurs while saving the config values
 	 */
 	public void save(final String serverUrl, final Callback1<Object> success, final Callback1<String> failure){
@@ -62,11 +62,11 @@ public class MoodleConfig extends EcLinkedData {
 	 * @memberOf MoodleConfig
 	 * @method get
 	 * @static
-	 * @param serverUrl
+	 * @param {String} serverUrl
 	 * 			URL of server to save configuration values to
-	 * @param success
+	 * @param {Callback1<Object>} success
 	 * 			Callback triggered on successfully retrieving config values to server
-	 * @param failure
+	 * @param {Callback1<String>} failure
 	 * 			Callback triggered if an error occurs while getting the config values
 	 */
 	public static void get(final String serverUrl, final Callback1<Object> success, final Callback1<String> failure){
@@ -78,6 +78,33 @@ public class MoodleConfig extends EcLinkedData {
 			{
 				fd.append("signatureSheet", signatureSheet);
 				EcRemote.postExpectingObject(serverUrl, "adapter/moodle/config/get", fd, success, failure);
+			}
+		});
+	}
+	
+	
+	/**
+	 * Retrieves the Moodle adapter Encryption Key from the server to share frameworks with
+	 * 
+	 * @memberOf MoodleConfig
+	 * @method get
+	 * @static
+	 * @param {String} serverUrl
+	 * 			URL of server to save configuration values to
+	 * @param {Callback1<String>} success
+	 * 			Callback triggered on successfully retrieving config values to server
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if an error occurs while getting the config values
+	 */
+	public static void getMoodleKey(final String serverUrl, final Callback1<String> success, final Callback1<String> failure){
+		final FormData fd = new FormData();
+		EcIdentityManager.signatureSheetAsync(60000, serverUrl,new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String signatureSheet)
+			{
+				fd.append("signatureSheet", signatureSheet);
+				EcRemote.postExpectingString(serverUrl, "adapter/moodle/config/key", fd, success, failure);
 			}
 		});
 	}

@@ -230,5 +230,6 @@
 		<module>cass.import</module>
 		<module>cass.adapter</module>
 		<module>com.eduworks.schema</module>
+		<module>cfd.competency</module>
 	</modules>
 </project>

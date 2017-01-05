@@ -422,6 +422,9 @@ public class EcIdentityManager
         });
     }
 
+    public static boolean signatureSheetCaching = false;
+    public static Object signatureSheetCache = new Object();
+
     /**
      * Create a signature sheet for all identities, authorizing movement of data
      * outside of our control.
@@ -436,13 +439,34 @@ public class EcIdentityManager
      */
     public static String signatureSheet(long duration, String server)
     {
+        Array cache = null;
+        if (signatureSheetCaching)
+        {
+            cache = (Array) JSObjectAdapter.$get(signatureSheetCache, server);
+            if (cache != null)
+            {
+                if ((Long) cache.$get(0) > new Date().getTime() + duration)
+                {
+                    return (String) cache.$get(1);
+                }
+            }
+            duration += 20000;
+        }
         Array<Object> signatures = new Array<Object>();
         for (int j = 0; j < ids.$length(); j++)
         {
             EcPpk ppk = ids.$get(j).ppk;
             signatures.push(createSignature(duration, server, ppk).atIfy());
         }
-        return JSGlobal.JSON.stringify(signatures);
+        String stringified = JSGlobal.JSON.stringify(signatures);
+        if (signatureSheetCaching)
+        {
+            cache = new Array();
+            cache.$set(0, new Date().getTime() + duration);
+            cache.$set(1, stringified);
+            JSObjectAdapter.$put(signatureSheetCache, server, cache);
+        }
+        return stringified;
     }
 
     /**
@@ -457,16 +481,31 @@ public class EcIdentityManager
      * @param {Callback<String>} success Callback triggered once the signature
      * sheet has been created, returns the signature sheet
      */
-    public static void signatureSheetAsync(final long duration, final String server, final Callback1<String> success)
+    public static void signatureSheetAsync(long duration, final String server, final Callback1<String> success)
     {
         final Array<Object> signatures = new Array<Object>();
+        Array cache = null;
+        if (signatureSheetCaching)
+        {
+            cache = (Array) JSObjectAdapter.$get(signatureSheetCache, server);
+            if (cache != null)
+            {
+                if ((Long) cache.$get(0) > new Date().getTime() + duration)
+                {
+                    success.$invoke((String) cache.$get(1));
+                    return;
+                }
+            }
+            duration += 20000;
+        }
+        final long finalDuration = duration;
         new EcAsyncHelper<EcIdentity>().each(ids, new Callback2<EcIdentity, Callback0>()
         {
             @Override
             public void $invoke(EcIdentity p1, final Callback0 incrementalSuccess)
             {
                 EcPpk ppk = p1.ppk;
-                createSignatureAsync(duration, server, ppk, new Callback1<EbacSignature>()
+                createSignatureAsync(finalDuration, server, ppk, new Callback1<EbacSignature>()
                 {
                     @Override
                     public void $invoke(EbacSignature p1)
@@ -481,7 +520,16 @@ public class EcIdentityManager
             @Override
             public void $invoke(Array<EcIdentity> pks)
             {
-                success.$invoke(JSGlobal.JSON.stringify(signatures));
+                Array cache = null;
+                String stringified = JSGlobal.JSON.stringify(signatures);
+                if (signatureSheetCaching)
+                {
+                    cache = new Array();
+                    cache.$set(0, new Date().getTime() + finalDuration);
+                    cache.$set(1, stringified);
+                    JSObjectAdapter.$put(signatureSheetCache, server, cache);
+                }
+                success.$invoke(stringified);
             }
         });
     }
