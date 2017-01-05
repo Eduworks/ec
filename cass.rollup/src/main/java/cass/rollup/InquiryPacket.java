@@ -255,6 +255,26 @@ public class InquiryPacket
 	}
 
 	/**
+	 * Returns true if all child packets have unknown results.
+	 * @method allChildPacketsUnknown
+	 * @return {boolean}
+	 */
+	public boolean allChildPacketsAreTrue()
+	{
+		for (int i = 0; i < equivalentPackets.$length(); i++)
+		{
+			if (!ResultType.TRUE.equals(equivalentPackets.$get(i).result))
+				return false;
+		}
+		for (int i = 0; i < subPackets.$length(); i++)
+		{
+			if (!ResultType.TRUE.equals(subPackets.$get(i).result))
+				return false;
+		}
+		return true;
+	}
+
+	/**
 	 * Returns true if any child packets have false results.
 	 * @method anyChildPacketsAreFalse
 	 * @return {boolean} 
