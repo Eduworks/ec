@@ -379,11 +379,19 @@ public class EcRepository
 	{
 		EcRemote.async = false;
 		Array<String> protocols = new Array<String>();
-		protocols.push("https:");
+		if (Global.window != null)
+			if (Global.window.location != null)
+				if (Global.window.location.protocol == "https:")
+					protocols.push("https:");
 		if (Global.window != null)
 			if (Global.window.location != null)
 				if (Global.window.location.protocol == "http:")
 					protocols.push("http:");
+                if (protocols.$length() == 0)
+                {
+                    protocols.push("https:");
+                    protocols.push("http:");
+                }
 		Array<String> hostnames = new Array<String>();
 
 		if (Global.window.location.host != null)
