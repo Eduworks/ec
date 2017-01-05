@@ -159,6 +159,44 @@ public class EcAlignment extends Relation
 	}
 	
 	/**
+	 * Retrieves an alignment from it's server synchronously, the call 
+	 * blocks until it is successful or an error occurs
+	 * 
+	 * @memberOf EcAlignment
+	 * @method getBlocking
+	 * @static
+	 * @param {String} id
+	 * 			ID of the alignment to retrieve
+	 * @return EcAlignment
+	 * 			The alignment retrieved
+	 */
+	public static EcAlignment getBlocking(String id)
+	{
+		EcRemoteLinkedData p1 = EcRepository.getBlocking(id);
+		EcAlignment alignment = new EcAlignment();
+
+		if (p1.isA(EcEncryptedValue.myType))
+		{
+			EcEncryptedValue encrypted = new EcEncryptedValue();
+			encrypted.copyFrom(p1);
+			p1 = encrypted.decryptIntoObject();
+
+			EcEncryptedValue.encryptOnSave(p1.id, true);
+		}
+		if (p1.isAny(alignment.getTypes()))
+		{
+			alignment.copyFrom(p1);
+			return alignment;
+		} 
+                else
+		{
+			String msg = "Retrieved object was not a relation";
+			Global.console.error(msg);
+			return null;
+		}
+	}
+        
+	/**
 	 * Searches the repository using the query and optional parameters provided
 	 * 
 	 * @memberOf EcAlignment
