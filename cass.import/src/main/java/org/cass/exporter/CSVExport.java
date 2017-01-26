@@ -116,6 +116,20 @@ public class CSVExport extends Exporter {
 			            EcRepository.get(relationUrl, new Callback1<EcRemoteLinkedData>(){
 			            	public void $invoke(EcRemoteLinkedData relation) {
 			            		csvRelationOutput.push(Global.JSON.parse(relation.toJson()));
+			            		
+			            		Map<String, Object> props = JSObjectAdapter.$properties(Global.JSON.parse(relation.toJson()));
+		                        
+		                        for(String prop : props){
+		                        	if(props.$get(prop) != null && props.$get(prop) != ""){
+			                        	for(int i = 0 ; i < csvOutput.$length(); i++){
+			                        		Object row = csvOutput.$get(i);
+			                        		if(!JSObjectAdapter.hasOwnProperty(row, prop)){
+			                        			JSObjectAdapter.$put(row, prop, "");
+			                        		}
+			                        	}
+		                        	}
+		                        }
+			            		
 		                        if (csvRelationOutput.$length() == fw.relation.$length()) {
 		                            String csv = Papa.unparse(csvRelationOutput);
 		                            Element pom = Global.window.document.createElement("a");
