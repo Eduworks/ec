@@ -5,7 +5,7 @@
 
 	<groupId>com.eduworks</groupId>
 	<artifactId>ec</artifactId>
-	<version>0.0.1</version>
+	<version>SNAPSHOT</version>
 
 	<name>Eduworks Controller</name>
 	<url>http://maven.apache.org</url>

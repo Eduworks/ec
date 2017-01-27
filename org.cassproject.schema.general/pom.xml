@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.eduworks</groupId>
 		<artifactId>ec</artifactId>
-		<version>0.0.1</version>
+		<version>SNAPSHOT</version>
 	</parent>
 	<groupId>com.eduworks</groupId>
 	<artifactId>org.cassproject.schema.general</artifactId>
@@ -20,17 +20,17 @@
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>ec.base</artifactId>
-			<version>0.0.1</version>
+			<version>SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>ec.crypto</artifactId>
-			<version>0.0.1</version>
+			<version>SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>org.json-ld</artifactId>
-			<version>0.0.1</version>
+			<version>SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.st-js.bridge</groupId>
