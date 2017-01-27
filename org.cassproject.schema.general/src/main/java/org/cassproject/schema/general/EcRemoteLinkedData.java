@@ -426,6 +426,18 @@ public class EcRemoteLinkedData extends EcLinkedData
 	}
 
 	/**
+	 * Return the GUID portion of the short ID.
+	 * @method getGuid
+	 * @return {string} Guid of the linked data object.
+	 */
+	public String getGuid()
+	{
+		String shortId = trimVersionFromUrl(id);
+        Array<String> parts = (Array<String>)(Object)shortId.split("/");
+        return parts.$get(parts.$length()-1);
+	}
+
+	/**
 	 * Return a valid ElasticSearch search string that will retrieve all objects with this type.
 	 * @method getSearchStringByType
 	 * @return {string} ElasticSearch compatible search string.
