@@ -1,5 +1,6 @@
 package org.cass.importer;
 
+import com.eduworks.ec.random.EcRandom;
 import org.cass.competency.EcAlignment;
 import org.cass.competency.EcCompetency;
 import org.cassproject.ebac.identity.EcIdentity;
@@ -98,6 +99,8 @@ public class CSVImport
 	 */
 	private static void transformId(String oldId, EcRemoteLinkedData newObject, String selectedServer)
 	{
+        if (oldId == null || oldId == "")
+            oldId = EcRandom.generateUUID();
 		if (oldId.indexOf("http") != -1)
 		{
 			Array<String> parts = JSStringAdapter.split(oldId, "/");
@@ -196,8 +199,7 @@ public class CSVImport
 							if (tabularData.$get(i).$get(nameIndex) == null
 									|| tabularData.$get(i).$get(nameIndex) == "")
 							{
-								failure.$invoke("One or more names is blank or could not be found in the CSV.");
-								return;
+								continue;
 							}
 							competency.name = tabularData.$get(i).$get(nameIndex);
 
@@ -216,8 +218,14 @@ public class CSVImport
 								transformId(tabularData.$get(i).$get(idIndex), competency, serverUrl);
 							else
 								competency.generateId(serverUrl);
-							if (idIndex != null && idIndex >= 0)
+							if (idIndex != null && idIndex >= 0 && tabularData.$get(i).$get(idIndex) != null && tabularData.$get(i).$get(idIndex) != "")
+                            {
+                                if (JSObjectAdapter.$get(importCsvLookup, tabularData.$get(i).$get(idIndex)) != null)
+                                    continue;
 								JSObjectAdapter.$put(importCsvLookup, tabularData.$get(i).$get(idIndex), competency.shortId());
+                            }
+                            else if (JSObjectAdapter.$get(importCsvLookup, competency.name) != null)
+                                continue;
 							JSObjectAdapter.$put(importCsvLookup, competency.name, competency.shortId());
 							if (shortId != null && idIndex >= 0)
 								JSObjectAdapter.$put(importCsvLookup, shortId, competency.shortId());
