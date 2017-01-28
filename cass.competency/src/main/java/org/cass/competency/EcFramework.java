@@ -70,7 +70,7 @@ public class EcFramework extends Framework
 		for (int i = 0; i < competency.$length(); i++)
 			if (competency.$get(i).equals(shortId) || competency.$get(i).equals(id))
 				competency.splice(i, 1);
-		if (relation == null && level == null)
+		if ((relation == null || relation.$length() == 0) && (level == null || level.$length() == 0))
 			if (success != null)
 				success.$invoke("");
 
