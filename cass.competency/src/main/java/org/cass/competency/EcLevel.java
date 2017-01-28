@@ -176,6 +176,70 @@ public class EcLevel extends Level
 	}
 	
 	/**
+	 * Searches for levels with a string query
+	 * 
+	 * @memberOf EcLevel
+	 * @method search
+	 * @static
+	 * @param {EcRepository} repo
+	 * 			Repository to search for levels
+	 * @param {String} query
+	 * 			query string to use in search
+	 * @param {Callback1<Array<EcLevel>>} success
+	 * 			Callback triggered when searches successfully
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if an error occurs while searching
+	 * @param {Object} paramObj
+	 * 			Search parameters object to pass in
+	 * 		@param size
+	 * 		@param start
+	 */
+	public static void search(EcRepository repo, String query, final Callback1<Array<EcLevel>> success, Callback1<String> failure, Object paramObj){
+		String queryAdd = "";
+		queryAdd = new EcLevel().getSearchStringByType();
+
+		if (query == null || query == "")
+			query = queryAdd;
+		else
+			query = "(" + query + ") AND " + queryAdd;
+
+		repo.searchWithParams(query, paramObj, null, new Callback1<Array<EcRemoteLinkedData>>()
+		{
+			@Override
+			public void $invoke(Array<EcRemoteLinkedData> p1)
+			{
+				if (success != null)
+				{
+					Array<EcLevel> ret = JSCollections.$array();
+					for (int i = 0; i < p1.$length(); i++)
+					{
+						EcLevel level = new EcLevel();
+						if (p1.$get(i).isAny(level.getTypes()))
+						{
+							level.copyFrom(p1.$get(i));
+						} else if (p1.$get(i).isA(EcEncryptedValue.myType))
+						{
+							EcEncryptedValue val = new EcEncryptedValue();
+							val.copyFrom(p1.$get(i));
+							if (val.isAnEncrypted(EcLevel.myType))
+							{
+								EcRemoteLinkedData obj = val.decryptIntoObject();
+								level.copyFrom(obj);
+								EcEncryptedValue.encryptOnSave(level.id, true);
+							}
+						}
+
+						ret.$set(i, level);
+					}
+
+					success.$invoke(ret);
+				}
+			}
+
+		}, failure);
+	}
+	
+	/**
 	 * Searches for levels using a competency that the results must be related to
 	 * 
 	 * @memberOf EcLevel
