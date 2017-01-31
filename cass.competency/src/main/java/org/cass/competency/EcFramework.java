@@ -148,9 +148,15 @@ public class EcFramework extends Framework
 				@Override
 				public void $invoke(EcRemoteLinkedData p1)
 				{
-					EcAlignment a = new EcAlignment();
-					a.copyFrom(p1);
-					if (a.source == shortId || a.target == shortId || a.source == id || a.target == id)
+					EcAlignment a = null;
+					
+					// Wrap this in case there's an error retrieving, will skip that relationship
+					try{
+						a = new EcAlignment();
+						a.copyFrom(p1);
+					}catch(Exception e){ }
+					
+					if (a != null && a.source == shortId || a.target == shortId || a.source == id || a.target == id)
 					{
 						me.relation.splice(i, 1);
 						me.removeRelationshipsThatInclude(id, i, success, failure);
