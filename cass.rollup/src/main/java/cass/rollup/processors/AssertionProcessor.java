@@ -178,18 +178,26 @@ public abstract class AssertionProcessor
 		log(ip, "Record Id: " + a.shortId());
 		log(ip, "Confidence: " + a.confidence);
 		log(ip, "Number of pieces of evidence: " + a.getEvidenceCount());
-		log(ip, "Evidence:");
-		for (int j = 0; j < a.getEvidenceCount(); j++)
-			log(ip, "  " + a.getEvidence(j));
+//		log(ip, "Evidence:");
+//		for (int j = 0; j < a.getEvidenceCount(); j++)
+//			log(ip, "  " + a.getEvidence(j));
 		log(ip, "Recording in inquiry.");
 	}
 
 	protected String buildAssertionSearchQuery(InquiryPacket ip, EcCompetency competency)
 	{
+        String result = null;
 		if (IPType.ROLLUPRULE.equals(ip.type))
-			return "(" + new EcAssertion().getSearchStringByType() + ") AND (" + ip.rule + ")";
+        {
+			result = "(" + new EcAssertion().getSearchStringByType() + ") AND (" + ip.rule + ")";
+        }
 		else if (IPType.COMPETENCY.equals(ip.type))
-			return new EcAssertion().getSearchStringByTypeAndCompetency(competency);
+        {
+            result = new EcAssertion().getSearchStringByTypeAndCompetency(competency);
+        }
+        for (int i = 0;i < ip.subject.$length();i++)
+            result += " AND (\\*@reader:\""+ip.subject.$get(i).toPem()+"\")";
+        if (result != null) return result;
 		throw new RuntimeException("Trying to build an assertion search query on an unsupported type: " + ip.type);
 	}
 
