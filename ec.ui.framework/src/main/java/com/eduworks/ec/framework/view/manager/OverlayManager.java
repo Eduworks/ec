@@ -194,7 +194,7 @@ public class OverlayManager extends ScreenManager
 
 		inOverlay = false;
 
-		if (myHistory.$length() <= 2 && refreshOnOverlayClose)
+		if (myHistory.$length() <= 2 && refreshOnOverlayClose && lastScreen != null)
 			OverlayManager.changeScreen(lastScreen, null, lastScreenParams, null);
 
 		setView(OVERLAY_CONTAINER_ID, null);
