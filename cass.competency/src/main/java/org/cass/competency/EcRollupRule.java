@@ -4,7 +4,9 @@ import org.cassproject.ebac.repository.EcEncryptedValue;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.cass.competency.RollupRule;
 import org.cassproject.schema.general.EcRemoteLinkedData;
+import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
+import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.functions.Callback1;
 
 /**
@@ -133,5 +135,69 @@ public class EcRollupRule extends RollupRule
 					failure.$invoke(p1);
 			}
 		});
+	}
+	
+	/**
+	 * Searches for levels with a string query
+	 * 
+	 * @memberOf EcRollupRule
+	 * @method search
+	 * @static
+	 * @param {EcRepository} repo
+	 * 			Repository to search for levels
+	 * @param {String} query
+	 * 			query string to use in search
+	 * @param {Callback1<Array<EcRollupRule>>} success
+	 * 			Callback triggered when searches successfully
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if an error occurs while searching
+	 * @param {Object} paramObj
+	 * 			Search parameters object to pass in
+	 * 		@param size
+	 * 		@param start
+	 */
+	public static void search(EcRepository repo, String query, final Callback1<Array<EcRollupRule>> success, Callback1<String> failure, Object paramObj){
+		String queryAdd = "";
+		queryAdd = new EcRollupRule().getSearchStringByType();
+
+		if (query == null || query == "")
+			query = queryAdd;
+		else
+			query = "(" + query + ") AND " + queryAdd;
+
+		repo.searchWithParams(query, paramObj, null, new Callback1<Array<EcRemoteLinkedData>>()
+		{
+			@Override
+			public void $invoke(Array<EcRemoteLinkedData> p1)
+			{
+				if (success != null)
+				{
+					Array<EcRollupRule> ret = JSCollections.$array();
+					for (int i = 0; i < p1.$length(); i++)
+					{
+						EcRollupRule rule = new EcRollupRule();
+						if (p1.$get(i).isAny(rule.getTypes()))
+						{
+							rule.copyFrom(p1.$get(i));
+						} else if (p1.$get(i).isA(EcEncryptedValue.myType))
+						{
+							EcEncryptedValue val = new EcEncryptedValue();
+							val.copyFrom(p1.$get(i));
+							if (val.isAnEncrypted(EcRollupRule.myType))
+							{
+								EcRemoteLinkedData obj = val.decryptIntoObject();
+								rule.copyFrom(obj);
+								EcEncryptedValue.encryptOnSave(rule.id, true);
+							}
+						}
+
+						ret.$set(i, rule);
+					}
+
+					success.$invoke(ret);
+				}
+			}
+
+		}, failure);
 	}
 }
