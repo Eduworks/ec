@@ -109,7 +109,7 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor {
             log(ip, "Total number of assertions found: " + data.$length());
         }
         ip.numberOfQueriesRunning--;
-        checkStep(ip);
+        checkStepSecondPass(ip);
     }
 
     protected void findSubjectAssertionsForCompetency(final InquiryPacket ip) {
@@ -117,7 +117,7 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor {
 
         if (!IPType.COMPETENCY.equals(ip.type) && !IPType.ROLLUPRULE.equals(ip.type)) {
             log(ip, "No assertions for combinator types");
-            checkStep(ip);
+            checkStepSecondPass(ip);
             return;
         }
         final CombinatorAssertionProcessor me = this;

@@ -153,7 +153,6 @@ public abstract class AssertionProcessor {
     public boolean continueProcessingSecondPass(InquiryPacket ip) {
         if (!ip.hasCheckedAssertionsForCompetency) {
             findSubjectAssertionsForCompetency(ip);
-            // Bundle the queries into a single query for the entire activated graph on the second pass.				
             return true;
         } else {
             if (processChildPacketsSecondPass(ip.equivalentPackets)) {
@@ -163,7 +162,6 @@ public abstract class AssertionProcessor {
                 return true;
             }
         }
-        // This can happen as a second pass on the graph. Move this and the assertion collection into a second pass.
         if (ip.result == null) {
             determineResult(ip);
             if (ip.result != null && ip.success != null) {
