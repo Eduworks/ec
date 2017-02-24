@@ -3,6 +3,7 @@ package com.eduworks.ec.crypto;
 import forge.cipher;
 import forge.cipheroutput;
 import forge.util;
+import org.stjs.javascript.JSObjectAdapter;
 
 /**
  * Encrypts data synchronously using AES-256-CTR. Requires secret and iv to be 32 bytes.
@@ -47,11 +48,19 @@ public class EcAesCtr
 	 */
 	public static String decrypt(String ciphertext, String secret, String iv)
 	{
-		cipher c = cipher.createDecipher("AES-CTR", util.decode64(secret));
-		c.start(new EcAesParameters(iv));
-		c.update(forge.util.createBuffer(forge.util.decode64(ciphertext)));
-		c.finish();
-		cipheroutput decrypted = c.output;
-		return decrypted.data;
+            if (EcCrypto.caching)
+            {
+                final Object cacheGet = JSObjectAdapter.$get(EcCrypto.decryptionCache, secret+iv+ciphertext);
+                if (cacheGet != null)
+                    return (String) cacheGet;
+            }
+            cipher c = cipher.createDecipher("AES-CTR", util.decode64(secret));
+            c.start(new EcAesParameters(iv));
+            c.update(forge.util.createBuffer(forge.util.decode64(ciphertext)));
+            c.finish();
+            cipheroutput decrypted = c.output;
+            if (EcCrypto.caching)
+                JSObjectAdapter.$put(EcCrypto.decryptionCache, secret+iv+ciphertext, decrypted.data);
+            return decrypted.data;
 	}
 }
