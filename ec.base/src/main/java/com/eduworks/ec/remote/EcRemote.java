@@ -134,7 +134,7 @@ public class EcRemote
         {
             Object o = new Object();
             JSObjectAdapter.$put(o, "status", 200);
-            JSObjectAdapter.$put(o, "responseText", EcLevrHttp.httpPost(p.data, p.url, "multipart/form-data; boundary=" + JSObjectAdapter.$get(fd, "_boundary"),"false"));
+            JSObjectAdapter.$put(o, "responseText", JSON.stringify(EcLevrHttp.httpPost(p.data, p.url, "multipart/form-data","true", (String)JSObjectAdapter.$get(fd, "_boundary"))));
             successCallback.$invoke(null, null, (JQueryXHR) o);
         } else
         {
