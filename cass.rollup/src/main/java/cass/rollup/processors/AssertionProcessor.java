@@ -85,18 +85,16 @@ public abstract class AssertionProcessor {
         log(ip, "Created new inquiry.");
         final AssertionProcessor me = this;
         ip.success = new Callback1<InquiryPacket>() {
-            @Override
             public void $invoke(InquiryPacket p1) {
                 ip.success = success;
                 me.collectAssertionsForSecondPass(ip, new Callback1<InquiryPacket>() {
-                    @Override
                     public void $invoke(InquiryPacket p1) {
                         me.continueProcessingSecondPass(ip);
                     }
                 });
             }
         };
-        continueProcessing(ip);
+        continueProcessingFirstPass(ip);
     }
 
     public void collectAssertionsForSecondPass(final InquiryPacket ip, final Callback1 success) {
@@ -172,7 +170,7 @@ public abstract class AssertionProcessor {
         return false;
     }
 
-    public boolean continueProcessing(InquiryPacket ip) {
+    public boolean continueProcessingFirstPass(InquiryPacket ip) {
         // Build inquiry packet tree
         if (!ip.finished) {
             if (!ip.hasCheckedRelationshipsForCompetency) {
@@ -209,7 +207,7 @@ public abstract class AssertionProcessor {
     private boolean processChildPackets(Array<InquiryPacket> childPackets) {
         if (childPackets != null) {
             for (int i = 0; i < childPackets.$length(); i++) {
-                if (continueProcessing(childPackets.$get(i))) {
+                if (continueProcessingFirstPass(childPackets.$get(i))) {
                     return true;
                 }
                 // TB - not sure why this return was here
@@ -228,11 +226,11 @@ public abstract class AssertionProcessor {
         log(ip, "Checkstep: " + ip.numberOfQueriesRunning);
         if (ip.numberOfQueriesRunning == 0) {
             if (!step) {
-                continueProcessing(ip);
+                continueProcessingFirstPass(ip);
             }
         }
         // FR - This isn't a polling loop. If step is turned on, then we expect
-        // an external process to keep clicking continueProcessing.
+        // an external process to keep clicking continueProcessingFirstPass.
         // FR - If step is turned off, when a single thing gets done, we can
         // start doing the next thing.
         // FR - This is another artifact of 'drip processing', where we have to
@@ -349,7 +347,7 @@ public abstract class AssertionProcessor {
         }
         final AssertionProcessor ep = this;
         if (ip.getContext().rollupRule == null) {
-            continueProcessing(ip);
+            continueProcessingFirstPass(ip);
         } else {
             for (int i = 0; i < ip.getContext().rollupRule.$length(); i++) {
                 ip.numberOfQueriesRunning++;

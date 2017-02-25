@@ -140,7 +140,7 @@ public class RelationshipPacketGenerator
 				public void $invoke(InquiryPacket p1)
 				{
 					if (meEp != null)
-						meEp.continueProcessing(meIp);
+						meEp.continueProcessingFirstPass(meIp);
 				}
 			}, ip.failure, null, IPType.RELATION_REQUIRES);
 			rootRequiredPacket.subPackets = requiredPackets;
@@ -160,7 +160,7 @@ public class RelationshipPacketGenerator
 				public void $invoke(InquiryPacket p1)
 				{
 					if (meEp != null)
-						meEp.continueProcessing(meIp);
+						meEp.continueProcessingFirstPass(meIp);
 				}
 			}, ip.failure, null, IPType.RELATION_ISREQUIREDBY);
 			rootRequiredPacket.subPackets = requiredPackets;
@@ -180,7 +180,7 @@ public class RelationshipPacketGenerator
 				public void $invoke(InquiryPacket p1)
 				{
 					if (meEp != null)
-						meEp.continueProcessing(meIp);
+						meEp.continueProcessingFirstPass(meIp);
 				}
 			}, ip.failure, null, IPType.RELATION_NARROWS);
 			rootNarrowsPacket.subPackets = narrowsPackets;
@@ -200,7 +200,7 @@ public class RelationshipPacketGenerator
 				public void $invoke(InquiryPacket p1)
 				{
 					if (meEp != null)
-						meEp.continueProcessing(meIp);
+						meEp.continueProcessingFirstPass(meIp);
 				}
 			}, ip.failure, null, IPType.RELATION_BROADENS);
 			rootBroadensPacket.subPackets = broadensPackets;
@@ -241,7 +241,7 @@ public class RelationshipPacketGenerator
 				public void $invoke(InquiryPacket p1)
 				{
 					if (meEp != null)
-						meEp.continueProcessing(meIp);
+						meEp.continueProcessingFirstPass(meIp);
 				}
 			}, ip.failure, null, IPType.COMPETENCY));
 			// ip2.equivalentPackets.push(ip);
@@ -254,7 +254,7 @@ public class RelationshipPacketGenerator
 					public void $invoke(InquiryPacket p1)
 					{
 						if (meEp != null)
-							meEp.continueProcessing(meIp);
+							meEp.continueProcessingFirstPass(meIp);
 					}
 				}, ip.failure, null, IPType.COMPETENCY));
 			else
@@ -264,7 +264,7 @@ public class RelationshipPacketGenerator
 					public void $invoke(InquiryPacket p1)
 					{
 						if (meEp != null)
-							meEp.continueProcessing(meIp);
+							meEp.continueProcessingFirstPass(meIp);
 					}
 				}, ip.failure, null, IPType.COMPETENCY));
 		} else if (EcAlignment.NARROWS.equals(alignment.relationType))
@@ -276,7 +276,7 @@ public class RelationshipPacketGenerator
 					public void $invoke(InquiryPacket p1)
 					{
 						if (meEp != null)
-							meEp.continueProcessing(meIp);
+							meEp.continueProcessingFirstPass(meIp);
 					}
 				}, ip.failure, null, IPType.COMPETENCY));
 			else
@@ -286,7 +286,7 @@ public class RelationshipPacketGenerator
 					public void $invoke(InquiryPacket p1)
 					{
 						if (meEp != null)
-							meEp.continueProcessing(meIp);
+							meEp.continueProcessingFirstPass(meIp);
 					}
 				}, ip.failure, null, IPType.COMPETENCY));
 		}

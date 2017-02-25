@@ -65,7 +65,7 @@ public class RollupRulePacketGenerator
 			public void $invoke(InquiryPacket p1)
 			{
 				if (meEp != null)
-				   meEp.continueProcessing(meIp);
+				   meEp.continueProcessingFirstPass(meIp);
 			}
 		}, ip.failure, null, IPType.RELATION_AND);
 	}
@@ -80,7 +80,7 @@ public class RollupRulePacketGenerator
 			public void $invoke(InquiryPacket p1)
 			{
 				if (meEp != null)
-				   meEp.continueProcessing(meIp);
+				   meEp.continueProcessingFirstPass(meIp);
 			}
 		}, ip.failure, rule, IPType.ROLLUPRULE);
 	}
@@ -148,7 +148,7 @@ public class RollupRulePacketGenerator
 			public void $invoke(InquiryPacket p1)
 			{
 				if (meEp != null)
-				   meEp.continueProcessing(meIp);
+				   meEp.continueProcessingFirstPass(meIp);
 			}
 		}, ip.failure, null, ipt);
 		if (IPType.RELATION_AND.equals(ipt))
