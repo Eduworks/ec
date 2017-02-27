@@ -1,5 +1,6 @@
 package com.eduworks.ec.remote;
 
+import com.eduworks.ec.array.EcObject;
 import static org.stjs.javascript.JSGlobal.JSON;
 import static org.stjs.javascript.jquery.GlobalJQuery.$;
 
@@ -306,7 +307,10 @@ public class EcRemote
                 {
                     try
                     {
-                        success.$invoke(JSON.parse(arg2.responseText));
+                        if (EcObject.isObject(arg2.responseText))
+                            success.$invoke(arg2.responseText);
+                        else
+                            success.$invoke(JSON.parse(arg2.responseText));
                     } catch (Exception ex)
                     {
                         if (ex != null)
