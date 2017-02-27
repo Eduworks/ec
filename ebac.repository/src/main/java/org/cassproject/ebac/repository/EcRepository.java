@@ -211,6 +211,7 @@ public class EcRepository
 		final FormData fd = new FormData();
 		String p1 = EcIdentityManager.signatureSheet(60000, url);
 		fd.append("signatureSheet", p1);
+		boolean oldAsync = EcRemote.async;
 		EcRemote.async = false;
 		EcRemote.postExpectingObject(url, null, fd, new Callback1<Object>()
 		{
@@ -226,7 +227,7 @@ public class EcRepository
 				JSObjectAdapter.$put(cache, url, d);
 			}
 		}, null);
-		EcRemote.async = true;
+		EcRemote.async = oldAsync;
 		EcRemoteLinkedData result = (EcRemoteLinkedData) JSObjectAdapter.$get(cache, url);
 		if (!caching)
 			JSObjectAdapter.$put(cache, url, null);

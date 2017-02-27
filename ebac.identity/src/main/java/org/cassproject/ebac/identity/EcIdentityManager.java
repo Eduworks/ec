@@ -33,6 +33,8 @@ import com.eduworks.schema.ebac.EbacSignature;
  */
 public class EcIdentityManager
 {
+	
+	static boolean async = true;
 
     public static void main(String[] args)
     {
@@ -483,6 +485,13 @@ public class EcIdentityManager
      */
     public static void signatureSheetAsync(long duration, final String server, final Callback1<String> success)
     {
+    	if(!async){
+    		String sheet = signatureSheet(duration, server);
+    		if(success != null)
+    			success.$invoke(sheet);
+    		return;
+    	}
+    	
         final Array<Object> signatures = new Array<Object>();
         Array cache = null;
         if (signatureSheetCaching)
