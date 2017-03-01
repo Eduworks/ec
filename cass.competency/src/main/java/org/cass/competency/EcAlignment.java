@@ -130,6 +130,13 @@ public class EcAlignment extends Relation
 			@Override
 			public void $invoke(EcRemoteLinkedData p1)
 			{
+                if (p1 instanceof EcAlignment)
+                    if (success != null)
+                    {
+                        success.$invoke((EcAlignment) p1);
+                        return;
+                    }
+                
 				EcAlignment relation = new EcAlignment();
 				
 				if (p1.isA(EcEncryptedValue.myType))
@@ -142,6 +149,11 @@ public class EcAlignment extends Relation
 				{
 					relation.copyFrom(p1);
 					
+                    if (EcRepository.caching)
+                    {
+                        JSObjectAdapter.$put(EcRepository.cache,relation.shortId(),relation);
+                        JSObjectAdapter.$put(EcRepository.cache,relation.id,relation);
+                    }
 					if(success != null)
 						success.$invoke(relation);
 				}
@@ -173,6 +185,9 @@ public class EcAlignment extends Relation
 	public static EcAlignment getBlocking(String id)
 	{
 		EcRemoteLinkedData p1 = EcRepository.getBlocking(id);
+                if (p1 instanceof EcAlignment)
+                    return (EcAlignment) p1;
+                
 		EcAlignment alignment = new EcAlignment();
 
 		if (p1.isA(EcEncryptedValue.myType))
@@ -186,6 +201,11 @@ public class EcAlignment extends Relation
 		if (p1.isAny(alignment.getTypes()))
 		{
 			alignment.copyFrom(p1);
+                    if (EcRepository.caching)
+                    {
+                        JSObjectAdapter.$put(EcRepository.cache,alignment.shortId(),alignment);
+                        JSObjectAdapter.$put(EcRepository.cache,alignment.id,alignment);
+                    }
 			return alignment;
 		} 
                 else

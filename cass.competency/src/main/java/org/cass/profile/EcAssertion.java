@@ -42,7 +42,7 @@ public class EcAssertion extends Assertion
 	{
 		if (subject == null)
 		{
-			failure.$invoke("Subject not found.");
+            success.$invoke(null);
 			return;
 		}
 		EcEncryptedValue v = new EcEncryptedValue();
@@ -76,7 +76,7 @@ public class EcAssertion extends Assertion
 	{
 		if (agent == null)
 		{
-			failure.$invoke("Agent not found.");
+            success.$invoke(null);
 			return;
 		}
 		EcEncryptedValue v = new EcEncryptedValue();
@@ -196,7 +196,7 @@ public class EcAssertion extends Assertion
 	{
 		if (assertionDate == null)
 		{
-			failure.$invoke("Assertion date not found.");
+            success.$invoke(null);
 			return;
 		}
 		EcEncryptedValue v = new EcEncryptedValue();
@@ -230,7 +230,7 @@ public class EcAssertion extends Assertion
 	{
 		if (expirationDate == null)
 		{
-			failure.$invoke("Expiration date not found.");
+            success.$invoke(null);
 			return;
 		}
 		EcEncryptedValue v = new EcEncryptedValue();
@@ -270,7 +270,7 @@ public class EcAssertion extends Assertion
 	{
 		if (evidence.$get(index) == null)
 		{
-			failure.$invoke("Evidence not found.");
+            success.$invoke(null);
 			return;
 		}
 		EcEncryptedValue v = new EcEncryptedValue();
@@ -304,7 +304,7 @@ public class EcAssertion extends Assertion
 	{
 		if (decayFunction == null)
 		{
-			failure.$invoke("Decay function not found.");
+            success.$invoke(null);
 			return;
 		}
 		EcEncryptedValue v = new EcEncryptedValue();
@@ -338,7 +338,7 @@ public class EcAssertion extends Assertion
 	{
 		if (negative == null)
 		{
-			failure.$invoke("Negative not found.");
+            success.$invoke(null);
 			return;
 		}
 		EcEncryptedValue v = new EcEncryptedValue();

@@ -589,6 +589,13 @@ public class EcCompetency extends Competency
 			@Override
 			public void $invoke(EcRemoteLinkedData p1)
 			{
+                if (p1 instanceof EcCompetency)
+                    if (success != null)
+                    {
+                        success.$invoke((EcCompetency) p1);
+                        return;
+                    }
+                
 				EcCompetency competency = new EcCompetency();
 
 				if (p1.isA(EcEncryptedValue.myType))
@@ -603,7 +610,11 @@ public class EcCompetency extends Competency
 				if (p1.isAny(competency.getTypes()))
 				{
 					competency.copyFrom(p1);
-
+                    if (EcRepository.caching)
+                    {
+                        JSObjectAdapter.$put(EcRepository.cache,competency.shortId(),competency);
+                        JSObjectAdapter.$put(EcRepository.cache,competency.id,competency);
+                    }
 					if (success != null)
 						success.$invoke(competency);
 				} else
