@@ -21,54 +21,67 @@ import com.eduworks.ec.remote.EcRemote;
  * @author fritz.ray@eduworks.com
  *
  */
-public class EcAesCtrAsync {
+public class EcAesCtrAsync
+{
 
     static int rotator;
     static Array<Worker<Object>> w;
     static Array<Array<Callback1>> q1;
     static Array<Array<Callback1>> q2;
 
-    private static void initWorker() {
-        if (Global.window == null && JSGlobal.typeof(WorkerGlobalScope.self).equals("undefined")) {
+    private static void initWorker()
+    {
+        if (Global.window == null && JSGlobal.typeof(WorkerGlobalScope.self).equals("undefined"))
+        {
             return;
         }
-        if (!EcRemote.async) {
+        if (!EcRemote.async)
+        {
             return;
         }
-        if (w != null) {
+        if (w != null)
+        {
             return;
         }
         rotator = 0;
         q1 = new Array<>();
         q2 = new Array<>();
         w = new Array<>();
-        for (int index = 0; index < 8; index++) {
+        for (int index = 0; index < 8; index++)
+        {
             createWorker(index);
         }
     }
 
-    private static void createWorker(final int index) {
+    private static void createWorker(final int index)
+    {
         q1.push(new Array<Callback1>());
         q2.push(new Array<Callback1>());
         Worker<Object> wkr;
         w.push(wkr = new Worker<Object>(JSObjectAdapter.$get(Global.window, "scriptPath") + "forgeAsync.js"));
-        wkr.onmessage = new Callback1<MessageEvent<Object>>() {
+        wkr.onmessage = new Callback1<MessageEvent<Object>>()
+        {
             @Override
-            public void $invoke(MessageEvent<Object> p1) {
+            public void $invoke(MessageEvent<Object> p1)
+            {
                 Object o = p1.data;
                 Callback1 success = q1.$get(index).shift();
                 Callback1 failure = q2.$get(index).shift();
-                if (success != null) {
+                if (success != null)
+                {
                     success.$invoke(JSObjectAdapter.$get(o, "result"));
                 }
             }
         };
-        wkr.onerror = new Callback1<ErrorEvent>() {
+        wkr.onerror = new Callback1<ErrorEvent>()
+        {
             @Override
-            public void $invoke(ErrorEvent p1) {
+            public void $invoke(ErrorEvent p1)
+            {
                 Callback1 success = q1.$get(index).shift();
                 Callback1 failure = q2.$get(index).shift();
-                if (failure != null) {
+                if (failure != null)
+                {
                     failure.$invoke(p1.toString());
                 }
             }
@@ -89,11 +102,15 @@ public class EcAesCtrAsync {
      * @param {function(string)} failure Failure method, parameter is error
      * message.
      */
-    public static void encrypt(String plaintext, String secret, String iv, Callback1<String> success, Callback1<String> failure) {
+    public static void encrypt(String plaintext, String secret, String iv, Callback1<String> success, Callback1<String> failure)
+    {
         initWorker();
-        if (!EcRemote.async || w == null) {
+        if (!EcRemote.async || w == null)
+        {
             success.$invoke(EcAesCtr.encrypt(plaintext, secret, iv));
-        } else {
+        }
+        else
+        {
             int worker = rotator++;
             rotator = rotator % 8;
             Object o = new Object();
@@ -121,18 +138,25 @@ public class EcAesCtrAsync {
      * @param {function(string)} failure Failure method, parameter is error
      * message.
      */
-    public static void decrypt(final String ciphertext, final String secret, final String iv, final Callback1<String> success, Callback1<String> failure) {
-        if (EcCrypto.caching) {
-            final Object cacheGet = JSObjectAdapter.$get(EcCrypto.decryptionCache, secret + iv + ciphertext);
-            if (cacheGet != null) {
+    public static void decrypt(final String ciphertext, final String secret, final String iv, final Callback1<String> success, final Callback1<String> failure)
+    {
+        if (EcCrypto.caching)
+        {
+            Object cacheGet = null;
+            cacheGet = JSObjectAdapter.$get(EcCrypto.decryptionCache, secret + iv + ciphertext);
+            if (cacheGet != null)
+            {
                 success.$invoke((String) cacheGet);
                 return;
             }
         }
         initWorker();
-        if (!EcRemote.async || w == null) {
+        if (!EcRemote.async || w == null)
+        {
             success.$invoke(EcAesCtr.decrypt(ciphertext, secret, iv));
-        } else {
+        }
+        else
+        {
             int worker = rotator++;
             rotator = rotator % 8;
             Object o = new Object();
@@ -140,15 +164,20 @@ public class EcAesCtrAsync {
             JSObjectAdapter.$put(o, "iv", iv);
             JSObjectAdapter.$put(o, "text", ciphertext);
             JSObjectAdapter.$put(o, "cmd", "decryptAesCtr");
-            if (EcCrypto.caching) {
-                q1.$get(worker).push(new Callback1<String>() {
+            if (EcCrypto.caching)
+            {
+                q1.$get(worker).push(new Callback1<String>()
+                {
                     @Override
-                    public void $invoke(String p1) {
+                    public void $invoke(String p1)
+                    {
                         JSObjectAdapter.$put(EcCrypto.decryptionCache, secret + iv + ciphertext, p1);
                         success.$invoke(p1);
                     }
                 });
-            } else {
+            }
+            else
+            {
                 q1.$get(worker).push(success);
             }
             q2.$get(worker).push(failure);

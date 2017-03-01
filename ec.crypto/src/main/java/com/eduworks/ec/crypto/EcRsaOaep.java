@@ -4,6 +4,8 @@ import forge.sha1;
 import forge.sha256;
 import forge.util;
 import org.stjs.javascript.JSObjectAdapter;
+import static org.stjs.javascript.jquery.GlobalJQuery.$;
+import window.EcLevrCrypto;
 
 /**
  * Helper methods for performing RSA Encryption methods. Uses Optimal Asymmetric
@@ -15,7 +17,8 @@ import org.stjs.javascript.JSObjectAdapter;
  * @class EcRsaOaep
  *
  */
-public class EcRsaOaep {
+public class EcRsaOaep
+{
 
     /**
      * Encrypts a block of plaintext (no more than 256 bytes) with a public key
@@ -26,7 +29,12 @@ public class EcRsaOaep {
      * @param {EcPk} pk Public Key.
      * @param {string} plaintext Plaintext. Does not perform encoding.
      */
-    public static String encrypt(EcPk pk, String plaintext) {
+    public static String encrypt(EcPk pk, String plaintext)
+    {
+        if ($ == null)
+        {
+            return EcLevrCrypto.rsaEncrypt(plaintext, pk.toPem());
+        }
         return forge.util.encode64(pk.pk.encrypt(plaintext, "RSA-OAEP"));
     }
 
@@ -40,16 +48,30 @@ public class EcRsaOaep {
      * @param {string} ciphertext Ciphertext.
      * @return {string} Unencoded plaintext.
      */
-    public static String decrypt(EcPpk ppk, String ciphertext) {
-        if (EcCrypto.caching) {
-            final Object cacheGet = JSObjectAdapter.$get(EcCrypto.decryptionCache, ppk.toPem() + ciphertext);
-            if (cacheGet != null) {
+    public static String decrypt(EcPpk ppk, String ciphertext)
+    {
+        if (EcCrypto.caching)
+        {
+            Object cacheGet = null;
+            cacheGet = JSObjectAdapter.$get(EcCrypto.decryptionCache, ppk.toPem() + ciphertext);
+            if (cacheGet != null)
+            {
                 return (String) cacheGet;
             }
         }
-        final String result = ppk.ppk.decrypt(forge.util.decode64(ciphertext), "RSA-OAEP");
+        final String result;
+        if ($ == null)
+        {
+            result = EcLevrCrypto.rsaDecrypt(ciphertext, ppk.toPem());
+        }
+        else
+        {
+            result = ppk.ppk.decrypt(forge.util.decode64(ciphertext), "RSA-OAEP");
+        }
         if (EcCrypto.caching)
+        {
             JSObjectAdapter.$put(EcCrypto.decryptionCache, ppk.toPem() + ciphertext, result);
+        }
         return result;
     }
 
@@ -64,7 +86,12 @@ public class EcRsaOaep {
      * @param {string} text Text to sign.
      * @return Base64 encoded signature.
      */
-    public static String sign(EcPpk ppk, String text) {
+    public static String sign(EcPpk ppk, String text)
+    {
+        if ($ == null)
+        {
+            return EcLevrCrypto.rsaSign(text, ppk.toPem());
+        }
         sha1 s = sha1.create();
         s.update(text, "utf8");
         return util.encode64(ppk.ppk.sign(s));
@@ -81,7 +108,8 @@ public class EcRsaOaep {
      * @param {string} text Text to sign.
      * @return Base64 encoded signature.
      */
-    public static String signSha256(EcPpk ppk, String text) {
+    public static String signSha256(EcPpk ppk, String text)
+    {
         sha256 s = sha256.create();
         s.update(text, "utf8");
         return util.encode64(ppk.ppk.sign(s));
@@ -98,12 +126,20 @@ public class EcRsaOaep {
      * @param {string} signature Base64 encoded signature.
      * @return True IFF the signature is valid.
      */
-    public static Boolean verify(EcPk pk, String text, String signature) {
+    public static Boolean verify(EcPk pk, String text, String signature)
+    {
+        if ($ == null)
+        {
+            return EcLevrCrypto.rsaVerify(signature, pk.toPem(), text);
+        }
         sha1 s = sha1.create();
         s.update(text, "utf8");
-        try {
+        try
+        {
             return pk.verify(s.digest().bytes(), util.decode64(signature));
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             return false;
         }
     }

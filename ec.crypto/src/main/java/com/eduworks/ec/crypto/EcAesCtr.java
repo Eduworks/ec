@@ -4,6 +4,8 @@ import forge.cipher;
 import forge.cipheroutput;
 import forge.util;
 import org.stjs.javascript.JSObjectAdapter;
+import static org.stjs.javascript.jquery.GlobalJQuery.$;
+import window.EcLevrCrypto;
 
 /**
  * Encrypts data synchronously using AES-256-CTR. Requires secret and iv to be 32 bytes.
@@ -27,6 +29,10 @@ public class EcAesCtr
 	 */
 	public static String encrypt(String plaintext, String secret, String iv)
 	{
+            //Key creation was 32 byte at some point instead of 16 byte. Whoops.
+            if ($ == null && util.decode64(secret).length == 16 && util.decode64(iv).length == 16)
+            return EcLevrCrypto.aesEncrypt(plaintext, iv, secret);
+        
 		cipher c = cipher.createCipher("AES-CTR", util.decode64(secret));
 		c.start(new EcAesParameters(iv));
 		c.update(util.createBuffer(plaintext));
@@ -53,6 +59,14 @@ public class EcAesCtr
                 final Object cacheGet = JSObjectAdapter.$get(EcCrypto.decryptionCache, secret+iv+ciphertext);
                 if (cacheGet != null)
                     return (String) cacheGet;
+            }
+            //Key creation was 32 byte at some point instead of 16 byte. Whoops.
+            if ($ == null && util.decode64(secret).length == 16 && util.decode64(iv).length == 16)
+            {
+                String result = EcLevrCrypto.aesDecrypt(ciphertext, iv, secret);
+                if (EcCrypto.caching)
+                    JSObjectAdapter.$put(EcCrypto.decryptionCache, secret+iv+ciphertext, result);
+                return result;
             }
             cipher c = cipher.createDecipher("AES-CTR", util.decode64(secret));
             c.start(new EcAesParameters(iv));

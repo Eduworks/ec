@@ -7,6 +7,8 @@ import org.stjs.javascript.annotation.STJSBridge;
 @STJSBridge()
 public class payload
 {
+
+    public int length;
 	public bytes bytes()
 	{
 		return null;
