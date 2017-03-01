@@ -22,6 +22,8 @@ import com.eduworks.ec.crypto.EcPk;
  */
 public class InquiryPacket
 {
+
+    public boolean root = false;
 	public enum IPType
 	{
 		COMPETENCY, ROLLUPRULE, RELATION_AND, RELATION_OR, RELATION_NARROWS, RELATION_BROADENS, RELATION_REQUIRES, RELATION_ISREQUIREDBY
@@ -150,6 +152,13 @@ public class InquiryPacket
 	 * @type boolean
 	 */
 	public Boolean finished = false;
+    
+	/**
+	 * Set to true if this packet has finished stage one.
+	 * @property stageOneFinished
+	 * @type boolean
+	 */
+	public Boolean stageOneComplete = false;
 
 	/**
 	 * Type of inquiry packet. Inquiry packets can represent relational logic, rollup logic or competencies.

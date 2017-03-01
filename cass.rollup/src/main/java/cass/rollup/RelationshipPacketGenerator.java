@@ -9,6 +9,10 @@ import org.stjs.javascript.functions.Callback1;
 
 import cass.rollup.InquiryPacket.IPType;
 import cass.rollup.processors.AssertionProcessor;
+import org.stjs.javascript.Date;
+import org.stjs.javascript.Global;
+import org.stjs.javascript.JSGlobal;
+import org.stjs.javascript.JSObjectAdapter;
 
 /**
  * Creates child packets for an InquiryPacket based on its context. 
@@ -97,6 +101,7 @@ public class RelationshipPacketGenerator
 	 * @type InquiryPacket
 	 */
 	private InquiryPacket ip;
+    public Object relationLookup;
 
 	/**
 	 * Constructor for the RelationshipPacketGenerator
@@ -119,7 +124,7 @@ public class RelationshipPacketGenerator
 	protected void log(Object string)
 	{
 		if (logFunction != null)
-			logFunction.$invoke(string);
+			logFunction.$invoke(""+new Date().getTime()%100000+": "+string);
 	}
 
 	private void processEventFailure(String message, InquiryPacket ip)
@@ -304,7 +309,14 @@ public class RelationshipPacketGenerator
 	{
 		ip.numberOfQueriesRunning--;
 		String relatedCompetencyId = null;
-		if (ip.hasId(alignment.source))
+		if (ip.hasId(alignment.source) && ip.hasId(alignment.target))
+		{
+            //No need to process. The packet contains both ends of the relation.
+			numberOfRelationsProcessed++;
+			checkForFinish();
+			return;
+		}
+        else if (ip.hasId(alignment.source))
 			relatedCompetencyId = alignment.target;
 		else if (ip.hasId(alignment.target))
 			relatedCompetencyId = alignment.source;
@@ -346,27 +358,39 @@ public class RelationshipPacketGenerator
 			success.$invoke();
 		else
 		{
-			numberOfRelationsToProcess = ip.getContext().relation.$length();
-			numberOfRelationsProcessed = 0;
-			for (int i = 0; i < ip.getContext().relation.$length(); i++)
-			{
-				ip.numberOfQueriesRunning++;
-				EcAlignment.get(ip.getContext().relation.$get(i), new Callback1<EcAlignment>()
-				{
-					@Override
-					public void $invoke(EcAlignment p1)
-					{
-						rpg.processFindCompetencyRelationshipSuccess(p1, rpg.ip);
-					}
-				}, new Callback1<String>()
-				{
-					@Override
-					public void $invoke(String p1)
-					{
-						rpg.processEventFailure(p1, rpg.ip);
-					}
-				});
-			}
+            numberOfRelationsToProcess = 0;
+            for (int i = 0;i < ip.competency.$length();i++)
+            {
+                Array<EcAlignment> relationsRelatedToThisCompetency = (Array<EcAlignment>) JSObjectAdapter.$get(relationLookup,ip.competency.$get(i).shortId());
+                numberOfRelationsToProcess += relationsRelatedToThisCompetency.$length();
+                numberOfRelationsProcessed = 0;
+                for (int j = 0;j < relationsRelatedToThisCompetency.$length();j++)
+                {
+                    ip.numberOfQueriesRunning++;
+					rpg.processFindCompetencyRelationshipSuccess(relationsRelatedToThisCompetency.$get(j), rpg.ip);
+                }
+            }
+//			numberOfRelationsToProcess = ip.getContext().relation.$length();
+//			numberOfRelationsProcessed = 0;
+//			for (int i = 0; i < ip.getContext().relation.$length(); i++)
+//			{
+//				ip.numberOfQueriesRunning++;
+//				EcAlignment.get(ip.getContext().relation.$get(i), new Callback1<EcAlignment>()
+//				{
+//					@Override
+//					public void $invoke(EcAlignment p1)
+//					{
+//						rpg.processFindCompetencyRelationshipSuccess(p1, rpg.ip);
+//					}
+//				}, new Callback1<String>()
+//				{
+//					@Override
+//					public void $invoke(String p1)
+//					{
+//						rpg.processEventFailure(p1, rpg.ip);
+//					}
+//				});
+//			}
 		}
 	}
 

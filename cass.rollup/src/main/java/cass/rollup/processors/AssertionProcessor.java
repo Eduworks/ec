@@ -18,7 +18,10 @@ import com.eduworks.schema.ebac.EbacSignature;
 import cass.rollup.InquiryPacket;
 import cass.rollup.InquiryPacket.IPType;
 import com.eduworks.ec.array.EcAsyncHelper;
+import com.eduworks.ec.remote.EcRemote;
 import org.cassproject.schema.general.EcRemoteLinkedData;
+import org.stjs.javascript.Date;
+import org.stjs.javascript.Global;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.SortFunction;
 import org.stjs.javascript.functions.Callback0;
@@ -33,25 +36,38 @@ import org.stjs.javascript.functions.Callback2;
  * @author fritz.ray@eduworks.com
  * @author tom.buskirk@eduworks.com
  */
-public abstract class AssertionProcessor {
+public abstract class AssertionProcessor
+{
 
     public Array<EcRepository> repositories;
     public boolean step;
+    public boolean profileMode;
     public Callback1<Object> logFunction;
     public Object assertions;
 
     private static final boolean DEF_STEP = false;
 
     public Map<String, String> processedEquivalencies;
+    protected EcFramework context;
+    protected boolean assertionsCollected = false;
 
-    public AssertionProcessor() {
+    public AssertionProcessor()
+    {
         repositories = new Array<EcRepository>();
         step = DEF_STEP;
+        profileMode = false;
     }
 
-    protected void log(InquiryPacket ip, Object string) {
-        if (logFunction != null) {
-            logFunction.$invoke(string);
+    protected void log(InquiryPacket ip, Object string)
+    {
+        if (logFunction != null)
+        {
+            String id = "";
+            if (ip.competency != null && ip.competency.$length() > 0)
+            {
+                id = ip.competency.$get(0).shortId() + ":";
+            }
+            logFunction.$invoke(new Date().getTime() % 100000 + ": " + string);
         }
         ip.log += "\n" + string;
     }
@@ -78,122 +94,190 @@ public abstract class AssertionProcessor {
      * assertion processor has failed.
      */
     public void has(Array<EcPk> subject, EcCompetency competency, EcLevel level, EcFramework context, Array<EbacSignature> additionalSignatures,
-            final Callback1<InquiryPacket> success, Function1<String, String> ask, Callback1<String> failure) {
+            final Callback1<InquiryPacket> success, Function1<String, String> ask, Callback1<String> failure)
+    {
         final InquiryPacket ip = new InquiryPacket(subject, competency, level, context, success, failure, null, IPType.COMPETENCY);
+        ip.root = true;
         processedEquivalencies = JSCollections.$map();
         assertions = new Object();
+        this.context = context;
         log(ip, "Created new inquiry.");
         final AssertionProcessor me = this;
-        ip.success = new Callback1<InquiryPacket>() {
-            public void $invoke(InquiryPacket p1) {
-                ip.success = success;
-                me.collectAssertionsForSecondPass(ip, new Callback1<InquiryPacket>() {
-                    public void $invoke(InquiryPacket p1) {
-                        me.continueProcessingSecondPass(ip);
-                    }
-                });
-            }
-        };
         continueProcessingFirstPass(ip);
     }
 
-    public void collectAssertionsForSecondPass(final InquiryPacket ip, final Callback1 success) {
-        Array<EcCompetency> listOfActivatedCompetencies = new Array<>();
+    public void collectAssertionsForSecondPass(final InquiryPacket ip, final Callback1 success)
+    {
+        assertionsCollected = true;
+        Array<String> listOfActivatedCompetencies = new Array<>();
         collectCompetencies(ip, listOfActivatedCompetencies, new Array<InquiryPacket>());
         final AssertionProcessor me = this;
-        listOfActivatedCompetencies.sort(new SortFunction<EcCompetency>() {
+        listOfActivatedCompetencies.sort(new SortFunction<String>()
+        {
             @Override
-            public int $invoke(EcCompetency a, EcCompetency b) {
-                return b.shortId().compareTo(a.shortId());
+            public int $invoke(String a, String b)
+            {
+                return b.compareTo(a);
             }
         });
-        for (int i = 0; i < repositories.$length(); i++) {
+        for (int i = 0; i < repositories.$length(); i++)
+        {
             EcRepository currentRepository = repositories.$get(i);
 
-            log(ip, "Querying repositories for subject assertions on " + listOfActivatedCompetencies.$length() + " competencies");
+            String searchQuery = buildAssertionsSearchQuery(ip, listOfActivatedCompetencies);
+            log(ip, "Querying repositories for subject assertions on " + listOfActivatedCompetencies.$length() + " competencies: " + searchQuery);
             ip.numberOfQueriesRunning++;
             Object params = new Object();
             JSObjectAdapter.$put(params, "size", 5000);
-            EcAssertion.search(currentRepository,buildAssertionsSearchQuery(ip, listOfActivatedCompetencies), new Callback1<Array<EcAssertion>>() {
-                public void $invoke(Array<EcAssertion> p1) {
+            EcAssertion.search(currentRepository, searchQuery, new Callback1<Array<EcAssertion>>()
+            {
+                public void $invoke(Array<EcAssertion> p1)
+                {
                     ip.numberOfQueriesRunning--;
-                    for (int i = 0;i < p1.$length();i++)
+                    me.log(ip, p1.$length() + " assertions found.");
+                    for (int i = 0; i < p1.$length(); i++)
                     {
                         EcAssertion a = p1.$get(i);
-                        if (JSObjectAdapter.$get(me.assertions,a.competency) == null)
-                            JSObjectAdapter.$put(me.assertions,a.competency,new Array<EcAssertion>());
-                        Array<EcAssertion> as = (Array<EcAssertion>) JSObjectAdapter.$get(me.assertions, a.competency);
+                        String competency = EcRemoteLinkedData.trimVersionFromUrl(a.competency);
+                        if (JSObjectAdapter.$get(me.assertions, competency) == null)
+                        {
+                            JSObjectAdapter.$put(me.assertions, competency, new Array<EcAssertion>());
+                        }
+                        Array<EcAssertion> as = (Array<EcAssertion>) JSObjectAdapter.$get(me.assertions, competency);
                         as.push(a);
                     }
                     if (ip.numberOfQueriesRunning == 0)
+                    {
                         success.$invoke(ip);
+                    }
                 }
-            }, new Callback1<String>() {
-                public void $invoke(String p1) {
+            }, new Callback1<String>()
+            {
+                public void $invoke(String p1)
+                {
                     ip.numberOfQueriesRunning--;
                     if (ip.numberOfQueriesRunning == 0)
+                    {
                         success.$invoke(ip);
+                    }
                 }
-            },params);
+            }, params);
         }
 
     }
 
-    public boolean isIn(InquiryPacket ip, Array<InquiryPacket> alreadyDone) {
-        for (int i = 0; i < alreadyDone.$length(); i++) {
-            if (ip == alreadyDone.$get(i)) {
+    public boolean isIn(InquiryPacket ip, Array<InquiryPacket> alreadyDone)
+    {
+        for (int i = 0; i < alreadyDone.$length(); i++)
+        {
+            if (ip == alreadyDone.$get(i))
+            {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean continueProcessingSecondPass(InquiryPacket ip) {
-        if (!ip.hasCheckedAssertionsForCompetency) {
-            findSubjectAssertionsForCompetency(ip);
-            return true;
-        } else {
-            if (processChildPacketsSecondPass(ip.equivalentPackets)) {
-                return true;
+    public boolean continueProcessingSecondPass(InquiryPacket ip)
+    {
+        if (!ip.hasCheckedAssertionsForCompetency)
+        {
+            if (findSubjectAssertionsForCompetency(ip))
+            {
+                if (EcRemote.async)
+                {
+                    return true;
+                }
             }
-            if (processChildPacketsSecondPass(ip.subPackets)) {
+        }
+        if (processChildPacketsSecondPass(ip.equivalentPackets))
+        {
+            if (EcRemote.async)
+            {
                 return true;
             }
         }
-        if (ip.result == null) {
+        if (processChildPacketsSecondPass(ip.subPackets))
+        {
+            if (EcRemote.async)
+            {
+                return true;
+            }
+        }
+        if (ip.result == null)
+        {
             determineResult(ip);
-            if (ip.result != null && ip.success != null) {
+            log(ip, "Determined Result:" + ip.result);
+            log(ip, "Success:" + ip.success);
+            if (ip.result != null && ip.success != null)
+            {
+                log(ip, "Running success:" + ip.result);
                 ip.success.$invoke(ip);
             }
-            return true;
+            if (EcRemote.async)
+            {
+                return true;
+            }
         }
         return false;
     }
 
-    public boolean continueProcessingFirstPass(InquiryPacket ip) {
+    public boolean continueProcessingFirstPass(final InquiryPacket ip)
+    {
         // Build inquiry packet tree
-        if (!ip.finished) {
-            if (!ip.hasCheckedRelationshipsForCompetency) {
+        if (!ip.finished)
+        {
+            if (!ip.hasCheckedRelationshipsForCompetency)
+            {
                 findCompetencyRelationships(ip);
-                return true;
-            } else if (!ip.hasCheckedRollupRulesForCompetency) {
+                if (EcRemote.async)
+                {
+                    return true;
+                }
+            }
+            if (!ip.hasCheckedRollupRulesForCompetency)
+            {
                 findRollupRulesForCompetency(ip);
-                return true;
-            } else {
+                if (EcRemote.async)
+                {
+                    return true;
+                }
+            }
+            {
                 ip.finished = true;
             }
         }
-        if (ip.finished) {
-            if (processChildPackets(ip.equivalentPackets)) {
+        if (ip.finished)
+        {
+//            log(ip,"Equivalent Packets: " + ip.equivalentPackets.$length());
+//            log(ip,"Sub Packets: " + ip.subPackets.$length());
+            if (processChildPackets(ip.equivalentPackets))
+            {
                 return true;
             }
-            if (processChildPackets(ip.subPackets)) {
+            if (processChildPackets(ip.subPackets))
+            {
                 return true;
             }
-        }
-        if (ip.success != null) {
-            ip.success.$invoke(ip);
-            return true;
+            final AssertionProcessor me = this;
+            if (!assertionsCollected && ip.root)
+            {
+                collectAssertionsForSecondPass(ip, new Callback1<InquiryPacket>()
+                {
+                    public void $invoke(InquiryPacket p1)
+                    {
+                        me.continueProcessingSecondPass(ip);
+                    }
+                });
+                if (EcRemote.async)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return continueProcessingSecondPass(ip);
+            }
         }
         return false;
     }
@@ -202,12 +286,16 @@ public abstract class AssertionProcessor {
 
     protected abstract void findCompetencyRelationships(InquiryPacket ip);
 
-    protected abstract void findSubjectAssertionsForCompetency(InquiryPacket ip);
+    protected abstract boolean findSubjectAssertionsForCompetency(InquiryPacket ip);
 
-    private boolean processChildPackets(Array<InquiryPacket> childPackets) {
-        if (childPackets != null) {
-            for (int i = 0; i < childPackets.$length(); i++) {
-                if (continueProcessingFirstPass(childPackets.$get(i))) {
+    private boolean processChildPackets(Array<InquiryPacket> childPackets)
+    {
+        if (childPackets != null)
+        {
+            for (int i = 0; i < childPackets.$length(); i++)
+            {
+                if (continueProcessingFirstPass(childPackets.$get(i)))
+                {
                     return true;
                 }
                 // TB - not sure why this return was here
@@ -221,11 +309,14 @@ public abstract class AssertionProcessor {
         return false;
     }
 
-    protected void checkStep(InquiryPacket ip) {
+    protected void checkStep(InquiryPacket ip)
+    {
         // TODO Fritz, please make sure this is correct
-        log(ip, "Checkstep: " + ip.numberOfQueriesRunning);
-        if (ip.numberOfQueriesRunning == 0) {
-            if (!step) {
+        log(ip, "Checkstep First Pass: " + ip.numberOfQueriesRunning);
+        if (ip.numberOfQueriesRunning == 0)
+        {
+            if (!step && EcRemote.async)
+            {
                 continueProcessingFirstPass(ip);
             }
         }
@@ -242,10 +333,14 @@ public abstract class AssertionProcessor {
         // }
     }
 
-    private boolean processChildPacketsSecondPass(Array<InquiryPacket> childPackets) {
-        if (childPackets != null) {
-            for (int i = 0; i < childPackets.$length(); i++) {
-                if (continueProcessingSecondPass(childPackets.$get(i))) {
+    private boolean processChildPacketsSecondPass(Array<InquiryPacket> childPackets)
+    {
+        if (childPackets != null)
+        {
+            for (int i = 0; i < childPackets.$length(); i++)
+            {
+                if (continueProcessingSecondPass(childPackets.$get(i)))
+                {
                     return true;
                 }
             }
@@ -253,23 +348,28 @@ public abstract class AssertionProcessor {
         return false;
     }
 
-    protected void checkStepSecondPass(InquiryPacket ip) {
+    protected void checkStepSecondPass(InquiryPacket ip)
+    {
         // TODO Fritz, please make sure this is correct
-        log(ip, "Checkstep: " + ip.numberOfQueriesRunning);
-        if (ip.numberOfQueriesRunning == 0) {
-            if (!step) {
+        log(ip, "Checkstep Second Pass: " + ip.numberOfQueriesRunning);
+        if (ip.numberOfQueriesRunning == 0)
+        {
+            if (!step && EcRemote.async)
+            {
                 continueProcessingSecondPass(ip);
             }
         }
     }
 
-    protected void processEventFailure(String message, InquiryPacket ip) {
+    protected void processEventFailure(String message, InquiryPacket ip)
+    {
         log(ip, "Event failed: " + message);
         ip.numberOfQueriesRunning--;
         ip.failure.$invoke(message);
     }
 
-    protected void logFoundAssertion(EcAssertion a, InquiryPacket ip) {
+    protected void logFoundAssertion(EcAssertion a, InquiryPacket ip)
+    {
         log(ip, "No issues found with assertion.");
         log(ip, "Record Id: " + a.shortId());
         log(ip, "Confidence: " + a.confidence);
@@ -280,85 +380,113 @@ public abstract class AssertionProcessor {
         log(ip, "Recording in inquiry.");
     }
 
-    protected String buildAssertionSearchQuery(InquiryPacket ip, EcCompetency competency) {
+    protected String buildAssertionSearchQuery(InquiryPacket ip, EcCompetency competency)
+    {
         String result = null;
-        if (IPType.ROLLUPRULE.equals(ip.type)) {
+        if (IPType.ROLLUPRULE.equals(ip.type))
+        {
             result = "(" + new EcAssertion().getSearchStringByType() + ") AND (" + ip.rule + ")";
-        } else if (IPType.COMPETENCY.equals(ip.type)) {
+        }
+        else if (IPType.COMPETENCY.equals(ip.type))
+        {
             result = new EcAssertion().getSearchStringByTypeAndCompetency(competency);
         }
-        for (int i = 0; i < ip.subject.$length(); i++) {
+        for (int i = 0; i < ip.subject.$length(); i++)
+        {
             result += " AND (\\*@reader:\"" + ip.subject.$get(i).toPem() + "\")";
         }
-        if (result != null) {
+        if (result != null)
+        {
             return result;
         }
         throw new RuntimeException("Trying to build an assertion search query on an unsupported type: " + ip.type);
     }
 
-    protected String buildAssertionsSearchQuery(InquiryPacket ip, Array<EcCompetency> competencies) {
+    protected String buildAssertionsSearchQuery(InquiryPacket ip, Array<String> competencies)
+    {
         String result = null;
-        if (IPType.ROLLUPRULE.equals(ip.type)) {
+        if (IPType.ROLLUPRULE.equals(ip.type))
+        {
             ip.failure.$invoke("NOT SUPPOSED TO BE HERE.");
             throw new RuntimeException("Collecting assertions when root node is a rollup rule. Not supported.");
-        } else if (IPType.COMPETENCY.equals(ip.type)) {
+        }
+        else if (IPType.COMPETENCY.equals(ip.type))
+        {
             result = "(";
-            for (int i = 0;i < competencies.$length();i++)
+            for (int i = 0; i < competencies.$length(); i++)
             {
                 if (i != 0)
+                {
                     result += " OR ";
-                result += "competency:\"" + competencies.$get(i).shortId() + "\"";
+                }
+                result += "competency:\"" + competencies.$get(i) + "\"";
             }
             result += ")";
         }
-        for (int i = 0; i < ip.subject.$length(); i++) {
+        for (int i = 0; i < ip.subject.$length(); i++)
+        {
             result += " AND (\\*@reader:\"" + ip.subject.$get(i).toPem() + "\")";
         }
-        if (result != null) {
+        if (result != null)
+        {
             return result;
         }
         throw new RuntimeException("Trying to build an assertion search query on an unsupported type: " + ip.type);
     }
 
-    protected void processRelationshipPacketsGenerated(InquiryPacket ip, EcCompetency competency) {
+    protected void processRelationshipPacketsGenerated(InquiryPacket ip, EcCompetency competency)
+    {
         log(ip, "Relationships succesfully processed for: " + competency.id);
         ip.numberOfQueriesRunning--;
         checkStep(ip);
     }
 
-    protected void processRollupRuleInterpretSuccess(Boolean status, InquiryPacket ip) {
+    protected void processRollupRuleInterpretSuccess(Boolean status, InquiryPacket ip)
+    {
         log(ip, "Rollup rule successfully interpreted.");
         ip.numberOfQueriesRunning--;
         checkStep(ip);
     }
 
-    protected void processRollupRuleInterpretSkipped(InquiryPacket ip) {
+    protected void processRollupRuleInterpretSkipped(InquiryPacket ip)
+    {
         log(ip, "Rollup rule skipped.");
         ip.numberOfQueriesRunning--;
         checkStep(ip);
     }
 
-    private void findRollupRulesForCompetency(final InquiryPacket ip) {
+    private void findRollupRulesForCompetency(final InquiryPacket ip)
+    {
         ip.hasCheckedRollupRulesForCompetency = true;
-        if (!IPType.COMPETENCY.equals(ip.type)) {
+        if (!IPType.COMPETENCY.equals(ip.type))
+        {
             log(ip, "No rollup rules for combinator types");
             checkStep(ip);
             return;
         }
         final AssertionProcessor ep = this;
-        if (ip.getContext().rollupRule == null) {
+        if (ip.getContext().rollupRule == null)
+        {
+            if (EcRemote.async)
             continueProcessingFirstPass(ip);
-        } else {
-            for (int i = 0; i < ip.getContext().rollupRule.$length(); i++) {
+        }
+        else
+        {
+            for (int i = 0; i < ip.getContext().rollupRule.$length(); i++)
+            {
                 ip.numberOfQueriesRunning++;
-                EcRollupRule.get(ip.getContext().rollupRule.$get(i), new Callback1<EcRollupRule>() {
+                EcRollupRule.get(ip.getContext().rollupRule.$get(i), new Callback1<EcRollupRule>()
+                {
                     @Override
-                    public void $invoke(EcRollupRule rr) {
+                    public void $invoke(EcRollupRule rr)
+                    {
                         ep.processFindRollupRuleSuccess(rr, ip);
                     }
-                }, new Callback1<String>() {
+                }, new Callback1<String>()
+                {
                     @Override
-                    public void $invoke(String p1) {
+                    public void $invoke(String p1)
+                    {
                         ep.processEventFailure(p1, ip);
                     }
                 });
@@ -368,20 +496,41 @@ public abstract class AssertionProcessor {
 
     protected abstract void processFindRollupRuleSuccess(EcRollupRule rr, InquiryPacket ip);
 
-    private void collectCompetencies(InquiryPacket ip, Array<EcCompetency> listOfActivatedCompetencies, Array<InquiryPacket> listOfVisitedPackets) {
-        for (int i = 0; i < listOfVisitedPackets.$length(); i++) {
-            if (ip == listOfVisitedPackets.$get(i)) {
+    private void collectCompetencies(InquiryPacket ip, Array<String> listOfActivatedCompetencies, Array<InquiryPacket> listOfVisitedPackets)
+    {
+        if (profileMode)
+        {
+            for (int i = 0; i < context.competency.$length(); i++)
+            {
+                listOfActivatedCompetencies.push(context.competency.$get(i));
+            }
+            return;
+        }
+        for (int i = 0; i < listOfVisitedPackets.$length(); i++)
+        {
+            if (ip == listOfVisitedPackets.$get(i))
+            {
                 return;
             }
         }
         listOfVisitedPackets.push(ip);
-        for (int i = 0; i < ip.competency.$length(); i++) {
-            listOfActivatedCompetencies.push(ip.competency.$get(i));
+        for (int i = 0; i < ip.competency.$length(); i++)
+        {
+            for (int j = 0; j < listOfActivatedCompetencies.$length(); j++)
+            {
+                if (ip.competency.$get(i).shortId() == listOfActivatedCompetencies.$get(j))
+                {
+                    continue;
+                }
+            }
+            listOfActivatedCompetencies.push(ip.competency.$get(i).shortId());
         }
-        for (int i = 0; i < ip.equivalentPackets.$length(); i++) {
+        for (int i = 0; i < ip.equivalentPackets.$length(); i++)
+        {
             collectCompetencies(ip.equivalentPackets.$get(i), listOfActivatedCompetencies, listOfVisitedPackets);
         }
-        for (int i = 0; i < ip.subPackets.$length(); i++) {
+        for (int i = 0; i < ip.subPackets.$length(); i++)
+        {
             collectCompetencies(ip.subPackets.$get(i), listOfActivatedCompetencies, listOfVisitedPackets);
         }
     }
