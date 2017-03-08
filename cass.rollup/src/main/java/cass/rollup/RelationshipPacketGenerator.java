@@ -168,7 +168,7 @@ public class RelationshipPacketGenerator
 						meEp.continueProcessingFirstPass(meIp);
 				}
 			}, ip.failure, null, IPType.RELATION_ISREQUIREDBY);
-			rootRequiredPacket.subPackets = requiredPackets;
+			rootRequiredPacket.subPackets = isRequiredByPackets;
 			ip.subPackets.push(rootRequiredPacket);
 		}
 	}
