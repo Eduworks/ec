@@ -216,6 +216,7 @@ public class RelationshipPacketGenerator
 	private void finishRelationProcessing()
 	{
 		pushRequiredPacketsToIp();
+        pushIsRequiredByPacketsToIp();
 		pushNarrowsPacketsToIp();
 		pushBroadensPacketsToIp();
 		success.$invoke();
