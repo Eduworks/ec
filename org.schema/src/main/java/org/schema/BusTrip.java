@@ -24,6 +24,14 @@ public class BusTrip extends Intangible
 	}
 
 	/**
+	 * Schema.org/departureTime
+	 * The expected departure time.
+	 * @property departureTime
+	 * @type DateTime
+	 */
+	public String departureTime;
+
+	/**
 	 * Schema.org/busNumber
 	 * The unique identifier for the bus.
 	 * @property busNumber
@@ -38,14 +46,6 @@ public class BusTrip extends Intangible
 	 * @type schema,BusStation | schema,BusStop
 	 */
 	public Object departureBusStop;
-
-	/**
-	 * Schema.org/departureTime
-	 * The expected departure time.
-	 * @property departureTime
-	 * @type DateTime
-	 */
-	public String departureTime;
 
 	/**
 	 * Schema.org/arrivalTime

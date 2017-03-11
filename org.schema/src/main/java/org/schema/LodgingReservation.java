@@ -24,20 +24,20 @@ public class LodgingReservation extends Reservation
 	}
 
 	/**
-	 * Schema.org/lodgingUnitType
-	 * Textual description of the unit type (including suite vs. room, size of bed, etc.).
-	 * @property lodgingUnitType
-	 * @type schema,QualitativeValue | schema,Text
-	 */
-	public Object lodgingUnitType;
-
-	/**
 	 * Schema.org/numChildren
 	 * The number of children staying in the unit.
 	 * @property numChildren
 	 * @type schema,Integer | schema,QuantitativeValue
 	 */
 	public Object numChildren;
+
+	/**
+	 * Schema.org/lodgingUnitType
+	 * Textual description of the unit type (including suite vs. room, size of bed, etc.).
+	 * @property lodgingUnitType
+	 * @type schema,Text | schema,QualitativeValue
+	 */
+	public Object lodgingUnitType;
 
 	/**
 	 * Schema.org/numAdults

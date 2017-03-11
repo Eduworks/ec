@@ -51,7 +51,7 @@ public class GeoShape extends StructuredValue
 	 * Schema.org/addressCountry
 	 * The country. For example, USA. You can also provide the two-letter [ISO 3166-1 alpha-2 country code](http://en.wikipedia.org/wiki/ISO_3166-1).
 	 * @property addressCountry
-	 * @type schema,Country | schema,Text
+	 * @type schema,Text | schema,Country
 	 */
 	public Object addressCountry;
 

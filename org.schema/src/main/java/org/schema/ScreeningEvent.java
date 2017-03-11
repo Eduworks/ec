@@ -27,7 +27,7 @@ public class ScreeningEvent extends Event
 	 * Schema.org/subtitleLanguage
 	 * Languages in which subtitles/captions are available, in [IETF BCP 47 standard format](http://tools.ietf.org/html/bcp47).
 	 * @property subtitleLanguage
-	 * @type schema,Language | schema,Text
+	 * @type schema,Text | schema,Language
 	 */
 	public Object subtitleLanguage;
 

@@ -24,20 +24,20 @@ public class OrderItem extends Intangible
 	}
 
 	/**
-	 * Schema.org/orderQuantity
-	 * The number of the item ordered. If the property is not set, assume the quantity is one.
-	 * @property orderQuantity
-	 * @type Number
-	 */
-	public Double orderQuantity;
-
-	/**
 	 * Schema.org/orderDelivery
 	 * The delivery of the parcel related to this order or order item.
 	 * @property orderDelivery
 	 * @type ParcelDelivery
 	 */
 	public ParcelDelivery orderDelivery;
+
+	/**
+	 * Schema.org/orderQuantity
+	 * The number of the item ordered. If the property is not set, assume the quantity is one.
+	 * @property orderQuantity
+	 * @type Number
+	 */
+	public Double orderQuantity;
 
 	/**
 	 * Schema.org/orderItemStatus
@@ -51,7 +51,7 @@ public class OrderItem extends Intangible
 	 * Schema.org/orderedItem
 	 * The item ordered.
 	 * @property orderedItem
-	 * @type schema,Product | schema,OrderItem
+	 * @type schema,OrderItem | schema,Product
 	 */
 	public Object orderedItem;
 

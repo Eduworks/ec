@@ -24,14 +24,6 @@ public class VideoObject extends MediaObject
 	}
 
 	/**
-	 * Schema.org/musicBy
-	 * The composer of the soundtrack.
-	 * @property musicBy
-	 * @type schema,Person | schema,MusicGroup
-	 */
-	public Object musicBy;
-
-	/**
 	 * Schema.org/director
 	 * A director of e.g. tv, radio, movie, video gaming etc. content, or of an event. Directors can be associated with individual items or with a series, episode, clip.
 	 * @property director
@@ -62,6 +54,14 @@ public class VideoObject extends MediaObject
 	 * @type Text
 	 */
 	public String transcript;
+
+	/**
+	 * Schema.org/musicBy
+	 * The composer of the soundtrack.
+	 * @property musicBy
+	 * @type schema,Person | schema,MusicGroup
+	 */
+	public Object musicBy;
 
 	/**
 	 * Schema.org/actors

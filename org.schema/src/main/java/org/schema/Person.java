@@ -72,14 +72,6 @@ public class Person extends Thing
 	public String award;
 
 	/**
-	 * Schema.org/contactPoints
-	 * A contact point for a person or organization.
-	 * @property contactPoints
-	 * @type ContactPoint
-	 */
-	public ContactPoint contactPoints;
-
-	/**
 	 * Schema.org/taxID
 	 * The Tax / Fiscal ID of the organization or person, e.g. the TIN in the US or the CIF/NIF in Spain.
 	 * @property taxID
@@ -88,12 +80,36 @@ public class Person extends Thing
 	public String taxID;
 
 	/**
+	 * Schema.org/contactPoints
+	 * A contact point for a person or organization.
+	 * @property contactPoints
+	 * @type ContactPoint
+	 */
+	public ContactPoint contactPoints;
+
+	/**
+	 * Schema.org/faxNumber
+	 * The fax number.
+	 * @property faxNumber
+	 * @type Text
+	 */
+	public String faxNumber;
+
+	/**
 	 * Schema.org/children
 	 * A child of the person.
 	 * @property children
 	 * @type Person
 	 */
 	public Person children;
+
+	/**
+	 * Schema.org/height
+	 * The height of the item.
+	 * @property height
+	 * @type schema,Distance | schema,QuantitativeValue
+	 */
+	public Object height;
 
 	/**
 	 * Schema.org/duns
@@ -112,20 +128,20 @@ public class Person extends Thing
 	public String isicV4;
 
 	/**
-	 * Schema.org/colleagues
-	 * A colleague of the person.
-	 * @property colleagues
-	 * @type Person
-	 */
-	public Person colleagues;
-
-	/**
 	 * Schema.org/additionalName
 	 * An additional name for a Person, can be used for a middle name.
 	 * @property additionalName
 	 * @type Text
 	 */
 	public String additionalName;
+
+	/**
+	 * Schema.org/parents
+	 * A parents of the person.
+	 * @property parents
+	 * @type Person
+	 */
+	public Person parents;
 
 	/**
 	 * Schema.org/honorificSuffix
@@ -152,6 +168,14 @@ public class Person extends Thing
 	public Person follows;
 
 	/**
+	 * Schema.org/colleagues
+	 * A colleague of the person.
+	 * @property colleagues
+	 * @type Person
+	 */
+	public Person colleagues;
+
+	/**
 	 * Schema.org/brand
 	 * The brand(s) associated with a product or service, or the brand(s) maintained by an organization or business person.
 	 * @property brand
@@ -174,6 +198,14 @@ public class Person extends Thing
 	 * @type schema,ContactPoint | schema,Place
 	 */
 	public Object homeLocation;
+
+	/**
+	 * Schema.org/jobTitle
+	 * The job title of the person (for example, Financial Manager).
+	 * @property jobTitle
+	 * @type Text
+	 */
+	public String jobTitle;
 
 	/**
 	 * Schema.org/siblings
@@ -224,14 +256,6 @@ public class Person extends Thing
 	public ContactPoint contactPoint;
 
 	/**
-	 * Schema.org/jobTitle
-	 * The job title of the person (for example, Financial Manager).
-	 * @property jobTitle
-	 * @type Text
-	 */
-	public String jobTitle;
-
-	/**
 	 * Schema.org/performerIn
 	 * Event that this person is a performer or participant in.
 	 * @property performerIn
@@ -246,6 +270,14 @@ public class Person extends Thing
 	 * @type schema,Organization | schema,Person
 	 */
 	public Object funder;
+
+	/**
+	 * Schema.org/email
+	 * Email address.
+	 * @property email
+	 * @type Text
+	 */
+	public String email;
 
 	/**
 	 * Schema.org/sibling
@@ -304,14 +336,6 @@ public class Person extends Thing
 	public QuantitativeValue weight;
 
 	/**
-	 * Schema.org/email
-	 * Email address.
-	 * @property email
-	 * @type Text
-	 */
-	public String email;
-
-	/**
 	 * Schema.org/givenName
 	 * Given name. In the U.S., the first name of a Person. This can be used along with familyName instead of the name property.
 	 * @property givenName
@@ -320,36 +344,12 @@ public class Person extends Thing
 	public String givenName;
 
 	/**
-	 * Schema.org/faxNumber
-	 * The fax number.
-	 * @property faxNumber
-	 * @type Text
-	 */
-	public String faxNumber;
-
-	/**
-	 * Schema.org/height
-	 * The height of the item.
-	 * @property height
-	 * @type schema,QuantitativeValue | schema,Distance
-	 */
-	public Object height;
-
-	/**
 	 * Schema.org/hasPOS
 	 * Points-of-Sales operated by the organization or person.
 	 * @property hasPOS
 	 * @type Place
 	 */
 	public Place hasPOS;
-
-	/**
-	 * Schema.org/hasOfferCatalog
-	 * Indicates an OfferCatalog listing for this Organization, Person, or Service.
-	 * @property hasOfferCatalog
-	 * @type OfferCatalog
-	 */
-	public OfferCatalog hasOfferCatalog;
 
 	/**
 	 * Schema.org/telephone
@@ -371,7 +371,7 @@ public class Person extends Thing
 	 * Schema.org/colleague
 	 * A colleague of the person.
 	 * @property colleague
-	 * @type schema,Person | schema,URL
+	 * @type schema,URL | schema,Person
 	 */
 	public Object colleague;
 
@@ -392,14 +392,6 @@ public class Person extends Thing
 	public String honorificPrefix;
 
 	/**
-	 * Schema.org/parents
-	 * A parents of the person.
-	 * @property parents
-	 * @type Person
-	 */
-	public Person parents;
-
-	/**
 	 * Schema.org/spouse
 	 * The person's spouse.
 	 * @property spouse
@@ -411,7 +403,7 @@ public class Person extends Thing
 	 * Schema.org/owns
 	 * Products owned by the organization or person.
 	 * @property owns
-	 * @type schema,Product | schema,OwnershipInfo
+	 * @type schema,OwnershipInfo | schema,Product
 	 */
 	public Object owns;
 
@@ -438,6 +430,14 @@ public class Person extends Thing
 	 * @type schema,ContactPoint | schema,Place
 	 */
 	public Object workLocation;
+
+	/**
+	 * Schema.org/hasOfferCatalog
+	 * Indicates an OfferCatalog listing for this Organization, Person, or Service.
+	 * @property hasOfferCatalog
+	 * @type OfferCatalog
+	 */
+	public OfferCatalog hasOfferCatalog;
 
 	/**
 	 * Schema.org/makesOffer

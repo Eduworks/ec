@@ -35,9 +35,17 @@ public class Flight extends Intangible
 	 * Schema.org/aircraft
 	 * The kind of aircraft (e.g., "Boeing 747").
 	 * @property aircraft
-	 * @type schema,Vehicle | schema,Text
+	 * @type schema,Text | schema,Vehicle
 	 */
 	public Object aircraft;
+
+	/**
+	 * Schema.org/departureTime
+	 * The expected departure time.
+	 * @property departureTime
+	 * @type DateTime
+	 */
+	public String departureTime;
 
 	/**
 	 * Schema.org/arrivalTerminal
@@ -54,14 +62,6 @@ public class Flight extends Intangible
 	 * @type Text
 	 */
 	public String flightNumber;
-
-	/**
-	 * Schema.org/departureTime
-	 * The expected departure time.
-	 * @property departureTime
-	 * @type DateTime
-	 */
-	public String departureTime;
 
 	/**
 	 * Schema.org/mealService
@@ -99,7 +99,7 @@ public class Flight extends Intangible
 	 * Schema.org/estimatedFlightDuration
 	 * The estimated time the flight will take.
 	 * @property estimatedFlightDuration
-	 * @type schema,Duration | schema,Text
+	 * @type schema,Text | schema,Duration
 	 */
 	public Object estimatedFlightDuration;
 
@@ -115,7 +115,7 @@ public class Flight extends Intangible
 	 * Schema.org/flightDistance
 	 * The distance of the flight.
 	 * @property flightDistance
-	 * @type schema,Distance | schema,Text
+	 * @type schema,Text | schema,Distance
 	 */
 	public Object flightDistance;
 

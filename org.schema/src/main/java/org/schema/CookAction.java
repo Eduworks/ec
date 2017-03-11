@@ -27,7 +27,7 @@ public class CookAction extends CreateAction
 	 * Schema.org/foodEstablishment
 	 * A sub property of location. The specific food establishment where the action occurred.
 	 * @property foodEstablishment
-	 * @type schema,Place | schema,FoodEstablishment
+	 * @type schema,FoodEstablishment | schema,Place
 	 */
 	public Object foodEstablishment;
 

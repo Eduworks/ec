@@ -27,7 +27,7 @@ public class ChooseAction extends AssessAction
 	 * Schema.org/actionOption
 	 * A sub property of object. The options subject to this action.
 	 * @property actionOption
-	 * @type schema,Thing | schema,Text
+	 * @type schema,Text | schema,Thing
 	 */
 	public Object actionOption;
 
@@ -35,7 +35,7 @@ public class ChooseAction extends AssessAction
 	 * Schema.org/option
 	 * A sub property of object. The options subject to this action.
 	 * @property option
-	 * @type schema,Thing | schema,Text
+	 * @type schema,Text | schema,Thing
 	 */
 	public Object option;
 

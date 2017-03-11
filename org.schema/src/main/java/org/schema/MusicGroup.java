@@ -33,7 +33,7 @@ public class MusicGroup extends PerformingGroup
 
 	/**
 	 * Schema.org/genre
-	 * Genre of the creative work or group.
+	 * Genre of the creative work, broadcast channel or group.
 	 * @property genre
 	 * @type schema,URL | schema,Text
 	 */
@@ -59,7 +59,7 @@ public class MusicGroup extends PerformingGroup
 	 * Schema.org/track
 	 * A music recording (track)&#x2014;usually a single song. If an ItemList is given, the list should contain items of type MusicRecording.
 	 * @property track
-	 * @type schema,ItemList | schema,MusicRecording
+	 * @type schema,MusicRecording | schema,ItemList
 	 */
 	public Object track;
 

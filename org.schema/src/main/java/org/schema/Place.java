@@ -40,6 +40,22 @@ public class Place extends Thing
 	public LocationFeatureSpecification amenityFeature;
 
 	/**
+	 * Schema.org/event
+	 * Upcoming or past event associated with this place, organization, or action.
+	 * @property event
+	 * @type Event
+	 */
+	public Event event;
+
+	/**
+	 * Schema.org/faxNumber
+	 * The fax number.
+	 * @property faxNumber
+	 * @type Text
+	 */
+	public String faxNumber;
+
+	/**
 	 * Schema.org/additionalProperty
 	 * A property-value pair representing an additional characteristics of the entitity, e.g. a product feature or another characteristic for which there is no matching property in schema.org.\n\nNote: Publishers should be aware that applications designed to use specific schema.org properties (e.g. http://schema.org/width, http://schema.org/color, http://schema.org/gtin13, ...) will typically expect such data to be provided using those properties, rather than using the generic property/value mechanism.
 
@@ -73,12 +89,12 @@ public class Place extends Thing
 	public Place containsPlace;
 
 	/**
-	 * Schema.org/event
-	 * Upcoming or past event associated with this place, organization, or action.
-	 * @property event
-	 * @type Event
+	 * Schema.org/maximumAttendeeCapacity
+	 * The total number of individuals that may attend an event or venue.
+	 * @property maximumAttendeeCapacity
+	 * @type Integer
 	 */
-	public Event event;
+	public Integer maximumAttendeeCapacity;
 
 	/**
 	 * Schema.org/maps
@@ -116,7 +132,7 @@ public class Place extends Thing
 	 * Schema.org/photo
 	 * A photograph of this place.
 	 * @property photo
-	 * @type schema,ImageObject | schema,Photograph
+	 * @type schema,Photograph | schema,ImageObject
 	 */
 	public Object photo;
 
@@ -148,7 +164,7 @@ public class Place extends Thing
 	 * Schema.org/photos
 	 * Photographs of this place.
 	 * @property photos
-	 * @type schema,ImageObject | schema,Photograph
+	 * @type schema,Photograph | schema,ImageObject
 	 */
 	public Object photos;
 
@@ -164,17 +180,9 @@ public class Place extends Thing
 	 * Schema.org/hasMap
 	 * A URL to a map of the place.
 	 * @property hasMap
-	 * @type schema,Map | schema,URL
+	 * @type schema,URL | schema,Map
 	 */
 	public Object hasMap;
-
-	/**
-	 * Schema.org/faxNumber
-	 * The fax number.
-	 * @property faxNumber
-	 * @type Text
-	 */
-	public String faxNumber;
 
 	/**
 	 * Schema.org/smokingAllowed
@@ -222,7 +230,7 @@ public class Place extends Thing
 	 * Schema.org/logo
 	 * An associated logo.
 	 * @property logo
-	 * @type schema,ImageObject | schema,URL
+	 * @type schema,URL | schema,ImageObject
 	 */
 	public Object logo;
 

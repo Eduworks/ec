@@ -1,5 +1,6 @@
 package org.schema;
 
+import org.stjs.javascript.Date;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 
 /**
@@ -17,7 +18,7 @@ public class Thing extends EcRemoteLinkedData
 	 */
 	public Thing()
 	{
-		super("http://schema.org/", "Thing");
+		super("http://schema.org/","Thing");
 	}
 
 	/**
@@ -27,6 +28,15 @@ public class Thing extends EcRemoteLinkedData
 	 * @type Text
 	 */
 	public String name;
+
+	/**
+	 * Schema.org/identifier
+	 * The identifier property represents any kind of identifier for any kind of [[Thing]], such as ISBNs, GTIN codes, UUIDs etc. Schema.org provides dedicated properties for representing many of these, either as textual strings or as URL (URI) links. See [background notes](/docs/datamodel.html#identifierBg) for more details.
+        
+	 * @property identifier
+	 * @type schema,URL | schema,Text | schema,PropertyValue
+	 */
+	public Object identifier;
 
 	/**
 	 * Schema.org/url
@@ -40,7 +50,7 @@ public class Thing extends EcRemoteLinkedData
 	 * Schema.org/image
 	 * An image of the item. This can be a [[URL]] or a fully described [[ImageObject]].
 	 * @property image
-	 * @type schema,ImageObject | schema,URL
+	 * @type schema,URL | schema,ImageObject
 	 */
 	public Object image;
 
@@ -70,7 +80,7 @@ public class Thing extends EcRemoteLinkedData
 
 	/**
 	 * Schema.org/sameAs
-	 * URL of a reference Web page that unambiguously indicates the item's identity. E.g. the URL of the item's Wikipedia page, Freebase page, or official website.
+	 * URL of a reference Web page that unambiguously indicates the item's identity. E.g. the URL of the item's Wikipedia page, Wikidata entry, or official website.
 	 * @property sameAs
 	 * @type URL
 	 */

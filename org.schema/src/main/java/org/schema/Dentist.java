@@ -9,9 +9,9 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * @author schema.org
  * @class Dentist
  * @module org.schema
- * @extends MedicalOrganization
+ * @extends LocalBusiness
  */
-public class Dentist extends MedicalOrganization
+public class Dentist extends LocalBusiness
 {
 	/**
 	 * Constructor, automatically sets @context and @type.

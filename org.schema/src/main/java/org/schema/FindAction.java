@@ -5,7 +5,7 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
 
 /**
  * Schema.org/FindAction
- * TThe act of finding an object.\n\nRelated actions:\n\n* [[SearchAction]]: FindAction is generally lead by a SearchAction, but not necessarily.
+ * The act of finding an object.\n\nRelated actions:\n\n* [[SearchAction]]: FindAction is generally lead by a SearchAction, but not necessarily.
  * @author schema.org
  * @class FindAction
  * @module org.schema

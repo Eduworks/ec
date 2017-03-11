@@ -35,7 +35,7 @@ public class FinancialProduct extends Service
 	 * Schema.org/annualPercentageRate
 	 * The annual rate that is charged for borrowing (or made by investing), expressed as a single percentage number that represents the actual yearly cost of funds over the term of a loan. This includes any fees or additional costs associated with the transaction.
 	 * @property annualPercentageRate
-	 * @type schema,QuantitativeValue | schema,Number
+	 * @type schema,Number | schema,QuantitativeValue
 	 */
 	public Object annualPercentageRate;
 
@@ -43,7 +43,7 @@ public class FinancialProduct extends Service
 	 * Schema.org/interestRate
 	 * The interest rate, charged or paid, applicable to the financial product. Note: This is different from the calculated annualPercentageRate.
 	 * @property interestRate
-	 * @type schema,QuantitativeValue | schema,Number
+	 * @type schema,Number | schema,QuantitativeValue
 	 */
 	public Object interestRate;
 

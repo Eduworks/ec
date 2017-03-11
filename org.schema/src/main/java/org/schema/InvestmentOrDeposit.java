@@ -27,7 +27,7 @@ public class InvestmentOrDeposit extends FinancialProduct
 	 * Schema.org/amount
 	 * The amount of money.
 	 * @property amount
-	 * @type schema,MonetaryAmount | schema,Number
+	 * @type schema,Number | schema,MonetaryAmount
 	 */
 	public Object amount;
 

@@ -32,6 +32,14 @@ public class BroadcastChannel extends Intangible
 	public BroadcastService providesBroadcastService;
 
 	/**
+	 * Schema.org/genre
+	 * Genre of the creative work, broadcast channel or group.
+	 * @property genre
+	 * @type schema,URL | schema,Text
+	 */
+	public Object genre;
+
+	/**
 	 * Schema.org/broadcastChannelId
 	 * The unique address by which the BroadcastService can be identified in a provider lineup. In US, this is typically a number.
 	 * @property broadcastChannelId

@@ -24,14 +24,6 @@ public class Clip extends CreativeWork
 	}
 
 	/**
-	 * Schema.org/musicBy
-	 * The composer of the soundtrack.
-	 * @property musicBy
-	 * @type schema,Person | schema,MusicGroup
-	 */
-	public Object musicBy;
-
-	/**
 	 * Schema.org/clipNumber
 	 * Position of the clip within an ordered group of clips.
 	 * @property clipNumber
@@ -70,6 +62,14 @@ public class Clip extends CreativeWork
 	 * @type Person
 	 */
 	public Person actor;
+
+	/**
+	 * Schema.org/musicBy
+	 * The composer of the soundtrack.
+	 * @property musicBy
+	 * @type schema,Person | schema,MusicGroup
+	 */
+	public Object musicBy;
 
 	/**
 	 * Schema.org/actors

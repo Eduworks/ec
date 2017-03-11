@@ -24,6 +24,14 @@ public class AlignmentObject extends Intangible
 	}
 
 	/**
+	 * Schema.org/educationalFramework
+	 * The framework to which the resource being described is aligned.
+	 * @property educationalFramework
+	 * @type Text
+	 */
+	public String educationalFramework;
+
+	/**
 	 * Schema.org/targetName
 	 * The name of a node in an established educational framework.
 	 * @property targetName
@@ -33,7 +41,7 @@ public class AlignmentObject extends Intangible
 
 	/**
 	 * Schema.org/alignmentType
-	 * A category of alignment between the learning resource and the framework node. Recommended values include: 'assesses', 'teaches', 'requires', 'textComplexity', 'readingLevel', 'educationalSubject', and 'educationLevel'.
+	 * A category of alignment between the learning resource and the framework node. Recommended values include: 'assesses', 'teaches', 'requires', 'textComplexity', 'readingLevel', 'educationalSubject', and 'educationalLevel'.
 	 * @property alignmentType
 	 * @type Text
 	 */
@@ -46,14 +54,6 @@ public class AlignmentObject extends Intangible
 	 * @type Text
 	 */
 	public String targetDescription;
-
-	/**
-	 * Schema.org/educationalFramework
-	 * The framework to which the resource being described is aligned.
-	 * @property educationalFramework
-	 * @type Text
-	 */
-	public String educationalFramework;
 
 	/**
 	 * Schema.org/targetUrl

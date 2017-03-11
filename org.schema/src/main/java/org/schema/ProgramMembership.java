@@ -32,20 +32,20 @@ public class ProgramMembership extends Intangible
 	public Object member;
 
 	/**
-	 * Schema.org/members
-	 * A member of this organization.
-	 * @property members
-	 * @type schema,Organization | schema,Person
-	 */
-	public Object members;
-
-	/**
 	 * Schema.org/programName
 	 * The program providing the membership.
 	 * @property programName
 	 * @type Text
 	 */
 	public String programName;
+
+	/**
+	 * Schema.org/members
+	 * A member of this organization.
+	 * @property members
+	 * @type schema,Organization | schema,Person
+	 */
+	public Object members;
 
 	/**
 	 * Schema.org/hostingOrganization

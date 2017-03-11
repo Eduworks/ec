@@ -53,20 +53,20 @@ Typical unit code(s): MTK for square meter, FTK for square foot, or YDK for squa
 	public String permittedUsage;
 
 	/**
-	 * Schema.org/numberOfRooms
-	 * The number of rooms (excluding bathrooms and closets) of the acccommodation or lodging business.
-Typical unit code(s): ROM for room or C62 for no unit. The type of room can be put in the unitText property of the QuantitativeValue.
-	 * @property numberOfRooms
-	 * @type schema,QuantitativeValue | schema,Number
-	 */
-	public Object numberOfRooms;
-
-	/**
 	 * Schema.org/petsAllowed
 	 * Indicates whether pets are allowed to enter the accommodation or lodging business. More detailed information can be put in a text value.
 	 * @property petsAllowed
 	 * @type schema,Boolean | schema,Text
 	 */
 	public Object petsAllowed;
+
+	/**
+	 * Schema.org/numberOfRooms
+	 * The number of rooms (excluding bathrooms and closets) of the acccommodation or lodging business.
+Typical unit code(s): ROM for room or C62 for no unit. The type of room can be put in the unitText property of the QuantitativeValue.
+	 * @property numberOfRooms
+	 * @type schema,Number | schema,QuantitativeValue
+	 */
+	public Object numberOfRooms;
 
 }

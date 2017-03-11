@@ -84,7 +84,7 @@ public class QualitativeValue extends Enumeration
 	 * Schema.org/valueReference
 	 * A pointer to a secondary value that provides additional information on the original value, e.g. a reference temperature.
 	 * @property valueReference
-	 * @type schema,StructuredValue | schema,QualitativeValue | schema,PropertyValue | schema,QuantitativeValue | schema,Enumeration
+	 * @type schema,StructuredValue | schema,QualitativeValue | schema,Enumeration | schema,QuantitativeValue | schema,PropertyValue
 	 */
 	public Object valueReference;
 

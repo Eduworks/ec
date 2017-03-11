@@ -40,10 +40,18 @@ public class Service extends Intangible
 	public String award;
 
 	/**
+	 * Schema.org/broker
+	 * An entity that arranges for an exchange between a buyer and a seller.  In most cases a broker never acquires or releases ownership of a product or service involved in an exchange.  If it is not clear whether an entity is a broker, seller, or buyer, the latter two terms are preferred.
+	 * @property broker
+	 * @type schema,Organization | schema,Person
+	 */
+	public Object broker;
+
+	/**
 	 * Schema.org/isRelatedTo
 	 * A pointer to another, somehow related product (or multiple products).
 	 * @property isRelatedTo
-	 * @type schema,Product | schema,Service
+	 * @type schema,Service | schema,Product
 	 */
 	public Object isRelatedTo;
 
@@ -72,14 +80,6 @@ public class Service extends Intangible
 	public Review review;
 
 	/**
-	 * Schema.org/serviceArea
-	 * The geographic area where the service is provided.
-	 * @property serviceArea
-	 * @type schema,GeoShape | schema,AdministrativeArea | schema,Place
-	 */
-	public Object serviceArea;
-
-	/**
 	 * Schema.org/brand
 	 * The brand(s) associated with a product or service, or the brand(s) maintained by an organization or business person.
 	 * @property brand
@@ -91,7 +91,7 @@ public class Service extends Intangible
 	 * Schema.org/areaServed
 	 * The geographic area where a service or offered item is provided.
 	 * @property areaServed
-	 * @type schema,GeoShape | schema,AdministrativeArea | schema,Place | schema,Text
+	 * @type schema,GeoShape | schema,Text | schema,Place | schema,AdministrativeArea
 	 */
 	public Object areaServed;
 
@@ -123,7 +123,7 @@ public class Service extends Intangible
 	 * Schema.org/isSimilarTo
 	 * A pointer to another, functionally similar product (or multiple products).
 	 * @property isSimilarTo
-	 * @type schema,Product | schema,Service
+	 * @type schema,Service | schema,Product
 	 */
 	public Object isSimilarTo;
 
@@ -136,12 +136,12 @@ public class Service extends Intangible
 	public Object provider;
 
 	/**
-	 * Schema.org/hasOfferCatalog
-	 * Indicates an OfferCatalog listing for this Organization, Person, or Service.
-	 * @property hasOfferCatalog
-	 * @type OfferCatalog
+	 * Schema.org/serviceArea
+	 * The geographic area where the service is provided.
+	 * @property serviceArea
+	 * @type schema,GeoShape | schema,Place | schema,AdministrativeArea
 	 */
-	public OfferCatalog hasOfferCatalog;
+	public Object serviceArea;
 
 	/**
 	 * Schema.org/aggregateRating
@@ -163,9 +163,17 @@ public class Service extends Intangible
 	 * Schema.org/logo
 	 * An associated logo.
 	 * @property logo
-	 * @type schema,ImageObject | schema,URL
+	 * @type schema,URL | schema,ImageObject
 	 */
 	public Object logo;
+
+	/**
+	 * Schema.org/hasOfferCatalog
+	 * Indicates an OfferCatalog listing for this Organization, Person, or Service.
+	 * @property hasOfferCatalog
+	 * @type OfferCatalog
+	 */
+	public OfferCatalog hasOfferCatalog;
 
 	/**
 	 * Schema.org/serviceAudience
@@ -176,19 +184,19 @@ public class Service extends Intangible
 	public Audience serviceAudience;
 
 	/**
-	 * Schema.org/category
-	 * A category for the item. Greater signs or slashes can be used to informally indicate a category hierarchy.
-	 * @property category
-	 * @type schema,Thing | schema,Text
-	 */
-	public Object category;
-
-	/**
 	 * Schema.org/serviceType
 	 * The type of service being offered, e.g. veterans' benefits, emergency relief, etc.
 	 * @property serviceType
 	 * @type Text
 	 */
 	public String serviceType;
+
+	/**
+	 * Schema.org/category
+	 * A category for the item. Greater signs or slashes can be used to informally indicate a category hierarchy.
+	 * @property category
+	 * @type schema,Text | schema,Thing
+	 */
+	public Object category;
 
 }

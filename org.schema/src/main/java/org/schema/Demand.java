@@ -67,26 +67,9 @@ public class Demand extends Intangible
 	 * Schema.org/itemOffered
 	 * The item being offered.
 	 * @property itemOffered
-	 * @type schema,Product | schema,Service
+	 * @type schema,Service | schema,Product
 	 */
 	public Object itemOffered;
-
-	/**
-	 * Schema.org/ineligibleRegion
-	 * The ISO 3166-1 (ISO 3166-1 alpha-2) or ISO 3166-2 code, the place, or the GeoShape for the geo-political region(s) for which the offer or delivery charge specification is not valid, e.g. a region where the transaction is not allowed.\n\nSee also [[eligibleRegion]].
-      
-	 * @property ineligibleRegion
-	 * @type schema,GeoShape | schema,Place | schema,Text
-	 */
-	public Object ineligibleRegion;
-
-	/**
-	 * Schema.org/eligibleDuration
-	 * The duration for which the given offer is valid.
-	 * @property eligibleDuration
-	 * @type QuantitativeValue
-	 */
-	public QuantitativeValue eligibleDuration;
 
 	/**
 	 * Schema.org/includesObject
@@ -137,6 +120,14 @@ public class Demand extends Intangible
 	public WarrantyPromise warranty;
 
 	/**
+	 * Schema.org/serialNumber
+	 * The serial number or any alphanumeric identifier of a particular product. When attached to an offer, it is a shortcut for the serial number of the product included in the offer.
+	 * @property serialNumber
+	 * @type Text
+	 */
+	public String serialNumber;
+
+	/**
 	 * Schema.org/inventoryLevel
 	 * The current approximate inventory level for the item or items.
 	 * @property inventoryLevel
@@ -151,6 +142,14 @@ public class Demand extends Intangible
 	 * @type DateTime
 	 */
 	public String availabilityStarts;
+
+	/**
+	 * Schema.org/eligibleDuration
+	 * The duration for which the given offer is valid.
+	 * @property eligibleDuration
+	 * @type QuantitativeValue
+	 */
+	public QuantitativeValue eligibleDuration;
 
 	/**
 	 * Schema.org/eligibleTransactionVolume
@@ -172,17 +171,9 @@ public class Demand extends Intangible
 	 * Schema.org/areaServed
 	 * The geographic area where a service or offered item is provided.
 	 * @property areaServed
-	 * @type schema,GeoShape | schema,AdministrativeArea | schema,Place | schema,Text
+	 * @type schema,GeoShape | schema,Text | schema,Place | schema,AdministrativeArea
 	 */
 	public Object areaServed;
-
-	/**
-	 * Schema.org/serialNumber
-	 * The serial number or any alphanumeric identifier of a particular product. When attached to an offer, it is a shortcut for the serial number of the product included in the offer.
-	 * @property serialNumber
-	 * @type Text
-	 */
-	public String serialNumber;
 
 	/**
 	 * Schema.org/seller
@@ -196,7 +187,7 @@ public class Demand extends Intangible
 	 * Schema.org/acceptedPaymentMethod
 	 * The payment method(s) accepted by seller for this offer.
 	 * @property acceptedPaymentMethod
-	 * @type schema,PaymentMethod | schema,LoanOrCredit
+	 * @type schema,LoanOrCredit | schema,PaymentMethod
 	 */
 	public Object acceptedPaymentMethod;
 
@@ -223,6 +214,15 @@ public class Demand extends Intangible
 	 * @type Text
 	 */
 	public String sku;
+
+	/**
+	 * Schema.org/ineligibleRegion
+	 * The ISO 3166-1 (ISO 3166-1 alpha-2) or ISO 3166-2 code, the place, or the GeoShape for the geo-political region(s) for which the offer or delivery charge specification is not valid, e.g. a region where the transaction is not allowed.\n\nSee also [[eligibleRegion]].
+      
+	 * @property ineligibleRegion
+	 * @type schema,GeoShape | schema,Text | schema,Place
+	 */
+	public Object ineligibleRegion;
 
 	/**
 	 * Schema.org/gtin8
@@ -261,7 +261,7 @@ public class Demand extends Intangible
 	 * The ISO 3166-1 (ISO 3166-1 alpha-2) or ISO 3166-2 code, the place, or the GeoShape for the geo-political region(s) for which the offer or delivery charge specification is valid.\n\nSee also [[ineligibleRegion]].
     
 	 * @property eligibleRegion
-	 * @type schema,GeoShape | schema,Place | schema,Text
+	 * @type schema,GeoShape | schema,Text | schema,Place
 	 */
 	public Object eligibleRegion;
 

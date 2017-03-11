@@ -24,20 +24,20 @@ public class ProductModel extends Product
 	}
 
 	/**
-	 * Schema.org/isVariantOf
-	 * A pointer to a base product from which this product is a variant. It is safe to infer that the variant inherits all product features from the base model, unless defined locally. This is not transitive.
-	 * @property isVariantOf
-	 * @type ProductModel
-	 */
-	public ProductModel isVariantOf;
-
-	/**
 	 * Schema.org/successorOf
 	 * A pointer from a newer variant of a product  to its previous, often discontinued predecessor.
 	 * @property successorOf
 	 * @type ProductModel
 	 */
 	public ProductModel successorOf;
+
+	/**
+	 * Schema.org/isVariantOf
+	 * A pointer to a base product from which this product is a variant. It is safe to infer that the variant inherits all product features from the base model, unless defined locally. This is not transitive.
+	 * @property isVariantOf
+	 * @type ProductModel
+	 */
+	public ProductModel isVariantOf;
 
 	/**
 	 * Schema.org/predecessorOf

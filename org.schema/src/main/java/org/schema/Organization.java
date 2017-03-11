@@ -32,6 +32,14 @@ public class Organization extends Thing
 	public Review reviews;
 
 	/**
+	 * Schema.org/event
+	 * Upcoming or past event associated with this place, organization, or action.
+	 * @property event
+	 * @type Event
+	 */
+	public Event event;
+
+	/**
 	 * Schema.org/member
 	 * A member of an Organization or a ProgramMembership. Organizations can be members of organizations; ProgramMembership is typically for individuals.
 	 * @property member
@@ -56,14 +64,6 @@ public class Organization extends Thing
 	public String award;
 
 	/**
-	 * Schema.org/contactPoints
-	 * A contact point for a person or organization.
-	 * @property contactPoints
-	 * @type ContactPoint
-	 */
-	public ContactPoint contactPoints;
-
-	/**
 	 * Schema.org/taxID
 	 * The Tax / Fiscal ID of the organization or person, e.g. the TIN in the US or the CIF/NIF in Spain.
 	 * @property taxID
@@ -72,12 +72,20 @@ public class Organization extends Thing
 	public String taxID;
 
 	/**
-	 * Schema.org/numberOfEmployees
-	 * The number of employees in an organization e.g. business.
-	 * @property numberOfEmployees
-	 * @type QuantitativeValue
+	 * Schema.org/contactPoints
+	 * A contact point for a person or organization.
+	 * @property contactPoints
+	 * @type ContactPoint
 	 */
-	public QuantitativeValue numberOfEmployees;
+	public ContactPoint contactPoints;
+
+	/**
+	 * Schema.org/faxNumber
+	 * The fax number.
+	 * @property faxNumber
+	 * @type Text
+	 */
+	public String faxNumber;
 
 	/**
 	 * Schema.org/duns
@@ -112,14 +120,6 @@ public class Organization extends Thing
 	public String leiCode;
 
 	/**
-	 * Schema.org/event
-	 * Upcoming or past event associated with this place, organization, or action.
-	 * @property event
-	 * @type Event
-	 */
-	public Event event;
-
-	/**
 	 * Schema.org/review
 	 * A review of the item.
 	 * @property review
@@ -128,12 +128,12 @@ public class Organization extends Thing
 	public Review review;
 
 	/**
-	 * Schema.org/serviceArea
-	 * The geographic area where the service is provided.
-	 * @property serviceArea
-	 * @type schema,GeoShape | schema,AdministrativeArea | schema,Place
+	 * Schema.org/numberOfEmployees
+	 * The number of employees in an organization e.g. business.
+	 * @property numberOfEmployees
+	 * @type QuantitativeValue
 	 */
-	public Object serviceArea;
+	public QuantitativeValue numberOfEmployees;
 
 	/**
 	 * Schema.org/department
@@ -142,14 +142,6 @@ public class Organization extends Thing
 	 * @type Organization
 	 */
 	public Organization department;
-
-	/**
-	 * Schema.org/members
-	 * A member of this organization.
-	 * @property members
-	 * @type schema,Organization | schema,Person
-	 */
-	public Object members;
 
 	/**
 	 * Schema.org/brand
@@ -163,13 +155,13 @@ public class Organization extends Thing
 	 * Schema.org/areaServed
 	 * The geographic area where a service or offered item is provided.
 	 * @property areaServed
-	 * @type schema,GeoShape | schema,AdministrativeArea | schema,Place | schema,Text
+	 * @type schema,GeoShape | schema,Text | schema,Place | schema,AdministrativeArea
 	 */
 	public Object areaServed;
 
 	/**
 	 * Schema.org/parentOrganization
-	 * The larger organization that this local business is a branch of, if any.
+	 * The larger organization that this organization is a [[subOrganization]] of, if any.
 	 * @property parentOrganization
 	 * @type Organization
 	 */
@@ -224,6 +216,14 @@ public class Organization extends Thing
 	public String foundingDate;
 
 	/**
+	 * Schema.org/email
+	 * Email address.
+	 * @property email
+	 * @type Text
+	 */
+	public String email;
+
+	/**
 	 * Schema.org/alumni
 	 * Alumni of an organization.
 	 * @property alumni
@@ -256,28 +256,28 @@ public class Organization extends Thing
 	public Object sponsor;
 
 	/**
-	 * Schema.org/email
-	 * Email address.
-	 * @property email
-	 * @type Text
+	 * Schema.org/members
+	 * A member of this organization.
+	 * @property members
+	 * @type schema,Organization | schema,Person
 	 */
-	public String email;
-
-	/**
-	 * Schema.org/faxNumber
-	 * The fax number.
-	 * @property faxNumber
-	 * @type Text
-	 */
-	public String faxNumber;
+	public Object members;
 
 	/**
 	 * Schema.org/location
 	 * The location of for example where the event is happening, an organization is located, or where an action takes place.
 	 * @property location
-	 * @type schema,PostalAddress | schema,Place | schema,Text
+	 * @type schema,PostalAddress | schema,Text | schema,Place
 	 */
 	public Object location;
+
+	/**
+	 * Schema.org/serviceArea
+	 * The geographic area where the service is provided.
+	 * @property serviceArea
+	 * @type schema,GeoShape | schema,Place | schema,AdministrativeArea
+	 */
+	public Object serviceArea;
 
 	/**
 	 * Schema.org/hasPOS
@@ -286,14 +286,6 @@ public class Organization extends Thing
 	 * @type Place
 	 */
 	public Place hasPOS;
-
-	/**
-	 * Schema.org/hasOfferCatalog
-	 * Indicates an OfferCatalog listing for this Organization, Person, or Service.
-	 * @property hasOfferCatalog
-	 * @type OfferCatalog
-	 */
-	public OfferCatalog hasOfferCatalog;
 
 	/**
 	 * Schema.org/telephone
@@ -339,7 +331,7 @@ public class Organization extends Thing
 	 * Schema.org/logo
 	 * An associated logo.
 	 * @property logo
-	 * @type schema,ImageObject | schema,URL
+	 * @type schema,URL | schema,ImageObject
 	 */
 	public Object logo;
 
@@ -347,7 +339,7 @@ public class Organization extends Thing
 	 * Schema.org/owns
 	 * Products owned by the organization or person.
 	 * @property owns
-	 * @type schema,Product | schema,OwnershipInfo
+	 * @type schema,OwnershipInfo | schema,Product
 	 */
 	public Object owns;
 
@@ -390,6 +382,14 @@ public class Organization extends Thing
 	 * @type Place
 	 */
 	public Place foundingLocation;
+
+	/**
+	 * Schema.org/hasOfferCatalog
+	 * Indicates an OfferCatalog listing for this Organization, Person, or Service.
+	 * @property hasOfferCatalog
+	 * @type OfferCatalog
+	 */
+	public OfferCatalog hasOfferCatalog;
 
 	/**
 	 * Schema.org/makesOffer

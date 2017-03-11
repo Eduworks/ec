@@ -26,6 +26,14 @@ public class OpeningHoursSpecification extends StructuredValue
 	}
 
 	/**
+	 * Schema.org/opens
+	 * The opening hour of the place or service on the given day(s) of the week.
+	 * @property opens
+	 * @type Time
+	 */
+	public String opens;
+
+	/**
 	 * Schema.org/dayOfWeek
 	 * The day of the week for which these opening hours are valid.
 	 * @property dayOfWeek
@@ -56,13 +64,5 @@ public class OpeningHoursSpecification extends StructuredValue
 	 * @type DateTime
 	 */
 	public String validThrough;
-
-	/**
-	 * Schema.org/opens
-	 * The opening hour of the place or service on the given day(s) of the week.
-	 * @property opens
-	 * @type Time
-	 */
-	public String opens;
 
 }

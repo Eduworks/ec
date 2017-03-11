@@ -24,14 +24,6 @@ public class Recipe extends CreativeWork
 	}
 
 	/**
-	 * Schema.org/recipeYield
-	 * The quantity produced by the recipe (for example, number of people served, number of servings, etc).
-	 * @property recipeYield
-	 * @type Text
-	 */
-	public String recipeYield;
-
-	/**
 	 * Schema.org/cookingMethod
 	 * The method of cooking, such as Frying, Steaming, ...
 	 * @property cookingMethod
@@ -49,7 +41,7 @@ public class Recipe extends CreativeWork
 
 	/**
 	 * Schema.org/suitableForDiet
-	 * Indicates a dietary restriction or guideline for which this recipe is suitable, e.g. diabetic, halal etc.
+	 * Indicates a dietary restriction or guideline for which this recipe or menu item is suitable, e.g. diabetic, halal etc.
 	 * @property suitableForDiet
 	 * @type RestrictedDiet
 	 */
@@ -59,7 +51,7 @@ public class Recipe extends CreativeWork
 	 * Schema.org/recipeInstructions
 	 * A step or instruction involved in making the recipe.
 	 * @property recipeInstructions
-	 * @type schema,ItemList | schema,Text
+	 * @type schema,Text | schema,ItemList
 	 */
 	public Object recipeInstructions;
 
@@ -70,6 +62,14 @@ public class Recipe extends CreativeWork
 	 * @type Duration
 	 */
 	public Duration cookTime;
+
+	/**
+	 * Schema.org/recipeYield
+	 * The quantity produced by the recipe (for example, number of people served, number of servings, etc).
+	 * @property recipeYield
+	 * @type Text
+	 */
+	public String recipeYield;
 
 	/**
 	 * Schema.org/prepTime
@@ -89,7 +89,7 @@ public class Recipe extends CreativeWork
 
 	/**
 	 * Schema.org/nutrition
-	 * Nutrition information about the recipe.
+	 * Nutrition information about the recipe or menu item.
 	 * @property nutrition
 	 * @type NutritionInformation
 	 */

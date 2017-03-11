@@ -24,12 +24,12 @@ public class TrainTrip extends Intangible
 	}
 
 	/**
-	 * Schema.org/trainName
-	 * The name of the train (e.g. The Orient Express).
-	 * @property trainName
-	 * @type Text
+	 * Schema.org/departureTime
+	 * The expected departure time.
+	 * @property departureTime
+	 * @type DateTime
 	 */
-	public String trainName;
+	public String departureTime;
 
 	/**
 	 * Schema.org/departureStation
@@ -48,20 +48,20 @@ public class TrainTrip extends Intangible
 	public TrainStation arrivalStation;
 
 	/**
-	 * Schema.org/departureTime
-	 * The expected departure time.
-	 * @property departureTime
-	 * @type DateTime
-	 */
-	public String departureTime;
-
-	/**
 	 * Schema.org/arrivalTime
 	 * The expected arrival time.
 	 * @property arrivalTime
 	 * @type DateTime
 	 */
 	public String arrivalTime;
+
+	/**
+	 * Schema.org/trainName
+	 * The name of the train (e.g. The Orient Express).
+	 * @property trainName
+	 * @type Text
+	 */
+	public String trainName;
 
 	/**
 	 * Schema.org/departurePlatform

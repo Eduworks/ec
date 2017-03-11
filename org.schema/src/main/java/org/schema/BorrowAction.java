@@ -27,8 +27,8 @@ public class BorrowAction extends TransferAction
 	 * Schema.org/lender
 	 * A sub property of participant. The person that lends the object being borrowed.
 	 * @property lender
-	 * @type Person
+	 * @type schema,Organization | schema,Person
 	 */
-	public Person lender;
+	public Object lender;
 
 }

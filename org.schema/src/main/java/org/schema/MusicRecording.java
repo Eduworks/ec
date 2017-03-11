@@ -32,20 +32,20 @@ public class MusicRecording extends CreativeWork
 	public String isrcCode;
 
 	/**
-	 * Schema.org/recordingOf
-	 * The composition this track is a recording of.
-	 * @property recordingOf
-	 * @type MusicComposition
-	 */
-	public MusicComposition recordingOf;
-
-	/**
 	 * Schema.org/inAlbum
 	 * The album to which this recording belongs.
 	 * @property inAlbum
 	 * @type MusicAlbum
 	 */
 	public MusicAlbum inAlbum;
+
+	/**
+	 * Schema.org/recordingOf
+	 * The composition this track is a recording of.
+	 * @property recordingOf
+	 * @type MusicComposition
+	 */
+	public MusicComposition recordingOf;
 
 	/**
 	 * Schema.org/inPlaylist

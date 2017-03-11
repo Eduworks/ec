@@ -32,6 +32,14 @@ public class SoftwareSourceCode extends CreativeWork
 	public String runtimePlatform;
 
 	/**
+	 * Schema.org/sampleType
+	 * What type of code sample: full (compile ready) solution, code snippet, inline code, scripts, template.
+	 * @property sampleType
+	 * @type Text
+	 */
+	public String sampleType;
+
+	/**
 	 * Schema.org/codeRepository
 	 * Link to the repository where the un-compiled, human readable code and related code is located (SVN, github, CodePlex).
 	 * @property codeRepository
@@ -64,18 +72,10 @@ public class SoftwareSourceCode extends CreativeWork
 	public String runtime;
 
 	/**
-	 * Schema.org/sampleType
-	 * What type of code sample: full (compile ready) solution, code snippet, inline code, scripts, template.
-	 * @property sampleType
-	 * @type Text
-	 */
-	public String sampleType;
-
-	/**
 	 * Schema.org/programmingLanguage
 	 * The computer programming language.
 	 * @property programmingLanguage
-	 * @type schema,ComputerLanguage | schema,Text
+	 * @type schema,Text | schema,ComputerLanguage
 	 */
 	public Object programmingLanguage;
 

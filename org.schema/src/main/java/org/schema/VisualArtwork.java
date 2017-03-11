@@ -24,12 +24,20 @@ public class VisualArtwork extends CreativeWork
 	}
 
 	/**
-	 * Schema.org/surface
-	 * e.g. Canvas, Paper, Wood, Board, etc.
-	 * @property surface
+	 * Schema.org/artMedium
+	 * The material used. (e.g. Oil, Watercolour, Acrylic, Linoprint, Marble, Cyanotype, Digital, Lithograph, DryPoint, Intaglio, Pastel, Woodcut, Pencil, Mixed Media, etc.)
+	 * @property artMedium
 	 * @type schema,URL | schema,Text
 	 */
-	public Object surface;
+	public Object artMedium;
+
+	/**
+	 * Schema.org/height
+	 * The height of the item.
+	 * @property height
+	 * @type schema,Distance | schema,QuantitativeValue
+	 */
+	public Object height;
 
 	/**
 	 * Schema.org/artform
@@ -43,39 +51,23 @@ public class VisualArtwork extends CreativeWork
 	 * Schema.org/depth
 	 * The depth of the item.
 	 * @property depth
-	 * @type schema,QuantitativeValue | schema,Distance
+	 * @type schema,Distance | schema,QuantitativeValue
 	 */
 	public Object depth;
 
 	/**
-	 * Schema.org/artMedium
-	 * The material used. (e.g. Oil, Watercolour, Acrylic, Linoprint, Marble, Cyanotype, Digital, Lithograph, DryPoint, Intaglio, Pastel, Woodcut, Pencil, Mixed Media, etc.)
-	 * @property artMedium
+	 * Schema.org/surface
+	 * A material used as a surface in some artwork, e.g. Canvas, Paper, Wood, Board, etc.
+	 * @property surface
 	 * @type schema,URL | schema,Text
 	 */
-	public Object artMedium;
-
-	/**
-	 * Schema.org/material
-	 * e.g. Oil, Watercolour, Acrylic, Linoprint, Marble, Cyanotype, Digital, Lithograph, DryPoint, Intaglio, Pastel, Woodcut, Pencil, Mixed Media, etc.
-	 * @property material
-	 * @type schema,URL | schema,Text
-	 */
-	public Object material;
-
-	/**
-	 * Schema.org/height
-	 * The height of the item.
-	 * @property height
-	 * @type schema,QuantitativeValue | schema,Distance
-	 */
-	public Object height;
+	public Object surface;
 
 	/**
 	 * Schema.org/width
 	 * The width of the item.
 	 * @property width
-	 * @type schema,QuantitativeValue | schema,Distance
+	 * @type schema,Distance | schema,QuantitativeValue
 	 */
 	public Object width;
 

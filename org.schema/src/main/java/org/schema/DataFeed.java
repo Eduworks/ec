@@ -27,7 +27,7 @@ public class DataFeed extends Dataset
 	 * Schema.org/dataFeedElement
 	 * An item within in a data feed. Data feeds may have many elements.
 	 * @property dataFeedElement
-	 * @type schema,Text | schema,Thing | schema,DataFeedItem
+	 * @type schema,Text | schema,DataFeedItem | schema,Thing
 	 */
 	public Object dataFeedElement;
 

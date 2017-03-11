@@ -24,22 +24,6 @@ public class TVSeries extends CreativeWorkSeries
 	}
 
 	/**
-	 * Schema.org/musicBy
-	 * The composer of the soundtrack.
-	 * @property musicBy
-	 * @type schema,Person | schema,MusicGroup
-	 */
-	public Object musicBy;
-
-	/**
-	 * Schema.org/trailer
-	 * The trailer of a movie or tv/radio series, season, episode, etc.
-	 * @property trailer
-	 * @type VideoObject
-	 */
-	public VideoObject trailer;
-
-	/**
 	 * Schema.org/episodes
 	 * An episode of a TV/radio series or season.
 	 * @property episodes
@@ -88,6 +72,14 @@ public class TVSeries extends CreativeWorkSeries
 	public CreativeWorkSeason containsSeason;
 
 	/**
+	 * Schema.org/musicBy
+	 * The composer of the soundtrack.
+	 * @property musicBy
+	 * @type schema,Person | schema,MusicGroup
+	 */
+	public Object musicBy;
+
+	/**
 	 * Schema.org/actors
 	 * An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.
 	 * @property actors
@@ -102,6 +94,14 @@ public class TVSeries extends CreativeWorkSeries
 	 * @type CreativeWorkSeason
 	 */
 	public CreativeWorkSeason seasons;
+
+	/**
+	 * Schema.org/trailer
+	 * The trailer of a movie or tv/radio series, season, episode, etc.
+	 * @property trailer
+	 * @type VideoObject
+	 */
+	public VideoObject trailer;
 
 	/**
 	 * Schema.org/numberOfSeasons

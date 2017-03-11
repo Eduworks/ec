@@ -24,20 +24,20 @@ public class BroadcastEvent extends PublicationEvent
 	}
 
 	/**
-	 * Schema.org/broadcastOfEvent
-	 * The event being broadcast such as a sporting event or awards ceremony.
-	 * @property broadcastOfEvent
-	 * @type Event
-	 */
-	public Event broadcastOfEvent;
-
-	/**
 	 * Schema.org/videoFormat
 	 * The type of screening or video broadcast used (e.g. IMAX, 3D, SD, HD, etc.).
 	 * @property videoFormat
 	 * @type Text
 	 */
 	public String videoFormat;
+
+	/**
+	 * Schema.org/broadcastOfEvent
+	 * The event being broadcast such as a sporting event or awards ceremony.
+	 * @property broadcastOfEvent
+	 * @type Event
+	 */
+	public Event broadcastOfEvent;
 
 	/**
 	 * Schema.org/isLiveBroadcast

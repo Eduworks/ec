@@ -27,17 +27,9 @@ public class DatedMoneySpecification extends StructuredValue
 	 * Schema.org/amount
 	 * The amount of money.
 	 * @property amount
-	 * @type schema,MonetaryAmount | schema,Number
+	 * @type schema,Number | schema,MonetaryAmount
 	 */
 	public Object amount;
-
-	/**
-	 * Schema.org/startDate
-	 * The start date and time of the item (in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601)).
-	 * @property startDate
-	 * @type schema,DateTime | schema,Date
-	 */
-	public Object startDate;
 
 	/**
 	 * Schema.org/currency
@@ -46,6 +38,14 @@ public class DatedMoneySpecification extends StructuredValue
 	 * @type Text
 	 */
 	public String currency;
+
+	/**
+	 * Schema.org/startDate
+	 * The start date and time of the item (in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601)).
+	 * @property startDate
+	 * @type schema,DateTime | schema,Date
+	 */
+	public Object startDate;
 
 	/**
 	 * Schema.org/endDate

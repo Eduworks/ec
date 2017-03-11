@@ -24,22 +24,6 @@ public class Episode extends CreativeWork
 	}
 
 	/**
-	 * Schema.org/musicBy
-	 * The composer of the soundtrack.
-	 * @property musicBy
-	 * @type schema,Person | schema,MusicGroup
-	 */
-	public Object musicBy;
-
-	/**
-	 * Schema.org/trailer
-	 * The trailer of a movie or tv/radio series, season, episode, etc.
-	 * @property trailer
-	 * @type VideoObject
-	 */
-	public VideoObject trailer;
-
-	/**
 	 * Schema.org/director
 	 * A director of e.g. tv, radio, movie, video gaming etc. content, or of an event. Directors can be associated with individual items or with a series, episode, clip.
 	 * @property director
@@ -72,12 +56,28 @@ public class Episode extends CreativeWork
 	public Object episodeNumber;
 
 	/**
+	 * Schema.org/musicBy
+	 * The composer of the soundtrack.
+	 * @property musicBy
+	 * @type schema,Person | schema,MusicGroup
+	 */
+	public Object musicBy;
+
+	/**
 	 * Schema.org/actors
 	 * An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.
 	 * @property actors
 	 * @type Person
 	 */
 	public Person actors;
+
+	/**
+	 * Schema.org/trailer
+	 * The trailer of a movie or tv/radio series, season, episode, etc.
+	 * @property trailer
+	 * @type VideoObject
+	 */
+	public VideoObject trailer;
 
 	/**
 	 * Schema.org/productionCompany

@@ -51,7 +51,7 @@ public class Reservation extends Intangible
 	 * Schema.org/totalPrice
 	 * The total price for the reservation or ticket, including applicable taxes, shipping, etc.
 	 * @property totalPrice
-	 * @type schema,PriceSpecification | schema,Number | schema,Text
+	 * @type schema,Number | schema,PriceSpecification | schema,Text
 	 */
 	public Object totalPrice;
 
@@ -78,14 +78,6 @@ public class Reservation extends Intangible
 	 * @type Text
 	 */
 	public String reservationId;
-
-	/**
-	 * Schema.org/reservedTicket
-	 * A ticket associated with the reservation.
-	 * @property reservedTicket
-	 * @type Ticket
-	 */
-	public Ticket reservedTicket;
 
 	/**
 	 * Schema.org/reservationStatus
@@ -118,6 +110,14 @@ public class Reservation extends Intangible
 	 * @type Thing
 	 */
 	public Thing reservationFor;
+
+	/**
+	 * Schema.org/reservedTicket
+	 * A ticket associated with the reservation.
+	 * @property reservedTicket
+	 * @type Ticket
+	 */
+	public Ticket reservedTicket;
 
 	/**
 	 * Schema.org/underName

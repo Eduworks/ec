@@ -27,7 +27,7 @@ public class ImageObject extends MediaObject
 	 * Schema.org/exifData
 	 * exif data for this object.
 	 * @property exifData
-	 * @type schema,PropertyValue | schema,Text
+	 * @type schema,Text | schema,PropertyValue
 	 */
 	public Object exifData;
 

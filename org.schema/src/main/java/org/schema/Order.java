@@ -40,6 +40,14 @@ public class Order extends Intangible
 	public String discountCurrency;
 
 	/**
+	 * Schema.org/isGift
+	 * Was the offer accepted as a gift for someone other than the buyer.
+	 * @property isGift
+	 * @type Boolean
+	 */
+	public Boolean isGift;
+
+	/**
 	 * Schema.org/broker
 	 * An entity that arranges for an exchange between a buyer and a seller.  In most cases a broker never acquires or releases ownership of a product or service involved in an exchange.  If it is not clear whether an entity is a broker, seller, or buyer, the latter two terms are preferred.
 	 * @property broker
@@ -62,6 +70,14 @@ public class Order extends Intangible
 	 * @type PaymentMethod
 	 */
 	public PaymentMethod paymentMethod;
+
+	/**
+	 * Schema.org/orderNumber
+	 * The identifier of the transaction.
+	 * @property orderNumber
+	 * @type Text
+	 */
+	public String orderNumber;
 
 	/**
 	 * Schema.org/billingAddress
@@ -107,7 +123,7 @@ public class Order extends Intangible
 	 * Schema.org/orderedItem
 	 * The item ordered.
 	 * @property orderedItem
-	 * @type schema,Product | schema,OrderItem
+	 * @type schema,OrderItem | schema,Product
 	 */
 	public Object orderedItem;
 
@@ -152,14 +168,6 @@ public class Order extends Intangible
 	public String confirmationNumber;
 
 	/**
-	 * Schema.org/orderNumber
-	 * The identifier of the transaction.
-	 * @property orderNumber
-	 * @type Text
-	 */
-	public String orderNumber;
-
-	/**
 	 * Schema.org/orderDate
 	 * Date order was placed.
 	 * @property orderDate
@@ -182,14 +190,6 @@ public class Order extends Intangible
 	 * @type Invoice
 	 */
 	public Invoice partOfInvoice;
-
-	/**
-	 * Schema.org/isGift
-	 * Was the offer accepted as a gift for someone other than the buyer.
-	 * @property isGift
-	 * @type Boolean
-	 */
-	public Boolean isGift;
 
 	/**
 	 * Schema.org/discount

@@ -38,7 +38,7 @@ public class GeoCircle extends GeoShape
 	 * Schema.org/geoRadius
 	 * Indicates the approximate radius of a GeoCircle (metres unless indicated otherwise via Distance notation).
 	 * @property geoRadius
-	 * @type schema,Distance | schema,Number | schema,Text
+	 * @type schema,Number | schema,Text | schema,Distance
 	 */
 	public Object geoRadius;
 

@@ -43,7 +43,7 @@ public class MusicPlaylist extends CreativeWork
 	 * Schema.org/track
 	 * A music recording (track)&#x2014;usually a single song. If an ItemList is given, the list should contain items of type MusicRecording.
 	 * @property track
-	 * @type schema,ItemList | schema,MusicRecording
+	 * @type schema,MusicRecording | schema,ItemList
 	 */
 	public Object track;
 

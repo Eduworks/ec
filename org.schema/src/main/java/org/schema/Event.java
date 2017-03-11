@@ -24,15 +24,6 @@ public class Event extends Thing
 	}
 
 	/**
-	 * Schema.org/workFeatured
-	 * A work featured in some event, e.g. exhibited in an ExhibitionEvent.
-       Specific subproperties are available for workPerformed (e.g. a play), or a workPresented (a Movie at a ScreeningEvent).
-	 * @property workFeatured
-	 * @type CreativeWork
-	 */
-	public CreativeWork workFeatured;
-
-	/**
 	 * Schema.org/contributor
 	 * A secondary contributor to the CreativeWork or Event.
 	 * @property contributor
@@ -73,6 +64,14 @@ public class Event extends Thing
 	public Object performer;
 
 	/**
+	 * Schema.org/remainingAttendeeCapacity
+	 * The number of attendee places for an event that remain unallocated.
+	 * @property remainingAttendeeCapacity
+	 * @type Integer
+	 */
+	public Integer remainingAttendeeCapacity;
+
+	/**
 	 * Schema.org/isAccessibleForFree
 	 * A flag to signal that the publication is accessible for free.
 	 * @property isAccessibleForFree
@@ -103,6 +102,14 @@ public class Event extends Thing
 	 * @type Event
 	 */
 	public Event superEvent;
+
+	/**
+	 * Schema.org/maximumAttendeeCapacity
+	 * The total number of individuals that may attend an event or venue.
+	 * @property maximumAttendeeCapacity
+	 * @type Integer
+	 */
+	public Integer maximumAttendeeCapacity;
 
 	/**
 	 * Schema.org/translator
@@ -161,6 +168,14 @@ public class Event extends Thing
 	public Object attendee;
 
 	/**
+	 * Schema.org/about
+	 * The subject matter of the content.
+	 * @property about
+	 * @type Thing
+	 */
+	public Thing about;
+
+	/**
 	 * Schema.org/funder
 	 * A person or organization that supports (sponsors) something through some kind of financial contribution.
 	 * @property funder
@@ -196,7 +211,7 @@ public class Event extends Thing
 	 * Schema.org/location
 	 * The location of for example where the event is happening, an organization is located, or where an action takes place.
 	 * @property location
-	 * @type schema,PostalAddress | schema,Place | schema,Text
+	 * @type schema,PostalAddress | schema,Text | schema,Place
 	 */
 	public Object location;
 
@@ -241,6 +256,15 @@ public class Event extends Thing
 	public String previousStartDate;
 
 	/**
+	 * Schema.org/workFeatured
+	 * A work featured in some event, e.g. exhibited in an ExhibitionEvent.
+       Specific subproperties are available for workPerformed (e.g. a play), or a workPresented (a Movie at a ScreeningEvent).
+	 * @property workFeatured
+	 * @type CreativeWork
+	 */
+	public CreativeWork workFeatured;
+
+	/**
 	 * Schema.org/workPerformed
 	 * A work performed in some event, for example a play performed in a TheaterEvent.
 	 * @property workPerformed
@@ -260,7 +284,7 @@ public class Event extends Thing
 	 * Schema.org/inLanguage
 	 * The language of the content or performance or used in an action. Please use one of the language codes from the [IETF BCP 47 standard](http://tools.ietf.org/html/bcp47). See also [[availableLanguage]].
 	 * @property inLanguage
-	 * @type schema,Language | schema,Text
+	 * @type schema,Text | schema,Language
 	 */
 	public Object inLanguage;
 

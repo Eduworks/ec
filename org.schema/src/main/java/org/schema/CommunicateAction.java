@@ -43,7 +43,7 @@ public class CommunicateAction extends InteractAction
 	 * Schema.org/inLanguage
 	 * The language of the content or performance or used in an action. Please use one of the language codes from the [IETF BCP 47 standard](http://tools.ietf.org/html/bcp47). See also [[availableLanguage]].
 	 * @property inLanguage
-	 * @type schema,Language | schema,Text
+	 * @type schema,Text | schema,Language
 	 */
 	public Object inLanguage;
 

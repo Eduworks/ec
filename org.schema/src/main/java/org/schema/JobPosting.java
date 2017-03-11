@@ -27,7 +27,7 @@ public class JobPosting extends Intangible
 	 * Schema.org/baseSalary
 	 * The base salary of the job or of an employee in an EmployeeRole.
 	 * @property baseSalary
-	 * @type schema,PriceSpecification | schema,MonetaryAmount | schema,Number
+	 * @type schema,Number | schema,PriceSpecification | schema,MonetaryAmount
 	 */
 	public Object baseSalary;
 

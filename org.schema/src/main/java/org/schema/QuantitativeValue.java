@@ -61,7 +61,7 @@ public class QuantitativeValue extends StructuredValue
 	 * Schema.org/valueReference
 	 * A pointer to a secondary value that provides additional information on the original value, e.g. a reference temperature.
 	 * @property valueReference
-	 * @type schema,StructuredValue | schema,QualitativeValue | schema,PropertyValue | schema,QuantitativeValue | schema,Enumeration
+	 * @type schema,StructuredValue | schema,QualitativeValue | schema,Enumeration | schema,QuantitativeValue | schema,PropertyValue
 	 */
 	public Object valueReference;
 
@@ -69,7 +69,7 @@ public class QuantitativeValue extends StructuredValue
 	 * Schema.org/value
 	 * The value of the quantitative value or property value node.\n\n* For [[QuantitativeValue]] and [[MonetaryAmount]], the recommended type for values is 'Number'.\n* For [[PropertyValue]], it can be 'Text;', 'Number', 'Boolean', or 'StructuredValue'.
 	 * @property value
-	 * @type schema,StructuredValue | schema,Boolean | schema,Number | schema,Text
+	 * @type schema,Number | schema,Boolean | schema,Text | schema,StructuredValue
 	 */
 	public Object value;
 

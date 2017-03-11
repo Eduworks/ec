@@ -24,14 +24,6 @@ public class FoodEstablishment extends LocalBusiness
 	}
 
 	/**
-	 * Schema.org/acceptsReservations
-	 * Indicates whether a FoodEstablishment accepts reservations. Values can be Boolean, an URL at which reservations can be made or (for backwards compatibility) the strings ```Yes``` or ```No```.
-	 * @property acceptsReservations
-	 * @type schema,URL | schema,Boolean | schema,Text
-	 */
-	public Object acceptsReservations;
-
-	/**
 	 * Schema.org/starRating
 	 * An official rating for a lodging business or food establishment, e.g. from national associations or standards bodies. Use the author property to indicate the rating organization, e.g. as an Organization with name such as (e.g. HOTREC, DEHOGA, WHR, or Hotelstars).
 	 * @property starRating
@@ -40,10 +32,18 @@ public class FoodEstablishment extends LocalBusiness
 	public Rating starRating;
 
 	/**
+	 * Schema.org/acceptsReservations
+	 * Indicates whether a FoodEstablishment accepts reservations. Values can be Boolean, an URL at which reservations can be made or (for backwards compatibility) the strings ```Yes``` or ```No```.
+	 * @property acceptsReservations
+	 * @type schema,URL | schema,Boolean | schema,Text
+	 */
+	public Object acceptsReservations;
+
+	/**
 	 * Schema.org/menu
-	 * Either the actual menu or a URL of the menu.
+	 * Either the actual menu as a structured representation, as text, or a URL of the menu.
 	 * @property menu
-	 * @type schema,URL | schema,Text
+	 * @type schema,URL | schema,Text | schema,Menu
 	 */
 	public Object menu;
 
@@ -54,5 +54,13 @@ public class FoodEstablishment extends LocalBusiness
 	 * @type Text
 	 */
 	public String servesCuisine;
+
+	/**
+	 * Schema.org/hasMenu
+	 * Either the actual menu as a structured representation, as text, or a URL of the menu.
+	 * @property hasMenu
+	 * @type schema,URL | schema,Text | schema,Menu
+	 */
+	public Object hasMenu;
 
 }

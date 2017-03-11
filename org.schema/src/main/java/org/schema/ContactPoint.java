@@ -32,10 +32,18 @@ public class ContactPoint extends StructuredValue
 	public String contactType;
 
 	/**
+	 * Schema.org/faxNumber
+	 * The fax number.
+	 * @property faxNumber
+	 * @type Text
+	 */
+	public String faxNumber;
+
+	/**
 	 * Schema.org/productSupported
 	 * The product or service this support contact point is related to (such as product support for a particular product line). This can be a specific product or product line (e.g. "iPhone") or a general category of products or services (e.g. "smartphones").
 	 * @property productSupported
-	 * @type schema,Product | schema,Text
+	 * @type schema,Text | schema,Product
 	 */
 	public Object productSupported;
 
@@ -43,23 +51,15 @@ public class ContactPoint extends StructuredValue
 	 * Schema.org/availableLanguage
 	 * A language someone may use with the item. Please use one of the language codes from the [IETF BCP 47 standard](http://tools.ietf.org/html/bcp47). See also [[inLanguage]]
 	 * @property availableLanguage
-	 * @type schema,Language | schema,Text
+	 * @type schema,Text | schema,Language
 	 */
 	public Object availableLanguage;
-
-	/**
-	 * Schema.org/serviceArea
-	 * The geographic area where the service is provided.
-	 * @property serviceArea
-	 * @type schema,GeoShape | schema,AdministrativeArea | schema,Place
-	 */
-	public Object serviceArea;
 
 	/**
 	 * Schema.org/areaServed
 	 * The geographic area where a service or offered item is provided.
 	 * @property areaServed
-	 * @type schema,GeoShape | schema,AdministrativeArea | schema,Place | schema,Text
+	 * @type schema,GeoShape | schema,Text | schema,Place | schema,AdministrativeArea
 	 */
 	public Object areaServed;
 
@@ -80,12 +80,12 @@ public class ContactPoint extends StructuredValue
 	public String email;
 
 	/**
-	 * Schema.org/faxNumber
-	 * The fax number.
-	 * @property faxNumber
-	 * @type Text
+	 * Schema.org/serviceArea
+	 * The geographic area where the service is provided.
+	 * @property serviceArea
+	 * @type schema,GeoShape | schema,Place | schema,AdministrativeArea
 	 */
-	public String faxNumber;
+	public Object serviceArea;
 
 	/**
 	 * Schema.org/telephone

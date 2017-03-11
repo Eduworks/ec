@@ -27,7 +27,7 @@ public class LoanOrCredit extends FinancialProduct
 	 * Schema.org/requiredCollateral
 	 * Assets required to secure loan or credit repayments. It may take form of third party pledge, goods, financial instruments (cash, securities, etc.)
 	 * @property requiredCollateral
-	 * @type schema,Thing | schema,Text
+	 * @type schema,Text | schema,Thing
 	 */
 	public Object requiredCollateral;
 
@@ -35,7 +35,7 @@ public class LoanOrCredit extends FinancialProduct
 	 * Schema.org/amount
 	 * The amount of money.
 	 * @property amount
-	 * @type schema,MonetaryAmount | schema,Number
+	 * @type schema,Number | schema,MonetaryAmount
 	 */
 	public Object amount;
 

@@ -24,18 +24,10 @@ public class Vehicle extends Product
 	}
 
 	/**
-	 * Schema.org/vehicleConfiguration
-	 * A short text indicating the configuration of the vehicle, e.g. '5dr hatchback ST 2.5 MT 225 hp' or 'limited edition'.
-	 * @property vehicleConfiguration
-	 * @type Text
-	 */
-	public String vehicleConfiguration;
-
-	/**
 	 * Schema.org/driveWheelConfiguration
 	 * The drive wheel configuration, i.e. which roadwheels will receive torque from the vehicle's engine via the drivetrain.
 	 * @property driveWheelConfiguration
-	 * @type schema,DriveWheelConfigurationValue | schema,Text
+	 * @type schema,Text | schema,DriveWheelConfigurationValue
 	 */
 	public Object driveWheelConfiguration;
 
@@ -51,15 +43,23 @@ public class Vehicle extends Product
 	 * Schema.org/numberOfDoors
 	 * The number of doors.\n\nTypical unit code(s): C62
 	 * @property numberOfDoors
-	 * @type schema,QuantitativeValue | schema,Number
+	 * @type schema,Number | schema,QuantitativeValue
 	 */
 	public Object numberOfDoors;
+
+	/**
+	 * Schema.org/vehicleInteriorType
+	 * The type or material of the interior of the vehicle (e.g. synthetic fabric, leather, wood, etc.). While most interior types are characterized by the material used, an interior type can also be based on vehicle usage or target audience.
+	 * @property vehicleInteriorType
+	 * @type Text
+	 */
+	public String vehicleInteriorType;
 
 	/**
 	 * Schema.org/vehicleTransmission
 	 * The type of component used for transmitting the power from a rotating power source to the wheels or other relevant component(s) ("gearbox" for cars).
 	 * @property vehicleTransmission
-	 * @type schema,QualitativeValue | schema,URL | schema,Text
+	 * @type schema,URL | schema,Text | schema,QualitativeValue
 	 */
 	public Object vehicleTransmission;
 
@@ -67,7 +67,7 @@ public class Vehicle extends Product
 	 * Schema.org/vehicleSeatingCapacity
 	 * The number of passengers that can be seated in the vehicle, both in terms of the physical space available, and in terms of limitations set by law.\n\nTypical unit code(s): C62 for persons.
 	 * @property vehicleSeatingCapacity
-	 * @type schema,QuantitativeValue | schema,Number
+	 * @type schema,Number | schema,QuantitativeValue
 	 */
 	public Object vehicleSeatingCapacity;
 
@@ -96,12 +96,20 @@ public class Vehicle extends Product
 	public EngineSpecification vehicleEngine;
 
 	/**
-	 * Schema.org/steeringPosition
-	 * The position of the steering wheel or similar device (mostly for cars).
-	 * @property steeringPosition
-	 * @type SteeringPositionValue
+	 * Schema.org/purchaseDate
+	 * The date the item e.g. vehicle was purchased by the current owner.
+	 * @property purchaseDate
+	 * @type Date
 	 */
-	public SteeringPositionValue steeringPosition;
+	public String purchaseDate;
+
+	/**
+	 * Schema.org/vehicleConfiguration
+	 * A short text indicating the configuration of the vehicle, e.g. '5dr hatchback ST 2.5 MT 225 hp' or 'limited edition'.
+	 * @property vehicleConfiguration
+	 * @type Text
+	 */
+	public String vehicleConfiguration;
 
 	/**
 	 * Schema.org/vehicleIdentificationNumber
@@ -128,14 +136,6 @@ public class Vehicle extends Product
 	public String vehicleModelDate;
 
 	/**
-	 * Schema.org/numberOfForwardGears
-	 * The total number of forward gears available for the transmission system of the vehicle.\n\nTypical unit code(s): C62
-	 * @property numberOfForwardGears
-	 * @type schema,QuantitativeValue | schema,Number
-	 */
-	public Object numberOfForwardGears;
-
-	/**
 	 * Schema.org/fuelConsumption
 	 * The amount of fuel consumed for traveling a particular distance or temporal duration with the given vehicle (e.g. liters per 100 km).\n\n* Note 1: There are unfortunately no standard unit codes for liters per 100 km.  Use [[unitText]] to indicate the unit of measurement, e.g. L/100 km.\n* Note 2: There are two ways of indicating the fuel consumption, [[fuelConsumption]] (e.g. 8 liters per 100 km) and [[fuelEfficiency]] (e.g. 30 miles per gallon). They are reciprocal.\n* Note 3: Often, the absolute value is useful only when related to driving speed ("at 80 km/h") or usage pattern ("city traffic"). You can use [[valueReference]] to link the value for the fuel consumption to another value.
 	 * @property fuelConsumption
@@ -152,20 +152,20 @@ public class Vehicle extends Product
 	public Object numberOfAirbags;
 
 	/**
-	 * Schema.org/purchaseDate
-	 * The date the item e.g. vehicle was purchased by the current owner.
-	 * @property purchaseDate
-	 * @type Date
-	 */
-	public String purchaseDate;
-
-	/**
 	 * Schema.org/numberOfPreviousOwners
 	 * The number of owners of the vehicle, including the current one.\n\nTypical unit code(s): C62
 	 * @property numberOfPreviousOwners
-	 * @type schema,QuantitativeValue | schema,Number
+	 * @type schema,Number | schema,QuantitativeValue
 	 */
 	public Object numberOfPreviousOwners;
+
+	/**
+	 * Schema.org/numberOfForwardGears
+	 * The total number of forward gears available for the transmission system of the vehicle.\n\nTypical unit code(s): C62
+	 * @property numberOfForwardGears
+	 * @type schema,Number | schema,QuantitativeValue
+	 */
+	public Object numberOfForwardGears;
 
 	/**
 	 * Schema.org/dateVehicleFirstRegistered
@@ -195,15 +195,23 @@ public class Vehicle extends Product
 	 * Schema.org/fuelType
 	 * The type of fuel suitable for the engine or engines of the vehicle. If the vehicle has only one engine, this property can be attached directly to the vehicle.
 	 * @property fuelType
-	 * @type schema,QualitativeValue | schema,URL | schema,Text
+	 * @type schema,URL | schema,Text | schema,QualitativeValue
 	 */
 	public Object fuelType;
+
+	/**
+	 * Schema.org/steeringPosition
+	 * The position of the steering wheel or similar device (mostly for cars).
+	 * @property steeringPosition
+	 * @type SteeringPositionValue
+	 */
+	public SteeringPositionValue steeringPosition;
 
 	/**
 	 * Schema.org/numberOfAxles
 	 * The number of axles.\n\nTypical unit code(s): C62
 	 * @property numberOfAxles
-	 * @type schema,QuantitativeValue | schema,Number
+	 * @type schema,Number | schema,QuantitativeValue
 	 */
 	public Object numberOfAxles;
 
@@ -214,13 +222,5 @@ public class Vehicle extends Product
 	 * @type Text
 	 */
 	public String vehicleSpecialUsage;
-
-	/**
-	 * Schema.org/vehicleInteriorType
-	 * The type or material of the interior of the vehicle (e.g. synthetic fabric, leather, wood, etc.). While most interior types are characterized by the material used, an interior type can also be based on vehicle usage or target audience.
-	 * @property vehicleInteriorType
-	 * @type Text
-	 */
-	public String vehicleInteriorType;
 
 }

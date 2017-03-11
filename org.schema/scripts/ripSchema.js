@@ -5,7 +5,7 @@ var fs = require('fs');
 require("node-jquery-xhr");
 
 $.ajax({
-    url: "https://www.w3.org/2012/pyRdfa/extract?uri=http%3A%2F%2Fschema.org%2Fdocs%2Fschema_org_rdfa.html&format=json&rdfagraph=output&vocab_expansion=false&rdfa_lite=false&embedded_rdf=true&space_preserve=true&vocab_cache=true&vocab_cache_report=false&vocab_cache_refresh=false",
+    url: "https://www.w3.org/2012/pyRdfa/extract?uri=https%3A%2F%2Fraw.githubusercontent.com%2Fschemaorg%2Fschemaorg%2Fsdo-callisto%2Fdata%2Fschema.rdfa&format=json&rdfagraph=output&vocab_expansion=false&rdfa_lite=false&embedded_rdf=true&space_preserve=true&vocab_cache=true&vocab_cache_report=false&vocab_cache_refresh=false",
     success: function (object) {
         var graph = object["@graph"];
         for (var i = 0; i < graph.length; i++) {

@@ -65,19 +65,11 @@ public class Action extends Thing
 
 	/**
 	 * Schema.org/object
-	 * The object upon the action is carried out, whose state is kept intact or changed. Also known as the semantic roles patient, affected or undergoer (which change their state) or theme (which doesn't). e.g. John read *a book*.
+	 * The object upon which the action is carried out, whose state is kept intact or changed. Also known as the semantic roles patient, affected or undergoer (which change their state) or theme (which doesn't). e.g. John read *a book*.
 	 * @property object
 	 * @type Thing
 	 */
 	public Thing object;
-
-	/**
-	 * Schema.org/result
-	 * The result produced in the action. e.g. John wrote *a book*.
-	 * @property result
-	 * @type Thing
-	 */
-	public Thing result;
 
 	/**
 	 * Schema.org/actionStatus
@@ -88,10 +80,18 @@ public class Action extends Thing
 	public ActionStatusType actionStatus;
 
 	/**
+	 * Schema.org/result
+	 * The result produced in the action. e.g. John wrote *a book*.
+	 * @property result
+	 * @type Thing
+	 */
+	public Thing result;
+
+	/**
 	 * Schema.org/location
 	 * The location of for example where the event is happening, an organization is located, or where an action takes place.
 	 * @property location
-	 * @type schema,PostalAddress | schema,Place | schema,Text
+	 * @type schema,PostalAddress | schema,Text | schema,Place
 	 */
 	public Object location;
 

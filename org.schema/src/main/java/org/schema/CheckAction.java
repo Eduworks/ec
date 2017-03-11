@@ -5,7 +5,7 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
 
 /**
  * Schema.org/CheckAction
- * An agent inspects/determines/investigates/inquire or examine an object's accuracy/quality/condition or state.
+ * An agent inspects, determines, investigates, inquires, or examines an object's accuracy, quality, condition, or state.
  * @author schema.org
  * @class CheckAction
  * @module org.schema

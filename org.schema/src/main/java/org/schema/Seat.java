@@ -27,7 +27,7 @@ public class Seat extends Intangible
 	 * Schema.org/seatingType
 	 * The type/class of the seat.
 	 * @property seatingType
-	 * @type schema,QualitativeValue | schema,Text
+	 * @type schema,Text | schema,QualitativeValue
 	 */
 	public Object seatingType;
 

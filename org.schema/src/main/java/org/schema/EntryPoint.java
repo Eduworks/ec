@@ -32,14 +32,6 @@ public class EntryPoint extends Intangible
 	public String contentType;
 
 	/**
-	 * Schema.org/actionPlatform
-	 * The high level platform(s) where the Action can be performed for the given URL. To specify a specific application or operating system instance, use actionApplication.
-	 * @property actionPlatform
-	 * @type schema,URL | schema,Text
-	 */
-	public Object actionPlatform;
-
-	/**
 	 * Schema.org/actionApplication
 	 * An application that can complete the request.
 	 * @property actionApplication
@@ -54,6 +46,14 @@ public class EntryPoint extends Intangible
 	 * @type Text
 	 */
 	public String urlTemplate;
+
+	/**
+	 * Schema.org/actionPlatform
+	 * The high level platform(s) where the Action can be performed for the given URL. To specify a specific application or operating system instance, use actionApplication.
+	 * @property actionPlatform
+	 * @type schema,URL | schema,Text
+	 */
+	public Object actionPlatform;
 
 	/**
 	 * Schema.org/httpMethod

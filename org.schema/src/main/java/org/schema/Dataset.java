@@ -24,14 +24,6 @@ public class Dataset extends CreativeWork
 	}
 
 	/**
-	 * Schema.org/datasetTimeInterval
-	 * The range of temporal applicability of a dataset, e.g. for a 2011 census dataset, the year 2011 (in ISO 8601 time interval format).
-	 * @property datasetTimeInterval
-	 * @type DateTime
-	 */
-	public String datasetTimeInterval;
-
-	/**
 	 * Schema.org/spatial
 	 * The range of spatial applicability of a dataset, e.g. for a dataset of New York weather, the state of New York.
 	 * @property spatial
@@ -62,6 +54,14 @@ public class Dataset extends CreativeWork
 	 * @type DateTime
 	 */
 	public String temporal;
+
+	/**
+	 * Schema.org/datasetTimeInterval
+	 * The range of temporal applicability of a dataset, e.g. for a 2011 census dataset, the year 2011 (in ISO 8601 time interval format).
+	 * @property datasetTimeInterval
+	 * @type DateTime
+	 */
+	public String datasetTimeInterval;
 
 	/**
 	 * Schema.org/distribution

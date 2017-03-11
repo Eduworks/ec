@@ -80,6 +80,14 @@ public class Product extends Thing
 	public String gtin12;
 
 	/**
+	 * Schema.org/height
+	 * The height of the item.
+	 * @property height
+	 * @type schema,Distance | schema,QuantitativeValue
+	 */
+	public Object height;
+
+	/**
 	 * Schema.org/additionalProperty
 	 * A property-value pair representing an additional characteristics of the entitity, e.g. a product feature or another characteristic for which there is no matching property in schema.org.\n\nNote: Publishers should be aware that applications designed to use specific schema.org properties (e.g. http://schema.org/width, http://schema.org/color, http://schema.org/gtin13, ...) will typically expect such data to be provided using those properties, rather than using the generic property/value mechanism.
 
@@ -92,9 +100,17 @@ public class Product extends Thing
 	 * Schema.org/isRelatedTo
 	 * A pointer to another, somehow related product (or multiple products).
 	 * @property isRelatedTo
-	 * @type schema,Product | schema,Service
+	 * @type schema,Service | schema,Product
 	 */
 	public Object isRelatedTo;
+
+	/**
+	 * Schema.org/purchaseDate
+	 * The date the item e.g. vehicle was purchased by the current owner.
+	 * @property purchaseDate
+	 * @type Date
+	 */
+	public String purchaseDate;
 
 	/**
 	 * Schema.org/offers
@@ -148,7 +164,7 @@ public class Product extends Thing
 	 * Schema.org/depth
 	 * The depth of the item.
 	 * @property depth
-	 * @type schema,QuantitativeValue | schema,Distance
+	 * @type schema,Distance | schema,QuantitativeValue
 	 */
 	public Object depth;
 
@@ -193,20 +209,20 @@ public class Product extends Thing
 	public String gtin8;
 
 	/**
-	 * Schema.org/purchaseDate
-	 * The date the item e.g. vehicle was purchased by the current owner.
-	 * @property purchaseDate
-	 * @type Date
-	 */
-	public String purchaseDate;
-
-	/**
 	 * Schema.org/productID
 	 * The product identifier, such as ISBN. For example: ``` meta itemprop="productID" content="isbn:123-456-789" ```.
 	 * @property productID
 	 * @type Text
 	 */
 	public String productID;
+
+	/**
+	 * Schema.org/material
+	 * A material that something is made from, e.g. leather, wool, cotton, paper.
+	 * @property material
+	 * @type schema,URL | schema,Text | schema,Product
+	 */
+	public Object material;
 
 	/**
 	 * Schema.org/isConsumableFor
@@ -225,18 +241,10 @@ public class Product extends Thing
 	public QuantitativeValue weight;
 
 	/**
-	 * Schema.org/height
-	 * The height of the item.
-	 * @property height
-	 * @type schema,QuantitativeValue | schema,Distance
-	 */
-	public Object height;
-
-	/**
 	 * Schema.org/isSimilarTo
 	 * A pointer to another, functionally similar product (or multiple products).
 	 * @property isSimilarTo
-	 * @type schema,Product | schema,Service
+	 * @type schema,Service | schema,Product
 	 */
 	public Object isSimilarTo;
 
@@ -244,7 +252,7 @@ public class Product extends Thing
 	 * Schema.org/width
 	 * The width of the item.
 	 * @property width
-	 * @type schema,QuantitativeValue | schema,Distance
+	 * @type schema,Distance | schema,QuantitativeValue
 	 */
 	public Object width;
 
@@ -276,7 +284,7 @@ public class Product extends Thing
 	 * Schema.org/logo
 	 * An associated logo.
 	 * @property logo
-	 * @type schema,ImageObject | schema,URL
+	 * @type schema,URL | schema,ImageObject
 	 */
 	public Object logo;
 
@@ -284,7 +292,7 @@ public class Product extends Thing
 	 * Schema.org/category
 	 * A category for the item. Greater signs or slashes can be used to informally indicate a category hierarchy.
 	 * @property category
-	 * @type schema,Thing | schema,Text
+	 * @type schema,Text | schema,Thing
 	 */
 	public Object category;
 

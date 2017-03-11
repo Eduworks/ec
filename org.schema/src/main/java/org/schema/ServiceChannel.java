@@ -35,7 +35,7 @@ public class ServiceChannel extends Intangible
 	 * Schema.org/availableLanguage
 	 * A language someone may use with the item. Please use one of the language codes from the [IETF BCP 47 standard](http://tools.ietf.org/html/bcp47). See also [[inLanguage]]
 	 * @property availableLanguage
-	 * @type schema,Language | schema,Text
+	 * @type schema,Text | schema,Language
 	 */
 	public Object availableLanguage;
 

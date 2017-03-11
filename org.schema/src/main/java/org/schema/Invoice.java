@@ -107,7 +107,7 @@ public class Invoice extends Intangible
 	 * Schema.org/paymentStatus
 	 * The status of payment; whether the invoice has been paid or not.
 	 * @property paymentStatus
-	 * @type schema,PaymentStatusType | schema,Text
+	 * @type schema,Text | schema,PaymentStatusType
 	 */
 	public Object paymentStatus;
 
@@ -147,7 +147,7 @@ public class Invoice extends Intangible
 	 * Schema.org/category
 	 * A category for the item. Greater signs or slashes can be used to informally indicate a category hierarchy.
 	 * @property category
-	 * @type schema,Thing | schema,Text
+	 * @type schema,Text | schema,Thing
 	 */
 	public Object category;
 

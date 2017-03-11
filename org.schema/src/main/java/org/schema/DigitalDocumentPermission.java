@@ -35,7 +35,7 @@ public class DigitalDocumentPermission extends Intangible
 	 * Schema.org/grantee
 	 * The person, organization, contact point, or audience that has been granted this permission.
 	 * @property grantee
-	 * @type schema,Organization | schema,ContactPoint | schema,Audience | schema,Person
+	 * @type schema,ContactPoint | schema,Organization | schema,Person | schema,Audience
 	 */
 	public Object grantee;
 

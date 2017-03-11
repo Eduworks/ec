@@ -43,7 +43,7 @@ public class Brand extends Intangible
 	 * Schema.org/logo
 	 * An associated logo.
 	 * @property logo
-	 * @type schema,ImageObject | schema,URL
+	 * @type schema,URL | schema,ImageObject
 	 */
 	public Object logo;
 

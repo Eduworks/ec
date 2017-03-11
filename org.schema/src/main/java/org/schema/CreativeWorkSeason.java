@@ -24,14 +24,6 @@ public class CreativeWorkSeason extends CreativeWork
 	}
 
 	/**
-	 * Schema.org/trailer
-	 * The trailer of a movie or tv/radio series, season, episode, etc.
-	 * @property trailer
-	 * @type VideoObject
-	 */
-	public VideoObject trailer;
-
-	/**
 	 * Schema.org/episodes
 	 * An episode of a TV/radio series or season.
 	 * @property episodes
@@ -46,6 +38,14 @@ public class CreativeWorkSeason extends CreativeWork
 	 * @type Person
 	 */
 	public Person director;
+
+	/**
+	 * Schema.org/seasonNumber
+	 * Position of the season within an ordered group of seasons.
+	 * @property seasonNumber
+	 * @type schema,Integer | schema,Text
+	 */
+	public Object seasonNumber;
 
 	/**
 	 * Schema.org/episode
@@ -64,12 +64,12 @@ public class CreativeWorkSeason extends CreativeWork
 	public Person actor;
 
 	/**
-	 * Schema.org/seasonNumber
-	 * Position of the season within an ordered group of seasons.
-	 * @property seasonNumber
-	 * @type schema,Integer | schema,Text
+	 * Schema.org/trailer
+	 * The trailer of a movie or tv/radio series, season, episode, etc.
+	 * @property trailer
+	 * @type VideoObject
 	 */
-	public Object seasonNumber;
+	public VideoObject trailer;
 
 	/**
 	 * Schema.org/startDate

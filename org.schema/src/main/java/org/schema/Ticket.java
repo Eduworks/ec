@@ -35,7 +35,7 @@ public class Ticket extends Intangible
 	 * Schema.org/totalPrice
 	 * The total price for the reservation or ticket, including applicable taxes, shipping, etc.
 	 * @property totalPrice
-	 * @type schema,PriceSpecification | schema,Number | schema,Text
+	 * @type schema,Number | schema,PriceSpecification | schema,Text
 	 */
 	public Object totalPrice;
 

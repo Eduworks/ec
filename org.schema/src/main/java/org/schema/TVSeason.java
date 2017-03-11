@@ -9,9 +9,9 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * @author schema.org
  * @class TVSeason
  * @module org.schema
- * @extends CreativeWork
+ * @extends CreativeWorkSeason
  */
-public class TVSeason extends CreativeWork
+public class TVSeason extends CreativeWorkSeason
 {
 	/**
 	 * Constructor, automatically sets @context and @type.

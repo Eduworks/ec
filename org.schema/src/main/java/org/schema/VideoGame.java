@@ -24,22 +24,6 @@ public class VideoGame extends Game
 	}
 
 	/**
-	 * Schema.org/musicBy
-	 * The composer of the soundtrack.
-	 * @property musicBy
-	 * @type schema,Person | schema,MusicGroup
-	 */
-	public Object musicBy;
-
-	/**
-	 * Schema.org/trailer
-	 * The trailer of a movie or tv/radio series, season, episode, etc.
-	 * @property trailer
-	 * @type VideoObject
-	 */
-	public VideoObject trailer;
-
-	/**
 	 * Schema.org/director
 	 * A director of e.g. tv, radio, movie, video gaming etc. content, or of an event. Directors can be associated with individual items or with a series, episode, clip.
 	 * @property director
@@ -67,7 +51,7 @@ public class VideoGame extends Game
 	 * Schema.org/gamePlatform
 	 * The electronic systems used to play <a href="http://en.wikipedia.org/wiki/Category:Video_game_platforms">video games</a>.
 	 * @property gamePlatform
-	 * @type schema,URL | schema,Thing | schema,Text
+	 * @type schema,URL | schema,Text | schema,Thing
 	 */
 	public Object gamePlatform;
 
@@ -88,12 +72,28 @@ public class VideoGame extends Game
 	public CreativeWork gameTip;
 
 	/**
+	 * Schema.org/musicBy
+	 * The composer of the soundtrack.
+	 * @property musicBy
+	 * @type schema,Person | schema,MusicGroup
+	 */
+	public Object musicBy;
+
+	/**
 	 * Schema.org/actors
 	 * An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.
 	 * @property actors
 	 * @type Person
 	 */
 	public Person actors;
+
+	/**
+	 * Schema.org/trailer
+	 * The trailer of a movie or tv/radio series, season, episode, etc.
+	 * @property trailer
+	 * @type VideoObject
+	 */
+	public VideoObject trailer;
 
 	/**
 	 * Schema.org/playMode

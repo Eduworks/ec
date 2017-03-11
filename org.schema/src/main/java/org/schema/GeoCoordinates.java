@@ -24,20 +24,20 @@ public class GeoCoordinates extends StructuredValue
 	}
 
 	/**
-	 * Schema.org/latitude
-	 * The latitude of a location. For example ```37.42242``` ([WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)).
-	 * @property latitude
-	 * @type schema,Number | schema,Text
-	 */
-	public Object latitude;
-
-	/**
 	 * Schema.org/postalCode
 	 * The postal code. For example, 94043.
 	 * @property postalCode
 	 * @type Text
 	 */
 	public String postalCode;
+
+	/**
+	 * Schema.org/latitude
+	 * The latitude of a location. For example ```37.42242``` ([WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)).
+	 * @property latitude
+	 * @type schema,Number | schema,Text
+	 */
+	public Object latitude;
 
 	/**
 	 * Schema.org/elevation
@@ -59,7 +59,7 @@ public class GeoCoordinates extends StructuredValue
 	 * Schema.org/addressCountry
 	 * The country. For example, USA. You can also provide the two-letter [ISO 3166-1 alpha-2 country code](http://en.wikipedia.org/wiki/ISO_3166-1).
 	 * @property addressCountry
-	 * @type schema,Country | schema,Text
+	 * @type schema,Text | schema,Country
 	 */
 	public Object addressCountry;
 

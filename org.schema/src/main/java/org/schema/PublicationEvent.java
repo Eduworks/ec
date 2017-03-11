@@ -41,7 +41,7 @@ public class PublicationEvent extends Event
 
 	/**
 	 * Schema.org/free
-	 * A flag to signal that the publication is accessible for free.
+	 * A flag to signal that the publication or event is accessible for free.
 	 * @property free
 	 * @type Boolean
 	 */

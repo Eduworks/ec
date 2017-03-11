@@ -80,22 +80,30 @@ public class CreativeWork extends Thing
 	public String award;
 
 	/**
+	 * Schema.org/contentLocation
+	 * The location depicted or described in the content. For example, the location in a photograph or painting.
+	 * @property contentLocation
+	 * @type Place
+	 */
+	public Place contentLocation;
+
+	/**
 	 * Schema.org/temporalCoverage
 	 * The temporalCoverage of a CreativeWork indicates the period that the content applies to, i.e. that it describes, either as a DateTime or as a textual string indicating a time period in [ISO 8601 time interval format](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals). In
       the case of a Dataset it will typically indicate the relevant time period in a precise notation (e.g. for a 2011 census dataset, the year 2011 would be written "2011/2012"). Other forms of content e.g. ScholarlyArticle, Book, TVSeries or TVEpisode may indicate their temporalCoverage in broader terms - textually or via well-known URL.
       Written works such as books may sometimes have precise temporal coverage too, e.g. a work set in 1939 - 1945 can be indicated in ISO 8601 interval format format via "1939/1945".
 	 * @property temporalCoverage
-	 * @type schema,URL | schema,DateTime | schema,Text
+	 * @type schema,URL | schema,Text | schema,DateTime
 	 */
 	public Object temporalCoverage;
 
 	/**
-	 * Schema.org/accessibilityAPI
-	 * Indicates that the resource is compatible with the referenced accessibility API ([WebSchemas wiki lists possible values](http://www.w3.org/wiki/WebSchemas/Accessibility)).
-	 * @property accessibilityAPI
-	 * @type Text
+	 * Schema.org/isBasedOn
+	 * A resource that was used in the creation of this resource. This term can be repeated for multiple sources. For example, http://example.com/great-multiplication-intro.html.
+	 * @property isBasedOn
+	 * @type schema,URL | schema,CreativeWork | schema,Product
 	 */
-	public String accessibilityAPI;
+	public Object isBasedOn;
 
 	/**
 	 * Schema.org/headline
@@ -106,12 +114,12 @@ public class CreativeWork extends Thing
 	public String headline;
 
 	/**
-	 * Schema.org/isFamilyFriendly
-	 * Indicates whether this content is family friendly.
-	 * @property isFamilyFriendly
-	 * @type Boolean
+	 * Schema.org/fileFormat
+	 * Media type, typically MIME format (see [IANA site](http://www.iana.org/assignments/media-types/media-types.xhtml)) of the content e.g. application/zip of a SoftwareApplication binary. In cases where a CreativeWork has several media type representations, 'encoding' can be used to indicate each MediaObject alongside particular fileFormat information. Unregistered or niche file formats can be indicated instead via the most appropriate URL, e.g. defining Web page or a Wikipedia entry.
+	 * @property fileFormat
+	 * @type schema,URL | schema,Text
 	 */
-	public Boolean isFamilyFriendly;
+	public Object fileFormat;
 
 	/**
 	 * Schema.org/interactionStatistic
@@ -130,14 +138,6 @@ public class CreativeWork extends Thing
 	public Event recordedAt;
 
 	/**
-	 * Schema.org/isPartOf
-	 * Indicates a CreativeWork that this CreativeWork is (in some sense) part of.
-	 * @property isPartOf
-	 * @type CreativeWork
-	 */
-	public CreativeWork isPartOf;
-
-	/**
 	 * Schema.org/isAccessibleForFree
 	 * A flag to signal that the publication is accessible for free.
 	 * @property isAccessibleForFree
@@ -146,12 +146,12 @@ public class CreativeWork extends Thing
 	public Boolean isAccessibleForFree;
 
 	/**
-	 * Schema.org/contentLocation
-	 * The location depicted or described in the content. For example, the location in a photograph or painting.
-	 * @property contentLocation
-	 * @type Place
+	 * Schema.org/isPartOf
+	 * Indicates a CreativeWork that this CreativeWork is (in some sense) part of.
+	 * @property isPartOf
+	 * @type CreativeWork
 	 */
-	public Place contentLocation;
+	public CreativeWork isPartOf;
 
 	/**
 	 * Schema.org/exampleOfWork
@@ -200,6 +200,14 @@ public class CreativeWork extends Thing
 	 * @type Text
 	 */
 	public String accessibilityControl;
+
+	/**
+	 * Schema.org/isFamilyFriendly
+	 * Indicates whether this content is family friendly.
+	 * @property isFamilyFriendly
+	 * @type Boolean
+	 */
+	public Boolean isFamilyFriendly;
 
 	/**
 	 * Schema.org/encoding
@@ -298,8 +306,17 @@ public class CreativeWork extends Thing
 	public Object position;
 
 	/**
+	 * Schema.org/accessMode
+	 * The human sensory perceptual system or cognitive faculty through which a person may process or perceive information. Expected values include: auditory, tactile, textual, visual, colorDependent, chartOnVisual, chemOnVisual, diagramOnVisual, mathOnVisual, musicOnVisual, textOnVisual.
+      
+	 * @property accessMode
+	 * @type Text
+	 */
+	public String accessMode;
+
+	/**
 	 * Schema.org/genre
-	 * Genre of the creative work or group.
+	 * Genre of the creative work, broadcast channel or group.
 	 * @property genre
 	 * @type schema,URL | schema,Text
 	 */
@@ -336,6 +353,15 @@ public class CreativeWork extends Thing
 	 * @type Text
 	 */
 	public String awards;
+
+	/**
+	 * Schema.org/accessModeSufficient
+	 * A list of single or combined accessModes that are sufficient to understand all the intellectual content of a resource. Expected values include:  auditory, tactile, textual, visual.
+      
+	 * @property accessModeSufficient
+	 * @type Text
+	 */
+	public String accessModeSufficient;
 
 	/**
 	 * Schema.org/producer
@@ -418,6 +444,30 @@ public class CreativeWork extends Thing
 	public Person accountablePerson;
 
 	/**
+	 * Schema.org/learningResourceType
+	 * The predominant type or kind characterizing the learning resource. For example, 'presentation', 'handout'.
+	 * @property learningResourceType
+	 * @type Text
+	 */
+	public String learningResourceType;
+
+	/**
+	 * Schema.org/material
+	 * A material that something is made from, e.g. leather, wool, cotton, paper.
+	 * @property material
+	 * @type schema,URL | schema,Text | schema,Product
+	 */
+	public Object material;
+
+	/**
+	 * Schema.org/interactivityType
+	 * The predominant mode of learning supported by the learning resource. Acceptable values are 'active', 'expositive', or 'mixed'.
+	 * @property interactivityType
+	 * @type Text
+	 */
+	public String interactivityType;
+
+	/**
 	 * Schema.org/author
 	 * The author of this content or rating. Please note that author is special in that HTML 5 provides a special mechanism for indicating authorship via the rel tag. That is equivalent to this and may be used interchangeably.
 	 * @property author
@@ -450,28 +500,12 @@ public class CreativeWork extends Thing
 	public Object sponsor;
 
 	/**
-	 * Schema.org/fileFormat
-	 * Media type, typically MIME format (see [IANA site](http://www.iana.org/assignments/media-types/media-types.xhtml)) of the content e.g. application/zip of a SoftwareApplication binary. In cases where a CreativeWork has several media type representations, 'encoding' can be used to indicate each MediaObject alongside particular fileFormat information. Unregistered or niche file formats can be indicated instead via the most appropriate URL, e.g. defining Web page or a Wikipedia entry.
-	 * @property fileFormat
-	 * @type schema,URL | schema,Text
-	 */
-	public Object fileFormat;
-
-	/**
 	 * Schema.org/provider
 	 * The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.
 	 * @property provider
 	 * @type schema,Organization | schema,Person
 	 */
 	public Object provider;
-
-	/**
-	 * Schema.org/learningResourceType
-	 * The predominant type or kind characterizing the learning resource. For example, 'presentation', 'handout'.
-	 * @property learningResourceType
-	 * @type Text
-	 */
-	public String learningResourceType;
 
 	/**
 	 * Schema.org/copyrightHolder
@@ -482,6 +516,14 @@ public class CreativeWork extends Thing
 	public Object copyrightHolder;
 
 	/**
+	 * Schema.org/accessibilityAPI
+	 * Indicates that the resource is compatible with the referenced accessibility API ([WebSchemas wiki lists possible values](http://www.w3.org/wiki/WebSchemas/Accessibility)).
+	 * @property accessibilityAPI
+	 * @type Text
+	 */
+	public String accessibilityAPI;
+
+	/**
 	 * Schema.org/text
 	 * The textual content of this CreativeWork.
 	 * @property text
@@ -490,28 +532,12 @@ public class CreativeWork extends Thing
 	public String text;
 
 	/**
-	 * Schema.org/interactivityType
-	 * The predominant mode of learning supported by the learning resource. Acceptable values are 'active', 'expositive', or 'mixed'.
-	 * @property interactivityType
-	 * @type Text
-	 */
-	public String interactivityType;
-
-	/**
 	 * Schema.org/comment
 	 * Comments, typically from users.
 	 * @property comment
 	 * @type Comment
 	 */
 	public Comment comment;
-
-	/**
-	 * Schema.org/isBasedOn
-	 * A resource that was used in the creation of this resource. This term can be repeated for multiple sources. For example, http://example.com/great-multiplication-intro.html.
-	 * @property isBasedOn
-	 * @type schema,Product | schema,URL | schema,CreativeWork
-	 */
-	public Object isBasedOn;
 
 	/**
 	 * Schema.org/datePublished
@@ -596,6 +622,14 @@ public class CreativeWork extends Thing
 	public Double copyrightYear;
 
 	/**
+	 * Schema.org/accessibilitySummary
+	 * A human-readable summary of specific accessibility features or deficiencies, consistent with the other accessibility metadata but expressing subtleties such as "short descriptions are present but long descriptions will be needed for non-visual users" or "short descriptions are present and no long descriptions are needed."
+	 * @property accessibilitySummary
+	 * @type Text
+	 */
+	public String accessibilitySummary;
+
+	/**
 	 * Schema.org/mentions
 	 * Indicates that the CreativeWork contains a reference to, but is not necessarily about a concept.
 	 * @property mentions
@@ -607,7 +641,7 @@ public class CreativeWork extends Thing
 	 * Schema.org/citation
 	 * A citation or reference to another creative work, such as another publication, web page, scholarly article, etc.
 	 * @property citation
-	 * @type schema,CreativeWork | schema,Text
+	 * @type schema,Text | schema,CreativeWork
 	 */
 	public Object citation;
 
@@ -631,7 +665,7 @@ public class CreativeWork extends Thing
 	 * Schema.org/inLanguage
 	 * The language of the content or performance or used in an action. Please use one of the language codes from the [IETF BCP 47 standard](http://tools.ietf.org/html/bcp47). See also [[availableLanguage]].
 	 * @property inLanguage
-	 * @type schema,Language | schema,Text
+	 * @type schema,Text | schema,Language
 	 */
 	public Object inLanguage;
 
@@ -639,7 +673,7 @@ public class CreativeWork extends Thing
 	 * Schema.org/isBasedOnUrl
 	 * A resource that was used in the creation of this resource. This term can be repeated for multiple sources. For example, http://example.com/great-multiplication-intro.html.
 	 * @property isBasedOnUrl
-	 * @type schema,Product | schema,URL | schema,CreativeWork
+	 * @type schema,URL | schema,CreativeWork | schema,Product
 	 */
 	public Object isBasedOnUrl;
 

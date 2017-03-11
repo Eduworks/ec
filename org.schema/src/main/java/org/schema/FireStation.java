@@ -9,9 +9,9 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * @author schema.org
  * @class FireStation
  * @module org.schema
- * @extends EmergencyService
+ * @extends CivicStructure
  */
-public class FireStation extends EmergencyService
+public class FireStation extends CivicStructure
 {
 	/**
 	 * Constructor, automatically sets @context and @type.

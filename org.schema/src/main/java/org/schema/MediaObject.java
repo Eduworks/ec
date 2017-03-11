@@ -56,6 +56,14 @@ public class MediaObject extends CreativeWork
 	public String embedUrl;
 
 	/**
+	 * Schema.org/height
+	 * The height of the item.
+	 * @property height
+	 * @type schema,Distance | schema,QuantitativeValue
+	 */
+	public Object height;
+
+	/**
 	 * Schema.org/requiresSubscription
 	 * Indicates if use of the media require a subscription  (either paid or free). Allowed values are ```true``` or ```false``` (note that an earlier version had 'yes', 'no').
 	 * @property requiresSubscription
@@ -88,18 +96,10 @@ public class MediaObject extends CreativeWork
 	public String contentUrl;
 
 	/**
-	 * Schema.org/height
-	 * The height of the item.
-	 * @property height
-	 * @type schema,QuantitativeValue | schema,Distance
-	 */
-	public Object height;
-
-	/**
 	 * Schema.org/width
 	 * The width of the item.
 	 * @property width
-	 * @type schema,QuantitativeValue | schema,Distance
+	 * @type schema,Distance | schema,QuantitativeValue
 	 */
 	public Object width;
 

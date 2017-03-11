@@ -40,6 +40,14 @@ public class SoftwareApplication extends CreativeWork
 	public String device;
 
 	/**
+	 * Schema.org/installUrl
+	 * URL at which the app may be installed, if different from the URL of the item.
+	 * @property installUrl
+	 * @type URL
+	 */
+	public String installUrl;
+
+	/**
 	 * Schema.org/countriesSupported
 	 * Countries for which the application is supported. You can also provide the two-letter ISO 3166-1 alpha-2 country code.
 	 * @property countriesSupported
@@ -56,6 +64,14 @@ public class SoftwareApplication extends CreativeWork
 	public String softwareVersion;
 
 	/**
+	 * Schema.org/softwareAddOn
+	 * Additional content for a software application.
+	 * @property softwareAddOn
+	 * @type SoftwareApplication
+	 */
+	public SoftwareApplication softwareAddOn;
+
+	/**
 	 * Schema.org/supportingData
 	 * Supporting data for a SoftwareApplication.
 	 * @property supportingData
@@ -70,14 +86,6 @@ public class SoftwareApplication extends CreativeWork
 	 * @type schema,URL | schema,Text
 	 */
 	public Object memoryRequirements;
-
-	/**
-	 * Schema.org/softwareAddOn
-	 * Additional content for a software application.
-	 * @property softwareAddOn
-	 * @type SoftwareApplication
-	 */
-	public SoftwareApplication softwareAddOn;
 
 	/**
 	 * Schema.org/applicationSubCategory
@@ -107,7 +115,7 @@ public class SoftwareApplication extends CreativeWork
 	 * Schema.org/screenshot
 	 * A link to a screenshot image of the app.
 	 * @property screenshot
-	 * @type schema,ImageObject | schema,URL
+	 * @type schema,URL | schema,ImageObject
 	 */
 	public Object screenshot;
 
@@ -182,14 +190,6 @@ public class SoftwareApplication extends CreativeWork
 	 * @type schema,URL | schema,Text
 	 */
 	public Object softwareRequirements;
-
-	/**
-	 * Schema.org/installUrl
-	 * URL at which the app may be installed, if different from the URL of the item.
-	 * @property installUrl
-	 * @type URL
-	 */
-	public String installUrl;
 
 	/**
 	 * Schema.org/fileSize

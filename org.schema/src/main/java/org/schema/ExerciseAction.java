@@ -24,14 +24,6 @@ public class ExerciseAction extends PlayAction
 	}
 
 	/**
-	 * Schema.org/exerciseCourse
-	 * A sub property of location. The course where this action was taken.
-	 * @property exerciseCourse
-	 * @type Place
-	 */
-	public Place exerciseCourse;
-
-	/**
 	 * Schema.org/opponent
 	 * A sub property of participant. The opponent on this action.
 	 * @property opponent
@@ -40,12 +32,28 @@ public class ExerciseAction extends PlayAction
 	public Person opponent;
 
 	/**
+	 * Schema.org/exerciseCourse
+	 * A sub property of location. The course where this action was taken.
+	 * @property exerciseCourse
+	 * @type Place
+	 */
+	public Place exerciseCourse;
+
+	/**
 	 * Schema.org/fromLocation
 	 * A sub property of location. The original location of the object or the agent before the action.
 	 * @property fromLocation
 	 * @type Place
 	 */
 	public Place fromLocation;
+
+	/**
+	 * Schema.org/course
+	 * A sub property of location. The course where this action was taken.
+	 * @property course
+	 * @type Place
+	 */
+	public Place course;
 
 	/**
 	 * Schema.org/toLocation
@@ -62,14 +70,6 @@ public class ExerciseAction extends PlayAction
 	 * @type Distance
 	 */
 	public Distance distance;
-
-	/**
-	 * Schema.org/course
-	 * A sub property of location. The course where this action was taken.
-	 * @property course
-	 * @type Place
-	 */
-	public Place course;
 
 	/**
 	 * Schema.org/sportsActivityLocation

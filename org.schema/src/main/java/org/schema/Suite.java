@@ -31,7 +31,7 @@ public class Suite extends Accommodation
 	 * The type of bed or beds included in the accommodation. For the single case of just one bed of a certain type, you use bed directly with a text.
       If you want to indicate the quantity of a certain kind of bed, use an instance of BedDetails. For more detailed information, use the amenityFeature property.
 	 * @property bed
-	 * @type schema,BedDetails | schema,Text
+	 * @type schema,Text | schema,BedDetails
 	 */
 	public Object bed;
 
@@ -40,7 +40,7 @@ public class Suite extends Accommodation
 	 * The number of rooms (excluding bathrooms and closets) of the acccommodation or lodging business.
 Typical unit code(s): ROM for room or C62 for no unit. The type of room can be put in the unitText property of the QuantitativeValue.
 	 * @property numberOfRooms
-	 * @type schema,QuantitativeValue | schema,Number
+	 * @type schema,Number | schema,QuantitativeValue
 	 */
 	public Object numberOfRooms;
 

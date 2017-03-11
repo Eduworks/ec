@@ -56,14 +56,6 @@ public class PropertyValueSpecification extends Intangible
 	public Double minValue;
 
 	/**
-	 * Schema.org/valueRequired
-	 * Whether the property must be filled in to complete the action.  Default is false.
-	 * @property valueRequired
-	 * @type Boolean
-	 */
-	public Boolean valueRequired;
-
-	/**
 	 * Schema.org/stepValue
 	 * The stepValue attribute indicates the granularity that is expected (and required) of the value in a PropertyValueSpecification.
 	 * @property stepValue
@@ -80,20 +72,20 @@ public class PropertyValueSpecification extends Intangible
 	public String valueName;
 
 	/**
-	 * Schema.org/valueMaxLength
-	 * Specifies the allowed range for number of characters in a literal value.
-	 * @property valueMaxLength
-	 * @type Number
-	 */
-	public Double valueMaxLength;
-
-	/**
 	 * Schema.org/maxValue
 	 * The upper value of some characteristic or property.
 	 * @property maxValue
 	 * @type Number
 	 */
 	public Double maxValue;
+
+	/**
+	 * Schema.org/valueRequired
+	 * Whether the property must be filled in to complete the action.  Default is false.
+	 * @property valueRequired
+	 * @type Boolean
+	 */
+	public Boolean valueRequired;
 
 	/**
 	 * Schema.org/multipleValues
@@ -107,8 +99,16 @@ public class PropertyValueSpecification extends Intangible
 	 * Schema.org/defaultValue
 	 * The default value of the input.  For properties that expect a literal, the default is a literal value, for properties that expect an object, it's an ID reference to one of the current values.
 	 * @property defaultValue
-	 * @type schema,Thing | schema,Text
+	 * @type schema,Text | schema,Thing
 	 */
 	public Object defaultValue;
+
+	/**
+	 * Schema.org/valueMaxLength
+	 * Specifies the allowed range for number of characters in a literal value.
+	 * @property valueMaxLength
+	 * @type Number
+	 */
+	public Double valueMaxLength;
 
 }

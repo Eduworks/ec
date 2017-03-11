@@ -24,10 +24,18 @@ public class WebPage extends CreativeWork
 	}
 
 	/**
+	 * Schema.org/specialty
+	 * One of the domain specialities to which this web page's content applies.
+	 * @property specialty
+	 * @type Specialty
+	 */
+	public Specialty specialty;
+
+	/**
 	 * Schema.org/breadcrumb
 	 * A set of links that can help a user understand and navigate a website hierarchy.
 	 * @property breadcrumb
-	 * @type schema,BreadcrumbList | schema,Text
+	 * @type schema,Text | schema,BreadcrumbList
 	 */
 	public Object breadcrumb;
 
@@ -86,13 +94,5 @@ public class WebPage extends CreativeWork
 	 * @type schema,Organization | schema,Person
 	 */
 	public Object reviewedBy;
-
-	/**
-	 * Schema.org/specialty
-	 * One of the domain specialities to which this web page's content applies.
-	 * @property specialty
-	 * @type Specialty
-	 */
-	public Specialty specialty;
 
 }

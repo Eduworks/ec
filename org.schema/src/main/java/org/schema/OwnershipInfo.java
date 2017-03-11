@@ -43,7 +43,7 @@ public class OwnershipInfo extends StructuredValue
 	 * Schema.org/typeOfGood
 	 * The product that this structured value is referring to.
 	 * @property typeOfGood
-	 * @type schema,Product | schema,Service
+	 * @type schema,Service | schema,Product
 	 */
 	public Object typeOfGood;
 
