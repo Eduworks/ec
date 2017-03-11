@@ -76,28 +76,24 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor
                         public void $invoke(Long assertionDate)
                         {
                             if (assertionDate != null)
-                            {
                                 if (assertionDate > (long) new Date().getTime())
                                 {
                                     me.log(ip, "Assertion is made for a future date.");
                                     success.$invoke();
                                     return;
                                 }
-                            }
                             a.getExpirationDateAsync(new Callback1<Long>()
                             {
                                 @Override
                                 public void $invoke(Long expirationDate)
                                 {
                                     if (expirationDate != null)
-                                    {
                                         if (expirationDate <= (long) new Date().getTime())
                                         {
                                             me.log(ip, "Assertion is expired. Skipping.");
                                             success.$invoke();
                                             return;
                                         }
-                                    }
                                     me.logFoundAssertion(a, ip);
                                     a.getNegativeAsync(new Callback1<Boolean>()
                                     {
@@ -132,9 +128,7 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor
                     }, failure);
                 }
                 else
-                {
                     failure.$invoke("Incorrect subject.");
-                }
             }
         }, failure);
     }
@@ -142,19 +136,17 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor
     private void processFindAssertionsSuccess(Array data, InquiryPacket ip)
     {
         if (data.$length() == 0)
-        {
             log(ip, "No results found.");
-        }
         else
-        {
             log(ip, "Total number of assertions found: " + data.$length());
-        }
         ip.numberOfQueriesRunning--;
         checkStepSecondPass(ip);
     }
 
     protected boolean findSubjectAssertionsForCompetency(final InquiryPacket ip)
     {
+        if (assertions == null)
+            return true;
         ip.hasCheckedAssertionsForCompetency = true;
 
         if (!IPType.COMPETENCY.equals(ip.type) && !IPType.ROLLUPRULE.equals(ip.type))
@@ -173,10 +165,7 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor
                 EcCompetency competency = ip.competency.$get(h);
                 Array<EcAssertion> assertionsForThisCompetency = (Array<EcAssertion>) JSObjectAdapter.$get(assertions, competency.shortId());
                 if (assertionsForThisCompetency == null)
-                {
-                    me.processFindAssertionsSuccess(new Array<EcAssertion>(), ip);
-                    return true;
-                }
+                    assertionsForThisCompetency = new Array<>();
                 EcAsyncHelper<EcAssertion> eah = new EcAsyncHelper<>();
                 eah.each(assertionsForThisCompetency, new Callback2<EcAssertion, Callback0>()
                 {
@@ -202,7 +191,6 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor
             return true;
         }
         else
-        {
             for (int i = 0; i < repositories.$length(); i++)
             {
                 EcRepository currentRepository = repositories.$get(i);
@@ -255,7 +243,6 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor
                     });
                 }
             }
-        }
         return true;
     }
 
@@ -278,20 +265,14 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor
             {
                 EcAlignment a = EcAlignment.getBlocking(ep.context.relation.$get(i));
                 if (JSObjectAdapter.$get(relationLookup, a.source) == null)
-                {
                     JSObjectAdapter.$put(relationLookup, a.source, new Array<EcAlignment>());
-                }
                 ((Array<EcAlignment>) JSObjectAdapter.$get(relationLookup, a.source)).push(a);
                 if (JSObjectAdapter.$get(relationLookup, a.target) == null)
-                {
                     JSObjectAdapter.$put(relationLookup, a.target, new Array<EcAlignment>());
-                }
                 ((Array<EcAlignment>) JSObjectAdapter.$get(relationLookup, a.target)).push(a);
             }
             if (profileMode)
-            {
                 this.relationLookup = relationLookup;
-            }
         }
         for (int i = 0; i < ip.competency.$length(); i++)
         {

@@ -59,7 +59,6 @@ public class PessimisticQuadnaryAssertionProcessor extends CombinatorAssertionPr
 			ip.result = ResultType.UNKNOWN;
 	}
 
-
 	private void determineCombinatorOrResult(InquiryPacket ip)
 	{
 		if (ip.anyChildPacketsAreTrue())
