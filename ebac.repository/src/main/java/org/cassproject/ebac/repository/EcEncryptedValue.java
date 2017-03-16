@@ -69,8 +69,8 @@ public class EcEncryptedValue extends EbacEncryptedValue {
         if (!hideType) {
             v.encryptedType = d.type;
         }
-        String newIv = EcAes.newIv(32);
-        String newSecret = EcAes.newIv(32);
+        String newIv = EcAes.newIv(16);
+        String newSecret = EcAes.newIv(16);
         v.payload = EcAesCtr.encrypt(d.toJson(), newSecret, newIv);
         v.owner = d.owner;
         v.reader = d.reader;
@@ -129,8 +129,8 @@ public class EcEncryptedValue extends EbacEncryptedValue {
         if (!hideType) {
             v.encryptedType = d.type;
         }
-        final String newIv = EcAes.newIv(32);
-        final String newSecret = EcAes.newIv(32);
+        final String newIv = EcAes.newIv(16);
+        final String newSecret = EcAes.newIv(16);
         EcAesCtrAsync.encrypt(d.toJson(), newSecret, newIv, new Callback1<String>() {
             @Override
             public void $invoke(String encryptedText) {
@@ -211,8 +211,8 @@ public class EcEncryptedValue extends EbacEncryptedValue {
     public static EcEncryptedValue encryptValueOld(String text, String id, EcPk owner) {
         EcEncryptedValue v = new EcEncryptedValue();
 
-        String newIv = EcAes.newIv(32);
-        String newSecret = EcAes.newIv(32);
+        String newIv = EcAes.newIv(16);
+        String newSecret = EcAes.newIv(16);
         v.payload = EcAesCtr.encrypt(text, newSecret, newIv);
         v.addOwner(owner);
 
@@ -249,8 +249,8 @@ public class EcEncryptedValue extends EbacEncryptedValue {
     public static EcEncryptedValue encryptValue(String text, String id, Array<String> owners, Array<String> readers) {
         EcEncryptedValue v = new EcEncryptedValue();
 
-        String newIv = EcAes.newIv(32);
-        String newSecret = EcAes.newIv(32);
+        String newIv = EcAes.newIv(16);
+        String newSecret = EcAes.newIv(16);
         v.payload = EcAesCtr.encrypt(text, newSecret, newIv);
         if (owners != null) {
             for (int i = 0; i < owners.$length(); i++) {

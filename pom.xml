@@ -77,6 +77,9 @@
 					<includes>
 						<include>**/*.java</include>
 					</includes>
+					<excludes>
+						<exclude>forge*.js</exclude>
+					</excludes>
 					<pack>true</pack>
 				</configuration>
 			</plugin>

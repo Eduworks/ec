@@ -1,5 +1,6 @@
 package com.eduworks.ec.remote;
 
+import com.eduworks.ec.array.EcArray;
 import com.eduworks.ec.array.EcObject;
 import static org.stjs.javascript.JSGlobal.JSON;
 import static org.stjs.javascript.jquery.GlobalJQuery.$;
@@ -135,7 +136,7 @@ public class EcRemote
         {
             Object o = new Object();
             JSObjectAdapter.$put(o, "status", 200);
-            JSObjectAdapter.$put(o, "responseText", JSON.stringify(EcLevrHttp.httpPost(p.data, p.url, "multipart/form-data","true", (String)JSObjectAdapter.$get(fd, "_boundary"))));
+            JSObjectAdapter.$put(o, "responseText", JSON.stringify(EcLevrHttp.httpPost(p.data, p.url, "multipart/form-data; boundary=" + JSObjectAdapter.$get(fd, "_boundary"),"false", (String)JSObjectAdapter.$get(fd, "_boundary"))));
             successCallback.$invoke(null, null, (JQueryXHR) o);
         } else
         {
@@ -308,6 +309,9 @@ public class EcRemote
                     try
                     {
                         if (EcObject.isObject(arg2.responseText))
+                            success.$invoke(arg2.responseText);
+                        else
+                        if (EcArray.isArray(arg2.responseText))
                             success.$invoke(arg2.responseText);
                         else
                             success.$invoke(JSON.parse(arg2.responseText));

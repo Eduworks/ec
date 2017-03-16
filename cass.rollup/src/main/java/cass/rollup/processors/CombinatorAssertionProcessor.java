@@ -18,11 +18,16 @@ import cass.rollup.RelationshipPacketGenerator;
 import cass.rollup.rule.RollupRuleInterface;
 import cass.rollup.rule.RollupRuleProcessor;
 import com.eduworks.ec.array.EcAsyncHelper;
+import org.cass.competency.EcAlignment;
+import org.stjs.javascript.Global;
+import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback2;
 
 //Requires Subject, AssertionDate, ExpirationDate
 public abstract class CombinatorAssertionProcessor extends AssertionProcessor
 {
+
+    private static Object relationLookup = null;
 
     private void processFoundAssertion(EcRemoteLinkedData searchData, final InquiryPacket ip, final Callback0 success, final Callback1<String> failure)
     {
@@ -40,7 +45,7 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor
                     @Override
                     public void $invoke(String p1)
                     {
-                        p2.$invoke();
+                        failure.$invoke(p1);
                     }
                 });
             }
@@ -70,30 +75,32 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor
                         @Override
                         public void $invoke(Long assertionDate)
                         {
-                            if (assertionDate > (long) new Date().getTime())
-                            {
-                                me.log(ip, "Assertion is made for a future date.");
-                                success.$invoke();
-                                return;
-                            }
+                            if (assertionDate != null)
+                                if (assertionDate > (long) new Date().getTime())
+                                {
+                                    me.log(ip, "Assertion is made for a future date.");
+                                    success.$invoke();
+                                    return;
+                                }
                             a.getExpirationDateAsync(new Callback1<Long>()
                             {
                                 @Override
                                 public void $invoke(Long expirationDate)
                                 {
-                                    if (expirationDate <= (long) new Date().getTime())
-                                    {
-                                        me.log(ip, "Assertion is expired. Skipping.");
-                                        success.$invoke();
-                                        return;
-                                    }
+                                    if (expirationDate != null)
+                                        if (expirationDate <= (long) new Date().getTime())
+                                        {
+                                            me.log(ip, "Assertion is expired. Skipping.");
+                                            success.$invoke();
+                                            return;
+                                        }
                                     me.logFoundAssertion(a, ip);
                                     a.getNegativeAsync(new Callback1<Boolean>()
                                     {
                                         @Override
                                         public void $invoke(Boolean p1)
                                         {
-                                            if (p1)
+                                            if (p1 != null && p1)
                                             {
                                                 me.log(ip, "Found valid negative assertion");
                                                 ip.negative.push(a);
@@ -126,136 +133,117 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor
         }, failure);
     }
 
-    private void processFindAssertionsSuccess(Array<EcRemoteLinkedData> data, InquiryPacket ip)
+    private void processFindAssertionsSuccess(Array data, InquiryPacket ip)
     {
         if (data.$length() == 0)
-        {
             log(ip, "No results found.");
-        }
         else
-        {
             log(ip, "Total number of assertions found: " + data.$length());
-        }
         ip.numberOfQueriesRunning--;
-        checkStep(ip);
+        checkStepSecondPass(ip);
     }
 
-    protected void findSubjectAssertionsForCompetency(final InquiryPacket ip)
+    protected boolean findSubjectAssertionsForCompetency(final InquiryPacket ip)
     {
+        if (assertions == null)
+            return true;
         ip.hasCheckedAssertionsForCompetency = true;
 
         if (!IPType.COMPETENCY.equals(ip.type) && !IPType.ROLLUPRULE.equals(ip.type))
         {
             log(ip, "No assertions for combinator types");
-            checkStep(ip);
-            return;
+//            checkStepSecondPass(ip);
+            return false;
         }
         final CombinatorAssertionProcessor me = this;
-        for (int i = 0; i < repositories.$length(); i++)
+
+        if (IPType.COMPETENCY.equals(ip.type))
         {
-            EcRepository currentRepository = repositories.$get(i);
-            if (IPType.COMPETENCY.equals(ip.type))
-            {
-                log(ip, "Searching: " + currentRepository.selectedServer);
-            }
             for (int h = 0; h < ip.competency.$length(); h++)
             {
                 ip.numberOfQueriesRunning++;
                 EcCompetency competency = ip.competency.$get(h);
-                log(ip, "Querying repositories for subject assertions on competency: " + competency.id);
-                currentRepository.search(buildAssertionSearchQuery(ip, competency), new Callback1<EcRemoteLinkedData>()
+                Array<EcAssertion> assertionsForThisCompetency = (Array<EcAssertion>) JSObjectAdapter.$get(assertions, competency.shortId());
+                if (assertionsForThisCompetency == null)
+                    assertionsForThisCompetency = new Array<>();
+                EcAsyncHelper<EcAssertion> eah = new EcAsyncHelper<>();
+                eah.each(assertionsForThisCompetency, new Callback2<EcAssertion, Callback0>()
                 {
-                    @Override
-                    public void $invoke(EcRemoteLinkedData p1)
+                    public void $invoke(EcAssertion p1, final Callback0 p2)
                     {
-                    }
-                }, new Callback1<Array<EcRemoteLinkedData>>()
-                {
-                    @Override
-                    public void $invoke(Array<EcRemoteLinkedData> p1)
-                    {
-                        final EcAsyncHelper<EcRemoteLinkedData> eah = new EcAsyncHelper<>();
-                        eah.each(p1, new Callback2<EcRemoteLinkedData, Callback0>()
+                        me.processFoundAssertion(p1, ip, p2, new Callback1<String>()
                         {
                             @Override
-                            public void $invoke(EcRemoteLinkedData p1, final Callback0 p2)
+                            public void $invoke(String p1)
                             {
-                                me.processFoundAssertion(p1, ip, p2, new Callback1<String>()
-                                {
-                                    @Override
-                                    public void $invoke(String p1)
-                                    {
-                                        p2.$invoke();
-                                    }
-                                });
-                            }
-                        }, new Callback1<Array<EcRemoteLinkedData>>()
-                        {
-                            @Override
-                            public void $invoke(Array<EcRemoteLinkedData> p1)
-                            {
-                                me.processFindAssertionsSuccess(p1, ip);
+                                p2.$invoke();
                             }
                         });
                     }
-                }, new Callback1<String>()
+                }, new Callback1<Array<EcAssertion>>()
                 {
-                    @Override
-                    public void $invoke(String p1)
+                    public void $invoke(Array<EcAssertion> p1)
                     {
-                        me.processEventFailure(p1, ip);
+                        me.processFindAssertionsSuccess(p1, ip);
                     }
                 });
             }
-            if (IPType.ROLLUPRULE.equals(ip.type))
-            {
-                ip.numberOfQueriesRunning++;
-                log(ip, "Searching: " + currentRepository.selectedServer);
-                currentRepository.search(buildAssertionSearchQuery(ip, null), new Callback1<EcRemoteLinkedData>()
-                {
-                    @Override
-                    public void $invoke(EcRemoteLinkedData p1)
-                    {
-                    }
-                }, new Callback1<Array<EcRemoteLinkedData>>()
-                {
-                    @Override
-                    public void $invoke(Array<EcRemoteLinkedData> p1)
-                    {
-                        EcAsyncHelper<EcRemoteLinkedData> eah = new EcAsyncHelper<>();
-                        eah.each(p1, new Callback2<EcRemoteLinkedData, Callback0>()
-                        {
-                            @Override
-                            public void $invoke(EcRemoteLinkedData p1, final Callback0 p2)
-                            {
-                                me.processFoundAssertion(p1, ip, p2, new Callback1<String>()
-                                {
-                                    @Override
-                                    public void $invoke(String p1)
-                                    {
-                                        p2.$invoke();
-                                    }
-                                });
-                            }
-                        }, new Callback1<Array<EcRemoteLinkedData>>()
-                        {
-                            @Override
-                            public void $invoke(Array<EcRemoteLinkedData> p1)
-                            {
-                                me.processFindAssertionsSuccess(p1, ip);
-                            }
-                        });
-                    }
-                }, new Callback1<String>()
-                {
-                    @Override
-                    public void $invoke(String p1)
-                    {
-                        me.processEventFailure(p1, ip);
-                    }
-                });
-            }
+            return true;
         }
+        else
+            for (int i = 0; i < repositories.$length(); i++)
+            {
+                EcRepository currentRepository = repositories.$get(i);
+                if (IPType.ROLLUPRULE.equals(ip.type))
+                {
+                    ip.numberOfQueriesRunning++;
+                    log(ip, "Searching: " + currentRepository.selectedServer);
+                    currentRepository.search(buildAssertionSearchQuery(ip, null), new Callback1<EcRemoteLinkedData>()
+                    {
+                        @Override
+                        public void $invoke(EcRemoteLinkedData p1)
+                        {
+                        }
+                    }, new Callback1<Array<EcRemoteLinkedData>>()
+                    {
+                        @Override
+                        public void $invoke(Array<EcRemoteLinkedData> p1)
+                        {
+                            EcAsyncHelper<EcRemoteLinkedData> eah = new EcAsyncHelper<>();
+                            eah.each(p1, new Callback2<EcRemoteLinkedData, Callback0>()
+                            {
+                                @Override
+                                public void $invoke(EcRemoteLinkedData p1, final Callback0 p2)
+                                {
+                                    me.processFoundAssertion(p1, ip, p2, new Callback1<String>()
+                                    {
+                                        @Override
+                                        public void $invoke(String p1)
+                                        {
+                                            p2.$invoke();
+                                        }
+                                    });
+                                }
+                            }, new Callback1<Array<EcRemoteLinkedData>>()
+                            {
+                                @Override
+                                public void $invoke(Array<EcRemoteLinkedData> p1)
+                                {
+                                    me.processFindAssertionsSuccess(p1, ip);
+                                }
+                            });
+                        }
+                    }, new Callback1<String>()
+                    {
+                        @Override
+                        public void $invoke(String p1)
+                        {
+                            me.processEventFailure(p1, ip);
+                        }
+                    });
+                }
+            }
+        return true;
     }
 
     protected void findCompetencyRelationships(final InquiryPacket ip)
@@ -269,18 +257,36 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor
             return;
         }
         final CombinatorAssertionProcessor ep = this;
+        Object relationLookup = this.relationLookup;
+        if (relationLookup == null)
+        {
+            relationLookup = new Object();
+            for (int i = 0; i < ep.context.relation.$length(); i++)
+            {
+                EcAlignment a = EcAlignment.getBlocking(ep.context.relation.$get(i));
+                if (JSObjectAdapter.$get(relationLookup, a.source) == null)
+                    JSObjectAdapter.$put(relationLookup, a.source, new Array<EcAlignment>());
+                ((Array<EcAlignment>) JSObjectAdapter.$get(relationLookup, a.source)).push(a);
+                if (JSObjectAdapter.$get(relationLookup, a.target) == null)
+                    JSObjectAdapter.$put(relationLookup, a.target, new Array<EcAlignment>());
+                ((Array<EcAlignment>) JSObjectAdapter.$get(relationLookup, a.target)).push(a);
+            }
+            if (profileMode)
+                this.relationLookup = relationLookup;
+        }
         for (int i = 0; i < ip.competency.$length(); i++)
         {
             log(ip, "Finding relationships for competency: " + ip.competency.$get(i));
-            findCompetencyRelationship(ip, ep, ip.competency.$get(i));
+            findCompetencyRelationship(ip, ep, ip.competency.$get(i), relationLookup);
         }
     }
 
-    protected void findCompetencyRelationship(final InquiryPacket ip, final CombinatorAssertionProcessor ep, final EcCompetency c)
+    protected void findCompetencyRelationship(final InquiryPacket ip, final CombinatorAssertionProcessor ep, final EcCompetency c, Object relationLookup)
     {
         RelationshipPacketGenerator rpg = new RelationshipPacketGenerator(ip, ep, processedEquivalencies);
         rpg.failure = ip.failure;
         rpg.logFunction = logFunction;
+        rpg.relationLookup = relationLookup;
         rpg.success = new Callback0()
         {
             @Override
