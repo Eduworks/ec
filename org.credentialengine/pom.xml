@@ -20,7 +20,7 @@
 		<dependency>
 			<groupId>org.schema</groupId>
 			<artifactId>org.schema</artifactId>
-			<version>0.0.1</version>
+			<version>SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eduworks</groupId>
