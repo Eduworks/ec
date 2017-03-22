@@ -13,12 +13,12 @@ import org.stjs.javascript.functions.Callback1;
 /**
  * Implementation of a Framework object with methods for interacting with CASS
  * services on a server.
- * 
+ *
  * @module org.cassproject
  * @class EcFramework
  * @constructor
  * @extends Framework
- * 
+ *
  * @author fritz.ray@eduworks.com
  * @author devlin.junker@eduworks.com
  */
@@ -30,7 +30,7 @@ public class EcFramework extends Framework
 
 	/**
 	 * Adds the competency ID specified to the frameworks list of competency IDs
-	 * 
+	 *
 	 * @memberOf EcFramework
 	 * @method addCompetency
 	 * @param {String} id
@@ -46,13 +46,13 @@ public class EcFramework extends Framework
 				return;
 		competency.push(id);
 	}
-	
+
 	/**
 	 * Removes a competency ID from the framework's list, also removes any
 	 * levels and relations associated with that competency
-	 * 
+	 *
 	 * TODO: remove rollup rules? should we add flag to remove these extras
-	 * 
+	 *
 	 * @memberOf EcFramework
 	 * @method removeCompetency
 	 * @param {String} id
@@ -123,7 +123,7 @@ public class EcFramework extends Framework
 
 	/**
 	 * Helper method to remove relationships associated with a competency from this framework
-	 * 
+	 *
 	 * @memberOf EcFramework
 	 * @method removeRelationshipsThatInclude
 	 * @private
@@ -149,13 +149,13 @@ public class EcFramework extends Framework
 				public void $invoke(EcRemoteLinkedData p1)
 				{
 					EcAlignment a = null;
-					
+
 					// Wrap this in case there's an error retrieving, will skip that relationship
 					try{
 						a = new EcAlignment();
 						a.copyFrom(p1);
 					}catch(Exception e){ }
-					
+
 					if (a != null && a.source == shortId || a.target == shortId || a.source == id || a.target == id)
 					{
 						me.relation.splice(i, 1);
@@ -168,7 +168,7 @@ public class EcFramework extends Framework
 
 	/**
 	 * Helper method to remove levels associated with a competency from this framework
-	 * 
+	 *
 	 * @memberOf EcFramework
 	 * @method removeLevelsThatInclude
 	 * @private
@@ -207,7 +207,7 @@ public class EcFramework extends Framework
 
 	/**
 	 * Adds a relation ID to the framework's list of relations
-	 * 
+	 *
 	 * @memberOf EcFramework
 	 * @method addRelation
 	 * @param {String} id
@@ -226,7 +226,7 @@ public class EcFramework extends Framework
 
 	/**
 	 * Removes a relation ID from the framework's list of relations
-	 * 
+	 *
 	 * @memberOf EcFramework
 	 * @method removeCompetency
 	 * @param {String} id
@@ -244,7 +244,7 @@ public class EcFramework extends Framework
 
 	/**
 	 * Adds a level ID to the framework's list of levels
-	 * 
+	 *
 	 * @memberOf EcFramework
 	 * @method addLevel
 	 * @param {String} id
@@ -263,7 +263,7 @@ public class EcFramework extends Framework
 
 	/**
 	 * Removes a level ID from the framework's list of levels
-	 * 
+	 *
 	 * @memberOf EcFramework
 	 * @method removeLevel
 	 * @param {String} id
@@ -281,7 +281,7 @@ public class EcFramework extends Framework
 
 	/**
 	 * Adds a rollup rule ID to the framework's list of rollup rules
-	 * 
+	 *
 	 * @memberOf EcFramework
 	 * @method addRollupRule
 	 * @param {String} id
@@ -300,7 +300,7 @@ public class EcFramework extends Framework
 
 	/**
 	 * Removes a rollup rule ID from the framework's list of rollup rules
-	 * 
+	 *
 	 * @memberOf EcFramework
 	 * @method removeRollupRule
 	 * @param {String} id
@@ -318,7 +318,7 @@ public class EcFramework extends Framework
 
 	/**
 	 * Saves this frameworks details on the server specified by it's ID
-	 * 
+	 *
 	 * @memberOf EcFramework
 	 * @method save
 	 * @param {Callback1<String>} success
@@ -344,7 +344,7 @@ public class EcFramework extends Framework
 
 	/**
 	 * Deletes this framework from the server specified by it's ID
-	 * 
+	 *
 	 * @memberOf EcFramework
 	 * @method _delete
 	 * @param {Callback1<String>} success
@@ -357,10 +357,10 @@ public class EcFramework extends Framework
 		EcRepository.DELETE(this, success, failure);
 	}
 
-	
+
 	/**
 	 * Retrieves a framework from the server, specified by the ID
-	 * 
+	 *
 	 * @memberOf EcFramework
 	 * @method get
 	 * @static
@@ -416,10 +416,45 @@ public class EcFramework extends Framework
 		});
 	}
 
-	
+	/**
+	 * Retrieves a framework from the server in a blocking fashion, specified by the ID
+	 *
+	 * @memberOf EcFramework
+	 * @method getBlocking
+	 * @static
+	 * @param {String} id
+	 * 			ID of the framework to retrieve
+	 * @param {Callback1<EcFramework>} success
+	 * 			Callback triggered after successfully retrieving the framework,
+	 * 			returns the retrieved framework
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if an error occurs while retrieving the framework
+	 */
+	public static EcFramework getBlocking(String id) {
+		EcRemoteLinkedData p1 = EcRepository.getBlocking(id);
+		if (p1 == null) return null;
+		EcFramework framework = new EcFramework();
+
+		if (p1.isA(EcEncryptedValue.myType)) {
+			EcEncryptedValue encrypted = new EcEncryptedValue();
+			encrypted.copyFrom(p1);
+			p1 = encrypted.decryptIntoObject();
+
+			EcEncryptedValue.encryptOnSave(p1.id, true);
+		}
+		if (p1.isAny(framework.getTypes())) {
+			framework.copyFrom(p1);
+			return framework;
+		} else {
+			return null;
+		}
+	}
+
+
+
 	/**
 	 * Searches the repository given for frameworks using the query passed in
-	 * 
+	 *
 	 * @memberOf EcFramework
 	 * @method search
 	 * @static
