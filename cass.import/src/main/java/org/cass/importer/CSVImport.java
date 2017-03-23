@@ -187,6 +187,8 @@ public class CSVImport
 					{
 						Array<Array<String>> tabularData = (Array<Array<String>>) JSObjectAdapter.$get(results, "data");
 
+						Array<String> colNames = tabularData.$get(0);
+						
 						for (int i = 1; i < tabularData.$length(); i++)
 						{
 							EcCompetency competency = new EcCompetency();
@@ -233,6 +235,15 @@ public class CSVImport
 							if (owner != null)
 								competency.addOwner(owner.ppk.toPk());
 
+							for(int idx = 0; idx < tabularData.$get(i).$length(); idx++){
+								if(colNames.$get(idx) == null || colNames.$get(idx) == "" || 
+										idx == nameIndex || idx == descriptionIndex || idx == scopeIndex || idx == idIndex){
+									continue;
+								}else{
+									JSObjectAdapter.$put(competency, colNames.$get(idx), tabularData.$get(i).$get(idx));
+								}
+							}
+							
 							competencies.push(competency);
 						}
 
