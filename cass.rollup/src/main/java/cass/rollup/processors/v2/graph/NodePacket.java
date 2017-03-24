@@ -28,7 +28,7 @@ public class NodePacket {
 
     public String toString() {
         String ret = "";
-        ret = ret + "NodePacket: (" + "\n";
+        ret = ret + "NodePacket: (";
         for (int i=0;i<nodeList.$length();i++) {
             if ((i + 1) < nodeList.$length()) ret = ret + nodeList.$get(i).toString() + ", ";
             else ret = ret + nodeList.$get(i).toString();

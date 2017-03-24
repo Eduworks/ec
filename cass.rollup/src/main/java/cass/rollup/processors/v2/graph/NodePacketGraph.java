@@ -86,7 +86,7 @@ public class NodePacketGraph {
     //cant use StringBuffer with stjs...
     public String toStringGraphAll() {
         String ret = "";
-        ret = ret + "> Packets: " + "\n";
+        ret = ret + ">> Packets: " + "\n";
         NodePacket np;
         for (int i=0;i<nodePacketList.$length();i++) {
             np = nodePacketList.$get(i);
@@ -99,6 +99,9 @@ public class NodePacketGraph {
                 pr = relationList.$get(i);
                 ret = ret + "   " + pr.toString() + "\n";
             }
+        }
+        else {
+            ret = ret + ">>NO RELATIONS EXIST!";
         }
         return ret;
     }
