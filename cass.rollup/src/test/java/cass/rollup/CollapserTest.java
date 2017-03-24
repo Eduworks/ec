@@ -28,6 +28,10 @@ public class CollapserTest {
             NodePacketGraph npg = cgc.collapseGraph(graph1);
             if (npg == null) Global.console.log("COLLAPSED GRAPH IS NULL!!!");
             else {
+
+                Global.console.log("--================ what ================--");
+                Global.console.log("NODE COUNT: " + npg.getNodePacketList().$get(0).getNodeCount());
+
                 Global.console.log("--================ COLLAPSED GRAPH ================--");
                 Global.console.log(npg.toStringGraphAll());
             }

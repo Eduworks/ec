@@ -144,6 +144,7 @@ public class NodeGraph {
     //cant use StringBuffer with stjs...
     public String toStringGraphByNode() {
         String ret = "";
+        ret = ret + " - TEST HOWDY - \n";
         Node n;
         Array<NodeRelation> nra;
         NodeRelation nr;
