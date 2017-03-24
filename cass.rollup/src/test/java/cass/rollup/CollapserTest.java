@@ -13,7 +13,7 @@ import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
 @RunWith(STJSTestDriverRunner.class)
-@ScriptsBefore({ "lib/require.js", "rollupInit.js", "/forge/forge.bundle.js" })
+//@ScriptsBefore({ "lib/require.js", "rollupInit.js", "/forge/forge.bundle.js" })
 public class CollapserTest {
 
     @Test
@@ -21,17 +21,13 @@ public class CollapserTest {
 
         Global.console.log("start basicCollapseTest:");
         try {
-            NodeGraph graph1 = buildTest0();
+            NodeGraph graph1 = buildTest2();
             Global.console.log("--================ INPUT GRAPH ================--");
             Global.console.log(graph1.toStringGraphByNode());
             CyclicGraphCollapser cgc = new CyclicGraphCollapser();
             NodePacketGraph npg = cgc.collapseGraph(graph1);
             if (npg == null) Global.console.log("COLLAPSED GRAPH IS NULL!!!");
             else {
-
-                Global.console.log("--================ what ================--");
-                Global.console.log("NODE COUNT: " + npg.getNodePacketList().$get(0).getNodeCount());
-
                 Global.console.log("--================ COLLAPSED GRAPH ================--");
                 Global.console.log(npg.toStringGraphAll());
             }
@@ -40,6 +36,7 @@ public class CollapserTest {
             Global.console.log("Exception: " + e.toString());
         }
 
+        //TODO figure out valid test case???
         Assert.assertSame(true,true);
 
         Global.console.log("end basicCollapseTest");
@@ -62,7 +59,7 @@ public class CollapserTest {
         graph.addRelation(nodeB, nodeC, RelationType.RELATION_TYPE.NARROWS);
         graph.addRelation(nodeC, nodeA, RelationType.RELATION_TYPE.NARROWS);
 
-        //graph.createImpliedRelations();
+        graph.createImpliedRelations();
 
         return graph;
     }

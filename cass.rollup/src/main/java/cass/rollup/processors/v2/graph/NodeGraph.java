@@ -1,6 +1,7 @@
 package cass.rollup.processors.v2.graph;
 
 import org.stjs.javascript.Array;
+import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.Map;
 
@@ -42,6 +43,12 @@ public class NodeGraph {
             }
             else if (nr.getType().equals(RelationType.RELATION_TYPE.REQUIRES)) {
                 relationsToAdd.push(new NodeRelation(nr.getTarget(),nr.getSource(),RelationType.RELATION_TYPE.IS_REQUIRED_BY));
+            }
+            else if (nr.getType().equals(RelationType.RELATION_TYPE.BROADENS)) {
+                relationsToAdd.push(new NodeRelation(nr.getTarget(),nr.getSource(),RelationType.RELATION_TYPE.NARROWS));
+            }
+            else if (nr.getType().equals(RelationType.RELATION_TYPE.IS_REQUIRED_BY)) {
+                relationsToAdd.push(new NodeRelation(nr.getTarget(),nr.getSource(),RelationType.RELATION_TYPE.REQUIRES));
             }
         }
         NodeRelation nnr;

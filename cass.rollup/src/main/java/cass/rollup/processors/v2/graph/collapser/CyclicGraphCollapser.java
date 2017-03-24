@@ -3,6 +3,7 @@ package cass.rollup.processors.v2.graph.collapser;
 import cass.rollup.processors.v2.graph.*;
 import cass.rollup.processors.v2.graph.util.*;
 import org.stjs.javascript.Array;
+import org.stjs.javascript.Global;
 
 public class CyclicGraphCollapser {
 
@@ -55,7 +56,9 @@ public class CyclicGraphCollapser {
         Node partOfCycleNode;
         for (int i=startingIdx + 1;i<visitedNodes.$length();i++) {
             partOfCycleNode = visitedNodes.$get(i);
-            if (partOfCycleNode != startCycleNode) npg.mergeNodePackets(npg.getNodePacketForNode(startCycleNode),npg.getNodePacketForNode(partOfCycleNode));
+            if (partOfCycleNode != startCycleNode) {
+                npg.mergeNodePackets(npg.getNodePacketForNode(startCycleNode),npg.getNodePacketForNode(partOfCycleNode));
+            }
         }
     }
 
@@ -118,8 +121,10 @@ public class CyclicGraphCollapser {
 
     public NodePacketGraph collapseGraph(NodeGraph graph) throws Exception {
         try {
-            NodePacketGraph nirbeNpg = buildNodePacketGraph(buildNarrowsIsRequiredByEqualsMap(graph));
-            NodePacketGraph breNpg = buildNodePacketGraph(buildBroadensRequiresEqualsMap(graph));
+            NodeRelationMap nirbeNrm = buildNarrowsIsRequiredByEqualsMap(graph);
+            NodePacketGraph nirbeNpg = buildNodePacketGraph(nirbeNrm);
+            NodeRelationMap breNrm = buildBroadensRequiresEqualsMap(graph);
+            NodePacketGraph breNpg = buildNodePacketGraph(breNrm);
             NodePacketGraph finalNodePacketGraph = mergeNodePacketGraphs(nirbeNpg,breNpg);
             finalNodePacketGraph.buildPacketRelationsFromNodeRelations(graph.getRelationList());
             //TODO handle handle mutli related packets (two packets with multiple relationships)
@@ -129,20 +134,4 @@ public class CyclicGraphCollapser {
             throw e;
         }
     }
-
-//    public static void main (String[] args) throws Exception {
-//        NodeGraph ng = TestGraphBuilder.buildTestGraph();
-//        System.out.println("--================ INPUT GRAPH ================--");
-//        ng.printGraphByNode();
-//        //ng.printGraphByNodeSplit();
-//        CyclicGraphCollapser cgc = new CyclicGraphCollapser();
-//        NodePacketGraph npg = cgc.collapseGraph(ng,false);
-//        System.out.println("\n\n");
-//        if (npg == null) System.out.println("COLLAPSED GRAPH IS NULL!!!");
-//        else {
-//            System.out.println("--================ COLLAPSED GRAPH ================--");
-//            npg.printGraphByNode();
-//        }
-//
-//    }
 }

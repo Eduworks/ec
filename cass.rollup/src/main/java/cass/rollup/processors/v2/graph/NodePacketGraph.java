@@ -1,6 +1,7 @@
 package cass.rollup.processors.v2.graph;
 
 import org.stjs.javascript.Array;
+import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.Map;
 import cass.rollup.processors.v2.graph.util.*;
@@ -21,6 +22,9 @@ public class NodePacketGraph {
     public void initNodePacketGraph(Array<Node> nodes) {
         NodePacket np;
         Node n;
+        nodePacketList = new Array<NodePacket>();
+        nodePacketMap = JSCollections.$map();
+        relationList = new Array<PacketRelation>();
         for (int i=0;i<nodes.$length();i++) {
             n = nodes.$get(i);
             np = new NodePacket();

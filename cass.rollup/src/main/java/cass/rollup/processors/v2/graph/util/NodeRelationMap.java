@@ -28,4 +28,19 @@ public class NodeRelationMap {
 
     public Map<String, Array<NodeRelation>> getRelationMap() {return relationMap;}
     public void setRelationMap(Map<String, Array<NodeRelation>> relationMap) {this.relationMap = relationMap;}
+
+    public String toString() {
+        String ret = "";
+        Node n;
+        Array<NodeRelation> nra;
+        for (int i=0;i<nodeList.$length();i++) {
+            n = nodeList.$get(i);
+            ret = ret + n.toString() + "\n";
+            nra = relationMap.$get(n.getId());
+            for (int j=0;j<nra.$length();j++) {
+                ret = ret + "\t" + nra.$get(j).toString() + "\n";
+            }
+        }
+        return ret;
+    }
 }
