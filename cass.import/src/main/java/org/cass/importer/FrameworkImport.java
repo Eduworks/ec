@@ -1,5 +1,6 @@
 package org.cass.importer;
 
+import org.cass.competency.EcAlignment;
 import org.cass.competency.EcCompetency;
 import org.cass.competency.EcFramework;
 import org.cassproject.ebac.identity.EcIdentity;
@@ -7,7 +8,9 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSObjectAdapter;
+import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 
 /**
  * Importer methods to copy or link to competencies that already
@@ -22,12 +25,16 @@ import org.stjs.javascript.functions.Callback1;
  */
 public class FrameworkImport {
 
-	public static int saved;
+	public static int savedComp;
+	public static int savedRel;
 	
 	public static EcFramework targetUsable;
 	
 	static Array<EcCompetency> competencies;
 	
+	static Array<EcAlignment> relations;
+	
+	static Map<String, String> compMap;
 	
 	/**
 	 * Copies or links competencies that exist in one framework in a CASS instance, 
@@ -52,9 +59,9 @@ public class FrameworkImport {
 	 * @param {Callback1<Object>} [failure]
 	 * 			Callback triggered if an error occurred while creating the competencies
 	 */
-	public static void importCompetencies(final EcFramework source, EcFramework target, boolean copy, 
+	public static void importCompetencies(final EcFramework source, final EcFramework target, boolean copy, 
 			final String serverUrl, final EcIdentity owner,
-			final Callback1<Array<EcCompetency>> success, final Callback1<Object> failure)
+			final Callback2<Array<EcCompetency>, Array<EcAlignment>> success, final Callback1<Object> failure)
 	{
 		
 		if(source == null)
@@ -77,8 +84,11 @@ public class FrameworkImport {
 		}
 		
 		competencies = JSCollections.$array();
+		relations = JSCollections.$array();
 		if(copy){
-			saved = 0;
+			compMap = JSCollections.$map();
+			savedComp = 0;
+			savedRel = 0;
 			
 			for(int i = 0; i < source.competency.$length(); i++){
 				String id = source.competency.$get(i);
@@ -90,20 +100,76 @@ public class FrameworkImport {
 						
 						competency.generateId(serverUrl);
 						
+						compMap.$put(comp.shortId(), competency.shortId());
+						
 						if (owner != null)
 	                        competency.addOwner(owner.ppk.toPk());
 						
 						final String id = competency.id;
 						competency.save(new Callback1<String>(){
 							public void $invoke(String str){
-								saved++;
+								savedComp++;
 								targetUsable.addCompetency(id);
 								
-								if(saved == competencies.$length()){
+								if(savedComp == competencies.$length()){
+									
 									targetUsable.save(new Callback1<String>() {
 										@Override
 										public void $invoke(String p1) {
-											success.$invoke(competencies);
+											for(int i = 0; i < source.relation.$length(); i++){
+												String id = source.relation.$get(i);
+												
+												EcAlignment.get(id, new Callback1<EcAlignment>(){
+													public void $invoke(EcAlignment rel){
+														EcAlignment relation = new EcAlignment();
+														relation.copyFrom(rel);
+														
+														relation.generateId(serverUrl);
+														
+														relation.source = compMap.$get(rel.source);
+														relation.target = compMap.$get(rel.target);
+
+														if (owner != null)
+									                        relation.addOwner(owner.ppk.toPk());
+														
+														final String id = relation.id;
+														relation.save(new Callback1<String>(){
+															public void $invoke(String str){
+																savedRel++;
+																targetUsable.addRelation(id);
+																
+																if(savedRel == relations.$length()){
+																	
+																	targetUsable.save(new Callback1<String>() {
+																		@Override
+																		public void $invoke(String p1) {
+																			
+																			
+																			success.$invoke(competencies, relations);
+																		}
+																	}, new Callback1<String>(){
+																		@Override
+																		public void $invoke(String p1) {
+																			failure.$invoke(p1);
+																		}
+																	});
+																}
+															}
+														}, new Callback1<String>(){
+															public void $invoke(String str){
+																failure.$invoke("Trouble Saving Copied Competency");
+															}
+														});
+
+														relations.push(relation);
+													}
+												}, new Callback1<String>(){
+													public void $invoke(String str){
+														failure.$invoke(str);
+													}
+												});
+												
+											}
 										}
 									}, new Callback1<String>(){
 										@Override
@@ -147,7 +213,41 @@ public class FrameworkImport {
 								targetUsable.save(new Callback1<String>() {
 									@Override
 									public void $invoke(String p1) {
-										success.$invoke(competencies);
+										for(int i = 0; i < source.relation.$length(); i++)
+										{
+											if(target.relation == null || (target.relation.indexOf(source.relation.$get(i)) == -1 
+													&& target.relation.indexOf(EcRemoteLinkedData.trimVersionFromUrl(source.competency.$get(i))) == -1))
+											{
+												EcAlignment.get(source.relation.$get(i), new Callback1<EcAlignment>(){
+													@Override
+													public void $invoke(EcAlignment relation){
+														relations.push(relation);
+														
+														targetUsable.addRelation(relation.id);
+														
+														if(relations.$length() == source.relation.$length()){
+															JSObjectAdapter.$properties(targetUsable).$delete("competencyObjects");
+															targetUsable.save(new Callback1<String>() {
+																@Override
+																public void $invoke(String p1) {
+																	success.$invoke(competencies, relations);
+																}
+															}, new Callback1<String>(){
+																@Override
+																public void $invoke(String p1) {
+																	failure.$invoke(p1);
+																}
+															});
+														}
+													}
+												}, new Callback1<String>(){
+													@Override
+													public void $invoke(String p1) {
+														failure.$invoke(p1);
+													}
+												});
+											}
+										}
 									}
 								}, new Callback1<String>(){
 									@Override
