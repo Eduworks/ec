@@ -338,6 +338,82 @@ public class EcAlignment extends Relation
 	}
 	
 	/**
+	 * Searches the repository for alignments with one of an array of IDs in the source field
+	 * 
+	 * @memberOf EcAlignment
+	 * @method searchBySource
+	 * @static
+	 * @param {EcRepository} repo
+	 * 			Repository to search for alignments with the source specified
+	 * @param {String} sourceId
+	 * 			ID in the source field of the alignments to find
+	 * @param {Callback1<Array<EcAlignment>>} success
+	 *			Callback triggered on successful search return
+	 * @param {Callback1<String>} [failure]
+	 * 			Callback triggered if error searching
+	 * @param {Object} [paramObj]
+	 * 			Parameters to include in the search
+	 * 		@param start
+	 * 		@param size
+	 */
+	public static void searchBySources(EcRepository repo, final Array<String> sourceIds, final Callback1<Array<EcAlignment>> success, Callback1<String> failure, Object paramObj){
+		String query = "";
+		query = "("+new EcAlignment().getSearchStringByType() +" AND (source:";
+		
+		Array<String> noVersions = JSCollections.$array();
+		for(int i = 0; i < sourceIds.$length(); i++){
+			String sourceId = sourceIds.$get(i);
+			if(i != 0)
+				query += " OR ";
+			
+			String noVersion = EcRemoteLinkedData.trimVersionFromUrl(sourceId);
+			if (noVersion == sourceId)
+			{
+				query += "\""+sourceId+"\"";
+			}
+			else
+			{
+				query += "\"" +sourceId+"\" OR source:\""+noVersion+"\"";
+			}
+			noVersions.push(noVersion);
+		}
+		
+		query += "))";
+		
+		final Array<String> finalNoVersions = noVersions;
+		repo.searchWithParams(query, paramObj, null, new Callback1<Array<EcRemoteLinkedData>>(){
+
+			@Override
+			public void $invoke(Array<EcRemoteLinkedData> p1) {
+				if(success != null)
+				{
+					Array<EcAlignment> ret = JSCollections.$array();
+					for(int i = 0; i < p1.$length(); i++){
+						EcAlignment alignment = new EcAlignment();
+						if(p1.$get(i).isAny(alignment.getTypes())){
+							alignment.copyFrom(p1.$get(i));
+						}else if(p1.$get(i).isA(EcEncryptedValue.myType)){
+							EcEncryptedValue val = new EcEncryptedValue();
+							val.copyFrom(p1.$get(i));
+							if(val.isAnEncrypted(EcAlignment.myType)){
+								EcRemoteLinkedData obj = val.decryptIntoObject();
+								if(sourceIds.indexOf((String)JSObjectAdapter.$get(obj, "source")) == -1 && finalNoVersions.indexOf((String)JSObjectAdapter.$get(obj, "source")) == -1){
+									continue;
+								}
+								alignment.copyFrom(obj);
+							}
+						}
+						ret.$set(i, alignment);
+					}
+					
+					success.$invoke(ret);
+				}
+			}
+			
+		}, failure);
+	}
+	
+	/**
 	 * Searches the repository for alignments with a specific ID in the target field
 	 * 
 	 * @memberOf EcAlignment

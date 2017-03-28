@@ -236,7 +236,7 @@ public class CSVImport
 								competency.addOwner(owner.ppk.toPk());
 
 							for(int idx = 0; idx < tabularData.$get(i).$length(); idx++){
-								if(colNames.$get(idx) == null || colNames.$get(idx) == "" || 
+								if(colNames.$get(idx) == null || colNames.$get(idx) == "" || colNames.$get(idx).startsWith("@") || 
 										idx == nameIndex || idx == descriptionIndex || idx == scopeIndex || idx == idIndex){
 									continue;
 								}else{
