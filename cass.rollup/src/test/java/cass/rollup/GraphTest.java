@@ -17,6 +17,7 @@ import org.stjs.testing.driver.STJSTestDriverRunner;
 @ScriptsBefore({ "lib/require.js", "rollupInit.js", "/forge/forge.bundle.js" })
 public class GraphTest extends EvidenceProcessingTestBase {
 
+    //test
 //    private class TestClass {
 //        private String name;
 //
