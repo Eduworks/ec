@@ -1,15 +1,14 @@
 package cass.rollup;
 
-import cass.rollup.processors.v2.graph.Node;
-import cass.rollup.processors.v2.graph.NodeGraph;
-import cass.rollup.processors.v2.graph.NodePacketGraph;
-import cass.rollup.processors.v2.graph.RelationType;
+import cass.rollup.processors.v2.graph.collapser.Node;
+import cass.rollup.processors.v2.graph.collapser.NodeGraph;
+import cass.rollup.processors.v2.graph.collapser.NodePacketGraph;
+import cass.rollup.processors.v2.graph.collapser.RelationType;
 import cass.rollup.processors.v2.graph.collapser.CyclicGraphCollapser;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.stjs.javascript.Global;
-import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
 @RunWith(STJSTestDriverRunner.class)

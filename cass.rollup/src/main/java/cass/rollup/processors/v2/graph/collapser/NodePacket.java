@@ -1,4 +1,4 @@
-package cass.rollup.processors.v2.graph;
+package cass.rollup.processors.v2.graph.collapser;
 
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSCollections;

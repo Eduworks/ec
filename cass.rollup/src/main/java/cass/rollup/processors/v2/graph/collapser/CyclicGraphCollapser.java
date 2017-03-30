@@ -1,9 +1,7 @@
 package cass.rollup.processors.v2.graph.collapser;
 
-import cass.rollup.processors.v2.graph.*;
 import cass.rollup.processors.v2.graph.util.*;
 import org.stjs.javascript.Array;
-import org.stjs.javascript.Global;
 
 public class CyclicGraphCollapser {
 

@@ -1,4 +1,4 @@
-package cass.rollup.processors.v2.graph;
+package cass.rollup.processors.v2.graph.collapser;
 
 public class Node {
 

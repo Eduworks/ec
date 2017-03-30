@@ -1,7 +1,7 @@
 package cass.rollup.processors.v2.graph.util;
 
-import cass.rollup.processors.v2.graph.Node;
-import cass.rollup.processors.v2.graph.NodeRelation;
+import cass.rollup.processors.v2.graph.collapser.Node;
+import cass.rollup.processors.v2.graph.collapser.NodeRelation;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.Map;

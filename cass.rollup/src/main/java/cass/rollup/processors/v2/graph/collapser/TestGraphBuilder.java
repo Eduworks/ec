@@ -1,7 +1,5 @@
 package cass.rollup.processors.v2.graph.collapser;
 
-import cass.rollup.processors.v2.graph.*;
-
 public class TestGraphBuilder {
 
     //CYCLE EQUIVS (1)
