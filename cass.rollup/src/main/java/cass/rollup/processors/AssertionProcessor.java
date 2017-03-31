@@ -40,6 +40,7 @@ import org.stjs.javascript.functions.Callback2;
 public abstract class AssertionProcessor
 {
 
+
     public Array<EcRepository> repositories;
     public boolean step;
     public boolean profileMode;

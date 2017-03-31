@@ -17,15 +17,15 @@ public class CompetencyGraph {
 
     private class Edge {
 
+        private String source;
+        private String target;
+        private String relation;
+
         public Edge (String source, String target, String relation) {
             this.source = source;
             this.target = target;
             this.relation = relation;
         }
-
-        private String source;
-        private String target;
-        private String relation;
 
         public String getSource() {return source;}
         public void setSource(String source) {this.source = source;}
@@ -48,19 +48,43 @@ public class CompetencyGraph {
         }
     }
 
+    private class CleanGraphWithAssertions  {
+
+        private Array<String> nodes;
+        private Array<Edge> edges;
+        private Array<SimpleAssertion> positiveAssertions;
+        private Array<SimpleAssertion> negativeAssertions;
+
+        public CleanGraphWithAssertions(Array<String> nodes, Array<Edge> edges, Array<SimpleAssertion> positiveAssertions,
+                                        Array<SimpleAssertion> negativeAssertions) {
+            this.nodes = nodes;
+            this.edges = edges;
+            this.positiveAssertions = positiveAssertions;
+            this.negativeAssertions = negativeAssertions;
+        }
+    }
+
     private Array<String> nodes;
     private Array<Edge> edges;
+    private Array<SimpleAssertion> positiveAssertions;
+    private Array<SimpleAssertion> negativeAssertions;
 
     private Map<String,String> nodeMap;
     private Map<String,String> edgeMap;
 
+    private boolean includeAssertions;
 
-    public CompetencyGraph() {
+    public CompetencyGraph(boolean includeAssertions) {
         nodes = new Array<String>();
         edges = new Array<Edge>();
+        positiveAssertions = new Array<SimpleAssertion>();
+        negativeAssertions = new Array<SimpleAssertion>();
         nodeMap = JSCollections.$map();
         edgeMap = JSCollections.$map();
+        this.includeAssertions = includeAssertions;
     }
+
+    public Array<String> getNodes() {return nodes;}
 
     public void addNode(String id) {
         if (!graphContainsNode(id)) {
@@ -81,6 +105,14 @@ public class CompetencyGraph {
         }
     }
 
+    public void addPositiveAssertion(SimpleAssertion simpleAssertion) {
+        if (simpleAssertion != null) positiveAssertions.push(simpleAssertion);
+    }
+
+    public void addNegativeAssertion(SimpleAssertion simpleAssertion) {
+        if (simpleAssertion != null) negativeAssertions.push(simpleAssertion);
+    }
+
     public boolean graphContainsNode(String nodeId) {
         if (nodeMap.$get(nodeId) == null) return false;
         return true;
@@ -91,7 +123,7 @@ public class CompetencyGraph {
         return true;
     }
 
-    public void createImpliedEdges() {
+    public void createImpliedRelationships() {
         Array<Edge> edgesToAdd = new Array<Edge>();
         Edge e;
         for (int i=0;i<edges.$length();i++) {
@@ -120,7 +152,8 @@ public class CompetencyGraph {
     }
 
     public String getJsonString() {
-        return Global.JSON.stringify(new CleanGraph(nodes,edges));
+        if (includeAssertions) return Global.JSON.stringify(new CleanGraphWithAssertions(nodes,edges,positiveAssertions,negativeAssertions));
+        else return Global.JSON.stringify(new CleanGraph(nodes,edges));
     }
 
 }
