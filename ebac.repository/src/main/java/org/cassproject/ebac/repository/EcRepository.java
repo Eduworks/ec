@@ -47,7 +47,7 @@ public class EcRepository
      */
     public void precache(Array<String> urls, final Callback0 success)
     {
-        if (urls == null)
+        if (urls == null || urls.$length() == 0)
         {
             if (success != null)
             {
@@ -266,6 +266,93 @@ public class EcRepository
         return result;
     }
 
+    /**
+     * Gets a JSON-LD object from the place designated by the URI.
+     *
+     * Uses a signature sheet gathered from {@link EcIdentityManager}.
+     *
+     * @memberOf EcRepository
+     * @method get
+     * @static
+     * @param {String} url URL of the remote object.
+     * @param {Callback1<EcRemoteLinkedData>}success Event to call upon
+     * successful retrieval.
+     * @param {Callback1<String>} failure Event to call upon spectacular
+     * failure.
+     */
+    public void multiget(final Array<String> urls, final Callback1<Array<EcRemoteLinkedData>> success, final Callback1<String> failure, final Callback1<Array<EcRemoteLinkedData>> cachedValues)
+    {
+    	if (urls == null || urls.$length() == 0)
+        {
+            if (failure != null)
+            {
+                failure.$invoke("");
+            }
+            return;
+        }
+    	
+        if (caching)
+        {
+        	Array<EcRemoteLinkedData> cachedVals = JSCollections.$array();
+        	
+        	for(int i = 0; i < urls.$length(); i++){
+        		if (JSObjectAdapter.$get(cache, urls.$get(i)) != null)
+                {
+        			cachedVals.push((EcRemoteLinkedData)JSObjectAdapter.$get(cache, urls.$get(i)));
+                }
+        		
+        		if(cachedValues != null)
+        			cachedValues.$invoke(cachedVals);
+        	}
+        }
+        
+        Array<String> onServer = new Array<String>();
+        for (int i = 0; i < urls.$length(); i++)
+        {
+            String url = urls.$get(i);
+            if (url.startsWith(selectedServer))
+            {
+                onServer.push(url.replace(selectedServer, ""));
+            }
+        }
+        
+        final FormData fd = new FormData();
+        fd.append("data", Global.JSON.stringify(onServer));
+        final EcRepository me = this;
+        EcIdentityManager.signatureSheetAsync(60000, selectedServer, new Callback1<String>()
+        {
+            @Override
+            public void $invoke(String p1)
+            {
+                fd.append("signatureSheet", p1);
+                EcRemote.postExpectingObject(me.selectedServer, "sky/repo/multiGet", fd, new Callback1<Object>()
+                {
+                    @Override
+                    public void $invoke(Object p1)
+                    {
+                        Array<EcRemoteLinkedData> results = (Array<EcRemoteLinkedData>) p1;
+                        for (int i = 0; i < results.$length(); i++)
+                        {
+                            EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
+                            d.copyFrom(results.$get(i));
+                            results.$set(i, d);
+                            if (caching)
+                            {
+                                JSObjectAdapter.$put(cache, d.shortId(), d);
+                                JSObjectAdapter.$put(cache, d.id, d);
+                            }
+                        }
+                        if (success != null)
+                        {
+                            success.$invoke(results);
+                        }
+                    }
+                }, failure);
+            }
+        });
+      
+    }
+    
     /**
      * Search a repository for JSON-LD compatible data.
      *
