@@ -180,8 +180,7 @@ public class CSVImport
 		Papa.parse(file, new PapaParseParams()
 		{
 			{
-				complete = new Callback1<Object>()
-				{
+				complete = new Callback1<Object>(){
 					@Override
 					public void $invoke(Object results)
 					{
@@ -191,49 +190,61 @@ public class CSVImport
 						
 						for (int i = 1; i < tabularData.$length(); i++)
 						{
-							EcCompetency competency = new EcCompetency();
+							// If empty row then skip
 							if(tabularData.$get(i).$length() == 0 || 
 									(tabularData.$get(i).$length() == 1 && 
 										(tabularData.$get(i).$get(0) == null || tabularData.$get(i).$get(0) == "")))
 							{
 								continue;
 							}
+							// If name empty, skip row
 							if (tabularData.$get(i).$get(nameIndex) == null
 									|| tabularData.$get(i).$get(nameIndex) == "")
 							{
 								continue;
 							}
+							
+							EcCompetency competency = new EcCompetency();
+							
+							// Basic info
 							competency.name = tabularData.$get(i).$get(nameIndex);
-
 							if (descriptionIndex >= 0)
 								competency.description = tabularData.$get(i).$get(descriptionIndex);
 							if (scopeIndex >= 0)
 								competency.scope = tabularData.$get(i).$get(scopeIndex);
 
-							String shortId = null;
+	
+							// If not unique and IdIndex set, copy GUID from CSV but prepend our serverUrl
 							if((uniquify == null || uniquify == false) && idIndex != null && idIndex >= 0){
 								competency.id = tabularData.$get(i).$get(idIndex);
-								shortId = competency.shortId();
 								transformId(tabularData.$get(i).$get(idIndex), competency, serverUrl);
+							// otherwise (unique or no idIndex), generate new ID
 							}else{
 								competency.generateId(serverUrl);
 							}
-							if (idIndex != null && idIndex >= 0 && tabularData.$get(i).$get(idIndex) != null && tabularData.$get(i).$get(idIndex) != "")
-                            {
-                                if (JSObjectAdapter.$get(importCsvLookup, tabularData.$get(i).$get(idIndex)) != null)
-                                    continue;
-								JSObjectAdapter.$put(importCsvLookup, tabularData.$get(i).$get(idIndex), competency.shortId());
-                            }
-                            else if (JSObjectAdapter.$get(importCsvLookup, competency.name) != null)
-                                continue;
-							JSObjectAdapter.$put(importCsvLookup, competency.name, competency.shortId());
-							if (shortId != null && idIndex >= 0)
-								JSObjectAdapter.$put(importCsvLookup, shortId, competency.shortId());
-
+							
+							// Set owner if we are given one
 							if (owner != null)
 								competency.addOwner(owner.ppk.toPk());
+							
+							// Build a map from old competency identifiers (oldShortId, oldId and name) to the next competency ID
+							// 	Used if we are importing relationships 
+							String shortId = null;
+							if(idIndex != null && idIndex >= 0){
+								String oldId = tabularData.$get(i).$get(idIndex);
+								shortId = EcRemoteLinkedData.trimVersionFromUrl(oldId);
+								JSObjectAdapter.$put(importCsvLookup, shortId, competency.shortId());
+							}
+							if (idIndex != null && idIndex >= 0 && tabularData.$get(i).$get(idIndex) != null && tabularData.$get(i).$get(idIndex) != "") {
+                                if (JSObjectAdapter.$get(importCsvLookup, tabularData.$get(i).$get(idIndex)) == null)
+                                	JSObjectAdapter.$put(importCsvLookup, tabularData.$get(i).$get(idIndex), competency.shortId());
+                            }
+								
 
+							
+							// Copy extraneous fields in CSV 
 							for(int idx = 0; idx < tabularData.$get(i).$length(); idx++){
+								// ignore empty header columns, or @-columns
 								if(colNames.$get(idx) == null || colNames.$get(idx) == "" || colNames.$get(idx).startsWith("@") || 
 										idx == nameIndex || idx == descriptionIndex || idx == scopeIndex || idx == idIndex){
 									continue;
@@ -245,27 +256,23 @@ public class CSVImport
 							competencies.push(competency);
 						}
 
+						// Save Competencies after list is built from CSV
 						saved = 0;
-						for (int i = 0; i < competencies.$length(); i++)
-						{
+						for (int i = 0; i < competencies.$length(); i++){
 							EcCompetency comp = competencies.$get(i);
-							comp.save(new Callback1<String>()
-							{
-								public void $invoke(String results)
-								{
+							comp.save(new Callback1<String>(){
+								public void $invoke(String results){
 									saved++;
 
-									if(saved % INCREMENTAL_STEP == 0){
+									if (saved % INCREMENTAL_STEP == 0){
 										if(progressObject == null)
 											progressObject = new Object();
-										
 										JSObjectAdapter.$put(progressObject, "competencies", saved);
 											
 										incremental.$invoke(progressObject);
 									}
 									
-									if (saved == competencies.$length())
-									{
+									if (saved == competencies.$length()){
 										if (relations == null)
 											success.$invoke(competencies, new Array<EcAlignment>());
 										else
@@ -274,14 +281,11 @@ public class CSVImport
 									}
 								}
 
-							}, new Callback1<String>()
-							{
-								public void $invoke(String results)
-								{
+							}, new Callback1<String>(){
+								public void $invoke(String results){
 									failure.$invoke("Failed to save competency");
 
-									for (int j = 0; j < competencies.$length(); j++)
-									{
+									for (int j = 0; j < competencies.$length(); j++){
 										competencies.$get(j)._delete(null, null, null);
 									}
 								}
