@@ -114,7 +114,7 @@ public class CfdReference extends CreativeWork{
 	 */
 	public void save(Callback1<String> success, Callback1<String> failure){
 		if(name == null || name == ""){
-			String msg = "Source Competency cannot be missing";
+			String msg = "Name cannot be missing";
 			if(failure != null)
 				failure.$invoke(msg);
 			else
@@ -123,7 +123,7 @@ public class CfdReference extends CreativeWork{
 		}
 		
 		if(url == null || url == ""){
-			String msg = "Relation Type cannot be missing";
+			String msg = "Url cannot be missing";
 			if(failure != null)
 				failure.$invoke(msg);
 			else
@@ -132,7 +132,7 @@ public class CfdReference extends CreativeWork{
 		}
 		
 		if(educationalAlignment == null){
-			String msg = "Relation Type cannot be missing";
+			String msg = "Educational Alignment cannot be missing";
 			if(failure != null)
 				failure.$invoke(msg);
 			else
@@ -208,7 +208,7 @@ public class CfdReference extends CreativeWork{
 				}
 				else
 				{
-					String msg = "Resultant object is not a relation.";
+					String msg = "Resultant object is not a reference.";
 					if (failure != null)
 						failure.$invoke(msg);
 					else
@@ -259,7 +259,7 @@ public class CfdReference extends CreativeWork{
 		} 
                 else
 		{
-			String msg = "Retrieved object was not a relation";
+			String msg = "Retrieved object was not a reference";
 			Global.console.error(msg);
 			return null;
 		}

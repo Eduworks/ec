@@ -86,7 +86,6 @@ public class CfdAssessment extends CreativeWork{
 	/**
 	 * Saves this alignment details on the server corresponding to its ID 
 	 * 
-	 * @memberOf EcAlignment
 	 * @method save
 	 * @param {Callback1<String>} success
 	 * 			Callback triggered on successfully saving the alignment
@@ -104,7 +103,7 @@ public class CfdAssessment extends CreativeWork{
 		}
 		
 		if(educationalAlignment == null){
-			String msg = "Relation Type cannot be missing";
+			String msg = "Educational Alignment cannot be missing";
 			if(failure != null)
 				failure.$invoke(msg);
 			else
@@ -118,7 +117,6 @@ public class CfdAssessment extends CreativeWork{
 	/**
 	 * Deletes the alignment from the server corresponding to its ID
 	 * 
-	 * @memberOf CfdAssessment
 	 * @method _delete
 	 * @param {Callback1<String>} success
 	 * 			Callback triggered on successfully deleting the alignment
@@ -179,7 +177,7 @@ public class CfdAssessment extends CreativeWork{
 				}
 				else
 				{
-					String msg = "Resultant object is not a relation.";
+					String msg = "Resultant object is not an assessment.";
 					if (failure != null)
 						failure.$invoke(msg);
 					else
@@ -230,7 +228,7 @@ public class CfdAssessment extends CreativeWork{
 		} 
                 else
 		{
-			String msg = "Retrieved object was not a relation";
+			String msg = "Retrieved object was not an assessment";
 			Global.console.error(msg);
 			return null;
 		}
