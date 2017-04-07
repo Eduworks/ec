@@ -211,14 +211,10 @@ public class CSVImport
 								competency.scope = tabularData.$get(i).$get(scopeIndex);
 
 							String shortId = null;
-							if(uniquify == null || !uniquify){
-								if (idIndex != null && idIndex >= 0)
-								{
-									competency.id = tabularData.$get(i).$get(idIndex);
-									shortId = competency.shortId();
-								}
-								if (idIndex != null && idIndex >= 0)
-									transformId(tabularData.$get(i).$get(idIndex), competency, serverUrl);
+							if((uniquify == null || uniquify == false) && idIndex != null && idIndex >= 0){
+								competency.id = tabularData.$get(i).$get(idIndex);
+								shortId = competency.shortId();
+								transformId(tabularData.$get(i).$get(idIndex), competency, serverUrl);
 							}else{
 								competency.generateId(serverUrl);
 							}
