@@ -166,7 +166,7 @@ public class CSVImport
 			final Integer nameIndex, final Integer descriptionIndex, final Integer scopeIndex, final Integer idIndex,
 			final Object relations, final Integer sourceIndex, final Integer relationTypeIndex, final Integer destIndex,
 			final Callback2<Array<EcCompetency>, Array<EcAlignment>> success, final Callback1<Object> failure,
-			final Callback1<Object> incremental)
+			final Callback1<Object> incremental, final Boolean uniquify)
 	{
 		progressObject = null;
 		importCsvLookup = new Object();
@@ -211,15 +211,17 @@ public class CSVImport
 								competency.scope = tabularData.$get(i).$get(scopeIndex);
 
 							String shortId = null;
-							if (idIndex != null && idIndex >= 0)
-							{
-								competency.id = tabularData.$get(i).$get(idIndex);
-								shortId = competency.shortId();
-							}
-							if (idIndex != null && idIndex >= 0)
-								transformId(tabularData.$get(i).$get(idIndex), competency, serverUrl);
-							else
+							if(uniquify == null || !uniquify){
+								if (idIndex != null && idIndex >= 0)
+								{
+									competency.id = tabularData.$get(i).$get(idIndex);
+									shortId = competency.shortId();
+								}
+								if (idIndex != null && idIndex >= 0)
+									transformId(tabularData.$get(i).$get(idIndex), competency, serverUrl);
+							}else{
 								competency.generateId(serverUrl);
+							}
 							if (idIndex != null && idIndex >= 0 && tabularData.$get(i).$get(idIndex) != null && tabularData.$get(i).$get(idIndex) != "")
                             {
                                 if (JSObjectAdapter.$get(importCsvLookup, tabularData.$get(i).$get(idIndex)) != null)
@@ -381,8 +383,8 @@ public class CSVImport
 						saved = 0;
 						for (int i = 0; i < relations.$length(); i++)
 						{
-							EcAlignment comp = relations.$get(i);
-							comp.save(new Callback1<String>()
+							EcAlignment relation = relations.$get(i);
+							relation.save(new Callback1<String>()
 							{
 								public void $invoke(String results)
 								{
