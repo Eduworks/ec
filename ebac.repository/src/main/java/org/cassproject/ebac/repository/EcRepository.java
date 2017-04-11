@@ -10,6 +10,8 @@ import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
+import org.stjs.javascript.dom.Document;
+import org.stjs.javascript.dom.Element;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
 
@@ -569,6 +571,7 @@ public class EcRepository
                 if (Global.window.location.protocol == "http:")
                 {
                     protocols.push("http:");
+                    protocols.push("https:");
                 }
             }
         }
@@ -578,6 +581,15 @@ public class EcRepository
             protocols.push("http:");
         }
         Array<String> hostnames = new Array<String>();
+        Array<String> servicePrefixes = new Array<String>();
+
+        if (selectedServer != null)
+        {
+            Element e = Global.window.document.createElement("a");
+            JSObjectAdapter.$put(e,"href",selectedServer);
+            hostnames.push((String)JSObjectAdapter.$get(e,"host"));
+            servicePrefixes.push((String)JSObjectAdapter.$get(e,"pathname"));
+        }
 
         if (Global.window.location.host != null)
         {
@@ -593,7 +605,7 @@ public class EcRepository
 
         hostnames.push("localhost", "localhost" + ":8080", "localhost" + ":9722");
 
-        Array<String> servicePrefixes = new Array<String>("/" + Global.window.location.pathname.split("/")[1] + "/api/custom/", "/", "/service/",
+        servicePrefixes.push("/" + Global.window.location.pathname.split("/")[1] + "/api/custom/", "/", "/service/",
                 "/api/custom/");
         for (int j = 0; j < hostnames.$length(); j++)
         {
