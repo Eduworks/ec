@@ -1,5 +1,6 @@
 package org.cass.importer;
 
+import com.eduworks.ec.array.EcObject;
 import com.eduworks.ec.random.EcRandom;
 import org.cass.competency.EcAlignment;
 import org.cass.competency.EcCompetency;
@@ -195,12 +196,12 @@ public class CSVImport
 							// If empty row then skip
 							if(tabularData.$get(i).$length() == 0 || 
 									(tabularData.$get(i).$length() == 1 && 
-										(tabularData.$get(i).$get(0) == null || tabularData.$get(i).$get(0) == "")))
+										(tabularData.$get(i).$get(0) == null || tabularData.$get(i).$get(0) == JSGlobal.undefined|| tabularData.$get(i).$get(0) == "")))
 							{
 								continue;
 							}
 							// If name empty, skip row
-							if (tabularData.$get(i).$get(nameIndex) == null
+							if (tabularData.$get(i).$get(nameIndex) == null || tabularData.$get(i).$get(nameIndex) == JSGlobal.undefined
 									|| tabularData.$get(i).$get(nameIndex) == "")
 							{
 								continue;
@@ -217,7 +218,7 @@ public class CSVImport
 
 	
 							// If not unique and IdIndex set, copy GUID from CSV but prepend our serverUrl
-							if((uniquify == null || uniquify == false) && idIndex != null && idIndex >= 0){
+							if((uniquify == JSGlobal.undefined || uniquify == null || uniquify == false) && idIndex != null && idIndex >= 0){
 								competency.id = tabularData.$get(i).$get(idIndex);
 								transformId(tabularData.$get(i).$get(idIndex), competency, serverUrl);
 							// otherwise (unique or no idIndex), generate new ID
@@ -226,18 +227,18 @@ public class CSVImport
 							}
 							
 							// Set owner if we are given one
-							if (owner != null)
+							if (owner != JSGlobal.undefined && owner != null)
 								competency.addOwner(owner.ppk.toPk());
 							
 							// Build a map from old competency identifiers (oldShortId, oldId and name) to the next competency ID
 							// 	Used if we are importing relationships 
 							String shortId = null;
-							if(idIndex != null && idIndex >= 0){
+							if(idIndex != null && idIndex != JSGlobal.undefined && idIndex >= 0){
 								String oldId = tabularData.$get(i).$get(idIndex);
 								shortId = EcRemoteLinkedData.trimVersionFromUrl(oldId);
 								JSObjectAdapter.$put(importCsvLookup, shortId, competency.shortId());
 							}
-							if (idIndex != null && idIndex >= 0 && tabularData.$get(i).$get(idIndex) != null && tabularData.$get(i).$get(idIndex) != "") {
+							if (idIndex != null && idIndex != JSGlobal.undefined && idIndex >= 0 && tabularData.$get(i).$get(idIndex) != null && tabularData.$get(i).$get(idIndex) != "") {
                                 if (JSObjectAdapter.$get(importCsvLookup, tabularData.$get(i).$get(idIndex)) == null)
                                 	JSObjectAdapter.$put(importCsvLookup, tabularData.$get(i).$get(idIndex), competency.shortId());
                             }
@@ -467,13 +468,35 @@ public class CSVImport
 		}
 	}
 	
+	public static void transformReferences(Object data){
+		Map<String, Object> props = JSObjectAdapter.$properties(data);
+		for(String prop : props){
+			
+			if(props.$get(prop) == null || props.$get(prop) == JSGlobal.undefined || !com.eduworks.ec.array.toString.call(props.$get(prop)).contains("String")){
+				if(EcObject.isObject(props.$get(prop))){
+					Object nested = props.$get(prop);
+					transformReferences(nested);
+					JSObjectAdapter.$put(data, prop, nested);
+				}
+				continue;
+			}
+			String oldVal = (String) props.$get(prop);
+			if(JSObjectAdapter.$get(importCsvLookup, oldVal) != null && JSObjectAdapter.$get(importCsvLookup, oldVal) != JSGlobal.undefined && 
+					JSObjectAdapter.$get(importCsvLookup, oldVal) != ""){
+				JSObjectAdapter.$put(data, prop, JSObjectAdapter.$get(importCsvLookup, oldVal));
+			}
+		}
+	}
+	
 	public static void importData(Object file, final String serverUrl, final EcIdentity owner, 
 			final Callback1<Array<EcRemoteLinkedData>> success, final Callback1<Object> failure, final Callback1<Object> incremental,
-			final String assignedContext, final String assignedType){
-		final Array<EcRemoteLinkedData> relations = JSCollections.$array();
+			final Integer idIndex, final String assignedContext, final String assignedType){
+		final Array<EcRemoteLinkedData> objects = JSCollections.$array();
 		
 		final boolean hasAssignedContext = assignedContext != JSGlobal.undefined && assignedContext != null && assignedContext.trim() != "";
 		final boolean hasAssignedType = assignedType != JSGlobal.undefined && assignedType != null && assignedType.trim() != "";
+		
+		importCsvLookup = new Object();
 		
 		Papa.parse(file, new PapaParseParams()
 		{
@@ -515,7 +538,10 @@ public class CSVImport
 							for(int idx = 0; idx < tabularData.$get(i).$length(); idx++){
 								String name = colNames.$get(idx);
 								// ignore empty header columns, or @-columns
-								if(name == null || name.trim() == "" || name.startsWith("@") || tabularData.$get(i).$get(idx).trim() == "" || 
+								if(name == "@id" || name == "id"){
+									data.id = tabularData.$get(i).$get(idx);
+									continue;
+								}else if(name == null || name.trim() == "" || name.startsWith("@") || tabularData.$get(i).$get(idx).trim() == "" ||
 										idx == contextIdx || idx == typeIdx ){
 									continue;
 								}else if(name.indexOf(".") != -1){
@@ -533,7 +559,9 @@ public class CSVImport
 									name = split.$get(0);
 								}
 								
-								JSObjectAdapter.$put(data, name, tabularData.$get(i).$get(idx));
+								String val = tabularData.$get(i).$get(idx);
+
+								JSObjectAdapter.$put(data, name, val);
 							}
 							
 							
@@ -543,15 +571,43 @@ public class CSVImport
 							
 							if (owner != null)
 								data.addOwner(owner.ppk.toPk());
-							data.generateId(serverUrl);
-							relations.push(data);
+							
+							
+							String fileId = data.id;
+							if(idIndex != JSGlobal.undefined && idIndex != null && idIndex >= 0){
+								data.id = tabularData.$get(i).$get(idIndex);
+								transformId(tabularData.$get(i).$get(idIndex), data, serverUrl);
+							}else{
+								data.generateId(serverUrl);
+							}
+							
+							String shortId;
+							if(idIndex != null && idIndex != JSGlobal.undefined && idIndex >= 0){
+								String oldId = tabularData.$get(i).$get(idIndex);
+								shortId = EcRemoteLinkedData.trimVersionFromUrl(oldId);
+								JSObjectAdapter.$put(importCsvLookup, shortId, data.shortId());
+							}
+							if (idIndex != null && idIndex != JSGlobal.undefined && idIndex >= 0 && tabularData.$get(i).$get(idIndex) != null && tabularData.$get(i).$get(idIndex) != "") {
+                                if (JSObjectAdapter.$get(importCsvLookup, tabularData.$get(i).$get(idIndex)) == null)
+                                	JSObjectAdapter.$put(importCsvLookup, tabularData.$get(i).$get(idIndex), data.shortId());
+                            }else if(fileId != null && fileId != JSGlobal.undefined && fileId != ""){
+								if (JSObjectAdapter.$get(importCsvLookup, fileId) == null)
+                                	JSObjectAdapter.$put(importCsvLookup, fileId, data.shortId());
+								shortId = EcRemoteLinkedData.trimVersionFromUrl(fileId);
+								if (JSObjectAdapter.$get(importCsvLookup, shortId) == null)
+									JSObjectAdapter.$put(importCsvLookup, shortId, data.shortId());
+							}
+							objects.push(data);
 						}
 
 						saved = 0;
-						for (int i = 0; i < relations.$length(); i++)
+						for (int i = 0; i < objects.$length(); i++)
 						{
-							EcRemoteLinkedData relation = relations.$get(i);
-							EcRepository.save(relation, new Callback1<String>()
+							EcRemoteLinkedData data = objects.$get(i);
+							
+							transformReferences(data);
+							
+							EcRepository.save(data, new Callback1<String>()
 							{
 								public void $invoke(String results)
 								{
@@ -559,15 +615,15 @@ public class CSVImport
 
 									if(saved % INCREMENTAL_STEP == 0)
 										incremental.$invoke(saved);
-									if (saved == relations.$length())
-										success.$invoke(relations);
+									if (saved == objects.$length())
+										success.$invoke(objects);
 								}
 
 							}, new Callback1<String>()
 							{
 								public void $invoke(String results)
 								{
-									failure.$invoke("Failed to save competency or relation");
+									failure.$invoke("Failed to save object");
 								}
 							});
 						}
