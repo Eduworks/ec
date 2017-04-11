@@ -7,6 +7,7 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSFunctionAdapter;
+import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
 import org.stjs.javascript.dom.DOMEvent;
@@ -31,9 +32,90 @@ import js.Papa;
  */
 public class CSVExport extends Exporter {
 	
-	static Array<Object> csvOutput;
-	static Array<Object> csvRelationOutput;
+	public class CSVExportProcess{
+		Array<Object> csvOutput;
+		
+		public CSVExportProcess(){
+			csvOutput = JSCollections.$array();
+		}
+		
+		public void flattenObject(EcRemoteLinkedData flattenedObject, Object object, String prefix){
+			
+			EcRemoteLinkedData data = new EcRemoteLinkedData((String)JSObjectAdapter.$get(object, "@context"), (String)JSObjectAdapter.$get(object, "@type"));
+			data.copyFrom(object);
+			Object tempObj = Global.JSON.parse(data.toJson());
+			
+			Map<String, Object> props = JSObjectAdapter.$properties(tempObj);
+			for(String prop : props){
+				String id;
+				if(prefix != null && prefix != JSGlobal.undefined)
+					id = prefix+"."+prop;
+				else
+					id = prop;
+				if(props.$get(prop) != null && props.$get(prop) != "" && props.$get(prop) instanceof Object){
+					flattenObject(flattenedObject, props.$get(prop), id);
+				}else{
+					JSObjectAdapter.$put(flattenedObject, id, props.$get(prop));
+				}
+			}
+		}
+		
+		public void addCSVRow(EcRemoteLinkedData object){
+			EcRemoteLinkedData flattenedObject = new EcRemoteLinkedData(object.context, object.type);
+			
+			flattenObject(flattenedObject, object, null);
+			csvOutput.push(Global.JSON.parse(flattenedObject.toJson()));
+			
+			Map<String, Object> props = JSObjectAdapter.$properties(Global.JSON.parse(flattenedObject.toJson()));
+	        for(String prop : props){
+	        	if(props.$get(prop) != null && props.$get(prop) != ""){
+	            	for(int i = 0 ; i < csvOutput.$length(); i++){
+	            		Object row = csvOutput.$get(i);
+	            		if(!JSObjectAdapter.hasOwnProperty(row, prop)){
+	            			JSObjectAdapter.$put(row, prop, "");
+	            		}
+	            	}
+	        	}
+	        }
+		}
+		
+		public void buildExport(Array<EcRemoteLinkedData> objects){
+			for (int i = 0; i < objects.$length(); i++) {
+			 	EcRemoteLinkedData object = objects.$get(i);
+	            
+			 	addCSVRow(object);
+	        }
+		}
+		
+		public void downloadCSV(String name){
+			String csv = Papa.unparse(csvOutput);
+	        Element pom = Global.window.document.createElement("a");
+	        
+	        pom.setAttribute("href", "data:text/csv;charset=utf-8," + Global.encodeURIComponent(csv));
+	        pom.setAttribute("download", name);
+
+	        if(JSObjectAdapter.$get(Global.window.document, "createEvent") != null){
+	        	DOMEvent event = JSFunctionAdapter.call(JSObjectAdapter.$get(Global.window.document, "createEvent"), Global.window.document, "MouseEvents");
+	            
+	        	JSFunctionAdapter.call(JSObjectAdapter.$get(event, "initEvent"), event, "click", true, true);
+	            
+	        	pom.dispatchEvent(event);
+	        }else{
+	        	JSFunctionAdapter.call(JSObjectAdapter.$get(pom, "click"), pom);
+	        }
+		}
+	}
 	
+	
+	public static void exportObjects(Array<EcRemoteLinkedData> objects, String fileName){
+		CSVExportProcess compExport = new CSVExport().new CSVExportProcess();
+    	compExport.buildExport(objects);
+    	compExport.downloadCSV(fileName);
+	}
+	
+	static Array<EcRemoteLinkedData> frameworkCompetencies;
+	static Array<EcRemoteLinkedData> frameworkRelations;
+
 	/**
 	 * Method to export the CSV files of competencies and relationships for a framework
 	 * 
@@ -47,14 +129,14 @@ public class CSVExport extends Exporter {
 	 *  @param {Callback1<String>} failure
 	 * 			Callback triggered if an error occurs during export
 	 */
-	public static void exportFramework(String frameworkId, Callback0 success, final Callback1<String> failure){
+	public static void exportFramework(String frameworkId, final Callback0 success, final Callback1<String> failure){
 	    if (frameworkId == null) {
 	    	failure.$invoke("Framework not selected.");
 	        return;
 	    }
 	    
-	    csvOutput = JSCollections.$array();
-	    csvRelationOutput = JSCollections.$array();
+	    frameworkCompetencies = JSCollections.$array();
+	    frameworkRelations = JSCollections.$array();
 	    
 	    EcRepository.get(frameworkId, new Callback1<EcRemoteLinkedData>(){
 	    	
@@ -65,44 +147,19 @@ public class CSVExport extends Exporter {
 	    			if (fw.competency == null || fw.competency.$length() == 0)
 			            failure.$invoke("No Competencies in Framework");
 			        
+	    			
+	    			
 			        for (int i = 0; i < fw.competency.$length(); i++) {
 			            String competencyUrl = fw.competency.$get(i);
 			            
 			            EcRepository.get(competencyUrl, new Callback1<EcRemoteLinkedData>(){
 			            	public void $invoke(EcRemoteLinkedData competency) {
-		                        csvOutput.push(Global.JSON.parse(competency.toJson()));
+			            		frameworkCompetencies.push(competency);
 		                        
-		                        Map<String, Object> props = JSObjectAdapter.$properties(Global.JSON.parse(competency.toJson()));
-		                        
-		                        for(String prop : props){
-		                        	if(props.$get(prop) != null && props.$get(prop) != ""){
-			                        	for(int i = 0 ; i < csvOutput.$length(); i++){
-			                        		Object row = csvOutput.$get(i);
-			                        		if(!JSObjectAdapter.hasOwnProperty(row, prop)){
-			                        			JSObjectAdapter.$put(row, prop, "");
-			                        		}
-			                        	}
-		                        	}
-		                        }
-		                        
-		                        if (csvOutput.$length() == fw.competency.$length()) {
-		                            String csv = Papa.unparse(csvOutput);
-		                            Element pom = Global.window.document.createElement("a");
-		                            
-		                            pom.setAttribute("href", "data:text/csv;charset=utf-8," + Global.encodeURIComponent(csv));
-		                            pom.setAttribute("download", fw.name + " - Competencies.csv");
-	
-		                            if(JSObjectAdapter.$get(Global.window.document, "createEvent") != null){
-		                            	DOMEvent event = JSFunctionAdapter.call(JSObjectAdapter.$get(Global.window.document, "createEvent"), Global.window.document, "MouseEvents");
-		                                
-		                            	JSFunctionAdapter.call(JSObjectAdapter.$get(event, "initEvent"), event, "click", true, true);
-		                                
-		                            	pom.dispatchEvent(event);
-		                            }else{
-		                            	JSFunctionAdapter.call(JSObjectAdapter.$get(pom, "click"), pom);
-		                            }
-		                            
-		                            
+		                        if (frameworkCompetencies.$length() == fw.competency.$length()) {
+		                        	CSVExportProcess compExport = new CSVExport().new CSVExportProcess();
+		                        	compExport.buildExport(frameworkCompetencies);
+		                        	compExport.downloadCSV(fw.name+ " - Competencies.csv");
 		                        } else {
 		                            // incremental if we want
 			            		}
@@ -115,47 +172,22 @@ public class CSVExport extends Exporter {
 			            
 			            EcRepository.get(relationUrl, new Callback1<EcRemoteLinkedData>(){
 			            	public void $invoke(EcRemoteLinkedData relation) {
-			            		csvRelationOutput.push(Global.JSON.parse(relation.toJson()));
+			            		frameworkRelations.push(relation);
 			            		
-			            		Map<String, Object> props = JSObjectAdapter.$properties(Global.JSON.parse(relation.toJson()));
-		                        
-		                        for(String prop : props){
-		                        	if(props.$get(prop) != null && props.$get(prop) != ""){
-			                        	for(int i = 0 ; i < csvOutput.$length(); i++){
-			                        		Object row = csvOutput.$get(i);
-			                        		if(!JSObjectAdapter.hasOwnProperty(row, prop)){
-			                        			JSObjectAdapter.$put(row, prop, "");
-			                        		}
-			                        	}
-		                        	}
-		                        }
 			            		
-		                        if (csvRelationOutput.$length() == fw.relation.$length()) {
-		                            String csv = Papa.unparse(csvRelationOutput);
-		                            Element pom = Global.window.document.createElement("a");
-		                            
-		                            pom.setAttribute("href", "data:text/csv;charset=utf-8," + Global.encodeURIComponent(csv));
-		                            pom.setAttribute("download", fw.name + " - Relations.csv");
-	
-		                            if(JSObjectAdapter.$get(Global.window.document, "createEvent") != null){
-		                            	DOMEvent event = JSFunctionAdapter.call(JSObjectAdapter.$get(Global.window.document, "createEvent"), Global.window.document, "MouseEvents");
-		                                
-		                            	JSFunctionAdapter.call(JSObjectAdapter.$get(event, "initEvent"), event, "click", true, true);
-		                                
-		                            	pom.dispatchEvent(event);
-		                            }else{
-		                            	JSFunctionAdapter.call(JSObjectAdapter.$get(pom, "click"), pom);
-		                            }
-		                            
+			            		if (frameworkRelations.$length() == fw.relation.$length()) {
+		                        	CSVExportProcess compExport = new CSVExport().new CSVExportProcess();
+		                        	compExport.buildExport(frameworkRelations);
+		                        	compExport.downloadCSV(fw.name+ " - Relations.csv");
+		                        	success.$invoke();
 		                        } else {
 		                            // incremental if we want
 			            		}
+			            		
 			            	}
 	                    }, failure);
 			        }
 	    		}
-	    		
-		        
 	    	}
 	    }, failure);
 	}
