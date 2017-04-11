@@ -118,6 +118,9 @@ public class EcLinkedData
 			{
 				if (o.$get(i) instanceof EcLinkedData)
 					a.$set(i, atIfyObject(o.$get(i)));
+				else {
+					a.$set(i, o.$get(i));
+				}
 			}
 			else if (EcArray.isArray(o.$get(i)))
 				a.$set(i, atIfyArray((Array) o.$get(i)));
