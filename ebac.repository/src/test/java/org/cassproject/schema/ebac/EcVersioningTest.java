@@ -22,7 +22,7 @@ import com.eduworks.ec.remote.EcRemote;
 @ScriptsBefore({ "/forge/forge.bundle.js" })
 public class EcVersioningTest
 {
-	String server = "http://localhost:9722/api/custom/";
+	static String server = "https://dev.cassproject.org/api/custom/";
 
 	@Test
 	public void testSaveTwoVersionsBothExist()

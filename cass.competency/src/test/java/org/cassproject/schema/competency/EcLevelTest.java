@@ -26,7 +26,7 @@ import com.sun.tools.javac.resources.compiler;
 @ScriptsBefore({ "/forge/forge.bundle.js" })
 public class EcLevelTest {
 
-	static String server = "http://localhost:9722/api/custom/";
+	static String server = "https://dev.cassproject.org/api/custom/";
 	static EcPpk ppk;
 	static EcIdentity newId1 = new EcIdentity();
 	static EcRepository repo = new EcRepository();

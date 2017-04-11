@@ -27,7 +27,7 @@ import com.eduworks.ec.remote.EcRemote;
 public class EcAlignmentTest
 {
 
-	static String server = "http://localhost:9722/api/custom/";
+	static String server = "https://dev.cassproject.org/api/custom/";
 	static EcPpk ppk;
 	static EcIdentity newId1 = new EcIdentity();
 	static EcRepository repo = new EcRepository();
