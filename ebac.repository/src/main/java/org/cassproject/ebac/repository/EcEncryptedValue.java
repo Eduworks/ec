@@ -655,6 +655,8 @@ public class EcEncryptedValue extends EbacEncryptedValue {
                 }
             });
         }
+        else
+            failure.$invoke("Secret field is empty.");
     }
 
     /**

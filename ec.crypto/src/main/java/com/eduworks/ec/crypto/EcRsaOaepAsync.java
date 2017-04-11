@@ -182,7 +182,6 @@ public class EcRsaOaepAsync
                 q1.$get(worker).push(success);
             }
             q2.$get(worker).push(failure);
-            q2.$get(worker).push(failure);
             w.$get(worker).postMessage(o);
         }
     }
