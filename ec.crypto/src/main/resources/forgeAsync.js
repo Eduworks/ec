@@ -89,7 +89,7 @@ self.addEventListener('message', function (e) {
         };
     } catch (ex) {
         self.postMessage({
-            error: ex
+            error: ex.message
         });
     }
 }, false);
