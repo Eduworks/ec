@@ -55,7 +55,7 @@ public class EcRemoteIdentityManager
 	private int secretIterations;
 	private boolean configured = false;
 
-	protected String server = null;
+	public String server = null;
 
 	protected String usernameWithSalt = null;
 	protected String passwordWithSalt = null;
