@@ -69,6 +69,7 @@ public class EcRsaOaepAsync
                 Callback1 success = q1.$get(index).shift();
                 Callback1 failure = q2.$get(index).shift();
                 if (JSObjectAdapter.$get(o,"error") != null)
+                    if (failure != null)
                     failure.$invoke(JSObjectAdapter.$get(o,"error"));
                 else if (success != null)
                 {
