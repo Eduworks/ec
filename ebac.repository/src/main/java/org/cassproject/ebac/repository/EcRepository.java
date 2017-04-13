@@ -715,6 +715,45 @@ public class EcRepository
     }
 
     /**
+     * Backs up the skyrepo elasticsearch database to the server backup directory
+     *
+     * @memberOf EcRepository
+     * @method backup
+     * @param {String} serverSecret Secret string stored on the server to authenticate administrative rights
+     * @param {Callback1<Object>} success Success event
+     * @param {Callback1<String>} failure Failure event.
+     */
+    public void backup(String serverSecret, Callback1<Object> success, Callback1<String> failure){
+    	EcRemote.getExpectingObject(selectedServer, "skyrepo/util/backup?secret="+serverSecret, success, failure);
+    }
+    
+    /**
+     * Restores the skyrepo elasticsearch backup from the server backup directory
+     *
+     * @memberOf EcRepository
+     * @method restoreBackup
+     * @param {String} serverSecret Secret string stored on the server to authenticate administrative rights
+     * @param {Callback1<Object>} success Success event
+     * @param {Callback1<String>} failure Failure event.
+     */
+    public void restoreBackup(String serverSecret, Callback1<Object> success, Callback1<String> failure){
+    	EcRemote.getExpectingObject(selectedServer, "skyrepo/util/restore?secret="+serverSecret, success, failure);
+    }
+    
+    /**
+     * Wipes all data from the the skyrepo elasticsearch, can only be restored by using backup restore
+     *
+     * @memberOf EcRepository
+     * @method wipe
+     * @param {String} serverSecret Secret string stored on the server to authenticate administrative rights
+     * @param {Callback1<Object>} success Success event
+     * @param {Callback1<String>} failure Failure event.
+     */
+    public void wipe(String serverSecret, Callback1<Object> success, Callback1<String> failure){
+    	EcRemote.getExpectingObject(selectedServer, "skyrepo/util/purge?secret="+serverSecret, success, failure);
+    }
+    
+    /**
      * Handles the search results in search by params, before returning them
      * with the callback passed into search method
      *
