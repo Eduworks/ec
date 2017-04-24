@@ -108,5 +108,14 @@ public class MoodleConfig extends EcLinkedData {
 			}
 		});
 	}
+	
+	
+	public static void syncCassToMoodle(final String serverUrl, Callback1<String> success, final Callback1<String> failure){
+		EcRemote.postExpectingString(serverUrl, "moodle/cassToMoodle", new FormData(), success, failure);
+	}
+	
+	public static void syncMoodleToCass(final String serverUrl, Callback1<String> success, final Callback1<String> failure){
+		EcRemote.postExpectingString(serverUrl, "moodle/moodleToCass", new FormData(), success, failure);
+	}
 
 }
