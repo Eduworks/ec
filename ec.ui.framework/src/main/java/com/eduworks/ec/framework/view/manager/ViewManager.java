@@ -30,7 +30,7 @@ public class ViewManager
 	 * @property viewMap
 	 * @type Map<String, EcView>
 	 */
-	private static Map<String, EcView> viewMap = JSCollections.$map();
+	protected static Map<String, EcView> viewMap = JSCollections.$map();
 
 	/**
 	 * Set's the view instance for a specific DOM selector
@@ -84,6 +84,7 @@ public class ViewManager
 
 		if (htmlLocation != null)
 		{
+			destroyView(containerId);
 			setView(containerId, view);
 
 			GlobalJQuery.$(containerId).load(htmlLocation, null, new Callback3<Object, String, JQueryXHR>()
@@ -113,5 +114,12 @@ public class ViewManager
 	public static void hideView(String containerId)
 	{
 		GlobalJQuery.$(containerId).addClass("hide");
+	}
+
+	public static void destroyView(String containerId){
+		if (getView(containerId) == null)
+			return;
+		getView(containerId).onClose();
+		viewMap.$delete(containerId);
 	}
 }

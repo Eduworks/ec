@@ -182,7 +182,7 @@ public class ScreenManager extends ViewManager {
 					
 					replaceHistory(startupScreen, SCREEN_CONTAINER_ID, params);
 					
-					showView(startupScreen, SCREEN_CONTAINER_ID, new Callback0(){
+					showScreen(startupScreen, SCREEN_CONTAINER_ID, new Callback0(){
 						public void $invoke() {
 							((Foundation)GlobalJQuery.$(SCREEN_CONTAINER_ID)).foundation();
 						}
@@ -234,7 +234,7 @@ public class ScreenManager extends ViewManager {
 		if(addHistory)
 			addHistory(page, SCREEN_CONTAINER_ID, params);
 			
-		showView(page, SCREEN_CONTAINER_ID, new Callback0(){
+		showScreen(page, SCREEN_CONTAINER_ID, new Callback0(){
 			public void $invoke() {
 				((Foundation)GlobalJQuery.$(SCREEN_CONTAINER_ID)).foundation();
 				
@@ -262,8 +262,8 @@ public class ScreenManager extends ViewManager {
 	public static void replaceScreen(EcScreen page, final Callback0 callback, Object params)
 	{
 		replaceHistory(page, SCREEN_CONTAINER_ID, params);
-		
-		showView(page, SCREEN_CONTAINER_ID, new Callback0(){
+
+		showScreen(page, SCREEN_CONTAINER_ID, new Callback0(){
 			public void $invoke() {
 				((Foundation)GlobalJQuery.$(SCREEN_CONTAINER_ID)).foundation();
 				
@@ -272,7 +272,7 @@ public class ScreenManager extends ViewManager {
 			}
 		});
 	}
-	
+
 	/**
 	 * Reloads the current screen, leaving the history alone
 	 * 
@@ -283,7 +283,7 @@ public class ScreenManager extends ViewManager {
 	 * 			Function to invoke after the page has been redisplayed and foundation has been set up on the new HTML
 	 */
 	public static void reloadCurrentScreen(final Callback0 callback){
-		showView(getCurrentScreen(), SCREEN_CONTAINER_ID, new Callback0(){
+		showScreen(getCurrentScreen(), SCREEN_CONTAINER_ID, new Callback0(){
 			public void $invoke() {
 				((Foundation)GlobalJQuery.$(SCREEN_CONTAINER_ID)).foundation();
 				
@@ -421,7 +421,7 @@ public class ScreenManager extends ViewManager {
 					if(loadHistoryCallback != null)
 						loadHistoryCallback.$invoke(screen, myHistory.$get(i).screenParameters);
 						
-					showView(screen, myHistory.$get(i).containerId, new Callback0(){
+					showScreen(screen, myHistory.$get(i).containerId, new Callback0(){
 						public void $invoke() {
 							((Foundation)GlobalJQuery.$(SCREEN_CONTAINER_ID)).foundation();
 						}
@@ -457,7 +457,22 @@ public class ScreenManager extends ViewManager {
 			window.history.go(-1*window.history.length);
 		}
 	}
-	
+
+	/***
+	 * Shows a screen, and cleans up the previous screen.
+	 * @param screen Screen to display.
+	 * @param screenContainerId Container ID to display the screen in.
+	 * @param callback0 Event to call when finished displaying.
+	 */
+	private static void showScreen(EcScreen screen, String screenContainerId, Callback0 callback0) {
+		showView(screen,screenContainerId,callback0);
+		for (String viewContainerId : viewMap)
+		{
+			if (GlobalJQuery.$(viewContainerId).length() == 0)
+				destroyView(viewContainerId);
+		}
+	}
+
 	/**
 	 * Static setup to watch the window for popstate events (history back button) and then calls loadHistory
 	 * with the name of the most previously recent screen (saved in the history and given to the popstate event)

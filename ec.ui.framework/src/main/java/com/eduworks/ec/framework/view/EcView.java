@@ -6,6 +6,8 @@ import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.JSStringAdapter;
 import org.stjs.javascript.Map;
+import org.stjs.javascript.functions.Function0;
+import org.stjs.javascript.functions.Function1;
 
 /**
  * Class that represents a "view" that can be displayed in an container element on the page. The View should define 
@@ -71,5 +73,15 @@ public abstract class EcView
 
 		return null;
 	}
+
+	/***
+	 * Event that is called when the view is deleted, removed, or found to have no applicable selector.
+	 * Called upon screen change or when replacing a view with the same selector.
+	 *
+	 * @memberOf EcView
+	 * @method onClose
+	 * @return {Boolean} True if the view finished cleaning up after itself. False otherwise.
+	 */
+	public Boolean onClose(){return true;};
 
 }
