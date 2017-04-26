@@ -637,6 +637,8 @@ public class EcRepository
      */
     private boolean autoDetectRepositoryActual(final String guess)
     {
+        int oldTimeout = EcRemote.timeout;
+        EcRemote.timeout = 500;
         final EcRepository me = this;
         Callback1<Object> successCheck = new Callback1<Object>()
         {
@@ -682,6 +684,7 @@ public class EcRepository
 
             }
         }
+        EcRemote.timeout = oldTimeout;
         return autoDetectFound;
     }
 

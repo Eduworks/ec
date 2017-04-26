@@ -38,6 +38,15 @@ public class EcRemote
     public static boolean async = true;
 
     /**
+     * Timeout for AJAX requests
+     *
+     * @property async
+     * @static
+     * @type boolean
+     */
+    public static int timeout = 60*1000*5;
+
+    /**
      * POSTs a request to a remote endpoint. Composed of a server endpoint (root
      * URL) and a service (service path). Sends form data as a multi-part mime
      * request.
@@ -125,6 +134,7 @@ public class EcRemote
 
         p.cache = false;
         p.async = async;
+        p.timeout = timeout;
         p.processData = false;
 
         p.success = successCallback;
@@ -174,6 +184,7 @@ public class EcRemote
         p.url = url;
         p.cache = false;
         p.async = async;
+        p.timeout = timeout;
         p.processData = false;
 
         p.dataType = "json";
@@ -210,6 +221,7 @@ public class EcRemote
         p.method = "DELETE";
         p.url = url;
         p.async = async;
+        p.timeout = timeout;
         p.headers = (Map<String, String>) new Object();
         p.headers.$put("signatureSheet", signatureSheet);
 
