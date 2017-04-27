@@ -474,19 +474,18 @@ public class EcRepository {
 			JSObjectAdapter.$put(e, "href", selectedServer);
 			hostnames.push((String) JSObjectAdapter.$get(e, "host"));
 			servicePrefixes.push((String) JSObjectAdapter.$get(e, "pathname"));
-		}
+		} else {
 
-		if (Global.window.location.host != null) {
-			hostnames.push(Global.window.location.host, Global.window.location.host.replace(".", ".service."), Global.window.location.host + ":8080",
-					Global.window.location.host.replace(".", ".service.") + ":8080");
-		}
+			if (Global.window.location.host != null) {
+				hostnames.push(Global.window.location.host, Global.window.location.host.replace(".", ".service."), Global.window.location.host + ":8080",
+						Global.window.location.host.replace(".", ".service.") + ":8080");
+			}
 
-		if (Global.window.location.hostname != null) {
-			hostnames.push(Global.window.location.hostname, Global.window.location.hostname.replace(".", ".service."),
-					Global.window.location.hostname + ":8080", Global.window.location.hostname.replace(".", ".service.") + ":8080");
+			if (Global.window.location.hostname != null) {
+				hostnames.push(Global.window.location.hostname, Global.window.location.hostname.replace(".", ".service."),
+						Global.window.location.hostname + ":8080", Global.window.location.hostname.replace(".", ".service.") + ":8080");
+			}
 		}
-
-		hostnames.push("localhost", "localhost" + ":8080", "localhost" + ":9722");
 
 		servicePrefixes.push("/" + Global.window.location.pathname.split("/")[1] + "/api/custom/", "/", "/service/",
 				"/api/custom/");
@@ -545,19 +544,18 @@ public class EcRepository {
 			JSObjectAdapter.$put(e, "href", selectedServer);
 			hostnames.push((String) JSObjectAdapter.$get(e, "host"));
 			servicePrefixes.push((String) JSObjectAdapter.$get(e, "pathname"));
-		}
+		} else {
 
-		if (Global.window.location.host != null) {
-			hostnames.push(Global.window.location.host, Global.window.location.host.replace(".", ".service."), Global.window.location.host + ":8080",
-					Global.window.location.host.replace(".", ".service.") + ":8080");
-		}
+			if (Global.window.location.host != null) {
+				hostnames.push(Global.window.location.host, Global.window.location.host.replace(".", ".service."), Global.window.location.host + ":8080",
+						Global.window.location.host.replace(".", ".service.") + ":8080");
+			}
 
-		if (Global.window.location.hostname != null) {
-			hostnames.push(Global.window.location.hostname, Global.window.location.hostname.replace(".", ".service."),
-					Global.window.location.hostname + ":8080", Global.window.location.hostname.replace(".", ".service.") + ":8080");
+			if (Global.window.location.hostname != null) {
+				hostnames.push(Global.window.location.hostname, Global.window.location.hostname.replace(".", ".service."),
+						Global.window.location.hostname + ":8080", Global.window.location.hostname.replace(".", ".service.") + ":8080");
+			}
 		}
-
-		hostnames.push("localhost", "localhost" + ":8080", "localhost" + ":9722");
 
 		servicePrefixes.push("/" + Global.window.location.pathname.split("/")[1] + "/api/custom/", "/", "/service/",
 				"/api/custom/");
@@ -586,8 +584,6 @@ public class EcRepository {
 	 * @private
 	 */
 	private boolean autoDetectRepositoryActualAsync(final String guess, final Callback0 success, Callback1 failure) {
-		int oldTimeout = EcRemote.timeout;
-		EcRemote.timeout = 4000;
 		final EcRepository me = this;
 		Callback1<Object> successCheck = new Callback1<Object>() {
 			@Override
@@ -622,7 +618,6 @@ public class EcRepository {
 
 			}
 		}
-		EcRemote.timeout = oldTimeout;
 		return autoDetectFound;
 	}
 
