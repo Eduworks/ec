@@ -84,8 +84,10 @@ public class ViewManager
 
 		if (htmlLocation != null)
 		{
-			destroyView(containerId);
+			EcView oldView = getView(containerId);
 			setView(containerId, view);
+			if (oldView != null)
+				oldView.onClose();
 
 			GlobalJQuery.$(containerId).load(htmlLocation, null, new Callback3<Object, String, JQueryXHR>()
 			{
