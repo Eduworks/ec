@@ -49,6 +49,9 @@ public class CfdFramework extends EcFramework {
 			 }
     	 };
 		 
+    	 if (remove == 0)
+    		 onAllRemove.$invoke();
+    	 
     	 if(this.competency != null && this.competency.$length() > 0){
     		 for (int x=0; x<this.competency.$length(); x++) {
     	 			CfdCompetency.get(this.competency.$get(x), new Callback1<EcCompetency>(){
@@ -86,38 +89,43 @@ public class CfdFramework extends EcFramework {
     			 }
     	 }
 		 
-		 for (int x=0; x<this.relation.$length(); x++) {
-	    	EcAlignment.get(this.relation.$get(x), new Callback1<EcAlignment>(){
- 				public void $invoke(final EcAlignment rel){
-					rel._delete(new Callback1<String>(){
-		 				public void $invoke(String p1){	    				    	   
-		 					removed.$put(that.shortId(), removed.$get(that.shortId())+1);
- 		 					if(removed.$get(that.shortId()) == toRemove.$get(that.shortId()))
-	 		        			onAllRemove.$invoke();
-		 				}
-	        		}, new Callback1<String>(){
-	     				public void $invoke(String err){
-		        			String error = "Error deleting relation ("+rel.id+"): "+err;
-			        		
-		        			failure.$invoke(error);
-			        		
-			        		removed.$put(that.shortId(), removed.$get(that.shortId())+1);
- 		 					if(removed.$get(that.shortId()) == toRemove.$get(that.shortId()))
-	 		        			onAllRemove.$invoke();
-	     				}
-	        		});
- 				}
-			}, new Callback1<String>(){
- 				public void $invoke(String err){
-					String error = "Error retrieving relationship to delete: "+err;
-	        		
-					failure.$invoke(error);
-					removed.$put(that.shortId(), removed.$get(that.shortId())+1);
-	 					if(removed.$get(that.shortId()) == toRemove.$get(that.shortId()))
-		        			onAllRemove.$invoke();
- 				}
-			});
-		 }
+    	 if(this.relation != null && this.relation.$length() > 0){
+			 for (int x=0; x<this.relation.$length(); x++) {
+		    	EcAlignment.get(this.relation.$get(x), new Callback1<EcAlignment>(){
+	 				public void $invoke(final EcAlignment rel){
+						rel._delete(new Callback1<String>(){
+			 				public void $invoke(String p1){	    				    	   
+			 					removed.$put(that.shortId(), removed.$get(that.shortId())+1);
+	 		 					if(removed.$get(that.shortId()) == toRemove.$get(that.shortId()))
+		 		        			onAllRemove.$invoke();
+			 				}
+		        		}, new Callback1<String>(){
+		     				public void $invoke(String err){
+			        			String error = "Error deleting relation ("+rel.id+"): "+err;
+				        		
+			        			failure.$invoke(error);
+				        		
+				        		removed.$put(that.shortId(), removed.$get(that.shortId())+1);
+	 		 					if(removed.$get(that.shortId()) == toRemove.$get(that.shortId()))
+		 		        			onAllRemove.$invoke();
+		     				}
+		        		});
+	 				}
+				}, new Callback1<String>(){
+	 				public void $invoke(String err){
+						String error = "Error retrieving relationship to delete: "+err;
+		        		
+						failure.$invoke(error);
+						removed.$put(that.shortId(), removed.$get(that.shortId())+1);
+		 					if(removed.$get(that.shortId()) == toRemove.$get(that.shortId()))
+			        			onAllRemove.$invoke();
+	 				}
+				});
+			 }
+    	 }
+    	 
+    	 if(removed.$get(that.shortId()) == toRemove.$get(that.shortId()))
+  			onAllRemove.$invoke();
 	}
 
 

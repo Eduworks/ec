@@ -236,6 +236,7 @@
 		<module>cass.adapter</module>
 		<module>com.eduworks.schema</module>
 		<module>cfd.competency</module>
+		<module>ec.task</module>
 	</modules>
 
 	<reporting>
