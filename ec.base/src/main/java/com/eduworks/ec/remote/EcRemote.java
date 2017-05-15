@@ -158,7 +158,7 @@ public class EcRemote
      * GETs something from a remote endpoint. Composed of a server endpoint
      * (root URL) and a service (service path).
      *
-     * @method postExpectingString
+     * @method getExpectingObject
      * @static
      * @param {string} server Protocol, hostname and path to the remote handler.
      * @param {string} service Path to service to invoke.
@@ -196,6 +196,52 @@ public class EcRemote
         if ($ == null)
         {
             success.$invoke(EcLevrHttp.httpGet(p.url));
+        } else
+        {
+            $.ajax(p);
+        }
+    }
+
+    /**
+     * GETs something from a remote endpoint. Composed of a server endpoint
+     * (root URL) and a service (service path).
+     *
+     * @method getExpectingString
+     * @static
+     * @param {string} server Protocol, hostname and path to the remote handler.
+     * @param {string} service Path to service to invoke.
+     * @param {function(object)} success Method that is invoked if the server
+     * responds with a success (per jQuery ajax)
+     * @param {function(string)} failure Method that is invoked if the server
+     * responds with an error (per jQuery ajax) or a non-200/300.
+     */
+    public static void getExpectingString(String server, String service, final Callback1<String> success, final Callback1<String> failure)
+    {
+        String url = server;
+        if (!url.endsWith("/") && service != null && service.equals(""))
+        {
+            url += "/";
+        }
+        if (service != null)
+        {
+            url += service;
+        }
+
+        AjaxParams p = new AjaxParams();
+        p.method = "GET";
+        p.url = url;
+        p.cache = false;
+        p.async = async;
+        p.timeout = timeout;
+        p.processData = false;
+
+        p.success = getSuccessCallback(success, failure);
+        p.error = getFailureCallback(failure);
+
+        upgradeHttpToHttps(p);
+        if ($ == null)
+        {
+            success.$invoke((String)EcLevrHttp.httpGet(p.url));
         } else
         {
             $.ajax(p);

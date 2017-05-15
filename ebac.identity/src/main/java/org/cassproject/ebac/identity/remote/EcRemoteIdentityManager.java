@@ -43,8 +43,7 @@ import forge.util;
  * 
  * @author fritz.ray@eduworks.com
  */
-public class EcRemoteIdentityManager
-{
+public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 	private String usernameSalt = null;
 	private int usernameIterations;
 	private int usernameWidth;
@@ -85,8 +84,9 @@ public class EcRemoteIdentityManager
 	 * @param {int} secretIterations
 	 *            Number of times to hash secret.
 	 */
+	@Override
 	public void configure(String usernameSalt, int usernameIterations, int usernameWidth, String passwordSalt, int passwordIterations, int passwordWidth,
-			String secretSalt, int secretIterations)
+	                      String secretSalt, int secretIterations)
 	{
 		this.usernameSalt = usernameSalt;
 		this.usernameIterations = usernameIterations;
@@ -109,6 +109,7 @@ public class EcRemoteIdentityManager
 	 * @param {Callback1<String>} failure
 	 * 			Callback triggered if an error during failure
 	 */
+	@Override
 	public void configureFromServer(final Callback1<Object> success, final Callback1<String> failure)
 	{
 		final EcRemoteIdentityManager me = this;
@@ -189,6 +190,7 @@ public class EcRemoteIdentityManager
 	 * @memberOf EcRemoteIdentityManager
 	 * @method clear
 	 */
+	@Override
 	public void clear()
 	{
 		usernameWithSalt = null;
@@ -206,6 +208,7 @@ public class EcRemoteIdentityManager
 	 * @param {String} server
 	 *            URL to remote identity management server.
 	 */
+	@Override
 	public void setDefaultIdentityManagementServer(String server)
 	{
 		this.server = server;
@@ -224,6 +227,7 @@ public class EcRemoteIdentityManager
 	 * @param {String} password
 	 *          Password to authenticate username with
 	 */
+	@Override
 	public void startLogin(String username, String password)
 	{
 		if (!configured)
@@ -257,6 +261,7 @@ public class EcRemoteIdentityManager
 	 * @return {boolean}
 	 * 			Valid password change request.
 	 */
+	@Override
 	public boolean changePassword(String username, String oldPassword, String newPassword)
 	{
 		String usernameHash = util.encode64(pkcs5.pbkdf2(username, usernameSalt, usernameIterations, usernameWidth));
@@ -295,6 +300,7 @@ public class EcRemoteIdentityManager
 	 * @param {Callback1<Object>} success
 	 * @param {Callback1<String>} failure
 	 */
+	@Override
 	public void fetch(final Callback1<Object> success, final Callback1<String> failure)
 	{
 		if (!configured)
@@ -361,6 +367,7 @@ public class EcRemoteIdentityManager
 	 * @param {Callback1<String>} failure
 	 * @param padGenerationCallback
 	 */
+	@Override
 	public void commit(final Callback1<String> success, final Callback1<String> failure, Function0<String> padGenerationCallback)
 	{
 		String service = "sky/id/commit";
@@ -386,6 +393,7 @@ public class EcRemoteIdentityManager
 	 * @param padGenerationCallback
 	 * 			Callback triggered if pad not specified
 	 */
+	@Override
 	public void create(final Callback1<String> success, final Callback1<String> failure, Function0<String> padGenerationCallback)
 	{
 		String service = "sky/id/create";
@@ -519,6 +527,7 @@ public class EcRemoteIdentityManager
 	 * @param {Callback1<String>} failure
 	 * 			Callback triggered if error occurs fetching admin keys
 	 */
+	@Override
 	public void fetchServerAdminKeys(final Callback1<Array<String>> success, final Callback1<String> failure)
 	{
 		String service;
