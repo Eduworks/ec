@@ -2,12 +2,7 @@ package com.eduworks.ec.framework.view;
 
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
-import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSObjectAdapter;
-import org.stjs.javascript.JSStringAdapter;
-import org.stjs.javascript.Map;
-import org.stjs.javascript.functions.Function0;
-import org.stjs.javascript.functions.Function1;
 
 /**
  * Class that represents a "view" that can be displayed in an container element on the page. The View should define 
@@ -83,5 +78,26 @@ public abstract class EcView
 	 * @return {Boolean} True if the view finished cleaning up after itself. False otherwise.
 	 */
 	public Boolean onClose(){return true;};
+
+	/***
+	 * Display this alert on the view.
+	 *
+	 * @memberOf EcView
+	 * @method displayAlert
+	 * @param {String} Error to display.
+	 * @param {String} Type of error.
+	 */
+	public void displayAlert(String err, String type) {
+	}
+
+	/***
+	 * Clear the alert.
+	 *
+	 * @memberOf EcView
+	 * @method clearAlert
+	 * @param {String} Type of error.
+	 */
+	public void clearAlert(String type) {
+	}
 
 }
