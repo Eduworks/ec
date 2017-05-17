@@ -323,7 +323,7 @@ public class EcIdentityManager
             if (ids.$get(i).ppk.toPk().toPem().equals(contact.pk.toPem()))
             {
                 ids.$get(i).displayName = contact.displayName;
-                contactChanged(contact);
+                identityChanged(ids.$get(i));
             }
         }
 
@@ -332,7 +332,7 @@ public class EcIdentityManager
             if (contacts.$get(i).pk.toPem().equals(contact.pk.toPem()))
             {
                 contacts.$get(i).displayName = contact.displayName;
-                contactChanged(contact);
+                contactChanged( contacts.$get(i));
             }
         }
 

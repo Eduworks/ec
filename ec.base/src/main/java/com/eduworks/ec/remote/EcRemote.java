@@ -2,18 +2,14 @@ package com.eduworks.ec.remote;
 
 import com.eduworks.ec.array.EcArray;
 import com.eduworks.ec.array.EcObject;
-import static org.stjs.javascript.JSGlobal.JSON;
-import static org.stjs.javascript.jquery.GlobalJQuery.$;
-
-import org.stjs.javascript.Array;
-import org.stjs.javascript.Global;
-import org.stjs.javascript.JSGlobal;
-import org.stjs.javascript.JSObjectAdapter;
-import org.stjs.javascript.Map;
+import org.stjs.javascript.*;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback3;
 import org.stjs.javascript.jquery.AjaxParams;
 import org.stjs.javascript.jquery.JQueryXHR;
+
+import static org.stjs.javascript.JSGlobal.JSON;
+import static org.stjs.javascript.jquery.GlobalJQuery.$;
 
 /**
  * Wrapper to handle all remote web service invocations.
@@ -230,7 +226,6 @@ public class EcRemote
         AjaxParams p = new AjaxParams();
         p.method = "GET";
         p.url = url;
-        p.cache = false;
         p.async = async;
         p.timeout = timeout;
         p.processData = false;

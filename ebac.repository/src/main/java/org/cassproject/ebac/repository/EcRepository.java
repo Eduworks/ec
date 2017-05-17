@@ -962,4 +962,44 @@ public class EcRepository {
 			}
 		});
 	}
+
+	/**
+	 * Fetches the admin keys from the server to compare for check if current
+	 * user is an admin user
+	 *
+	 * @memberOf EcRemoteIdentityManager
+	 * @method fetchServerAdminKeys
+	 * @param {Callback1<String[]>} success
+	 * 			Callback triggered when the admin keys are successfully returned,
+	 * 			returns an array of the admin public keys
+	 * @param {Callback1<String>} failure
+	 * 			Callback triggered if error occurs fetching admin keys
+	 */
+	public void fetchServerAdminKeys(final Callback1<Array<String>> success, final Callback1<String> failure)
+	{
+		String service;
+		if (selectedServer.endsWith("/"))
+		{
+			service = "sky/admin";
+		} else
+		{
+			service = "/sky/admin";
+		}
+
+		EcRemote.getExpectingObject(selectedServer, service, new Callback1<Object>()
+		{
+			@Override
+			public void $invoke(Object p1)
+			{
+				success.$invoke((Array<String>) p1);
+			}
+		}, new Callback1<String>()
+		{
+			@Override
+			public void $invoke(String p1)
+			{
+				failure.$invoke("");
+			}
+		});
+	}
 }

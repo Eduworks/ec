@@ -1,6 +1,5 @@
 package org.cassproject.ebac.identity.remote;
 
-import org.stjs.javascript.Array;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Function0;
 
@@ -9,6 +8,8 @@ public interface RemoteIdentityManagerInterface {
 	               String secretSalt, int secretIterations);
 
 	void configureFromServer(Callback1<Object> success, Callback1<String> failure);
+
+	Boolean isGlobal();
 
 	void clear();
 
@@ -23,6 +24,4 @@ public interface RemoteIdentityManagerInterface {
 	void commit(Callback1<String> success, Callback1<String> failure, Function0<String> padGenerationCallback);
 
 	void create(Callback1<String> success, Callback1<String> failure, Function0<String> padGenerationCallback);
-
-	void fetchServerAdminKeys(Callback1<Array<String>> success, Callback1<String> failure);
 }

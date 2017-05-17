@@ -9,6 +9,7 @@ import org.cassproject.ebac.identity.EcContact;
 import org.cassproject.ebac.identity.EcIdentity;
 import org.cassproject.ebac.identity.EcIdentityManager;
 import org.stjs.javascript.Array;
+import org.stjs.javascript.Global;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.dom.File;
 import org.stjs.javascript.functions.Callback0;
@@ -26,20 +27,25 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 	public Object configuration = null;
 	public Object oauthLoginResponse = null;
 	public String network = null;
+	public Boolean global = null;
 
-	public OAuth2FileBasedRemoteIdentityManager() {
+	/**
+	 * Reads the remote OAuth2 endpoint file.
+	 * @memberOf OAuth2FileBasedRemoteIdentityManager
+	 * @constructor
+	 * @param {Callback0} Method to call when initialization is complete.
+	 */
+	public OAuth2FileBasedRemoteIdentityManager(final Callback0 initialized) {
 		final OAuth2FileBasedRemoteIdentityManager me = this;
-		EcRemote.getExpectingObject("/", "hello.json", new Callback1<Object>() {
+		EcRemote.getExpectingObject("", "hello.json", new Callback1<Object>() {
 			@Override
 			public void $invoke(Object o) {
 				try {
-					me.configuration = o;
-					hello.init(o).then(new Callback1<Object>() {
-						@Override
-						public void $invoke(Object o) {
-							me.oauthEnabled = true;
-						}
-					});
+					me.configuration = Global.JSON.parse(Global.JSON.stringify(o));
+					hello.init(o);
+
+					me.oauthEnabled = true;
+					initialized.$invoke();
 				} catch (Exception ex) {
 					me.oauthEnabled = false;
 				}
@@ -53,6 +59,19 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 		//JSObjectAdapter.$put(initObject,"google","1076634271317-lsr7f2nhvov5b7j09kk8ajbdg2dlu790.apps.googleusercontent.com");
 	}
 
+	/**
+	 * Returns true if the identity manager is global. Returns false if the identity manager is local to the server.
+	 * @memberOf OAuth2FileBasedRemoteIdentityManager
+	 * @method isGlobal
+	 * @return {Boolean} true if the identity manager is global.
+	 */
+	@Override
+	public Boolean isGlobal(){
+		if (global == null)
+			return true;
+		return global;
+	}
+
 	@Override
 	public void configure(String usernameSalt, int usernameIterations, int usernameWidth, String passwordSalt, int passwordIterations, int passwordWidth, String secretSalt, int secretIterations) {
 
@@ -63,6 +82,12 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 		success.$invoke(null);
 	}
 
+	/**
+	 * Wipes login data and logs you out.
+	 *
+	 * @memberOf OAuth2FileBasedRemoteIdentityManager
+	 * @method clear
+	 */
 	@Override
 	public void clear() {
 		oauthEnabled = false;
@@ -70,6 +95,14 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 			hello.logout(server, null);
 	}
 
+	/**
+	 * Configure compatible remote identity management server.
+	 *
+	 * @memberOf OAuth2FileBasedRemoteIdentityManager
+	 * @method setDefaultIdentityManagementServer
+	 * @param {String} server
+	 *            Name of the remote identity management server.
+	 */
 	@Override
 	public void setDefaultIdentityManagementServer(String server) {
 		this.server = server;
@@ -84,17 +117,30 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 		return false;
 	}
 
+	/**
+	 * Fetch credentials from server, invoking events based on login success or
+	 * failure.
+	 *
+	 * Automatically populates EcIdentityManager.
+	 *
+	 * Does not require startLogin().
+	 *
+	 * @memberOf OAuth2FileBasedRemoteIdentityManager
+	 * @method fetch
+	 * @param {Callback1<Object>} success
+	 * @param {Callback1<String>} failure
+	 */
 	@Override
 	public void fetch(final Callback1<Object> success, final Callback1<String> failure) {
 		Object o = new Object();
 		JSObjectAdapter.$put(o, "scope", JSObjectAdapter.$get(configuration, server + "Scope"));
 		final OAuth2FileBasedRemoteIdentityManager me = this;
-		hello.login(server, o).then(new Callback1<Object>() {
+		hello.on("auth.login", new Callback1<Object>() {
 			@Override
 			public void $invoke(Object o) {
 				me.oauthLoginResponse = o;
 				me.network = (String) JSObjectAdapter.$get(me.oauthLoginResponse, "network");
-				hello.api(me.network, "me/folders", "get", new Object()).then(new Callback1<Object>() {
+				hello.api(me.network + "/" + "me/folders", "get", new Object()).then(new Callback1<Object>() {
 					@Override
 					public void $invoke(Object folderResponse) {
 						Array<Object> folders = (Array<Object>) JSObjectAdapter.$get(folderResponse, "data");
@@ -124,14 +170,15 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 					}
 				}).fail(failure);
 			}
-		}).fail(failure);
+		});
+		hello.login(server, o).fail(failure);
 	}
 
 	private void createContactFolder() {
 		final OAuth2FileBasedRemoteIdentityManager me = this;
 		Object o = new Object();
 		JSObjectAdapter.$put(o, "name", "CASS Contacts");
-		hello.api(me.network, "me/folders", "post", o).then(new Callback1<Object>() {
+		hello.api(me.network + "/" + "me/folders", "post", o).then(new Callback1<Object>() {
 			@Override
 			public void $invoke(Object r) {
 				me.hookIdentityManagerContacts((String) JSObjectAdapter.$get(r, "id"));
@@ -143,7 +190,7 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 		final OAuth2FileBasedRemoteIdentityManager me = this;
 		Object o = new Object();
 		JSObjectAdapter.$put(o, "name", "CASS Identities");
-		hello.api(me.network, "me/folders", "post", o).then(new Callback1<Object>() {
+		hello.api(me.network + "/" + "me/folders", "post", o).then(new Callback1<Object>() {
 			@Override
 			public void $invoke(Object r) {
 				me.hookIdentityManagerIdentities((String) JSObjectAdapter.$get(r, "id"));
@@ -171,14 +218,15 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 	private void writeIdentityFile(String folderId, final EcIdentity identity, final Callback0 finished) {
 		File file = BlobHelper.stringToFile(identity.ppk.toPem(), identity.displayName + ".pem", "text/plain");
 		Object o = new Object();
-		JSObjectAdapter.$put(o, "parent", folderId);
 		JSObjectAdapter.$put(o, "id", JSObjectAdapter.$get(identity, "id"));
+		if (JSObjectAdapter.$get(o, "id") == Global.undefined)
+			JSObjectAdapter.$put(o, "parent", folderId);
 		JSObjectAdapter.$put(o, "name", file.name);
 		Array<File> files = new Array<>();
 		files.push(file);
 		JSObjectAdapter.$put(o, "file", files);
 
-		hello.api(network, "me/files", JSObjectAdapter.$get(identity, "id") == null ? "post" : "put", o).then(new Callback1<Object>() {
+		hello.api(network + "/" + "me/files", JSObjectAdapter.$get(identity, "id") == Global.undefined ? "post" : "put", o).then(new Callback1<Object>() {
 			@Override
 			public void $invoke(Object r) {
 				JSObjectAdapter.$put(identity, "id", JSObjectAdapter.$get(r, "id"));
@@ -197,14 +245,15 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 	private void writeContactFile(String folderId, final EcContact contact) {
 		File file = BlobHelper.stringToFile(contact.pk.toPem(), contact.displayName + ".pem", "text/plain");
 		Object o = new Object();
-		JSObjectAdapter.$put(o, "parent", folderId);
 		JSObjectAdapter.$put(o, "id", JSObjectAdapter.$get(contact, "id"));
+		if (JSObjectAdapter.$get(o, "id") == Global.undefined)
+			JSObjectAdapter.$put(o, "parent", folderId);
 		JSObjectAdapter.$put(o, "name", file.name);
 		Array<File> files = new Array<>();
 		files.push(file);
 		JSObjectAdapter.$put(o, "file", files);
 
-		hello.api(network, "me/files", JSObjectAdapter.$get(contact, "id") == null ? "post" : "put", o).then(new Callback1<Object>() {
+		hello.api(network + "/" + "me/files", JSObjectAdapter.$get(contact, "id") == Global.undefined ? "post" : "put", o).then(new Callback1<Object>() {
 			@Override
 			public void $invoke(Object r) {
 				JSObjectAdapter.$put(contact, "id", JSObjectAdapter.$get(r, "id"));
@@ -213,9 +262,10 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 	}
 
 	private void readIdentityFiles(String folderId, final Callback1<Object> success, final Callback1<String> failure) {
+		final OAuth2FileBasedRemoteIdentityManager me = this;
 		final Object o = new Object();
-		JSObjectAdapter.$put(o, "id", folderId);
-		hello.api(network, "me/folder", "get", o).then(
+		JSObjectAdapter.$put(o, "parent", folderId);
+		hello.api(network + "/" + "me/files", "get", o).then(
 				new Callback1<Object>() {
 					public void $invoke(Object folderResponse) {
 						Array<Object> files = (Array<Object>) JSObjectAdapter.$get(folderResponse, "data");
@@ -226,7 +276,7 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 								final String name = ((String) JSObjectAdapter.$get(d, "name")).replace("\\.pem", "");
 								final String id = (String) JSObjectAdapter.$get(d, "id");
 								String directLink = (String) JSObjectAdapter.$get(d, "downloadUrl");
-								EcRemote.getExpectingString(directLink, "", new Callback1<String>() {
+								EcRemote.getExpectingString("", directLink + "&access_token=" + JSObjectAdapter.$get(hello.getAuthResponse(me.network), "access_token"), new Callback1<String>() {
 									@Override
 									public void $invoke(String s) {
 										EcIdentity identity = new EcIdentity();
@@ -251,9 +301,10 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 	}
 
 	private void readContactFiles(String folderId, final Callback1<Object> success, final Callback1<String> failure) {
+		final OAuth2FileBasedRemoteIdentityManager me = this;
 		final Object o = new Object();
-		JSObjectAdapter.$put(o, "id", folderId);
-		hello.api(network, "me/folder", "get", o).then(
+		JSObjectAdapter.$put(o, "parent", folderId);
+		hello.api(network + "/" + "me/files", "get", o).then(
 				new Callback1<Object>() {
 					public void $invoke(Object folderResponse) {
 						Array<Object> files = (Array<Object>) JSObjectAdapter.$get(folderResponse, "data");
@@ -264,7 +315,7 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 								final String name = ((String) JSObjectAdapter.$get(d, "name")).replace("\\.pem", "");
 								final String id = (String) JSObjectAdapter.$get(d, "id");
 								String directLink = (String) JSObjectAdapter.$get(d, "downloadUrl");
-								EcRemote.getExpectingString(directLink, "", new Callback1<String>() {
+								EcRemote.getExpectingString("", directLink + "&access_token=" + JSObjectAdapter.$get(hello.getAuthResponse(me.network), "access_token"), new Callback1<String>() {
 									@Override
 									public void $invoke(String s) {
 										EcContact contact = new EcContact();
@@ -308,11 +359,22 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 		};
 	}
 
+	/**
+	 * Commits credentials in EcIdentityManager to remote server.
+	 *
+	 * @memberOf OAuth2FileBasedRemoteIdentityManager
+	 * @method commit
+	 * @param {Callback1<String>} success
+	 * @param {Callback1<String>} failure
+	 * @param padGenerationCallback
+	 */
 	@Override
 	public void commit(final Callback1<String> success, final Callback1<String> failure, Function0<String> padGenerationCallback) {
 		final OAuth2FileBasedRemoteIdentityManager me = this;
-		if (hello.getAuthReponse(server))
-			hello.api(me.network, "me/folders", "get", new Object()).then(new Callback1<Object>() {
+		Object apio = new Object();
+		JSObjectAdapter.$put(apio, "network", network);
+		if (hello.getAuthResponse(server))
+			hello.api(me.network + "/" + "me/folders", "get", apio).then(new Callback1<Object>() {
 				@Override
 				public void $invoke(Object folderResponse) {
 					Array<Object> folders = (Array<Object>) JSObjectAdapter.$get(folderResponse, "data");
@@ -338,12 +400,12 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 		Object o = new Object();
 		JSObjectAdapter.$put(o, "scope", JSObjectAdapter.$get(configuration, server + "Scope"));
 		final OAuth2FileBasedRemoteIdentityManager me = this;
-		hello.login(server, o).then(new Callback1<Object>() {
+		hello.on("auth.login", new Callback1<Object>() {
 			@Override
 			public void $invoke(Object o) {
 				me.oauthLoginResponse = o;
 				me.network = (String) JSObjectAdapter.$get(me.oauthLoginResponse, "network");
-				hello.api(me.network, "me/folders", "get", new Object()).then(new Callback1<Object>() {
+				hello.api(me.network + "/" + "me/folders", "get", new Object()).then(new Callback1<Object>() {
 					@Override
 					public void $invoke(Object folderResponse) {
 						Array<Object> folders = (Array<Object>) JSObjectAdapter.$get(folderResponse, "data");
@@ -373,11 +435,7 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 					}
 				}).fail(failure);
 			}
-		}).fail(failure);
-	}
-
-	@Override
-	public void fetchServerAdminKeys(Callback1<Array<String>> success, Callback1<String> failure) {
-		success.$invoke(null);
+		});
+		hello.login(server, o).fail(failure);
 	}
 }

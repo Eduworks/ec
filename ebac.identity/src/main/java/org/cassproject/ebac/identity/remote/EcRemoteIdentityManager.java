@@ -61,11 +61,23 @@ public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 	protected String secretWithSalt = null;
 	protected String pad = null;
 	protected String token = null;
+	public Boolean global = null;
+
+	/**
+	 * Returns true if the identity manager is global. Returns false if the identity manager is local to the server.
+	 * @memberOf EcRemoteIdentityManager
+	 * @return {Boolean} true if the identity manager is global.
+	 */
+	public Boolean isGlobal(){
+		if (global == null)
+			return false;
+		return global;
+	}
 
 	/**
 	 * Configure parameters of the remote login storage.
 	 * 
-	 * @memberOf EcRemote
+	 * @memberOf EcRemoteIdentityManager
 	 * @method configure
 	 * @param {String} usernameSalt
 	 *            Salt used in hashing the username.
@@ -513,46 +525,5 @@ public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 				break;
 		}
 		return passwordSplice;
-	}
-
-	/**
-	 * Fetches the admin keys from the server to compare for check if current
-	 * user is an admin user
-	 * 
-	 * @memberOf EcRemoteIdentityManager
-	 * @method fetchServerAdminKeys
-	 * @param {Callback1<String[]>} success
-	 * 			Callback triggered when the admin keys are successfully returned,
-	 * 			returns an array of the admin public keys
-	 * @param {Callback1<String>} failure
-	 * 			Callback triggered if error occurs fetching admin keys
-	 */
-	@Override
-	public void fetchServerAdminKeys(final Callback1<Array<String>> success, final Callback1<String> failure)
-	{
-		String service;
-		if (server.endsWith("/"))
-		{
-			service = "sky/admin";
-		} else
-		{
-			service = "/sky/admin";
-		}
-
-		EcRemote.getExpectingObject(server, service, new Callback1<Object>()
-		{
-			@Override
-			public void $invoke(Object p1)
-			{
-				success.$invoke((Array<String>) p1);
-			}
-		}, new Callback1<String>()
-		{
-			@Override
-			public void $invoke(String p1)
-			{
-				failure.$invoke("");
-			}
-		});
 	}
 }
