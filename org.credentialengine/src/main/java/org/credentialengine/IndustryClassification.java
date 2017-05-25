@@ -19,7 +19,7 @@ public class IndustryClassification extends CredentialFramework
 	 */
 	public IndustryClassification()
 	{
-		context="http://purl.org/ctdl/terms/";
+		context="http://schema.eduworks.com/simpleCtdl";
 		type="IndustryClassification";
 	}
 

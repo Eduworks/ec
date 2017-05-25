@@ -18,9 +18,7 @@ public class CareerPathway extends EcRemoteLinkedData
 	 */
 	public CareerPathway()
 	{
-		super(null,null);
-		context="http://purl.org/ctdl/terms/";
-		type="CareerPathway";
+		super("http://schema.eduworks.com/simpleCtdl","CareerPathway");
 	}
 
 }

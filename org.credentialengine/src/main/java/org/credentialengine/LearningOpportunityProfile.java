@@ -19,12 +19,12 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	 */
 	public LearningOpportunityProfile()
 	{
-		context="http://purl.org/ctdl/terms/";
+		context="http://schema.eduworks.com/simpleCtdl";
 		type="LearningOpportunityProfile";
 	}
 
 	/**
-	 * credentialengine.org/accreditedBy
+	 * http://purl.org/ctdl/terms/accreditedBy
 	 * An agent that accredits the described resource.
 	 * @property accreditedBy
 	 * @type QACredentialOrganization
@@ -32,7 +32,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public QACredentialOrganization accreditedBy;
 
 	/**
-	 * credentialengine.org/accreditedIn
+	 * http://purl.org/ctdl/terms/accreditedIn
 	 * The resource being described is accredited in the jurisdiction being referenced.
 	 * @property accreditedIn
 	 * @type JurisdictionProfile
@@ -40,7 +40,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public JurisdictionProfile accreditedIn;
 
 	/**
-	 * credentialengine.org/approvedBy
+	 * http://purl.org/ctdl/terms/approvedBy
 	 * Pronouncement of a favorable judgment by the agent being referenced.
 	 * @property approvedBy
 	 * @type CredentialOrganization | CredentialPerson | QACredentialOrganization
@@ -48,7 +48,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public Object approvedBy;
 
 	/**
-	 * credentialengine.org/approvedIn
+	 * http://purl.org/ctdl/terms/approvedIn
 	 * The resource being described is approved in the jurisdiction being referenced.
 	 * @property approvedIn
 	 * @type JurisdictionProfile
@@ -56,7 +56,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public JurisdictionProfile approvedIn;
 
 	/**
-	 * credentialengine.org/availabilityListing
+	 * http://purl.org/ctdl/terms/availabilityListing
 	 * A resource that lists online and/or physical locations for the described resource.
 	 * @property availabilityListing
 	 * @type anyURI
@@ -64,7 +64,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public String availabilityListing;
 
 	/**
-	 * credentialengine.org/availableAt
+	 * http://purl.org/ctdl/terms/availableAt
 	 * The location where the described resource is available.
 	 * @property availableAt
 	 * @type GeoCoordinates
@@ -72,7 +72,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public GeoCoordinates availableAt;
 
 	/**
-	 * credentialengine.org/availableOnlineAt
+	 * http://purl.org/ctdl/terms/availableOnlineAt
 	 * The online location where the described resource is available.
 	 * @property availableOnlineAt
 	 * @type anyURI
@@ -80,7 +80,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public String availableOnlineAt;
 
 	/**
-	 * credentialengine.org/codedNotation
+	 * http://purl.org/ctdl/terms/codedNotation
 	 * A short set of alpha-numeric symbols that uniquely identifies a resource and supports its discovery.
 	 * @property codedNotation
 	 * @type Literal
@@ -88,7 +88,23 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public String codedNotation;
 
 	/**
-	 * credentialengine.org/creditHourType
+	 * http://purl.org/ctdl/terms/commonConditions
+	 * The resource being referenced describes a set of common conditions applicable to the resource being described.
+	 * @property commonConditions
+	 * @type ConditionManifest
+	 */
+	public ConditionManifest commonConditions;
+
+	/**
+	 * http://purl.org/ctdl/terms/corequisite
+	 * The resource being referenced must be pursued concurrently with the resource being described.
+	 * @property corequisite
+	 * @type ConditionProfile
+	 */
+	public ConditionProfile corequisite;
+
+	/**
+	 * http://purl.org/ctdl/terms/creditHourType
 	 * Units of time corresponding to types of credits.
 	 * @property creditHourType
 	 * @type Literal
@@ -96,15 +112,15 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public String creditHourType;
 
 	/**
-	 * credentialengine.org/creditHourValue
+	 * http://purl.org/ctdl/terms/creditHourValue
 	 * The number of credit hours awarded for completing or attaining the resource being described.
 	 * @property creditHourValue
 	 * @type float
 	 */
-	public float creditHourValue;
+	public Float creditHourValue;
 
 	/**
-	 * credentialengine.org/creditUnitType
+	 * http://purl.org/ctdl/terms/creditUnitType
 	 * The type of credit associated with degree and non-degree learning opportunities.
 	 * @property creditUnitType
 	 * @type CredentialAlignmentObject
@@ -112,7 +128,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public CredentialAlignmentObject creditUnitType;
 
 	/**
-	 * credentialengine.org/creditUnitTypeDescription
+	 * http://purl.org/ctdl/terms/creditUnitTypeDescription
 	 * A more refined, detailed description of credit unit type.
 	 * @property creditUnitTypeDescription
 	 * @type Literal
@@ -120,23 +136,23 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public String creditUnitTypeDescription;
 
 	/**
-	 * credentialengine.org/creditUnitValue
+	 * http://purl.org/ctdl/terms/creditUnitValue
 	 * The number of either credit units awarded for college credit or continuing education units for completing or attaining the resource being described.
 	 * @property creditUnitValue
 	 * @type float
 	 */
-	public float creditUnitValue;
+	public Float creditUnitValue;
 
 	/**
-	 * credentialengine.org/dateEffective
+	 * http://purl.org/ctdl/terms/dateEffective
 	 * The effective date of the described resource content.
 	 * @property dateEffective
-	 * @type dateTime
+	 * @type date
 	 */
 	public String dateEffective;
 
 	/**
-	 * credentialengine.org/deliveryType
+	 * http://purl.org/ctdl/terms/deliveryType
 	 * The means by which the resource being described is delivered to people or interacted with by people.
 	 * @property deliveryType
 	 * @type CredentialAlignmentObject
@@ -144,7 +160,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public CredentialAlignmentObject deliveryType;
 
 	/**
-	 * credentialengine.org/deliveryTypeDescription
+	 * http://purl.org/ctdl/terms/deliveryTypeDescription
 	 * A more detailed, refined description of delivery type.
 	 * @property deliveryTypeDescription
 	 * @type Literal
@@ -152,7 +168,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public String deliveryTypeDescription;
 
 	/**
-	 * credentialengine.org/description
+	 * http://purl.org/ctdl/terms/description
 	 * A short description of the resource being described.
 	 * @property description
 	 * @type Literal
@@ -160,7 +176,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public String description;
 
 	/**
-	 * credentialengine.org/entryCondition
+	 * http://purl.org/ctdl/terms/entryCondition
 	 * The prerequisites for entry into the resource being described.
 	 * @property entryCondition
 	 * @type ConditionProfile
@@ -168,7 +184,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public ConditionProfile entryCondition;
 
 	/**
-	 * credentialengine.org/estimatedCost
+	 * http://purl.org/ctdl/terms/estimatedCost
 	 * The estimated cost of the described resource.
 	 * @property estimatedCost
 	 * @type CostProfile
@@ -176,7 +192,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public CostProfile estimatedCost;
 
 	/**
-	 * credentialengine.org/estimatedDuration
+	 * http://purl.org/ctdl/terms/estimatedDuration
 	 * The estimated time it will take to complete the described activity.
 	 * @property estimatedDuration
 	 * @type DurationProfile
@@ -184,7 +200,15 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public DurationProfile estimatedDuration;
 
 	/**
-	 * credentialengine.org/hasPart
+	 * http://purl.org/ctdl/terms/financialAssistance
+	 * The types of financial assistance for which the resource being described qualifies.
+	 * @property financialAssistance
+	 * @type FinancialAlignmentObject
+	 */
+	public FinancialAlignmentObject financialAssistance;
+
+	/**
+	 * http://purl.org/ctdl/terms/hasPart
 	 * Indicates a resource that is (in some sense) a part of the resource being described.
 	 * @property hasPart
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | LearningOpportunityProfile | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
@@ -192,7 +216,15 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public Object hasPart;
 
 	/**
-	 * credentialengine.org/instructionalProgramType
+	 * http://purl.org/ctdl/terms/inLanguage
+	 * The primary language used in or by the resource being described.
+	 * @property inLanguage
+	 * @type language
+	 */
+	public String inLanguage;
+
+	/**
+	 * http://purl.org/ctdl/terms/instructionalProgramType
 	 * The class identifier for instructional program context.
 	 * @property instructionalProgramType
 	 * @type CredentialAlignmentObject
@@ -200,7 +232,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public CredentialAlignmentObject instructionalProgramType;
 
 	/**
-	 * credentialengine.org/isPartOf
+	 * http://purl.org/ctdl/terms/isPartOf
 	 * Indicates a resource that the resource being described is (in some sense) part of.
 	 * @property isPartOf
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | LearningOpportunityProfile | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
@@ -208,7 +240,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public Object isPartOf;
 
 	/**
-	 * credentialengine.org/jurisdiction
+	 * http://purl.org/ctdl/terms/jurisdiction
 	 * The geo-political region in which the described resource is applicable.
 	 * @property jurisdiction
 	 * @type JurisdictionProfile
@@ -216,7 +248,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public JurisdictionProfile jurisdiction;
 
 	/**
-	 * credentialengine.org/keyword
+	 * http://purl.org/ctdl/terms/keyword
 	 * Keywords or key phrases describing aspects of a resource considered useful for its discovery.
 	 * @property keyword
 	 * @type Literal
@@ -224,7 +256,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public String keyword;
 
 	/**
-	 * credentialengine.org/name
+	 * http://purl.org/ctdl/terms/name
 	 * The name of the resource being described.
 	 * @property name
 	 * @type Literal
@@ -232,7 +264,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public String name;
 
 	/**
-	 * credentialengine.org/offeredBy
+	 * http://purl.org/ctdl/terms/offeredBy
 	 * Access to the described resource is offered by the referenced agent.
 	 * @property offeredBy
 	 * @type CredentialOrganization | CredentialPerson | QACredentialOrganization
@@ -240,7 +272,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public Object offeredBy;
 
 	/**
-	 * credentialengine.org/offeredIn
+	 * http://purl.org/ctdl/terms/offeredIn
 	 * The resource being described is offered in the jurisdiction being referenced.
 	 * @property offeredIn
 	 * @type JurisdictionProfile
@@ -248,7 +280,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public JurisdictionProfile offeredIn;
 
 	/**
-	 * credentialengine.org/ownedBy
+	 * http://purl.org/ctdl/terms/ownedBy
 	 * An agent that has an enforceable claim or title to a resource.
 	 * @property ownedBy
 	 * @type CredentialOrganization | CredentialPerson | QACredentialOrganization
@@ -256,7 +288,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public Object ownedBy;
 
 	/**
-	 * credentialengine.org/recognizedBy
+	 * http://purl.org/ctdl/terms/recognizedBy
 	 * The agent being referenced acknowledges the validity of the described resource.
 	 * @property recognizedBy
 	 * @type CredentialOrganization | CredentialPerson | QACredentialOrganization
@@ -264,7 +296,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public Object recognizedBy;
 
 	/**
-	 * credentialengine.org/recognizedIn
+	 * http://purl.org/ctdl/terms/recognizedIn
 	 * The resource being described is publicly recommended, acknowledged, or endorsed in the jurisdiction being referenced.
 	 * @property recognizedIn
 	 * @type JurisdictionProfile
@@ -272,7 +304,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public JurisdictionProfile recognizedIn;
 
 	/**
-	 * credentialengine.org/recommends
+	 * http://purl.org/ctdl/terms/recommends
 	 * The resource being described recommends the resource being referenced.
 	 * @property recommends
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | ConditionProfile | Credential | CredentialAlignmentObject | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
@@ -280,7 +312,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public Object recommends;
 
 	/**
-	 * credentialengine.org/region
+	 * http://purl.org/ctdl/terms/region
 	 * A geo-political area of the described resource.
 	 * @property region
 	 * @type GeoCoordinates
@@ -288,7 +320,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public GeoCoordinates region;
 
 	/**
-	 * credentialengine.org/regulatedBy
+	 * http://purl.org/ctdl/terms/regulatedBy
 	 * The agent being referenced enforces the legal requirements of the referenced resource.
 	 * @property regulatedBy
 	 * @type QACredentialOrganization
@@ -296,7 +328,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public QACredentialOrganization regulatedBy;
 
 	/**
-	 * credentialengine.org/regulatedIn
+	 * http://purl.org/ctdl/terms/regulatedIn
 	 * The resource being described is regulated in the jurisdiction being referenced.
 	 * @property regulatedIn
 	 * @type JurisdictionProfile
@@ -304,7 +336,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public JurisdictionProfile regulatedIn;
 
 	/**
-	 * credentialengine.org/requires
+	 * http://purl.org/ctdl/terms/requires
 	 * The resource being described requires the resource being referenced.
 	 * @property requires
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | ConditionProfile | Credential | CredentialAlignmentObject | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
@@ -312,15 +344,15 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public Object requires;
 
 	/**
-	 * credentialengine.org/subject
+	 * http://purl.org/ctdl/terms/subject
 	 * Words or brief phrases describing topicality of a resource.
 	 * @property subject
-	 * @type CredentialAlignmentObject | Literal
+	 * @type CredentialAlignmentObject
 	 */
-	public Object subject;
+	public CredentialAlignmentObject subject;
 
 	/**
-	 * credentialengine.org/subjectWebpage
+	 * http://purl.org/ctdl/terms/subjectWebpage
 	 * The web page where the subject of the resource being described is located.
 	 * @property subjectWebpage
 	 * @type anyURI
@@ -328,7 +360,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public String subjectWebpage;
 
 	/**
-	 * credentialengine.org/targetAssessment
+	 * http://purl.org/ctdl/terms/targetAssessment
 	 * A resource that provides direct, indirect, formative or summative evaluation or estimation of the nature, ability, or quality for the resource being described.
 	 * @property targetAssessment
 	 * @type Assessment | AssessmentProfile
@@ -336,15 +368,15 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public Object targetAssessment;
 
 	/**
-	 * credentialengine.org/targetCompetency
+	 * http://purl.org/ctdl/terms/targetCompetency
 	 * An alignment to a competency assertion in an established framework.
 	 * @property targetCompetency
-	 * @type CredentialAlignmentObject
+	 * @type Competency | CredentialAlignmentObject
 	 */
-	public CredentialAlignmentObject targetCompetency;
+	public Object targetCompetency;
 
 	/**
-	 * credentialengine.org/targetLearningOpportunity
+	 * http://purl.org/ctdl/terms/targetLearningOpportunity
 	 * A learning opportunity that is the focus of the resource being described.
 	 * @property targetLearningOpportunity
 	 * @type LearningOpportunity | LearningOpportunityProfile
@@ -352,7 +384,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	public Object targetLearningOpportunity;
 
 	/**
-	 * credentialengine.org/verificationMethodDescription
+	 * http://purl.org/ctdl/terms/verificationMethodDescription
 	 * Description of the methods used to evaluate the resource validity and reliability.
 	 * @property verificationMethodDescription
 	 * @type Literal

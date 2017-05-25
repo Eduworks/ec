@@ -18,9 +18,7 @@ public class Assessment extends EcRemoteLinkedData
 	 */
 	public Assessment()
 	{
-		super(null,null);
-		context="http://purl.org/ctdl/terms/";
-		type="Assessment";
+		super("http://schema.eduworks.com/simpleCtdl","Assessment");
 	}
 
 }

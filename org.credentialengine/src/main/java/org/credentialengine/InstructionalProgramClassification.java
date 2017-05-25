@@ -19,7 +19,7 @@ public class InstructionalProgramClassification extends CredentialFramework
 	 */
 	public InstructionalProgramClassification()
 	{
-		context="http://purl.org/ctdl/terms/";
+		context="http://schema.eduworks.com/simpleCtdl";
 		type="InstructionalProgramClassification";
 	}
 

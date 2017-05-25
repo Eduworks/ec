@@ -19,12 +19,12 @@ public class ApproveAction extends CredentialingAction
 	 */
 	public ApproveAction()
 	{
-		context="http://purl.org/ctdl/terms/";
+		context="http://schema.eduworks.com/simpleCtdl";
 		type="ApproveAction";
 	}
 
 	/**
-	 * credentialengine.org/actingAgent
+	 * http://purl.org/ctdl/terms/actingAgent
 	 * The direct performer or driver (animate or inanimate) of an action.
 	 * @property actingAgent
 	 * @type CredentialOrganization | CredentialPerson | QACredentialOrganization
@@ -32,15 +32,15 @@ public class ApproveAction extends CredentialingAction
 	public Object actingAgent;
 
 	/**
-	 * credentialengine.org/actionStatusType
+	 * http://purl.org/ctdl/terms/actionStatusType
 	 * Indicates the current disposition of the action.
 	 * @property actionStatusType
-	 * @type ActionStatusType
+	 * @type CredentialAlignmentObject
 	 */
-	public org.schema.ActionStatusType actionStatusType;
+	public CredentialAlignmentObject actionStatusType;
 
 	/**
-	 * credentialengine.org/agent
+	 * http://purl.org/ctdl/terms/agent
 	 * The direct performer or driver of the action (animate or inanimate).
 	 * @property agent
 	 * @type CredentialOrganization | CredentialPerson | QACredentialOrganization
@@ -48,7 +48,7 @@ public class ApproveAction extends CredentialingAction
 	public Object agent;
 
 	/**
-	 * credentialengine.org/description
+	 * http://purl.org/ctdl/terms/description
 	 * A short description of the resource being described.
 	 * @property description
 	 * @type Literal
@@ -56,15 +56,23 @@ public class ApproveAction extends CredentialingAction
 	public String description;
 
 	/**
-	 * credentialengine.org/endTime
-	 * The endTime of something.
-	 * @property endTime
-	 * @type dateTime
+	 * http://purl.org/ctdl/terms/endDate
+	 * The end date of something.
+	 * @property endDate
+	 * @type date
 	 */
-	public String endTime;
+	public String endDate;
 
 	/**
-	 * credentialengine.org/instrument
+	 * http://purl.org/ctdl/terms/evidenceOfAction
+	 * A resource that provides evidence of the continuing validity of the action being described.
+	 * @property evidenceOfAction
+	 * @type anyURI
+	 */
+	public String evidenceOfAction;
+
+	/**
+	 * http://purl.org/ctdl/terms/instrument
 	 * The object that helped the agent perform the action. e.g. John wrote a book with a pen.
 	 * @property instrument
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
@@ -72,15 +80,15 @@ public class ApproveAction extends CredentialingAction
 	public Object instrument;
 
 	/**
-	 * credentialengine.org/object
+	 * http://purl.org/ctdl/terms/object
 	 * The object upon [which] the action is carried out, whose state is kept intact or changed.
 	 * @property object
-	 * @type ApprenticeshipCertificate | AssessmentProfile | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | Competency | CompetencyFramework | Credential | CredentialOrganization | CredentialPerson | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | LearningOpportunityProfile | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
+	 * @type ApprenticeshipCertificate | AssessmentProfile | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | Competency | CompetencyFramework | Credential | CredentialOrganization | CredentialPerson | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | LearningOpportunityProfile | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QACredentialOrganization | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
 	 */
 	public Object object;
 
 	/**
-	 * credentialengine.org/participant
+	 * http://purl.org/ctdl/terms/participant
 	 * Other co-agents that participated in the action indirectly.
 	 * @property participant
 	 * @type CredentialOrganization | CredentialPerson | QACredentialOrganization
@@ -88,7 +96,7 @@ public class ApproveAction extends CredentialingAction
 	public Object participant;
 
 	/**
-	 * credentialengine.org/resultingAward
+	 * http://purl.org/ctdl/terms/resultingAward
 	 * The result produced in the action.
 	 * @property resultingAward
 	 * @type CredentialAssertion
@@ -96,11 +104,11 @@ public class ApproveAction extends CredentialingAction
 	public CredentialAssertion resultingAward;
 
 	/**
-	 * credentialengine.org/startTime
-	 * The startTime of something.
-	 * @property startTime
-	 * @type dateTime
+	 * http://purl.org/ctdl/terms/startDate
+	 * The start date of something.
+	 * @property startDate
+	 * @type date
 	 */
-	public String startTime;
+	public String startDate;
 
 }

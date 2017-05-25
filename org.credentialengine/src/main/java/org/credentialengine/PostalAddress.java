@@ -19,12 +19,12 @@ public class PostalAddress extends ContactPoint
 	 */
 	public PostalAddress()
 	{
-		context="http://purl.org/ctdl/terms/";
+		context="http://schema.eduworks.com/simpleCtdl";
 		type="PostalAddress";
 	}
 
 	/**
-	 * credentialengine.org/name
+	 * http://purl.org/ctdl/terms/name
 	 * The name of the resource being described.
 	 * @property name
 	 * @type Literal
@@ -32,7 +32,7 @@ public class PostalAddress extends ContactPoint
 	public String name;
 
 	/**
-	 * credentialengine.org/targetContactPoint
+	 * http://purl.org/ctdl/terms/targetContactPoint
 	 * Options for contacting the resource being described.
 	 * @property targetContactPoint
 	 * @type ContactPoint

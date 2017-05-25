@@ -18,21 +18,19 @@ public class ContactPoint extends EcRemoteLinkedData
 	 */
 	public ContactPoint()
 	{
-		super(null,null);
-		context="http://purl.org/ctdl/terms/";
-		type="ContactPoint";
+		super("http://schema.eduworks.com/simpleCtdl","ContactPoint");
 	}
 
 	/**
-	 * credentialengine.org/email
+	 * http://purl.org/ctdl/terms/email
 	 * Email address of the agent being described.
 	 * @property email
-	 * @type Literal | Email
+	 * @type Literal
 	 */
-	public Object email;
+	public String email;
 
 	/**
-	 * credentialengine.org/name
+	 * http://purl.org/ctdl/terms/name
 	 * The name of the resource being described.
 	 * @property name
 	 * @type Literal
@@ -40,7 +38,7 @@ public class ContactPoint extends EcRemoteLinkedData
 	public String name;
 
 	/**
-	 * credentialengine.org/socialMedia
+	 * http://purl.org/ctdl/terms/socialMedia
 	 * A social media resource for the resource being described.
 	 * @property socialMedia
 	 * @type anyURI

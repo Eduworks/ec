@@ -1,6 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 
 /**
@@ -18,9 +17,7 @@ public class Agent extends EcRemoteLinkedData
 	 */
 	public Agent()
 	{
-		super(null,null);
-		context="http://purl.org/ctdl/terms/";
-		type="Agent";
+		super("http://schema.eduworks.com/simpleCtdl","Agent");
 	}
 
 }

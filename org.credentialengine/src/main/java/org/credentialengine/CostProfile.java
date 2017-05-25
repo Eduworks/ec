@@ -19,12 +19,12 @@ public class CostProfile extends org.schema.CreativeWork
 	 */
 	public CostProfile()
 	{
-		context="http://purl.org/ctdl/terms/";
+		context="http://schema.eduworks.com/simpleCtdl";
 		type="CostProfile";
 	}
 
 	/**
-	 * credentialengine.org/audienceType
+	 * http://purl.org/ctdl/terms/audienceType
 	 * The applicable audience.
 	 * @property audienceType
 	 * @type CredentialAlignmentObject
@@ -32,7 +32,7 @@ public class CostProfile extends org.schema.CreativeWork
 	public CredentialAlignmentObject audienceType;
 
 	/**
-	 * credentialengine.org/description
+	 * http://purl.org/ctdl/terms/description
 	 * A short description of the resource being described.
 	 * @property description
 	 * @type Literal
@@ -40,15 +40,15 @@ public class CostProfile extends org.schema.CreativeWork
 	public String description;
 
 	/**
-	 * credentialengine.org/endTime
-	 * The endTime of something.
-	 * @property endTime
-	 * @type dateTime
+	 * http://purl.org/ctdl/terms/endDate
+	 * The end date of something.
+	 * @property endDate
+	 * @type date
 	 */
-	public String endTime;
+	public String endDate;
 
 	/**
-	 * credentialengine.org/jurisdiction
+	 * http://purl.org/ctdl/terms/jurisdiction
 	 * The geo-political region in which the described resource is applicable.
 	 * @property jurisdiction
 	 * @type JurisdictionProfile
@@ -56,7 +56,7 @@ public class CostProfile extends org.schema.CreativeWork
 	public JurisdictionProfile jurisdiction;
 
 	/**
-	 * credentialengine.org/name
+	 * http://purl.org/ctdl/terms/name
 	 * The name of the resource being described.
 	 * @property name
 	 * @type Literal
@@ -64,7 +64,7 @@ public class CostProfile extends org.schema.CreativeWork
 	public String name;
 
 	/**
-	 * credentialengine.org/region
+	 * http://purl.org/ctdl/terms/region
 	 * A geo-political area of the described resource.
 	 * @property region
 	 * @type GeoCoordinates
@@ -72,11 +72,11 @@ public class CostProfile extends org.schema.CreativeWork
 	public GeoCoordinates region;
 
 	/**
-	 * credentialengine.org/startTime
-	 * The startTime of something.
-	 * @property startTime
-	 * @type dateTime
+	 * http://purl.org/ctdl/terms/startDate
+	 * The start date of something.
+	 * @property startDate
+	 * @type date
 	 */
-	public String startTime;
+	public String startDate;
 
 }

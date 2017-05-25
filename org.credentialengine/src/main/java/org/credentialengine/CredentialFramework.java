@@ -18,9 +18,7 @@ public class CredentialFramework extends EcRemoteLinkedData
 	 */
 	public CredentialFramework()
 	{
-		super(null,null);
-		context="http://purl.org/ctdl/terms/";
-		type="CredentialFramework";
+		super("http://schema.eduworks.com/simpleCtdl","CredentialFramework");
 	}
 
 }

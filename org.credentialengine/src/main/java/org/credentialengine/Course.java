@@ -19,7 +19,7 @@ public class Course extends LearningOpportunity
 	 */
 	public Course()
 	{
-		context="http://purl.org/ctdl/terms/";
+		context="http://schema.eduworks.com/simpleCtdl";
 		type="Course";
 	}
 
