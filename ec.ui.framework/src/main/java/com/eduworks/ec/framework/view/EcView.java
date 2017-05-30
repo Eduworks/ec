@@ -2,10 +2,7 @@ package com.eduworks.ec.framework.view;
 
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
-import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSObjectAdapter;
-import org.stjs.javascript.JSStringAdapter;
-import org.stjs.javascript.Map;
 
 /**
  * Class that represents a "view" that can be displayed in an container element on the page. The View should define 
@@ -70,6 +67,37 @@ public abstract class EcView
 			}
 
 		return null;
+	}
+
+	/***
+	 * Event that is called when the view is deleted, removed, or found to have no applicable selector.
+	 * Called upon screen change or when replacing a view with the same selector.
+	 *
+	 * @memberOf EcView
+	 * @method onClose
+	 * @return {Boolean} True if the view finished cleaning up after itself. False otherwise.
+	 */
+	public Boolean onClose(){return true;};
+
+	/***
+	 * Display this alert on the view.
+	 *
+	 * @memberOf EcView
+	 * @method displayAlert
+	 * @param {String} Error to display.
+	 * @param {String} Type of error.
+	 */
+	public void displayAlert(String err, String type) {
+	}
+
+	/***
+	 * Clear the alert.
+	 *
+	 * @memberOf EcView
+	 * @method clearAlert
+	 * @param {String} Type of error.
+	 */
+	public void clearAlert(String type) {
 	}
 
 }

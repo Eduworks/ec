@@ -19,12 +19,12 @@ public class GeoCoordinates extends org.schema.StructuredValue
 	 */
 	public GeoCoordinates()
 	{
-		context="http://purl.org/ctdl/terms/";
+		context="http://schema.eduworks.com/simpleCtdl";
 		type="GeoCoordinates";
 	}
 
 	/**
-	 * credentialengine.org/address
+	 * http://purl.org/ctdl/terms/address
 	 * Physical address of the resource.
 	 * @property address
 	 * @type PostalAddress
@@ -32,7 +32,7 @@ public class GeoCoordinates extends org.schema.StructuredValue
 	public PostalAddress address;
 
 	/**
-	 * credentialengine.org/name
+	 * http://purl.org/ctdl/terms/name
 	 * The name of the resource being described.
 	 * @property name
 	 * @type Literal
@@ -40,7 +40,7 @@ public class GeoCoordinates extends org.schema.StructuredValue
 	public String name;
 
 	/**
-	 * credentialengine.org/url
+	 * http://purl.org/ctdl/terms/url
 	 * URL of the resource being described.
 	 * @property url
 	 * @type anyURI

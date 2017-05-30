@@ -19,12 +19,12 @@ public class EarningsProfile extends org.schema.CreativeWork
 	 */
 	public EarningsProfile()
 	{
-		context="http://purl.org/ctdl/terms/";
+		context="http://schema.eduworks.com/simpleCtdl";
 		type="EarningsProfile";
 	}
 
 	/**
-	 * credentialengine.org/credentialProfiled
+	 * http://purl.org/ctdl/terms/credentialProfiled
 	 * The resource being described is a profile of the credential being referenced.
 	 * @property credentialProfiled
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
@@ -32,15 +32,15 @@ public class EarningsProfile extends org.schema.CreativeWork
 	public Object credentialProfiled;
 
 	/**
-	 * credentialengine.org/dateEffective
+	 * http://purl.org/ctdl/terms/dateEffective
 	 * The effective date of the described resource content.
 	 * @property dateEffective
-	 * @type dateTime
+	 * @type date
 	 */
 	public String dateEffective;
 
 	/**
-	 * credentialengine.org/jurisdiction
+	 * http://purl.org/ctdl/terms/jurisdiction
 	 * The geo-political region in which the described resource is applicable.
 	 * @property jurisdiction
 	 * @type JurisdictionProfile
@@ -48,7 +48,7 @@ public class EarningsProfile extends org.schema.CreativeWork
 	public JurisdictionProfile jurisdiction;
 
 	/**
-	 * credentialengine.org/region
+	 * http://purl.org/ctdl/terms/region
 	 * A geo-political area of the described resource.
 	 * @property region
 	 * @type GeoCoordinates
@@ -56,7 +56,7 @@ public class EarningsProfile extends org.schema.CreativeWork
 	public GeoCoordinates region;
 
 	/**
-	 * credentialengine.org/source
+	 * http://purl.org/ctdl/terms/source
 	 * The source of this resource's information.
 	 * @property source
 	 * @type anyURI

@@ -19,7 +19,7 @@ public class LearningResource extends org.schema.CreativeWork
 	 */
 	public LearningResource()
 	{
-		context="http://purl.org/ctdl/terms/";
+		context="http://schema.eduworks.com/simpleCtdl";
 		type="LearningResource";
 	}
 

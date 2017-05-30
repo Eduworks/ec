@@ -18,9 +18,7 @@ public class CredentialAssertion extends EcRemoteLinkedData
 	 */
 	public CredentialAssertion()
 	{
-		super(null,null);
-		context="http://purl.org/ctdl/terms/";
-		type="CredentialAssertion";
+		super("http://schema.eduworks.com/simpleCtdl","CredentialAssertion");
 	}
 
 }

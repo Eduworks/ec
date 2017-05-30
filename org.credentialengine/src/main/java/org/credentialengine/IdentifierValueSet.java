@@ -19,7 +19,7 @@ public class IdentifierValueSet extends org.schema.CreativeWork
 	 */
 	public IdentifierValueSet()
 	{
-		context="http://purl.org/ctdl/terms/";
+		context="http://schema.eduworks.com/simpleCtdl";
 		type="IdentifierValueSet";
 	}
 

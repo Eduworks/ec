@@ -20,15 +20,6 @@ public abstract class EcModal extends EcView{
 	 * @type String
 	 */
 	private String modalSize = "small";
-	
-	/**
-	 * Function to be invoked when the modal is closed, can be overriden or left blank if nothing
-	 * needs to happen on the modal close 
-	 * 
-	 * @property onClose
-	 * @type Callback0
-	 */
-	public Callback0 onClose;
 
 	/**
 	 * 

@@ -19,8 +19,16 @@ public class CompetencyFramework extends CredentialFramework
 	 */
 	public CompetencyFramework()
 	{
-		context="http://purl.org/ctdl/terms/";
+		context="http://schema.eduworks.com/simpleCtdl";
 		type="CompetencyFramework";
 	}
+
+	/**
+	 * http://purl.org/ctdl/terms/inLanguage
+	 * The primary language used in or by the resource being described.
+	 * @property inLanguage
+	 * @type language
+	 */
+	public String inLanguage;
 
 }

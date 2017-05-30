@@ -10,6 +10,7 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSObjectAdapter;
+import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback1;
 
 import com.eduworks.ec.crypto.EcPpk;
@@ -465,6 +466,9 @@ public class EcCompetency extends Competency
 	}
 
 	
+	static Map<String, Boolean> relDone = JSCollections.$map();
+	static Map<String, Boolean> levelDone = JSCollections.$map();
+	
 	/**
 	 * Deletes the competency from the server
 	 * 
@@ -518,8 +522,14 @@ public class EcCompetency extends Competency
 						@Override
 						public void $invoke(Array<EcAlignment> p1)
 						{
-							if (success != null)
-								success.$invoke("");
+							if (levelDone.$get(id))
+							{
+								if (success != null)
+									success.$invoke("");
+							} else
+							{
+								relDone.$put(id, true);
+							}
 						}
 					});
 
@@ -554,8 +564,14 @@ public class EcCompetency extends Competency
 						@Override
 						public void $invoke(Array<EcLevel> p1)
 						{
-							if (success != null)
-								success.$invoke("");
+							if (relDone.$get(id))
+							{
+								if (success != null)
+									success.$invoke("");
+							} else
+							{
+								levelDone.$put(id, true);
+							}
 						}
 					});
 				} else

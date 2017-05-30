@@ -43,8 +43,7 @@ import forge.util;
  * 
  * @author fritz.ray@eduworks.com
  */
-public class EcRemoteIdentityManager
-{
+public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 	private String usernameSalt = null;
 	private int usernameIterations;
 	private int usernameWidth;
@@ -55,18 +54,30 @@ public class EcRemoteIdentityManager
 	private int secretIterations;
 	private boolean configured = false;
 
-	protected String server = null;
+	public String server = null;
 
 	protected String usernameWithSalt = null;
 	protected String passwordWithSalt = null;
 	protected String secretWithSalt = null;
 	protected String pad = null;
 	protected String token = null;
+	public Boolean global = null;
+
+	/**
+	 * Returns true if the identity manager is global. Returns false if the identity manager is local to the server.
+	 * @memberOf EcRemoteIdentityManager
+	 * @return {Boolean} true if the identity manager is global.
+	 */
+	public Boolean isGlobal(){
+		if (global == null)
+			return false;
+		return global;
+	}
 
 	/**
 	 * Configure parameters of the remote login storage.
 	 * 
-	 * @memberOf EcRemote
+	 * @memberOf EcRemoteIdentityManager
 	 * @method configure
 	 * @param {String} usernameSalt
 	 *            Salt used in hashing the username.
@@ -85,8 +96,9 @@ public class EcRemoteIdentityManager
 	 * @param {int} secretIterations
 	 *            Number of times to hash secret.
 	 */
+	@Override
 	public void configure(String usernameSalt, int usernameIterations, int usernameWidth, String passwordSalt, int passwordIterations, int passwordWidth,
-			String secretSalt, int secretIterations)
+	                      String secretSalt, int secretIterations)
 	{
 		this.usernameSalt = usernameSalt;
 		this.usernameIterations = usernameIterations;
@@ -109,6 +121,7 @@ public class EcRemoteIdentityManager
 	 * @param {Callback1<String>} failure
 	 * 			Callback triggered if an error during failure
 	 */
+	@Override
 	public void configureFromServer(final Callback1<Object> success, final Callback1<String> failure)
 	{
 		final EcRemoteIdentityManager me = this;
@@ -189,6 +202,7 @@ public class EcRemoteIdentityManager
 	 * @memberOf EcRemoteIdentityManager
 	 * @method clear
 	 */
+	@Override
 	public void clear()
 	{
 		usernameWithSalt = null;
@@ -206,6 +220,7 @@ public class EcRemoteIdentityManager
 	 * @param {String} server
 	 *            URL to remote identity management server.
 	 */
+	@Override
 	public void setDefaultIdentityManagementServer(String server)
 	{
 		this.server = server;
@@ -224,6 +239,7 @@ public class EcRemoteIdentityManager
 	 * @param {String} password
 	 *          Password to authenticate username with
 	 */
+	@Override
 	public void startLogin(String username, String password)
 	{
 		if (!configured)
@@ -257,6 +273,7 @@ public class EcRemoteIdentityManager
 	 * @return {boolean}
 	 * 			Valid password change request.
 	 */
+	@Override
 	public boolean changePassword(String username, String oldPassword, String newPassword)
 	{
 		String usernameHash = util.encode64(pkcs5.pbkdf2(username, usernameSalt, usernameIterations, usernameWidth));
@@ -295,6 +312,7 @@ public class EcRemoteIdentityManager
 	 * @param {Callback1<Object>} success
 	 * @param {Callback1<String>} failure
 	 */
+	@Override
 	public void fetch(final Callback1<Object> success, final Callback1<String> failure)
 	{
 		if (!configured)
@@ -361,6 +379,7 @@ public class EcRemoteIdentityManager
 	 * @param {Callback1<String>} failure
 	 * @param padGenerationCallback
 	 */
+	@Override
 	public void commit(final Callback1<String> success, final Callback1<String> failure, Function0<String> padGenerationCallback)
 	{
 		String service = "sky/id/commit";
@@ -386,6 +405,7 @@ public class EcRemoteIdentityManager
 	 * @param padGenerationCallback
 	 * 			Callback triggered if pad not specified
 	 */
+	@Override
 	public void create(final Callback1<String> success, final Callback1<String> failure, Function0<String> padGenerationCallback)
 	{
 		String service = "sky/id/create";
@@ -505,45 +525,5 @@ public class EcRemoteIdentityManager
 				break;
 		}
 		return passwordSplice;
-	}
-
-	/**
-	 * Fetches the admin keys from the server to compare for check if current
-	 * user is an admin user
-	 * 
-	 * @memberOf EcRemoteIdentityManager
-	 * @method fetchServerAdminKeys
-	 * @param {Callback1<String[]>} success
-	 * 			Callback triggered when the admin keys are successfully returned,
-	 * 			returns an array of the admin public keys
-	 * @param {Callback1<String>} failure
-	 * 			Callback triggered if error occurs fetching admin keys
-	 */
-	public void fetchServerAdminKeys(final Callback1<Array<String>> success, final Callback1<String> failure)
-	{
-		String service;
-		if (server.endsWith("/"))
-		{
-			service = "sky/admin";
-		} else
-		{
-			service = "/sky/admin";
-		}
-
-		EcRemote.getExpectingObject(server, service, new Callback1<Object>()
-		{
-			@Override
-			public void $invoke(Object p1)
-			{
-				success.$invoke((Array<String>) p1);
-			}
-		}, new Callback1<String>()
-		{
-			@Override
-			public void $invoke(String p1)
-			{
-				failure.$invoke("");
-			}
-		});
 	}
 }

@@ -5,7 +5,7 @@ var fs = require('fs');
 require("node-jquery-xhr");
 
 $.ajax({
-    url: "http://credreg.net/ctdl/schema/encoding/json?release=20170224",
+    url: "http://credreg.net/ctdl/schema/encoding/json",
     success: function (object) {
         var graph = object["@graph"];
         for (var i = 0; i < graph.length; i++) {
@@ -33,7 +33,7 @@ function codeGenerate(graph, node) {
         "import org.cassproject.schema.general.EcRemoteLinkedData;\n\n";
     text += "/**\n";
     text += " * " + classId.replace("ceterms:", "credentialengine.org/") + "\n";
-    text += " * " + node["rdfs:comment"]["@value"] + "\n";
+    text += " * " + node["rdfs:comment"] + "\n";
     text += " * @author credentialengine.org\n";
     text += " * @class " + className + "\n";
     text += " * @module org.credentialengine\n";
@@ -56,8 +56,16 @@ function codeGenerate(graph, node) {
     text += "\t */\n";
     text += "\tpublic " + className + "()\n";
     text += "\t{\n";
-    text += "\t\tcontext=\"http://purl.org/ctdl/terms/\";\n";
-    text += "\t\ttype=\"" + className + "\";\n";
+    if (node["rdfs:subClassOf"] != null)
+    {
+        text += "\t\tcontext=\"http://schema.eduworks.com/simpleCtdl\";\n";
+        text += "\t\ttype=\"" + className + "\";\n";
+    }
+    else
+    {
+        text += "\t\tsuper(\"http://schema.eduworks.com/simpleCtdl\"";
+        text += ",\"" + className + "\");\n";
+    }
     text += "\t}\n\n";
 
     for (var i = 0; i < graph.length; i++) {
@@ -83,8 +91,8 @@ function codeGenerate(graph, node) {
             if (!ok) continue;
         }
         text += "\t/**\n";
-        text += "\t * " + gi.replace("ceterms:", "credentialengine.org/") + "\n";
-        text += "\t * " + gn["rdfs:comment"]["@value"] + "\n";
+        text += "\t * " + gi.replace("ceterms:", "http://purl.org/ctdl/terms/") + "\n";
+        text += "\t * " + gn["rdfs:comment"] + "\n";
         text += "\t * @property " + gn["@id"].split(":")[1] + "\n";
         text += "\t * @type ";
         var gr = gn["rdfs:range"];
@@ -131,6 +139,12 @@ function sub(s) {
         return "String";
     if (s == "Date")
         return "String";
+    if (s == "date")
+        return "String";
+    if (s == "language")
+        return "String";
+    if (s == "float")
+        return "Float";
     if (s == "Time")
         return "String";
     if (s == "duration")

@@ -19,12 +19,12 @@ public class JurisdictionProfile extends org.schema.CreativeWork
 	 */
 	public JurisdictionProfile()
 	{
-		context="http://purl.org/ctdl/terms/";
+		context="http://schema.eduworks.com/simpleCtdl";
 		type="JurisdictionProfile";
 	}
 
 	/**
-	 * credentialengine.org/assertedBy
+	 * http://purl.org/ctdl/terms/assertedBy
 	 * The agent providing the information contained in the entity being described.
 	 * @property assertedBy
 	 * @type CredentialOrganization | CredentialPerson | QACredentialOrganization
@@ -32,7 +32,7 @@ public class JurisdictionProfile extends org.schema.CreativeWork
 	public Object assertedBy;
 
 	/**
-	 * credentialengine.org/description
+	 * http://purl.org/ctdl/terms/description
 	 * A short description of the resource being described.
 	 * @property description
 	 * @type Literal

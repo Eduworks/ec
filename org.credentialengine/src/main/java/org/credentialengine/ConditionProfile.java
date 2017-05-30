@@ -19,12 +19,12 @@ public class ConditionProfile extends org.schema.CreativeWork
 	 */
 	public ConditionProfile()
 	{
-		context="http://purl.org/ctdl/terms/";
+		context="http://schema.eduworks.com/simpleCtdl";
 		type="ConditionProfile";
 	}
 
 	/**
-	 * credentialengine.org/assertedBy
+	 * http://purl.org/ctdl/terms/assertedBy
 	 * The agent providing the information contained in the entity being described.
 	 * @property assertedBy
 	 * @type CredentialOrganization | CredentialPerson | QACredentialOrganization
@@ -32,7 +32,7 @@ public class ConditionProfile extends org.schema.CreativeWork
 	public Object assertedBy;
 
 	/**
-	 * credentialengine.org/audienceLevelType
+	 * http://purl.org/ctdl/terms/audienceLevelType
 	 * A point in a progression through an educational or training context, for which the described resource is intended.
 	 * @property audienceLevelType
 	 * @type CredentialAlignmentObject
@@ -40,7 +40,7 @@ public class ConditionProfile extends org.schema.CreativeWork
 	public CredentialAlignmentObject audienceLevelType;
 
 	/**
-	 * credentialengine.org/audienceType
+	 * http://purl.org/ctdl/terms/audienceType
 	 * The applicable audience.
 	 * @property audienceType
 	 * @type CredentialAlignmentObject
@@ -48,7 +48,7 @@ public class ConditionProfile extends org.schema.CreativeWork
 	public CredentialAlignmentObject audienceType;
 
 	/**
-	 * credentialengine.org/credentialProfiled
+	 * http://purl.org/ctdl/terms/credentialProfiled
 	 * The resource being described is a profile of the credential being referenced.
 	 * @property credentialProfiled
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
@@ -56,7 +56,7 @@ public class ConditionProfile extends org.schema.CreativeWork
 	public Object credentialProfiled;
 
 	/**
-	 * credentialengine.org/creditHourType
+	 * http://purl.org/ctdl/terms/creditHourType
 	 * Units of time corresponding to types of credits.
 	 * @property creditHourType
 	 * @type Literal
@@ -64,15 +64,15 @@ public class ConditionProfile extends org.schema.CreativeWork
 	public String creditHourType;
 
 	/**
-	 * credentialengine.org/creditHourValue
+	 * http://purl.org/ctdl/terms/creditHourValue
 	 * The number of credit hours awarded for completing or attaining the resource being described.
 	 * @property creditHourValue
 	 * @type float
 	 */
-	public float creditHourValue;
+	public Float creditHourValue;
 
 	/**
-	 * credentialengine.org/creditUnitType
+	 * http://purl.org/ctdl/terms/creditUnitType
 	 * The type of credit associated with degree and non-degree learning opportunities.
 	 * @property creditUnitType
 	 * @type CredentialAlignmentObject
@@ -80,7 +80,7 @@ public class ConditionProfile extends org.schema.CreativeWork
 	public CredentialAlignmentObject creditUnitType;
 
 	/**
-	 * credentialengine.org/creditUnitTypeDescription
+	 * http://purl.org/ctdl/terms/creditUnitTypeDescription
 	 * A more refined, detailed description of credit unit type.
 	 * @property creditUnitTypeDescription
 	 * @type Literal
@@ -88,23 +88,23 @@ public class ConditionProfile extends org.schema.CreativeWork
 	public String creditUnitTypeDescription;
 
 	/**
-	 * credentialengine.org/creditUnitValue
+	 * http://purl.org/ctdl/terms/creditUnitValue
 	 * The number of either credit units awarded for college credit or continuing education units for completing or attaining the resource being described.
 	 * @property creditUnitValue
 	 * @type float
 	 */
-	public float creditUnitValue;
+	public Float creditUnitValue;
 
 	/**
-	 * credentialengine.org/dateEffective
+	 * http://purl.org/ctdl/terms/dateEffective
 	 * The effective date of the described resource content.
 	 * @property dateEffective
-	 * @type dateTime
+	 * @type date
 	 */
 	public String dateEffective;
 
 	/**
-	 * credentialengine.org/description
+	 * http://purl.org/ctdl/terms/description
 	 * A short description of the resource being described.
 	 * @property description
 	 * @type Literal
@@ -112,7 +112,7 @@ public class ConditionProfile extends org.schema.CreativeWork
 	public String description;
 
 	/**
-	 * credentialengine.org/estimatedCost
+	 * http://purl.org/ctdl/terms/estimatedCost
 	 * The estimated cost of the described resource.
 	 * @property estimatedCost
 	 * @type CostProfile
@@ -120,7 +120,7 @@ public class ConditionProfile extends org.schema.CreativeWork
 	public CostProfile estimatedCost;
 
 	/**
-	 * credentialengine.org/jurisdiction
+	 * http://purl.org/ctdl/terms/jurisdiction
 	 * The geo-political region in which the described resource is applicable.
 	 * @property jurisdiction
 	 * @type JurisdictionProfile
@@ -128,7 +128,7 @@ public class ConditionProfile extends org.schema.CreativeWork
 	public JurisdictionProfile jurisdiction;
 
 	/**
-	 * credentialengine.org/name
+	 * http://purl.org/ctdl/terms/name
 	 * The name of the resource being described.
 	 * @property name
 	 * @type Literal
@@ -136,7 +136,15 @@ public class ConditionProfile extends org.schema.CreativeWork
 	public String name;
 
 	/**
-	 * credentialengine.org/targetAssessment
+	 * http://purl.org/ctdl/terms/subjectWebpage
+	 * The web page where the subject of the resource being described is located.
+	 * @property subjectWebpage
+	 * @type anyURI
+	 */
+	public String subjectWebpage;
+
+	/**
+	 * http://purl.org/ctdl/terms/targetAssessment
 	 * A resource that provides direct, indirect, formative or summative evaluation or estimation of the nature, ability, or quality for the resource being described.
 	 * @property targetAssessment
 	 * @type Assessment | AssessmentProfile
@@ -144,15 +152,15 @@ public class ConditionProfile extends org.schema.CreativeWork
 	public Object targetAssessment;
 
 	/**
-	 * credentialengine.org/targetCompetency
+	 * http://purl.org/ctdl/terms/targetCompetency
 	 * An alignment to a competency assertion in an established framework.
 	 * @property targetCompetency
-	 * @type CredentialAlignmentObject
+	 * @type Competency | CredentialAlignmentObject
 	 */
-	public CredentialAlignmentObject targetCompetency;
+	public Object targetCompetency;
 
 	/**
-	 * credentialengine.org/targetCredential
+	 * http://purl.org/ctdl/terms/targetCredential
 	 * A credential that is a focus or target of the resource being described.
 	 * @property targetCredential
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
@@ -160,7 +168,7 @@ public class ConditionProfile extends org.schema.CreativeWork
 	public Object targetCredential;
 
 	/**
-	 * credentialengine.org/targetLearningOpportunity
+	 * http://purl.org/ctdl/terms/targetLearningOpportunity
 	 * A learning opportunity that is the focus of the resource being described.
 	 * @property targetLearningOpportunity
 	 * @type LearningOpportunity | LearningOpportunityProfile
@@ -168,11 +176,11 @@ public class ConditionProfile extends org.schema.CreativeWork
 	public Object targetLearningOpportunity;
 
 	/**
-	 * credentialengine.org/weight
+	 * http://purl.org/ctdl/terms/weight
 	 * An asserted measurement of the weight, degree, percent, or strength of a recommendation, requirement, or comparison.
 	 * @property weight
 	 * @type float
 	 */
-	public float weight;
+	public Float weight;
 
 }

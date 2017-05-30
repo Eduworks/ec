@@ -18,9 +18,7 @@ public class LearningOpportunity extends EcRemoteLinkedData
 	 */
 	public LearningOpportunity()
 	{
-		super(null,null);
-		context="http://purl.org/ctdl/terms/";
-		type="LearningOpportunity";
+		super("http://schema.eduworks.com/simpleCtdl","LearningOpportunity");
 	}
 
 }

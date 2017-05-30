@@ -19,7 +19,7 @@ public class OccupationClassification extends CredentialFramework
 	 */
 	public OccupationClassification()
 	{
-		context="http://purl.org/ctdl/terms/";
+		context="http://schema.eduworks.com/simpleCtdl";
 		type="OccupationClassification";
 	}
 

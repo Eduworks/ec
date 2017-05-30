@@ -2,18 +2,14 @@ package com.eduworks.ec.remote;
 
 import com.eduworks.ec.array.EcArray;
 import com.eduworks.ec.array.EcObject;
-import static org.stjs.javascript.JSGlobal.JSON;
-import static org.stjs.javascript.jquery.GlobalJQuery.$;
-
-import org.stjs.javascript.Array;
-import org.stjs.javascript.Global;
-import org.stjs.javascript.JSGlobal;
-import org.stjs.javascript.JSObjectAdapter;
-import org.stjs.javascript.Map;
+import org.stjs.javascript.*;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback3;
 import org.stjs.javascript.jquery.AjaxParams;
 import org.stjs.javascript.jquery.JQueryXHR;
+
+import static org.stjs.javascript.JSGlobal.JSON;
+import static org.stjs.javascript.jquery.GlobalJQuery.$;
 
 /**
  * Wrapper to handle all remote web service invocations.
@@ -36,6 +32,15 @@ public class EcRemote
      * @type boolean
      */
     public static boolean async = true;
+
+    /**
+     * Timeout for AJAX requests
+     *
+     * @property async
+     * @static
+     * @type boolean
+     */
+    public static int timeout = 60*1000*5;
 
     /**
      * POSTs a request to a remote endpoint. Composed of a server endpoint (root
@@ -125,6 +130,7 @@ public class EcRemote
 
         p.cache = false;
         p.async = async;
+        p.timeout = timeout;
         p.processData = false;
 
         p.success = successCallback;
@@ -148,7 +154,7 @@ public class EcRemote
      * GETs something from a remote endpoint. Composed of a server endpoint
      * (root URL) and a service (service path).
      *
-     * @method postExpectingString
+     * @method getExpectingObject
      * @static
      * @param {string} server Protocol, hostname and path to the remote handler.
      * @param {string} service Path to service to invoke.
@@ -174,6 +180,7 @@ public class EcRemote
         p.url = url;
         p.cache = false;
         p.async = async;
+        p.timeout = timeout;
         p.processData = false;
 
         p.dataType = "json";
@@ -185,6 +192,51 @@ public class EcRemote
         if ($ == null)
         {
             success.$invoke(EcLevrHttp.httpGet(p.url));
+        } else
+        {
+            $.ajax(p);
+        }
+    }
+
+    /**
+     * GETs something from a remote endpoint. Composed of a server endpoint
+     * (root URL) and a service (service path).
+     *
+     * @method getExpectingString
+     * @static
+     * @param {string} server Protocol, hostname and path to the remote handler.
+     * @param {string} service Path to service to invoke.
+     * @param {function(object)} success Method that is invoked if the server
+     * responds with a success (per jQuery ajax)
+     * @param {function(string)} failure Method that is invoked if the server
+     * responds with an error (per jQuery ajax) or a non-200/300.
+     */
+    public static void getExpectingString(String server, String service, final Callback1<String> success, final Callback1<String> failure)
+    {
+        String url = server;
+        if (!url.endsWith("/") && service != null && service.equals(""))
+        {
+            url += "/";
+        }
+        if (service != null)
+        {
+            url += service;
+        }
+
+        AjaxParams p = new AjaxParams();
+        p.method = "GET";
+        p.url = url;
+        p.async = async;
+        p.timeout = timeout;
+        p.processData = false;
+
+        p.success = getSuccessCallback(success, failure);
+        p.error = getFailureCallback(failure);
+
+        upgradeHttpToHttps(p);
+        if ($ == null)
+        {
+            success.$invoke((String)EcLevrHttp.httpGet(p.url));
         } else
         {
             $.ajax(p);
@@ -210,6 +262,7 @@ public class EcRemote
         p.method = "DELETE";
         p.url = url;
         p.async = async;
+        p.timeout = timeout;
         p.headers = (Map<String, String>) new Object();
         p.headers.$put("signatureSheet", signatureSheet);
 

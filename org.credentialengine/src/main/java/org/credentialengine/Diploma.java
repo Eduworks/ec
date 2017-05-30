@@ -19,12 +19,12 @@ public class Diploma extends Credential
 	 */
 	public Diploma()
 	{
-		context="http://purl.org/ctdl/terms/";
+		context="http://schema.eduworks.com/simpleCtdl";
 		type="Diploma";
 	}
 
 	/**
-	 * credentialengine.org/accreditedBy
+	 * http://purl.org/ctdl/terms/accreditedBy
 	 * An agent that accredits the described resource.
 	 * @property accreditedBy
 	 * @type QACredentialOrganization
@@ -32,7 +32,7 @@ public class Diploma extends Credential
 	public QACredentialOrganization accreditedBy;
 
 	/**
-	 * credentialengine.org/accreditedIn
+	 * http://purl.org/ctdl/terms/accreditedIn
 	 * The resource being described is accredited in the jurisdiction being referenced.
 	 * @property accreditedIn
 	 * @type JurisdictionProfile
@@ -40,7 +40,7 @@ public class Diploma extends Credential
 	public JurisdictionProfile accreditedIn;
 
 	/**
-	 * credentialengine.org/administrationProcess
+	 * http://purl.org/ctdl/terms/administrationProcess
 	 * A profile of the process by which the resource being described, or aspects of it, are administered.
 	 * @property administrationProcess
 	 * @type ProcessProfile
@@ -48,7 +48,7 @@ public class Diploma extends Credential
 	public ProcessProfile administrationProcess;
 
 	/**
-	 * credentialengine.org/advancedStandingFrom
+	 * http://purl.org/ctdl/terms/advancedStandingFrom
 	 * The resource being described has time or cost reduced by the resource being referenced.
 	 * @property advancedStandingFrom
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | ConditionProfile | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
@@ -56,7 +56,7 @@ public class Diploma extends Credential
 	public Object advancedStandingFrom;
 
 	/**
-	 * credentialengine.org/alternateName
+	 * http://purl.org/ctdl/terms/alternateName
 	 * An alias for the item.
 	 * @property alternateName
 	 * @type Literal
@@ -64,7 +64,7 @@ public class Diploma extends Credential
 	public String alternateName;
 
 	/**
-	 * credentialengine.org/approvedBy
+	 * http://purl.org/ctdl/terms/approvedBy
 	 * Pronouncement of a favorable judgment by the agent being referenced.
 	 * @property approvedBy
 	 * @type CredentialOrganization | CredentialPerson | QACredentialOrganization
@@ -72,7 +72,7 @@ public class Diploma extends Credential
 	public Object approvedBy;
 
 	/**
-	 * credentialengine.org/approvedIn
+	 * http://purl.org/ctdl/terms/approvedIn
 	 * The resource being described is approved in the jurisdiction being referenced.
 	 * @property approvedIn
 	 * @type JurisdictionProfile
@@ -80,7 +80,7 @@ public class Diploma extends Credential
 	public JurisdictionProfile approvedIn;
 
 	/**
-	 * credentialengine.org/audienceLevelType
+	 * http://purl.org/ctdl/terms/audienceLevelType
 	 * A point in a progression through an educational or training context, for which the described resource is intended.
 	 * @property audienceLevelType
 	 * @type CredentialAlignmentObject
@@ -88,7 +88,7 @@ public class Diploma extends Credential
 	public CredentialAlignmentObject audienceLevelType;
 
 	/**
-	 * credentialengine.org/availabilityListing
+	 * http://purl.org/ctdl/terms/availabilityListing
 	 * A resource that lists online and/or physical locations for the described resource.
 	 * @property availabilityListing
 	 * @type anyURI
@@ -96,7 +96,7 @@ public class Diploma extends Credential
 	public String availabilityListing;
 
 	/**
-	 * credentialengine.org/availableAt
+	 * http://purl.org/ctdl/terms/availableAt
 	 * The location where the described resource is available.
 	 * @property availableAt
 	 * @type GeoCoordinates
@@ -104,7 +104,7 @@ public class Diploma extends Credential
 	public GeoCoordinates availableAt;
 
 	/**
-	 * credentialengine.org/availableOnlineAt
+	 * http://purl.org/ctdl/terms/availableOnlineAt
 	 * The online location where the described resource is available.
 	 * @property availableOnlineAt
 	 * @type anyURI
@@ -112,7 +112,7 @@ public class Diploma extends Credential
 	public String availableOnlineAt;
 
 	/**
-	 * credentialengine.org/broadAlignment
+	 * http://purl.org/ctdl/terms/broadAlignment
 	 * The resource being referenced covers all of the relevant concepts in the resource being described as well as relevant concepts not found in the resource being described.
 	 * @property broadAlignment
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | ConditionProfile | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
@@ -120,7 +120,7 @@ public class Diploma extends Credential
 	public Object broadAlignment;
 
 	/**
-	 * credentialengine.org/codedNotation
+	 * http://purl.org/ctdl/terms/codedNotation
 	 * A short set of alpha-numeric symbols that uniquely identifies a resource and supports its discovery.
 	 * @property codedNotation
 	 * @type Literal
@@ -128,15 +128,31 @@ public class Diploma extends Credential
 	public String codedNotation;
 
 	/**
-	 * credentialengine.org/copyrightHolder
+	 * http://purl.org/ctdl/terms/commonConditions
+	 * The resource being referenced describes a set of common conditions applicable to the resource being described.
+	 * @property commonConditions
+	 * @type ConditionManifest
+	 */
+	public ConditionManifest commonConditions;
+
+	/**
+	 * http://purl.org/ctdl/terms/copyrightHolder
 	 * The party holding the legal copyright to the CreativeWork.
 	 * @property copyrightHolder
-	 * @type CredentialOrganization | CredentialPerson
+	 * @type CredentialOrganization | CredentialPerson | QACredentialOrganization
 	 */
 	public Object copyrightHolder;
 
 	/**
-	 * credentialengine.org/credentialId
+	 * http://purl.org/ctdl/terms/corequisite
+	 * The resource being referenced must be pursued concurrently with the resource being described.
+	 * @property corequisite
+	 * @type ConditionProfile
+	 */
+	public ConditionProfile corequisite;
+
+	/**
+	 * http://purl.org/ctdl/terms/credentialId
 	 * A globally unique identifier by which the creator/owner/provider of a credential recognizes the credential in transactions with the external environment (e.g., in verifiable claims involving the credential).
 	 * @property credentialId
 	 * @type Literal
@@ -144,7 +160,7 @@ public class Diploma extends Credential
 	public String credentialId;
 
 	/**
-	 * credentialengine.org/credentialStatusType
+	 * http://purl.org/ctdl/terms/credentialStatusType
 	 * The status of the credential.
 	 * @property credentialStatusType
 	 * @type CredentialAlignmentObject
@@ -152,7 +168,7 @@ public class Diploma extends Credential
 	public CredentialAlignmentObject credentialStatusType;
 
 	/**
-	 * credentialengine.org/ctid
+	 * http://purl.org/ctdl/terms/ctid
 	 * A globally unique Credential Transparency Identifier (CTID) issued by the Credential Registry Service (CRS) by which the creator/owner/provider of a credential recognizes the credential in transactions with the external environment (e.g., in verifiable claims involving the credential).
 	 * @property ctid
 	 * @type Literal
@@ -160,15 +176,15 @@ public class Diploma extends Credential
 	public String ctid;
 
 	/**
-	 * credentialengine.org/dateEffective
+	 * http://purl.org/ctdl/terms/dateEffective
 	 * The effective date of the described resource content.
 	 * @property dateEffective
-	 * @type dateTime
+	 * @type date
 	 */
 	public String dateEffective;
 
 	/**
-	 * credentialengine.org/description
+	 * http://purl.org/ctdl/terms/description
 	 * A short description of the resource being described.
 	 * @property description
 	 * @type Literal
@@ -176,7 +192,7 @@ public class Diploma extends Credential
 	public String description;
 
 	/**
-	 * credentialengine.org/developmentProcess
+	 * http://purl.org/ctdl/terms/developmentProcess
 	 * A profile of the process by which the resource being described, or aspects of it, were created.
 	 * @property developmentProcess
 	 * @type ProcessProfile
@@ -184,7 +200,7 @@ public class Diploma extends Credential
 	public ProcessProfile developmentProcess;
 
 	/**
-	 * credentialengine.org/earnings
+	 * http://purl.org/ctdl/terms/earnings
 	 * The resource being referenced is a profile of credential holder earnings data
 	 * @property earnings
 	 * @type EarningsProfile
@@ -192,7 +208,7 @@ public class Diploma extends Credential
 	public EarningsProfile earnings;
 
 	/**
-	 * credentialengine.org/employmentOutcome
+	 * http://purl.org/ctdl/terms/employmentOutcome
 	 * A profile of jobs obtained with this credential by occupation and industry for a given period and area.
 	 * @property employmentOutcome
 	 * @type EmploymentOutcomeProfile
@@ -200,7 +216,7 @@ public class Diploma extends Credential
 	public EmploymentOutcomeProfile employmentOutcome;
 
 	/**
-	 * credentialengine.org/estimatedCost
+	 * http://purl.org/ctdl/terms/estimatedCost
 	 * The estimated cost of the described resource.
 	 * @property estimatedCost
 	 * @type CostProfile
@@ -208,7 +224,7 @@ public class Diploma extends Credential
 	public CostProfile estimatedCost;
 
 	/**
-	 * credentialengine.org/estimatedDuration
+	 * http://purl.org/ctdl/terms/estimatedDuration
 	 * The estimated time it will take to complete the described activity.
 	 * @property estimatedDuration
 	 * @type DurationProfile
@@ -216,7 +232,7 @@ public class Diploma extends Credential
 	public DurationProfile estimatedDuration;
 
 	/**
-	 * credentialengine.org/exactAlignment
+	 * http://purl.org/ctdl/terms/exactAlignment
 	 * The relevant concepts in the resources being compared are coextensive.
 	 * @property exactAlignment
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | ConditionProfile | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
@@ -224,7 +240,15 @@ public class Diploma extends Credential
 	public Object exactAlignment;
 
 	/**
-	 * credentialengine.org/hasPart
+	 * http://purl.org/ctdl/terms/financialAssistance
+	 * The types of financial assistance for which the resource being described qualifies.
+	 * @property financialAssistance
+	 * @type FinancialAlignmentObject
+	 */
+	public FinancialAlignmentObject financialAssistance;
+
+	/**
+	 * http://purl.org/ctdl/terms/hasPart
 	 * Indicates a resource that is (in some sense) a part of the resource being described.
 	 * @property hasPart
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | LearningOpportunityProfile | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
@@ -232,7 +256,7 @@ public class Diploma extends Credential
 	public Object hasPart;
 
 	/**
-	 * credentialengine.org/holders
+	 * http://purl.org/ctdl/terms/holders
 	 * A profile of the number and characteristics of credentialed individuals and their geographic locations.
 	 * @property holders
 	 * @type HoldersProfile
@@ -240,15 +264,15 @@ public class Diploma extends Credential
 	public HoldersProfile holders;
 
 	/**
-	 * credentialengine.org/image
+	 * http://purl.org/ctdl/terms/image
 	 * The image or icon that represents the resource.
 	 * @property image
-	 * @type Image
+	 * @type anyURI
 	 */
-	public org.schema.ImageObject image;
+	public String image;
 
 	/**
-	 * credentialengine.org/industryType
+	 * http://purl.org/ctdl/terms/industryType
 	 * The class identifier for the industry context from an established framework.
 	 * @property industryType
 	 * @type CredentialAlignmentObject
@@ -256,7 +280,15 @@ public class Diploma extends Credential
 	public CredentialAlignmentObject industryType;
 
 	/**
-	 * credentialengine.org/isAdvancedStandingFor
+	 * http://purl.org/ctdl/terms/inLanguage
+	 * The primary language used in or by the resource being described.
+	 * @property inLanguage
+	 * @type language
+	 */
+	public String inLanguage;
+
+	/**
+	 * http://purl.org/ctdl/terms/isAdvancedStandingFor
 	 * The resource being described reduces time or cost for the resource being referenced.
 	 * @property isAdvancedStandingFor
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | ConditionProfile | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
@@ -264,7 +296,7 @@ public class Diploma extends Credential
 	public Object isAdvancedStandingFor;
 
 	/**
-	 * credentialengine.org/isPartOf
+	 * http://purl.org/ctdl/terms/isPartOf
 	 * Indicates a resource that the resource being described is (in some sense) part of.
 	 * @property isPartOf
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | LearningOpportunityProfile | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
@@ -272,7 +304,7 @@ public class Diploma extends Credential
 	public Object isPartOf;
 
 	/**
-	 * credentialengine.org/isPreparationFor
+	 * http://purl.org/ctdl/terms/isPreparationFor
 	 * The resource being described provides preparation for the resource being referenced.
 	 * @property isPreparationFor
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | ConditionProfile | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
@@ -280,15 +312,15 @@ public class Diploma extends Credential
 	public Object isPreparationFor;
 
 	/**
-	 * credentialengine.org/isRecommendedFor
-	 * The resources being described is recommended for the resource being referenced.
+	 * http://purl.org/ctdl/terms/isRecommendedFor
+	 * The resource being described is recommended for the resource being referenced.
 	 * @property isRecommendedFor
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | ConditionProfile | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
 	 */
 	public Object isRecommendedFor;
 
 	/**
-	 * credentialengine.org/isRequiredFor
+	 * http://purl.org/ctdl/terms/isRequiredFor
 	 * The resource being described is required for the resource being referenced.
 	 * @property isRequiredFor
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | ConditionProfile | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
@@ -296,7 +328,7 @@ public class Diploma extends Credential
 	public Object isRequiredFor;
 
 	/**
-	 * credentialengine.org/jurisdiction
+	 * http://purl.org/ctdl/terms/jurisdiction
 	 * The geo-political region in which the described resource is applicable.
 	 * @property jurisdiction
 	 * @type JurisdictionProfile
@@ -304,7 +336,7 @@ public class Diploma extends Credential
 	public JurisdictionProfile jurisdiction;
 
 	/**
-	 * credentialengine.org/keyword
+	 * http://purl.org/ctdl/terms/keyword
 	 * Keywords or key phrases describing aspects of a resource considered useful for its discovery.
 	 * @property keyword
 	 * @type Literal
@@ -312,7 +344,7 @@ public class Diploma extends Credential
 	public String keyword;
 
 	/**
-	 * credentialengine.org/latestVersion
+	 * http://purl.org/ctdl/terms/latestVersion
 	 * The latest version of the credential being described.
 	 * @property latestVersion
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
@@ -320,7 +352,7 @@ public class Diploma extends Credential
 	public Object latestVersion;
 
 	/**
-	 * credentialengine.org/maintenanceProcess
+	 * http://purl.org/ctdl/terms/maintenanceProcess
 	 * The process by which the resource being described is maintained including review and updating.
 	 * @property maintenanceProcess
 	 * @type ProcessProfile
@@ -328,7 +360,7 @@ public class Diploma extends Credential
 	public ProcessProfile maintenanceProcess;
 
 	/**
-	 * credentialengine.org/majorAlignment
+	 * http://purl.org/ctdl/terms/majorAlignment
 	 * There is major overlap of relevant concepts between the two resources being compared.
 	 * @property majorAlignment
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | ConditionProfile | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
@@ -336,7 +368,7 @@ public class Diploma extends Credential
 	public Object majorAlignment;
 
 	/**
-	 * credentialengine.org/maximumDuration
+	 * http://purl.org/ctdl/terms/maximumDuration
 	 * The maximum amount of time it will take to complete the described resource.
 	 * @property maximumDuration
 	 * @type duration
@@ -344,7 +376,7 @@ public class Diploma extends Credential
 	public String maximumDuration;
 
 	/**
-	 * credentialengine.org/minorAlignment
+	 * http://purl.org/ctdl/terms/minorAlignment
 	 * There is minor overlap of relevant concepts between the two resources being compared.
 	 * @property minorAlignment
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | ConditionProfile | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
@@ -352,7 +384,7 @@ public class Diploma extends Credential
 	public Object minorAlignment;
 
 	/**
-	 * credentialengine.org/name
+	 * http://purl.org/ctdl/terms/name
 	 * The name of the resource being described.
 	 * @property name
 	 * @type Literal
@@ -360,7 +392,7 @@ public class Diploma extends Credential
 	public String name;
 
 	/**
-	 * credentialengine.org/narrowAlignment
+	 * http://purl.org/ctdl/terms/narrowAlignment
 	 * The resource being described covers all of the relevant concepts in the referenced resource as well as relevant concepts not found in the referenced resource.
 	 * @property narrowAlignment
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | ConditionProfile | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
@@ -368,7 +400,7 @@ public class Diploma extends Credential
 	public Object narrowAlignment;
 
 	/**
-	 * credentialengine.org/occupationType
+	 * http://purl.org/ctdl/terms/occupationType
 	 * The relevant occupation.
 	 * @property occupationType
 	 * @type CredentialAlignmentObject
@@ -376,7 +408,7 @@ public class Diploma extends Credential
 	public CredentialAlignmentObject occupationType;
 
 	/**
-	 * credentialengine.org/offeredBy
+	 * http://purl.org/ctdl/terms/offeredBy
 	 * Access to the described resource is offered by the referenced agent.
 	 * @property offeredBy
 	 * @type CredentialOrganization | CredentialPerson | QACredentialOrganization
@@ -384,7 +416,7 @@ public class Diploma extends Credential
 	public Object offeredBy;
 
 	/**
-	 * credentialengine.org/offeredIn
+	 * http://purl.org/ctdl/terms/offeredIn
 	 * The resource being described is offered in the jurisdiction being referenced.
 	 * @property offeredIn
 	 * @type JurisdictionProfile
@@ -392,7 +424,7 @@ public class Diploma extends Credential
 	public JurisdictionProfile offeredIn;
 
 	/**
-	 * credentialengine.org/ownedBy
+	 * http://purl.org/ctdl/terms/ownedBy
 	 * An agent that has an enforceable claim or title to a resource.
 	 * @property ownedBy
 	 * @type CredentialOrganization | CredentialPerson | QACredentialOrganization
@@ -400,7 +432,7 @@ public class Diploma extends Credential
 	public Object ownedBy;
 
 	/**
-	 * credentialengine.org/preparationFrom
+	 * http://purl.org/ctdl/terms/preparationFrom
 	 * Preparation for the resource being described is provided by the resource being referenced.
 	 * @property preparationFrom
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | ConditionProfile | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
@@ -408,7 +440,7 @@ public class Diploma extends Credential
 	public Object preparationFrom;
 
 	/**
-	 * credentialengine.org/previousVersion
+	 * http://purl.org/ctdl/terms/previousVersion
 	 * The version of the credential that immediately precedes the credential being described.
 	 * @property previousVersion
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
@@ -416,7 +448,7 @@ public class Diploma extends Credential
 	public Object previousVersion;
 
 	/**
-	 * credentialengine.org/processStandards
+	 * http://purl.org/ctdl/terms/processStandards
 	 * A resource describing the criteria, standards, and/or requirements used.
 	 * @property processStandards
 	 * @type anyURI
@@ -424,7 +456,7 @@ public class Diploma extends Credential
 	public String processStandards;
 
 	/**
-	 * credentialengine.org/processStandardsDescription
+	 * http://purl.org/ctdl/terms/processStandardsDescription
 	 * A description of the criteria, standards, and/or requirements used.
 	 * @property processStandardsDescription
 	 * @type Literal
@@ -432,7 +464,7 @@ public class Diploma extends Credential
 	public String processStandardsDescription;
 
 	/**
-	 * credentialengine.org/purposeType
+	 * http://purl.org/ctdl/terms/purposeType
 	 * The intended type of application of the credential by the holder.
 	 * @property purposeType
 	 * @type CredentialAlignmentObject
@@ -440,7 +472,7 @@ public class Diploma extends Credential
 	public CredentialAlignmentObject purposeType;
 
 	/**
-	 * credentialengine.org/recognizedBy
+	 * http://purl.org/ctdl/terms/recognizedBy
 	 * The agent being referenced acknowledges the validity of the described resource.
 	 * @property recognizedBy
 	 * @type CredentialOrganization | CredentialPerson | QACredentialOrganization
@@ -448,7 +480,7 @@ public class Diploma extends Credential
 	public Object recognizedBy;
 
 	/**
-	 * credentialengine.org/recognizedIn
+	 * http://purl.org/ctdl/terms/recognizedIn
 	 * The resource being described is publicly recommended, acknowledged, or endorsed in the jurisdiction being referenced.
 	 * @property recognizedIn
 	 * @type JurisdictionProfile
@@ -456,7 +488,7 @@ public class Diploma extends Credential
 	public JurisdictionProfile recognizedIn;
 
 	/**
-	 * credentialengine.org/recommends
+	 * http://purl.org/ctdl/terms/recommends
 	 * The resource being described recommends the resource being referenced.
 	 * @property recommends
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | ConditionProfile | Credential | CredentialAlignmentObject | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
@@ -464,7 +496,7 @@ public class Diploma extends Credential
 	public Object recommends;
 
 	/**
-	 * credentialengine.org/region
+	 * http://purl.org/ctdl/terms/region
 	 * A geo-political area of the described resource.
 	 * @property region
 	 * @type GeoCoordinates
@@ -472,7 +504,7 @@ public class Diploma extends Credential
 	public GeoCoordinates region;
 
 	/**
-	 * credentialengine.org/regulatedBy
+	 * http://purl.org/ctdl/terms/regulatedBy
 	 * The agent being referenced enforces the legal requirements of the referenced resource.
 	 * @property regulatedBy
 	 * @type QACredentialOrganization
@@ -480,7 +512,7 @@ public class Diploma extends Credential
 	public QACredentialOrganization regulatedBy;
 
 	/**
-	 * credentialengine.org/regulatedIn
+	 * http://purl.org/ctdl/terms/regulatedIn
 	 * The resource being described is regulated in the jurisdiction being referenced.
 	 * @property regulatedIn
 	 * @type JurisdictionProfile
@@ -488,7 +520,7 @@ public class Diploma extends Credential
 	public JurisdictionProfile regulatedIn;
 
 	/**
-	 * credentialengine.org/relatedAction
+	 * http://purl.org/ctdl/terms/relatedAction
 	 * An action related to the described resource.
 	 * @property relatedAction
 	 * @type AccreditAction | AdvancedStandingAction | ApproveAction | CredentialingAction | OfferAction | RecognizeAction | RegulateAction | RenewAction | RevokeAction | RightsAction
@@ -496,7 +528,7 @@ public class Diploma extends Credential
 	public Object relatedAction;
 
 	/**
-	 * credentialengine.org/renewal
+	 * http://purl.org/ctdl/terms/renewal
 	 * Conditions necessary to maintenance and renewal of an awarded credential.
 	 * @property renewal
 	 * @type ConditionProfile
@@ -504,7 +536,7 @@ public class Diploma extends Credential
 	public ConditionProfile renewal;
 
 	/**
-	 * credentialengine.org/renewedBy
+	 * http://purl.org/ctdl/terms/renewedBy
 	 * The agent being referenced handles the renewal of awards of the credential being described.
 	 * @property renewedBy
 	 * @type CredentialOrganization | CredentialPerson | QACredentialOrganization
@@ -512,7 +544,7 @@ public class Diploma extends Credential
 	public Object renewedBy;
 
 	/**
-	 * credentialengine.org/renewedIn
+	 * http://purl.org/ctdl/terms/renewedIn
 	 * The resource being described is renewed in the jurisdiction being referenced.
 	 * @property renewedIn
 	 * @type JurisdictionProfile
@@ -520,7 +552,7 @@ public class Diploma extends Credential
 	public JurisdictionProfile renewedIn;
 
 	/**
-	 * credentialengine.org/requires
+	 * http://purl.org/ctdl/terms/requires
 	 * The resource being described requires the resource being referenced.
 	 * @property requires
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | ConditionProfile | Credential | CredentialAlignmentObject | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
@@ -528,7 +560,7 @@ public class Diploma extends Credential
 	public Object requires;
 
 	/**
-	 * credentialengine.org/revocation
+	 * http://purl.org/ctdl/terms/revocation
 	 * Processes and criteria for ending (revoking) the validity or operation of an awarded credential.
 	 * @property revocation
 	 * @type RevocationProfile
@@ -536,7 +568,7 @@ public class Diploma extends Credential
 	public RevocationProfile revocation;
 
 	/**
-	 * credentialengine.org/revokedBy
+	 * http://purl.org/ctdl/terms/revokedBy
 	 * The referenced agent handles the revocation of an awarded credential from the credential holder due to violations.
 	 * @property revokedBy
 	 * @type CredentialOrganization | CredentialPerson | QACredentialOrganization
@@ -544,7 +576,7 @@ public class Diploma extends Credential
 	public Object revokedBy;
 
 	/**
-	 * credentialengine.org/revokedIn
+	 * http://purl.org/ctdl/terms/revokedIn
 	 * The resource being described is revoked in the jurisdiction being referenced.
 	 * @property revokedIn
 	 * @type JurisdictionProfile
@@ -552,15 +584,15 @@ public class Diploma extends Credential
 	public JurisdictionProfile revokedIn;
 
 	/**
-	 * credentialengine.org/subject
+	 * http://purl.org/ctdl/terms/subject
 	 * Words or brief phrases describing topicality of a resource.
 	 * @property subject
-	 * @type CredentialAlignmentObject | Literal
+	 * @type CredentialAlignmentObject
 	 */
-	public Object subject;
+	public CredentialAlignmentObject subject;
 
 	/**
-	 * credentialengine.org/subjectWebpage
+	 * http://purl.org/ctdl/terms/subjectWebpage
 	 * The web page where the subject of the resource being described is located.
 	 * @property subjectWebpage
 	 * @type anyURI
@@ -568,7 +600,7 @@ public class Diploma extends Credential
 	public String subjectWebpage;
 
 	/**
-	 * credentialengine.org/url
+	 * http://purl.org/ctdl/terms/url
 	 * URL of the resource being described.
 	 * @property url
 	 * @type anyURI
@@ -576,7 +608,7 @@ public class Diploma extends Credential
 	public String url;
 
 	/**
-	 * credentialengine.org/versionIdentifier
+	 * http://purl.org/ctdl/terms/versionIdentifier
 	 * An alphanumeric identifier of a version of the resource being described that is unique within the organizational context.
 	 * @property versionIdentifier
 	 * @type IdentifierValue

@@ -68,7 +68,11 @@ public class EcRsaOaepAsync
                 Object o = p1.data;
                 Callback1 success = q1.$get(index).shift();
                 Callback1 failure = q2.$get(index).shift();
-                if (success != null)
+                if (JSObjectAdapter.$get(o,"error") != null) {
+                    if (failure != null)
+                        failure.$invoke(JSObjectAdapter.$get(o, "error"));
+                }
+                else if (success != null)
                 {
                     success.$invoke(JSObjectAdapter.$get(o, "result"));
                 }
@@ -177,7 +181,6 @@ public class EcRsaOaepAsync
             {
                 q1.$get(worker).push(success);
             }
-            q2.$get(worker).push(failure);
             q2.$get(worker).push(failure);
             w.$get(worker).postMessage(o);
         }

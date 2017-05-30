@@ -18,13 +18,11 @@ public class DurationProfile extends EcRemoteLinkedData
 	 */
 	public DurationProfile()
 	{
-		super(null,null);
-		context="http://purl.org/ctdl/terms/";
-		type="DurationProfile";
+		super("http://schema.eduworks.com/simpleCtdl","DurationProfile");
 	}
 
 	/**
-	 * credentialengine.org/description
+	 * http://purl.org/ctdl/terms/description
 	 * A short description of the resource being described.
 	 * @property description
 	 * @type Literal
@@ -32,7 +30,7 @@ public class DurationProfile extends EcRemoteLinkedData
 	public String description;
 
 	/**
-	 * credentialengine.org/maximumDuration
+	 * http://purl.org/ctdl/terms/maximumDuration
 	 * The maximum amount of time it will take to complete the described resource.
 	 * @property maximumDuration
 	 * @type duration

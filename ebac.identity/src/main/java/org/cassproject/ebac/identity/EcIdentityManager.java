@@ -287,6 +287,27 @@ public class EcIdentityManager
     }
 
     /**
+     * Adds an identity to the identity manager. Checks for duplicates. Does not trigger
+     * events.
+     *
+     * @memberOf EcIdentityManager
+     * @method addIdentityQuietly
+     * @static
+     * @param {EcIdentity} identity Identity to add.
+     */
+    public static void addIdentityQuietly(EcIdentity identity)
+    {
+        for (int i = 0; i < ids.$length(); i++)
+        {
+            if (ids.$get(i).equals(identity))
+            {
+                return;
+            }
+        }
+        ids.push(identity);
+    }
+
+    /**
      * Adds a contact to the identity manager. Checks for duplicates. Triggers
      * events.
      *
@@ -296,6 +317,47 @@ public class EcIdentityManager
      * @param {EcContact} contact Contact to add.
      */
     public static void addContact(EcContact contact)
+    {
+        for (int i = 0; i < ids.$length(); i++)
+        {
+            if (ids.$get(i).ppk.toPk().toPem().equals(contact.pk.toPem()))
+            {
+                ids.$get(i).displayName = contact.displayName;
+                identityChanged(ids.$get(i));
+            }
+        }
+
+        for (int i = 0; i < contacts.$length(); i++)
+        {
+            if (contacts.$get(i).pk.toPem().equals(contact.pk.toPem()))
+            {
+                contacts.$get(i).displayName = contact.displayName;
+                contactChanged( contacts.$get(i));
+            }
+        }
+
+        for (int i = 0; i < contacts.$length(); i++)
+        {
+            if (contacts.$get(i).equals(contact))
+            {
+                return;
+            }
+        }
+
+        contacts.push(contact);
+        contactChanged(contact);
+    }
+
+    /**
+     * Adds a contact to the identity manager. Checks for duplicates. Does not trigger
+     * events.
+     *
+     * @memberOf EcIdentityManager
+     * @method addContactQuietly
+     * @static
+     * @param {EcContact} contact Contact to add.
+     */
+    public static void addContactQuietly(EcContact contact)
     {
         for (int i = 0; i < ids.$length(); i++)
         {

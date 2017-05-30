@@ -19,20 +19,20 @@ public class FinancialAlignmentObject extends CredentialAlignmentObject
 	 */
 	public FinancialAlignmentObject()
 	{
-		context="http://purl.org/ctdl/terms/";
+		context="http://schema.eduworks.com/simpleCtdl";
 		type="FinancialAlignmentObject";
 	}
 
 	/**
-	 * credentialengine.org/alignmentDate
+	 * http://purl.org/ctdl/terms/alignmentDate
 	 * The date  the alignment was made.
 	 * @property alignmentDate
-	 * @type dateTime
+	 * @type date
 	 */
 	public String alignmentDate;
 
 	/**
-	 * credentialengine.org/alignmentType
+	 * http://purl.org/ctdl/terms/alignmentType
 	 * A category of alignment between the learning resource and the framework node.
 	 * @property alignmentType
 	 * @type Literal
@@ -40,7 +40,7 @@ public class FinancialAlignmentObject extends CredentialAlignmentObject
 	public String alignmentType;
 
 	/**
-	 * credentialengine.org/codedNotation
+	 * http://purl.org/ctdl/terms/codedNotation
 	 * A short set of alpha-numeric symbols that uniquely identifies a resource and supports its discovery.
 	 * @property codedNotation
 	 * @type Literal
@@ -48,7 +48,7 @@ public class FinancialAlignmentObject extends CredentialAlignmentObject
 	public String codedNotation;
 
 	/**
-	 * credentialengine.org/framework
+	 * http://purl.org/ctdl/terms/framework
 	 * The framework to which the resource being described is aligned.
 	 * @property framework
 	 * @type anyURI
@@ -56,7 +56,7 @@ public class FinancialAlignmentObject extends CredentialAlignmentObject
 	public String framework;
 
 	/**
-	 * credentialengine.org/frameworkName
+	 * http://purl.org/ctdl/terms/frameworkName
 	 * The name of the framework to which the resource being described is aligned.
 	 * @property frameworkName
 	 * @type Literal
@@ -64,7 +64,7 @@ public class FinancialAlignmentObject extends CredentialAlignmentObject
 	public String frameworkName;
 
 	/**
-	 * credentialengine.org/targetNode
+	 * http://purl.org/ctdl/terms/targetNode
 	 * The node of a framework targeted by the alignment.
 	 * @property targetNode
 	 * @type anyURI
@@ -72,7 +72,7 @@ public class FinancialAlignmentObject extends CredentialAlignmentObject
 	public String targetNode;
 
 	/**
-	 * credentialengine.org/targetNodeDescription
+	 * http://purl.org/ctdl/terms/targetNodeDescription
 	 * The description of a node in an established educational framework.
 	 * @property targetNodeDescription
 	 * @type Literal
@@ -80,7 +80,7 @@ public class FinancialAlignmentObject extends CredentialAlignmentObject
 	public String targetNodeDescription;
 
 	/**
-	 * credentialengine.org/targetNodeName
+	 * http://purl.org/ctdl/terms/targetNodeName
 	 * The name of a node in an established educational framework.
 	 * @property targetNodeName
 	 * @type Literal
@@ -88,11 +88,11 @@ public class FinancialAlignmentObject extends CredentialAlignmentObject
 	public String targetNodeName;
 
 	/**
-	 * credentialengine.org/weight
+	 * http://purl.org/ctdl/terms/weight
 	 * An asserted measurement of the weight, degree, percent, or strength of a recommendation, requirement, or comparison.
 	 * @property weight
 	 * @type float
 	 */
-	public float weight;
+	public Float weight;
 
 }
