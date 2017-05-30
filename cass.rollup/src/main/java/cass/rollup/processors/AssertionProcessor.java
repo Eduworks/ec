@@ -1,32 +1,20 @@
 package cass.rollup.processors;
 
+import cass.rollup.InquiryPacket;
+import cass.rollup.InquiryPacket.IPType;
+import com.eduworks.ec.crypto.EcPk;
+import com.eduworks.ec.remote.EcRemote;
+import com.eduworks.schema.ebac.EbacSignature;
 import org.cass.competency.EcCompetency;
 import org.cass.competency.EcFramework;
 import org.cass.competency.EcLevel;
 import org.cass.competency.EcRollupRule;
 import org.cass.profile.EcAssertion;
 import org.cassproject.ebac.repository.EcRepository;
-import org.stjs.javascript.Array;
-import org.stjs.javascript.JSCollections;
-import org.stjs.javascript.Map;
+import org.cassproject.schema.general.EcRemoteLinkedData;
+import org.stjs.javascript.*;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Function1;
-
-import com.eduworks.ec.crypto.EcPk;
-import com.eduworks.schema.ebac.EbacSignature;
-
-import cass.rollup.InquiryPacket;
-import cass.rollup.InquiryPacket.IPType;
-import com.eduworks.ec.array.EcAsyncHelper;
-import com.eduworks.ec.remote.EcRemote;
-import com.sun.net.httpserver.Authenticator;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-import org.stjs.javascript.Date;
-import org.stjs.javascript.Global;
-import org.stjs.javascript.JSObjectAdapter;
-import org.stjs.javascript.SortFunction;
-import org.stjs.javascript.functions.Callback0;
-import org.stjs.javascript.functions.Callback2;
 
 /**
  * Processor used in Assertion Processing. Can estimate or determine competence
@@ -39,7 +27,6 @@ import org.stjs.javascript.functions.Callback2;
  */
 public abstract class AssertionProcessor
 {
-
     public Array<EcRepository> repositories;
     public boolean step;
     public boolean profileMode;
