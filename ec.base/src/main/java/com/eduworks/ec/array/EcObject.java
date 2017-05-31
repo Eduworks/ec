@@ -1,5 +1,6 @@
 package com.eduworks.ec.array;
 
+import org.stjs.javascript.Array;
 import org.stjs.javascript.JSGlobal;
 
 /**
@@ -20,5 +21,16 @@ public class EcObject
 	public static boolean isObject(Object o)
 	{
 		return JSGlobal.typeof(o) == "object";
+	}
+	/**
+	 * Returns keys on the object
+	 * @static
+	 * @method keys
+	 * @param {any} o Object to test.
+	 * @return List of keys
+	 */
+	public static Array<String> keys(Object o)
+	{
+		return EcJsObject.ecKeys(o);
 	}
 }

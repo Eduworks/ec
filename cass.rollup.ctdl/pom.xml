@@ -8,7 +8,7 @@
 		<artifactId>ec</artifactId>
 		<version>SNAPSHOT</version>
 	</parent>
-
+	<packaging>jar</packaging>
 	<artifactId>cass.rollup.ctdl</artifactId>
 
 	<dependencies>

@@ -1,6 +1,6 @@
 package org.cass.profile;
 
-import org.cass.competency.EcAlignment;
+import com.eduworks.ec.crypto.EcPk;
 import org.cass.competency.EcCompetency;
 import org.cassproject.ebac.identity.EcContact;
 import org.cassproject.ebac.identity.EcIdentity;
@@ -13,8 +13,6 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.functions.Callback1;
-
-import com.eduworks.ec.crypto.EcPk;
 
 /**
  * The sequence that assertions should be built as such: 1. Generate the ID. 2.
@@ -375,9 +373,12 @@ public class EcAssertion extends Assertion
 			readers = new Array<String>();
 		if (subject != null)
 		{
+			if (subject.owner != null)
 			owners.concat(subject.owner);
+			if (subject.reader != null)
 			readers.concat(subject.reader);
 		}
+		if (owner != null)
 		owners = owners.concat(owner);
 		readers.push(pk.toPem());
 		subject = EcEncryptedValue.encryptValue(pk.toPem(), id, owners, readers);
