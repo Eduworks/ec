@@ -103,6 +103,10 @@ public class MilCredCoprocessor extends AssertionCoprocessor {
 		for (int i = 0; i < keys.$length(); i++)
 			for (int j = 0; j < ((Array<String>)JSObjectAdapter.$get(assertedBy,keys.$get(i))).$length(); j++)
 				evidence.push(((Array<String>)JSObjectAdapter.$get(assertedBy,keys.$get(i))).$get(j));
+		if (evidence.$length() == 0){
+			success.$invoke();
+			return;
+		}
 		EcAsyncHelper<EcRepository> eah = new EcAsyncHelper();
 		eah.each(me.assertionProcessor.repositories, new Callback2<EcRepository, Callback0>() {
 			@Override
