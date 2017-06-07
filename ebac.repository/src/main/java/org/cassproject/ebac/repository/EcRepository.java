@@ -23,6 +23,7 @@ public class EcRepository {
 	public String selectedServer = null;
 	public static boolean caching = false;
 	public static boolean cachingSearch = false;
+	public static boolean unsigned = false;
 	public static Object cache = new Object();
 	public static Object fetching = new Object();
 
@@ -406,6 +407,35 @@ public class EcRepository {
 			fd.append("searchParams", Global.JSON.stringify(params));
 		}
 		final EcRepository me = this;
+		if (unsigned == true || (Boolean)JSObjectAdapter.$get(paramObj, "unsigned") == true)
+		{
+			fd.append("signatureSheet", "[]");
+			EcRemote.postExpectingObject(me.selectedServer, "sky/repo/search", fd, new Callback1<Object>() {
+				@Override
+				public void $invoke(Object p1) {
+					if (cachingSearch) {
+						JSObjectAdapter.$put(cache, cacheKey, p1);
+					}
+					if (cacheKey != null) {
+						JSObjectAdapter.$properties(fetching).$delete(cacheKey);
+					}
+
+					me.handleSearchResults((Array<EcRemoteLinkedData>) p1, eachSuccess, success);
+				}
+			}, new Callback1<String>() {
+
+				@Override
+				public void $invoke(String p1) {
+					if (cacheKey != null) {
+						JSObjectAdapter.$properties(fetching).$delete(cacheKey);
+					}
+					if (failure != null) {
+						failure.$invoke(p1);
+					}
+				}
+			});
+		}
+		else
 		EcIdentityManager.signatureSheetAsync(60000, selectedServer, new Callback1<String>() {
 			@Override
 			public void $invoke(String signatureSheet) {
