@@ -72,7 +72,7 @@ public class EcPk
 	/**
 	 * Encodes the public key into a PEM encoded RSAPublicKey (PKCS#1) formatted RSA Public Key.
 	 * (In case you were curious.)
-	 * @method toPem
+	 * @method toPkcs1Pem
 	 * @return {string} PEM encoded public key without whitespace.
 	 */
 	public String toPkcs1Pem()
@@ -83,7 +83,7 @@ public class EcPk
 	/**
 	 * Encodes the public key into a PEM encoded SubjectPublicKeyInfo (PKCS#8) formatted RSA Public Key.
 	 * (In case you were curious.)
-	 * @method toPem
+	 * @method toPkcs8Pem
 	 * @return {string} PEM encoded public key without whitespace.
 	 */
 	public String toPkcs8Pem()
@@ -93,7 +93,7 @@ public class EcPk
 
 	/**
 	 * Hashes the public key into an SSH compatible fingerprint.
-	 * @method toHash
+	 * @method fingerprint
 	 * @return {string} Public key fingerprint.
 	 */
 	public String fingerprint()

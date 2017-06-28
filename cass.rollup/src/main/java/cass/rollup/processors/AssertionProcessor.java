@@ -156,8 +156,7 @@ public abstract class AssertionProcessor {
 							}
 						});
 					}
-				}, new Callback1<Array<AssertionCoprocessor>>()
-				{
+				}, new Callback1<Array<AssertionCoprocessor>>() {
 					@Override
 					public void $invoke(Array<AssertionCoprocessor> strings) {
 						success.$invoke(ip);
