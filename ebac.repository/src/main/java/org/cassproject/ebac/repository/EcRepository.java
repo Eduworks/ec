@@ -588,8 +588,8 @@ public class EcRepository {
 			}
 		}
 
-		servicePrefixes.push("/" + Global.window.location.pathname.split("/")[1] + "/api/custom/", "/", "/service/",
-				"/api/custom/");
+		servicePrefixes.push("/" + Global.window.location.pathname.split("/")[1] + "/api/","/" + Global.window.location.pathname.split("/")[1] + "/api/custom/", "/", "/service/",
+				"/api/","/api/custom/");
 		final EcRepository me = this;
 		me.autoDetectFound = false;
 		for (int j = 0; j < hostnames.$length(); j++) {
