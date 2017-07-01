@@ -30,7 +30,7 @@ public class pki
 		return null;
 	}
 
-	public static String privateKeyInfoToPem(ppk ppk)
+	public static String privateKeyInfoToPem(ArrayBuffer ppk)
 	{
 		return null;
 	}

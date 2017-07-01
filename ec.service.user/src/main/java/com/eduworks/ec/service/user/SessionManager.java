@@ -18,7 +18,7 @@ import com.eduworks.ec.service.user.model.User;
  */
 public class SessionManager
 {
-	private static String selectedServer = "http://localhost:9722/api/custom";
+	private static String selectedServer = "http://localhost:9722/api";
 	
 	private static final String LOGIN = "login";
 

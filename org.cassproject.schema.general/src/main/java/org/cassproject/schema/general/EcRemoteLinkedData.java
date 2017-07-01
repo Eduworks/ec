@@ -104,12 +104,12 @@ public class EcRemoteLinkedData extends EcLinkedData
 		id = server;
 		if (!id.endsWith("/"))
 			id += "/";
-		id += "data/";
-		id += getFullType().replace("http://", "").replaceAll("/", ".");
+		id += "data/"; //endpoint to CRUD data
+		id += getFullType().replace("http://", "").replaceAll("/", "."); //type information (ease of use)
 		id += "/";
-		id += uniqueIdentifier;
+		id += uniqueIdentifier; //local identifier
 		id += "/";
-		id += new Date().getTime();
+		id += new Date().getTime(); //version
 	}
 
 	/**

@@ -2,3 +2,5 @@ target
 *.iml
 .settings
 .DS_Store
+
+ec\.crypto/src/main/resources/node_modules/

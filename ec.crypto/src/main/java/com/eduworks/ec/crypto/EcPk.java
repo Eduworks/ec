@@ -1,12 +1,9 @@
 package com.eduworks.ec.crypto;
 
+import forge.*;
 import org.stjs.javascript.JSObjectAdapter;
-
-import forge.bytes;
-import forge.payload;
-import forge.pk;
-import forge.pki;
-import forge.ssh;
+import window.CryptoKey;
+import window.pemJwk;
 
 /**
  * Helper classes for dealing with RSA Public Keys.
@@ -39,6 +36,9 @@ public class EcPk
 	}
 
 	public pk pk;
+	public Object jwk = null;
+	public CryptoKey key = null;
+	public CryptoKey signKey = null;
 
 	protected EcPk()
 	{
@@ -89,6 +89,12 @@ public class EcPk
 	public String toPkcs8Pem()
 	{
 		return pki.publicKeyToPem(pk).replaceAll("\r?\n", "");
+	}
+
+	public Object toJwk() {
+		if (jwk == null)
+			jwk = pemJwk.pem2jwk(pki.publicKeyToPem(pk));
+		return jwk;
 	}
 
 	/**

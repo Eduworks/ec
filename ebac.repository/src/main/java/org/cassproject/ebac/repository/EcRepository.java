@@ -50,7 +50,7 @@ public class EcRepository {
 		for (int i = 0; i < urls.$length(); i++) {
 			String url = urls.$get(i);
 			if (url.startsWith(selectedServer) && JSObjectAdapter.$get(cache, url) == null) {
-				cacheUrls.push(url.replace(selectedServer, ""));
+				cacheUrls.push(url.replace(selectedServer, "").replace("custom/", ""));
 			}
 		}
 		if (cacheUrls.$length() == 0) {
@@ -306,7 +306,7 @@ public class EcRepository {
 		for (int i = 0; i < urls.$length(); i++) {
 			String url = urls.$get(i);
 			if (url.startsWith(selectedServer)) {
-				onServer.push(url.replace(selectedServer, ""));
+				onServer.push(url.replace(selectedServer, "").replace("custom/", ""));
 			}
 		}
 
@@ -658,8 +658,8 @@ public class EcRepository {
 			}
 		}
 
-		servicePrefixes.push("/" + Global.window.location.pathname.split("/")[1] + "/api/custom/", "/", "/service/",
-				"/api/custom/");
+		servicePrefixes.push("/" + Global.window.location.pathname.split("/")[1] + "/api/","/" + Global.window.location.pathname.split("/")[1] + "/api/custom/", "/", "/service/",
+				"/api/","/api/custom/");
 		for (int j = 0; j < hostnames.$length(); j++) {
 			for (int k = 0; k < servicePrefixes.$length(); k++) {
 				for (int i = 0; i < protocols.$length(); i++) {
