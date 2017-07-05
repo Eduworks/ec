@@ -366,7 +366,6 @@ public class ScreenManager extends ViewManager {
 			}
 		}
 		window.location.hash = hash;
-		window.location.search = query;
 		if (query.endsWith("?")) {
 			query = query.substring(0, hash.length() - 1);
 		}
