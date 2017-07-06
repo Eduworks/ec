@@ -2,6 +2,7 @@ package org.cassproject.ebac.repository;
 
 import com.eduworks.ec.remote.EcRemote;
 import com.eduworks.ec.remote.FormData;
+import com.eduworks.ec.task.Task;
 import org.cassproject.ebac.identity.EcIdentity;
 import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.schema.general.EcRemoteLinkedData;
@@ -126,12 +127,12 @@ public class EcRepository {
 		if (caching) {
 			if (JSObjectAdapter.$get(cache, url) != null) {
 				if (EcRemote.async) {
-					Global.setTimeout(new Callback0() {
+					Task.immediate(new Callback0() {
 						@Override
 						public void $invoke() {
 							success.$invoke((EcRemoteLinkedData) JSObjectAdapter.$get(cache, url));
 						}
-					}, 0);
+					});
 				} else {
 					success.$invoke((EcRemoteLinkedData) JSObjectAdapter.$get(cache, url));
 				}

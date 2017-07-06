@@ -1,6 +1,7 @@
 package com.eduworks.ec.crypto;
 
 import org.stjs.javascript.Array;
+import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.jquery.Promise;
 
@@ -50,6 +51,14 @@ public class EcAesCtrAsync
 
 	public static void decrypt(String text, String secret, String iv, final Callback1<String> success, Callback1<String> failure)
 	{
+		if (EcCrypto.caching)
+		{
+			final Object cacheGet = JSObjectAdapter.$get(EcCrypto.decryptionCache, secret+iv+text);
+			if (cacheGet != null) {
+				success.$invoke((String)cacheGet);
+				return;
+			}
+		}
 		if (crypto.subtle == null)
 		{
 			EcAesCtrAsyncWorker.decrypt(text,secret,iv,success,failure);

@@ -405,7 +405,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 		// May not be a GUID, may be more canonical. Check to see if it is a
 		// parsable long.
 
-		if (!id.substring(id.lastIndexOf("/")).matches("^\\/[0-9]+$"))
+		if (!id.substring(id.lastIndexOf("/")).matches("\\/[0-9]+"))
 			return id;
 		String rawId = id.substring(0, id.lastIndexOf("/"));
 		if (rawId.endsWith("/"))
