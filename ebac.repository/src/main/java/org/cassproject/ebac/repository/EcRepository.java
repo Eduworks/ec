@@ -922,7 +922,8 @@ public class EcRepository {
 	 * @static
 	 */
 	public static void save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure) {
-		Global.console.warn("Using EcRepository 'save' method, if this is intentional consider calling '_save'");
+		//Using EcRepository 'save' method, if this is intentional consider calling '_save'
+		//Using this method instead of the save method for your object (if it exists) bypasses quality checks.
 		_save(data, success, failure);
 	}
 
