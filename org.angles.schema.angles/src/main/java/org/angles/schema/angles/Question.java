@@ -3,7 +3,7 @@ package org.angles.schema.angles;
 import org.schema.Question;
 
 /**
- * Created by dbrown on 5/18/17.
+ * Created by dbrown on 7/18/17.
  */
 public class Question extends Question {
 
@@ -16,6 +16,5 @@ public class Question extends Question {
 		context="http://schema.eduworks.com/angles/0.1/";
 		type="Question";
 	}
-
 
 }
