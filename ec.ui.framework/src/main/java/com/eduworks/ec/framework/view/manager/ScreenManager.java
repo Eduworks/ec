@@ -402,6 +402,7 @@ public class ScreenManager extends ViewManager {
 	 */
 	public static void loadHistoryScreen(String name) {
 		int backCount = 0;
+		name = name.replace("#","");
 		for (int i = myHistory.$length() - 1; i > -1; i--) {
 			backCount++;
 			if (myHistory.$get(i).pageName == name) {
@@ -420,7 +421,7 @@ public class ScreenManager extends ViewManager {
 
 					myHistory.$set(myHistory.$length(), new HistoryClosure(name, screen, myHistory.$get(i).containerId, myHistory.$get(i).screenParameters));
 
-					window.history.go(-backCount);
+					//window.history.go(-backCount);
 					return;
 				}
 			}
