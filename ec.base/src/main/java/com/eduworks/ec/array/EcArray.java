@@ -59,21 +59,6 @@ public class EcArray {
 	}
 
 	/**
-	 * Removes a value from the array.
-	 *
-	 * @param a {Array} Array to add to.
-	 * @param o {Object} Object to add to the array if it isn't in there already.
-	 * @static
-	 * @method setAdd
-	 */
-	public static void setRemove(Array a, Object o) {
-		for (int i = 0; i < a.$length(); i++)
-			while (a.$get(i) == o) {
-				a.splice(i,1);
-			}
-	}
-
-	/**
 	 * Returns true if the array has the value already.
 	 *
 	 * @param a {Array} Array.

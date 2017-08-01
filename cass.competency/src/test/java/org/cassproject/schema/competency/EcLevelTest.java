@@ -1,8 +1,7 @@
 package org.cassproject.schema.competency;
 
-import com.eduworks.ec.crypto.EcPpk;
-import com.eduworks.ec.remote.EcRemote;
 import org.cass.competency.EcCompetency;
+import org.cass.competency.EcFramework;
 import org.cass.competency.EcLevel;
 import org.cassproject.ebac.identity.EcIdentity;
 import org.cassproject.ebac.identity.EcIdentityManager;
@@ -19,11 +18,15 @@ import org.stjs.javascript.functions.Callback1;
 import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
+import com.eduworks.ec.crypto.EcPpk;
+import com.eduworks.ec.remote.EcRemote;
+import com.sun.tools.javac.resources.compiler;
+
 @RunWith(STJSTestDriverRunner.class)
 @ScriptsBefore({ "/forge/forge.bundle.js" })
 public class EcLevelTest {
 
-	static String server = "https://dev.cassproject.org/api/";
+	static String server = "https://dev.cassproject.org/api/custom/";
 	static EcPpk ppk;
 	static EcIdentity newId1 = new EcIdentity();
 	static EcRepository repo = new EcRepository();

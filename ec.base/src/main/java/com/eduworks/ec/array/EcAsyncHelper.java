@@ -1,6 +1,5 @@
 package com.eduworks.ec.array;
 
-import com.eduworks.ec.task.Task;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
@@ -41,14 +40,6 @@ public class EcAsyncHelper<T>
 		for (int i = 0; i < array.$length(); i++)
 		{
 			if (counter > 0)
-				execute(array, each, after, me, i);
-		}
-	}
-
-	private void execute(final Array<T> array, final Callback2<T, Callback0> each, final Callback1<Array<T>> after, final EcAsyncHelper me, final int i) {
-		Task.immediate(new Callback0() {
-			@Override
-			public void $invoke() {
 				each.$invoke(array.$get(i), new Callback0()
 				{
 					@Override
@@ -59,8 +50,7 @@ public class EcAsyncHelper<T>
 							after.$invoke(array);
 					}
 				});
-			}
-		});
+		}
 	}
 
 	/**

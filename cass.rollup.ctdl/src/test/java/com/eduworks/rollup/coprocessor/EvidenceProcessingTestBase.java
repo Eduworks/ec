@@ -70,7 +70,7 @@ public class EvidenceProcessingTestBase
 		};
 
 		repo = new EcRepository();
-		repo.selectedServer = "http://localhost:8080/api";
+		repo.selectedServer = "http://localhost:8080/api/custom";
 
 		newId1 = new EcIdentity();
 		newId1.ppk = EcPpk.fromPem(

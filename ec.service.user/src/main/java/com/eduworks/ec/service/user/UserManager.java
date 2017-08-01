@@ -10,7 +10,7 @@ import com.eduworks.ec.remote.FormData;
 
 public class UserManager
 {
-	private static String selectedServer = "http://localhost:9722/api";
+	private static String selectedServer = "http://localhost:9722/api/custom";
 	
 	private static final String CREATE = "create";
 	

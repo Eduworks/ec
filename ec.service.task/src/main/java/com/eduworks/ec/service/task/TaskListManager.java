@@ -1,12 +1,14 @@
 package com.eduworks.ec.service.task;
 
-import com.eduworks.ec.remote.EcRemote;
 import org.stjs.javascript.functions.Callback1;
+
+import com.eduworks.ec.remote.EcRemote;
+import com.eduworks.ec.service.task.model.TaskList;
 
 
 public class TaskListManager {
 	
-	private static String selectedServer = "http://localhost:9722/api/taskList/";
+	private static String selectedServer = "http://localhost:9722/api/custom/taskList/";
 	
 	private static final String READ = "read";
 	

@@ -1,7 +1,7 @@
 package org.cassproject.schema.ebac;
 
-import com.eduworks.ec.crypto.EcPpk;
-import com.eduworks.ec.remote.EcRemote;
+import static org.stjs.javascript.Global.console;
+
 import org.cassproject.ebac.identity.EcIdentity;
 import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.ebac.repository.EcRepository;
@@ -15,13 +15,14 @@ import org.stjs.javascript.functions.Callback1;
 import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
-import static org.stjs.javascript.Global.console;
+import com.eduworks.ec.crypto.EcPpk;
+import com.eduworks.ec.remote.EcRemote;
 
 @RunWith(STJSTestDriverRunner.class)
 @ScriptsBefore({ "/forge/forge.bundle.js" })
 public class EcVersioningTest
 {
-	static String server = "https://dev.cassproject.org/api/";
+	static String server = "https://dev.cassproject.org/api/custom/";
 
 	@Test
 	public void testSaveTwoVersionsBothExist()

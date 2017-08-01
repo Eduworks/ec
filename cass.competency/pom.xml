@@ -41,7 +41,7 @@
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>org.cassproject.schema.cass</artifactId>
-			<version>0.3</version>
+			<version>0.1</version>
 		</dependency>
 	</dependencies>
 </project>

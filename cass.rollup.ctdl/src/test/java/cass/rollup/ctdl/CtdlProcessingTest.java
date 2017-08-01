@@ -43,7 +43,7 @@ public class CtdlProcessingTest {
     private static final String CREDENTIAL_LOCATOR = "https://army.cass.eduworks.us/api/custom/data/ce-C57948C2-6636-4ED3-9B51-BC5A9EC56D88";
     //private static final String CREDENTIAL_LOCATOR = "https://army.cass.eduworks.us/api/custom/data/urn:ctid:14525AEA-57C5-4F5A-8F1C-BDC95C7F8B9C";
 
-    private static final String RESOURCE_LOCATOR_URL = "https://army.cass.eduworks.us/api/data/";
+    private static final String RESOURCE_LOCATOR_URL = "https://army.cass.eduworks.us/api/custom/data/";
     private static final boolean STRIP_ID = true; //tries to get the proper ID from a foreign URL see https://army.cass.eduworks.us/api/custom/data/urn:ctid:14525AEA-57C5-4F5A-8F1C-BDC95C7F8B9C
 
     private CredentialCompetencyLocator buildAndConfigureLocator() {

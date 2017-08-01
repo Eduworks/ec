@@ -1,3 +1,0 @@
-global.pemJwk = require("pem-jwk");
-
-module.exports = global.pem-jwk;

@@ -1,15 +1,15 @@
 package com.eduworks.ec.crypto;
 
-import com.eduworks.ec.blob.ArrayBuffer;
-import forge.keypair;
-import forge.ppk;
-import forge.rsa;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback2;
-import window.CryptoKey;
-import window.pemJwk;
+
+import com.eduworks.ec.blob.ArrayBuffer;
+
+import forge.keypair;
+import forge.ppk;
+import forge.rsa;
 
 /**
  * Helper classes for dealing with RSA Private Keys.
@@ -19,7 +19,6 @@ import window.pemJwk;
  */
 public class EcPpk
 {
-
 	/**
 	 * Decodes a PEM encoded PrivateKeyInfo (PKCS#8) or RSAPrivateKey (PKCS#1) formatted RSA Public Key.
 	 * (In case you were curious.)
@@ -79,9 +78,6 @@ public class EcPpk
 	}
 
 	protected ppk ppk;
-	public Object jwk = null;
-	public CryptoKey key = null;
-	public CryptoKey signKey = null;
 
 	/**
 	 * Returns true iff the PEM forms of the public private keypair match.
@@ -134,13 +130,7 @@ public class EcPpk
 	 */
 	public String toPkcs8Pem()
 	{
-		return forge.pki.privateKeyInfoToPem(forge.pki.wrapRsaPrivateKey(forge.pki.privateKeyToAsn1(ppk))).replaceAll("\r?\n", "");
-	}
-
-	public Object toJwk() {
-		if (jwk == null)
-			jwk = pemJwk.pem2jwk(forge.pki.privateKeyToPem(ppk));
-		return jwk;
+		return forge.pki.privateKeyInfoToPem(ppk).replaceAll("\r?\n", "");
 	}
 
 	public ArrayBuffer toPkcs8()

@@ -62,7 +62,7 @@ public class EcIdentityManager
     /**
      * Identity change hook.
      *
-     * @property onIdentityChanged
+     * @property onIdentityChange
      * @type Callback1<EcIdentity>
      * @static
      */
@@ -71,7 +71,7 @@ public class EcIdentityManager
     /**
      * Contacts change hook.
      *
-     * @property onContactChanged
+     * @property onIdentityChange
      * @type Callback1<EcIdentity>
      * @static
      */

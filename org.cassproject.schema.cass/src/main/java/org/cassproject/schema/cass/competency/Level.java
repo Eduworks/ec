@@ -1,7 +1,7 @@
 package org.cassproject.schema.cass.competency;
 
 import org.cassproject.schema.cass.Cass;
-import org.schema.CreativeWork;
+import org.schema.Intangible;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
@@ -11,15 +11,14 @@ import org.stjs.javascript.Map;
  * @author fritz.ray@eduworks.com
  * @class Level
  * @module org.cassproject
- * @extends CreativeWork
+ * @extends Intangible
  */
-public class Level extends CreativeWork
+public class Level extends Intangible
 {
 	private static final String TYPE_0_1 = "http://schema.eduworks.com/cass/0.1/level";
 	private static final String TYPE_0_2 = "http://schema.eduworks.com/cass/0.2/level";
 	private static final String TYPE_0_3 = "http://schema.cassproject.org/0.2/Level";
-	private static final String TYPE_0_4 = "http://schema.cassproject.org/0.3/Level";
-	public static final String myType = TYPE_0_4;
+	public static final String myType = TYPE_0_3;
 
 	public Level()
 	{
@@ -63,17 +62,12 @@ public class Level extends CreativeWork
 		{
 			setContextAndType(Cass.context_0_3, TYPE_0_3);
 		}
-		if (TYPE_0_3.equals(getFullType()))
-		{
-			setContextAndType(Cass.context_0_4, TYPE_0_4);
-		}
 	}
 
 	@Override
 	public Array<String> getTypes()
 	{
 		Array<String> a = new Array<String>();
-		a.push(TYPE_0_4);
 		a.push(TYPE_0_3);
 		a.push(TYPE_0_2);
 		a.push(TYPE_0_1);

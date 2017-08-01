@@ -1,12 +1,12 @@
 package com.eduworks.ec.crypto;
 
+import static org.junit.Assert.assertTrue;
+import static org.stjs.javascript.Global.console;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
-
-import static org.junit.Assert.assertTrue;
-import static org.stjs.javascript.Global.console;
 
 @RunWith(STJSTestDriverRunner.class)
 @ScriptsBefore({ "/forge/forge.bundle.js" })

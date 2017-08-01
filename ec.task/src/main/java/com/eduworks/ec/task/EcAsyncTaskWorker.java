@@ -60,7 +60,7 @@ public class EcAsyncTaskWorker{
 	
 	protected void run() {
 		final EcAsyncTaskWorker that = this;
-		taskHandler = Task.immediate(new Callback0(){
+		taskHandler = Global.setTimeout(new Callback0(){
 
 			@Override
 			public void $invoke() {			 
@@ -73,7 +73,7 @@ public class EcAsyncTaskWorker{
 				}
 				
 			}
-		});
+		}, 25);
 		
 	}
 
