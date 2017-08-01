@@ -58,8 +58,8 @@ public class EvidenceProcessingTestBase {
             }
         };
 
-        repo = new EcRepository();
-        repo.selectedServer = "https://dev.cassproject.org/api/custom";
+		repo = new EcRepository();
+		repo.selectedServer = "https://dev.cassproject.org/api";
 
         newId1 = new EcIdentity();
         newId1.ppk = EcPpk.fromPem(

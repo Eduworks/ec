@@ -1,7 +1,7 @@
 package org.cassproject.schema.cass.competency;
 
 import org.cassproject.schema.cass.Cass;
-import org.schema.Intangible;
+import org.schema.CreativeWork;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
@@ -12,14 +12,15 @@ import org.stjs.javascript.Map;
  * @author fritz.ray@eduworks.com
  * @class Framework
  * @module org.cassproject
- * @extends Intangible
+ * @extends CreativeWork
  */
-public class Framework extends Intangible
+public class Framework extends CreativeWork
 {
 	private static final String TYPE_0_1 = "http://schema.eduworks.com/cass/0.1/framework";
 	private static final String TYPE_0_2 = "http://schema.eduworks.com/cass/0.2/framework";
 	private static final String TYPE_0_3 = "http://schema.cassproject.org/0.2/Framework";
-	public static final String myType = TYPE_0_3;
+	private static final String TYPE_0_4 = "http://schema.cassproject.org/0.3/Framework";
+	public static final String myType = TYPE_0_4;
 
 	public Framework()
 	{
@@ -68,12 +69,17 @@ public class Framework extends Intangible
 		{
 			setContextAndType(Cass.context_0_3, TYPE_0_3);
 		}
+		if (TYPE_0_3.equals(getFullType()))
+		{
+			setContextAndType(Cass.context_0_4, TYPE_0_4);
+		}
 	}
 
 	@Override
 	public Array<String> getTypes()
 	{
 		Array<String> a = new Array<String>();
+		a.push(TYPE_0_4);
 		a.push(TYPE_0_3);
 		a.push(TYPE_0_2);
 		a.push(TYPE_0_1);

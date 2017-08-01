@@ -156,8 +156,7 @@ public abstract class AssertionProcessor {
 							}
 						});
 					}
-				}, new Callback1<Array<AssertionCoprocessor>>()
-				{
+				}, new Callback1<Array<AssertionCoprocessor>>() {
 					@Override
 					public void $invoke(Array<AssertionCoprocessor> strings) {
 						success.$invoke(ip);
@@ -303,8 +302,8 @@ public abstract class AssertionProcessor {
 		log(ip, "Confidence: " + a.confidence);
 		log(ip, "Number of pieces of evidence: " + a.getEvidenceCount());
 //		log(ip, "Evidence:");
-//		for (int j = 0; j < a.getEvidenceCount(); j++)
-//			log(ip, "  " + a.getEvidence(j));
+//		for (int pem2jwk = 0; pem2jwk < a.getEvidenceCount(); pem2jwk++)
+//			log(ip, "  " + a.getEvidence(pem2jwk));
 		log(ip, "Recording in inquiry.");
 	}
 

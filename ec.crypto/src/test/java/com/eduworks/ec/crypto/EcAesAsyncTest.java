@@ -1,13 +1,13 @@
 package com.eduworks.ec.crypto;
 
-import static org.junit.Assert.assertTrue;
-import static org.stjs.javascript.Global.console;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
+
+import static org.junit.Assert.assertTrue;
+import static org.stjs.javascript.Global.console;
 
 @RunWith(STJSTestDriverRunner.class)
 @ScriptsBefore(
@@ -23,14 +23,14 @@ public class EcAesAsyncTest
 		console.log("Random secret: " + secret);
 		final String iv = EcAes.newIv(16);
 		console.log("Random iv:" + iv);
-		EcAesCtrAsyncNative.encrypt(randomString, secret, iv, new Callback1<String>()
+		EcAesCtrAsync.encrypt(randomString, secret, iv, new Callback1<String>()
 		{
 			@Override
 			public void $invoke(String encrypted)
 			{
 				console.log("Encrypted String: " + encrypted);
 				console.log("Encrypted String (Proper): "+EcAesCtr.encrypt(randomString, secret, iv));
-				EcAesCtrAsyncNative.decrypt(encrypted, secret, iv, new Callback1<String>()
+				EcAesCtrAsync.decrypt(encrypted, secret, iv, new Callback1<String>()
 				{
 					@Override
 					public void $invoke(String decrypted)
@@ -67,7 +67,7 @@ public class EcAesAsyncTest
 		console.log("Random secret: " + secret);
 		final String iv = EcAes.newIv(32);
 		console.log("Random iv:" + iv);
-		EcAesCtrAsyncNative.encrypt(randomString, secret, iv, new Callback1<String>()
+		EcAesCtrAsync.encrypt(randomString, secret, iv, new Callback1<String>()
 		{
 			@Override
 			public void $invoke(String encrypted)

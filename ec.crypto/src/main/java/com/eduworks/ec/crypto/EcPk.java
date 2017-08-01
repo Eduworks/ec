@@ -1,12 +1,9 @@
 package com.eduworks.ec.crypto;
 
+import forge.*;
 import org.stjs.javascript.JSObjectAdapter;
-
-import forge.bytes;
-import forge.payload;
-import forge.pk;
-import forge.pki;
-import forge.ssh;
+import window.CryptoKey;
+import window.pemJwk;
 
 /**
  * Helper classes for dealing with RSA Public Keys.
@@ -39,6 +36,9 @@ public class EcPk
 	}
 
 	public pk pk;
+	public Object jwk = null;
+	public CryptoKey key = null;
+	public CryptoKey signKey = null;
 
 	protected EcPk()
 	{
@@ -72,7 +72,7 @@ public class EcPk
 	/**
 	 * Encodes the public key into a PEM encoded RSAPublicKey (PKCS#1) formatted RSA Public Key.
 	 * (In case you were curious.)
-	 * @method toPem
+	 * @method toPkcs1Pem
 	 * @return {string} PEM encoded public key without whitespace.
 	 */
 	public String toPkcs1Pem()
@@ -83,7 +83,7 @@ public class EcPk
 	/**
 	 * Encodes the public key into a PEM encoded SubjectPublicKeyInfo (PKCS#8) formatted RSA Public Key.
 	 * (In case you were curious.)
-	 * @method toPem
+	 * @method toPkcs8Pem
 	 * @return {string} PEM encoded public key without whitespace.
 	 */
 	public String toPkcs8Pem()
@@ -91,9 +91,15 @@ public class EcPk
 		return pki.publicKeyToPem(pk).replaceAll("\r?\n", "");
 	}
 
+	public Object toJwk() {
+		if (jwk == null)
+			jwk = pemJwk.pem2jwk(pki.publicKeyToPem(pk));
+		return jwk;
+	}
+
 	/**
 	 * Hashes the public key into an SSH compatible fingerprint.
-	 * @method toHash
+	 * @method fingerprint
 	 * @return {string} Public key fingerprint.
 	 */
 	public String fingerprint()

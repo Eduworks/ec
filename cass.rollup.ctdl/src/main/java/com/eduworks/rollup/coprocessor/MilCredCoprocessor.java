@@ -7,6 +7,7 @@ import com.eduworks.ec.array.EcAsyncHelper;
 import com.eduworks.ec.array.EcObject;
 import org.cass.profile.EcAssertion;
 import org.cassproject.ebac.repository.EcRepository;
+import org.cassproject.schema.cass.profile.Assertion;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.schema.AchieveAction;
 import org.schema.Action;
@@ -66,17 +67,15 @@ public class MilCredCoprocessor extends AssertionCoprocessor {
 			addEvidenceOfDependenciesToArray(listOfCompetencies.$get(i),evidences);
 			if (evidences.$length() == 0)
 				continue;
-			EcAssertion a = new EcAssertion();
+			Assertion a = new Assertion();
 			a.generateId("internal");
 			for (int j = 0;j < ip.subject.$length();j++)
 				a.addOwner(ip.subject.$get(j));
-			for (int j = 0;j < ip.subject.$length();j++)
-				a.addReader(ip.subject.$get(j));
 			a.setSubject(ip.subject.$get(0));
 			a.setCompetency(listOfCompetencies.$get(i));
 			a.setEvidence(evidences);
 			a.setConfidence(1.0);
-			assertions.push(a);
+			assertions.push((EcAssertion)a);
 		}
 		success.$invoke(assertions);
 	}

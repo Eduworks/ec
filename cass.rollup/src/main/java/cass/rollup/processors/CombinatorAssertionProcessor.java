@@ -1,5 +1,13 @@
 package cass.rollup.processors;
 
+import cass.rollup.InquiryPacket;
+import cass.rollup.InquiryPacket.IPType;
+import cass.rollup.RelationshipPacketGenerator;
+import cass.rollup.rule.RollupRuleInterface;
+import cass.rollup.rule.RollupRuleProcessor;
+import com.eduworks.ec.array.EcAsyncHelper;
+import com.eduworks.ec.crypto.EcPk;
+import org.cass.competency.EcAlignment;
 import org.cass.competency.EcCompetency;
 import org.cass.competency.EcRollupRule;
 import org.cass.profile.EcAssertion;
@@ -7,20 +15,9 @@ import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Date;
+import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
-
-import com.eduworks.ec.crypto.EcPk;
-
-import cass.rollup.InquiryPacket;
-import cass.rollup.InquiryPacket.IPType;
-import cass.rollup.RelationshipPacketGenerator;
-import cass.rollup.rule.RollupRuleInterface;
-import cass.rollup.rule.RollupRuleProcessor;
-import com.eduworks.ec.array.EcAsyncHelper;
-import org.cass.competency.EcAlignment;
-import org.stjs.javascript.Global;
-import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback2;
 
 //Requires Subject, AssertionDate, ExpirationDate
@@ -29,10 +26,8 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor
 
     private static Object relationLookup = null;
 
-    private void processFoundAssertion(EcRemoteLinkedData searchData, final InquiryPacket ip, final Callback0 success, final Callback1<String> failure)
+    private void processFoundAssertion(final EcAssertion a, final InquiryPacket ip, final Callback0 success, final Callback1<String> failure)
     {
-        final EcAssertion a = new EcAssertion();
-        a.copyFrom(searchData);
         final EcAsyncHelper<EcPk> eah = new EcAsyncHelper<>();
         final CombinatorAssertionProcessor me = this;
         eah.each(ip.subject, new Callback2<EcPk, Callback0>()
@@ -215,7 +210,9 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor
                                 @Override
                                 public void $invoke(EcRemoteLinkedData p1, final Callback0 p2)
                                 {
-                                    me.processFoundAssertion(p1, ip, p2, new Callback1<String>()
+                                    EcAssertion a = new EcAssertion();
+                                    a.copyFrom(p1);
+                                    me.processFoundAssertion(a, ip, p2, new Callback1<String>()
                                     {
                                         @Override
                                         public void $invoke(String p1)

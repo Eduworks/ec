@@ -50,11 +50,12 @@ public interface History<H extends org.stjs.javascript.History> {
 	 * 			Returns the history object so additional methods could be called on it
 	 */
 	public H go(String pos);
-	
+
 	/**
 	 * Function to determine the length of the browser's history
 	 * @return
 	 * 			Integer representing how many items are in the browser's history
 	 */
 	public int length();
+
 }

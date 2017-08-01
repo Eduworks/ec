@@ -104,12 +104,12 @@ public class EcRemoteLinkedData extends EcLinkedData
 		id = server;
 		if (!id.endsWith("/"))
 			id += "/";
-		id += "data/";
-		id += getFullType().replace("http://", "").replaceAll("/", ".");
+		id += "data/"; //endpoint to CRUD data
+		id += getFullType().replace("http://", "").replaceAll("/", "."); //type information (ease of use)
 		id += "/";
-		id += uniqueIdentifier;
+		id += uniqueIdentifier; //local identifier
 		id += "/";
-		id += new Date().getTime();
+		id += new Date().getTime(); //version
 	}
 
 	/**
@@ -405,7 +405,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 		// May not be a GUID, may be more canonical. Check to see if it is a
 		// parsable long.
 
-		if (!id.substring(id.lastIndexOf("/")).matches("^\\/[0-9]+$"))
+		if (!id.substring(id.lastIndexOf("/")).matches("\\/[0-9]+"))
 			return id;
 		String rawId = id.substring(0, id.lastIndexOf("/"));
 		if (rawId.endsWith("/"))
