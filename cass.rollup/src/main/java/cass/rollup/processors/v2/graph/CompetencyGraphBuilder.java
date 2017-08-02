@@ -199,7 +199,7 @@ public class CompetencyGraphBuilder {
                     @Override
                     public void $invoke(EcPk sub) {
                         //if assertion subject is null or assertion subject is not a requested subject
-                        if (sub == null || !isASubject(sub)) {
+                        if (sub == null || !cgb.isASubject(sub)) {
                             cgb.assertionsFilledIn++;
                             cgb.checkAssertionDetailsFetched();
                         }
