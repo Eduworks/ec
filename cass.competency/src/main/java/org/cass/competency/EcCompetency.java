@@ -400,31 +400,6 @@ public class EcCompetency extends Competency
 		}, failure);
 	}
 
-	/**
-	 * Method to set competency name
-	 * 
-	 * @memberOf EcCompetency
-	 * @method setName
-	 * @param {String} name
-	 *			Name to set for this competency
-	 */
-	public void setName(String name)
-	{
-		this.name = name;
-	}
-
-	/**
-	 * Method to set competency description
-	 * 
-	 * @memberOf EcCompetency
-	 * @method setDescription
-	 * @param {String} description
-	 * 			Description to set for its competency
-	 */
-	public void setDescription(String description)
-	{
-		this.description = description;
-	}
 
 	/**
 	 * Method to set competency scope
