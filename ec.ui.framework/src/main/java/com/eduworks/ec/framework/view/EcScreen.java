@@ -1,13 +1,10 @@
 package com.eduworks.ec.framework.view;
 
+import com.eduworks.ec.array.EcArray;
+import com.eduworks.ec.array.EcObject;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
-import org.stjs.javascript.Array;
-import org.stjs.javascript.JSFunctionAdapter;
-import org.stjs.javascript.JSGlobal;
-import org.stjs.javascript.JSObjectAdapter;
-import org.stjs.javascript.JSStringAdapter;
-import org.stjs.javascript.Map;
+import org.stjs.javascript.*;
 import org.stjs.javascript.dom.Attr;
 import org.stjs.javascript.dom.Element;
 import org.stjs.javascript.dom.HTMLCollection;
@@ -15,8 +12,6 @@ import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback2;
 import org.stjs.javascript.jquery.GlobalJQuery;
 import org.stjs.javascript.jquery.JQueryCore;
-
-import com.eduworks.ec.array.EcArray;
 
 /**
  * Subclass of view that is specific for a screen, providing a display name that
@@ -80,25 +75,32 @@ public abstract class EcScreen extends EcView
 
 	public void fillInnerString(final JQueryCore scope, final Object dataObj, String key)
 	{
+		if (key.contains("/")||key.contains(":")||key.contains("@"))
+			return;
 		Map<String, Object> a = JSObjectAdapter.$properties(dataObj);
 
 		Object v = a.$get(key);
 		String textTypes = "[ec-field='" + key + "']";
 		if (JSGlobal.typeof(v) == "string")
 		{
-			String s = (String) v;
 			JQueryCore textFieldTypes = scope.find(textTypes);
 			JQueryCore attrFieldTypes = scope.find("[ec-attr-" + key + "]");
 			textFieldTypes.text(v).val(v);
-			attrFieldTypes.attr(key, v);
-			attrFieldTypes.attr(key.toLowerCase(), v);
+
+			String attrValue = (String)attrFieldTypes.attr("ec-attr-" + key + "");
+			String writeKey = key;
+			if (attrValue != null && attrValue != "")
+				writeKey = attrValue;
+
+			attrFieldTypes.attr(writeKey, v);
+			attrFieldTypes.attr(writeKey.toLowerCase(), v);
 
 			if (scope.is("[ec-field='" + key + "']"))
 				scope.text(v);
 			if (scope.is("[ec-attr-" + key + "]"))
 			{
-				scope.attr(key, v);
-				scope.attr(key.toLowerCase(), v);
+				scope.attr(writeKey, v);
+				scope.attr(writeKey.toLowerCase(), v);
 			}
 		}
 		if (JSGlobal.typeof(v) == "function")
@@ -108,13 +110,18 @@ public abstract class EcScreen extends EcView
 				JQueryCore textFieldTypes = scope.find(textTypes);
 				JQueryCore attrFieldTypes = scope.find("[ec-attr-" + key + "]");
 
+				String attrValue = (String)scope.attr("ec-attr-" + key + "");
+				String writeKey = key;
+				if (attrValue != null && attrValue != "")
+					writeKey = attrValue;
+
 				if (textFieldTypes.length() + attrFieldTypes.length() > 0)
 				{
 					v = JSFunctionAdapter.apply(v, dataObj, new Array(0));
 
 					textFieldTypes.text(v).val(v);
-					attrFieldTypes.attr(key, v);
-					attrFieldTypes.attr(key.toLowerCase(), v);
+					attrFieldTypes.attr(writeKey, v);
+					attrFieldTypes.attr(writeKey.toLowerCase(), v);
 				}
 			}
 		}
@@ -122,6 +129,8 @@ public abstract class EcScreen extends EcView
 
 	public void fillInnerStringReferences(final JQueryCore scope, final Object dataObj, String key)
 	{
+		if (key.contains("/")||key.contains(":")||key.contains("@"))
+			return;
 		Map<String, Object> a = JSObjectAdapter.$properties(dataObj);
 
 		Object v = a.$get(key);
@@ -146,6 +155,8 @@ public abstract class EcScreen extends EcView
 
 	public void fillInnerArray(final JQueryCore scope, final Object dataObj, final String key)
 	{
+		if (key.contains("/")||key.contains(":")||key.contains("@"))
+			return;
 		final Map<String, Object> props = JSObjectAdapter.$properties(dataObj);
 
 		Object v = props.$get(key);
@@ -168,7 +179,7 @@ public abstract class EcScreen extends EcView
 			final JQueryCore container, Array<String> array, int i)
 	{
 		String arrayValue = array.$get(i);
-		if (arrayValue.toLowerCase().startsWith("http"))
+		if (JSGlobal.typeof(arrayValue) == "string" && arrayValue.toLowerCase().startsWith("http"))
 		{
 			// We are a reference to an object
 			EcRemoteLinkedData p1 = EcRepository.getBlocking(arrayValue);
@@ -184,7 +195,11 @@ public abstract class EcScreen extends EcView
 					fillInnerArray(newContainer, dataObj, k2);
 				}
 			}
-
+		}
+		else if (EcObject.isObject(arrayValue))
+		{
+			JQueryCore c = autoAppend(scope, key);
+			autoFill(c, arrayValue);
 		}
 		else if (arrayValue.trim().startsWith("{"))
 		{
@@ -236,6 +251,8 @@ public abstract class EcScreen extends EcView
 
 	public JQueryCore<?> autoAppend(JQueryCore<?> from, String template)
 	{
+		if (JSObjectAdapter.$get(nameToTemplate, template) == null)
+			return from;
 		if (from.is("[ec-container~='" + template + "']"))
 		{
 			return from.append((String) JSObjectAdapter.$get(nameToTemplate, template)).children().last();

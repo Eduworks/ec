@@ -181,10 +181,10 @@ public class RollupRulePacketGenerator
 		// else
 		// {
 		// System.out.println(" " + sp.type);
-		// for (int j=0;j<sp.subPackets.$length();j++)
+		// for (int pem2jwk=0;pem2jwk<sp.subPackets.$length();pem2jwk++)
 		// {
-		// System.out.println(" " + sp.subPackets.$get(j).type + " - " +
-		// sp.subPackets.$get(j).rule);
+		// System.out.println(" " + sp.subPackets.$get(pem2jwk).type + " - " +
+		// sp.subPackets.$get(pem2jwk).rule);
 		// }
 		// }
 		// }

@@ -27,7 +27,7 @@ import com.eduworks.ec.remote.EcRemote;
 @ScriptsBefore({ "/forge/forge.bundle.js" })
 public class EcEncryptedValueTest
 {
-	static String server = "https://dev.cassproject.org/api/custom/";
+	static String server = "https://dev.cassproject.org/api/";
 
 	@Test
 	public void encryptDecryptTest()

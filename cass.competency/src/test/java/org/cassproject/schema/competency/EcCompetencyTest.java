@@ -25,7 +25,7 @@ import com.eduworks.ec.remote.EcRemote;
 @ScriptsBefore({ "/forge/forge.bundle.js" })
 public class EcCompetencyTest {
 
-	static String server = "https://dev.cassproject.org/api/custom/";
+	static String server = "https://dev.cassproject.org/api/";
 	static EcPpk ppk;
 	static EcIdentity newId1 = new EcIdentity();
 	static EcRepository repo = new EcRepository();

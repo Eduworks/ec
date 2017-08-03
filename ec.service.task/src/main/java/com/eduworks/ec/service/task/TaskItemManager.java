@@ -11,7 +11,7 @@ import com.eduworks.ec.remote.FormData;
 
 public class TaskItemManager {
 
-	private static String selectedServer = "http://localhost:9722/api/custom/task/";
+	private static String selectedServer = "http://localhost:9722/api/task/";
 	
 	public static final String CREATE = "create";
 	

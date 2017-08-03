@@ -1,18 +1,15 @@
 package cass.rollup;
 
+import cass.rollup.InquiryPacket.IPType;
+import cass.rollup.processors.AssertionProcessor;
 import org.cass.competency.EcAlignment;
 import org.cass.competency.EcCompetency;
 import org.stjs.javascript.Array;
+import org.stjs.javascript.Date;
+import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
-
-import cass.rollup.InquiryPacket.IPType;
-import cass.rollup.processors.AssertionProcessor;
-import org.stjs.javascript.Date;
-import org.stjs.javascript.Global;
-import org.stjs.javascript.JSGlobal;
-import org.stjs.javascript.JSObjectAdapter;
 
 /**
  * Creates child packets for an InquiryPacket based on its context. 
@@ -363,12 +360,18 @@ public class RelationshipPacketGenerator
             for (int i = 0;i < ip.competency.$length();i++)
             {
                 Array<EcAlignment> relationsRelatedToThisCompetency = (Array<EcAlignment>) JSObjectAdapter.$get(relationLookup,ip.competency.$get(i).shortId());
+                if (relationsRelatedToThisCompetency == null)
+                	relationsRelatedToThisCompetency = new Array<>();
                 numberOfRelationsToProcess += relationsRelatedToThisCompetency.$length();
                 numberOfRelationsProcessed = 0;
                 for (int j = 0;j < relationsRelatedToThisCompetency.$length();j++)
                 {
                     ip.numberOfQueriesRunning++;
 					rpg.processFindCompetencyRelationshipSuccess(relationsRelatedToThisCompetency.$get(j), rpg.ip);
+                }
+                if (relationsRelatedToThisCompetency.$length() == 0)
+                {
+	                checkForFinish();
                 }
             }
 //			numberOfRelationsToProcess = ip.getContext().relation.$length();

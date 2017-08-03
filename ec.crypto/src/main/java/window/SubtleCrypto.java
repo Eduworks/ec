@@ -27,10 +27,10 @@ public class SubtleCrypto
 		                          long length){return null;}
 
 	public Promise importKey(String format,
-		                         ArrayBuffer keyData,
-		                         AlgorithmIdentifier algorithm,
-		                         boolean extractable,
-		                         Array<String> keyUsages){return null;}
+	                         Object keyData,
+	                         AlgorithmIdentifier algorithm,
+	                         boolean extractable,
+	                         Array<String> keyUsages){return null;}
 //
 //	public Promise exportKey(KeyFormat format, ArrayBuffer key){return null;}
 //

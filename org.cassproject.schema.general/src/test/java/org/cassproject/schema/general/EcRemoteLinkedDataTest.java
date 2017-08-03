@@ -1,15 +1,14 @@
 package org.cassproject.schema.general;
 
-import static org.junit.Assert.assertTrue;
-import static org.stjs.javascript.Global.console;
-
+import com.eduworks.ec.crypto.EcPpk;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
-import com.eduworks.ec.crypto.EcPpk;
+import static org.junit.Assert.assertTrue;
+import static org.stjs.javascript.Global.console;
 
 @RunWith(STJSTestDriverRunner.class)
 @ScriptsBefore({ "/forge/forge.bundle.js" })
@@ -24,7 +23,7 @@ public class EcRemoteLinkedDataTest
 		JSObjectAdapter.$put(f, "name", "My_File.txt");
 		JSObjectAdapter.$put(f, "mimeType", "text/plain");
 		JSObjectAdapter.$put(f, "data", "BASE64ENCODEDDATA");
-		f.generateId("http://localhost:9722/api/custom");
+		f.generateId("http://localhost:9722/api");
 		JSObjectAdapter.$put(f, "checksum", "ABC123");
 		f.addOwner(ppk.toPk());
 		f.signWith(ppk);
@@ -51,7 +50,7 @@ public class EcRemoteLinkedDataTest
 		JSObjectAdapter.$put(f, "name", "My_File.txt");
 		JSObjectAdapter.$put(f, "mimeType", "text/plain");
 		JSObjectAdapter.$put(f, "data", "BASE64ENCODEDDATA");
-		f.generateId("http://localhost:9722/api/custom");
+		f.generateId("http://localhost:9722/api");
 		JSObjectAdapter.$put(f, "checksum", "ABC123");
 		f.addOwner(ppk.toPk());
 		f.signWith(ppk);
