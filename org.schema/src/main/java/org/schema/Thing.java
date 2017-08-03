@@ -1,6 +1,10 @@
 package org.schema;
 
 import org.stjs.javascript.Date;
+import org.stjs.javascript.JSObjectAdapter;
+
+import com.eduworks.ec.array.EcObject;
+
 import org.cassproject.schema.general.EcRemoteLinkedData;
 
 /**
@@ -110,4 +114,61 @@ public class Thing extends EcRemoteLinkedData
 	 */
 	public Object mainEntityOfPage;
 
+	
+	/**
+	 * Method to set Thing name
+	 * 
+	 * @memberOf Thing
+	 * @method setName
+	 * @param {String} name
+	 *			Name to set for this Thing
+	 */
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
+	/**
+	 * Returns the name of the thing
+	 * 
+	 * @memberOf Thing
+	 * @method getName
+	 * @return {String} name of Thing
+	 */
+	public String getName(){
+		if(this.name != null && EcObject.isObject(this.name) && JSObjectAdapter.hasOwnProperty(this.name, "@value")){
+			return (String)JSObjectAdapter.$get(this.name, "@value");
+		}else{
+			return this.name;
+		}
+	}
+	
+	/**
+	 * Method to set Thing description
+	 * 
+	 * @memberOf Thing
+	 * @method setDescription
+	 * @param {String} description
+	 * 			Description to set for its Thing
+	 */
+	public void setDescription(String description)
+	{
+		this.description = description;
+	}
+	
+	/**
+	 * Returns the description of the thing
+	 * 
+	 * @memberOf Thing
+	 * @method getDescription
+	 * @return {String} description of Thing
+	 */
+	public String getDescription(){
+		if(this.description != null && EcObject.isObject(this.description) && JSObjectAdapter.hasOwnProperty(this.description, "@value")){
+			return (String)JSObjectAdapter.$get(this.description, "@value");
+		}else{
+			return this.description;
+		}
+	}
+	
 }
