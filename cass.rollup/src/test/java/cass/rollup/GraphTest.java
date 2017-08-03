@@ -17,8 +17,9 @@ import org.stjs.testing.driver.STJSTestDriverRunner;
 public class GraphTest extends EvidenceProcessingTestBase {
 
     private static final String REPOSITORY_URL = "https://dev.cassproject.org/api/custom";
-    private static final String FRAMREWORK_ID = "https://dev.cassproject.org/api/custom/data/schema.cassproject.org.0.2.Framework/16e49f6b-cd42-4edf-9e2c-4d80d4246672";
-    private static final String COMPETENCY_ID = "https://dev.cassproject.org/api/custom/data/schema.cassproject.org.0.2.Competency/f5ae6171-a5b4-49ef-8a9a-1f5506038605";
+    private static final String FRAMREWORK_ID = "https://dev.cassproject.org/api/data/schema.cassproject.org.0.2.Framework/775965fc-6b50-4b78-b15e-cc60fbad66a0";
+    private static final String COMPETENCY_ID = "https://dev.cassproject.org/api/data/schema.cassproject.org.0.2.Competency/1f2126b3-cb90-4ab2-a646-40da40384c93";
+    //private static final String COMPETENCY_ID = "https://dev.cassproject.org/api/data/schema.cassproject.org.0.2.Competency/48b4ba83-3aa4-475a-bff5-de4e3c05613e";
     private static final boolean CREATE_IMPLIED_EDGES = true;
     private static final boolean ADD_ASSERTIONS = true;
 
