@@ -67,7 +67,7 @@ public class MilCredCoprocessor extends AssertionCoprocessor {
 			addEvidenceOfDependenciesToArray(listOfCompetencies.$get(i),evidences);
 			if (evidences.$length() == 0)
 				continue;
-			Assertion a = new Assertion();
+			EcAssertion a = new EcAssertion();
 			a.generateId("internal");
 			for (int j = 0;j < ip.subject.$length();j++)
 				a.addOwner(ip.subject.$get(j));
@@ -75,7 +75,7 @@ public class MilCredCoprocessor extends AssertionCoprocessor {
 			a.setCompetency(listOfCompetencies.$get(i));
 			a.setEvidence(evidences);
 			a.setConfidence(1.0);
-			assertions.push((EcAssertion)a);
+			assertions.push(a);
 		}
 		success.$invoke(assertions);
 	}

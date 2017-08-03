@@ -298,7 +298,7 @@ public class ScreenManager extends ViewManager {
 	 * @method addHistory
 	 * @static
 	 */
-	public static void addHistory(EcScreen screen, String displayContainerId, Object params) {
+	public static void addHistory(EcScreen screen, String displayContainerId, final Object params) {
 		String name = screen.getDisplayName();
 
 		if (name.equals(""))
@@ -323,7 +323,7 @@ public class ScreenManager extends ViewManager {
 		myHistory.$set(myHistory.$length(), new HistoryClosure(pageName, screen, displayContainerId, params));
 		((History) window.history).pushState(new HistoryObject() {{
 			name = pageName;
-			this.params = params;
+			parameters = params;
 		}}, pageName, hash);
 	}
 
@@ -341,7 +341,7 @@ public class ScreenManager extends ViewManager {
 	 * @method replaceHistory
 	 * @static
 	 */
-	public static void replaceHistory(EcScreen screen, String displayContainerId, Object params) {
+	public static void replaceHistory(EcScreen screen, String displayContainerId, final Object params) {
 		String name = screen.getDisplayName();
 		if (name.equals(""))
 			name = screen.displayName;
@@ -372,8 +372,8 @@ public class ScreenManager extends ViewManager {
 
 		((History) window.history).replaceState(new HistoryObject() {{
 			name = window.location.hash+window.location.search;
-			this.params = params;
-		}}, pageName, hash);
+			parameters = params;
+		}}, pageName, hash + query);
 	}
 
 	/**
