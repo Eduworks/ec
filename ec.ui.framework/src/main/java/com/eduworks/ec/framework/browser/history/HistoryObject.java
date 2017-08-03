@@ -10,5 +10,5 @@ import org.stjs.javascript.annotation.SyntheticType;
 @SyntheticType
 public class HistoryObject {
     public String name;
-    public Object params;
+    public Object parameters;
 }
