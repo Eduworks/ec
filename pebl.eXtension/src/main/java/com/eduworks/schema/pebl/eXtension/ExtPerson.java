@@ -29,6 +29,7 @@ public class ExtPerson extends Person {
 	public String addressLocality;          // for county
 	public String lastActiveAt;
 	public String communities;
+	public String dateCreated; 
 	public Array<String> positionLabels = null;    // for position label format (legacy & UI)
 	public Array<String> positionUrls = null;      // for position URL, JSON-LD representation
 
@@ -281,6 +282,86 @@ public class ExtPerson extends Person {
 	 */
 	public void setLocationCounty(String county){
 		this.addressLocality = county;
+	}
+	
+	/**
+	 * Returns the agreement status of the Person
+	 * 
+	 * @return {String} 
+	 * 			agreement status of person
+	 */
+	public String getAgreementStatus(){
+		return agreementStatus;
+	}
+	
+	/**
+	 * Sets the agreement status number of the Person
+	 * 
+	 * @param {String} status
+	 * 			agreement status of the Person
+	 */
+	public void setAgreementStatus(String status){
+		this.agreementStatus = status;
+	}
+	
+	/**
+	 * Returns the Account Created of the Person
+	 * 
+	 * @return {String} 
+	 * 			account created of person
+	 */
+	public String getAccountCreated(){
+		return dateCreated;
+	}
+	
+	/**
+	 * Sets the account created date of the Person
+	 * 
+	 * @param {String} created
+	 * 			account created of the Person
+	 */
+	public void setAccountCreated(String created){
+		this.dateCreated = created;
+	}
+	
+	/**
+	 * Returns the last active groups of the Person
+	 * 
+	 * @return {String} 
+	 * 			last active groups of person
+	 */
+	public String getLastActiveAt(){
+		return lastActiveAt;
+	}
+	
+	/**
+	 * Sets the last active group of the Person
+	 * 
+	 * @param {String} lastGroups
+	 * 			last active groups of the Person
+	 */
+	public void setLastActiveAt(String lastGroups){
+		this.lastActiveAt = lastGroups;
+	}
+	
+	/**
+	 * Returns the communities of the Person
+	 * 
+	 * @return {String} 
+	 * 			communities of person
+	 */
+	public String getCommunities(){
+		return communities;
+	}
+	
+	/**
+	 * Sets the communities of the Person
+	 * 
+	 * @param {String} communities
+	 * 			communities of the Person
+	 */
+	public void setCommunities(String communities){
+		this.communities = communities;
 	}
 	
 	/**
