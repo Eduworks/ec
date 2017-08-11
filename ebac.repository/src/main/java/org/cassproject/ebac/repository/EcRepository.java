@@ -229,8 +229,14 @@ public class EcRepository {
 			return;
 		}
 		final EcRepository repo = repos.$get(i);
-		if (((Boolean) JSObjectAdapter.$get(history, repo.selectedServer)) == true)
+		if (repo.selectedServer == null) {
 			find(url, error, history, i + 1, success, failure);
+			return;
+		}
+		if (((Boolean) JSObjectAdapter.$get(history, repo.selectedServer)) == true) {
+			find(url, error, history, i + 1, success, failure);
+			return;
+		}
 		JSObjectAdapter.$put(history, repo.selectedServer, true);
 		repo.search("@id:\"" + url + "\"", null, new Callback1<Array<EcRemoteLinkedData>>() {
 			@Override
