@@ -638,6 +638,8 @@ public class EcCompetency extends Competency
 	public static EcCompetency getBlocking(String id)
 	{
 		EcRemoteLinkedData p1 = EcRepository.getBlocking(id);
+		if (p1 == null)
+			return null;
 		EcCompetency competency = new EcCompetency();
 
 		if (p1.isA(EcEncryptedValue.myType))
