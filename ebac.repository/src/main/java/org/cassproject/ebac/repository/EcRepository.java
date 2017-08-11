@@ -1,5 +1,6 @@
 package org.cassproject.ebac.repository;
 
+import com.eduworks.ec.log.Logger;
 import com.eduworks.ec.remote.EcRemote;
 import com.eduworks.ec.remote.FormData;
 import com.eduworks.ec.task.Task;
@@ -27,6 +28,12 @@ public class EcRepository {
 	public static boolean unsigned = false;
 	public static Object cache = new Object();
 	public static Object fetching = new Object();
+
+	public static Array<EcRepository> repos = new Array<>();
+
+	public EcRepository() {
+		repos.push(this);
+	}
 
 	/**
 	 * Retrieves data from the server and caches it for use later during the
@@ -162,9 +169,7 @@ public class EcRepository {
 					EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
 					d.copyFrom(p1);
 					if (d.getFullType() == null) {
-						if (failure != null) {
-							failure.$invoke(Global.JSON.stringify(p1));
-						}
+						EcRepository.find(url, Global.JSON.stringify(p1), new Object(), 0, success, failure);
 						return;
 					}
 					if (caching) {
@@ -177,10 +182,7 @@ public class EcRepository {
 
 				@Override
 				public void $invoke(String p1) {
-					JSObjectAdapter.$properties(fetching).$delete(url);
-					if (failure != null) {
-						failure.$invoke(p1);
-					}
+					EcRepository.find(url, p1, new Object(), 0, success, failure);
 				}
 			});
 		} else
@@ -200,9 +202,7 @@ public class EcRepository {
 							EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
 							d.copyFrom(p1);
 							if (d.getFullType() == null) {
-								if (failure != null) {
-									failure.$invoke(Global.JSON.stringify(p1));
-								}
+								EcRepository.find(url, Global.JSON.stringify(p1), new Object(), 0, success, failure);
 								return;
 							}
 							if (caching) {
@@ -215,14 +215,68 @@ public class EcRepository {
 
 						@Override
 						public void $invoke(String p1) {
-							JSObjectAdapter.$properties(fetching).$delete(url);
-							if (failure != null) {
-								failure.$invoke(p1);
-							}
+							EcRepository.find(url, p1, new Object(), 0, success, failure);
 						}
 					});
 				}
 			});
+	}
+
+	private static void find(final String url, final String error, final Object history, final int i, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure) {
+		if (i > repos.$length()) {
+			JSObjectAdapter.$properties(fetching).$delete(url);
+			failure.$invoke(error);
+			return;
+		}
+		final EcRepository repo = repos.$get(i);
+		if (((Boolean) JSObjectAdapter.$get(history, repo.selectedServer)) == true)
+			find(url, error, history, i + 1, success, failure);
+		JSObjectAdapter.$put(history, repo.selectedServer, true);
+		repo.search("@id:\"" + url + "\"", null, new Callback1<Array<EcRemoteLinkedData>>() {
+			@Override
+			public void $invoke(Array<EcRemoteLinkedData> strings) {
+				if (strings == null || strings.$length() == 0)
+					find(url, error, history, i + 1, success, failure);
+				else {
+					boolean done = false;
+					for (int i = 0; i < strings.$length(); i++) {
+						if (strings.$get(i).id == url) {
+							if (done)
+								Logger.log("Searching for exact ID:" + url + ", found more than one@:" + repo.selectedServer);
+							done = true;
+							success.$invoke(strings.$get(i));
+						}
+					}
+				}
+			}
+		}, new Callback1<String>() {
+			@Override
+			public void $invoke(String s) {
+				find(url, error, history, i + 1, success, failure);
+			}
+		});
+	}
+
+	private static EcRemoteLinkedData findBlocking(final String url, final String error, final Object history, final int i) {
+		if (i > repos.$length()) {
+			JSObjectAdapter.$properties(fetching).$delete(url);
+			return null;
+		}
+		final EcRepository repo = repos.$get(i);
+		if (((Boolean) JSObjectAdapter.$get(history, repo.selectedServer)) == true)
+			findBlocking(url, error, history, i + 1);
+		JSObjectAdapter.$put(history, repo.selectedServer, true);
+		Array<EcRemoteLinkedData> strings = repo.searchBlocking("@id:\"" + url + "\"");
+		if (strings == null || strings.$length() == 0)
+			return findBlocking(url, error, history, i + 1);
+		else {
+			for (int j = 0; j < strings.$length(); j++) {
+				if (strings.$get(j).id == url) {
+					return strings.$get(j);
+				}
+			}
+		}
+		return findBlocking(url, error, history, i + 1);
 	}
 
 	/**
@@ -256,11 +310,17 @@ public class EcRepository {
 				EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
 				d.copyFrom(p1);
 				if (d.getFullType() == null) {
+					EcRepository.findBlocking(url, Global.JSON.stringify(p1), new Object(), 0);
 					return;
 				}
 				JSObjectAdapter.$put(cache, url, d);
 			}
-		}, null);
+		}, new Callback1<String>() {
+			@Override
+			public void $invoke(String s) {
+				JSObjectAdapter.$put(cache, url, EcRepository.findBlocking(url, s, new Object(), 0));
+			}
+		});
 		EcRemote.async = oldAsync;
 		EcRemoteLinkedData result = (EcRemoteLinkedData) JSObjectAdapter.$get(cache, url);
 		if (!caching) {
@@ -299,8 +359,8 @@ public class EcRepository {
 					cachedVals.push((EcRemoteLinkedData) JSObjectAdapter.$get(cache, urls.$get(i)));
 				}
 			}
-				if (cachedValues != null)
-					cachedValues.$invoke(cachedVals);
+			if (cachedValues != null)
+				cachedValues.$invoke(cachedVals);
 		}
 
 		Array<String> onServer = new Array<String>();
@@ -382,6 +442,21 @@ public class EcRepository {
 	}
 
 	/**
+	 * Search a repository for JSON-LD compatible data synchronously.
+	 * <p>
+	 * Uses a signature sheet gathered from {@link EcIdentityManager}.
+	 *
+	 * @param {String} query ElasticSearch compatible query string, similar to
+	 *                 Google query strings.
+	 * @returns EcRemoteLinkedData[]
+	 * @memberOf EcRepository
+	 * @method search
+	 */
+	public Array<EcRemoteLinkedData> searchBlocking(String query) {
+		return searchWithParamsBlocking(query, null);
+	}
+
+	/**
 	 * Search a repository for JSON-LD compatible data.
 	 * <p>
 	 * Uses a signature sheet gathered from {@link EcIdentityManager}.
@@ -410,40 +485,7 @@ public class EcRepository {
 
 		Object params = new Object();
 		Map<String, Object> paramProps = JSObjectAdapter.$properties(params);
-		if (JSObjectAdapter.$get(paramObj, "start") != null) {
-			paramProps.$put("start", JSObjectAdapter.$get(paramObj, "start"));
-		}
-		if (JSObjectAdapter.$get(paramObj, "size") != null) {
-			paramProps.$put("size", JSObjectAdapter.$get(paramObj, "size"));
-		}
-		if (JSObjectAdapter.$get(paramObj, "types") != null) {
-			paramProps.$put("types", JSObjectAdapter.$get(paramObj, "types"));
-		}
-
-		if (JSObjectAdapter.$get(paramObj, "ownership") != null) {
-			String ownership = (String) JSObjectAdapter.$get(paramObj, "ownership");
-			if (!query.startsWith("(") || !query.endsWith(")")) {
-				query = "(" + query + ")";
-			}
-
-			if (ownership.equals("public")) {
-				query += " AND (_missing_:@owner)";
-			} else if (ownership.equals("owned")) {
-				query += " AND (_exists_:@owner)";
-			} else if (ownership.equals("me")) {
-				query += " AND (";
-				for (int i = 0; i < EcIdentityManager.ids.$length(); i++) {
-					if (i != 0) {
-						query += " OR ";
-					}
-					EcIdentity id = EcIdentityManager.ids.$get(i);
-
-					query += "@owner:\"" + id.ppk.toPk().toPem() + "\"";
-				}
-
-				query += ")";
-			}
-		}
+		query = searchParamProps(query, paramObj, paramProps);
 
 		if (JSObjectAdapter.$get(paramObj, "fields") != null) {
 			paramProps.$put("fields", JSObjectAdapter.$get(paramObj, "fields"));
@@ -541,6 +583,143 @@ public class EcRepository {
 	}
 
 	/**
+	 * Search a repository for JSON-LD compatible data synchronously.
+	 * <p>
+	 * Uses a signature sheet gathered from {@link EcIdentityManager}.
+	 *
+	 * @param {String} query ElasticSearch compatible query string, similar to
+	 *                 Google query strings.
+	 * @param {Object} paramObj Additional parameters that can be used to tailor
+	 *                 the search.
+	 * @param size
+	 * @param start
+	 * @returns EcRemoteLinkedData[]
+	 * @memberOf EcRepository
+	 * @method searchWithParams
+	 */
+	public Array<EcRemoteLinkedData> searchWithParamsBlocking(final String originalQuery, final Object originalParamObj) {
+		String query = originalQuery;
+		Object paramObj = originalParamObj;
+		if (paramObj == null) {
+			paramObj = new Object();
+		}
+		Object params = new Object();
+		Map<String, Object> paramProps = JSObjectAdapter.$properties(params);
+		query = searchParamProps(query, paramObj, paramProps);
+
+		if (JSObjectAdapter.$get(paramObj, "fields") != null) {
+			paramProps.$put("fields", JSObjectAdapter.$get(paramObj, "fields"));
+		}
+
+		boolean oldAsync = EcRemote.async;
+		EcRemote.async = false;
+
+		final String cacheKey;
+		cacheKey = JSGlobal.JSON.stringify(paramProps) + query;
+		if (cachingSearch) {
+			if (JSObjectAdapter.$get(cache, cacheKey) != null) {
+				return handleSearchResults((Array<EcRemoteLinkedData>) JSObjectAdapter.$get(cache, cacheKey), null, null);
+			}
+		}
+
+		final FormData fd = new FormData();
+		fd.append("data", query);
+
+		if (params != null) {
+			fd.append("searchParams", Global.JSON.stringify(params));
+		}
+		final EcRepository me = this;
+		if (unsigned == true || (Boolean) JSObjectAdapter.$get(paramObj, "unsigned") == true) {
+			fd.append("signatureSheet", "[]");
+			EcRemote.postExpectingObject(me.selectedServer, "sky/repo/search", fd, new Callback1<Object>() {
+				@Override
+				public void $invoke(Object p1) {
+					JSObjectAdapter.$put(cache, cacheKey, p1);
+					if (cacheKey != null) {
+						JSObjectAdapter.$properties(fetching).$delete(cacheKey);
+					}
+				}
+			}, new Callback1<String>() {
+
+				@Override
+				public void $invoke(String p1) {
+					if (cacheKey != null) {
+						JSObjectAdapter.$properties(fetching).$delete(cacheKey);
+					}
+					JSObjectAdapter.$put(cache, cacheKey, null);
+				}
+			});
+		} else {
+			String signatureSheet;
+			signatureSheet = EcIdentityManager.signatureSheet(60000, selectedServer);
+			fd.append("signatureSheet", signatureSheet);
+			EcRemote.postExpectingObject(me.selectedServer, "sky/repo/search", fd, new Callback1<Object>() {
+				@Override
+				public void $invoke(Object p1) {
+					JSObjectAdapter.$put(cache, cacheKey, p1);
+					if (cacheKey != null) {
+						JSObjectAdapter.$properties(fetching).$delete(cacheKey);
+					}
+				}
+			}, new Callback1<String>() {
+
+				@Override
+				public void $invoke(String p1) {
+					if (cacheKey != null) {
+						JSObjectAdapter.$properties(fetching).$delete(cacheKey);
+					}
+					JSObjectAdapter.$put(cache, cacheKey, null);
+				}
+			});
+		}
+
+		Array<EcRemoteLinkedData> result = handleSearchResults((Array<EcRemoteLinkedData>) JSObjectAdapter.$get(cache, cacheKey), null, null);
+		if (!cachingSearch) {
+			JSObjectAdapter.$properties(cache).$delete(cacheKey);
+		}
+		EcRemote.async = oldAsync;
+		return result;
+	}
+
+	private String searchParamProps(String query, Object paramObj, Map<String, Object> paramProps) {
+		if (JSObjectAdapter.$get(paramObj, "start") != null) {
+			paramProps.$put("start", JSObjectAdapter.$get(paramObj, "start"));
+		}
+		if (JSObjectAdapter.$get(paramObj, "size") != null) {
+			paramProps.$put("size", JSObjectAdapter.$get(paramObj, "size"));
+		}
+		if (JSObjectAdapter.$get(paramObj, "types") != null) {
+			paramProps.$put("types", JSObjectAdapter.$get(paramObj, "types"));
+		}
+
+		if (JSObjectAdapter.$get(paramObj, "ownership") != null) {
+			String ownership = (String) JSObjectAdapter.$get(paramObj, "ownership");
+			if (!query.startsWith("(") || !query.endsWith(")")) {
+				query = "(" + query + ")";
+			}
+
+			if (ownership.equals("public")) {
+				query += " AND (_missing_:@owner)";
+			} else if (ownership.equals("owned")) {
+				query += " AND (_exists_:@owner)";
+			} else if (ownership.equals("me")) {
+				query += " AND (";
+				for (int i = 0; i < EcIdentityManager.ids.$length(); i++) {
+					if (i != 0) {
+						query += " OR ";
+					}
+					EcIdentity id = EcIdentityManager.ids.$get(i);
+
+					query += "@owner:\"" + id.ppk.toPk().toPem() + "\"";
+				}
+
+				query += ")";
+			}
+		}
+		return query;
+	}
+
+	/**
 	 * Searches known repository endpoints to set the server configuration for
 	 * this repositories instance
 	 *
@@ -589,8 +768,8 @@ public class EcRepository {
 			}
 		}
 
-		servicePrefixes.push("/" + Global.window.location.pathname.split("/")[1] + "/api/","/" + Global.window.location.pathname.split("/")[1] + "/api/custom/", "/", "/service/",
-				"/api/","/api/custom/");
+		servicePrefixes.push("/" + Global.window.location.pathname.split("/")[1] + "/api/", "/" + Global.window.location.pathname.split("/")[1] + "/api/custom/", "/", "/service/",
+				"/api/", "/api/custom/");
 		final EcRepository me = this;
 		me.autoDetectFound = false;
 		for (int j = 0; j < hostnames.$length(); j++) {
@@ -659,8 +838,8 @@ public class EcRepository {
 			}
 		}
 
-		servicePrefixes.push("/" + Global.window.location.pathname.split("/")[1] + "/api/","/" + Global.window.location.pathname.split("/")[1] + "/api/custom/", "/", "/service/",
-				"/api/","/api/custom/");
+		servicePrefixes.push("/" + Global.window.location.pathname.split("/")[1] + "/api/", "/" + Global.window.location.pathname.split("/")[1] + "/api/custom/", "/", "/service/",
+				"/api/", "/api/custom/");
 		for (int j = 0; j < hostnames.$length(); j++) {
 			for (int k = 0; k < servicePrefixes.$length(); k++) {
 				for (int i = 0; i < protocols.$length(); i++) {
@@ -848,8 +1027,8 @@ public class EcRepository {
 	 * @method handleSearchResults
 	 * @private
 	 */
-	private void handleSearchResults(Array<EcRemoteLinkedData> results, final Callback1<EcRemoteLinkedData> eachSuccess,
-	                                 final Callback1<Array<EcRemoteLinkedData>> success) {
+	private Array<EcRemoteLinkedData> handleSearchResults(Array<EcRemoteLinkedData> results, final Callback1<EcRemoteLinkedData> eachSuccess,
+	                                                      final Callback1<Array<EcRemoteLinkedData>> success) {
 		for (int i = 0; i < results.$length(); i++) {
 			EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
 			d.copyFrom(results.$get(i));
@@ -866,6 +1045,7 @@ public class EcRepository {
 		if (success != null) {
 			success.$invoke(results);
 		}
+		return results;
 	}
 
 	/**
@@ -1000,7 +1180,17 @@ public class EcRepository {
 
 		final FormData fd = new FormData();
 		fd.append("data", data.toJson());
-		if (data.owner != null && data.owner.$length() > 0) {
+		if (EcRemote.async == false) {
+			if (data.owner != null && data.owner.$length() > 0) {
+				String arg0 = EcIdentityManager.signatureSheetFor(data.owner, 60000, data.id);
+				fd.append("signatureSheet", arg0);
+				EcRemote.postExpectingString(data.id, "", fd, success, failure);
+			} else {
+				String arg0 = EcIdentityManager.signatureSheet(60000, data.id);
+				fd.append("signatureSheet", arg0);
+				EcRemote.postExpectingString(data.id, "", fd, success, failure);
+			}
+		} else if (data.owner != null && data.owner.$length() > 0) {
 			EcIdentityManager.signatureSheetForAsync(data.owner, 60000, data.id, new Callback1<String>() {
 				@Override
 				public void $invoke(String arg0) {
