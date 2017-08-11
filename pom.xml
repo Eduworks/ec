@@ -220,6 +220,7 @@
 		<module>ec.service.task</module>
 		<module>ec.base</module>
 		<module>ec.crypto</module>
+		<module>ec.task</module>
 		<module>ebac.identity</module>
 		<module>ebac.repository</module>
 		<module>org.schema</module>
@@ -237,7 +238,7 @@
 		<module>cass.adapter</module>
 		<module>com.eduworks.schema</module>
 		<module>cfd.competency</module>
-		<module>ec.task</module>
+		<module>pebl.eXtension</module>
 	</modules>
 
 	<reporting>
