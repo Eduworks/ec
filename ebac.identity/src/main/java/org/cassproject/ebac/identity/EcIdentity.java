@@ -55,7 +55,7 @@ public class EcIdentity
 	public boolean equals(Object obj)
 	{
 		if (obj instanceof EcIdentity)
-			return ppk.equals(((EcIdentity) obj).ppk);
+			return ppk.toPem().equals(((EcIdentity) obj).ppk.toPem());
 		return super.equals(obj);
 	}
 
