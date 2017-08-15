@@ -43,6 +43,26 @@ public class ExtPerson extends Person {
 	}
 
 	/**
+	 * Returns the ID of the Person
+	 * 
+	 * @return {String} 
+	 * 			ID of person
+	 */
+	public String getId(){
+		return id;
+	}
+	
+	/**
+	 * Sets the ID of the Person
+	 * 
+	 * @param {String} id
+	 * 			ID of the Person
+	 */
+	public void setId(String id){
+		this.id = id;
+	}
+
+	/**
 	 * Returns the legacyId of the Person
 	 * 
 	 * @return {String} 
@@ -539,6 +559,14 @@ public class ExtPerson extends Person {
 	 * 			Callback triggered if error while saving ExtPerson
 	 */
 	public void save(Callback1<String> success, Callback1<String> failure){
+		if(getId() == null || getId() == ""){
+			String msg = "ID cannot be missing";
+			if(failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return;
+		}
 		if(getFirstName() == null || getFirstName() == ""){
 			String msg = "First name cannot be missing";
 			if(failure != null)
@@ -572,7 +600,7 @@ public class ExtPerson extends Person {
 			return;
 		}
 		
-		EcRepository._save(this, success, failure);
+		EcRepository.save(this, success, failure);
 	}
 	
 	
