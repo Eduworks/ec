@@ -26,6 +26,7 @@ public class EcRepository {
 	public static boolean caching = false;
 	public static boolean cachingSearch = false;
 	public static boolean unsigned = false;
+	public static boolean alwaysTryUrl = false;
 	public static Object cache = new Object();
 	public static Object fetching = new Object();
 
@@ -160,6 +161,10 @@ public class EcRepository {
 				JSObjectAdapter.$put(fetching, url, new Date().getTime() + 60000);
 			}
 		}
+		if (!shouldTryUrl(url)){
+			EcRepository.find(url, "Could not locate object. May be due to EcRepository.alwaysTryUrl flag.", new Object(), 0, success, failure);
+			return;
+		}
 		final FormData fd = new FormData();
 		if (unsigned) {
 			EcRemote.postExpectingObject(url, null, fd, new Callback1<Object>() {
@@ -222,8 +227,29 @@ public class EcRepository {
 			});
 	}
 
+	private static boolean shouldTryUrl(String url) {
+		if (url == null)
+			return false;
+		if (alwaysTryUrl)
+			return true;
+		if (repos.$length() == 0)
+			return true;
+		if (url.contains("/api/") || url.contains("/data/"))
+			return true;
+		boolean validUrlFound = false;
+		for (int i = 0;i < repos.$length();i++)
+		{
+			if (repos.$get(i).selectedServer == null)
+				continue;
+			validUrlFound = true;
+		}
+		if (!validUrlFound)
+			return true;
+		return false;
+	}
+
 	private static void find(final String url, final String error, final Object history, final int i, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure) {
-		if (i > repos.$length()) {
+		if (i > repos.$length() || repos.$get(i) == null) {
 			JSObjectAdapter.$properties(fetching).$delete(url);
 			failure.$invoke(error);
 			return;
@@ -264,7 +290,7 @@ public class EcRepository {
 	}
 
 	private static EcRemoteLinkedData findBlocking(final String url, final String error, final Object history, final int i) {
-		if (i > repos.$length()) {
+		if (i > repos.$length() || repos.$get(i) == null) {
 			JSObjectAdapter.$properties(fetching).$delete(url);
 			return null;
 		}
@@ -296,10 +322,15 @@ public class EcRepository {
 	 * @static
 	 */
 	public static EcRemoteLinkedData getBlocking(final String url) {
+		if (url == null)
+			return null;
 		if (caching) {
 			if (JSObjectAdapter.$get(cache, url) != null) {
 				return (EcRemoteLinkedData) JSObjectAdapter.$get(cache, url);
 			}
+		}
+		if (!shouldTryUrl(url)){
+			return EcRepository.findBlocking(url, "Could not locate object. May be due to EcRepository.alwaysTryUrl flag.", new Object(), 0);
 		}
 		final FormData fd = new FormData();
 		String p1 = null;
