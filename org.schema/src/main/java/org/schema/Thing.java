@@ -125,7 +125,14 @@ public class Thing extends EcRemoteLinkedData
 	 */
 	public void setName(String name)
 	{
-		this.name = name;
+		if(this.name != null && EcObject.isObject(this.name) && JSObjectAdapter.hasOwnProperty(this.name, "@value")){
+			Object obj = JSObjectAdapter.$get(this, "name");
+			JSObjectAdapter.$put(obj, "@value", name);
+			JSObjectAdapter.$put(this, "name", obj);
+		}else{
+			this.name = name;
+		}
+		
 	}
 
 	/**
@@ -153,7 +160,13 @@ public class Thing extends EcRemoteLinkedData
 	 */
 	public void setDescription(String description)
 	{
-		this.description = description;
+		if(this.description != null && EcObject.isObject(this.description) && JSObjectAdapter.hasOwnProperty(this.description, "@value")){
+			Object obj = JSObjectAdapter.$get(this, "description");
+			JSObjectAdapter.$put(obj, "@value", description);
+			JSObjectAdapter.$put(this, "description", obj);
+		}else{
+			this.description = description;
+		}
 	}
 	
 	/**
