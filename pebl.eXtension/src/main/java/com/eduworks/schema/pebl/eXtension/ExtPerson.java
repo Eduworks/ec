@@ -1,9 +1,5 @@
 package com.eduworks.schema.pebl.eXtension;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 import org.cassproject.ebac.repository.EcEncryptedValue;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
@@ -14,12 +10,14 @@ import org.schema.PostalAddress;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
+import org.stjs.javascript.Map;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
 
 /**
  * @author debbie.brown@eduworks.com
  */
+
 public class ExtPerson extends Person {
 
 	// legacy eXtension data not mapped to schema.org structure yet -- simply copied over during import for now
@@ -30,10 +28,10 @@ public class ExtPerson extends Person {
 	public String lastActiveAt;
 	public String communities;
 	public String dateCreated; 
-	public Array<String> positionLabels = null;    // for position label format (legacy & UI)
-	public Array<String> positionUrls = null;      // for position URL, JSON-LD representation
-
 	
+	static Map<String, String> positionLabelsMap = JSCollections.$map();
+	static Map<String, String> positionUrlsMap = JSCollections.$map();
+
 	/**
 	 * Constructor, automatically sets @context and @type.
 	 * @constructor
@@ -42,6 +40,26 @@ public class ExtPerson extends Person {
 	{
 		context="http://schema.eduworks.com/pebleXtension/0.1/";
 		type="Person";
+	}
+
+	/**
+	 * Returns the ID of the Person
+	 * 
+	 * @return {String} 
+	 * 			ID of person
+	 */
+	public String getId(){
+		return id;
+	}
+	
+	/**
+	 * Sets the ID of the Person
+	 * 
+	 * @param {String} id
+	 * 			ID of the Person
+	 */
+	public void setId(String id){
+		this.id = id;
 	}
 
 	/**
@@ -442,19 +460,13 @@ public class ExtPerson extends Person {
 	 * 			url of the Person object
 	 */
 	public void setPosition(String url){
-		if (url.indexOf("http://") < 0) 
+		initPositions();
+		if (url.indexOf("http") > 0) 
 			this.additionalType = url;
-		else {
-			initPositions();
-			boolean found = false;
-			for(int i=0; i<positionLabels.$length(); i++)
-				if (positionLabels.$get(i).equals(url)) {
-					this.additionalType = positionUrls.$get(i);
-					found = true;
-				}
-			if (!found) 
-				Global.console.log("error: "+url+" not a supported position");
-		}
+		else if (positionLabelsMap.$get(url) != null)
+			this.additionalType = positionLabelsMap.$get(url);
+		else
+			Global.console.log("error: "+url+" not a supported position");
 	}
 	
 	/**
@@ -467,10 +479,10 @@ public class ExtPerson extends Person {
 	public String getPositionLabel(String url){
 		initPositions();
 		if (url != null && url.length() > 0) {
-			for(int i=0; i<positionUrls.$length(); i++)
-				if (positionUrls.$get(i).equals(url))
-					return positionLabels.$get(i);
-			return "Position \""+url+"\" not found.";
+			if (positionUrlsMap.$get(url) != null)
+				return positionUrlsMap.$get(url);
+			else
+				return "Position \""+url+"\" not found.";
 		}
 		else
 			return "";
@@ -486,10 +498,10 @@ public class ExtPerson extends Person {
 	public String getPositionUrl(String type){
 		initPositions();
 		if (type != null && type.length() > 0) {
-			for(int i=0; i<positionLabels.$length(); i++)
-				if (positionLabels.$get(i).equals(type))
-					return positionUrls.$get(i);
-			return "Position \""+type+"\" not found.";
+			if (positionLabelsMap.$get(type) != null)
+				return positionLabelsMap.$get(type);
+			else
+				return "Position \""+type+"\" not found.";
 		}
 		else
 			return "";
@@ -498,43 +510,40 @@ public class ExtPerson extends Person {
 	/**
 	 * Initializes positions arrays so that it can translate legacy position types to JSONLD format
 	 */
-	public void initPositions()
+	private void initPositions()
 	{
-		// HashMap not supported by ST-JS conversion, so replicating the functionality with two arrays of strings.
-		// NOTE: In future if new position types are added, the label and URL forms must be located at the same index.
-		if (positionLabels == null || positionLabels.$length() < 1) {
-			positionLabels = new Array<String>();
-			positionLabels.$set(0, "Administrative assistant");
-			positionLabels.$set(1, "Administrator");
-			positionLabels.$set(2, "Area or regional educator");
-			positionLabels.$set(3, "Communicator");
-			positionLabels.$set(4, "County agent/educator");
-			positionLabels.$set(5, "Faculty");
-			positionLabels.$set(6, "Information technologist");
-			positionLabels.$set(7, "Other");
-			positionLabels.$set(8, "Professional/staff development");
-			positionLabels.$set(9, "Program assistant");
-			positionLabels.$set(10, "Master gardener");
-			positionLabels.$set(11, "Specialist");
-			positionLabels.$set(12, "Volunteer");
+		if (positionLabelsMap.$get("Administrator") == null) {
+			positionLabelsMap = JSCollections.$map();
+			positionLabelsMap.$put("Administrative assistant", "http://schema.eduworks.com/pebleXtension/0.1/positionType/Administrative Assistant");
+			positionLabelsMap.$put("Administrator", "http://schema.eduworks.com/pebleXtension/0.1/positionType/Administrator");
+			positionLabelsMap.$put("Area or regional educator", "http://schema.eduworks.com/pebleXtension/0.1/positionType/AreaOrRegionalEducator");
+			positionLabelsMap.$put("Communicator", "http://schema.eduworks.com/pebleXtension/0.1/positionType/Communicator");
+			positionLabelsMap.$put("County agent/educator", "http://schema.eduworks.com/pebleXtension/0.1/positionType/CountyAgentOrEducator");
+			positionLabelsMap.$put("Faculty", "http://schema.eduworks.com/pebleXtension/0.1/positionType/Faculty");
+			positionLabelsMap.$put("Information technologist", "http://schema.eduworks.com/pebleXtension/0.1/positionType/InformationTechnologist");
+			positionLabelsMap.$put("Other", "http://schema.eduworks.com/pebleXtension/0.1/positionType/Other");
+			positionLabelsMap.$put("Professional/staff development", "http://schema.eduworks.com/pebleXtension/0.1/positionType/ProfessionalOrStaffDevelopment");
+			positionLabelsMap.$put("Program assistant", "http://schema.eduworks.com/pebleXtension/0.1/positionType/ProgramAssistant");
+			positionLabelsMap.$put("Master gardener", "http://schema.eduworks.com/pebleXtension/0.1/positionType/MasterGardener");
+			positionLabelsMap.$put("Specialist", "http://schema.eduworks.com/pebleXtension/0.1/positionType/Specialist");
+			positionLabelsMap.$put("Volunteer", "http://schema.eduworks.com/pebleXtension/0.1/positionType/Volunteer");
 		}
-		if (positionUrls == null || positionUrls.$length() < 1) {
-			positionUrls = new Array<String>();
-			positionUrls.$set(0, "http://schema.eduworks.com/pebleXtension/0.1/positionType/Administrative Assistant");
-			positionUrls.$set(1, "http://schema.eduworks.com/pebleXtension/0.1/positionType/Administrator");
-			positionUrls.$set(2, "http://schema.eduworks.com/pebleXtension/0.1/positionType/AreaOrRegionalEducator");
-			positionUrls.$set(3, "http://schema.eduworks.com/pebleXtension/0.1/positionType/Communicator");
-			positionUrls.$set(4, "http://schema.eduworks.com/pebleXtension/0.1/positionType/CountyAgentOrEducator");
-			positionUrls.$set(5, "http://schema.eduworks.com/pebleXtension/0.1/positionType/Faculty");
-			positionUrls.$set(6, "http://schema.eduworks.com/pebleXtension/0.1/positionType/InformationTechnologist");
-			positionUrls.$set(7, "http://schema.eduworks.com/pebleXtension/0.1/positionType/Other");
-			positionUrls.$set(8, "http://schema.eduworks.com/pebleXtension/0.1/positionType/ProfessionalOrStaffDevelopment");
-			positionUrls.$set(9, "http://schema.eduworks.com/pebleXtension/0.1/positionType/ProgramAssistant");
-			positionUrls.$set(10, "http://schema.eduworks.com/pebleXtension/0.1/positionType/MasterGardener");
-			positionUrls.$set(11, "http://schema.eduworks.com/pebleXtension/0.1/positionType/Specialist");
-			positionUrls.$set(12, "http://schema.eduworks.com/pebleXtension/0.1/positionType/Volunteer");
+		if (positionUrlsMap.$get("http://schema.eduworks.com/pebleXtension/0.1/positionType/Administrator") == null) {
+			positionUrlsMap = JSCollections.$map();
+			positionUrlsMap.$put("http://schema.eduworks.com/pebleXtension/0.1/positionType/Administrative Assistant","Administrative assistant");
+			positionUrlsMap.$put("http://schema.eduworks.com/pebleXtension/0.1/positionType/Administrator","Administrator");
+			positionUrlsMap.$put("http://schema.eduworks.com/pebleXtension/0.1/positionType/AreaOrRegionalEducator","Area or regional educator");
+			positionUrlsMap.$put("http://schema.eduworks.com/pebleXtension/0.1/positionType/Communicator","Communicator");
+			positionUrlsMap.$put("http://schema.eduworks.com/pebleXtension/0.1/positionType/CountyAgentOrEducator","County agent/educator");
+			positionUrlsMap.$put("http://schema.eduworks.com/pebleXtension/0.1/positionType/Faculty", "Faculty");
+			positionUrlsMap.$put("http://schema.eduworks.com/pebleXtension/0.1/positionType/InformationTechnologist","Information technologist" );
+			positionUrlsMap.$put("http://schema.eduworks.com/pebleXtension/0.1/positionType/Other","Other");
+			positionUrlsMap.$put("http://schema.eduworks.com/pebleXtension/0.1/positionType/ProfessionalOrStaffDevelopment","Professional/staff development");
+			positionUrlsMap.$put("http://schema.eduworks.com/pebleXtension/0.1/positionType/ProgramAssistant","Program assistant");
+			positionUrlsMap.$put("http://schema.eduworks.com/pebleXtension/0.1/positionType/MasterGardener","Master gardener");
+			positionUrlsMap.$put("http://schema.eduworks.com/pebleXtension/0.1/positionType/Specialist","Specialist");
+			positionUrlsMap.$put("http://schema.eduworks.com/pebleXtension/0.1/positionType/Volunteer","Volunteer");
 		}
-
 	}
 	
 
@@ -550,7 +559,15 @@ public class ExtPerson extends Person {
 	 * 			Callback triggered if error while saving ExtPerson
 	 */
 	public void save(Callback1<String> success, Callback1<String> failure){
-		if(givenName == null || givenName == ""){
+		if(getId() == null || getId() == ""){
+			String msg = "ID cannot be missing";
+			if(failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return;
+		}
+		if(getFirstName() == null || getFirstName() == ""){
 			String msg = "First name cannot be missing";
 			if(failure != null)
 				failure.$invoke(msg);
@@ -558,7 +575,7 @@ public class ExtPerson extends Person {
 				Global.console.error(msg);
 			return;
 		}
-		if(familyName == null || familyName == ""){
+		if(getLastName() == null || getLastName() == ""){
 			String msg = "Last name cannot be missing";
 			if(failure != null)
 				failure.$invoke(msg);
@@ -566,15 +583,15 @@ public class ExtPerson extends Person {
 				Global.console.error(msg);
 			return;
 		}
-		if(url == null || url == ""){
-			String msg = "Url cannot be missing";
+		if(getUserName() == null || getUserName() == ""){
+			String msg = "Username cannot be missing";
 			if(failure != null)
 				failure.$invoke(msg);
 			else
 				Global.console.error(msg);
 			return;
 		}
-		if(email == null || email == ""){
+		if(getEmail() == null || getEmail() == ""){
 			String msg = "Email cannot be missing";
 			if(failure != null)
 				failure.$invoke(msg);
@@ -583,7 +600,7 @@ public class ExtPerson extends Person {
 			return;
 		}
 		
-		EcRepository._save(this, success, failure);
+		EcRepository.save(this, success, failure);
 	}
 	
 	
