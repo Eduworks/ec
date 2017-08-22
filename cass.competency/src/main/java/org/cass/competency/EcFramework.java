@@ -7,8 +7,11 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
+import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback1;
+
+import com.eduworks.ec.remote.EcRemote;
 
 /**
  * Implementation of a Framework object with methods for interacting with CASS
@@ -355,6 +358,32 @@ public class EcFramework extends Framework
 	public void _delete(Callback1<String> success, Callback1<String> failure)
 	{
 		EcRepository.DELETE(this, success, failure);
+	}
+	
+	public void asAsnJson(final Callback1<String> success, final Callback1<String> failure, final String fallbackServerUrl){
+		final String id = this.id; 
+		
+		String server = getServerBaseUrl();
+		if(server != null && server != JSGlobal.undefined && !server.endsWith("/")){
+			server = server+"/";
+		}
+		
+		EcRemote.getExpectingString(server, "asn?id="+getGuid(), success, new Callback1<String>() {
+
+			@Override
+			public void $invoke(String p1) {
+				
+				if(fallbackServerUrl != null && fallbackServerUrl != JSGlobal.undefined){
+					String server = fallbackServerUrl;
+					if(!server.endsWith("/")){
+						server = server+"/";
+					}
+					EcRemote.getExpectingString(server, "asn?id="+id, success, failure);
+				}else{
+					failure.$invoke(p1);
+				}
+			}
+		});
 	}
 
 

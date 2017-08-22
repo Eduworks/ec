@@ -452,6 +452,18 @@ public class EcRemoteLinkedData extends EcLinkedData
 	}
 
 	/**
+	 * Return the URL Base portion of the short ID.
+	 * @method getServerBaseUrl
+	 * @return {string} Server Base URL of the linked data object.
+	 */
+	public String getServerBaseUrl(){
+		String shortId = trimVersionFromUrl(id);
+        Array<String> parts = (Array<String>)(Object)shortId.split("/");
+        
+        return parts.slice(0, parts.indexOf("data")).join("/");
+	}
+	
+	/**
 	 * Return a valid ElasticSearch search string that will retrieve all objects with this type.
 	 * @method getSearchStringByType
 	 * @return {string} ElasticSearch compatible search string.
