@@ -56,7 +56,7 @@ public class EcRemote {
 	 * @static
 	 */
 	public static void postExpectingObject(String server, String service, FormData fd, final Callback1<Object> success, final Callback1<String> failure) {
-		postInner(server, service, fd, getSuccessJSONCallback(success, failure), getFailureCallback(failure));
+		postInner(server, service, fd, null, getSuccessJSONCallback(success, failure), getFailureCallback(failure));
 	}
 
 	/**
@@ -75,11 +75,17 @@ public class EcRemote {
 	 * @static
 	 */
 	public static void postExpectingString(String server, String service, FormData fd, final Callback1<String> success, final Callback1<String> failure) {
-		postInner(server, service, fd, getSuccessCallback(success, failure), getFailureCallback(failure));
+		postInner(server, service, fd, null, getSuccessCallback(success, failure), getFailureCallback(failure));
 	}
 
-	private static void postInner(String server, String service, FormData fd, Callback3<Object, String, JQueryXHR> successCallback,
-	                              Callback3<JQueryXHR, String, String> failureCallback) {
+	public static void postWithHeadersExpectingString(String server, String service, FormData fd, Map<String, String> headers, 
+														final Callback1<String> success, final Callback1<String> failure){
+		postInner(server, service, fd, headers, getSuccessCallback(success, failure), getFailureCallback(failure));
+	}
+	
+	
+	private static void postInner(String server, String service, FormData fd, Map<String, String> headers, 
+								Callback3<Object, String, JQueryXHR> successCallback, Callback3<JQueryXHR, String, String> failureCallback) {
 
 		String url = server;
 		if (!url.endsWith("/") && service != null && !"".equals(service)) {
@@ -106,13 +112,17 @@ public class EcRemote {
 				}
 			}
 			all = all + "\r\n" + "\r\n" + "--" + JSObjectAdapter.$get(fd, "_boundary") + "--";
-			p.headers = (Map<String, String>) new Object();
+			if(headers == null || headers == JSGlobal.undefined)
+				headers = (Map<String, String>) new Object();
+			p.headers = headers;
 			p.headers.$put("Content-Type", "multipart/form-data; boundary=" + JSObjectAdapter.$get(fd, "_boundary"));
 			p.data = all;
 		} else {
 			// We're in a browser.
 			p.mimeType = "multipart/form-data";
 			p.data = fd;
+			if(headers != null && headers != JSGlobal.undefined)
+				p.headers = headers;
 		}
 		JSObjectAdapter.$properties(p).$put("contentType", false);
 
