@@ -1286,7 +1286,7 @@ public class EcRepository {
 			JSObjectAdapter.$properties(cache).$delete(data.id);
 			JSObjectAdapter.$properties(cache).$delete(data.shortId());
 		}
-		EcIdentityManager.signatureSheetAsync(60000, data.id, new Callback1<String>() {
+		EcIdentityManager.signatureSheetForAsync(data.owner,60000, data.id, new Callback1<String>() {
 			@Override
 			public void $invoke(String signatureSheet) {
 				EcRemote._delete(data.shortId(), signatureSheet, success, failure);
