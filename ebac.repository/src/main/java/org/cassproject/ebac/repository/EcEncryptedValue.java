@@ -8,12 +8,14 @@ import com.eduworks.schema.ebac.EbacEncryptedValue;
 import forge.pkcs5;
 import forge.util;
 import org.cassproject.ebac.identity.EcIdentityManager;
+import org.cassproject.schema.general.Ebac;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.json.ld.EcLinkedData;
 import org.stjs.javascript.*;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback2;
+import window.base64;
 
 /**
  * Represents an encrypted piece of data. Provides helper functions for
@@ -440,7 +442,13 @@ public class EcEncryptedValue extends EbacEncryptedValue {
             @Override
             public void $invoke(EbacEncryptedSecret decryptSecret) {
                 if (decryptSecret != null) {
-                    EcAesCtrAsync.decrypt(me.payload, decryptSecret.secret, decryptSecret.iv, success, failure);
+                    if (me.context == Ebac.context_0_2||me.context == Ebac.context_0_3)
+                    {
+                        if (base64.decode(decryptSecret.secret).byteLength == 32||base64.decode(decryptSecret.iv).byteLength == 32)
+                            EcAesCtrAsyncWorker.decrypt(me.payload, decryptSecret.secret, decryptSecret.iv, success, failure);
+                    }
+                    else
+                        EcAesCtrAsync.decrypt(me.payload, decryptSecret.secret, decryptSecret.iv, success, failure);
                 }
             }
         }, failure);
@@ -459,8 +467,14 @@ public class EcEncryptedValue extends EbacEncryptedValue {
      * @param {Callback1<String>} failure Callback triggered if error during
      * decryption
      */
-    public void decryptIntoStringUsingIvAndSecretAsync(final String iv, final String secret, final Callback1<String> success, final Callback1<String> failure) {
-        EcAesCtrAsync.decrypt(payload, secret, iv, success, failure);
+    public void decryptIntoStringUsingIvAndSecretAsync(String iv, String secret, final Callback1<String> success, final Callback1<String> failure) {
+        if (context == Ebac.context_0_2||context == Ebac.context_0_3)
+        {
+            if (base64.decode(secret).byteLength == 32||base64.decode(iv).byteLength == 32)
+                EcAesCtrAsyncWorker.decrypt(payload, secret, iv, success, failure);
+        }
+        else
+            EcAesCtrAsync.decrypt(payload, secret, iv, success, failure);
     }
 
     /**
