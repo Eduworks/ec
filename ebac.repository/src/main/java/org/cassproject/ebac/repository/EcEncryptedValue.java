@@ -444,11 +444,10 @@ public class EcEncryptedValue extends EbacEncryptedValue {
                 if (decryptSecret != null) {
                     if (me.context == Ebac.context_0_2||me.context == Ebac.context_0_3)
                     {
-                        if (base64.decode(decryptSecret.secret).byteLength == 32||base64.decode(decryptSecret.iv).byteLength == 32)
-                            EcAesCtrAsyncWorker.decrypt(me.payload, decryptSecret.secret, decryptSecret.iv, success, failure);
+                        if (base64.decode(decryptSecret.iv).byteLength == 32)
+                            decryptSecret.iv = base64.encode(base64.decode(decryptSecret.iv).slice(0,16));
                     }
-                    else
-                        EcAesCtrAsync.decrypt(me.payload, decryptSecret.secret, decryptSecret.iv, success, failure);
+                    EcAesCtrAsync.decrypt(me.payload, decryptSecret.secret, decryptSecret.iv, success, failure);
                 }
             }
         }, failure);
@@ -470,11 +469,10 @@ public class EcEncryptedValue extends EbacEncryptedValue {
     public void decryptIntoStringUsingIvAndSecretAsync(String iv, String secret, final Callback1<String> success, final Callback1<String> failure) {
         if (context == Ebac.context_0_2||context == Ebac.context_0_3)
         {
-            if (base64.decode(secret).byteLength == 32||base64.decode(iv).byteLength == 32)
-                EcAesCtrAsyncWorker.decrypt(payload, secret, iv, success, failure);
+            if (base64.decode(iv).byteLength == 32)
+                iv = base64.encode(base64.decode(iv).slice(0,16));
         }
-        else
-            EcAesCtrAsync.decrypt(payload, secret, iv, success, failure);
+        EcAesCtrAsync.decrypt(payload, secret, iv, success, failure);
     }
 
     /**
