@@ -251,7 +251,8 @@ public class EcRepository {
 	private static void find(final String url, final String error, final Object history, final int i, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure) {
 		if (JSGlobal.isNaN(i) || (Object)i == JSGlobal.undefined || i > repos.$length() || repos.$get(i) == null) {
 			JSObjectAdapter.$properties(fetching).$delete(url);
-			failure.$invoke(error);
+			if (failure != null)
+				failure.$invoke(error);
 			return;
 		}
 		final EcRepository repo = repos.$get(i);
@@ -1286,7 +1287,7 @@ public class EcRepository {
 			JSObjectAdapter.$properties(cache).$delete(data.id);
 			JSObjectAdapter.$properties(cache).$delete(data.shortId());
 		}
-		EcIdentityManager.signatureSheetAsync(60000, data.id, new Callback1<String>() {
+		EcIdentityManager.signatureSheetForAsync(data.owner,60000, data.id, new Callback1<String>() {
 			@Override
 			public void $invoke(String signatureSheet) {
 				EcRemote._delete(data.shortId(), signatureSheet, success, failure);

@@ -13,4 +13,5 @@ public class payload
 	{
 		return null;
 	}
+	public payload substring(int i,int len){return null;}
 }

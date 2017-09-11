@@ -15,7 +15,7 @@ import window.crypto;
 
 public class EcAesCtrAsync
 {
-	public static void encrypt(String text, String secret, String iv, final Callback1<String> success, Callback1<String> failure)
+	public static void encrypt(String text, String secret, String iv, final Callback1<String> success, final Callback1<String> failure)
 	{
 		if (crypto.subtle == null)
 		{
@@ -44,12 +44,12 @@ public class EcAesCtrAsync
 					{
 						success.$invoke(base64.encode(p1));
 					}
-				});
+				},failure);
 			}
-		});
+		},failure);
 	}
 
-	public static void decrypt(String text, String secret, String iv, final Callback1<String> success, Callback1<String> failure)
+	public static void decrypt(String text, String secret, String iv, final Callback1<String> success, final Callback1<String> failure)
 	{
 		if (EcCrypto.caching)
 		{
@@ -85,9 +85,9 @@ public class EcAesCtrAsync
 					{
 						success.$invoke(BlobHelper.ab2str(p1));
 					}
-				});
+				},failure);
 			}
-		});
+		},failure);
 	}
 
 }
