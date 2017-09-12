@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/LoanOrCredit
  * A financial product for the loaning of an amount of money under agreed terms and charges.

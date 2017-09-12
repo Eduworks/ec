@@ -1,5 +1,8 @@
 package cass.rollup;
 
+import cass.rollup.InquiryPacket.IPType;
+import cass.rollup.rule.RollupRuleInterface;
+import cass.rollup.rule.RollupRuleProcessor;
 import org.cass.competency.EcCompetency;
 import org.cass.competency.EcFramework;
 import org.cass.competency.EcRollupRule;
@@ -13,10 +16,6 @@ import org.stjs.javascript.Global;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
-
-import cass.rollup.InquiryPacket.IPType;
-import cass.rollup.rule.RollupRuleInterface;
-import cass.rollup.rule.RollupRuleProcessor;
 
 @RunWith(STJSTestDriverRunner.class)
 @ScriptsBefore({ "lib/require.js", "rollupInit.js" })

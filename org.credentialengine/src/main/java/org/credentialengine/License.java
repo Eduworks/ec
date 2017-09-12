@@ -1,8 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * credentialengine.org/License
  * A credential awarded by a government agency that constitutes legal authority to do a specific job and/or utilize a specific item, system or infrastructure and are typically earned through some combination of degree or certificate attainment, certifications, assessments, work experience, and/or fees, and are time-limited and must be renewed periodically.

@@ -1,7 +1,8 @@
 package com.eduworks.ec.framework.view.manager;
 
-import static org.stjs.javascript.Global.window;
-
+import com.eduworks.ec.framework.view.EcOverlay;
+import com.eduworks.ec.framework.view.EcScreen;
+import com.eduworks.foundation.jquery.plugin.Foundation;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.dom.Element;
@@ -12,9 +13,7 @@ import org.stjs.javascript.jquery.Event;
 import org.stjs.javascript.jquery.EventHandler;
 import org.stjs.javascript.jquery.GlobalJQuery;
 
-import com.eduworks.ec.framework.view.EcOverlay;
-import com.eduworks.ec.framework.view.EcScreen;
-import com.eduworks.foundation.jquery.plugin.Foundation;
+import static org.stjs.javascript.Global.window;
 
 /**
  * View Manager that manages displaying overlay views (views that take over the screen, but can be exited to return to

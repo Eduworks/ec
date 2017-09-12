@@ -1,8 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * credentialengine.org/CredentialPerson
  * A person who plays a role as primary agent in a credentialing action.

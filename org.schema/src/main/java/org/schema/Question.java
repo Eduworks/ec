@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/Question
  * A specific question - e.g. from a user seeking answers online, or collected in a Frequently Asked Questions (FAQ) document.

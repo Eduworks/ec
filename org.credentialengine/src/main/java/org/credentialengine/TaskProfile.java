@@ -1,8 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * credentialengine.org/TaskProfile
  * A profile describing the required or recommended tasks to be performed by a holder of, or applicant for, a credential assertion.

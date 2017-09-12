@@ -1,8 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * credentialengine.org/RevokeAction
  * An action by an authoritative agent removing a credential assertion from the credential holder based on violations.

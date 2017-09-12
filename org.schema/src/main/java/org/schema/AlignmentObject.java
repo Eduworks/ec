@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/AlignmentObject
  * An intangible item that describes an alignment between a learning resource and a node in an educational framework.

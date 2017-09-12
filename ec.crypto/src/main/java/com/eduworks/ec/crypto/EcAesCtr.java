@@ -4,8 +4,9 @@ import forge.cipher;
 import forge.cipheroutput;
 import forge.util;
 import org.stjs.javascript.JSObjectAdapter;
-import static org.stjs.javascript.jquery.GlobalJQuery.$;
 import window.EcLevrCrypto;
+
+import static org.stjs.javascript.jquery.GlobalJQuery.$;
 
 /**
  * Encrypts data synchronously using AES-256-CTR. Requires secret and iv to be 32 bytes.

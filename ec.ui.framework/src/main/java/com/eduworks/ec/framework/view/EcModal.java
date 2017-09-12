@@ -1,7 +1,5 @@
 package com.eduworks.ec.framework.view;
 
-import org.stjs.javascript.functions.Callback0;
-
 /**
  * View Subclass representing modal views that are displayed in the modal container
  * 

@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/TheaterGroup
  * A theater group or company, for example, the Royal Shakespeare Company or Druid Theatre.

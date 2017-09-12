@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/MusicAlbumProductionType
  * Classification of the album by it's type of content: soundtrack, live album, studio album, etc.

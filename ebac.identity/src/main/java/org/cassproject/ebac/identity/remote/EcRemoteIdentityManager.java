@@ -1,5 +1,10 @@
 package org.cassproject.ebac.identity.remote;
 
+import com.eduworks.ec.remote.EcRemote;
+import com.eduworks.ec.remote.FormData;
+import com.eduworks.schema.ebac.*;
+import forge.pkcs5;
+import forge.util;
 import org.cassproject.ebac.identity.EcContact;
 import org.cassproject.ebac.identity.EcIdentity;
 import org.cassproject.ebac.identity.EcIdentityManager;
@@ -8,17 +13,6 @@ import org.stjs.javascript.Global;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Function0;
-
-import com.eduworks.ec.remote.EcRemote;
-import com.eduworks.ec.remote.FormData;
-import com.eduworks.schema.ebac.EbacContact;
-import com.eduworks.schema.ebac.EbacCredential;
-import com.eduworks.schema.ebac.EbacCredentialCommit;
-import com.eduworks.schema.ebac.EbacCredentialRequest;
-import com.eduworks.schema.ebac.EbacCredentials;
-
-import forge.pkcs5;
-import forge.util;
 
 /**
  * Logs into and stores/retrieves credentials from a compatible remote server.

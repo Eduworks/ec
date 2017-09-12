@@ -1,14 +1,13 @@
 package com.eduworks.ec.service.user;
 
-import org.stjs.javascript.Global;
-import org.stjs.javascript.JSGlobal;
-import org.stjs.javascript.JSObjectAdapter;
-import org.stjs.javascript.functions.Callback1;
-
 import com.eduworks.ec.remote.EcRemote;
 import com.eduworks.ec.remote.FormData;
 import com.eduworks.ec.service.user.model.EcLoginCredentials;
 import com.eduworks.ec.service.user.model.User;
+import org.stjs.javascript.Global;
+import org.stjs.javascript.JSGlobal;
+import org.stjs.javascript.JSObjectAdapter;
+import org.stjs.javascript.functions.Callback1;
 
 /**
  * Manages the Current User and SessionId information, stores the sessionId in the browser session storage

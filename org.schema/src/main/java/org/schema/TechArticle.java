@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/TechArticle
  * A technical article - Example: How-to (task) topics, step-by-step, procedural troubleshooting, specifications, etc.

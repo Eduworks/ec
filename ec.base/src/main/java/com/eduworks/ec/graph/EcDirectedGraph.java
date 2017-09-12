@@ -1,8 +1,7 @@
 package com.eduworks.ec.graph;
 
-import org.stjs.javascript.Array;
-
 import com.eduworks.ec.array.EcArray;
+import org.stjs.javascript.Array;
 
 /**
  * A directed implementation of {{#crossLink "Graph"}}Graph{{/crossLink}}. Edges have types. Two vertices may have many edges between them.

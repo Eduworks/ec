@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/LikeAction
  * The act of expressing a positive sentiment about the object. An agent likes an object (a proposition, topic or theme) with participants.

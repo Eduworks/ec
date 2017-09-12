@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/CheckAction
  * An agent inspects, determines, investigates, inquires, or examines an object's accuracy, quality, condition, or state.

@@ -1,7 +1,7 @@
 package com.eduworks.ec.storage;
 
-import org.stjs.javascript.Storage;
 import org.stjs.javascript.JSObjectAdapter;
+import org.stjs.javascript.Storage;
 import org.stjs.javascript.functions.Function1;
 
 public class EcLocalStorage {

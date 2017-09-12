@@ -1,8 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * credentialengine.org/ProcessProfile
  * The type, nature, and related information about a process related to a credential.

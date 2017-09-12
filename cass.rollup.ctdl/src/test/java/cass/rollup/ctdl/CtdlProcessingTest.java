@@ -1,6 +1,7 @@
 package cass.rollup.ctdl;
 
 import cass.rollup.subprocessor.CredentialCompetencyLocator;
+import com.eduworks.ec.remote.EcRemote;
 import org.credentialengine.CredentialAlignmentObject;
 import org.junit.Assert;
 import org.junit.Test;
@@ -8,8 +9,6 @@ import org.junit.runner.RunWith;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.functions.Callback1;
-
-import com.eduworks.ec.remote.EcRemote;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
 @RunWith(STJSTestDriverRunner.class)

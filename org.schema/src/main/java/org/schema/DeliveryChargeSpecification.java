@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/DeliveryChargeSpecification
  * The price for the delivery of an offer using a particular delivery method.

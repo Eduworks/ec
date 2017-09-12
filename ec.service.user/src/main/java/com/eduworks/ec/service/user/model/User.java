@@ -1,10 +1,9 @@
 package com.eduworks.ec.service.user.model;
 
+import com.eduworks.ec.service.user.UserManager;
 import org.stjs.javascript.Date;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
-
-import com.eduworks.ec.service.user.UserManager;
 
 import static org.stjs.javascript.Global.parseInt;
 

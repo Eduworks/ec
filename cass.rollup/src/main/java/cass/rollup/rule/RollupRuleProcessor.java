@@ -1,13 +1,12 @@
 package cass.rollup.rule;
 
-import org.cass.profile.EcAssertion;
-import org.stjs.javascript.Array;
-import org.stjs.javascript.functions.Callback1;
-
 import cass.rollup.InquiryPacket;
 import cass.rollup.js.bridges.context;
 import cass.rollup.processors.AssertionProcessor;
 import cass.rollup.rule.RollupRulePacketGenerator.OperationType;
+import org.cass.profile.EcAssertion;
+import org.stjs.javascript.Array;
+import org.stjs.javascript.functions.Callback1;
 
 public class RollupRuleProcessor
 {

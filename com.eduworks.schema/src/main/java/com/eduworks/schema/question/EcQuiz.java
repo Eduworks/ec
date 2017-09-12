@@ -5,7 +5,6 @@ import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.schema.CreativeWork;
 import org.stjs.javascript.Array;
-import org.stjs.javascript.Date;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.functions.Callback1;
 

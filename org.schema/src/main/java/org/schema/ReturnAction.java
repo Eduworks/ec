@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/ReturnAction
  * The act of returning to the origin that which was previously received (concrete objects) or taken (ownership).

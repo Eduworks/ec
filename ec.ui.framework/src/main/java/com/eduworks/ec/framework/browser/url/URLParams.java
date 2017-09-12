@@ -1,13 +1,7 @@
 package com.eduworks.ec.framework.browser.url;
 
-import org.stjs.javascript.Array;
-import org.stjs.javascript.Global;
-import org.stjs.javascript.JSCollections;
-import org.stjs.javascript.JSObjectAdapter;
-import org.stjs.javascript.JSStringAdapter;
-import org.stjs.javascript.Map;
-
 import com.eduworks.ec.framework.view.manager.ScreenManager;
+import org.stjs.javascript.*;
 
 public class URLParams {
 

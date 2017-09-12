@@ -1,8 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * credentialengine.org/OpenBadge
  * An Open Badge is a visual symbol containing verifiable claims in accordance with the Open Badges specification and delivered digitally.

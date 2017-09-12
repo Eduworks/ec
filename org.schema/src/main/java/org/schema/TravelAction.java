@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/TravelAction
  * The act of traveling from an fromLocation to a destination by a specified mode of transport, optionally with participants.

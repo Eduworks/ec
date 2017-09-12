@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/PlanAction
  * The act of planning the execution of an event/task/action/reservation/plan to a future date.

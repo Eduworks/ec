@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/SoftwareSourceCode
  * Computer programming source code. Example: Full (compile ready) solutions, code snippet samples, scripts, templates.

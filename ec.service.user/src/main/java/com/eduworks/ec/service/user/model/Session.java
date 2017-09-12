@@ -1,8 +1,7 @@
 package com.eduworks.ec.service.user.model;
 
-import org.stjs.javascript.functions.Callback1;
-
 import com.eduworks.ec.service.user.SessionManager;
+import org.stjs.javascript.functions.Callback1;
 
 /**
  * Session 

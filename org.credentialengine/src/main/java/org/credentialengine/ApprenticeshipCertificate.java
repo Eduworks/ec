@@ -1,8 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * credentialengine.org/ApprenticeshipCertificate
  * A credential earned through work-based learning and postsecondary earn-and-learn models that meet national standards and are applicable to industry trades and professions.

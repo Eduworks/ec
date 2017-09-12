@@ -1,13 +1,11 @@
 package com.eduworks.ec.crypto;
 
+import com.eduworks.ec.blob.ArrayBuffer;
+import com.eduworks.ec.blob.BlobHelper;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.jquery.Promise;
-
-import com.eduworks.ec.blob.ArrayBuffer;
-import com.eduworks.ec.blob.BlobHelper;
-
 import window.AlgorithmIdentifier;
 import window.CryptoKey;
 import window.base64;

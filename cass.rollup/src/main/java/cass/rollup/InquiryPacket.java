@@ -1,5 +1,6 @@
 package cass.rollup;
 
+import com.eduworks.ec.crypto.EcPk;
 import org.cass.competency.EcCompetency;
 import org.cass.competency.EcFramework;
 import org.cass.competency.EcLevel;
@@ -8,8 +9,6 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.Date;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Function1;
-
-import com.eduworks.ec.crypto.EcPk;
 
 /**
  * Data structure used to hold data relevant to a request to determine the competence of an individual.

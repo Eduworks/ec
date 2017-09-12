@@ -1,13 +1,12 @@
 package org.cassproject.general.repository;
 
+import com.eduworks.ec.blob.BlobHelper;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.cassproject.schema.general.FileSaver;
 import org.cassproject.schema.general.General;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
-
-import com.eduworks.ec.blob.BlobHelper;
 
 /**
  * A representation of a file.

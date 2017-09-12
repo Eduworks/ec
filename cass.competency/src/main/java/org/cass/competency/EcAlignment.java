@@ -4,11 +4,11 @@ import org.cassproject.ebac.repository.EcEncryptedValue;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.cass.Cass;
 import org.cassproject.schema.cass.competency.Relation;
+import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSObjectAdapter;
-import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.functions.Callback1;
 
 /**

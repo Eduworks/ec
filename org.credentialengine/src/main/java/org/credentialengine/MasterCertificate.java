@@ -1,8 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * credentialengine.org/MasterCertificate
  * A credential awarded upon demonstration through apprenticeship of the highest level of skills and performance in industry trades and professions.

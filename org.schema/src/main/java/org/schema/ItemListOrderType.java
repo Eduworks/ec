@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/ItemListOrderType
  * Enumerated for values for itemListOrder for indicating how an ordered ItemList is organized.

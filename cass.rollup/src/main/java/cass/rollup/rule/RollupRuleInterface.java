@@ -1,13 +1,7 @@
 package cass.rollup.rule;
 
+import cass.rollup.js.bridges.*;
 import org.stjs.javascript.functions.Callback1;
-
-import cass.rollup.js.bridges.CommonTokenStream;
-import cass.rollup.js.bridges.InputStream;
-import cass.rollup.js.bridges.RollupLexer;
-import cass.rollup.js.bridges.RollupListener;
-import cass.rollup.js.bridges.RollupParser;
-import cass.rollup.js.bridges.context;
 
 public class RollupRuleInterface
 {

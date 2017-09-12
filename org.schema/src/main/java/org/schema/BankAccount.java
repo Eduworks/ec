@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/BankAccount
  * A product or service offered by a bank whereby one may deposit, withdraw or transfer money and in some cases be paid interest.

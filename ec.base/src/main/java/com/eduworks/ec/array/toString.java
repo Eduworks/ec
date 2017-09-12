@@ -1,6 +1,5 @@
 package com.eduworks.ec.array;
 
-import org.stjs.javascript.annotation.GlobalScope;
 import org.stjs.javascript.annotation.STJSBridge;
 
 @STJSBridge()

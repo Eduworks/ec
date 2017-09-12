@@ -1,5 +1,6 @@
 package org.schema;
 
+import com.eduworks.ec.array.EcArray;
 import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.ebac.repository.EcEncryptedValue;
 import org.cassproject.ebac.repository.EcRepository;
@@ -8,8 +9,6 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
-
-import com.eduworks.ec.array.EcArray;
 
 public class EcQuestion extends Question
 {

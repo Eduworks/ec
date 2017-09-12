@@ -1,8 +1,8 @@
 package org.cassproject.schema.ebac;
 
-import static org.junit.Assert.assertTrue;
-import static org.stjs.javascript.Global.console;
-
+import com.eduworks.ec.crypto.EcPk;
+import com.eduworks.ec.crypto.EcPpk;
+import com.eduworks.ec.remote.EcRemote;
 import org.cassproject.ebac.identity.EcIdentity;
 import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.ebac.repository.EcEncryptedValue;
@@ -19,9 +19,8 @@ import org.stjs.javascript.functions.Callback1;
 import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
-import com.eduworks.ec.crypto.EcPk;
-import com.eduworks.ec.crypto.EcPpk;
-import com.eduworks.ec.remote.EcRemote;
+import static org.junit.Assert.assertTrue;
+import static org.stjs.javascript.Global.console;
 
 @RunWith(STJSTestDriverRunner.class)
 @ScriptsBefore({ "/forge/forge.bundle.js" })

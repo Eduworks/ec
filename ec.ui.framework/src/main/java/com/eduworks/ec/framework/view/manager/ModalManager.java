@@ -1,14 +1,13 @@
 package com.eduworks.ec.framework.view.manager;
 
+import com.eduworks.ec.framework.view.EcModal;
+import com.eduworks.foundation.jquery.plugin.Foundation;
 import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.dom.Element;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.jquery.Event;
 import org.stjs.javascript.jquery.EventHandler;
 import org.stjs.javascript.jquery.GlobalJQuery;
-
-import com.eduworks.ec.framework.view.EcModal;
-import com.eduworks.foundation.jquery.plugin.Foundation;
 
 /**
  * View Manager sub class that manages loading "modal"s and has a few helper functions to make sure that

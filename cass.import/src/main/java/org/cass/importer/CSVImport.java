@@ -2,23 +2,16 @@ package org.cass.importer;
 
 import com.eduworks.ec.array.EcObject;
 import com.eduworks.ec.random.EcRandom;
+import js.Papa;
+import js.PapaParseParams;
 import org.cass.competency.EcAlignment;
 import org.cass.competency.EcCompetency;
 import org.cassproject.ebac.identity.EcIdentity;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
-import org.stjs.javascript.Array;
-import org.stjs.javascript.JSCollections;
-import org.stjs.javascript.JSGlobal;
-import org.stjs.javascript.JSObjectAdapter;
-import org.stjs.javascript.JSStringAdapter;
-import org.stjs.javascript.Map;
-import org.stjs.javascript.RegExp;
+import org.stjs.javascript.*;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback2;
-
-import js.Papa;
-import js.PapaParseParams;
 
 /**
  * Import methods to handle an CSV file of competencies and a 

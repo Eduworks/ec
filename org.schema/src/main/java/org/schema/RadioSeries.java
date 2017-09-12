@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/RadioSeries
  * CreativeWorkSeries dedicated to radio broadcast and associated online delivery.

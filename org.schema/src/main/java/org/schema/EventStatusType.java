@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/EventStatusType
  * EventStatusType is an enumeration type whose instances represent several states that an Event may be in.

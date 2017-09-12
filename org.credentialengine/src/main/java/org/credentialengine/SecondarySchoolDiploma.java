@@ -1,8 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * credentialengine.org/SecondarySchoolDiploma
  * A diploma awarded by secondary education institutions for successful completion of a secondary school program typically lasting four years.

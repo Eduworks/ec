@@ -1,9 +1,8 @@
 package forge;
 
+import com.eduworks.ec.blob.ArrayBuffer;
 import org.stjs.javascript.annotation.Namespace;
 import org.stjs.javascript.annotation.STJSBridge;
-
-import com.eduworks.ec.blob.ArrayBuffer;
 
 @Namespace("forge")
 @STJSBridge()

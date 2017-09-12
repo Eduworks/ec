@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/WarrantyPromise
  * A structured value representing the duration and scope of services that will be provided to a customer free of charge in case of a defect or malfunction of a product.

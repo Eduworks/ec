@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/SportsOrganization
  * Represents the collection of all sports organizations, including sports teams, governing bodies, and sports associations.

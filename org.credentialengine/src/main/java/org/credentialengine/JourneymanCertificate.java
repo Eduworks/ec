@@ -1,8 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * credentialengine.org/JourneymanCertificate
  * A credential awarded to skilled workers on successful completion of an apprenticeship in industry trades and professions.

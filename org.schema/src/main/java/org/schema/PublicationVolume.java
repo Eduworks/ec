@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/PublicationVolume
  * A part of a successively published publication such as a periodical or multi-volume work, often numbered. It may represent a time span, such as a year.

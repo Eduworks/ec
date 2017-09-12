@@ -1,14 +1,8 @@
 package org.json.ld;
 
-import org.stjs.javascript.Array;
-import org.stjs.javascript.JSCollections;
-import org.stjs.javascript.JSGlobal;
-import org.stjs.javascript.JSObjectAdapter;
-import org.stjs.javascript.Map;
-import org.stjs.javascript.SortFunction;
-
 import com.eduworks.ec.array.EcArray;
 import com.eduworks.ec.array.EcObject;
+import org.stjs.javascript.*;
 
 /**
  * Represents a JSON-LD linked data object and performs serialization.

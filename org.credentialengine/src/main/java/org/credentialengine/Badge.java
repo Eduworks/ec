@@ -1,8 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * credentialengine.org/Badge
  * A recognition designed to be displayed as a marker of accomplishment, activity, achievement, skill, interest, association, or identity.

@@ -3,23 +3,14 @@ package cass.rollup;
 import org.cass.competency.EcAlignment;
 import org.cass.competency.EcCompetency;
 import org.cass.competency.EcFramework;
-import org.cass.competency.EcLevel;
 import org.cass.profile.EcAssertion;
-import org.cassproject.ebac.identity.EcIdentityManager;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
-
-import com.eduworks.ec.crypto.EcPk;
-import com.eduworks.schema.ebac.EbacSignature;
-
-import cass.rollup.InquiryPacket.IPType;
 
 @RunWith(STJSTestDriverRunner.class)
 @ScriptsBefore({ "lib/require.js", "rollupInit.js", "/forge/forge.bundle.js" })

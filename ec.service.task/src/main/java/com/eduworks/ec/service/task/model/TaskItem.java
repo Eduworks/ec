@@ -1,15 +1,9 @@
 package com.eduworks.ec.service.task.model;
 
-import org.stjs.javascript.Date;
-import org.stjs.javascript.JSCollections;
-import org.stjs.javascript.JSGlobal;
-import org.stjs.javascript.JSObjectAdapter;
-import org.stjs.javascript.Map;
-import org.stjs.javascript.functions.Callback1;
-
-import com.eduworks.ec.remote.EcRemote;
-import com.eduworks.ec.remote.FormData;
 import com.eduworks.ec.service.task.TaskItemManager;
+import org.stjs.javascript.Date;
+import org.stjs.javascript.JSObjectAdapter;
+import org.stjs.javascript.functions.Callback1;
 
 public class TaskItem {
 

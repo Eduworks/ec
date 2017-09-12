@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/AchieveAction
  * The act of accomplishing something via previous efforts. It is an instantaneous action rather than an ongoing process.

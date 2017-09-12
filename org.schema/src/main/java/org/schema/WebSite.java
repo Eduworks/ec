@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/WebSite
  * A WebSite is a set of related web pages and other items typically served from a single web domain and accessible via URLs.

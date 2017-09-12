@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/CreativeWork
  * The most generic kind of creative work, including books, movies, photographs, software programs, etc.

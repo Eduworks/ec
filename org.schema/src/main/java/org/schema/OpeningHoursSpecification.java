@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/OpeningHoursSpecification
  * A structured value providing information about the opening hours of a place or a certain service inside a place.\n\n

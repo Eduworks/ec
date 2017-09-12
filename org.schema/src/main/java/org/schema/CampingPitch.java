@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/CampingPitch
  * A camping pitch is an individual place for overnight stay in the outdoors, typically being part of a larger camping site.

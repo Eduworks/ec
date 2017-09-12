@@ -1,8 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * credentialengine.org/Certificate
  * A credential that designates requisite mastery of the knowledge and skills of an occupation, profession, or academic program.

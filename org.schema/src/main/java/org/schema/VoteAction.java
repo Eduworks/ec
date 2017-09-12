@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/VoteAction
  * The act of expressing a preference from a fixed/finite/structured set of choices/options.

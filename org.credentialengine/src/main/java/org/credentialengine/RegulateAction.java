@@ -1,8 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * credentialengine.org/RegulateAction
  * An action by an independent, neutral, and authoritative agent enforcing the legal requirements of a resource.

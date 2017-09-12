@@ -1,17 +1,8 @@
 package com.eduworks.ec.task;
 
-import org.stjs.javascript.Array;
-import org.stjs.javascript.Date;
-import org.stjs.javascript.JSCollections;
-import org.stjs.javascript.JSFunctionAdapter;
-import org.stjs.javascript.JSGlobal;
+import org.stjs.javascript.*;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.CallbackOrFunction;
-import org.stjs.javascript.functions.Function0;
-import org.stjs.javascript.functions.Function1;
-import org.stjs.javascript.functions.Function2;
-import org.stjs.javascript.functions.Function3;
-import org.stjs.javascript.functions.Function4;
 
 public class EcAsyncTask {
 

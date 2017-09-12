@@ -1,22 +1,16 @@
 package org.cassproject.ebac.identity;
 
-import org.cassproject.schema.general.EcRemoteLinkedData;
-import org.stjs.javascript.Array;
-import org.stjs.javascript.Date;
-import org.stjs.javascript.Global;
-import org.stjs.javascript.JSGlobal;
-import org.stjs.javascript.JSObjectAdapter;
-import org.stjs.javascript.Map;
-import org.stjs.javascript.functions.Callback0;
-import org.stjs.javascript.functions.Callback1;
-import org.stjs.javascript.functions.Callback2;
-
 import com.eduworks.ec.array.EcAsyncHelper;
 import com.eduworks.ec.crypto.EcPk;
 import com.eduworks.ec.crypto.EcPpk;
 import com.eduworks.ec.crypto.EcRsaOaep;
 import com.eduworks.ec.crypto.EcRsaOaepAsync;
 import com.eduworks.schema.ebac.EbacSignature;
+import org.cassproject.schema.general.EcRemoteLinkedData;
+import org.stjs.javascript.*;
+import org.stjs.javascript.functions.Callback0;
+import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 
 /**
  * Manages identities and contacts, provides hooks to respond to identity and

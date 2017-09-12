@@ -1,8 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * credentialengine.org/ConditionProfile
  * A resource describing a condition between a credential and other resources to which the credential is subject during its lifecycle including the requirements to attain the credential.

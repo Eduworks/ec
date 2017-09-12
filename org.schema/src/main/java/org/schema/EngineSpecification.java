@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/EngineSpecification
  * Information about the engine of the vehicle. A vehicle can have multiple engines represented by multiple engine specification entities.

@@ -1,8 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * credentialengine.org/QualityAssuranceCredential
  * A credential assuring that an organization, program, or awarded credential meets prescribed requirements and may include development and administration of qualifying examinations.

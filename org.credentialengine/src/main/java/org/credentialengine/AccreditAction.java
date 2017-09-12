@@ -1,8 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * credentialengine.org/AccreditAction
  * An action by an independent, neutral, and authoritative agent that certifies a resource as meeting a prescribed set of standards.

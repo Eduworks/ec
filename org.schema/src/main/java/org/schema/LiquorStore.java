@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/LiquorStore
  * A shop that sells alcoholic drinks such as wine, beer, whisky and other spirits.

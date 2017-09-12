@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/DayOfWeek
  * The day of the week, e.g. used to specify to which day the opening hours of an OpeningHoursSpecification refer.

@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/LiveBlogPosting
  * A blog post intended to provide a rolling textual coverage of an ongoing event through continuous updates.

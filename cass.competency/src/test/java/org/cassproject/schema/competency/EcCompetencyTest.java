@@ -1,5 +1,7 @@
 package org.cassproject.schema.competency;
 
+import com.eduworks.ec.crypto.EcPpk;
+import com.eduworks.ec.remote.EcRemote;
 import org.cass.competency.EcAlignment;
 import org.cass.competency.EcCompetency;
 import org.cass.competency.EcLevel;
@@ -17,9 +19,6 @@ import org.stjs.javascript.Global;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
-
-import com.eduworks.ec.crypto.EcPpk;
-import com.eduworks.ec.remote.EcRemote;
 
 @RunWith(STJSTestDriverRunner.class)
 @ScriptsBefore({ "/forge/forge.bundle.js" })

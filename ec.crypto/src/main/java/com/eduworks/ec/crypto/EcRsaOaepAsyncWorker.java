@@ -1,5 +1,6 @@
 package com.eduworks.ec.crypto;
 
+import com.eduworks.ec.remote.EcRemote;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSGlobal;
@@ -9,8 +10,6 @@ import org.stjs.javascript.worker.ErrorEvent;
 import org.stjs.javascript.worker.MessageEvent;
 import org.stjs.javascript.worker.Worker;
 import org.stjs.javascript.worker.WorkerGlobalScope;
-
-import com.eduworks.ec.remote.EcRemote;
 
 /**
  * Asynchronous implementation of {{#crossLink

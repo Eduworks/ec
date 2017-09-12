@@ -1,12 +1,11 @@
 package org.cass.adapter;
 
+import com.eduworks.ec.remote.EcRemote;
+import com.eduworks.ec.remote.FormData;
 import org.cassproject.ebac.identity.EcIdentityManager;
 import org.json.ld.EcLinkedData;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.functions.Callback1;
-
-import com.eduworks.ec.remote.EcRemote;
-import com.eduworks.ec.remote.FormData;
 
 /**
  * Object that holds the xAPI Adapter configuration values returned 

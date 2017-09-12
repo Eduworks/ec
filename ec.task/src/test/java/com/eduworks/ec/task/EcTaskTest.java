@@ -1,7 +1,5 @@
 package com.eduworks.ec.task;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

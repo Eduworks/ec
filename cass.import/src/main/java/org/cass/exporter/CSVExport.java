@@ -1,22 +1,14 @@
 package org.cass.exporter;
 
+import js.Papa;
 import org.cass.competency.EcFramework;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
-import org.stjs.javascript.Array;
-import org.stjs.javascript.Global;
-import org.stjs.javascript.JSCollections;
-import org.stjs.javascript.JSFunctionAdapter;
-import org.stjs.javascript.JSGlobal;
-import org.stjs.javascript.JSObjectAdapter;
-import org.stjs.javascript.Map;
+import org.stjs.javascript.*;
 import org.stjs.javascript.dom.DOMEvent;
 import org.stjs.javascript.dom.Element;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
-import org.stjs.javascript.jquery.GlobalJQuery;
-
-import js.Papa;
 
 /**
  * Export methods to handle exporting two CSV file , one of competencies

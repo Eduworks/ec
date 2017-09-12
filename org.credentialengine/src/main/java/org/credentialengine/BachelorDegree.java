@@ -1,8 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * credentialengine.org/BachelorDegree
  * An award level that normally requires at least 4 but not more than 5 years of full-time equivalent college-level work.

@@ -1,11 +1,8 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.stjs.javascript.JSObjectAdapter;
-
 import com.eduworks.ec.array.EcObject;
-
 import org.cassproject.schema.general.EcRemoteLinkedData;
+import org.stjs.javascript.JSObjectAdapter;
 
 /**
  * Schema.org/Thing

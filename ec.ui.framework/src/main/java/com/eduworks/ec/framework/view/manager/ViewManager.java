@@ -1,13 +1,12 @@
 package com.eduworks.ec.framework.view.manager;
 
+import com.eduworks.ec.framework.view.EcView;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback3;
 import org.stjs.javascript.jquery.GlobalJQuery;
 import org.stjs.javascript.jquery.JQueryXHR;
-
-import com.eduworks.ec.framework.view.EcView;
 
 /**
  * Parent class of all view manager classes, stores a cache of the views and

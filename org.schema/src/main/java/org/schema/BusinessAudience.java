@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/BusinessAudience
  * A set of characteristics belonging to businesses, e.g. who compose an item's target audience.

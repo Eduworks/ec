@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/VideoGame
  * A video game is an electronic game that involves human interaction with a user interface to generate visual feedback on a video device.

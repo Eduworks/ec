@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/ExhibitionEvent
  * Event type: Exhibition event, e.g. at a museum, library, archive, tradeshow, ...

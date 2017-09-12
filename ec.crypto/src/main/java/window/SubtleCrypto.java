@@ -1,9 +1,8 @@
 package window;
 
+import com.eduworks.ec.blob.ArrayBuffer;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.jquery.Promise;
-
-import com.eduworks.ec.blob.ArrayBuffer;
 
 public class SubtleCrypto
 {

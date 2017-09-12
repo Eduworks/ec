@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/MusicReleaseFormatType
  * Format of this release (the type of recording media used, ie. compact disc, digital media, LP, etc.).

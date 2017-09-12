@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/ResumeAction
  * The act of resuming a device or application which was formerly paused (e.g. resume music playback or resume a timer).

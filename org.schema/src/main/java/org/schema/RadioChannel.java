@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/RadioChannel
  * A unique instance of a radio BroadcastService on a CableOrSatelliteService lineup.

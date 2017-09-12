@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/ClaimReview
  * A fact-checking review of claims made (or reported) in some creative work (referenced via itemReviewed).

@@ -1,5 +1,10 @@
 package cass.rollup;
 
+import cass.rollup.processors.PessimisticQuadnaryAssertionProcessor;
+import com.eduworks.ec.crypto.EcPk;
+import com.eduworks.ec.crypto.EcPpk;
+import com.eduworks.ec.remote.EcRemote;
+import com.eduworks.schema.ebac.EbacSignature;
 import org.cass.competency.EcAlignment;
 import org.cass.competency.EcCompetency;
 import org.cass.competency.EcFramework;
@@ -17,13 +22,6 @@ import org.stjs.javascript.Global;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Function1;
 import org.stjs.testing.annotation.ScriptsBefore;
-
-import com.eduworks.ec.crypto.EcPk;
-import com.eduworks.ec.crypto.EcPpk;
-import com.eduworks.ec.remote.EcRemote;
-import com.eduworks.schema.ebac.EbacSignature;
-
-import cass.rollup.processors.PessimisticQuadnaryAssertionProcessor;
 
 @ScriptsBefore({"lib/require.js", "rollupInit.js", "/forge/forge.bundle.js"})
 public class EvidenceProcessingTestBase {

@@ -1,20 +1,14 @@
 package org.cassproject.schema.general;
 
-import org.json.ld.EcLinkedData;
-import org.stjs.javascript.Array;
-import org.stjs.javascript.Date;
-import org.stjs.javascript.JSCollections;
-import org.stjs.javascript.JSGlobal;
-import org.stjs.javascript.JSObjectAdapter;
-import org.stjs.javascript.Map;
-import org.stjs.javascript.functions.Callback1;
-
 import com.eduworks.ec.crypto.EcPk;
 import com.eduworks.ec.crypto.EcPpk;
 import com.eduworks.ec.crypto.EcRsaOaep;
 import com.eduworks.ec.random.EcRandom;
 import com.eduworks.ec.remote.EcRemote;
 import com.eduworks.ec.remote.FormData;
+import org.json.ld.EcLinkedData;
+import org.stjs.javascript.*;
+import org.stjs.javascript.functions.Callback1;
 
 /**
  * Data wrapper to represent remotely hosted data. Includes necessary KBAC fields for

@@ -7,7 +7,6 @@ import com.eduworks.ec.array.EcAsyncHelper;
 import com.eduworks.ec.array.EcObject;
 import org.cass.profile.EcAssertion;
 import org.cassproject.ebac.repository.EcRepository;
-import org.cassproject.schema.cass.profile.Assertion;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.schema.AchieveAction;
 import org.schema.Action;

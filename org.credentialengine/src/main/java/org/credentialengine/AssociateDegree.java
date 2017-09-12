@@ -1,8 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * credentialengine.org/AssociateDegree
  * An award level that normally requires at least 2 but less than 4 years of full-time equivalent college-level work.

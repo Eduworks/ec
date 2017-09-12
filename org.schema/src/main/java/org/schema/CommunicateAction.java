@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/CommunicateAction
  * The act of conveying information to another person via a communication medium (instrument) such as speech, email, or telephone conversation.

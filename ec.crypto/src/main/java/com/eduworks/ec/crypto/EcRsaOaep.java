@@ -4,8 +4,9 @@ import forge.sha1;
 import forge.sha256;
 import forge.util;
 import org.stjs.javascript.JSObjectAdapter;
-import static org.stjs.javascript.jquery.GlobalJQuery.$;
 import window.EcLevrCrypto;
+
+import static org.stjs.javascript.jquery.GlobalJQuery.$;
 
 /**
  * Helper methods for performing RSA Encryption methods. Uses Optimal Asymmetric

@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/OrderItem
  * An order item is a line of an order. It includes the quantity and shipping details of a bought offer.

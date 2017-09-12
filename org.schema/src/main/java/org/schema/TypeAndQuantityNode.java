@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/TypeAndQuantityNode
  * A structured value indicating the quantity, unit of measurement, and business function of goods included in a bundle offer.

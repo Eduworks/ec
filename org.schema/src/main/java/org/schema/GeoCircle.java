@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/GeoCircle
  * A GeoCircle is a GeoShape representing a circular geographic area. As it is a GeoShape

@@ -1,8 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * credentialengine.org/AdvancedStandingAction
  * An claim by an agent asserting that the object credential of the action provides advanced standing for a credential under the asserting agent's authority.

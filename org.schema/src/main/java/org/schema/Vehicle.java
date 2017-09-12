@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/Vehicle
  * A vehicle is a device that is designed or used to transport people or cargo over land, water, air, or through space.

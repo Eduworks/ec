@@ -1,8 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * credentialengine.org/Degree
  * An academic credential conferred upon completion of a program or course of study, typically over multiple years at postsecondary education institutions.

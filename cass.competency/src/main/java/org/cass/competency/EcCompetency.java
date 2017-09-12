@@ -1,19 +1,14 @@
 package org.cass.competency;
 
+import com.eduworks.ec.crypto.EcPpk;
 import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.ebac.repository.EcEncryptedValue;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.cass.Cass;
 import org.cassproject.schema.cass.competency.Competency;
 import org.cassproject.schema.general.EcRemoteLinkedData;
-import org.stjs.javascript.Array;
-import org.stjs.javascript.Global;
-import org.stjs.javascript.JSCollections;
-import org.stjs.javascript.JSObjectAdapter;
-import org.stjs.javascript.Map;
+import org.stjs.javascript.*;
 import org.stjs.javascript.functions.Callback1;
-
-import com.eduworks.ec.crypto.EcPpk;
 
 /**
  * Implementation of a Competency object with methods for interacting with CASS

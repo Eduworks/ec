@@ -1,8 +1,5 @@
 package org.schema;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * Schema.org/DepartAction
  * The act of  departing from a place. An agent departs from an fromLocation for a destination, optionally with participants.

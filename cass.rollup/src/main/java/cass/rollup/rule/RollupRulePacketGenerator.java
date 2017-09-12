@@ -1,11 +1,10 @@
 package cass.rollup.rule;
 
-import org.stjs.javascript.Array;
-import org.stjs.javascript.functions.Callback1;
-
 import cass.rollup.InquiryPacket;
 import cass.rollup.InquiryPacket.IPType;
 import cass.rollup.processors.AssertionProcessor;
+import org.stjs.javascript.Array;
+import org.stjs.javascript.functions.Callback1;
 
 public class RollupRulePacketGenerator
 {

@@ -1,8 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * credentialengine.org/Credential
  * A qualification, achievement, personal or organizational quality, or aspect of an identity typically used to indicate suitability.

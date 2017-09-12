@@ -1,8 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * credentialengine.org/ApproveAction
  * An action by an independent, neutral, and authoritative agent that pronounces a favorable judgment of a resource.

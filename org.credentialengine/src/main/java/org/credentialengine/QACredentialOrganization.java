@@ -1,8 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * credentialengine.org/QACredentialOrganization
  * A quality assurance organization that plays one or more key roles in the lifecycle of a resource.

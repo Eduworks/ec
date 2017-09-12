@@ -11,9 +11,9 @@
  */
 package com.eduworks.ec.graph;
 
-import java.util.Collection;
-
 import org.stjs.javascript.Array;
+
+import java.util.Collection;
 
 /**
  * A graph consisting of a set of vertices of type <code>V</code>

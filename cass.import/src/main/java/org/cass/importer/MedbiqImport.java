@@ -1,17 +1,13 @@
 package org.cass.importer;
 
+import js.FileReader;
+import js.X2JS;
 import org.cass.competency.EcCompetency;
 import org.cassproject.ebac.identity.EcIdentity;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
-import org.w3c.dom.events.Event;
-
-import com.eduworks.ec.array.toString;
-
-import js.FileReader;
-import js.X2JS;
 
 /**
  * Importer methods to create competencies based on a

@@ -1,16 +1,15 @@
 package org.cassproject.ebac.identity;
 
-import static org.junit.Assert.assertTrue;
-import static org.stjs.javascript.Global.console;
-
+import com.eduworks.ec.crypto.EcAes;
+import com.eduworks.ec.crypto.EcPpk;
+import com.eduworks.schema.ebac.EbacContact;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
-import com.eduworks.ec.crypto.EcAes;
-import com.eduworks.ec.crypto.EcPpk;
-import com.eduworks.schema.ebac.EbacContact;
+import static org.junit.Assert.assertTrue;
+import static org.stjs.javascript.Global.console;
 
 @RunWith(STJSTestDriverRunner.class)
 @ScriptsBefore({ "/forge/forge.bundle.js" })

@@ -1,10 +1,9 @@
 package com.eduworks.ec.service.task.model;
 
+import com.eduworks.ec.service.task.TaskListManager;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
-
-import com.eduworks.ec.service.task.TaskListManager;
 
 /**
  * Example of a Model, maintains state information about itself and provides methods for 

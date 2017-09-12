@@ -1,10 +1,6 @@
 package com.eduworks.ec.task;
 
-import org.stjs.javascript.Array;
-import org.stjs.javascript.Global;
-import org.stjs.javascript.JSCollections;
-import org.stjs.javascript.JSGlobal;
-import org.stjs.javascript.TimeoutHandler;
+import org.stjs.javascript.*;
 import org.stjs.javascript.functions.Callback0;
 
 public class EcAsyncTaskWorker{

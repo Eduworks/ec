@@ -1,8 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-
 /**
  * credentialengine.org/RightsAction
  * An action asserting rights by an authoritative agent to possess, defend, transfer, license, and grant conditional access to a resource.
