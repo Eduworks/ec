@@ -51,8 +51,8 @@ import org.stjs.javascript.Array;
  * @author Joshua O'Madadhain
  *  
  * Ported to Javascript by:
- * @author Fritz Ray (Eduworks)
- * @author Tom Buskirk (Eduworks)
+ * @author Fritz Ray (fritz.ray@eduworks.com)
+ * @author Tom Buskirk (tom.buskirk@eduworks.com)
  */
 public interface Hypergraph<V, E>
 {
