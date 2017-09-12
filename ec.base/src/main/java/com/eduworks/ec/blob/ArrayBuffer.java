@@ -15,4 +15,9 @@ public class ArrayBuffer
 	{
 	}
 
+	public ArrayBuffer slice(int i,int length){
+		return null;
+	}
+
+	public int byteLength;
 }
