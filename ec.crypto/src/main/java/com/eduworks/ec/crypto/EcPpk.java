@@ -13,29 +13,34 @@ import window.pemJwk;
 
 /**
  * Helper classes for dealing with RSA Private Keys.
+ *
+ * @author fritz.ray@eduworks.com
  * @class EcPpk
  * @module com.eduworks.ec
- * @author fritz.ray@eduworks.com
  */
-public class EcPpk
-{
+public class EcPpk {
+
+	public Object jwk = null;
+	public CryptoKey key = null;
+	public CryptoKey signKey = null;
+	protected ppk ppk;
+	protected EcPpk() {
+	}
 
 	/**
 	 * Decodes a PEM encoded PrivateKeyInfo (PKCS#8) or RSAPrivateKey (PKCS#1) formatted RSA Public Key.
 	 * (In case you were curious.)
-	 * @method fromPem
-	 * @static
+	 *
 	 * @param {string} pem PEM as a string.
 	 * @return {EcPk} Object used to perform public key operations.
+	 * @method fromPem
+	 * @static
 	 */
-	public static EcPpk fromPem(String pem)
-	{
+	public static EcPpk fromPem(String pem) {
 		EcPpk pk = new EcPpk();
-		try
-		{
+		try {
 			pk.ppk = forge.pki.privateKeyFromPem(pem);
-		} catch (Exception ex)
-		{
+		} catch (Exception ex) {
 			return null;
 		}
 		return pk;
@@ -43,18 +48,16 @@ public class EcPpk
 
 	/**
 	 * Generates an RSA Keypair using web workers.
+	 *
+	 * @param {function(EcPpk)} callback Method called when the keypair is generated.
 	 * @method generateKeyAsync
 	 * @static
-	 * @param {function(EcPpk)} callback Method called when the keypair is generated.
 	 */
-	public static void generateKeyAsync(final Callback1<EcPpk> callback)
-	{
+	public static void generateKeyAsync(final Callback1<EcPpk> callback) {
 		Object o = new Object();
 		JSObjectAdapter.$properties(o).$put("workers", -1);
-		rsa.generateKeyPair(o, new Callback2<String, keypair>()
-		{
-			public void $invoke(String err, keypair keypair)
-			{
+		rsa.generateKeyPair(o, new Callback2<String, keypair>() {
+			public void $invoke(String err, keypair keypair) {
 				EcPpk ppk = new EcPpk();
 				ppk.ppk = keypair.privateKey;
 				callback.$invoke(ppk);
@@ -64,12 +67,12 @@ public class EcPpk
 
 	/**
 	 * Generates an RSA Keypair synchronously. Can take a while.
+	 *
+	 * @return {EcPpk} Public private keypair.
 	 * @method generateKey
 	 * @static
-	 * @return {EcPpk} Public private keypair.
 	 */
-	public static EcPpk generateKey()
-	{
+	public static EcPpk generateKey() {
 		Object o = new Object();
 		JSObjectAdapter.$properties(o).$put("workers", -1);
 		keypair keypair = rsa.generateKeyPair(o, null);
@@ -78,21 +81,16 @@ public class EcPpk
 		return ppk;
 	}
 
-	protected ppk ppk;
-	public Object jwk = null;
-	public CryptoKey key = null;
-	public CryptoKey signKey = null;
-
 	/**
 	 * Returns true iff the PEM forms of the public private keypair match.
 	 * Can also match against a public key if the public portion of the keypair match.
-	 * @method equals
+	 *
 	 * @param {EcPpk|EcPk} Key to compare to.
 	 * @return boolean If they match.
+	 * @method equals
 	 */
 	@Override
-	public boolean equals(Object obj)
-	{
+	public boolean equals(Object obj) {
 		if (obj instanceof EcPpk)
 			return toPem().equals(((EcPpk) obj).toPem());
 		if (obj instanceof EcPk)
@@ -100,40 +98,36 @@ public class EcPpk
 		return super.equals(obj);
 	}
 
-	protected EcPpk()
-	{
-	}
-
 	/**
 	 * Encodes the private key into a PEM encoded RSAPrivateKey (PKCS#1) formatted RSA Public Key.
 	 * (In case you were curious.)
-	 * @method toPem
+	 *
 	 * @return {string} PEM encoded public key without whitespace.
+	 * @method toPem
 	 */
-	public String toPem()
-	{
+	public String toPem() {
 		return forge.pki.privateKeyToPem(ppk).replaceAll("\r?\n", "");
 	}
 
 	/**
 	 * Encodes the private key into a PEM encoded RSAPrivateKey (PKCS#1) formatted RSA Public Key.
 	 * (In case you were curious.)
-	 * @method toPkcs1Pem
+	 *
 	 * @return {string} PEM encoded public key without whitespace.
+	 * @method toPkcs1Pem
 	 */
-	public String toPkcs1Pem()
-	{
+	public String toPkcs1Pem() {
 		return forge.pki.privateKeyToPem(ppk).replaceAll("\r?\n", "");
 	}
 
 	/**
 	 * Encodes the private key into a PEM encoded PrivateKeyInfo (PKCS#8) formatted RSA Public Key.
 	 * (In case you were curious.)
-	 * @method toPkcs8Pem
+	 *
 	 * @return {string} PEM encoded public key without whitespace.
+	 * @method toPkcs8Pem
 	 */
-	public String toPkcs8Pem()
-	{
+	public String toPkcs8Pem() {
 		return forge.pki.privateKeyInfoToPem(forge.pki.wrapRsaPrivateKey(forge.pki.privateKeyToAsn1(ppk))).replaceAll("\r?\n", "");
 	}
 
@@ -143,18 +137,17 @@ public class EcPpk
 		return jwk;
 	}
 
-	public ArrayBuffer toPkcs8()
-	{
+	public ArrayBuffer toPkcs8() {
 		return forge.pki.wrapRsaPrivateKey(forge.pki.privateKeyToAsn1(ppk));
 	}
 
 	/**
 	 * Extracts the public key portion from the public private keypair.
-	 * @method toPk
+	 *
 	 * @return {EcPk} Public Key Helper.
+	 * @method toPk
 	 */
-	public EcPk toPk()
-	{
+	public EcPk toPk() {
 		EcPk pk = new EcPk();
 		pk.pk = forge.rsa.setPublicKey(ppk.n, ppk.e);
 		return pk;
@@ -162,14 +155,13 @@ public class EcPpk
 
 	/**
 	 * Returns true if this PPK is in an array of PPKs.
-	 * @method inArray
+	 *
 	 * @param {Array<EcPpk>} ppks Array of ppks
 	 * @return true iff this PPK in ppks.
+	 * @method inArray
 	 */
-	public boolean inArray(Array<EcPpk> ppks)
-	{
-		for (int i = 0; i < ppks.$length(); i++)
-		{
+	public boolean inArray(Array<EcPpk> ppks) {
+		for (int i = 0; i < ppks.$length(); i++) {
 			if (ppks.$get(i).equals(this))
 				return true;
 		}

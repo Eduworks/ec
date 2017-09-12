@@ -5,13 +5,15 @@ import org.stjs.javascript.annotation.STJSBridge;
 
 @Namespace("forge")
 @STJSBridge()
-public class payload
-{
+public class payload {
 
-    public int length;
-	public bytes bytes()
-	{
+	public int length;
+
+	public bytes bytes() {
 		return null;
 	}
-	public payload substring(int i,int len){return null;}
+
+	public payload substring(int i, int len) {
+		return null;
+	}
 }

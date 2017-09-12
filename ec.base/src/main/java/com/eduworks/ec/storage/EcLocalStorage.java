@@ -6,7 +6,7 @@ import org.stjs.javascript.functions.Function1;
 
 public class EcLocalStorage {
 
-    public static void removeItem(Storage s, String key) {
-        ((Function1)JSObjectAdapter.$get(s, "removeItem")).$invoke(key);
-    }
+	public static void removeItem(Storage s, String key) {
+		((Function1) JSObjectAdapter.$get(s, "removeItem")).$invoke(key);
+	}
 }

@@ -33,7 +33,7 @@ public class MilCredCoprocessorTest extends EvidenceProcessingTestBase {
 
 		final Credential cr = newCredential("Adding Credential");
 
-		final CreativeWork w = newCreativeRelation(cr,c,"http://schema.cassproject.org/0.2/vocab/asserts");
+		final CreativeWork w = newCreativeRelation(cr, c, "http://schema.cassproject.org/0.2/vocab/asserts");
 
 		final AchieveAction a = newAchieveAction(cr);
 

@@ -8,19 +8,19 @@ import org.schema.VideoObject;
  */
 public class VideoStory extends VideoObject {
 
-	/**
-	 * Constructor, automatically sets @context and @type.
-	 * @constructor
-	 */
-	public VideoStory()
-	{
-		context="http://schema.eduworks.com/angles/0.1/";
-		type="VideoStory";
-	}
-
 	/***
 	 * The starting time of this story WRT the start of the video. In ISO 8601 Duration format.
 	 */
 	public Duration startTime;
+
+	/**
+	 * Constructor, automatically sets @context and @type.
+	 *
+	 * @constructor
+	 */
+	public VideoStory() {
+		context = "http://schema.eduworks.com/angles/0.1/";
+		type = "VideoStory";
+	}
 
 }

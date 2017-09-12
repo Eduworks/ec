@@ -18,14 +18,12 @@ import org.stjs.testing.driver.STJSTestDriverRunner;
 import static org.stjs.javascript.Global.console;
 
 @RunWith(STJSTestDriverRunner.class)
-@ScriptsBefore({ "/forge/forge.bundle.js" })
-public class EcVersioningTest
-{
+@ScriptsBefore({"/forge/forge.bundle.js"})
+public class EcVersioningTest {
 	static String server = "https://dev.cassproject.org/api/";
 
 	@Test
-	public void testSaveTwoVersionsBothExist()
-	{
+	public void testSaveTwoVersionsBothExist() {
 		EcRemote.async = false;
 
 		EcRepository r = new EcRepository();
@@ -45,158 +43,122 @@ public class EcVersioningTest
 		t.generateId(r.selectedServer);
 		t.addOwner(ppk.toPk());
 
-		EcRepository.save(t, new Callback1<String>()
-		{
+		EcRepository.save(t, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("First save OK.");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Couldn't save the object.");
 			}
 		});
 		t.name = "Foo2";
 		final String oldVersion = t.id;
 
-		EcRepository.save(t, new Callback1<String>()
-		{
+		EcRepository.save(t, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("First save OK.");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Couldn't save the object.");
 			}
 		});
 
 		final String newVersion = t.id;
 
-		EcRepository.get(oldVersion, new Callback1<EcRemoteLinkedData>()
-		{
+		EcRepository.get(oldVersion, new Callback1<EcRemoteLinkedData>() {
 			@Override
-			public void $invoke(EcRemoteLinkedData p1)
-			{
+			public void $invoke(EcRemoteLinkedData p1) {
 				Thing t = new Thing();
 				t.copyFrom(p1);
 				Assert.assertEquals(t.name, "Foo");
 				Assert.assertEquals(t.id, oldVersion);
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Couldn't retrieve the old version.");
 			}
 		});
-		EcRepository.get(newVersion, new Callback1<EcRemoteLinkedData>()
-		{
+		EcRepository.get(newVersion, new Callback1<EcRemoteLinkedData>() {
 			@Override
-			public void $invoke(EcRemoteLinkedData p1)
-			{
+			public void $invoke(EcRemoteLinkedData p1) {
 				Thing t = new Thing();
 				t.copyFrom(p1);
 				Assert.assertEquals(t.name, "Foo2");
 				Assert.assertEquals(t.id, newVersion);
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Couldn't retrieve the old version.");
 			}
 		});
-		EcRepository._delete(t, new Callback1<String>()
-		{
+		EcRepository._delete(t, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Couldn't delete it.");
 			}
 		});
-		EcRepository.get(oldVersion, new Callback1<EcRemoteLinkedData>()
-		{
+		EcRepository.get(oldVersion, new Callback1<EcRemoteLinkedData>() {
 			@Override
-			public void $invoke(EcRemoteLinkedData p1)
-			{
+			public void $invoke(EcRemoteLinkedData p1) {
 				Thing t = new Thing();
 				t.copyFrom(p1);
 				Assert.assertEquals(t.name, "Foo");
 				Assert.assertEquals(t.id, oldVersion);
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Couldn't retrieve the old version 2.");
 			}
 		});
-		EcRepository.get(newVersion, new Callback1<EcRemoteLinkedData>()
-		{
+		EcRepository.get(newVersion, new Callback1<EcRemoteLinkedData>() {
 			@Override
-			public void $invoke(EcRemoteLinkedData p1)
-			{
+			public void $invoke(EcRemoteLinkedData p1) {
 				Thing t = new Thing();
 				t.copyFrom(p1);
 				Assert.assertEquals(t.name, "Foo2");
 				Assert.assertEquals(t.id, newVersion);
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Couldn't retrieve the old version 2.");
 			}
 		});
-		EcRepository.get(t.shortId(), new Callback1<EcRemoteLinkedData>()
-		{
+		EcRepository.get(t.shortId(), new Callback1<EcRemoteLinkedData>() {
 			@Override
-			public void $invoke(EcRemoteLinkedData p1)
-			{
+			public void $invoke(EcRemoteLinkedData p1) {
 				Assert.fail("Could find the thing that was supposed to be gone.");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Couldn't find the deleted 'latest' -- good.");
 			}
 		});
-		r.search(t.shortId(), null, new Callback1<Array<EcRemoteLinkedData>>()
-		{
+		r.search(t.shortId(), null, new Callback1<Array<EcRemoteLinkedData>>() {
 			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1)
-			{
+			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				if (p1.$length() != 0)
 					Assert.fail("Could find the thing that was supposed to be gone.");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Couldn't find the deleted 'latest' -- good.");
 			}
 		});

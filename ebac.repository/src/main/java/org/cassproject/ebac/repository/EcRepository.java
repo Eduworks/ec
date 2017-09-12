@@ -22,18 +22,476 @@ import org.stjs.javascript.functions.Callback1;
  */
 public class EcRepository {
 
-	public String selectedServer = null;
 	public static boolean caching = false;
 	public static boolean cachingSearch = false;
 	public static boolean unsigned = false;
 	public static boolean alwaysTryUrl = false;
 	public static Object cache = new Object();
 	public static Object fetching = new Object();
-
 	public static Array<EcRepository> repos = new Array<>();
+	public String selectedServer = null;
+	public boolean autoDetectFound = false;
 
 	public EcRepository() {
 		repos.push(this);
+	}
+
+	/**
+	 * Gets a JSON-LD object from the place designated by the URI.
+	 * <p>
+	 * Uses a signature sheet gathered from {@link EcIdentityManager}.
+	 *
+	 * @param {String}                               url URL of the remote object.
+	 * @param {Callback1<EcRemoteLinkedData>}success Event to call upon
+	 *                                               successful retrieval.
+	 * @param {Callback1<String>}                    failure Event to call upon spectacular
+	 *                                               failure.
+	 * @memberOf EcRepository
+	 * @method get
+	 * @static
+	 */
+	public static void get(final String url, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure) {
+		if (caching) {
+			if (JSObjectAdapter.$get(cache, url) != null) {
+				if (EcRemote.async) {
+					Task.immediate(new Callback0() {
+						@Override
+						public void $invoke() {
+							success.$invoke((EcRemoteLinkedData) JSObjectAdapter.$get(cache, url));
+						}
+					});
+				} else {
+					success.$invoke((EcRemoteLinkedData) JSObjectAdapter.$get(cache, url));
+				}
+				return;
+			}
+			if (EcRemote.async) {
+				if (JSObjectAdapter.$get(fetching, url) != null) {
+					if ((Double) JSObjectAdapter.$get(fetching, url) > new Date().getTime()) {
+						Global.setTimeout(new Callback0() {
+							@Override
+							public void $invoke() {
+								get(url, success, failure);
+							}
+						}, 100);
+						return;
+					}
+				}
+				JSObjectAdapter.$put(fetching, url, new Date().getTime() + 60000);
+			}
+		}
+		if (!shouldTryUrl(url)) {
+			EcRepository.find(url, "Could not locate object. May be due to EcRepository.alwaysTryUrl flag.", new Object(), 0, success, failure);
+			return;
+		}
+		final FormData fd = new FormData();
+		if (unsigned) {
+			EcRemote.postExpectingObject(url, null, fd, new Callback1<Object>() {
+				@Override
+				public void $invoke(Object p1) {
+					JSObjectAdapter.$properties(fetching).$delete(url);
+					EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
+					d.copyFrom(p1);
+					if (d.getFullType() == null) {
+						EcRepository.find(url, Global.JSON.stringify(p1), new Object(), 0, success, failure);
+						return;
+					}
+					if (caching) {
+						JSObjectAdapter.$put(cache, d.id, d);
+						JSObjectAdapter.$put(cache, d.shortId(), d);
+					}
+					success.$invoke(d);
+				}
+			}, new Callback1<String>() {
+
+				@Override
+				public void $invoke(String p1) {
+					EcRepository.find(url, p1, new Object(), 0, success, failure);
+				}
+			});
+		} else
+			EcIdentityManager.signatureSheetAsync(60000, url, new Callback1<String>() {
+				@Override
+				public void $invoke(String p1) {
+					if (JSObjectAdapter.$get(cache, url) != null) {
+						JSObjectAdapter.$properties(fetching).$delete(url);
+						success.$invoke((EcRemoteLinkedData) JSObjectAdapter.$get(cache, url));
+						return;
+					}
+					fd.append("signatureSheet", p1);
+					EcRemote.postExpectingObject(url, null, fd, new Callback1<Object>() {
+						@Override
+						public void $invoke(Object p1) {
+							JSObjectAdapter.$properties(fetching).$delete(url);
+							EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
+							d.copyFrom(p1);
+							if (d.getFullType() == null) {
+								EcRepository.find(url, Global.JSON.stringify(p1), new Object(), 0, success, failure);
+								return;
+							}
+							if (caching) {
+								JSObjectAdapter.$put(cache, d.id, d);
+								JSObjectAdapter.$put(cache, d.shortId(), d);
+							}
+							success.$invoke(d);
+						}
+					}, new Callback1<String>() {
+
+						@Override
+						public void $invoke(String p1) {
+							EcRepository.find(url, p1, new Object(), 0, success, failure);
+						}
+					});
+				}
+			});
+	}
+
+	private static boolean shouldTryUrl(String url) {
+		if (url == null)
+			return false;
+		if (alwaysTryUrl)
+			return true;
+		if (repos.$length() == 0)
+			return true;
+		if (url.contains("/api/") || url.contains("/data/"))
+			return true;
+		boolean validUrlFound = false;
+		for (int i = 0; i < repos.$length(); i++) {
+			if (repos.$get(i).selectedServer == null)
+				continue;
+			validUrlFound = true;
+		}
+		if (!validUrlFound)
+			return true;
+		return false;
+	}
+
+	private static void find(final String url, final String error, final Object history, final int i, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure) {
+		if (JSGlobal.isNaN(i) || (Object) i == JSGlobal.undefined || i > repos.$length() || repos.$get(i) == null) {
+			JSObjectAdapter.$properties(fetching).$delete(url);
+			if (failure != null)
+				failure.$invoke(error);
+			return;
+		}
+		final EcRepository repo = repos.$get(i);
+		if (repo.selectedServer == null) {
+			find(url, error, history, i + 1, success, failure);
+			return;
+		}
+		if (((Boolean) JSObjectAdapter.$get(history, repo.selectedServer)) == true) {
+			find(url, error, history, i + 1, success, failure);
+			return;
+		}
+		JSObjectAdapter.$put(history, repo.selectedServer, true);
+		repo.search("@id:\"" + url + "\"", null, new Callback1<Array<EcRemoteLinkedData>>() {
+			@Override
+			public void $invoke(Array<EcRemoteLinkedData> strings) {
+				if (strings == null || strings.$length() == 0)
+					find(url, error, history, i + 1, success, failure);
+				else {
+					boolean done = false;
+					for (int i = 0; i < strings.$length(); i++) {
+						if (strings.$get(i).id == url) {
+							if (done)
+								Logger.log("Searching for exact ID:" + url + ", found more than one@:" + repo.selectedServer);
+							done = true;
+							success.$invoke(strings.$get(i));
+						}
+					}
+				}
+			}
+		}, new Callback1<String>() {
+			@Override
+			public void $invoke(String s) {
+				find(url, error, history, i + 1, success, failure);
+			}
+		});
+	}
+
+	private static EcRemoteLinkedData findBlocking(final String url, final String error, final Object history, final int i) {
+		if (i > repos.$length() || repos.$get(i) == null) {
+			JSObjectAdapter.$properties(fetching).$delete(url);
+			return null;
+		}
+		final EcRepository repo = repos.$get(i);
+		if (((Boolean) JSObjectAdapter.$get(history, repo.selectedServer)) == true)
+			findBlocking(url, error, history, i + 1);
+		JSObjectAdapter.$put(history, repo.selectedServer, true);
+		Array<EcRemoteLinkedData> strings = repo.searchBlocking("@id:\"" + url + "\"");
+		if (strings == null || strings.$length() == 0)
+			return findBlocking(url, error, history, i + 1);
+		else {
+			for (int j = 0; j < strings.$length(); j++) {
+				if (strings.$get(j).id == url) {
+					return strings.$get(j);
+				}
+			}
+		}
+		return findBlocking(url, error, history, i + 1);
+	}
+
+	/**
+	 * Retrieves a piece of data synchronously from the server, blocking until
+	 * it is returned
+	 *
+	 * @param {String} url URL ID of the data to be retrieved
+	 * @return {EcRemoteLinkedData} Data retrieved, corresponding to the ID
+	 * @memberOf EcRepository
+	 * @method getBlocking
+	 * @static
+	 */
+	public static EcRemoteLinkedData getBlocking(final String url) {
+		if (url == null)
+			return null;
+		if (caching) {
+			if (JSObjectAdapter.$get(cache, url) != null) {
+				return (EcRemoteLinkedData) JSObjectAdapter.$get(cache, url);
+			}
+		}
+		if (!shouldTryUrl(url)) {
+			return EcRepository.findBlocking(url, "Could not locate object. May be due to EcRepository.alwaysTryUrl flag.", new Object(), 0);
+		}
+		final FormData fd = new FormData();
+		String p1 = null;
+
+		if (unsigned == false) {
+			p1 = EcIdentityManager.signatureSheet(60000, url);
+			fd.append("signatureSheet", p1);
+		}
+		boolean oldAsync = EcRemote.async;
+		EcRemote.async = false;
+		EcRemote.postExpectingObject(url, null, fd, new Callback1<Object>() {
+			@Override
+			public void $invoke(Object p1) {
+				EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
+				d.copyFrom(p1);
+				if (d.getFullType() == null) {
+					EcRepository.findBlocking(url, Global.JSON.stringify(p1), new Object(), 0);
+					return;
+				}
+				JSObjectAdapter.$put(cache, url, d);
+			}
+		}, new Callback1<String>() {
+			@Override
+			public void $invoke(String s) {
+				JSObjectAdapter.$put(cache, url, EcRepository.findBlocking(url, s, new Object(), 0));
+			}
+		});
+		EcRemote.async = oldAsync;
+		EcRemoteLinkedData result = (EcRemoteLinkedData) JSObjectAdapter.$get(cache, url);
+		if (!caching) {
+			JSObjectAdapter.$put(cache, url, null);
+		}
+		return result;
+	}
+
+	/**
+	 * Escapes a search query
+	 *
+	 * @param {String} query Query string to escape
+	 * @return {String} Escaped query string
+	 * @memberOf EcRepository
+	 * @method escapeSearch
+	 * @static
+	 */
+	public static String escapeSearch(String query) {
+		String s = null;
+		s = JSCollections.$castArray(query.split("\\")).join("\\\\");
+		s = JSCollections.$castArray(s.split("-")).join("\\-");
+		s = JSCollections.$castArray(s.split("=")).join("\\=");
+		s = JSCollections.$castArray(s.split("&&")).join("\\&&");
+		s = JSCollections.$castArray(s.split("||")).join("\\||");
+		s = JSCollections.$castArray(s.split("<")).join("\\<");
+		s = JSCollections.$castArray(s.split(">")).join("\\>");
+		s = JSCollections.$castArray(s.split("|")).join("\\|");
+		s = JSCollections.$castArray(s.split("(")).join("\\(");
+		s = JSCollections.$castArray(s.split(")")).join("\\)");
+		s = JSCollections.$castArray(s.split("{")).join("\\{");
+		s = JSCollections.$castArray(s.split("}")).join("\\}");
+		s = JSCollections.$castArray(s.split("[")).join("\\[");
+		s = JSCollections.$castArray(s.split("]")).join("\\]");
+		s = JSCollections.$castArray(s.split("^")).join("\\^");
+		s = JSCollections.$castArray(s.split("\"")).join("\\\"");
+		s = JSCollections.$castArray(s.split("~")).join("\\~");
+		s = JSCollections.$castArray(s.split("*")).join("\\*");
+		s = JSCollections.$castArray(s.split("?")).join("\\?");
+		s = JSCollections.$castArray(s.split(":")).join("\\:");
+		s = JSCollections.$castArray(s.split("/")).join("\\/");
+		s = JSCollections.$castArray(s.split("+")).join("\\+");
+		return s;
+	}
+
+	/**
+	 * Attempts to save a piece of data. Does some checks before saving to
+	 * ensure the data is valid. Warns the developer that they are using the
+	 * repository save function rather than an object specific version, this can
+	 * be avoided by calling _save
+	 * <p>
+	 * Uses a signature sheet informed by the owner field of the data.
+	 *
+	 * @param {EcRemoteLinkedData} data Data to save to the location designated
+	 *                             by its id.
+	 * @param {Callback1<String>}  success Callback triggered on successful save
+	 * @param {Callback1<String>}  failure Callback triggered if error during
+	 *                             save
+	 * @memberOf EcRepository
+	 * @method save
+	 * @static
+	 */
+	public static void save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure) {
+		//Using EcRepository 'save' method, if this is intentional consider calling '_save'
+		//Using this method instead of the save method for your object (if it exists) bypasses quality checks.
+		_save(data, success, failure);
+	}
+
+	/**
+	 * Attempts to save a piece of data. Does some checks before saving to
+	 * ensure the data is valid. This version does not send a console warning,
+	 * <p>
+	 * Uses a signature sheet informed by the owner field of the data.
+	 *
+	 * @param {EcRemoteLinkedData} data Data to save to the location designated
+	 *                             by its id.
+	 * @param {Callback1<String>}  success Callback triggered on successful save
+	 * @param {Callback1<String>}  failure Callback triggered if error during
+	 *                             save
+	 * @memberOf EcRepository
+	 * @method _save
+	 * @static
+	 */
+	public static void _save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure) {
+		if (data.invalid()) {
+			String msg = "Cannot save data. It is missing a vital component.";
+			if (failure != null) {
+				failure.$invoke(msg);
+			} else {
+				Global.console.error(msg);
+			}
+			return;
+		}
+
+		if (data.reader != null && data.reader.$length() == 0) {
+			JSObjectAdapter.$properties(data).$delete("reader");
+		}
+
+		if (data.owner != null && data.owner.$length() == 0) {
+			JSObjectAdapter.$properties(data).$delete("owner");
+		}
+
+		if (EcEncryptedValue.encryptOnSave(data.id, null)) {
+			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(data, false);
+			EcIdentityManager.sign(data);
+			_saveWithoutSigning(data, success, failure);
+		} else {
+			EcIdentityManager.sign(data);
+			_saveWithoutSigning(data, success, failure);
+		}
+	}
+
+	/**
+	 * Attempts to save a piece of data without signing it.
+	 * <p>
+	 * Uses a signature sheet informed by the owner field of the data.
+	 *
+	 * @param {EcRemoteLinkedData} data Data to save to the location designated
+	 *                             by its id.
+	 * @param {Callback1<String>}  success Callback triggered on successful save
+	 * @param {Callback1<String>}  failure Callback triggered if error during
+	 *                             save
+	 * @memberOf EcRepository
+	 * @method _saveWithoutSigning
+	 * @static
+	 */
+	private static void _saveWithoutSigning(final EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure) {
+
+		if (caching) {
+			JSObjectAdapter.$properties(cache).$delete(data.id);
+			JSObjectAdapter.$properties(cache).$delete(data.shortId());
+		}
+		if (data.invalid()) {
+			failure.$invoke("Data is malformed.");
+			return;
+		}
+
+		data.updateTimestamp();
+
+		final FormData fd = new FormData();
+		fd.append("data", data.toJson());
+		if (EcRemote.async == false) {
+			if (data.owner != null && data.owner.$length() > 0) {
+				String arg0 = EcIdentityManager.signatureSheetFor(data.owner, 60000, data.id);
+				fd.append("signatureSheet", arg0);
+				EcRemote.postExpectingString(data.id, "", fd, success, failure);
+			} else {
+				String arg0 = EcIdentityManager.signatureSheet(60000, data.id);
+				fd.append("signatureSheet", arg0);
+				EcRemote.postExpectingString(data.id, "", fd, success, failure);
+			}
+		} else if (data.owner != null && data.owner.$length() > 0) {
+			EcIdentityManager.signatureSheetForAsync(data.owner, 60000, data.id, new Callback1<String>() {
+				@Override
+				public void $invoke(String arg0) {
+					fd.append("signatureSheet", arg0);
+					EcRemote.postExpectingString(data.id, "", fd, success, failure);
+				}
+			});
+		} else {
+			EcIdentityManager.signatureSheetAsync(60000, data.id, new Callback1<String>() {
+				@Override
+				public void $invoke(String arg0) {
+					fd.append("signatureSheet", arg0);
+					EcRemote.postExpectingString(data.id, "", fd, success, failure);
+				}
+			});
+		}
+
+	}
+
+	/**
+	 * Attempts to delete a piece of data.
+	 * <p>
+	 * Uses a signature sheet informed by the owner field of the data.
+	 *
+	 * @param {EcRemoteLinkedData} data Data to save to the location designated
+	 *                             by its id.
+	 * @param {Callback1<String>}  success Callback triggered on successful
+	 *                             delete
+	 * @param {Callback1<String>}  failure Callback triggered if error during
+	 *                             delete
+	 * @memberOf EcRepository
+	 * @method _delete
+	 * @static
+	 */
+	public static void _delete(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure) {
+		DELETE(data, success, failure);
+	}
+
+	/**
+	 * Attempts to delete a piece of data.
+	 * <p>
+	 * Uses a signature sheet informed by the owner field of the data.
+	 *
+	 * @param {EcRemoteLinkedData} data Data to save to the location designated
+	 *                             by its id.
+	 * @param {Callback1<String>}  success Callback triggered on successful
+	 *                             delete
+	 * @param {Callback1<String>}  failure Callback triggered if error during
+	 *                             delete
+	 * @memberOf EcRepository
+	 * @method DELETE
+	 * @static
+	 */
+	public static void DELETE(final EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure) {
+		if (caching) {
+			JSObjectAdapter.$properties(cache).$delete(data.id);
+			JSObjectAdapter.$properties(cache).$delete(data.shortId());
+		}
+		EcIdentityManager.signatureSheetForAsync(data.owner, 60000, data.id, new Callback1<String>() {
+			@Override
+			public void $invoke(String signatureSheet) {
+				EcRemote._delete(data.shortId(), signatureSheet, success, failure);
+			}
+		});
 	}
 
 	/**
@@ -115,256 +573,6 @@ public class EcRepository {
 					}, null);
 				}
 			});
-	}
-
-	/**
-	 * Gets a JSON-LD object from the place designated by the URI.
-	 * <p>
-	 * Uses a signature sheet gathered from {@link EcIdentityManager}.
-	 *
-	 * @param {String}                               url URL of the remote object.
-	 * @param {Callback1<EcRemoteLinkedData>}success Event to call upon
-	 *                                               successful retrieval.
-	 * @param {Callback1<String>}                    failure Event to call upon spectacular
-	 *                                               failure.
-	 * @memberOf EcRepository
-	 * @method get
-	 * @static
-	 */
-	public static void get(final String url, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure) {
-		if (caching) {
-			if (JSObjectAdapter.$get(cache, url) != null) {
-				if (EcRemote.async) {
-					Task.immediate(new Callback0() {
-						@Override
-						public void $invoke() {
-							success.$invoke((EcRemoteLinkedData) JSObjectAdapter.$get(cache, url));
-						}
-					});
-				} else {
-					success.$invoke((EcRemoteLinkedData) JSObjectAdapter.$get(cache, url));
-				}
-				return;
-			}
-			if (EcRemote.async) {
-				if (JSObjectAdapter.$get(fetching, url) != null) {
-					if ((Double) JSObjectAdapter.$get(fetching, url) > new Date().getTime()) {
-						Global.setTimeout(new Callback0() {
-							@Override
-							public void $invoke() {
-								get(url, success, failure);
-							}
-						}, 100);
-						return;
-					}
-				}
-				JSObjectAdapter.$put(fetching, url, new Date().getTime() + 60000);
-			}
-		}
-		if (!shouldTryUrl(url)){
-			EcRepository.find(url, "Could not locate object. May be due to EcRepository.alwaysTryUrl flag.", new Object(), 0, success, failure);
-			return;
-		}
-		final FormData fd = new FormData();
-		if (unsigned) {
-			EcRemote.postExpectingObject(url, null, fd, new Callback1<Object>() {
-				@Override
-				public void $invoke(Object p1) {
-					JSObjectAdapter.$properties(fetching).$delete(url);
-					EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
-					d.copyFrom(p1);
-					if (d.getFullType() == null) {
-						EcRepository.find(url, Global.JSON.stringify(p1), new Object(), 0, success, failure);
-						return;
-					}
-					if (caching) {
-						JSObjectAdapter.$put(cache, d.id, d);
-						JSObjectAdapter.$put(cache, d.shortId(), d);
-					}
-					success.$invoke(d);
-				}
-			}, new Callback1<String>() {
-
-				@Override
-				public void $invoke(String p1) {
-					EcRepository.find(url, p1, new Object(), 0, success, failure);
-				}
-			});
-		} else
-			EcIdentityManager.signatureSheetAsync(60000, url, new Callback1<String>() {
-				@Override
-				public void $invoke(String p1) {
-					if (JSObjectAdapter.$get(cache, url) != null) {
-						JSObjectAdapter.$properties(fetching).$delete(url);
-						success.$invoke((EcRemoteLinkedData) JSObjectAdapter.$get(cache, url));
-						return;
-					}
-					fd.append("signatureSheet", p1);
-					EcRemote.postExpectingObject(url, null, fd, new Callback1<Object>() {
-						@Override
-						public void $invoke(Object p1) {
-							JSObjectAdapter.$properties(fetching).$delete(url);
-							EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
-							d.copyFrom(p1);
-							if (d.getFullType() == null) {
-								EcRepository.find(url, Global.JSON.stringify(p1), new Object(), 0, success, failure);
-								return;
-							}
-							if (caching) {
-								JSObjectAdapter.$put(cache, d.id, d);
-								JSObjectAdapter.$put(cache, d.shortId(), d);
-							}
-							success.$invoke(d);
-						}
-					}, new Callback1<String>() {
-
-						@Override
-						public void $invoke(String p1) {
-							EcRepository.find(url, p1, new Object(), 0, success, failure);
-						}
-					});
-				}
-			});
-	}
-
-	private static boolean shouldTryUrl(String url) {
-		if (url == null)
-			return false;
-		if (alwaysTryUrl)
-			return true;
-		if (repos.$length() == 0)
-			return true;
-		if (url.contains("/api/") || url.contains("/data/"))
-			return true;
-		boolean validUrlFound = false;
-		for (int i = 0;i < repos.$length();i++)
-		{
-			if (repos.$get(i).selectedServer == null)
-				continue;
-			validUrlFound = true;
-		}
-		if (!validUrlFound)
-			return true;
-		return false;
-	}
-
-	private static void find(final String url, final String error, final Object history, final int i, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure) {
-		if (JSGlobal.isNaN(i) || (Object)i == JSGlobal.undefined || i > repos.$length() || repos.$get(i) == null) {
-			JSObjectAdapter.$properties(fetching).$delete(url);
-			if (failure != null)
-				failure.$invoke(error);
-			return;
-		}
-		final EcRepository repo = repos.$get(i);
-		if (repo.selectedServer == null) {
-			find(url, error, history, i + 1, success, failure);
-			return;
-		}
-		if (((Boolean) JSObjectAdapter.$get(history, repo.selectedServer)) == true) {
-			find(url, error, history, i + 1, success, failure);
-			return;
-		}
-		JSObjectAdapter.$put(history, repo.selectedServer, true);
-		repo.search("@id:\"" + url + "\"", null, new Callback1<Array<EcRemoteLinkedData>>() {
-			@Override
-			public void $invoke(Array<EcRemoteLinkedData> strings) {
-				if (strings == null || strings.$length() == 0)
-					find(url, error, history, i + 1, success, failure);
-				else {
-					boolean done = false;
-					for (int i = 0; i < strings.$length(); i++) {
-						if (strings.$get(i).id == url) {
-							if (done)
-								Logger.log("Searching for exact ID:" + url + ", found more than one@:" + repo.selectedServer);
-							done = true;
-							success.$invoke(strings.$get(i));
-						}
-					}
-				}
-			}
-		}, new Callback1<String>() {
-			@Override
-			public void $invoke(String s) {
-				find(url, error, history, i + 1, success, failure);
-			}
-		});
-	}
-
-	private static EcRemoteLinkedData findBlocking(final String url, final String error, final Object history, final int i) {
-		if (i > repos.$length() || repos.$get(i) == null) {
-			JSObjectAdapter.$properties(fetching).$delete(url);
-			return null;
-		}
-		final EcRepository repo = repos.$get(i);
-		if (((Boolean) JSObjectAdapter.$get(history, repo.selectedServer)) == true)
-			findBlocking(url, error, history, i + 1);
-		JSObjectAdapter.$put(history, repo.selectedServer, true);
-		Array<EcRemoteLinkedData> strings = repo.searchBlocking("@id:\"" + url + "\"");
-		if (strings == null || strings.$length() == 0)
-			return findBlocking(url, error, history, i + 1);
-		else {
-			for (int j = 0; j < strings.$length(); j++) {
-				if (strings.$get(j).id == url) {
-					return strings.$get(j);
-				}
-			}
-		}
-		return findBlocking(url, error, history, i + 1);
-	}
-
-	/**
-	 * Retrieves a piece of data synchronously from the server, blocking until
-	 * it is returned
-	 *
-	 * @param {String} url URL ID of the data to be retrieved
-	 * @return {EcRemoteLinkedData} Data retrieved, corresponding to the ID
-	 * @memberOf EcRepository
-	 * @method getBlocking
-	 * @static
-	 */
-	public static EcRemoteLinkedData getBlocking(final String url) {
-		if (url == null)
-			return null;
-		if (caching) {
-			if (JSObjectAdapter.$get(cache, url) != null) {
-				return (EcRemoteLinkedData) JSObjectAdapter.$get(cache, url);
-			}
-		}
-		if (!shouldTryUrl(url)){
-			return EcRepository.findBlocking(url, "Could not locate object. May be due to EcRepository.alwaysTryUrl flag.", new Object(), 0);
-		}
-		final FormData fd = new FormData();
-		String p1 = null;
-
-		if (unsigned == false) {
-			p1 = EcIdentityManager.signatureSheet(60000, url);
-			fd.append("signatureSheet", p1);
-		}
-		boolean oldAsync = EcRemote.async;
-		EcRemote.async = false;
-		EcRemote.postExpectingObject(url, null, fd, new Callback1<Object>() {
-			@Override
-			public void $invoke(Object p1) {
-				EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
-				d.copyFrom(p1);
-				if (d.getFullType() == null) {
-					EcRepository.findBlocking(url, Global.JSON.stringify(p1), new Object(), 0);
-					return;
-				}
-				JSObjectAdapter.$put(cache, url, d);
-			}
-		}, new Callback1<String>() {
-			@Override
-			public void $invoke(String s) {
-				JSObjectAdapter.$put(cache, url, EcRepository.findBlocking(url, s, new Object(), 0));
-			}
-		});
-		EcRemote.async = oldAsync;
-		EcRemoteLinkedData result = (EcRemoteLinkedData) JSObjectAdapter.$get(cache, url);
-		if (!caching) {
-			JSObjectAdapter.$put(cache, url, null);
-		}
-		return result;
 	}
 
 	/**
@@ -891,8 +1099,6 @@ public class EcRepository {
 		EcRemote.async = true;
 	}
 
-	public boolean autoDetectFound = false;
-
 	/**
 	 * Handles the actual detection of repository endpoint /ping service
 	 *
@@ -1084,215 +1290,6 @@ public class EcRepository {
 			success.$invoke(results);
 		}
 		return results;
-	}
-
-	/**
-	 * Escapes a search query
-	 *
-	 * @param {String} query Query string to escape
-	 * @return {String} Escaped query string
-	 * @memberOf EcRepository
-	 * @method escapeSearch
-	 * @static
-	 */
-	public static String escapeSearch(String query) {
-		String s = null;
-		s = JSCollections.$castArray(query.split("\\")).join("\\\\");
-		s = JSCollections.$castArray(s.split("-")).join("\\-");
-		s = JSCollections.$castArray(s.split("=")).join("\\=");
-		s = JSCollections.$castArray(s.split("&&")).join("\\&&");
-		s = JSCollections.$castArray(s.split("||")).join("\\||");
-		s = JSCollections.$castArray(s.split("<")).join("\\<");
-		s = JSCollections.$castArray(s.split(">")).join("\\>");
-		s = JSCollections.$castArray(s.split("|")).join("\\|");
-		s = JSCollections.$castArray(s.split("(")).join("\\(");
-		s = JSCollections.$castArray(s.split(")")).join("\\)");
-		s = JSCollections.$castArray(s.split("{")).join("\\{");
-		s = JSCollections.$castArray(s.split("}")).join("\\}");
-		s = JSCollections.$castArray(s.split("[")).join("\\[");
-		s = JSCollections.$castArray(s.split("]")).join("\\]");
-		s = JSCollections.$castArray(s.split("^")).join("\\^");
-		s = JSCollections.$castArray(s.split("\"")).join("\\\"");
-		s = JSCollections.$castArray(s.split("~")).join("\\~");
-		s = JSCollections.$castArray(s.split("*")).join("\\*");
-		s = JSCollections.$castArray(s.split("?")).join("\\?");
-		s = JSCollections.$castArray(s.split(":")).join("\\:");
-		s = JSCollections.$castArray(s.split("/")).join("\\/");
-		s = JSCollections.$castArray(s.split("+")).join("\\+");
-		return s;
-	}
-
-	/**
-	 * Attempts to save a piece of data. Does some checks before saving to
-	 * ensure the data is valid. Warns the developer that they are using the
-	 * repository save function rather than an object specific version, this can
-	 * be avoided by calling _save
-	 * <p>
-	 * Uses a signature sheet informed by the owner field of the data.
-	 *
-	 * @param {EcRemoteLinkedData} data Data to save to the location designated
-	 *                             by its id.
-	 * @param {Callback1<String>}  success Callback triggered on successful save
-	 * @param {Callback1<String>}  failure Callback triggered if error during
-	 *                             save
-	 * @memberOf EcRepository
-	 * @method save
-	 * @static
-	 */
-	public static void save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure) {
-		//Using EcRepository 'save' method, if this is intentional consider calling '_save'
-		//Using this method instead of the save method for your object (if it exists) bypasses quality checks.
-		_save(data, success, failure);
-	}
-
-	/**
-	 * Attempts to save a piece of data. Does some checks before saving to
-	 * ensure the data is valid. This version does not send a console warning,
-	 * <p>
-	 * Uses a signature sheet informed by the owner field of the data.
-	 *
-	 * @param {EcRemoteLinkedData} data Data to save to the location designated
-	 *                             by its id.
-	 * @param {Callback1<String>}  success Callback triggered on successful save
-	 * @param {Callback1<String>}  failure Callback triggered if error during
-	 *                             save
-	 * @memberOf EcRepository
-	 * @method _save
-	 * @static
-	 */
-	public static void _save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure) {
-		if (data.invalid()) {
-			String msg = "Cannot save data. It is missing a vital component.";
-			if (failure != null) {
-				failure.$invoke(msg);
-			} else {
-				Global.console.error(msg);
-			}
-			return;
-		}
-
-		if (data.reader != null && data.reader.$length() == 0) {
-			JSObjectAdapter.$properties(data).$delete("reader");
-		}
-
-		if (data.owner != null && data.owner.$length() == 0) {
-			JSObjectAdapter.$properties(data).$delete("owner");
-		}
-
-		if (EcEncryptedValue.encryptOnSave(data.id, null)) {
-			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(data, false);
-			EcIdentityManager.sign(data);
-			_saveWithoutSigning(data, success, failure);
-		} else {
-			EcIdentityManager.sign(data);
-			_saveWithoutSigning(data, success, failure);
-		}
-	}
-
-	/**
-	 * Attempts to save a piece of data without signing it.
-	 * <p>
-	 * Uses a signature sheet informed by the owner field of the data.
-	 *
-	 * @param {EcRemoteLinkedData} data Data to save to the location designated
-	 *                             by its id.
-	 * @param {Callback1<String>}  success Callback triggered on successful save
-	 * @param {Callback1<String>}  failure Callback triggered if error during
-	 *                             save
-	 * @memberOf EcRepository
-	 * @method _saveWithoutSigning
-	 * @static
-	 */
-	private static void _saveWithoutSigning(final EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure) {
-
-		if (caching) {
-			JSObjectAdapter.$properties(cache).$delete(data.id);
-			JSObjectAdapter.$properties(cache).$delete(data.shortId());
-		}
-		if (data.invalid()) {
-			failure.$invoke("Data is malformed.");
-			return;
-		}
-
-		data.updateTimestamp();
-
-		final FormData fd = new FormData();
-		fd.append("data", data.toJson());
-		if (EcRemote.async == false) {
-			if (data.owner != null && data.owner.$length() > 0) {
-				String arg0 = EcIdentityManager.signatureSheetFor(data.owner, 60000, data.id);
-				fd.append("signatureSheet", arg0);
-				EcRemote.postExpectingString(data.id, "", fd, success, failure);
-			} else {
-				String arg0 = EcIdentityManager.signatureSheet(60000, data.id);
-				fd.append("signatureSheet", arg0);
-				EcRemote.postExpectingString(data.id, "", fd, success, failure);
-			}
-		} else if (data.owner != null && data.owner.$length() > 0) {
-			EcIdentityManager.signatureSheetForAsync(data.owner, 60000, data.id, new Callback1<String>() {
-				@Override
-				public void $invoke(String arg0) {
-					fd.append("signatureSheet", arg0);
-					EcRemote.postExpectingString(data.id, "", fd, success, failure);
-				}
-			});
-		} else {
-			EcIdentityManager.signatureSheetAsync(60000, data.id, new Callback1<String>() {
-				@Override
-				public void $invoke(String arg0) {
-					fd.append("signatureSheet", arg0);
-					EcRemote.postExpectingString(data.id, "", fd, success, failure);
-				}
-			});
-		}
-
-	}
-
-	/**
-	 * Attempts to delete a piece of data.
-	 * <p>
-	 * Uses a signature sheet informed by the owner field of the data.
-	 *
-	 * @param {EcRemoteLinkedData} data Data to save to the location designated
-	 *                             by its id.
-	 * @param {Callback1<String>}  success Callback triggered on successful
-	 *                             delete
-	 * @param {Callback1<String>}  failure Callback triggered if error during
-	 *                             delete
-	 * @memberOf EcRepository
-	 * @method _delete
-	 * @static
-	 */
-	public static void _delete(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure) {
-		DELETE(data, success, failure);
-	}
-
-	/**
-	 * Attempts to delete a piece of data.
-	 * <p>
-	 * Uses a signature sheet informed by the owner field of the data.
-	 *
-	 * @param {EcRemoteLinkedData} data Data to save to the location designated
-	 *                             by its id.
-	 * @param {Callback1<String>}  success Callback triggered on successful
-	 *                             delete
-	 * @param {Callback1<String>}  failure Callback triggered if error during
-	 *                             delete
-	 * @memberOf EcRepository
-	 * @method DELETE
-	 * @static
-	 */
-	public static void DELETE(final EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure) {
-		if (caching) {
-			JSObjectAdapter.$properties(cache).$delete(data.id);
-			JSObjectAdapter.$properties(cache).$delete(data.shortId());
-		}
-		EcIdentityManager.signatureSheetForAsync(data.owner,60000, data.id, new Callback1<String>() {
-			@Override
-			public void $invoke(String signatureSheet) {
-				EcRemote._delete(data.shortId(), signatureSheet, success, failure);
-			}
-		});
 	}
 
 	/**

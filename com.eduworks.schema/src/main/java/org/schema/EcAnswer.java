@@ -1,6 +1,5 @@
 package org.schema;
 
-public class EcAnswer extends Answer
-{
+public class EcAnswer extends Answer {
 
 }

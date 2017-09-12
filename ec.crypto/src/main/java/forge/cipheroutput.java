@@ -5,12 +5,10 @@ import org.stjs.javascript.annotation.STJSBridge;
 
 @Namespace("forge")
 @STJSBridge()
-public class cipheroutput
-{
+public class cipheroutput {
 	public String data;
 
-	public payload bytes()
-	{
+	public payload bytes() {
 		return null;
 	}
 }

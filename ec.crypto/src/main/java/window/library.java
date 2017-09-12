@@ -9,5 +9,6 @@ import org.stjs.javascript.annotation.STJSBridge;
 @GlobalScope
 @STJSBridge()
 public class library {
-	public static void require(String require){}
+	public static void require(String require) {
+	}
 }

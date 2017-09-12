@@ -5,12 +5,11 @@ import forge.util;
 
 /***
  * AES encryption tasks common across all variants of AES.
- * @class EcAes 
+ * @class EcAes
  * @module com.eduworks.ec
  * @author fritz.ray@eduworks.com
  */
-public class EcAes
-{
+public class EcAes {
 	/***
 	 * Generates a random secret of length @i
 	 * @method newSecret
@@ -18,8 +17,7 @@ public class EcAes
 	 * @param {integer} i Length of secret
 	 * @return {string} String representing the new secret, encoded using Base64.
 	 */
-	public static String newSecret(int i)
-	{
+	public static String newSecret(int i) {
 		return util.encode64(random.getBytesSync(i));
 	}
 
@@ -30,8 +28,7 @@ public class EcAes
 	 * @param {integer} i Length of initialization Vector
 	 * @return {string} String representing the new Initialization Vector, encoded using Base64.
 	 */
-	public static String newIv(int i)
-	{
+	public static String newIv(int i) {
 		return util.encode64(random.getBytesSync(i));
 	}
 }

@@ -78,14 +78,14 @@ public class EcRemote {
 		postInner(server, service, fd, null, getSuccessCallback(success, failure), getFailureCallback(failure));
 	}
 
-	public static void postWithHeadersExpectingString(String server, String service, FormData fd, Map<String, String> headers, 
-														final Callback1<String> success, final Callback1<String> failure){
+	public static void postWithHeadersExpectingString(String server, String service, FormData fd, Map<String, String> headers,
+	                                                  final Callback1<String> success, final Callback1<String> failure) {
 		postInner(server, service, fd, headers, getSuccessCallback(success, failure), getFailureCallback(failure));
 	}
-	
-	
-	private static void postInner(String server, String service, FormData fd, Map<String, String> headers, 
-								Callback3<Object, String, JQueryXHR> successCallback, Callback3<JQueryXHR, String, String> failureCallback) {
+
+
+	private static void postInner(String server, String service, FormData fd, Map<String, String> headers,
+	                              Callback3<Object, String, JQueryXHR> successCallback, Callback3<JQueryXHR, String, String> failureCallback) {
 
 		String url = server;
 		if (!url.endsWith("/") && service != null && !"".equals(service)) {
@@ -112,7 +112,7 @@ public class EcRemote {
 				}
 			}
 			all = all + "\r\n" + "\r\n" + "--" + JSObjectAdapter.$get(fd, "_boundary") + "--";
-			if(headers == null || headers == JSGlobal.undefined)
+			if (headers == null || headers == JSGlobal.undefined)
 				headers = (Map<String, String>) new Object();
 			p.headers = headers;
 			p.headers.$put("Content-Type", "multipart/form-data; boundary=" + JSObjectAdapter.$get(fd, "_boundary"));
@@ -121,7 +121,7 @@ public class EcRemote {
 			// We're in a browser.
 			p.mimeType = "multipart/form-data";
 			p.data = fd;
-			if(headers != null && headers != JSGlobal.undefined)
+			if (headers != null && headers != JSGlobal.undefined)
 				p.headers = headers;
 		}
 		JSObjectAdapter.$properties(p).$put("contentType", false);

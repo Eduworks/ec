@@ -6,17 +6,14 @@ import org.stjs.javascript.functions.Callback2;
 
 @Namespace("forge.pki")
 @STJSBridge()
-public class rsa
-{
+public class rsa {
 
-	public static pk setPublicKey(int n, int e)
-	{
+	public static pk setPublicKey(int n, int e) {
 		return null;
 	}
 
-	public static keypair generateKeyPair(Object o, Callback2<String, keypair> callback2)
-	{
+	public static keypair generateKeyPair(Object o, Callback2<String, keypair> callback2) {
 		return null;
 	}
-	
+
 }

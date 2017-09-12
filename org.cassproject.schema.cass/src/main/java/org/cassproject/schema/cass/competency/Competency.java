@@ -8,41 +8,36 @@ import org.stjs.javascript.Map;
 
 /**
  * Competencies include skills, knowledge, abilities, traits, and combinations thereof that are needed to perform a task or job. In CASS, competencies are identified and located using a globally unique ID. Competencies can be further described using titles, descriptions, levels, indicators (coming soon), roll-up rules, and relationships to other competencies.
- *  
+ *
  * @author fritz.ray@eduworks.com
  * @class Competency
  * @module org.cassproject
  * @extends CreativeWork
  */
-public class Competency extends CreativeWork
-{
+public class Competency extends CreativeWork {
 	private static final String TYPE_0_1 = "http://schema.eduworks.com/cass/0.1/competency";
 	private static final String TYPE_0_2 = "http://schema.eduworks.com/cass/0.2/competency";
 	private static final String TYPE_0_3 = "http://schema.cassproject.org/0.2/Competency";
 	private static final String TYPE_0_4 = "http://schema.cassproject.org/0.3/Competency";
 	public static final String myType = TYPE_0_4;
-
-	public Competency()
-	{
-		setContextAndType(Cass.context, myType);
-	}
-
 	/**
 	 * Scope in which the competency may be applied. e.g. Underwater.
+	 *
 	 * @property scope
 	 * @type string
 	 */
 	public String scope;
 
+	public Competency() {
+		setContextAndType(Cass.context, myType);
+	}
+
 	@Override
-	protected void upgrade()
-	{
+	protected void upgrade() {
 		super.upgrade();
-		if (TYPE_0_1.equals(type))
-		{
+		if (TYPE_0_1.equals(type)) {
 			// url was erroneously used instead of sameAs
-			if (url != null && sameAs == null)
-			{
+			if (url != null && sameAs == null) {
 				sameAs = url;
 				url = null;
 			}
@@ -53,18 +48,16 @@ public class Competency extends CreativeWork
 				me.$put("@context", me.$get("@schema"));
 			setContextAndType(Cass.context_0_2, TYPE_0_2);
 		}
-		if (TYPE_0_2.equals(getFullType()))
-		{
+		if (TYPE_0_2.equals(getFullType())) {
 			setContextAndType(Cass.context_0_3, TYPE_0_3);
 		}
-		if(TYPE_0_3.equals(getFullType())){
+		if (TYPE_0_3.equals(getFullType())) {
 			setContextAndType(Cass.context_0_4, TYPE_0_4);
 		}
 	}
 
 	@Override
-	public Array<String> getTypes()
-	{
+	public Array<String> getTypes() {
 		Array<String> a = new Array<String>();
 		a.push(TYPE_0_4);
 		a.push(TYPE_0_3);

@@ -7,5 +7,7 @@ import org.stjs.javascript.annotation.STJSBridge;
  */
 @STJSBridge()
 public class pemJwk {
-	public static Object pem2jwk(String pkcs8Pem){return null;}
+	public static Object pem2jwk(String pkcs8Pem) {
+		return null;
+	}
 }

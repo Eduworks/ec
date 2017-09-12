@@ -9,13 +9,25 @@ import org.stjs.javascript.jquery.Promise;
  */
 
 @STJSBridge()
-public class hello
-{
-	public static void init(Object o){}
-	public static Promise login(String network,Object options){return null;}
-	public static Promise logout(String network,Object options){return null;}
-	public static Boolean getAuthResponse(String network){return null;}
-	public static Promise api(String api, String method,Object parameters) {return null;}
+public class hello {
+	public static void init(Object o) {
+	}
+
+	public static Promise login(String network, Object options) {
+		return null;
+	}
+
+	public static Promise logout(String network, Object options) {
+		return null;
+	}
+
+	public static Boolean getAuthResponse(String network) {
+		return null;
+	}
+
+	public static Promise api(String api, String method, Object parameters) {
+		return null;
+	}
 
 	public static void on(String s, Callback1<Object> callback1) {
 	}

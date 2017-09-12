@@ -15,139 +15,134 @@ import org.stjs.javascript.functions.Callback2;
 /**
  * Importer methods to copy or link to competencies that already
  * exist in another framework in a CASS instance.
- * 
+ *
+ * @author devlin.junker@eduworks.com
  * @module org.cassproject
  * @class FrameworkImport
  * @static
  * @extends Importer
- * 
- * @author devlin.junker@eduworks.com
  */
 public class FrameworkImport {
 
 	public static int savedComp;
 	public static int savedRel;
-	
+
 	public static EcFramework targetUsable;
-	
+
 	static Array<EcCompetency> competencies;
-	
+
 	static Array<EcAlignment> relations;
-	
+
 	static Map<String, String> compMap;
-	
+
 	/**
-	 * Copies or links competencies that exist in one framework in a CASS instance, 
+	 * Copies or links competencies that exist in one framework in a CASS instance,
 	 * to another different framework in the same CASS instance.
-	 * 
+	 *
+	 * @param {EcFramework}                    source
+	 *                                         Framework to copy or link the competencies from
+	 * @param {EcFramework}                    target
+	 *                                         Framework to add the copied or linked competencies to
+	 * @param {boolean}                        copy
+	 *                                         Flag indicating whether or not to copy or link the competencies in the source framework
+	 * @param {String}                         serverUrl
+	 *                                         URL Prefix for the created competencies if copied
+	 * @param {EcIdentity}                     owner
+	 *                                         EcIdentity that will own the created competencies if copied
+	 * @param {Callback1<Array<EcCompetency>>} success
+	 *                                         Callback triggered after succesfully copying or linking all of the competencies,
+	 *                                         returns an array of the new or linked competencies
+	 * @param {Callback1<Object>}              [failure]
+	 *                                         Callback triggered if an error occurred while creating the competencies
 	 * @memberOf FrameworkImport
 	 * @method importCompetencies
 	 * @static
-	 * @param {EcFramework} source
-	 * 			Framework to copy or link the competencies from
-	 * @param {EcFramework} target
-	 * 			Framework to add the copied or linked competencies to
-	 * @param {boolean} copy
-	 * 			Flag indicating whether or not to copy or link the competencies in the source framework
-	 * @param {String} serverUrl
-	 * 			URL Prefix for the created competencies if copied
-	 * @param {EcIdentity} owner
-	 * 			EcIdentity that will own the created competencies if copied
-	 * @param {Callback1<Array<EcCompetency>>} success
-	 * 			Callback triggered after succesfully copying or linking all of the competencies,
-	 * 			returns an array of the new or linked competencies
-	 * @param {Callback1<Object>} [failure]
-	 * 			Callback triggered if an error occurred while creating the competencies
 	 */
-	public static void importCompetencies(final EcFramework source, final EcFramework target, boolean copy, 
-			final String serverUrl, final EcIdentity owner,
-			final Callback2<Array<EcCompetency>, Array<EcAlignment>> success, final Callback1<Object> failure)
-	{
-		
-		if(source == null)
-		{
+	public static void importCompetencies(final EcFramework source, final EcFramework target, boolean copy,
+	                                      final String serverUrl, final EcIdentity owner,
+	                                      final Callback2<Array<EcCompetency>, Array<EcAlignment>> success, final Callback1<Object> failure) {
+
+		if (source == null) {
 			failure.$invoke("Source Framework not set");
 			return;
 		}
-		
-		if(target == null)
-		{
+
+		if (target == null) {
 			failure.$invoke("Target Framework not Set");
 			return;
 		}
 		targetUsable = target;
-		
-		if(source.competency == null || source.competency.$length() == 0)
-		{
+
+		if (source.competency == null || source.competency.$length() == 0) {
 			failure.$invoke("Source Has No Competencies");
 			return;
 		}
-		
+
 		competencies = JSCollections.$array();
 		relations = JSCollections.$array();
-		if(copy){
+		if (copy) {
 			compMap = JSCollections.$map();
 			savedComp = 0;
 			savedRel = 0;
-			
-			for(int i = 0; i < source.competency.$length(); i++){
+
+			for (int i = 0; i < source.competency.$length(); i++) {
 				String id = source.competency.$get(i);
-				
-				EcCompetency.get(id, new Callback1<EcCompetency>(){
-					public void $invoke(EcCompetency comp){
+
+				EcCompetency.get(id, new Callback1<EcCompetency>() {
+					public void $invoke(EcCompetency comp) {
 						EcCompetency competency = new EcCompetency();
 						competency.copyFrom(comp);
-						
+
 						competency.generateId(serverUrl);
-						
+
 						compMap.$put(comp.shortId(), competency.shortId());
-						
+
 						if (owner != null)
-	                        competency.addOwner(owner.ppk.toPk());
-						
+							competency.addOwner(owner.ppk.toPk());
+
 						final String id = competency.id;
-						competency.save(new Callback1<String>(){
-							public void $invoke(String str){
+						competency.save(new Callback1<String>() {
+							public void $invoke(String str) {
 								savedComp++;
 								targetUsable.addCompetency(id);
-								
-								if(savedComp == competencies.$length()){
-									
+
+								if (savedComp == competencies.$length()) {
+
 									targetUsable.save(new Callback1<String>() {
 										@Override
 										public void $invoke(String p1) {
-											for(int i = 0; i < source.relation.$length(); i++){
+											for (int i = 0; i < source.relation.$length(); i++) {
 												String id = source.relation.$get(i);
-												
-												EcAlignment.get(id, new Callback1<EcAlignment>(){
-													public void $invoke(EcAlignment rel){
+
+												EcAlignment.get(id, new Callback1<EcAlignment>() {
+													public void $invoke(EcAlignment rel) {
 														EcAlignment relation = new EcAlignment();
 														relation.copyFrom(rel);
-														
+
 														relation.generateId(serverUrl);
-														
+
 														relation.source = compMap.$get(rel.source);
 														relation.target = compMap.$get(rel.target);
 
 														if (owner != null)
-									                        relation.addOwner(owner.ppk.toPk());
-														
+															relation.addOwner(owner.ppk.toPk());
+
 														final String id = relation.id;
-														relation.save(new Callback1<String>(){
-															public void $invoke(String str){
+														relation.save(new Callback1<String>() {
+															public void $invoke(String str) {
 																savedRel++;
 																targetUsable.addRelation(id);
-																
-																if(savedRel == relations.$length()){
-																	
+
+																if (savedRel == relations.$length()) {
+
 																	targetUsable.save(new Callback1<String>() {
 																		@Override
 																		public void $invoke(String p1) {
-																			
-																			
+
+
 																			success.$invoke(competencies, relations);
 																		}
-																	}, new Callback1<String>(){
+																	}, new Callback1<String>() {
 																		@Override
 																		public void $invoke(String p1) {
 																			failure.$invoke(p1);
@@ -155,23 +150,23 @@ public class FrameworkImport {
 																	});
 																}
 															}
-														}, new Callback1<String>(){
-															public void $invoke(String str){
+														}, new Callback1<String>() {
+															public void $invoke(String str) {
 																failure.$invoke("Trouble Saving Copied Competency");
 															}
 														});
 
 														relations.push(relation);
 													}
-												}, new Callback1<String>(){
-													public void $invoke(String str){
+												}, new Callback1<String>() {
+													public void $invoke(String str) {
 														failure.$invoke(str);
 													}
 												});
-												
+
 											}
 										}
-									}, new Callback1<String>(){
+									}, new Callback1<String>() {
 										@Override
 										public void $invoke(String p1) {
 											failure.$invoke(p1);
@@ -179,60 +174,56 @@ public class FrameworkImport {
 									});
 								}
 							}
-						}, new Callback1<String>(){
-							public void $invoke(String str){
+						}, new Callback1<String>() {
+							public void $invoke(String str) {
 								failure.$invoke("Trouble Saving Copied Competency");
 							}
 						});
-						
+
 						competencies.push(competency);
 					}
-				}, new Callback1<String>(){
-					public void $invoke(String str){
+				}, new Callback1<String>() {
+					public void $invoke(String str) {
 						failure.$invoke(str);
 					}
 				});
-				
+
 			}
-	
-		}else{
-			for(int i = 0; i < source.competency.$length(); i++)
-			{
-				if(target.competency == null || (target.competency.indexOf(source.competency.$get(i)) == -1 
-						&& target.competency.indexOf(EcRemoteLinkedData.trimVersionFromUrl(source.competency.$get(i))) == -1))
-				{
-					EcCompetency.get(source.competency.$get(i), new Callback1<EcCompetency>(){
+
+		} else {
+			for (int i = 0; i < source.competency.$length(); i++) {
+				if (target.competency == null || (target.competency.indexOf(source.competency.$get(i)) == -1
+						&& target.competency.indexOf(EcRemoteLinkedData.trimVersionFromUrl(source.competency.$get(i))) == -1)) {
+					EcCompetency.get(source.competency.$get(i), new Callback1<EcCompetency>() {
 						@Override
-						public void $invoke(EcCompetency comp){
+						public void $invoke(EcCompetency comp) {
 							competencies.push(comp);
-							
+
 							targetUsable.addCompetency(comp.id);
-							
-							if(competencies.$length() == source.competency.$length()){
+
+							if (competencies.$length() == source.competency.$length()) {
 								JSObjectAdapter.$properties(targetUsable).$delete("competencyObjects");
 								targetUsable.save(new Callback1<String>() {
 									@Override
 									public void $invoke(String p1) {
-										for(int i = 0; i < source.relation.$length(); i++)
-										{
-											if(target.relation == null || (target.relation.indexOf(source.relation.$get(i)) == -1 
-													&& target.relation.indexOf(EcRemoteLinkedData.trimVersionFromUrl(source.competency.$get(i))) == -1))
-											{
-												EcAlignment.get(source.relation.$get(i), new Callback1<EcAlignment>(){
+										for (int i = 0; i < source.relation.$length(); i++) {
+											if (target.relation == null || (target.relation.indexOf(source.relation.$get(i)) == -1
+													&& target.relation.indexOf(EcRemoteLinkedData.trimVersionFromUrl(source.competency.$get(i))) == -1)) {
+												EcAlignment.get(source.relation.$get(i), new Callback1<EcAlignment>() {
 													@Override
-													public void $invoke(EcAlignment relation){
+													public void $invoke(EcAlignment relation) {
 														relations.push(relation);
-														
+
 														targetUsable.addRelation(relation.id);
-														
-														if(relations.$length() == source.relation.$length()){
+
+														if (relations.$length() == source.relation.$length()) {
 															JSObjectAdapter.$properties(targetUsable).$delete("competencyObjects");
 															targetUsable.save(new Callback1<String>() {
 																@Override
 																public void $invoke(String p1) {
 																	success.$invoke(competencies, relations);
 																}
-															}, new Callback1<String>(){
+															}, new Callback1<String>() {
 																@Override
 																public void $invoke(String p1) {
 																	failure.$invoke(p1);
@@ -240,7 +231,7 @@ public class FrameworkImport {
 															});
 														}
 													}
-												}, new Callback1<String>(){
+												}, new Callback1<String>() {
 													@Override
 													public void $invoke(String p1) {
 														failure.$invoke(p1);
@@ -249,7 +240,7 @@ public class FrameworkImport {
 											}
 										}
 									}
-								}, new Callback1<String>(){
+								}, new Callback1<String>() {
 									@Override
 									public void $invoke(String p1) {
 										failure.$invoke(p1);
@@ -257,7 +248,7 @@ public class FrameworkImport {
 								});
 							}
 						}
-					}, new Callback1<String>(){
+					}, new Callback1<String>() {
 						@Override
 						public void $invoke(String p1) {
 							failure.$invoke(p1);
@@ -265,8 +256,8 @@ public class FrameworkImport {
 					});
 				}
 			}
-			
-			
+
+
 		}
 	}
 }

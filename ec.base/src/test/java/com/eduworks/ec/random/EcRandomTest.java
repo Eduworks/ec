@@ -8,12 +8,10 @@ import org.stjs.testing.driver.STJSTestDriverRunner;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(STJSTestDriverRunner.class)
-@ScriptsBefore({ "/random.js" })
-public class EcRandomTest
-{
+@ScriptsBefore({"/random.js"})
+public class EcRandomTest {
 	@Test
-	public void testLength()
-	{
+	public void testLength() {
 		assertTrue(EcRandom.generateUUID().length() == "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".length());
 	}
 

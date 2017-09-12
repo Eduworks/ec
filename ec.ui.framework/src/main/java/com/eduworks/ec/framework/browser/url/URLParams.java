@@ -7,20 +7,19 @@ public class URLParams {
 
 	/**
 	 * Returns the URL Query parameters of the browser window
-	 * 
+	 *
+	 * @return {Map<String, String>}
+	 * URL Query Parameters in a map
 	 * @memberOf URLParams
 	 * @method queryParams
 	 * @static
-	 * @return {Map<String, String>}
-	 * 			URL Query Parameters in a map
 	 */
-	public static Map<String, String> queryParams(){
+	public static Map<String, String> queryParams() {
 		if (Global.window.document.location.search == null)
 			return JSCollections.$map();
 		Array<String> hashSplit = JSCollections.$castArray(Global.window.document.location.search.split("?"));
 
-		if (hashSplit.$length() > 1)
-		{
+		if (hashSplit.$length() > 1) {
 			Map<String, String> o = JSCollections.$map();
 			String paramString = hashSplit.$get(1);
 			Array<String> parts = JSStringAdapter.split(paramString, "&");
@@ -30,23 +29,22 @@ public class URLParams {
 		}
 		return JSCollections.$map();
 	}
-	
+
 	/**
 	 * Returns the URL Hash parameters of the browser window
-	 * 
+	 *
+	 * @return {Map<String, String>}
+	 * URL Hash Parameters in a map
 	 * @memberOf EcView
 	 * @method hashParams
 	 * @static
-	 * @return {Map<String, String>}
-	 * 			URL Hash Parameters in a map
 	 */
-	public static Map<String, String> hashParams(){
+	public static Map<String, String> hashParams() {
 		if (Global.window.document.location.hash == null)
 			return JSCollections.$map();
 		Array<String> hashSplit = JSCollections.$castArray(Global.window.document.location.hash.split("?"));
 
-		if (hashSplit.$length() > 1)
-		{
+		if (hashSplit.$length() > 1) {
 			Map<String, String> o = JSCollections.$map();
 			String paramString = hashSplit.$get(1);
 			Array<String> parts = JSStringAdapter.split(paramString, "&");
@@ -55,78 +53,74 @@ public class URLParams {
 			return o;
 		}
 		return JSCollections.$map();
-		
+
 	}
-	
+
 	/**
 	 * Returns the URL parameters of the browser window
-	 * 
+	 *
+	 * @return {Map<String, String>}
+	 * URL Parameters in a map
 	 * @memberOf URLParams
 	 * @method getParams
 	 * @static
-	 * @return {Map<String, String>}
-	 * 			URL Parameters in a map
 	 */
-	public static Map<String, String> getParams(){
+	public static Map<String, String> getParams() {
 		Map<String, String> params = hashParams();
-		
+
 		Map<String, String> queryParams = queryParams();
-		
-		for(String key : JSObjectAdapter.$properties(queryParams)) 
-		{
+
+		for (String key : JSObjectAdapter.$properties(queryParams)) {
 			JSObjectAdapter.$put(params, key, JSObjectAdapter.$get(queryParams, key));
 		}
-		
+
 		return params;
 	}
-	
+
 	/**
 	 * Returns a specific URL parameter
-	 * 
+	 *
+	 * @param {String} paramName
+	 *                 Name of URL parameter to retrieve
+	 * @return {String}
+	 * Value of URL parameter if it exists
 	 * @memberOf URLParams
 	 * @method get
 	 * @static
-	 * @param {String} paramName
-	 * 			Name of URL parameter to retrieve
-	 * @return {String}
-	 * 			Value of URL parameter if it exists
 	 */
-	public static String get(String paramName)
-	{
+	public static String get(String paramName) {
 		return getParams().$get(paramName);
 	}
-	
+
 	/**
 	 * Sets a specific URL Parameter
-	 * 
+	 *
+	 * @param {String} paramName
+	 *                 Name of URL parameter to set
+	 * @param {String} val
+	 *                 Value to set for URL parameter
 	 * @memberOf URLParams
 	 * @method set
 	 * @static
-	 * @param {String} paramName
-	 * 			Name of URL parameter to set
-	 * @param {String} val
-	 * 			Value to set for URL parameter
 	 */
-	public static void set(String paramName, String val)
-	{
-		Map<String,String> params = getParams();
-		
+	public static void set(String paramName, String val) {
+		Map<String, String> params = getParams();
+
 		params.$put(paramName, val);
-		
+
 		ScreenManager.setScreenParameters(params);
 	}
-	
+
 	/**
 	 * Sets a specific URL Parameter
-	 * 
+	 *
+	 * @param {Object} params
+	 *                 Map of Strings to Strings for URL parameters
 	 * @memberOf URLParams
 	 * @method setAll
 	 * @static
-	 * @param {Object} params
-	 * 			Map of Strings to Strings for URL parameters
 	 */
-	public static void setAll(Object params)
-	{
+	public static void setAll(Object params) {
 		ScreenManager.setScreenParameters(params);
 	}
 }

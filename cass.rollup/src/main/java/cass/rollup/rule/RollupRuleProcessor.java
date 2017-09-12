@@ -8,96 +8,76 @@ import org.cass.profile.EcAssertion;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.functions.Callback1;
 
-public class RollupRuleProcessor
-{
-	protected Double onQueryExitResult;
-	protected String query;
+public class RollupRuleProcessor {
 	public Callback1<Boolean> success;
 	public Callback1<String> failure;
-
 	public Callback1<Object> logFunction;
 	public Array<EcAssertion> positive;
 	public Array<EcAssertion> negative;
-
+	protected Double onQueryExitResult;
+	protected String query;
+	RollupRulePacketGenerator rollupRulePacketGenerator;
 	private RrS s;
 	private RrToken tok;
 	private RrQuery que;
-
 	private InquiryPacket ip;
 
-	RollupRulePacketGenerator rollupRulePacketGenerator;
-
-	public RollupRuleProcessor(InquiryPacket ip, AssertionProcessor ep)
-	{
+	public RollupRuleProcessor(InquiryPacket ip, AssertionProcessor ep) {
 		this.ip = ip;
 		rollupRulePacketGenerator = new RollupRulePacketGenerator(ip, ep);
 	}
 
-	protected void log(Object string)
-	{
+	protected void log(Object string) {
 		if (logFunction != null)
 			logFunction.$invoke(string);
 	}
 
-	public void enterS(context ctx)
-	{
+	public void enterS(context ctx) {
 		if (s != null)
 			throw new RuntimeException("We found another S in our S.");
 		s = new RrS();
 	}
 
-	public void exitS(context ctx)
-	{
+	public void exitS(context ctx) {
 		ip.subPackets.push(rollupRulePacketGenerator.generatePacket());
 	}
 
-	public void enterToken(context ctx)
-	{
+	public void enterToken(context ctx) {
 		s.addToken(tok = new RrToken());
 	}
 
-	public void exitToken(context ctx)
-	{
+	public void exitToken(context ctx) {
 	}
 
-	public void enterQuery(context ctx)
-	{
+	public void enterQuery(context ctx) {
 		s.addQuery(que = new RrQuery());
 		query = "";
 		onQueryExitResult = null;
 	}
 
-	public void exitQuery(context ctx)
-	{
+	public void exitQuery(context ctx) {
 		que.query = query.trim();
 		log("ADDING QUERY: " + query.trim());
 		rollupRulePacketGenerator.addQuery(query.trim());
 	}
 
-	public void exitInnerquery(context ctx)
-	{
+	public void exitInnerquery(context ctx) {
 		if (ctx.cLogic != null)
 			query += " " + ctx.cLogic.text + " ";
-		if (ctx.cValue != null)
-		{
+		if (ctx.cValue != null) {
 			query += ctx.cKey.text + "" + ctx.cOperator.text + "\"" + ctx.cValue.text + "\" ";
 		}
-		if (ctx.cNumber != null)
-		{
+		if (ctx.cNumber != null) {
 			query += ctx.cKey.text + "" + ctx.cOperator.text + "" + ctx.cNumber.text + " ";
 		}
 	}
 
-	public void exitLogical_or_math_operator(context ctx)
-	{
-		if (ctx.cLogic != null)
-		{
-			if ("AND".equals(ctx.cLogic.text.toUpperCase()))
-			{
+	public void exitLogical_or_math_operator(context ctx) {
+		if (ctx.cLogic != null) {
+			if ("AND".equals(ctx.cLogic.text.toUpperCase())) {
 				log("ADDING OPERATION: " + OperationType.AND);
 				rollupRulePacketGenerator.addQueryOperation(OperationType.AND);
-			} else if ("OR".equals(ctx.cLogic.text.toUpperCase()))
-			{
+			} else if ("OR".equals(ctx.cLogic.text.toUpperCase())) {
 				log("ADDING OPERATION: " + OperationType.OR);
 				rollupRulePacketGenerator.addQueryOperation(OperationType.OR);
 			}

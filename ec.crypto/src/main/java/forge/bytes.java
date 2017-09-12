@@ -5,7 +5,6 @@ import org.stjs.javascript.annotation.STJSBridge;
 
 @Namespace("forge")
 @STJSBridge()
-public class bytes
-{
+public class bytes {
 
 }

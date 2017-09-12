@@ -3,21 +3,21 @@ package org.schema;
 /**
  * Schema.org/BookSeries
  * A series of books. Included books can be indicated with the hasPart property.
+ *
  * @author schema.org
  * @class BookSeries
  * @module org.schema
  * @extends CreativeWorkSeries
  */
-public class BookSeries extends CreativeWorkSeries
-{
+public class BookSeries extends CreativeWorkSeries {
 	/**
 	 * Constructor, automatically sets @context and @type.
+	 *
 	 * @constructor
 	 */
-	public BookSeries()
-	{
-		context="http://schema.org/";
-		type="BookSeries";
+	public BookSeries() {
+		context = "http://schema.org/";
+		type = "BookSeries";
 	}
 
 }

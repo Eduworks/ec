@@ -10,34 +10,32 @@ import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
 @RunWith(STJSTestDriverRunner.class)
-@ScriptsBefore({ "ec.task.js"})
-public class EcTaskTest
-{
+@ScriptsBefore({"ec.task.js"})
+public class EcTaskTest {
 	@Test
-	public void createTest() throws InterruptedException
-	{
-		final EcAsyncTask task = new EcAsyncTask(new Function1<String, String>(){
+	public void createTest() throws InterruptedException {
+		final EcAsyncTask task = new EcAsyncTask(new Function1<String, String>() {
 
 			@Override
 			public String $invoke(String p1) {
-				return "Hello "+p1;
+				return "Hello " + p1;
 			}
-			
+
 		}, null, null, null, null);
 
 		org.stjs.javascript.Global.setTimeout(new Callback0() {
-			
+
 			@Override
 			public void $invoke() {
 				String val = "World";
-				
+
 				Object ret = task.doTask(val);
-				
+
 				Global.console.log(ret);
-				
-				Assert.assertTrue(ret == "Hello "+val);
+
+				Assert.assertTrue(ret == "Hello " + val);
 			}
 		}, 200);
-		
+
 	}
 }

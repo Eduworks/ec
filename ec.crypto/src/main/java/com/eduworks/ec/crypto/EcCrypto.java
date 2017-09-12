@@ -6,10 +6,9 @@
 package com.eduworks.ec.crypto;
 
 /**
- *
  * @author Fritz
  */
 public class EcCrypto {
-    public static boolean caching = false;
-    public static Object decryptionCache = new Object();
+	public static boolean caching = false;
+	public static Object decryptionCache = new Object();
 }

@@ -5,22 +5,20 @@ import org.stjs.javascript.Array;
 
 /**
  * A directed implementation of {{#crossLink "Graph"}}Graph{{/crossLink}}. Edges have types. Two vertices may have many edges between them.
- * @class EcDirectedGraph
- * @module com.eduworks.ec
- * @extends Graph
- * @author fray
  *
  * @param <V>
  * @param <E>
+ * @author fray
+ * @class EcDirectedGraph
+ * @module com.eduworks.ec
+ * @extends Graph
  */
-public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
-{
+public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 	Array<Triple<V, V, E>> edges;
 	Array<V> verticies;
 
 	@Override
-	public Array<E> getEdges()
-	{
+	public Array<E> getEdges() {
 		Array<E> results = new Array<>();
 		for (int i = 0; i < edges.$length(); i++)
 			results.$set(i, edges.$get(i).edge);
@@ -28,8 +26,7 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public Array<V> getVertices()
-	{
+	public Array<V> getVertices() {
 		Array<V> results = new Array<>();
 		for (int i = 0; i < verticies.$length(); i++)
 			results.$set(i, verticies.$get(i));
@@ -37,8 +34,7 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public boolean containsVertex(V vertex)
-	{
+	public boolean containsVertex(V vertex) {
 		for (int i = 0; i < verticies.$length(); i++)
 			if (vertex.equals(verticies.$get(i)))
 				return true;
@@ -46,8 +42,7 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public boolean containsEdge(E edge)
-	{
+	public boolean containsEdge(E edge) {
 		for (int i = 0; i < edges.$length(); i++)
 			if (edge.equals(edges.$get(i).edge))
 				return true;
@@ -55,23 +50,19 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public int getEdgeCount()
-	{
+	public int getEdgeCount() {
 		return edges.$length();
 	}
 
 	@Override
-	public int getVertexCount()
-	{
+	public int getVertexCount() {
 		return verticies.$length();
 	}
 
 	@Override
-	public Array<V> getNeighbors(V vertex)
-	{
+	public Array<V> getNeighbors(V vertex) {
 		Array<V> results = new Array<>();
-		for (int i = 0; i < edges.$length(); i++)
-		{
+		for (int i = 0; i < edges.$length(); i++) {
 			if (vertex.equals(edges.$get(i).source))
 				results.push(edges.$get(i).destination);
 			else if (vertex.equals(edges.$get(i).destination))
@@ -82,11 +73,9 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public Array<E> getIncidentEdges(V vertex)
-	{
+	public Array<E> getIncidentEdges(V vertex) {
 		Array<E> results = new Array<>();
-		for (int i = 0; i < edges.$length(); i++)
-		{
+		for (int i = 0; i < edges.$length(); i++) {
 			if (vertex.equals(edges.$get(i).source))
 				results.push(edges.$get(i).edge);
 			else if (vertex.equals(edges.$get(i).destination))
@@ -97,13 +86,10 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public Array<V> getIncidentVertices(E edge)
-	{
+	public Array<V> getIncidentVertices(E edge) {
 		Array<V> results = new Array<>();
-		for (int i = 0; i < edges.$length(); i++)
-		{
-			if (edge.equals(edges.$get(i).edge))
-			{
+		for (int i = 0; i < edges.$length(); i++) {
+			if (edge.equals(edges.$get(i).edge)) {
 				results.push(edges.$get(i).source);
 				results.push(edges.$get(i).destination);
 			}
@@ -113,10 +99,8 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public E findEdge(V v1, V v2)
-	{
-		for (int i = 0; i < edges.$length(); i++)
-		{
+	public E findEdge(V v1, V v2) {
+		for (int i = 0; i < edges.$length(); i++) {
 			if (v1.equals(edges.$get(i).source) && v2.equals(edges.$get(i).destination))
 				return edges.$get(i).edge;
 			if (v1.equals(edges.$get(i).destination) && v2.equals(edges.$get(i).source))
@@ -126,11 +110,9 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public Array<E> findEdgeSet(V v1, V v2)
-	{
+	public Array<E> findEdgeSet(V v1, V v2) {
 		Array<E> results = new Array<>();
-		for (int i = 0; i < edges.$length(); i++)
-		{
+		for (int i = 0; i < edges.$length(); i++) {
 			if (v1.equals(edges.$get(i).source) && v2.equals(edges.$get(i).destination))
 				results.push(edges.$get(i).edge);
 			if (v1.equals(edges.$get(i).destination) && v2.equals(edges.$get(i).source))
@@ -140,8 +122,7 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public boolean addVertex(V vertex)
-	{
+	public boolean addVertex(V vertex) {
 		if (verticies.indexOf(vertex) != -1)
 			return false;
 		verticies.push(vertex);
@@ -149,15 +130,11 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public boolean removeVertex(V vertex)
-	{
+	public boolean removeVertex(V vertex) {
 		int indexOf = verticies.indexOf(vertex);
-		if (indexOf != -1)
-		{
-			for (int i = 0; i < edges.$length(); i++)
-			{
-				if (edges.$get(i).source.equals(vertex) || edges.$get(i).destination.equals(vertex))
-				{
+		if (indexOf != -1) {
+			for (int i = 0; i < edges.$length(); i++) {
+				if (edges.$get(i).source.equals(vertex) || edges.$get(i).destination.equals(vertex)) {
 					edges.splice(i, 1);
 					i--;
 				}
@@ -169,13 +146,10 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public boolean removeEdge(E edge)
-	{
+	public boolean removeEdge(E edge) {
 		boolean success = false;
-		for (int i = 0; i < edges.$length(); i++)
-		{
-			if (edges.$get(i).edge.equals(edge))
-			{
+		for (int i = 0; i < edges.$length(); i++) {
+			if (edges.$get(i).edge.equals(edge)) {
 				edges.splice(i, 1);
 				i--;
 				success = true;
@@ -185,10 +159,8 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public boolean isNeighbor(V v1, V v2)
-	{
-		for (int i = 0; i < edges.$length(); i++)
-		{
+	public boolean isNeighbor(V v1, V v2) {
+		for (int i = 0; i < edges.$length(); i++) {
 			if (v1.equals(edges.$get(i).source) && v2.equals(edges.$get(i).destination))
 				return true;
 			else if (v1.equals(edges.$get(i).destination) && v2.equals(edges.$get(i).source))
@@ -198,10 +170,8 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public boolean isIncident(V vertex, E edge)
-	{
-		for (int i = 0; i < edges.$length(); i++)
-		{
+	public boolean isIncident(V vertex, E edge) {
+		for (int i = 0; i < edges.$length(); i++) {
 			if ((vertex.equals(edges.$get(i).source) || vertex.equals(edges.$get(i).destination)) && edge.equals(edges.$get(i).edge))
 				return true;
 		}
@@ -209,11 +179,9 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public int degree(V vertex)
-	{
+	public int degree(V vertex) {
 		int count = 0;
-		for (int i = 0; i < edges.$length(); i++)
-		{
+		for (int i = 0; i < edges.$length(); i++) {
 			if (vertex.equals(edges.$get(i).source) || vertex.equals(edges.$get(i).destination))
 				count++;
 		}
@@ -221,14 +189,12 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public int getNeighborCount(V vertex)
-	{
+	public int getNeighborCount(V vertex) {
 		return getNeighbors(vertex).$length();
 	}
 
 	@Override
-	public int getIncidentCount(E edge)
-	{
+	public int getIncidentCount(E edge) {
 		return getIncidentVertices(edge).$length();
 	}
 
@@ -239,11 +205,9 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	public abstract String getDefaultEdgeType();
 
 	@Override
-	public Array<E> getEdgesOfType(String edge_type)
-	{
+	public Array<E> getEdgesOfType(String edge_type) {
 		Array<E> results = new Array<>();
-		for (int i = 0; i < edges.$length(); i++)
-		{
+		for (int i = 0; i < edges.$length(); i++) {
 			if (getEdgeType(edges.$get(i).edge) == edge_type)
 				results.push(edges.$get(i).edge);
 		}
@@ -251,17 +215,14 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public int getEdgeCountOfType(String edge_type)
-	{
+	public int getEdgeCountOfType(String edge_type) {
 		return getEdgesOfType(edge_type).$length();
 	}
 
 	@Override
-	public Array<E> getInEdges(V vertex)
-	{
+	public Array<E> getInEdges(V vertex) {
 		Array<E> results = new Array<>();
-		for (int i = 0; i < edges.$length(); i++)
-		{
+		for (int i = 0; i < edges.$length(); i++) {
 			if (vertex.equals(edges.$get(i).destination))
 				results.push(edges.$get(i).edge);
 		}
@@ -270,11 +231,9 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public Array<E> getOutEdges(V vertex)
-	{
+	public Array<E> getOutEdges(V vertex) {
 		Array<E> results = new Array<>();
-		for (int i = 0; i < edges.$length(); i++)
-		{
+		for (int i = 0; i < edges.$length(); i++) {
 			if (vertex.equals(edges.$get(i).source))
 				results.push(edges.$get(i).edge);
 		}
@@ -283,22 +242,18 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public int inDegree(V vertex)
-	{
+	public int inDegree(V vertex) {
 		return getInEdges(vertex).$length();
 	}
 
 	@Override
-	public int outDegree(V vertex)
-	{
+	public int outDegree(V vertex) {
 		return getOutEdges(vertex).$length();
 	}
 
 	@Override
-	public V getSource(E directed_edge)
-	{
-		for (int i = 0; i < edges.$length(); i++)
-		{
+	public V getSource(E directed_edge) {
+		for (int i = 0; i < edges.$length(); i++) {
 			if (directed_edge.equals(edges.$get(i).edge))
 				return edges.$get(i).source;
 		}
@@ -306,10 +261,8 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public V getDest(E directed_edge)
-	{
-		for (int i = 0; i < edges.$length(); i++)
-		{
+	public V getDest(E directed_edge) {
+		for (int i = 0; i < edges.$length(); i++) {
 			if (directed_edge.equals(edges.$get(i).edge))
 				return edges.$get(i).destination;
 		}
@@ -317,11 +270,9 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public Array<V> getPredecessors(V vertex)
-	{
+	public Array<V> getPredecessors(V vertex) {
 		Array<V> results = new Array<>();
-		for (int i = 0; i < edges.$length(); i++)
-		{
+		for (int i = 0; i < edges.$length(); i++) {
 			if (vertex.equals(edges.$get(i).destination))
 				results.push(edges.$get(i).source);
 		}
@@ -330,11 +281,9 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public Array<V> getSuccessors(V vertex)
-	{
+	public Array<V> getSuccessors(V vertex) {
 		Array<V> results = new Array<>();
-		for (int i = 0; i < edges.$length(); i++)
-		{
+		for (int i = 0; i < edges.$length(); i++) {
 			if (vertex.equals(edges.$get(i).source))
 				results.push(edges.$get(i).destination);
 		}
@@ -343,10 +292,8 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public boolean isPredecessor(V v1, V v2)
-	{
-		for (int i = 0; i < edges.$length(); i++)
-		{
+	public boolean isPredecessor(V v1, V v2) {
+		for (int i = 0; i < edges.$length(); i++) {
 			if (v1.equals(edges.$get(i).destination))
 				if (v2.equals(edges.$get(i).source))
 					return true;
@@ -355,10 +302,8 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public boolean isSuccessor(V v1, V v2)
-	{
-		for (int i = 0; i < edges.$length(); i++)
-		{
+	public boolean isSuccessor(V v1, V v2) {
+		for (int i = 0; i < edges.$length(); i++) {
 			if (v2.equals(edges.$get(i).destination))
 				if (v1.equals(edges.$get(i).source))
 					return true;
@@ -367,22 +312,18 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public int getPredecessorCount(V vertex)
-	{
+	public int getPredecessorCount(V vertex) {
 		return getPredecessors(vertex).$length();
 	}
 
 	@Override
-	public int getSuccessorCount(V vertex)
-	{
+	public int getSuccessorCount(V vertex) {
 		return getSuccessors(vertex).$length();
 	}
 
 	@Override
-	public boolean isSource(V vertex, E edge)
-	{
-		for (int i = 0; i < edges.$length(); i++)
-		{
+	public boolean isSource(V vertex, E edge) {
+		for (int i = 0; i < edges.$length(); i++) {
 			if (edge.equals(edges.$get(i).edge))
 				if (vertex.equals(edges.$get(i).source))
 					return true;
@@ -391,10 +332,8 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public boolean isDest(V vertex, E edge)
-	{
-		for (int i = 0; i < edges.$length(); i++)
-		{
+	public boolean isDest(V vertex, E edge) {
+		for (int i = 0; i < edges.$length(); i++) {
 			if (edge.equals(edges.$get(i).edge))
 				if (vertex.equals(edges.$get(i).destination))
 					return true;
@@ -403,8 +342,7 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public boolean addEdge(E e, V v1, V v2)
-	{
+	public boolean addEdge(E e, V v1, V v2) {
 		addVertex(v1);
 		addVertex(v2);
 
@@ -421,10 +359,8 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E>
 	}
 
 	@Override
-	public V getOpposite(V vertex, E edge)
-	{
-		for (int i = 0; i < edges.$length(); i++)
-		{
+	public V getOpposite(V vertex, E edge) {
+		for (int i = 0; i < edges.$length(); i++) {
 			if (edge.equals(edges.$get(i).edge))
 				if (vertex.equals(edges.$get(i).destination))
 					return edges.$get(i).source;

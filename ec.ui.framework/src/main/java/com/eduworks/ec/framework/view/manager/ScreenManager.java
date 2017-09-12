@@ -34,22 +34,6 @@ import static org.stjs.javascript.Global.window;
 public class ScreenManager extends ViewManager {
 
 	/**
-	 * DOM Selector (ID) of the Screen Container that will display all of the screen views
-	 *
-	 * @property SCREEN_CONTAINER_ID
-	 * @type String
-	 */
-	static String SCREEN_CONTAINER_ID = "#screenContainer";
-
-	/**
-	 * Array to track the history of the current session
-	 *
-	 * @property myHistory
-	 * @type HistoryClosure[]
-	 */
-	static Array<HistoryClosure> myHistory = JSCollections.$array();
-
-	/**
 	 * Screen to be used when another screen is loading information from the server before being able to display
 	 * itself. Notice that the display function does not affect the DOM on the page in any way.
 	 */
@@ -59,7 +43,6 @@ public class ScreenManager extends ViewManager {
 			return null;
 		}
 	};
-
 	/**
 	 * Screen to be set by application on application startup, dictates what the screen should be if the startup
 	 * Screen hasn't been set
@@ -68,7 +51,6 @@ public class ScreenManager extends ViewManager {
 	 * @type EcScreen
 	 */
 	public static EcScreen defaultScreen = null;
-
 	/**
 	 * Screen to be set by application if it notices that a certain screen should be loaded on startup that is
 	 * different from the default Screen
@@ -77,7 +59,20 @@ public class ScreenManager extends ViewManager {
 	 * @type EcScreen
 	 */
 	public static EcScreen startupScreen = null;
-
+	/**
+	 * DOM Selector (ID) of the Screen Container that will display all of the screen views
+	 *
+	 * @property SCREEN_CONTAINER_ID
+	 * @type String
+	 */
+	static String SCREEN_CONTAINER_ID = "#screenContainer";
+	/**
+	 * Array to track the history of the current session
+	 *
+	 * @property myHistory
+	 * @type HistoryClosure[]
+	 */
+	static Array<HistoryClosure> myHistory = JSCollections.$array();
 	/**
 	 * Callback to be invoked once the application has started and the first screen has been completely loaded
 	 * and displayed
@@ -106,6 +101,23 @@ public class ScreenManager extends ViewManager {
 	static Array<Callback0> startupScreenCallbacks = JSCollections.$array();
 
 	/**
+	 * Static setup to watch the window for popstate events (history back button) and then calls loadHistory
+	 * with the name of the most previously recent screen (saved in the history and given to the popstate event)
+	 */
+	static {
+		GlobalJQuery.$(window).on("popstate", new EventHandler() {
+			public boolean onEvent(Event event, Element arg1) {
+				Object state = JSObjectAdapter.$get(event.originalEvent, "state");
+				if (state != null) {
+					String poppedName = (String) JSObjectAdapter.$get(state, "name");
+					loadHistoryScreen(poppedName);
+				}
+				return true;
+			}
+		});
+	}
+
+	/**
 	 * Function to add startup screen callbacks to the array of callbacks
 	 *
 	 * @param {Callback0} callback
@@ -130,7 +142,6 @@ public class ScreenManager extends ViewManager {
 	public static EcScreen getCurrentScreen() {
 		return (EcScreen) getView(SCREEN_CONTAINER_ID);
 	}
-
 
 	/**
 	 * Sets the application default Screen that is shown if no startup screen has been defined.
@@ -371,7 +382,7 @@ public class ScreenManager extends ViewManager {
 		}
 
 		((History) window.history).replaceState(new HistoryObject() {{
-			name = window.location.hash+window.location.search;
+			name = window.location.hash + window.location.search;
 			parameters = params;
 		}}, pageName, hash + query);
 	}
@@ -402,7 +413,7 @@ public class ScreenManager extends ViewManager {
 	 */
 	public static void loadHistoryScreen(String name) {
 		int backCount = 0;
-		name = name.replace("#","");
+		name = name.replace("#", "");
 		for (int i = myHistory.$length() - 1; i > -1; i--) {
 			backCount++;
 			if (myHistory.$get(i).pageName == name) {
@@ -462,22 +473,5 @@ public class ScreenManager extends ViewManager {
 			if (GlobalJQuery.$(viewContainerId).length() == 0)
 				destroyView(viewContainerId);
 		}
-	}
-
-	/**
-	 * Static setup to watch the window for popstate events (history back button) and then calls loadHistory
-	 * with the name of the most previously recent screen (saved in the history and given to the popstate event)
-	 */
-	static {
-		GlobalJQuery.$(window).on("popstate", new EventHandler() {
-			public boolean onEvent(Event event, Element arg1) {
-				Object state = JSObjectAdapter.$get(event.originalEvent, "state");
-				if (state != null) {
-					String poppedName = (String) JSObjectAdapter.$get(state, "name");
-					loadHistoryScreen(poppedName);
-				}
-				return true;
-			}
-		});
 	}
 }

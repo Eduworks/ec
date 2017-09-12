@@ -17,11 +17,10 @@ public class Task {
 	public static int delayedFunctions = 0;
 	public static int immediateFunctions = 0;
 
-	public static TimeoutHandler immediate(final Callback0 c)
-	{
+	public static TimeoutHandler immediate(final Callback0 c) {
 		final Long currentMs = Date.now();
-		int nextFrameMs = 1000/desiredFps;
-		if (lastFrame == null || currentMs > lastFrame +nextFrameMs)
+		int nextFrameMs = 1000 / desiredFps;
+		if (lastFrame == null || currentMs > lastFrame + nextFrameMs)
 			return Global.setTimeout(new Callback0() {
 				@Override
 				public void $invoke() {

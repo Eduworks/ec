@@ -3,20 +3,15 @@ package cass.rollup.rule;
 import cass.rollup.js.bridges.*;
 import org.stjs.javascript.functions.Callback1;
 
-public class RollupRuleInterface
-{
-	RollupListener listener;
-
+public class RollupRuleInterface {
 	public Callback1<Object> logFunction;
-
+	public Callback1<Boolean> success;
+	public Callback1<String> failure;
+	RollupListener listener;
 	private RollupParser parser;
 	private RollupRuleProcessor processor;
 
-	public Callback1<Boolean> success;
-	public Callback1<String> failure;
-
-	public RollupRuleInterface(String input, RollupRuleProcessor processor)
-	{
+	public RollupRuleInterface(String input, RollupRuleProcessor processor) {
 		InputStream chars = new InputStream(input);
 		RollupLexer lexer = new RollupLexer(chars);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -27,65 +22,51 @@ public class RollupRuleInterface
 		this.processor = processor;
 
 		final RollupRuleInterface me = this;
-		listener.enterS = new Callback1<context>()
-		{
+		listener.enterS = new Callback1<context>() {
 			@Override
-			public void $invoke(context ctx)
-			{
+			public void $invoke(context ctx) {
 				me.processor.enterS(ctx);
 			}
 		};
-		listener.exitS = new Callback1<context>()
-		{
+		listener.exitS = new Callback1<context>() {
 			@Override
-			public void $invoke(context ctx)
-			{
+			public void $invoke(context ctx) {
 				me.processor.exitS(ctx);
 				me.success.$invoke(true);
 			}
 		};
-		listener.exitToken = new Callback1<context>()
-		{
+		listener.exitToken = new Callback1<context>() {
 
 			@Override
-			public void $invoke(context ctx)
-			{
+			public void $invoke(context ctx) {
 				me.processor.exitToken(ctx);
 			}
 		};
-		listener.enterQuery = new Callback1<context>()
-		{
+		listener.enterQuery = new Callback1<context>() {
 
 			@Override
-			public void $invoke(context ctx)
-			{
+			public void $invoke(context ctx) {
 				me.processor.enterQuery(ctx);
 			}
 		};
-		listener.exitQuery = new Callback1<context>()
-		{
+		listener.exitQuery = new Callback1<context>() {
 
 			@Override
-			public void $invoke(context ctx)
-			{
+			public void $invoke(context ctx) {
 				me.processor.exitQuery(ctx);
 			}
 		};
-		listener.exitInnerquery = new Callback1<context>()
-		{
+		listener.exitInnerquery = new Callback1<context>() {
 
 			@Override
-			public void $invoke(context ctx)
-			{
+			public void $invoke(context ctx) {
 				me.processor.exitInnerquery(ctx);
 			}
 		};
-		listener.exitLogical_or_math_operator = new Callback1<context>()
-		{
+		listener.exitLogical_or_math_operator = new Callback1<context>() {
 
 			@Override
-			public void $invoke(context ctx)
-			{
+			public void $invoke(context ctx) {
 				me.processor.exitLogical_or_math_operator(ctx);
 			}
 		};
@@ -93,8 +74,7 @@ public class RollupRuleInterface
 
 	}
 
-	public void go()
-	{
+	public void go() {
 		processor.logFunction = logFunction;
 		processor.success = success;
 		processor.failure = failure;

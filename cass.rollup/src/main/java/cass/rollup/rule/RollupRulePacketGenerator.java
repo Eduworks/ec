@@ -6,159 +6,20 @@ import cass.rollup.processors.AssertionProcessor;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.functions.Callback1;
 
-public class RollupRulePacketGenerator
-{
-
-	public enum OperationType
-	{
-		AND, OR
-	}
+public class RollupRulePacketGenerator {
 
 	private Array<String> queries;
 	private Array<OperationType> queryOperations;
 	private InquiryPacket ip;
 	private AssertionProcessor ep;
-
-	public RollupRulePacketGenerator(InquiryPacket ip, AssertionProcessor ep)
-	{
+	public RollupRulePacketGenerator(InquiryPacket ip, AssertionProcessor ep) {
 		this.ip = ip;
 		this.ep = ep;
 		queries = new Array<String>();
 		queryOperations = new Array<OperationType>();
 	}
 
-	public void addQuery(String query)
-	{
-		queries.push(query);
-	}
-
-	public void addQueryOperation(OperationType operation)
-	{
-		queryOperations.push(operation);
-	}
-
-	private boolean hasOrOperation()
-	{
-		for (int i = 0; i < queryOperations.$length(); i++)
-		{
-			if (OperationType.OR.equals(queryOperations.$get(i)))
-				return true;
-		}
-		return false;
-	}
-
-	private IPType getIPType()
-	{
-		if (hasOrOperation())
-			return IPType.RELATION_OR;
-		return IPType.RELATION_AND;
-	}
-
-	private InquiryPacket generateComboAndPacket()
-	{
-		final AssertionProcessor meEp = ep;
-		final InquiryPacket meIp = ip;
-		return new InquiryPacket(ip.subject, null, null, ip.context, new Callback1<InquiryPacket>()
-		{
-			@Override
-			public void $invoke(InquiryPacket p1)
-			{
-				if (meEp != null)
-				   meEp.continueProcessingFirstPass(meIp);
-			}
-		}, ip.failure, null, IPType.RELATION_AND);
-	}
-
-	private InquiryPacket generateRollupRulePacket(String rule)
-	{
-		final AssertionProcessor meEp = ep;
-		final InquiryPacket meIp = ip;
-		return new InquiryPacket(ip.subject, null, null, ip.context, new Callback1<InquiryPacket>()
-		{
-			@Override
-			public void $invoke(InquiryPacket p1)
-			{
-				if (meEp != null)
-				   meEp.continueProcessingFirstPass(meIp);
-			}
-		}, ip.failure, rule, IPType.ROLLUPRULE);
-	}
-
-	private void addAllQueries(InquiryPacket rollupIp)
-	{
-		for (int i = 0; i < queries.$length(); i++)
-		{
-			rollupIp.subPackets.push(generateRollupRulePacket(queries.$get(i)));
-		}
-	}
-
-	private void buildQueryTree(InquiryPacket rollupIp)
-	{
-		if (queryOperations.$length() <= 0)
-			return;
-		InquiryPacket currentAndPacket = generateComboAndPacket();
-		OperationType priorOt;
-		if (OperationType.OR.equals(queryOperations.$get(0)))
-			rollupIp.subPackets.push(generateRollupRulePacket(queries.$get(0)));
-		else
-			currentAndPacket.subPackets.push(generateRollupRulePacket(queries.$get(0)));
-		priorOt = queryOperations.$get(0);
-		for (int i = 1; i < queryOperations.$length(); i++)
-		{
-			if (OperationType.OR.equals(queryOperations.$get(i)))
-			{
-				if (OperationType.OR.equals(priorOt))
-					rollupIp.subPackets.push(generateRollupRulePacket(queries.$get(i)));
-				else
-				{
-					currentAndPacket.subPackets.push(generateRollupRulePacket(queries.$get(i)));
-					rollupIp.subPackets.push(currentAndPacket);
-				}
-			}
-			else
-			{
-				if (OperationType.OR.equals(priorOt))
-				{
-					currentAndPacket = generateComboAndPacket();
-					currentAndPacket.subPackets.push(generateRollupRulePacket(queries.$get(i)));
-				}
-				else
-					currentAndPacket.subPackets.push(generateRollupRulePacket(queries.$get(i)));
-			}
-			priorOt = queryOperations.$get(i);
-		}
-		if (OperationType.OR.equals(priorOt))
-			rollupIp.subPackets.push(generateRollupRulePacket(queries.$get(queries.$length() - 1)));
-		else
-		{
-			currentAndPacket.subPackets.push(generateRollupRulePacket(queries.$get(queries.$length() - 1)));
-			rollupIp.subPackets.push(currentAndPacket);
-		}
-	}
-
-	public InquiryPacket generatePacket()
-	{
-	   IPType ipt = getIPType();
-		final AssertionProcessor meEp = ep;		
-		final InquiryPacket meIp = ip;
-		InquiryPacket rollupIp = new InquiryPacket(ip.subject, null, null, ip.context, new Callback1<InquiryPacket>()
-		{
-			@Override
-			public void $invoke(InquiryPacket p1)
-			{
-				if (meEp != null)
-				   meEp.continueProcessingFirstPass(meIp);
-			}
-		}, ip.failure, null, ipt);
-		if (IPType.RELATION_AND.equals(ipt))
-			addAllQueries(rollupIp);
-		else
-			buildQueryTree(rollupIp);
-		return rollupIp;
-	}
-
-	public static void main(String[] args) throws Exception
-	{
+	public static void main(String[] args) throws Exception {
 		// InquiryPacket ip = new
 		// InquiryPacket(null,null,null,null,null,null,null,null);
 		// RollupRulePacketGenerator rpg = new RollupRulePacketGenerator(ip);
@@ -199,9 +60,118 @@ public class RollupRulePacketGenerator
 		 * rpg.addQueryOperation(OperationType.AND);
 		 * rpg.addQueryOperation(OperationType.OR);
 		 * rpg.addQueryOperation(OperationType.OR);
-		 * 
+		 *
 		 */
 
+	}
+
+	public void addQuery(String query) {
+		queries.push(query);
+	}
+
+	public void addQueryOperation(OperationType operation) {
+		queryOperations.push(operation);
+	}
+
+	private boolean hasOrOperation() {
+		for (int i = 0; i < queryOperations.$length(); i++) {
+			if (OperationType.OR.equals(queryOperations.$get(i)))
+				return true;
+		}
+		return false;
+	}
+
+	private IPType getIPType() {
+		if (hasOrOperation())
+			return IPType.RELATION_OR;
+		return IPType.RELATION_AND;
+	}
+
+	private InquiryPacket generateComboAndPacket() {
+		final AssertionProcessor meEp = ep;
+		final InquiryPacket meIp = ip;
+		return new InquiryPacket(ip.subject, null, null, ip.context, new Callback1<InquiryPacket>() {
+			@Override
+			public void $invoke(InquiryPacket p1) {
+				if (meEp != null)
+					meEp.continueProcessingFirstPass(meIp);
+			}
+		}, ip.failure, null, IPType.RELATION_AND);
+	}
+
+	private InquiryPacket generateRollupRulePacket(String rule) {
+		final AssertionProcessor meEp = ep;
+		final InquiryPacket meIp = ip;
+		return new InquiryPacket(ip.subject, null, null, ip.context, new Callback1<InquiryPacket>() {
+			@Override
+			public void $invoke(InquiryPacket p1) {
+				if (meEp != null)
+					meEp.continueProcessingFirstPass(meIp);
+			}
+		}, ip.failure, rule, IPType.ROLLUPRULE);
+	}
+
+	private void addAllQueries(InquiryPacket rollupIp) {
+		for (int i = 0; i < queries.$length(); i++) {
+			rollupIp.subPackets.push(generateRollupRulePacket(queries.$get(i)));
+		}
+	}
+
+	private void buildQueryTree(InquiryPacket rollupIp) {
+		if (queryOperations.$length() <= 0)
+			return;
+		InquiryPacket currentAndPacket = generateComboAndPacket();
+		OperationType priorOt;
+		if (OperationType.OR.equals(queryOperations.$get(0)))
+			rollupIp.subPackets.push(generateRollupRulePacket(queries.$get(0)));
+		else
+			currentAndPacket.subPackets.push(generateRollupRulePacket(queries.$get(0)));
+		priorOt = queryOperations.$get(0);
+		for (int i = 1; i < queryOperations.$length(); i++) {
+			if (OperationType.OR.equals(queryOperations.$get(i))) {
+				if (OperationType.OR.equals(priorOt))
+					rollupIp.subPackets.push(generateRollupRulePacket(queries.$get(i)));
+				else {
+					currentAndPacket.subPackets.push(generateRollupRulePacket(queries.$get(i)));
+					rollupIp.subPackets.push(currentAndPacket);
+				}
+			} else {
+				if (OperationType.OR.equals(priorOt)) {
+					currentAndPacket = generateComboAndPacket();
+					currentAndPacket.subPackets.push(generateRollupRulePacket(queries.$get(i)));
+				} else
+					currentAndPacket.subPackets.push(generateRollupRulePacket(queries.$get(i)));
+			}
+			priorOt = queryOperations.$get(i);
+		}
+		if (OperationType.OR.equals(priorOt))
+			rollupIp.subPackets.push(generateRollupRulePacket(queries.$get(queries.$length() - 1)));
+		else {
+			currentAndPacket.subPackets.push(generateRollupRulePacket(queries.$get(queries.$length() - 1)));
+			rollupIp.subPackets.push(currentAndPacket);
+		}
+	}
+
+	public InquiryPacket generatePacket() {
+		IPType ipt = getIPType();
+		final AssertionProcessor meEp = ep;
+		final InquiryPacket meIp = ip;
+		InquiryPacket rollupIp = new InquiryPacket(ip.subject, null, null, ip.context, new Callback1<InquiryPacket>() {
+			@Override
+			public void $invoke(InquiryPacket p1) {
+				if (meEp != null)
+					meEp.continueProcessingFirstPass(meIp);
+			}
+		}, ip.failure, null, ipt);
+		if (IPType.RELATION_AND.equals(ipt))
+			addAllQueries(rollupIp);
+		else
+			buildQueryTree(rollupIp);
+		return rollupIp;
+	}
+
+	public enum OperationType {
+		AND, OR
 	}
 
 }

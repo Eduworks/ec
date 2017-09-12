@@ -23,14 +23,12 @@ import static org.junit.Assert.assertTrue;
 import static org.stjs.javascript.Global.console;
 
 @RunWith(STJSTestDriverRunner.class)
-@ScriptsBefore({ "/forge/forge.bundle.js" })
-public class EcEncryptedValueTest
-{
+@ScriptsBefore({"/forge/forge.bundle.js"})
+public class EcEncryptedValueTest {
 	static String server = "https://dev.cassproject.org/api/";
 
 	@Test
-	public void encryptDecryptTest()
-	{
+	public void encryptDecryptTest() {
 		EcPpk ppk = EcPpk.fromPem(
 				"-----BEGIN RSA PRIVATE KEY-----MIIEpAIBAAKCAQEAz4BiFucFE9bNcKfGD+e6aPRHl402YM4Z6nrurDRNlnwsWpsCoZasPLkjC314pVtHAI2duZo+esGKDloBsiLxASRJo3R2XiXVh2Y8U1RcHA5mWL4tMG5UY2d0libpNEHbHPNBmooVYpA2yhxN/vGibIk8x69uZWxJcFOxOg6zWG8EjF8UMgGnRCVSMTY3THhTlfZ0cGUzvrfb7OvHUgdCe285XkmYkj/V9P/m7hbWoOyJAJSTOm4/s6fIKpl72lblfN7bKaxTCsJp6/rQdmUeo+PIaa2lDOfo7dWbuTMcqkZ93kispNfYYhsEGUGlCsrrVWhlve8MenO4GdLsFP+HRwIDAQABAoIBAGaQpOuBIYde44lNxJ7UAdYi+Mg2aqyK81Btl0/TQo6hriLTAAfzPAt/z4y8ZkgFyCDD3zSAw2VWCPFzF+d/UfUohKWgyWlb9iHJLQRbbHQJwhkXV6raviesWXpmnVrROocizkie/FcNxac9OmhL8+cGJt7lHgJP9jTpiW6TGZ8ZzM8KBH2l80x9AWdvCjsICuPIZRjc706HtkKZzTROtq6Z/F4Gm0uWRnwAZrHTRpnh8qjtdBLYFrdDcUoFtzOM6UVRmocTfsNe4ntPpvwY2aGTWY7EmTj1kteMJ+fCQFIS+KjyMWQHsN8yQNfD5/j2uv6/BdSkO8uorGSJT6DwmTECgYEA8ydoQ4i58+A1udqA+fujM0Zn46++NTehFe75nqIt8rfQgoduBam3lE5IWj2U2tLQeWxQyr1ZJkLbITtrAI3PgfMnuFAii+cncwFo805Fss/nbKx8K49vBuCEAq3MRhLjWy3ZvIgUHj67jWvl50dbNqc7TUguxhS4BxGr/cPPkP0CgYEA2nbJPGzSKhHTETL37NWIUAdU9q/6NVRISRRXeRqZYwE1VPzs2sIUxA8zEDBHX7OtvCKzvZy1Lg5Unx1nh4nCEVkbW/8npLlRG2jOcZJF6NRfhzwLz3WMIrP6j9SmjJaB+1mnrTjfsg36tDEPDjjJLjJHCx9z/qRJh1v4bh4aPpMCgYACG31T2IOEEZVlnvcvM3ceoqWT25oSbAEBZ6jSLyWmzOEJwJK7idUFfAg0gAQiQWF9K+snVqzHIB02FIXA43nA7pKRjmA+RiqZXJHEShFgk1y2HGiXGA8mSBvcyhTTJqbBy4vvjl5eRLzrZNwBPSUVPC3PZajCHrvZk9WhxWivIQKBgQCzCu1MH2dy4R7ZlqsIJ8zKweeJMZpfQI7pjclO0FTrhh7+Yzd+5db9A/P2jYrBTVHSwaILgTYf49DIguHJfEZXz26TzB7iapqlWxTukVHISt1ryPNo+E58VoLAhChnSiaHJ+g7GESE+d4A9cAACNwgh0YgQIvhIyW70M1e+j7KDwKBgQDQSBLFDFmvvTP3sIRAr1+0OZWd1eRcwdhs0U9GwootoCoUP/1Y64pqukT6B9oIB/No9Nyn8kUX3/ZDtCslaGKEUGMJXQ4hc5J+lq0tSi9ZWBdhqOuMPEfUF3IxW+9yeILP4ppUBn1m5MVOWg5CvuuEeCmy4bhMaUErUlHZ78t5cA==-----END RSA PRIVATE KEY-----");
 		EcPpk ppk2 = EcPpk.fromPem(
@@ -67,8 +65,7 @@ public class EcEncryptedValueTest
 	}
 
 	@Test
-	public void encryptObjectUploadDownloadDecryptTest()
-	{
+	public void encryptObjectUploadDownloadDecryptTest() {
 		EcRemote.async = false;
 		console.log("Encrypted Object Upload Download then Decrypt Test.");
 		EcPpk ppk = EcPpk.fromPem(
@@ -91,28 +88,22 @@ public class EcEncryptedValueTest
 		v = EcEncryptedValue.toEncryptedValue(f, false);
 		console.log("Encrypted object: " + v.toJson());
 		assertTrue("Owner exists in encrypted object.", v.hasOwner(ppk.toPk()));
-		EcRepository.save(v, new Callback1<String>()
-		{
+		EcRepository.save(v, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Saved.");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to save.");
 				console.log(p1);
 				Assert.fail("Failed to save object.");
 			}
 		});
-		EcRepository.get(v.shortId(), new Callback1<EcRemoteLinkedData>()
-		{
+		EcRepository.get(v.shortId(), new Callback1<EcRemoteLinkedData>() {
 			@Override
-			public void $invoke(EcRemoteLinkedData p1)
-			{
+			public void $invoke(EcRemoteLinkedData p1) {
 				console.log("Read.");
 				EcEncryptedValue val = new EcEncryptedValue();
 				val.copyFrom(p1);
@@ -121,34 +112,27 @@ public class EcEncryptedValueTest
 				file.copyFrom(decryptedObject);
 				assertTrue(file.name.equals(f.name));
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Failed to read object.");
 			}
 		});
-		EcRepository._delete(f, new Callback1<String>()
-		{
+		EcRepository._delete(f, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Failed to delete object. " + p1);
 			}
 		});
 	}
 
 	@Test
-	public void encryptValueUploadDownloadDecryptTest()
-	{
+	public void encryptValueUploadDownloadDecryptTest() {
 		EcRemote.async = false;
 		console.log("Encrypted Value Upload Download then Decrypt Test.");
 		EcPpk ppk = EcPpk.fromPem(
@@ -168,28 +152,22 @@ public class EcEncryptedValueTest
 		EcIdentityManager.addIdentity(newId1);
 		JSObjectAdapter.$put(f, "encryptedName", EcEncryptedValue.encryptValue(f.name, f.shortId(), f.owner, null));
 		console.log(f.toJson());
-		EcRepository.save(f, new Callback1<String>()
-		{
+		EcRepository.save(f, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Saved.");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to save.");
 				console.log(p1);
 				Assert.fail("Failed to save object.");
 			}
 		});
-		EcRepository.get(f.shortId(), new Callback1<EcRemoteLinkedData>()
-		{
+		EcRepository.get(f.shortId(), new Callback1<EcRemoteLinkedData>() {
 			@Override
-			public void $invoke(EcRemoteLinkedData p1)
-			{
+			public void $invoke(EcRemoteLinkedData p1) {
 				console.log("Read.");
 				GeneralFile val = new GeneralFile();
 				console.log(p1.toJson());
@@ -202,34 +180,27 @@ public class EcEncryptedValueTest
 				console.log("Decrypted = " + decryptIntoString);
 				assertTrue(decryptIntoString.equals("My_File.txt"));
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Failed to read object.");
 			}
 		});
-		EcRepository._delete(f, new Callback1<String>()
-		{
+		EcRepository._delete(f, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Failed to delete object. " + p1);
 			}
 		});
 	}
 
 	@Test
-	public void encryptValueWithReaderUploadSearchByPkWithSignatureTest()
-	{
+	public void encryptValueWithReaderUploadSearchByPkWithSignatureTest() {
 		EcRemote.async = false;
 		console.log("encryptValueWithReaderUploadSearchByPkWithSignatureTest Test.");
 		EcPpk ppk = EcPpk.fromPem(
@@ -256,69 +227,54 @@ public class EcEncryptedValueTest
 		readers.push(ppk2.toPk().toPem());
 		JSObjectAdapter.$put(f, "encryptedName", EcEncryptedValue.encryptValue(f.name, f.shortId(), f.owner, readers));
 		console.log(f.toJson());
-		EcRepository.save(f, new Callback1<String>()
-		{
+		EcRepository.save(f, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Saved.");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to save.");
 				console.log(p1);
 				Assert.fail("Failed to save object.");
 			}
 		});
 
-		Callback1<EcRemoteLinkedData> eachCallback = new Callback1<EcRemoteLinkedData>()
-		{
+		Callback1<EcRemoteLinkedData> eachCallback = new Callback1<EcRemoteLinkedData>() {
 			@Override
-			public void $invoke(EcRemoteLinkedData p1)
-			{
+			public void $invoke(EcRemoteLinkedData p1) {
 			}
 		};
-		Callback1<Array<EcRemoteLinkedData>> success = new Callback1<Array<EcRemoteLinkedData>>()
-		{
+		Callback1<Array<EcRemoteLinkedData>> success = new Callback1<Array<EcRemoteLinkedData>>() {
 			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1)
-			{
+			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				boolean found = false;
-				for (int i = 0; i < p1.$length(); i++)
-				{
+				for (int i = 0; i < p1.$length(); i++) {
 					if (p1.$get(i).shortId().equals(f.shortId()))
 						found = true;
 				}
 				assertTrue(found);
 			}
 		};
-		Callback1<Array<EcRemoteLinkedData>> successInvert = new Callback1<Array<EcRemoteLinkedData>>()
-		{
+		Callback1<Array<EcRemoteLinkedData>> successInvert = new Callback1<Array<EcRemoteLinkedData>>() {
 			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1)
-			{
+			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				boolean found = false;
-				for (int i = 0; i < p1.$length(); i++)
-				{
+				for (int i = 0; i < p1.$length(); i++) {
 					if (p1.$get(i).shortId().equals(f.shortId()))
 						found = true;
 				}
 				assertTrue(!found);
 			}
 		};
-		Callback1<String> failure = new Callback1<String>()
-		{
+		Callback1<String> failure = new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail(p1);
 			}
 		};
-		try
-		{
+		try {
 			console.log("ID Search, searching with signature 1.");
 			r.search("@id:\"" + f.shortId() + "\"", eachCallback, success, failure);
 			console.log("Owner Search, searching for signature 1 using signature 1 signatureSheet.");
@@ -364,23 +320,17 @@ public class EcEncryptedValueTest
 			r.search("\"" + ppk.toPk().toPem() + "\"", eachCallback, success, failure);
 			console.log("(SHOULD NOT FIND) _all Search, searching for signature 2.");
 			r.search("\"" + ppk2.toPk().toPem() + "\"", eachCallback, successInvert, failure);
-		}
-		finally
-		{
+		} finally {
 			EcIdentityManager.ids = new Array<EcIdentity>();
 			EcIdentityManager.addIdentity(newId1);
-			EcRepository._delete(f, new Callback1<String>()
-			{
+			EcRepository._delete(f, new Callback1<String>() {
 				@Override
-				public void $invoke(String p1)
-				{
+				public void $invoke(String p1) {
 
 				}
-			}, new Callback1<String>()
-			{
+			}, new Callback1<String>() {
 				@Override
-				public void $invoke(String p1)
-				{
+				public void $invoke(String p1) {
 					Assert.fail("Failed to delete object. " + p1);
 				}
 			});
@@ -388,8 +338,7 @@ public class EcEncryptedValueTest
 	}
 
 	@Test
-	public void encryptedValueOneOwnerTest()
-	{
+	public void encryptedValueOneOwnerTest() {
 		EcRemote.async = false;
 
 		EcPpk ppk = EcPpk.fromPem(
@@ -412,18 +361,14 @@ public class EcEncryptedValueTest
 		EcIdentityManager.addIdentity(newId1);
 
 		console.log("Saving...");
-		EcRepository.save(encThing, new Callback1<String>()
-		{
+		EcRepository.save(encThing, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Saved.");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to save.");
 				console.log(p1);
 				Assert.fail("Failed to save object.");
@@ -431,11 +376,9 @@ public class EcEncryptedValueTest
 		});
 
 		console.log("Retrieving...");
-		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>()
-		{
+		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>() {
 			@Override
-			public void $invoke(EcRemoteLinkedData p1)
-			{
+			public void $invoke(EcRemoteLinkedData p1) {
 				EcEncryptedValue retrieved = new EcEncryptedValue();
 				retrieved.copyFrom(p1);
 
@@ -447,11 +390,9 @@ public class EcEncryptedValueTest
 
 				console.log("Retrieved Unchanged");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to retrieve.");
 				console.log(p1);
 				Assert.fail("Failed to retrieve object after save.");
@@ -461,25 +402,20 @@ public class EcEncryptedValueTest
 		EcRepository r = new EcRepository();
 		r.selectedServer = server;
 		console.log("Searching...");
-		r.search("@encryptedType:\"" + thing.type + "\"", null, new Callback1<Array<EcRemoteLinkedData>>()
-		{
+		r.search("@encryptedType:\"" + thing.type + "\"", null, new Callback1<Array<EcRemoteLinkedData>>() {
 			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1)
-			{
+			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				boolean found = false;
-				for (int i = 0; i < p1.$length(); i++)
-				{
+				for (int i = 0; i < p1.$length(); i++) {
 					if (p1.$get(i).shortId().equals(thing.shortId()))
 						found = true;
 				}
 
 				assertTrue("Unable to find object in search. ", found);
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to search.");
 				console.log(p1);
 				Assert.fail("Failed to search for object after save.");
@@ -489,61 +425,48 @@ public class EcEncryptedValueTest
 		EcIdentityManager.ids = JSCollections.$array();
 
 		console.log("Trying to retrieve as public...");
-		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>()
-		{
+		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>() {
 			@Override
-			public void $invoke(EcRemoteLinkedData p1)
-			{
+			public void $invoke(EcRemoteLinkedData p1) {
 				console.log("Retrieved encrypted object as public");
 				if (p1.type != null && !p1.type.equals(""))
 					Assert.fail("Retrieved encrypted object as public");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Access Denied");
 			}
 		});
 
 		console.log("Searching public...");
-		r.search("@encryptedType:\"" + thing.type + "\"", null, new Callback1<Array<EcRemoteLinkedData>>()
-		{
+		r.search("@encryptedType:\"" + thing.type + "\"", null, new Callback1<Array<EcRemoteLinkedData>>() {
 			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1)
-			{
+			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				boolean found = false;
-				for (int i = 0; i < p1.$length(); i++)
-				{
+				for (int i = 0; i < p1.$length(); i++) {
 					if (p1.$get(i).shortId().equals(thing.shortId()))
 						found = true;
 				}
 
 				Assert.assertFalse("Found the encrypted Object", found);
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Could not find object in search");
 			}
 		});
 
 		console.log("Deleting as Public...");
-		EcRepository._delete(thing, new Callback1<String>()
-		{
+		EcRepository._delete(thing, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Deleted the Owned Object from Repository as public");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to Delete the Owned Object.");
 				console.log(p1);
 			}
@@ -554,18 +477,14 @@ public class EcEncryptedValueTest
 		final EcEncryptedValue encThing2 = EcEncryptedValue.toEncryptedValue(thing, false);
 
 		console.log("Trying to Update as Public...");
-		EcRepository.save(encThing2, new Callback1<String>()
-		{
+		EcRepository.save(encThing2, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Saved as public.");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to save as public.");
 				console.log(p1);
 			}
@@ -574,18 +493,14 @@ public class EcEncryptedValueTest
 		EcIdentityManager.addIdentity(newId1);
 
 		console.log("Updating...");
-		EcRepository.save(encThing2, new Callback1<String>()
-		{
+		EcRepository.save(encThing2, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Updated.");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to update.");
 				console.log(p1);
 				Assert.fail("Failed to update object.");
@@ -593,11 +508,9 @@ public class EcEncryptedValueTest
 		});
 
 		console.log("Retrieving after update...");
-		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>()
-		{
+		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>() {
 			@Override
-			public void $invoke(EcRemoteLinkedData p1)
-			{
+			public void $invoke(EcRemoteLinkedData p1) {
 				EcEncryptedValue retrieved = new EcEncryptedValue();
 				retrieved.copyFrom(p1);
 
@@ -609,11 +522,9 @@ public class EcEncryptedValueTest
 
 				console.log("Retrieved After update");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to retrieve updates.");
 				console.log(p1);
 				Assert.fail("Failed to retrieve updated object");
@@ -621,18 +532,14 @@ public class EcEncryptedValueTest
 		});
 
 		console.log("Deleting...");
-		EcRepository._delete(thing, new Callback1<String>()
-		{
+		EcRepository._delete(thing, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Deleted the Owned Object.");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log(p1);
 				Assert.fail("Failed to Delete the Owned Object from Repository");
 			}
@@ -641,8 +548,7 @@ public class EcEncryptedValueTest
 	}
 
 	@Test
-	public void encryptedValueTwoOwnerTest()
-	{
+	public void encryptedValueTwoOwnerTest() {
 		EcRemote.async = false;
 
 		final EcPpk ppk = EcPpk.fromPem(
@@ -670,18 +576,14 @@ public class EcEncryptedValueTest
 		EcIdentityManager.addIdentity(newId1);
 
 		console.log("Saving...");
-		EcRepository.save(encThing, new Callback1<String>()
-		{
+		EcRepository.save(encThing, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Saved.");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to save.");
 				console.log(p1);
 				Assert.fail("Failed to save object.");
@@ -689,11 +591,9 @@ public class EcEncryptedValueTest
 		});
 
 		console.log("Retrieving as owner 1...");
-		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>()
-		{
+		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>() {
 			@Override
-			public void $invoke(EcRemoteLinkedData p1)
-			{
+			public void $invoke(EcRemoteLinkedData p1) {
 				EcEncryptedValue retrieved = new EcEncryptedValue();
 				retrieved.copyFrom(p1);
 
@@ -706,11 +606,9 @@ public class EcEncryptedValueTest
 				Assert.assertTrue("Object does not have second owner", retrieved.hasOwner(ppk2.toPk()));
 				console.log("Retrieved Unchanged");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to retrieve as owner 1.");
 				console.log(p1);
 				Assert.fail("Failed to retrieve object as owner 1 after save.");
@@ -720,25 +618,20 @@ public class EcEncryptedValueTest
 		EcRepository r = new EcRepository();
 		r.selectedServer = server;
 		console.log("Searching as owner 1...");
-		r.search("@encryptedType:\"" + thing.type + "\"", null, new Callback1<Array<EcRemoteLinkedData>>()
-		{
+		r.search("@encryptedType:\"" + thing.type + "\"", null, new Callback1<Array<EcRemoteLinkedData>>() {
 			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1)
-			{
+			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				boolean found = false;
-				for (int i = 0; i < p1.$length(); i++)
-				{
+				for (int i = 0; i < p1.$length(); i++) {
 					if (p1.$get(i).shortId().equals(thing.shortId()))
 						found = true;
 				}
 
 				assertTrue("Unable to find object in search as owner 1. ", found);
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to search.");
 				console.log(p1);
 				Assert.fail("Failed to search for object as owner 1.");
@@ -752,11 +645,9 @@ public class EcEncryptedValueTest
 		EcIdentityManager.addIdentity(newId2);
 
 		console.log("Retrieving as owner 2...");
-		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>()
-		{
+		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>() {
 			@Override
-			public void $invoke(EcRemoteLinkedData p1)
-			{
+			public void $invoke(EcRemoteLinkedData p1) {
 				EcEncryptedValue retrieved = new EcEncryptedValue();
 				retrieved.copyFrom(p1);
 
@@ -769,11 +660,9 @@ public class EcEncryptedValueTest
 				Assert.assertTrue("Object does not have second owner", retrieved.hasOwner(ppk2.toPk()));
 				console.log("Retrieved Unchanged");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to retrieve as owner 2.");
 				console.log(p1);
 				Assert.fail("Failed to retrieve object as owner 2");
@@ -781,25 +670,20 @@ public class EcEncryptedValueTest
 		});
 
 		console.log("Searching as owner 2...");
-		r.search("@encryptedType:\"" + thing.type + "\"", null, new Callback1<Array<EcRemoteLinkedData>>()
-		{
+		r.search("@encryptedType:\"" + thing.type + "\"", null, new Callback1<Array<EcRemoteLinkedData>>() {
 			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1)
-			{
+			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				boolean found = false;
-				for (int i = 0; i < p1.$length(); i++)
-				{
+				for (int i = 0; i < p1.$length(); i++) {
 					if (p1.$get(i).shortId().equals(thing.shortId()))
 						found = true;
 				}
 
 				assertTrue("Unable to find object in search as owner 2. ", found);
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to search.");
 				console.log(p1);
 				Assert.fail("Failed to search for object as owner 2.");
@@ -809,61 +693,48 @@ public class EcEncryptedValueTest
 		EcIdentityManager.ids = JSCollections.$array();
 
 		console.log("Trying to retrieve as public...");
-		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>()
-		{
+		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>() {
 			@Override
-			public void $invoke(EcRemoteLinkedData p1)
-			{
+			public void $invoke(EcRemoteLinkedData p1) {
 				console.log("Retrieved encrypted object as public");
 				if (p1.type != null && !p1.type.equals(""))
 					Assert.fail("Retrieved encrypted object as public");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Access Denied");
 			}
 		});
 
 		console.log("Searching public...");
-		r.search("@encryptedType:\"" + thing.type + "\"", null, new Callback1<Array<EcRemoteLinkedData>>()
-		{
+		r.search("@encryptedType:\"" + thing.type + "\"", null, new Callback1<Array<EcRemoteLinkedData>>() {
 			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1)
-			{
+			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				boolean found = false;
-				for (int i = 0; i < p1.$length(); i++)
-				{
+				for (int i = 0; i < p1.$length(); i++) {
 					if (p1.$get(i).shortId().equals(thing.shortId()))
 						found = true;
 				}
 
 				Assert.assertFalse("Found the encrypted Object", found);
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Could not find object in search");
 			}
 		});
 
 		console.log("Deleting as Public...");
-		EcRepository._delete(thing, new Callback1<String>()
-		{
+		EcRepository._delete(thing, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Deleted the Owned Object from Repository as public");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to Delete the Owned Object.");
 				console.log(p1);
 			}
@@ -876,18 +747,14 @@ public class EcEncryptedValueTest
 		EcEncryptedValue encThing2 = EcEncryptedValue.toEncryptedValue(thing, false);
 
 		console.log("Updating as owner 2...");
-		EcRepository.save(encThing, new Callback1<String>()
-		{
+		EcRepository.save(encThing, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Updated as owner 2.");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to Update as owner2.");
 				console.log(p1);
 				Assert.fail("Failed to Update object as owner2.");
@@ -895,11 +762,9 @@ public class EcEncryptedValueTest
 		});
 
 		console.log("Retrieving after update...");
-		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>()
-		{
+		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>() {
 			@Override
-			public void $invoke(EcRemoteLinkedData p1)
-			{
+			public void $invoke(EcRemoteLinkedData p1) {
 				EcEncryptedValue retrieved = new EcEncryptedValue();
 				retrieved.copyFrom(p1);
 
@@ -912,11 +777,9 @@ public class EcEncryptedValueTest
 				Assert.assertTrue("Object does not have second owner", retrieved.hasOwner(ppk2.toPk()));
 				console.log("Retrieved Unchanged");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to retrieve as owner 2 after update.");
 				console.log(p1);
 				Assert.fail("Failed to retrieve object as owner 2");
@@ -924,18 +787,14 @@ public class EcEncryptedValueTest
 		});
 
 		console.log("Deleting as owner 2...");
-		EcRepository._delete(thing, new Callback1<String>()
-		{
+		EcRepository._delete(thing, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Deleted the Owned Object as owner 2.");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log(p1);
 				Assert.fail("Failed to Delete the Owned Object from Repository as owner 2");
 			}
@@ -944,8 +803,7 @@ public class EcEncryptedValueTest
 	}
 
 	@Test
-	public void encryptedValueOwnerReaderTest()
-	{
+	public void encryptedValueOwnerReaderTest() {
 		EcRemote.async = false;
 
 		final EcPpk ppk = EcPpk.fromPem(
@@ -971,18 +829,14 @@ public class EcEncryptedValueTest
 		EcIdentityManager.addIdentity(newId1);
 
 		console.log("Saving...");
-		EcRepository.save(encThing, new Callback1<String>()
-		{
+		EcRepository.save(encThing, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Saved.");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to save.");
 				console.log(p1);
 				Assert.fail("Failed to save object.");
@@ -990,11 +844,9 @@ public class EcEncryptedValueTest
 		});
 
 		console.log("Retrieving as owner ...");
-		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>()
-		{
+		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>() {
 			@Override
-			public void $invoke(EcRemoteLinkedData p1)
-			{
+			public void $invoke(EcRemoteLinkedData p1) {
 				EcEncryptedValue retrieved = new EcEncryptedValue();
 				retrieved.copyFrom(p1);
 
@@ -1006,11 +858,9 @@ public class EcEncryptedValueTest
 				Assert.assertTrue("Object does not have first owner", retrieved.hasOwner(ppk.toPk()));
 				console.log("Retrieved Unchanged");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to retrieve as owner 1.");
 				console.log(p1);
 				Assert.fail("Failed to retrieve object as owner 1 after save.");
@@ -1020,25 +870,20 @@ public class EcEncryptedValueTest
 		EcRepository r = new EcRepository();
 		r.selectedServer = server;
 		console.log("Searching as owner ...");
-		r.search("@encryptedType:\"" + thing.type + "\"", null, new Callback1<Array<EcRemoteLinkedData>>()
-		{
+		r.search("@encryptedType:\"" + thing.type + "\"", null, new Callback1<Array<EcRemoteLinkedData>>() {
 			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1)
-			{
+			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				boolean found = false;
-				for (int i = 0; i < p1.$length(); i++)
-				{
+				for (int i = 0; i < p1.$length(); i++) {
 					if (p1.$get(i).shortId().equals(thing.shortId()))
 						found = true;
 				}
 
 				assertTrue("Unable to find object in search as owner. ", found);
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to search.");
 				console.log(p1);
 				Assert.fail("Failed to search for object after save.");
@@ -1052,20 +897,16 @@ public class EcEncryptedValueTest
 		EcIdentityManager.addIdentity(newId2);
 
 		console.log("Trying to retrieve as other user...");
-		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>()
-		{
+		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>() {
 			@Override
-			public void $invoke(EcRemoteLinkedData p1)
-			{
+			public void $invoke(EcRemoteLinkedData p1) {
 				console.log("Retrieved encrypted object as other user");
 				if (p1.type != null && !p1.type.equals(""))
 					Assert.fail("Retrieved encrypted object as other user");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Access Denied");
 			}
 		});
@@ -1077,18 +918,14 @@ public class EcEncryptedValueTest
 		encThingWithReader.addReader(EcPk.fromPem(ppk2.toPk().toPem()));
 
 		console.log("Adding reader...");
-		EcRepository.save(encThingWithReader, new Callback1<String>()
-		{
+		EcRepository.save(encThingWithReader, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Reader Added.");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to add reader.");
 				console.log(p1);
 				Assert.fail("Failed to add reader to object.");
@@ -1099,11 +936,9 @@ public class EcEncryptedValueTest
 		EcIdentityManager.addIdentity(newId2);
 
 		console.log("Retrieving as reader...");
-		EcRepository.get(encThingWithReader.shortId(), new Callback1<EcRemoteLinkedData>()
-		{
+		EcRepository.get(encThingWithReader.shortId(), new Callback1<EcRemoteLinkedData>() {
 			@Override
-			public void $invoke(EcRemoteLinkedData p1)
-			{
+			public void $invoke(EcRemoteLinkedData p1) {
 				if (p1.type == null || p1.type.equals(""))
 					Assert.fail("Unable to retreive object as reader");
 				EcEncryptedValue retrieved = new EcEncryptedValue();
@@ -1118,11 +953,9 @@ public class EcEncryptedValueTest
 				Assert.assertTrue("Object does not have first owner", retrieved.hasOwner(ppk.toPk()));
 				console.log("Retrieved as Reader");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to retrieve as reader");
 				console.log(p1);
 				Assert.fail("Failed to retrieve object as reader.");
@@ -1130,25 +963,20 @@ public class EcEncryptedValueTest
 		});
 
 		console.log("Searching as reader...");
-		r.search("@encryptedType:\"" + thing.type + "\"", null, new Callback1<Array<EcRemoteLinkedData>>()
-		{
+		r.search("@encryptedType:\"" + thing.type + "\"", null, new Callback1<Array<EcRemoteLinkedData>>() {
 			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1)
-			{
+			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				boolean found = false;
-				for (int i = 0; i < p1.$length(); i++)
-				{
+				for (int i = 0; i < p1.$length(); i++) {
 					if (p1.$get(i).shortId().equals(thing.shortId()))
 						found = true;
 				}
 
 				assertTrue("Unable to find object in search as reader ", found);
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to search.");
 				console.log(p1);
 				Assert.fail("Failed to search for object after save.");
@@ -1158,61 +986,48 @@ public class EcEncryptedValueTest
 		EcIdentityManager.ids = JSCollections.$array();
 
 		console.log("Trying to retrieve as public...");
-		EcRepository.get(encThingWithReader.shortId(), new Callback1<EcRemoteLinkedData>()
-		{
+		EcRepository.get(encThingWithReader.shortId(), new Callback1<EcRemoteLinkedData>() {
 			@Override
-			public void $invoke(EcRemoteLinkedData p1)
-			{
+			public void $invoke(EcRemoteLinkedData p1) {
 				console.log("Retrieved encrypted object as public");
 				if (p1.type != null && !p1.type.equals(""))
 					Assert.fail("Retrieved encrypted object as public");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Access Denied");
 			}
 		});
 
 		console.log("Searching public...");
-		r.search("@encryptedType:\"" + thing.type + "\"", null, new Callback1<Array<EcRemoteLinkedData>>()
-		{
+		r.search("@encryptedType:\"" + thing.type + "\"", null, new Callback1<Array<EcRemoteLinkedData>>() {
 			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1)
-			{
+			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				boolean found = false;
-				for (int i = 0; i < p1.$length(); i++)
-				{
+				for (int i = 0; i < p1.$length(); i++) {
 					if (p1.$get(i).shortId().equals(thing.shortId()))
 						found = true;
 				}
 
 				Assert.assertFalse("Found the encrypted Object", found);
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Could not find object in search");
 			}
 		});
 
 		console.log("Deleting as Public...");
-		EcRepository._delete(encThingWithReader, new Callback1<String>()
-		{
+		EcRepository._delete(encThingWithReader, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Deleted the Owned Object from Repository as public");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to Delete Owned Object as public.");
 				console.log(p1);
 			}
@@ -1220,18 +1035,14 @@ public class EcEncryptedValueTest
 
 		EcIdentityManager.addIdentity(newId2);
 		console.log("Deleting as reader...");
-		EcRepository._delete(encThingWithReader, new Callback1<String>()
-		{
+		EcRepository._delete(encThingWithReader, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Deleted the Owned Object from Repository as reader");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to Delete the Object as reader.");
 				console.log(p1);
 			}
@@ -1246,18 +1057,14 @@ public class EcEncryptedValueTest
 		encThingNoReader.removeReader(EcPk.fromPem(ppk2.toPk().toPem()));
 
 		console.log("removing reader...");
-		EcRepository.save(encThingNoReader, new Callback1<String>()
-		{
+		EcRepository.save(encThingNoReader, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Updated without reader.");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Failed to remove reader.");
 				console.log(p1);
 				Assert.fail("Failed to remove reader from object.");
@@ -1268,20 +1075,16 @@ public class EcEncryptedValueTest
 		EcIdentityManager.addIdentity(newId2);
 
 		console.log("Trying to retrieve as other user...");
-		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>()
-		{
+		EcRepository.get(encThing.shortId(), new Callback1<EcRemoteLinkedData>() {
 			@Override
-			public void $invoke(EcRemoteLinkedData p1)
-			{
+			public void $invoke(EcRemoteLinkedData p1) {
 				console.log("Retrieved encrypted object as other user");
 				if (p1.type != null && !p1.type.equals(""))
 					Assert.fail("Retrieved encrypted object as other user");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Access Denied");
 			}
 		});
@@ -1290,18 +1093,14 @@ public class EcEncryptedValueTest
 		EcIdentityManager.addIdentity(newId1);
 
 		console.log("Deleting...");
-		EcRepository._delete(encThingNoReader, new Callback1<String>()
-		{
+		EcRepository._delete(encThingNoReader, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log("Deleted the Owned Object as owner.");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				console.log(p1);
 				Assert.fail("Failed to Delete the Owned Object from Repository as owner");
 			}

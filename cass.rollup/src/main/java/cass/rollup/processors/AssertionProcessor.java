@@ -30,15 +30,13 @@ import org.stjs.javascript.functions.Function1;
  * @module org.cassproject
  */
 public abstract class AssertionProcessor {
+	private static final boolean DEF_STEP = false;
 	public Array<EcRepository> repositories;
 	public boolean step;
 	public boolean profileMode;
 	public Callback1<Object> logFunction;
 	public Object assertions;
 	public Array<AssertionCoprocessor> coprocessors;
-
-	private static final boolean DEF_STEP = false;
-
 	public Map<String, String> processedEquivalencies;
 	protected EcFramework context;
 	protected boolean assertionsCollected = false;

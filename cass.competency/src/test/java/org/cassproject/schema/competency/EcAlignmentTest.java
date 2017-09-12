@@ -22,9 +22,8 @@ import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
 @RunWith(STJSTestDriverRunner.class)
-@ScriptsBefore({ "/forge/forge.bundle.js" })
-public class EcAlignmentTest
-{
+@ScriptsBefore({"/forge/forge.bundle.js"})
+public class EcAlignmentTest {
 
 	static String server = "https://dev.cassproject.org/api/";
 	static EcPpk ppk;
@@ -37,8 +36,7 @@ public class EcAlignmentTest
 	static EcAlignment relation;
 
 	@Before
-	public void setup()
-	{
+	public void setup() {
 		Global.console.log("setup");
 
 		EcRemote.async = true;
@@ -74,98 +72,77 @@ public class EcAlignmentTest
 		end.setFullYear(2017);
 		relation.validThrough = end.toDateString();
 
-		sourceComp.save(null, new Callback1<String>()
-		{
+		sourceComp.save(null, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Failed to create Source Competency");
 			}
 		});
 
-		targetComp.save(null, new Callback1<String>()
-		{
+		targetComp.save(null, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Failed to create Target Competency");
 			}
 		});
 
-		relation.save(null, new Callback1<String>()
-		{
+		relation.save(null, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Failed to create Relation");
 			}
 		});
 	}
 
 	@After
-	public void breakdown()
-	{
-		relation._delete(null, new Callback1<String>()
-		{
+	public void breakdown() {
+		relation._delete(null, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("failed to delete relation");
 			}
 		});
 
-		sourceComp._delete(null, new Callback1<String>()
-		{
+		sourceComp._delete(null, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("failed to delete source competency");
 			}
 		}, null);
 
-		targetComp._delete(null, new Callback1<String>()
-		{
+		targetComp._delete(null, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("failed to delete target competency");
 			}
 		}, null);
 	}
 
 	@Test
-	public void createAlignmentTest()
-	{
-		repo.search(new Relation().getSearchStringByType(), null, new Callback1<Array<EcRemoteLinkedData>>()
-		{
+	public void createAlignmentTest() {
+		repo.search(new Relation().getSearchStringByType(), null, new Callback1<Array<EcRemoteLinkedData>>() {
 			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1)
-			{
-				for (int i = 0; i < p1.$length(); i++)
-				{
+			public void $invoke(Array<EcRemoteLinkedData> p1) {
+				for (int i = 0; i < p1.$length(); i++) {
 					EcRemoteLinkedData d = p1.$get(i);
 
-					if (d.id == relation.id)
-					{
+					if (d.id == relation.id) {
 						return;
 					}
 				}
 
 				Assert.fail("Unable to find relation after save");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Failed to Search for relation after save");
 			}
 		});
 	}
 
 	@Test
-	public void createNoSourceAlignmentTest()
-	{
+	public void createNoSourceAlignmentTest() {
 		EcAlignment noSource = new EcAlignment();
 
 		noSource.generateId(server);
@@ -173,19 +150,16 @@ public class EcAlignmentTest
 		noSource.relationType = "requires";
 		noSource.addOwner(ppk.toPk());
 
-		noSource.save(new Callback1<String>()
-		{
+		noSource.save(new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Relation Saved without source competency, shouldn't happen");
 			}
 		}, null);
 	}
 
 	@Test
-	public void createNoTargetAlignmentTest()
-	{
+	public void createNoTargetAlignmentTest() {
 		EcAlignment noSource = new EcAlignment();
 
 		noSource.generateId(server);
@@ -193,19 +167,16 @@ public class EcAlignmentTest
 		noSource.relationType = "requires";
 		noSource.addOwner(ppk.toPk());
 
-		noSource.save(new Callback1<String>()
-		{
+		noSource.save(new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Relation Saved without target competency, shouldn't happen");
 			}
 		}, null);
 	}
 
 	@Test
-	public void createNoTypeAlignmentTest()
-	{
+	public void createNoTypeAlignmentTest() {
 		EcAlignment noSource = new EcAlignment();
 
 		noSource.generateId(server);
@@ -213,24 +184,19 @@ public class EcAlignmentTest
 		noSource.target = targetComp.shortId();
 		noSource.addOwner(ppk.toPk());
 
-		noSource.save(new Callback1<String>()
-		{
+		noSource.save(new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Relation Saved without relationType field, shouldn't happen");
 			}
 		}, null);
 	}
 
 	@Test
-	public void viewAlignmentTest()
-	{
-		EcRepository.get(relation.id, new Callback1<EcRemoteLinkedData>()
-		{
+	public void viewAlignmentTest() {
+		EcRepository.get(relation.id, new Callback1<EcRemoteLinkedData>() {
 			@Override
-			public void $invoke(EcRemoteLinkedData p1)
-			{
+			public void $invoke(EcRemoteLinkedData p1) {
 				EcAlignment r = new EcAlignment();
 				r.copyFrom(p1);
 
@@ -244,19 +210,16 @@ public class EcAlignmentTest
 				Assert.assertEquals("validFrom does not match saved validFrom", relation.validFrom, r.validFrom);
 				Assert.assertEquals("validThrough does not match saved validThrough", relation.validThrough, r.validThrough);
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Failed to Get relation");
 			}
 		});
 	}
 
 	@Test
-	public void updateAlignmentInfo()
-	{
+	public void updateAlignmentInfo() {
 		relation.name = "changed relation name";
 		relation.description = "changed description";
 		relation.relationType = "required By";
@@ -266,28 +229,22 @@ public class EcAlignmentTest
 		relation.validThrough = end.toDateString();
 
 		Global.console.log("Updating Relation");
-		relation.save(new Callback1<String>()
-		{
+		relation.save(new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Global.console.log("Updated Relation successfully");
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Failed to save updated relation");
 			}
 		});
 
 		Global.console.log("Getting Relation after update");
-		EcRepository.get(relation.id, new Callback1<EcRemoteLinkedData>()
-		{
+		EcRepository.get(relation.id, new Callback1<EcRemoteLinkedData>() {
 			@Override
-			public void $invoke(EcRemoteLinkedData p1)
-			{
+			public void $invoke(EcRemoteLinkedData p1) {
 				EcAlignment r = new EcAlignment();
 				r.copyFrom(p1);
 
@@ -299,68 +256,56 @@ public class EcAlignmentTest
 				Assert.assertEquals("validFrom does not match saved validFrom", relation.validFrom, r.validFrom);
 				Assert.assertEquals("validThrough does not match saved validThrough", relation.validThrough, r.validThrough);
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Failed to Get relation after update");
 			}
 		});
 	}
 
 	@Test
-	public void updateAlignmentRemoveSource()
-	{
+	public void updateAlignmentRemoveSource() {
 		relation.source = null;
 		relation.target = targetComp.shortId();
 
-		relation.save(new Callback1<String>()
-		{
+		relation.save(new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Saved Relation without source, shouldn't be allowed");
 			}
 		}, null);
 	}
 
 	@Test
-	public void updateAlignmentRemoveTarget()
-	{
+	public void updateAlignmentRemoveTarget() {
 		relation.source = sourceComp.shortId();
 		relation.target = null;
 
-		relation.save(new Callback1<String>()
-		{
+		relation.save(new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Saved Relation without target, shouldn't be allowed");
 			}
 		}, null);
 	}
 
 	@Test
-	public void updateAlignmentRemoveType()
-	{
+	public void updateAlignmentRemoveType() {
 		relation.source = sourceComp.shortId();
 		relation.target = targetComp.shortId();
 		relation.relationType = null;
 
-		relation.save(new Callback1<String>()
-		{
+		relation.save(new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Saved Relation without relation Type, shouldn't be allowed");
 			}
 		}, null);
 	}
 
 	@Test
-	public void deleteAlignmentTest()
-	{
+	public void deleteAlignmentTest() {
 		final EcAlignment toDelete = new EcAlignment();
 		toDelete.generateId(server);
 		toDelete.name = "Relation To Delete";
@@ -369,52 +314,40 @@ public class EcAlignmentTest
 		toDelete.addOwner(ppk.toPk());
 
 		Global.console.log("saving relation to delete...");
-		EcRepository.save(toDelete, null, new Callback1<String>()
-		{
+		EcRepository.save(toDelete, null, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Failed to save relation for delete");
 			}
 		});
 
 		Global.console.log("deleting relation...");
-		toDelete._delete(new Callback1<String>()
-		{
+		toDelete._delete(new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Failed to delete relation");
 			}
 		});
 
 		Global.console.log("searching for deleted relation...");
-		repo.search("@type:\"" + toDelete.myType + "\"", null, new Callback1<Array<EcRemoteLinkedData>>()
-		{
+		repo.search("@type:\"" + toDelete.myType + "\"", null, new Callback1<Array<EcRemoteLinkedData>>() {
 			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1)
-			{
-				for (int i = 0; i < p1.$length(); i++)
-				{
+			public void $invoke(Array<EcRemoteLinkedData> p1) {
+				for (int i = 0; i < p1.$length(); i++) {
 					EcRemoteLinkedData d = p1.$get(i);
 
-					if (d.id == toDelete.id)
-					{
+					if (d.id == toDelete.id) {
 						Assert.fail("Shouldnt find relation after delete");
 					}
 				}
 			}
-		}, new Callback1<String>()
-		{
+		}, new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Assert.fail("Failed to Search for relation after delete");
 			}
 		});

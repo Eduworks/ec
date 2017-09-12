@@ -18,31 +18,27 @@ import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
 @RunWith(STJSTestDriverRunner.class)
-@ScriptsBefore({ "lib/require.js", "rollupInit.js" })
-public class RollupRuleInterfaceTest extends EvidenceProcessingTestBase
-{
-
-	@Before
-	public void setup()
-	{
-		Global.console.log("setup");
-
-	}
-
-	@After
-	public void breakdown()
-	{
-
-	}
+@ScriptsBefore({"lib/require.js", "rollupInit.js"})
+public class RollupRuleInterfaceTest extends EvidenceProcessingTestBase {
 
 	String input = "[competency:http://skyrepo.eduworks.com/service/data/schema.eduworks.com.cass.0.1.competency/d885dcd8-f00b-4ccf-82d8-ee14d6c84ef0 AND confidence:>0.6]"
 			+ " AND [competency:http://skyrepo.eduworks.com/service/data/schema.eduworks.com.cass.0.1.competency/31971023-5d61-42c0-bc64-ae8e8b7f0d09 AND confidence:>0.6 ]"
 			+ " AND [competency:http://skyrepo.eduworks.com/service/data/schema.eduworks.com.cass.0.1.competency/625c9e61-2503-401a-8df7-c9f14133ce95 AND confidence:>0.6]"
 			+ " AND [competency:http://skyrepo.eduworks.com/service/data/schema.eduworks.com.cass.0.1.competency/0a2ea5e4-b5b4-461e-a19c-d17772da4d16 AND confidence:>0.6]";
 
+	@Before
+	public void setup() {
+		Global.console.log("setup");
+
+	}
+
+	@After
+	public void breakdown() {
+
+	}
+
 	@Test
-	public void basicTrueTest()
-	{
+	public void basicTrueTest() {
 		EcFramework f = newFramework("Woodworking");
 
 		EcCompetency cx = newCompetency("Basic Woodworking");
@@ -59,20 +55,20 @@ public class RollupRuleInterfaceTest extends EvidenceProcessingTestBase
 		f.addCompetency(cx.shortId());
 
 		String input = "[competency:<C> AND confidence:>0.6] AND [competency:<C2> AND confidence:>0.6] AND [competency:<C3> AND confidence:>0.6] AND [competency:<C4> AND confidence:>0.6]";
-		input = input.replace("<C>",c.shortId());
-		input = input.replace("<C2>",c2.shortId());
-		input = input.replace("<C3>",c3.shortId());
-		input = input.replace("<C4>",c4.shortId());
+		input = input.replace("<C>", c.shortId());
+		input = input.replace("<C2>", c2.shortId());
+		input = input.replace("<C3>", c3.shortId());
+		input = input.replace("<C4>", c4.shortId());
 
-		EcRollupRule rr = newRollupRule(c,input);
+		EcRollupRule rr = newRollupRule(c, input);
 
-		c.save(null,failure);
-		c2.save(null,failure);
-		c3.save(null,failure);
-		c4.save(null,failure);
-		cx.save(null,failure);
+		c.save(null, failure);
+		c2.save(null, failure);
+		c3.save(null, failure);
+		c4.save(null, failure);
+		cx.save(null, failure);
 
-		rr.save(null,failure);
+		rr.save(null, failure);
 
 		f.addRollupRule(rr.shortId());
 
@@ -82,15 +78,13 @@ public class RollupRuleInterfaceTest extends EvidenceProcessingTestBase
 		EcAssertion a2 = newAssertion(c2);
 		EcAssertion a3 = newAssertion(c3);
 
-		a.save(null,failure);
-		a2.save(null,failure);
-		a3.save(null,failure);
+		a.save(null, failure);
+		a2.save(null, failure);
+		a3.save(null, failure);
 
-		performTest(f,cx,new Callback1<InquiryPacket>()
-		{
+		performTest(f, cx, new Callback1<InquiryPacket>() {
 			@Override
-			public void $invoke(InquiryPacket p1)
-			{
+			public void $invoke(InquiryPacket p1) {
 				Global.console.log(p1.result.name());
 				Global.console.log(p1);
 				Assert.assertSame(InquiryPacket.ResultType.TRUE, p1.result);
@@ -108,9 +102,9 @@ public class RollupRuleInterfaceTest extends EvidenceProcessingTestBase
 		deleteById(a3.shortId());
 		deleteById(rr.shortId());
 	}
+
 	@Test
-	public void basicTest()
-	{
+	public void basicTest() {
 		String input = "[competency:http://skyrepo.eduworks.com/service/data/schema.eduworks.com.cass.0.1.competency/d885dcd8-f00b-4ccf-82d8-ee14d6c84ef0 AND confidence:>0.6]"
 				+ " AND [competency:http://skyrepo.eduworks.com/service/data/schema.eduworks.com.cass.0.1.competency/31971023-5d61-42c0-bc64-ae8e8b7f0d09 AND confidence:>0.6 ]"
 				+ " AND [competency:http://skyrepo.eduworks.com/service/data/schema.eduworks.com.cass.0.1.competency/625c9e61-2503-401a-8df7-c9f14133ce95 AND confidence:>0.6]"
@@ -131,37 +125,29 @@ public class RollupRuleInterfaceTest extends EvidenceProcessingTestBase
 		final InquiryPacket ip = new InquiryPacket(null, null, null, null, null, null, null, null);
 		RollupRuleProcessor rrp = new RollupRuleProcessor(ip, null);
 		RollupRuleInterface rri = new RollupRuleInterface(input, rrp);
-		rri.logFunction = new Callback1<Object>()
-		{
+		rri.logFunction = new Callback1<Object>() {
 			@Override
-			public void $invoke(Object p1)
-			{
+			public void $invoke(Object p1) {
 				Global.console.log(p1);
 			}
 		};
-		rri.success = new Callback1<Boolean>()
-		{
+		rri.success = new Callback1<Boolean>() {
 			@Override
-			public void $invoke(Boolean p1)
-			{
+			public void $invoke(Boolean p1) {
 				if (ip.subPackets == null || ip.subPackets.$length() <= 0)
 					Global.console.log("NO SUB PACKET GENERATED!!!");
-				else
-				{
+				else {
 					Global.console.log("SUB PACKET WAS GENERATED!!!");
 					InquiryPacket rip = ip.subPackets.$get(0);
 					Global.console.log(" " + rip.type);
 					InquiryPacket sp;
-					for (int i = 0; i < rip.subPackets.$length(); i++)
-					{
+					for (int i = 0; i < rip.subPackets.$length(); i++) {
 						sp = rip.subPackets.$get(i);
 						if (sp.type.equals(IPType.ROLLUPRULE))
 							Global.console.log("    " + sp.type + " - " + sp.rule);
-						else
-						{
+						else {
 							Global.console.log("   " + sp.type);
-							for (int j = 0; j < sp.subPackets.$length(); j++)
-							{
+							for (int j = 0; j < sp.subPackets.$length(); j++) {
 								Global.console.log("       " + sp.subPackets.$get(j).type + " - " + sp.subPackets.$get(j).rule);
 							}
 						}

@@ -3,21 +3,21 @@ package org.schema;
 /**
  * Schema.org/WantAction
  * The act of expressing a desire about the object. An agent wants an object.
+ *
  * @author schema.org
  * @class WantAction
  * @module org.schema
  * @extends ReactAction
  */
-public class WantAction extends ReactAction
-{
+public class WantAction extends ReactAction {
 	/**
 	 * Constructor, automatically sets @context and @type.
+	 *
 	 * @constructor
 	 */
-	public WantAction()
-	{
-		context="http://schema.org/";
-		type="WantAction";
+	public WantAction() {
+		context = "http://schema.org/";
+		type = "WantAction";
 	}
 
 }

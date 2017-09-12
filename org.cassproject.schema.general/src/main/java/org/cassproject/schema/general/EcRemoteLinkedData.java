@@ -13,14 +13,13 @@ import org.stjs.javascript.functions.Callback1;
 /**
  * Data wrapper to represent remotely hosted data. Includes necessary KBAC fields for
  * permission controls, signing, identifying and locating the object.
- * 
+ *
+ * @author fritz.ray@eduworks.com
  * @class EcRemoteLinkedData
  * @extends EcLinkedData
  * @module org.cassproject
- * @author fritz.ray@eduworks.com
  */
-public class EcRemoteLinkedData extends EcLinkedData
-{
+public class EcRemoteLinkedData extends EcLinkedData {
 	// An owner has write privileges according to a repository.
 	// These owners are in PEM format.
 	/**
@@ -28,6 +27,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 	 * receiving a write operation, will ensure either the data did not
 	 * previously exist, or that an owner has provided a signature authorizing
 	 * the replacement of the old data with the new data.
+	 *
 	 * @property owner
 	 * @type string[] (PEM)
 	 */
@@ -38,6 +38,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 	 * signature field. Encode the object and its fields in ascii-sort order
 	 * JSON-LD using a space-free, tab-free encoding. Sign the aforementioned
 	 * string.
+	 *
 	 * @property signature
 	 * @type string[] (Base64)
 	 */
@@ -45,6 +46,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 
 	/**
 	 * URL/URI used to retrieve, store and identify the object.
+	 *
 	 * @property id
 	 * @type string (URL)
 	 */
@@ -54,6 +56,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 	 * PEM encoded public keys of identities authorized to view the object. A
 	 * repository will ignore write operations from these identities, but will
 	 * allow them to read the object.
+	 *
 	 * @property reader
 	 * @type string[] (PEM)
 	 */
@@ -61,24 +64,46 @@ public class EcRemoteLinkedData extends EcLinkedData
 
 	/**
 	 * Constructor for remote linked data object.
-	 * @constructor
+	 *
 	 * @param {string} context JSON-LD Context.
 	 * @param {string} type JSON-LD Type.
+	 * @constructor
 	 */
-	public EcRemoteLinkedData(String context, String type)
-	{
+	public EcRemoteLinkedData(String context, String type) {
 		super(context, type);
+	}
+
+	/**
+	 * Removes the version information from an identifier.
+	 * Warning: Will remove identifier if the identifier is composed solely of digits!!!
+	 *
+	 * @param {string} id Slash delimited URL or path.
+	 * @return ID without version.
+	 * @method trimVersionFromUrl
+	 * @static
+	 */
+	public static String trimVersionFromUrl(String id) {
+		if (id == null)
+			return null;
+		// May not be a GUID, may be more canonical. Check to see if it is a
+		// parsable long.
+
+		if (!id.substring(id.lastIndexOf("/")).matches("\\/[0-9]+"))
+			return id;
+		String rawId = id.substring(0, id.lastIndexOf("/"));
+		if (rawId.endsWith("/"))
+			rawId = rawId.substring(0, rawId.length() - 1);
+		return rawId;
 	}
 
 	/**
 	 * Will generate an identifier using the server URL provided (usually from
 	 * an EcRepository).
-	 * 
-	 * @method generateId
+	 *
 	 * @param {string} server Base URL of the server's repository functionality.
+	 * @method generateId
 	 */
-	public void generateId(String server)
-	{
+	public void generateId(String server) {
 		id = server;
 		if (!id.endsWith("/"))
 			id += "/";
@@ -93,13 +118,12 @@ public class EcRemoteLinkedData extends EcLinkedData
 	/**
 	 * Will generate an identifier using the server URL provided (usually from
 	 * an EcRepository) and unique identifier.
-	 * 
-	 * @method assignId
+	 *
 	 * @param {string} server Base URL of the server's repository functionality.
 	 * @param {string} uniqueIdentifier Canonical identifier. Must contain a letter or symbol.
+	 * @method assignId
 	 */
-	public void assignId(String server, String uniqueIdentifier)
-	{
+	public void assignId(String server, String uniqueIdentifier) {
 		id = server;
 		if (!id.endsWith("/"))
 			id += "/";
@@ -112,16 +136,15 @@ public class EcRemoteLinkedData extends EcLinkedData
 	}
 
 	/**
-	 * Determines if the object has an owner identified by pk. 
-	 * Homogenizes the PEM strings for comparison. 
+	 * Determines if the object has an owner identified by pk.
+	 * Homogenizes the PEM strings for comparison.
 	 * Homogenization is necessary for comparing PKCS#1 and PKCS#8 or PKs with Certificates, etc.
-	 * 
-	 * @method hasOwner
+	 *
 	 * @param {EcPk} pk Public Key of the owner.
 	 * @return {boolean} True if owner is represented by the PK, false otherwise.
+	 * @method hasOwner
 	 */
-	public boolean hasOwner(EcPk pk)
-	{
+	public boolean hasOwner(EcPk pk) {
 		if (owner == null)
 			return false;
 
@@ -133,41 +156,36 @@ public class EcRemoteLinkedData extends EcLinkedData
 	}
 
 	/**
-	 * Determines if the PK matches an owner or if the object is public. 
-	 * Homogenizes the PEM strings for comparison. 
+	 * Determines if the PK matches an owner or if the object is public.
+	 * Homogenizes the PEM strings for comparison.
 	 * Homogenization is necessary for comparing PKCS#1 and PKCS#8 or PKs with Certificates, etc.
-	 * 
-	 * @method canEdit
+	 *
 	 * @param {EcPk} pk Public Key of the owner.
 	 * @return {boolean} True if owner is represented by the PK, false otherwise.
+	 * @method canEdit
 	 */
-	public boolean canEdit(EcPk pk)
-	{
+	public boolean canEdit(EcPk pk) {
 		if (owner == null || owner.$length() == 0)
 			return true;
 		return hasOwner(pk);
 	}
 
 	/**
-	 * Encodes the object in a form where it is ready to be signed. 
+	 * Encodes the object in a form where it is ready to be signed.
 	 * This method is under long term review, and may change from version to version.
-	 * 
-	 * @method toSignableJson
+	 *
 	 * @return ASCII-sort order encoded space-free and tab-free JSON-LD.
+	 * @method toSignableJson
 	 */
-	public String toSignableJson()
-	{
+	public String toSignableJson() {
 		EcLinkedData d = (EcLinkedData) JSGlobal.JSON.parse(toJson());
 
-		if (type.contains("http://schema.eduworks.com/") && type.contains("/0.1/"))
-		{
+		if (type.contains("http://schema.eduworks.com/") && type.contains("/0.1/")) {
 			JSObjectAdapter.$properties(d).$delete("@signature");
 			JSObjectAdapter.$properties(d).$delete("@owner");
 			JSObjectAdapter.$properties(d).$delete("@reader");
 			JSObjectAdapter.$properties(d).$delete("@id");
-		}
-		else
-		{
+		} else {
 			// Whom else has signed the object does not change the contents of
 			// the object.
 			JSObjectAdapter.$properties(d).$delete("@signature");
@@ -186,24 +204,20 @@ public class EcRemoteLinkedData extends EcLinkedData
 	}
 
 	/**
-	 * Sign this object using a private key. 
+	 * Sign this object using a private key.
 	 * Does not check for ownership, objects signed with keys absent from @owner or @reader may be removed.
-	 * 
-	 * @method signWith
+	 *
 	 * @param {EcPpk} ppk Public private keypair.
+	 * @method signWith
 	 */
-	public void signWith(EcPpk ppk)
-	{
+	public void signWith(EcPpk ppk) {
 		String signableJson = toSignableJson();
 		String signed = EcRsaOaep.sign(ppk, signableJson);
-		if (signature != null)
-		{
+		if (signature != null) {
 			for (int i = 0; i < signature.$length(); i++)
 				if (signature.$get(i).equals(signed))
 					return;
-		}
-		else
-		{
+		} else {
 			signature = new Array<String>();
 		}
 		signature.push(signed);
@@ -211,34 +225,25 @@ public class EcRemoteLinkedData extends EcLinkedData
 
 	/**
 	 * Verifies the object's signatures.
-	 * 
-	 * @method verify
+	 *
 	 * @return {boolean} true if all of the signatures could be verified, false if they could not
+	 * @method verify
 	 */
-	public boolean verify()
-	{
-		if (signature != null)
-		{
-			for (int i = 0; i < signature.$length();)
-			{
+	public boolean verify() {
+		if (signature != null) {
+			for (int i = 0; i < signature.$length(); ) {
 				boolean works = false;
 				String sig = signature.$get(i);
-				if (owner != null)
-				{
-					for (int j = 0; j < owner.$length(); j++)
-					{
+				if (owner != null) {
+					for (int j = 0; j < owner.$length(); j++) {
 						String own = owner.$get(j);
 						EcPk pk = EcPk.fromPem(own);
 						Boolean verify = false;
-						try
-						{
+						try {
 							verify = EcRsaOaep.verify(pk, toSignableJson(), sig);
+						} catch (Exception ex) {
 						}
-						catch (Exception ex)
-						{
-						}
-						if (verify)
-						{
+						if (verify) {
 							works = true;
 							break;
 						}
@@ -262,12 +267,11 @@ public class EcRemoteLinkedData extends EcLinkedData
 	/**
 	 * Adds an owner to the object, if the owner does not exist.
 	 * Note that this method invalidates all signatures.
-	 * 
-	 * @method addOwner
+	 *
 	 * @param {EcPk} newOwner PK of the new owner.
+	 * @method addOwner
 	 */
-	public void addOwner(EcPk newOwner)
-	{
+	public void addOwner(EcPk newOwner) {
 		String pem = newOwner.toPem();
 		if (owner == null)
 			owner = new Array<String>();
@@ -283,12 +287,11 @@ public class EcRemoteLinkedData extends EcLinkedData
 	/**
 	 * Removes an owner from the object, if the owner does exist.
 	 * Note that this method invalidates all signatures.
-	 * 
-	 * @method removeOwner
+	 *
 	 * @param {EcPk} oldOwner PK to remove.
+	 * @method removeOwner
 	 */
-	public void removeOwner(EcPk oldOwner)
-	{
+	public void removeOwner(EcPk oldOwner) {
 		String pem = oldOwner.toPem();
 		if (owner == null)
 			owner = new Array<String>();
@@ -303,12 +306,11 @@ public class EcRemoteLinkedData extends EcLinkedData
 	/**
 	 * Adds a reader to the object, if the reader does not exist.
 	 * Note that this method invalidates all signatures.
-	 * 
-	 * @method addReader
+	 *
 	 * @param {EcPk} newReader PK of the new reader.
+	 * @method addReader
 	 */
-	public void addReader(EcPk newReader)
-	{
+	public void addReader(EcPk newReader) {
 		String pem = newReader.toPem();
 		if (reader == null)
 			reader = new Array<String>();
@@ -324,12 +326,11 @@ public class EcRemoteLinkedData extends EcLinkedData
 	/**
 	 * Removes a reader from the object, if the reader does exist.
 	 * Note that this method invalidates all signatures.
-	 * 
-	 * @method removeReader
+	 *
 	 * @param {EcPk} oldReader PK of the old reader.
+	 * @method removeReader
 	 */
-	public void removeReader(EcPk oldReader)
-	{
+	public void removeReader(EcPk oldReader) {
 		String pem = oldReader.toPem();
 		if (reader == null)
 			reader = new Array<String>();
@@ -343,12 +344,11 @@ public class EcRemoteLinkedData extends EcLinkedData
 
 	/**
 	 * Determines if the object is not retrievable from a repository should it be written.
-	 * 
-	 * @method invalid
+	 *
 	 * @return {boolean} True if the object is NOT VALID for storage, false otherwise.
+	 * @method invalid
 	 */
-	public boolean invalid()
-	{
+	public boolean invalid() {
 		if (id == null)
 			return true;
 		// Allow relative pathed data.
@@ -366,10 +366,10 @@ public class EcRemoteLinkedData extends EcLinkedData
 
 	/**
 	 * Updates the ID timestamp of the object, for versioning purposes.
+	 *
 	 * @method updateTimestamp
 	 */
-	public void updateTimestamp()
-	{
+	public void updateTimestamp() {
 		String rawId = id.substring(0, id.lastIndexOf("/"));
 		if (rawId.endsWith("/") == false)
 			rawId += "/";
@@ -379,95 +379,71 @@ public class EcRemoteLinkedData extends EcLinkedData
 
 	/**
 	 * Updates the ID timestamp of the object, for versioning purposes.
+	 *
 	 * @method updateTimestamp
 	 */
-	public Integer getTimestamp()
-	{
+	public Integer getTimestamp() {
 		return Integer.parseInt(id.substring(id.lastIndexOf("/")));
 	}
 
 	/**
-	 * Returns true if the provided ID represents this object. 
+	 * Returns true if the provided ID represents this object.
 	 * Use this, as version information can make direct comparison difficult.
-	 * @method isId
+	 *
 	 * @param {string} id
 	 * @return {boolean} True if the provided ID represents this object.
+	 * @method isId
 	 */
-	public boolean isId(String id)
-	{
+	public boolean isId(String id) {
 		return trimVersionFromUrl(this.id).equals(trimVersionFromUrl(id));
 	}
 
 	/**
-	 * Removes the version information from an identifier.
-	 * Warning: Will remove identifier if the identifier is composed solely of digits!!!
-	 * @method trimVersionFromUrl
-	 * @static
-	 * @param {string} id Slash delimited URL or path.
-	 * @return ID without version.
-	 */
-	public static String trimVersionFromUrl(String id)
-	{
-		if (id == null)
-			return null;
-		// May not be a GUID, may be more canonical. Check to see if it is a
-		// parsable long.
-
-		if (!id.substring(id.lastIndexOf("/")).matches("\\/[0-9]+"))
-			return id;
-		String rawId = id.substring(0, id.lastIndexOf("/"));
-		if (rawId.endsWith("/"))
-			rawId = rawId.substring(0, rawId.length() - 1);
-		return rawId;
-	}
-
-	/**
-	 * Return the ID of this object without the version information. 
+	 * Return the ID of this object without the version information.
 	 * Used to reference the latest version of an object.
-	 * 
-	 * @method shortId
+	 *
 	 * @return {string} ID of the latest version of this object.
+	 * @method shortId
 	 */
-	public String shortId()
-	{
+	public String shortId() {
 		return trimVersionFromUrl(id);
 	}
 
 	/**
 	 * Return the GUID portion of the short ID.
-	 * @method getGuid
+	 *
 	 * @return {string} Guid of the linked data object.
+	 * @method getGuid
 	 */
-	public String getGuid()
-	{
+	public String getGuid() {
 		String shortId = trimVersionFromUrl(id);
-        Array<String> parts = (Array<String>)(Object)shortId.split("/");
-        return parts.$get(parts.$length()-1);
+		Array<String> parts = (Array<String>) (Object) shortId.split("/");
+		return parts.$get(parts.$length() - 1);
 	}
 
 	/**
 	 * Return the URL Base portion of the short ID.
-	 * @method getServerBaseUrl
+	 *
 	 * @return {string} Server Base URL of the linked data object.
+	 * @method getServerBaseUrl
 	 */
-	public String getServerBaseUrl(){
+	public String getServerBaseUrl() {
 		String shortId = trimVersionFromUrl(id);
-        Array<String> parts = (Array<String>)(Object)shortId.split("/");
-        
-        return parts.slice(0, parts.indexOf("data")).join("/");
+		Array<String> parts = (Array<String>) (Object) shortId.split("/");
+
+		return parts.slice(0, parts.indexOf("data")).join("/");
 	}
-	
+
 	/**
 	 * Return a valid ElasticSearch search string that will retrieve all objects with this type.
-	 * @method getSearchStringByType
+	 *
 	 * @return {string} ElasticSearch compatible search string.
+	 * @method getSearchStringByType
 	 */
-	public String getSearchStringByType()
-	{
+	public String getSearchStringByType() {
 		Array<String> types = getTypes();
 		String result = "";
-		for (int i = 0; i < types.$length(); i++)
-		{
+		for (int i = 0; i < types.$length(); i++) {
 			if (i != 0)
 				result += " OR ";
 			result += "@type:\"" + types.$get(i) + "\"";
@@ -475,8 +451,7 @@ public class EcRemoteLinkedData extends EcLinkedData
 			int lastSlash = types.$get(i).lastIndexOf("/");
 			result += " OR (@context:\"" + types.$get(i).substring(0, lastSlash + 1) + "\" AND @type:\"" + types.$get(i).substring(lastSlash + 1) + "\")";
 		}
-		for (int i = 0; i < types.$length(); i++)
-		{
+		for (int i = 0; i < types.$length(); i++) {
 			if (result.equals("") == false)
 				result += " OR ";
 			result += "@encryptedType:\"" + types.$get(i) + "\"";
@@ -486,47 +461,47 @@ public class EcRemoteLinkedData extends EcLinkedData
 		}
 		return "(" + result + ")";
 	}
-	
 
-	public void asRdfXml(Callback1<String> success, Callback1<String> failure, String signatureSheet){
+
+	public void asRdfXml(Callback1<String> success, Callback1<String> failure, String signatureSheet) {
 		final FormData fd = new FormData();
-		
+
 		final String id = this.id;
-		
-		if(signatureSheet != null || signatureSheet != JSGlobal.undefined)
+
+		if (signatureSheet != null || signatureSheet != JSGlobal.undefined)
 			fd.append("signatureSheet", signatureSheet);
-		
+
 		Map<String, String> headers = JSCollections.$map();
 		headers.$put("Accept", "application/rdf+xml");
-		
+
 		EcRemote.postWithHeadersExpectingString(id, "", fd, headers, success, failure);
 	}
-	
-	public void asNQuads(Callback1<String> success, Callback1<String> failure, String signatureSheet){
+
+	public void asNQuads(Callback1<String> success, Callback1<String> failure, String signatureSheet) {
 		final FormData fd = new FormData();
-		
+
 		final String id = this.id;
-		
-		if(signatureSheet != null || signatureSheet != JSGlobal.undefined)
+
+		if (signatureSheet != null || signatureSheet != JSGlobal.undefined)
 			fd.append("signatureSheet", signatureSheet);
-		
+
 		Map<String, String> headers = JSCollections.$map();
 		headers.$put("Accept", "text/n4");
-		
+
 		EcRemote.postWithHeadersExpectingString(id, "", fd, headers, success, failure);
 	}
-	
-	public void asTurtle(Callback1<String> success, Callback1<String> failure, String signatureSheet){
+
+	public void asTurtle(Callback1<String> success, Callback1<String> failure, String signatureSheet) {
 		final FormData fd = new FormData();
-		
+
 		final String id = this.id;
-		
-		if(signatureSheet != null || signatureSheet != JSGlobal.undefined)
+
+		if (signatureSheet != null || signatureSheet != JSGlobal.undefined)
 			fd.append("signatureSheet", signatureSheet);
-		
+
 		Map<String, String> headers = JSCollections.$map();
 		headers.$put("Accept", "text/turtle");
-		
+
 		EcRemote.postWithHeadersExpectingString(id, "", fd, headers, success, failure);
 	}
 }

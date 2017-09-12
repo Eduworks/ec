@@ -5,8 +5,7 @@ import org.stjs.javascript.annotation.STJSBridge;
 
 @Namespace("forge")
 @STJSBridge()
-public class keypair
-{
+public class keypair {
 	public pk publicKey;
 	public ppk privateKey;
 }

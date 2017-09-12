@@ -28,42 +28,53 @@ import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Function1;
 import org.stjs.testing.annotation.ScriptsBefore;
 
-@ScriptsBefore({ "lib/require.js", "rollupInit.js", "/forge/forge.bundle.js" })
-public class EvidenceProcessingTestBase
-{
+@ScriptsBefore({"lib/require.js", "rollupInit.js", "/forge/forge.bundle.js"})
+public class EvidenceProcessingTestBase {
 
+	public Function1<String, String> ask;
 	protected EcRepository repo;
-	EcIdentity newId1;
 	protected Callback1<String> failure;
 	protected Callback1<Object> logObject;
-	public Function1<String, String> ask;
+	EcIdentity newId1;
+
+	public static void deleteById(String id) {
+		EcRepository.get(id, new Callback1<EcRemoteLinkedData>() {
+			@Override
+			public void $invoke(EcRemoteLinkedData p1) {
+				EcRepository._delete(p1, null, new Callback1<String>() {
+					@Override
+					public void $invoke(String p1) {
+						Global.console.log(p1);
+					}
+				});
+			}
+		}, new Callback1<String>() {
+			@Override
+			public void $invoke(String p1) {
+				Global.console.log(p1);
+			}
+		});
+	}
 
 	@Before
-	public void setup()
-	{
+	public void setup() {
 		EcRemote.async = false;
-		failure = new Callback1<String>()
-		{
+		failure = new Callback1<String>() {
 			@Override
-			public void $invoke(String p1)
-			{
+			public void $invoke(String p1) {
 				Global.console.log(p1);
 				Assert.fail();
 			}
 		};
-		logObject = new Callback1<Object>()
-		{
+		logObject = new Callback1<Object>() {
 			@Override
-			public void $invoke(Object p1)
-			{
+			public void $invoke(Object p1) {
 				Global.console.log(p1);
 			}
 		};
-		ask = new Function1<String, String>()
-		{
+		ask = new Function1<String, String>() {
 			@Override
-			public String $invoke(String param1)
-			{
+			public String $invoke(String param1) {
 				Global.console.log(param1);
 				return null;
 			}
@@ -81,34 +92,7 @@ public class EvidenceProcessingTestBase
 
 	}
 
-	public static void deleteById(String id)
-	{
-		EcRepository.get(id, new Callback1<EcRemoteLinkedData>()
-		{
-			@Override
-			public void $invoke(EcRemoteLinkedData p1)
-			{
-				EcRepository._delete(p1, null, new Callback1<String>()
-				{
-					@Override
-					public void $invoke(String p1)
-					{
-						Global.console.log(p1);
-					}
-				});
-			}
-		}, new Callback1<String>()
-		{
-			@Override
-			public void $invoke(String p1)
-			{
-				Global.console.log(p1);
-			}
-		});
-	}
-
-	protected EcAssertion newAssertion(EcCompetency competencyToAssert)
-	{
+	protected EcAssertion newAssertion(EcCompetency competencyToAssert) {
 		EcAssertion a = new EcAssertion();
 		a.generateId(repo.selectedServer);
 		a.addOwner(EcIdentityManager.ids.$get(0).ppk.toPk());
@@ -123,8 +107,7 @@ public class EvidenceProcessingTestBase
 		return a;
 	}
 
-	protected EcAssertion newFalseAssertion(EcCompetency competencyToAssert)
-	{
+	protected EcAssertion newFalseAssertion(EcCompetency competencyToAssert) {
 		EcAssertion a = new EcAssertion();
 		a.generateId(repo.selectedServer);
 		a.addOwner(EcIdentityManager.ids.$get(0).ppk.toPk());
@@ -140,8 +123,7 @@ public class EvidenceProcessingTestBase
 		return a;
 	}
 
-	protected EcCompetency newCompetency(String competencyName)
-	{
+	protected EcCompetency newCompetency(String competencyName) {
 		EcCompetency competency = new EcCompetency();
 		competency.addOwner(EcIdentityManager.ids.$get(0).ppk.toPk());
 		competency.name = competencyName;
@@ -151,31 +133,28 @@ public class EvidenceProcessingTestBase
 		return competency;
 	}
 
-	protected Credential newCredential(String credentialName)
-	{
+	protected Credential newCredential(String credentialName) {
 		Credential credential = new Credential();
 		credential.addOwner(EcIdentityManager.ids.$get(0).ppk.toPk());
 		credential.name = credentialName;
 		credential.generateId(repo.selectedServer);
 
-		repo._save(credential,null, failure);
+		repo._save(credential, null, failure);
 		return credential;
 	}
 
-	protected AchieveAction newAchieveAction(Credential credential)
-	{
+	protected AchieveAction newAchieveAction(Credential credential) {
 		AchieveAction action = new AchieveAction();
 		action.addOwner(EcIdentityManager.ids.$get(0).ppk.toPk());
-		action.object = (Thing)(Object)credential.shortId();
-		action.agent = (String)(Object)EcIdentityManager.ids.$get(0).ppk.toPk().toPem();
+		action.object = (Thing) (Object) credential.shortId();
+		action.agent = (String) (Object) EcIdentityManager.ids.$get(0).ppk.toPk().toPem();
 		action.generateId(repo.selectedServer);
 
-		repo._save(action,null, failure);
+		repo._save(action, null, failure);
 		return action;
 	}
 
-	protected EcAlignment newRelation(EcCompetency c, EcCompetency c2, String relationType)
-	{
+	protected EcAlignment newRelation(EcCompetency c, EcCompetency c2, String relationType) {
 		EcAlignment r = new EcAlignment();
 		r.addOwner(EcIdentityManager.ids.$get(0).ppk.toPk());
 		r.generateId(repo.selectedServer);
@@ -187,22 +166,20 @@ public class EvidenceProcessingTestBase
 		return r;
 	}
 
-	protected CreativeWork newCreativeRelation(Thing c, Thing c2, String alignmentType)
-	{
+	protected CreativeWork newCreativeRelation(Thing c, Thing c2, String alignmentType) {
 		CreativeWork r = new CreativeWork();
 		r.addOwner(EcIdentityManager.ids.$get(0).ppk.toPk());
 		r.generateId(repo.selectedServer);
 		r.educationalAlignment = new AlignmentObject();
-		r.url=c.shortId();
+		r.url = c.shortId();
 		r.educationalAlignment.targetUrl = c2.shortId();
 		r.educationalAlignment.alignmentType = alignmentType;
-		repo._save(r,null, failure);
+		repo._save(r, null, failure);
 
 		return r;
 	}
 
-	protected void performTest(PessimisticQuadnaryAssertionProcessor ep, EcFramework context, EcCompetency target, Callback1<InquiryPacket> isTest)
-	{
+	protected void performTest(PessimisticQuadnaryAssertionProcessor ep, EcFramework context, EcCompetency target, Callback1<InquiryPacket> isTest) {
 		Array<EcPk> subject = new Array<>();
 		subject.push(EcIdentityManager.ids.$get(0).ppk.toPk());
 
@@ -218,8 +195,7 @@ public class EvidenceProcessingTestBase
 		return ep;
 	}
 
-	protected EcFramework newFramework(String frameworkName)
-	{
+	protected EcFramework newFramework(String frameworkName) {
 		EcFramework framework = new EcFramework();
 		framework.name = frameworkName;
 		framework.addOwner(EcIdentityManager.ids.$get(0).ppk.toPk());

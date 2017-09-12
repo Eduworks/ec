@@ -10,55 +10,51 @@ import org.stjs.javascript.functions.Callback1;
 
 public class TaskItemManager {
 
-	private static String selectedServer = "http://localhost:9722/api/task/";
-	
 	public static final String CREATE = "create";
-	
 	public static final String SET_COMPLETE = "complete";
 	public static final String SET_INCOMPLETE = "incomplete";
-	
-	public static void setSelectedServer(String server){
-		selectedServer = server;
-	}
-	public static String getSelectedServer(){
+	private static String selectedServer = "http://localhost:9722/api/task/";
+
+	public static String getSelectedServer() {
 		return selectedServer;
 	}
-	
-	public static void setComplete(String taskId, Callback1<Object> success, Callback1<String> fail)
-	{
-		Map<String, String> data = JSCollections.$map(
-			"taskId", taskId 
-		);
-			
-		FormData fd = new FormData();
-		fd.append("task", JSGlobal.JSON.stringify(data));
-		
-		EcRemote.postExpectingObject(selectedServer, SET_COMPLETE, fd, success, fail);
-		
+
+	public static void setSelectedServer(String server) {
+		selectedServer = server;
 	}
 
-	public static void setIncomplete(String taskId, Callback1<Object> success, Callback1<String> fail)
-	{
+	public static void setComplete(String taskId, Callback1<Object> success, Callback1<String> fail) {
 		Map<String, String> data = JSCollections.$map(
-			"taskId", taskId 
+				"taskId", taskId
 		);
-			
+
 		FormData fd = new FormData();
 		fd.append("task", JSGlobal.JSON.stringify(data));
-		
+
+		EcRemote.postExpectingObject(selectedServer, SET_COMPLETE, fd, success, fail);
+
+	}
+
+	public static void setIncomplete(String taskId, Callback1<Object> success, Callback1<String> fail) {
+		Map<String, String> data = JSCollections.$map(
+				"taskId", taskId
+		);
+
+		FormData fd = new FormData();
+		fd.append("task", JSGlobal.JSON.stringify(data));
+
 		EcRemote.postExpectingObject(selectedServer, SET_INCOMPLETE, fd, success, fail);
 	}
-	
-	public static void create(String taskName, String dueDate, Callback1<Object> success, Callback1<String> fail)
-	{
+
+	public static void create(String taskName, String dueDate, Callback1<Object> success, Callback1<String> fail) {
 		Map<String, String> data = JSCollections.$map(
-			"taskName", taskName,
-			"taskDueDate", dueDate
+				"taskName", taskName,
+				"taskDueDate", dueDate
 		);
-				
+
 		FormData fd = new FormData();
 		fd.append("task", JSGlobal.JSON.stringify(data));
-		
+
 		EcRemote.postExpectingObject(selectedServer, CREATE, fd, success, fail);
 	}
 }

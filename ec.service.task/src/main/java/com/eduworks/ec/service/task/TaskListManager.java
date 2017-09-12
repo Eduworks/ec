@@ -5,14 +5,12 @@ import org.stjs.javascript.functions.Callback1;
 
 
 public class TaskListManager {
-	
-	private static String selectedServer = "http://localhost:9722/api/taskList/";
-	
+
 	private static final String READ = "read";
-	
-	public static void readTaskList(Callback1<Object> success, Callback1<String> fail)
-	{
+	private static String selectedServer = "http://localhost:9722/api/taskList/";
+
+	public static void readTaskList(Callback1<Object> success, Callback1<String> fail) {
 		EcRemote.getExpectingObject(selectedServer, READ, success, fail);
 	}
-	
+
 }

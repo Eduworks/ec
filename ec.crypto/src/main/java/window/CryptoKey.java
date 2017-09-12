@@ -1,6 +1,5 @@
 package window;
 
-public class CryptoKey
-{
+public class CryptoKey {
 
 }

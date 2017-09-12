@@ -5,32 +5,28 @@ import com.eduworks.schema.ebac.EbacContactGrant;
 
 /**
  * Contact Grant that is used to share your public key with another user
- * 
+ *
+ * @author fritz.ray@eduworks.com
+ * @author devlin.junker@eduworks.com
  * @module com.eduworks.ec
  * @class EcContact
  * @extends EbacContactGrant
  * @constructor
- * 
- * @author fritz.ray@eduworks.com
- * @author devlin.junker@eduworks.com
  */
-public class EcContactGrant extends EbacContactGrant
-{
+public class EcContactGrant extends EbacContactGrant {
 	/**
 	 * Verifies that the contact grant is valid
-	 * 
+	 *
 	 * @return {boolean}
-	 * 		true if valid, false if not
+	 * true if valid, false if not
 	 */
-	public boolean valid()
-	{
+	public boolean valid() {
 		if (!verify())
 			return false;
 		if (invalid())
 			return false;
 		boolean found = false;
-		for (int i = 0; i < EcIdentityManager.ids.$length(); i++)
-		{
+		for (int i = 0; i < EcIdentityManager.ids.$length(); i++) {
 			if (EcRsaOaep.verify(EcIdentityManager.ids.$get(i).ppk.toPk(), responseToken, responseSignature))
 				found = true;
 		}

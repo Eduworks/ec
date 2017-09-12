@@ -69,7 +69,7 @@ public class EcArray {
 	public static void setRemove(Array a, Object o) {
 		for (int i = 0; i < a.$length(); i++)
 			while (a.$get(i) == o) {
-				a.splice(i,1);
+				a.splice(i, 1);
 			}
 	}
 

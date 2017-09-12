@@ -5,15 +5,14 @@ import org.stjs.javascript.functions.Callback1;
 
 @STJSBridge(sources = "")
 public class FileReader {
-	
-	public FileReader(){
-		
-	}
-	
+
 	public Callback1<Object> onload;
 	public Callback1<Object> onerror;
-	
-	public void readAsText(Object file){
-		
+	public FileReader() {
+
+	}
+
+	public void readAsText(Object file) {
+
 	}
 }

@@ -38,59 +38,57 @@ public class CtdlProcessingTest {
         https://army.cass.eduworks.us/api/custom/data/urn:ctid:14525AEA-57C5-4F5A-8F1C-BDC95C7F8B9C
      */
 
-    //private static final String CREDENTIAL_LOCATOR = "https://army.cass.eduworks.us/api/custom/data/ce-f46d9f10-f458-4038-a867-194a58983802";
-    private static final String CREDENTIAL_LOCATOR = "https://army.cass.eduworks.us/api/custom/data/ce-C57948C2-6636-4ED3-9B51-BC5A9EC56D88";
-    //private static final String CREDENTIAL_LOCATOR = "https://army.cass.eduworks.us/api/custom/data/urn:ctid:14525AEA-57C5-4F5A-8F1C-BDC95C7F8B9C";
+	//private static final String CREDENTIAL_LOCATOR = "https://army.cass.eduworks.us/api/custom/data/ce-f46d9f10-f458-4038-a867-194a58983802";
+	private static final String CREDENTIAL_LOCATOR = "https://army.cass.eduworks.us/api/custom/data/ce-C57948C2-6636-4ED3-9B51-BC5A9EC56D88";
+	//private static final String CREDENTIAL_LOCATOR = "https://army.cass.eduworks.us/api/custom/data/urn:ctid:14525AEA-57C5-4F5A-8F1C-BDC95C7F8B9C";
 
-    private static final String RESOURCE_LOCATOR_URL = "https://army.cass.eduworks.us/api/data/";
-    private static final boolean STRIP_ID = true; //tries to get the proper ID from a foreign URL see https://army.cass.eduworks.us/api/custom/data/urn:ctid:14525AEA-57C5-4F5A-8F1C-BDC95C7F8B9C
+	private static final String RESOURCE_LOCATOR_URL = "https://army.cass.eduworks.us/api/data/";
+	private static final boolean STRIP_ID = true; //tries to get the proper ID from a foreign URL see https://army.cass.eduworks.us/api/custom/data/urn:ctid:14525AEA-57C5-4F5A-8F1C-BDC95C7F8B9C
 
-    private CredentialCompetencyLocator buildAndConfigureLocator() {
-        EcRemote.async = false;
-        final CredentialCompetencyLocator ccl = new CredentialCompetencyLocator();
-        ccl.credentialLocator = CREDENTIAL_LOCATOR;
-        ccl.resourceLocatorUrl = RESOURCE_LOCATOR_URL;
-        ccl.stripId = STRIP_ID;
-        ccl.success = new Callback1<Array<CredentialAlignmentObject>>() {
-            @Override
-            public void $invoke(Array<CredentialAlignmentObject> ca)
-            {
-                Global.console.log("CredentialCompetencyLocator success :)");
-                Global.console.log("Object: " + ca);
-                Global.console.log("CredentialCompetencyLocator log: ");
-                for (int i=0;i<ccl.logBuffer.$length();i++) {
-                    Global.console.log("   " + ccl.logBuffer.$get(i));
-                }
+	private CredentialCompetencyLocator buildAndConfigureLocator() {
+		EcRemote.async = false;
+		final CredentialCompetencyLocator ccl = new CredentialCompetencyLocator();
+		ccl.credentialLocator = CREDENTIAL_LOCATOR;
+		ccl.resourceLocatorUrl = RESOURCE_LOCATOR_URL;
+		ccl.stripId = STRIP_ID;
+		ccl.success = new Callback1<Array<CredentialAlignmentObject>>() {
+			@Override
+			public void $invoke(Array<CredentialAlignmentObject> ca) {
+				Global.console.log("CredentialCompetencyLocator success :)");
+				Global.console.log("Object: " + ca);
+				Global.console.log("CredentialCompetencyLocator log: ");
+				for (int i = 0; i < ccl.logBuffer.$length(); i++) {
+					Global.console.log("   " + ccl.logBuffer.$get(i));
+				}
 
-                Global.console.log("******************FINAL Competency List(" + ca.$length() + "): ");
-                for (int j=0;j<ca.$length();j++) {
-                    Global.console.log("   framework:" + ca.$get(j).framework);
-                    Global.console.log("   competency:" + ca.$get(j).targetNode);
-                }
-                Assert.assertSame(true,true);
-            }
-        };
-        ccl.failure = new Callback1<String>() {
-            @Override
-            public void $invoke(String er)
-            {
-                Global.console.log("CompetencyGraphBuilder failed : " + er);
-                Global.console.log("CredentialCompetencyLocator log: ");
-                for (int i=0;i<ccl.logBuffer.$length();i++) {
-                    Global.console.log("   " + ccl.logBuffer.$get(i));
-                }
-                Assert.fail();
-            }
-        };
-        return ccl;
+				Global.console.log("******************FINAL Competency List(" + ca.$length() + "): ");
+				for (int j = 0; j < ca.$length(); j++) {
+					Global.console.log("   framework:" + ca.$get(j).framework);
+					Global.console.log("   competency:" + ca.$get(j).targetNode);
+				}
+				Assert.assertSame(true, true);
+			}
+		};
+		ccl.failure = new Callback1<String>() {
+			@Override
+			public void $invoke(String er) {
+				Global.console.log("CompetencyGraphBuilder failed : " + er);
+				Global.console.log("CredentialCompetencyLocator log: ");
+				for (int i = 0; i < ccl.logBuffer.$length(); i++) {
+					Global.console.log("   " + ccl.logBuffer.$get(i));
+				}
+				Assert.fail();
+			}
+		};
+		return ccl;
 
-    }
+	}
 
-    @Test
-    public void basicCtdlTest() {
-        Global.console.log("Start basicCtdlTest");
-        CredentialCompetencyLocator ccl = buildAndConfigureLocator();
-        ccl.locateCompetencies();
-    }
+	@Test
+	public void basicCtdlTest() {
+		Global.console.log("Start basicCtdlTest");
+		CredentialCompetencyLocator ccl = buildAndConfigureLocator();
+		ccl.locateCompetencies();
+	}
 
 }

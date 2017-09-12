@@ -31,9 +31,10 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 
 	/**
 	 * Reads the remote OAuth2 endpoint file.
+	 *
+	 * @param {Callback0} Method to call when initialization is complete.
 	 * @memberOf OAuth2FileBasedRemoteIdentityManager
 	 * @constructor
-	 * @param {Callback0} Method to call when initialization is complete.
 	 */
 	public OAuth2FileBasedRemoteIdentityManager(final Callback0 initialized) {
 		final OAuth2FileBasedRemoteIdentityManager me = this;
@@ -61,12 +62,13 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 
 	/**
 	 * Returns true if the identity manager is global. Returns false if the identity manager is local to the server.
+	 *
+	 * @return {Boolean} true if the identity manager is global.
 	 * @memberOf OAuth2FileBasedRemoteIdentityManager
 	 * @method isGlobal
-	 * @return {Boolean} true if the identity manager is global.
 	 */
 	@Override
-	public Boolean isGlobal(){
+	public Boolean isGlobal() {
 		if (global == null)
 			return true;
 		return global;
@@ -98,10 +100,10 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 	/**
 	 * Configure compatible remote identity management server.
 	 *
+	 * @param {String} server
+	 *                 Name of the remote identity management server.
 	 * @memberOf OAuth2FileBasedRemoteIdentityManager
 	 * @method setDefaultIdentityManagementServer
-	 * @param {String} server
-	 *            Name of the remote identity management server.
 	 */
 	@Override
 	public void setDefaultIdentityManagementServer(String server) {
@@ -120,15 +122,15 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 	/**
 	 * Fetch credentials from server, invoking events based on login success or
 	 * failure.
-	 *
+	 * <p>
 	 * Automatically populates EcIdentityManager.
-	 *
+	 * <p>
 	 * Does not require startLogin().
 	 *
-	 * @memberOf OAuth2FileBasedRemoteIdentityManager
-	 * @method fetch
 	 * @param {Callback1<Object>} success
 	 * @param {Callback1<String>} failure
+	 * @memberOf OAuth2FileBasedRemoteIdentityManager
+	 * @method fetch
 	 */
 	@Override
 	public void fetch(final Callback1<Object> success, final Callback1<String> failure) {
@@ -362,11 +364,11 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 	/**
 	 * Commits credentials in EcIdentityManager to remote server.
 	 *
+	 * @param {Callback1<String>}   success
+	 * @param {Callback1<String>}   failure
+	 * @param padGenerationCallback
 	 * @memberOf OAuth2FileBasedRemoteIdentityManager
 	 * @method commit
-	 * @param {Callback1<String>} success
-	 * @param {Callback1<String>} failure
-	 * @param padGenerationCallback
 	 */
 	@Override
 	public void commit(final Callback1<String> success, final Callback1<String> failure, Function0<String> padGenerationCallback) {
