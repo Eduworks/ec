@@ -45,16 +45,16 @@ public class EcEncryptedValue extends EbacEncryptedValue {
      * @method toEncryptedValue
      * @static
      * @param {EcRemoteLinkedData} d Data to encrypt
-     * @param {boolean} hideType Flag to hide the type of the encrypted value
+     * @param {Boolean} hideType Flag to hide the type of the encrypted value
      * when encrypting
      * @return {EcEncryptedValue} Encrypted value
      */
-    public static EcEncryptedValue toEncryptedValue(EcRemoteLinkedData d, boolean hideType) {
+    public static EcEncryptedValue toEncryptedValue(EcRemoteLinkedData d, Boolean hideType) {
         d.updateTimestamp();
 
         EcEncryptedValue v = new EcEncryptedValue();
 
-        if (!hideType) {
+        if (hideType == null || !hideType) {
             v.encryptedType = d.type;
         }
         String newIv = EcAes.newIv(16);
@@ -108,13 +108,13 @@ public class EcEncryptedValue extends EbacEncryptedValue {
      * @param {Callback1<String>} failure Callback triggered on error during
      * encryption
      */
-    public static void toEncryptedValueAsync(final EcRemoteLinkedData d, boolean hideType, final Callback1<EcEncryptedValue> success,
+    public static void toEncryptedValueAsync(final EcRemoteLinkedData d, Boolean hideType, final Callback1<EcEncryptedValue> success,
             final Callback1<String> failure) {
         d.updateTimestamp();
 
         final EcEncryptedValue v = new EcEncryptedValue();
 
-        if (!hideType) {
+        if (hideType == null || !hideType) {
             v.encryptedType = d.type;
         }
         final String newIv = EcAes.newIv(16);
