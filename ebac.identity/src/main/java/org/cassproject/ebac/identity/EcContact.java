@@ -91,9 +91,9 @@ public class EcContact
 		EbacContact c = new EbacContact();
 		c.iv = EcAes.newIv(32);
 		c.pk = EcAesCtr.encrypt(pk.toPem(), secret, c.iv);
-		c.displayNameIv = EcAes.newIv(32);
+		c.displayNameIv = EcAes.newIv(16);
 		c.displayName = EcAesCtr.encrypt(displayName, secret, c.iv);
-		c.sourceIv = EcAes.newIv(32);
+		c.sourceIv = EcAes.newIv(16);
 		c.source = EcAesCtr.encrypt(source, secret, c.iv);
 		return c;
 	}

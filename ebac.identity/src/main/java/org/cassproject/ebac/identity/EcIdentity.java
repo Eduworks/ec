@@ -73,9 +73,9 @@ public class EcIdentity
 	public EbacCredential toCredential(String secret)
 	{
 		EbacCredential c = new EbacCredential();
-		c.iv = EcAes.newIv(32);
+		c.iv = EcAes.newIv(16);
 		c.ppk = EcAesCtr.encrypt(ppk.toPem(), secret, c.iv);
-		c.displayNameIv = EcAes.newIv(32);
+		c.displayNameIv = EcAes.newIv(16);
 		c.displayName = EcAesCtr.encrypt(displayName, secret, c.iv);
 		return c;
 	}
