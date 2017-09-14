@@ -15,34 +15,11 @@ public class CompetencyGraph {
 
     private static final String EDGE_MAP_FIELD_DELIMETER = " -------||||||------- ";
 
-    private class Edge {
-
-        private String source;
-        private String target;
-        private String relation;
-
-        public Edge (String source, String target, String relation) {
-            this.source = source;
-            this.target = target;
-            this.relation = relation;
-        }
-
-        public String getSource() {return source;}
-        public void setSource(String source) {this.source = source;}
-
-        public String getTarget() {return target;}
-        public void setTarget(String target) {this.target = target;}
-
-        public String getRelation() {return relation;}
-        public void setRelation(String relation) {this.relation = relation;}
-
-    }
-
     private class CleanGraph {
         private Array<String> nodes;
-        private Array<Edge> edges;
+        private Array<CgEdge> edges;
 
-        public CleanGraph(Array<String> nodes, Array<Edge> edges) {
+        public CleanGraph(Array<String> nodes, Array<CgEdge> edges) {
             this.nodes = nodes;
             this.edges = edges;
         }
@@ -51,11 +28,11 @@ public class CompetencyGraph {
     private class CleanGraphWithAssertions  {
 
         private Array<String> nodes;
-        private Array<Edge> edges;
+        private Array<CgEdge> edges;
         private Array<SimpleAssertion> positiveAssertions;
         private Array<SimpleAssertion> negativeAssertions;
 
-        public CleanGraphWithAssertions(Array<String> nodes, Array<Edge> edges, Array<SimpleAssertion> positiveAssertions,
+        public CleanGraphWithAssertions(Array<String> nodes, Array<CgEdge> edges, Array<SimpleAssertion> positiveAssertions,
                                         Array<SimpleAssertion> negativeAssertions) {
             this.nodes = nodes;
             this.edges = edges;
@@ -65,7 +42,7 @@ public class CompetencyGraph {
     }
 
     private Array<String> nodes;
-    private Array<Edge> edges;
+    private Array<CgEdge> edges;
     private Array<SimpleAssertion> positiveAssertions;
     private Array<SimpleAssertion> negativeAssertions;
 
@@ -76,15 +53,13 @@ public class CompetencyGraph {
 
     public CompetencyGraph(boolean includeAssertions) {
         nodes = new Array<String>();
-        edges = new Array<Edge>();
+        edges = new Array<CgEdge>();
         positiveAssertions = new Array<SimpleAssertion>();
         negativeAssertions = new Array<SimpleAssertion>();
         nodeMap = JSCollections.$map();
         edgeMap = JSCollections.$map();
         this.includeAssertions = includeAssertions;
     }
-
-    public Array<String> getNodes() {return nodes;}
 
     public void addNode(String id) {
         if (!graphContainsNode(id)) {
@@ -99,7 +74,7 @@ public class CompetencyGraph {
 
     public void addEdge(String source, String target, String relationType) {
         if (!graphContainsEdge(source,target,relationType)) {
-            edges.push(new Edge(source,target,relationType));
+            edges.push(new CgEdge(source,target,relationType));
             String edgeKey = getEdgeKey(source,target,relationType);
             edgeMap.$put(edgeKey,edgeKey);
         }
@@ -124,18 +99,18 @@ public class CompetencyGraph {
     }
 
     public void createImpliedRelationships() {
-        Array<Edge> edgesToAdd = new Array<Edge>();
-        Edge e;
+        Array<CgEdge> edgesToAdd = new Array<CgEdge>();
+        CgEdge e;
         for (int i=0;i<edges.$length();i++) {
             e = edges.$get(i);
             if (e.getRelation().equalsIgnoreCase(NARROWS_RELATION_TEXT)) {
-                edgesToAdd.push(new Edge(e.getTarget(),e.getSource(),BROADENS_RELATION_TEXT));
+                edgesToAdd.push(new CgEdge(e.getTarget(),e.getSource(),BROADENS_RELATION_TEXT));
             }
             else if (e.getRelation().equalsIgnoreCase(REQUIRES_RELATION_TEXT)) {
-                edgesToAdd.push(new Edge(e.getTarget(),e.getSource(),IS_REQUIRED_BY_RELATION_TEXT));
+                edgesToAdd.push(new CgEdge(e.getTarget(),e.getSource(),IS_REQUIRED_BY_RELATION_TEXT));
             }
             else if (e.getRelation().equalsIgnoreCase(IS_EQUIVALENT_TO_RELATION_TEXT)) {
-                edgesToAdd.push(new Edge(e.getTarget(),e.getSource(),IS_EQUIVALENT_TO_RELATION_TEXT));
+                edgesToAdd.push(new CgEdge(e.getTarget(),e.getSource(),IS_EQUIVALENT_TO_RELATION_TEXT));
             }
 //            else if (e.getRelation().equalsIgnoreCase(BROADENS_RELATION_TEXT)) {
 //                edgesToAdd.push(new Edge(e.getTarget(),e.getSource(),NARROWS_RELATION_TEXT));
@@ -144,7 +119,7 @@ public class CompetencyGraph {
 //                edgesToAdd.push(new Edge(e.getTarget(),e.getSource(),REQUIRES_RELATION_TEXT));
 //            }
         }
-        Edge ne;
+        CgEdge ne;
         for (int i=0;i<edgesToAdd.$length();i++) {
             ne = edgesToAdd.$get(i);
             addEdge(ne.getSource(),ne.getTarget(),ne.getRelation());
@@ -156,4 +131,15 @@ public class CompetencyGraph {
         else return Global.JSON.stringify(new CleanGraph(nodes,edges));
     }
 
+    public Array<String> getNodes() {return nodes;}
+    public void setNodes(Array<String> nodes) {this.nodes = nodes;}
+
+    public Array<CgEdge> getEdges() {return edges;}
+    public void setEdges(Array<CgEdge> edges) {this.edges = edges;}
+
+    public Array<SimpleAssertion> getPositiveAssertions() {return positiveAssertions;}
+    public void setPositiveAssertions(Array<SimpleAssertion> positiveAssertions) {this.positiveAssertions = positiveAssertions;}
+
+    public Array<SimpleAssertion> getNegativeAssertions() {return negativeAssertions;}
+    public void setNegativeAssertions(Array<SimpleAssertion> negativeAssertions) {this.negativeAssertions = negativeAssertions;}
 }
