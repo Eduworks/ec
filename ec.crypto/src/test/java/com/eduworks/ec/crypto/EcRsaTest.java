@@ -27,7 +27,7 @@ public class EcRsaTest {
 
 	@Test
 	public void rsaOaepAsyncNativeTest() {
-		library.require("pem-to-jwk");
+		library.require("pem-jwk");
 		final Callback1<String> log = new Callback1<String>() {
 			@Override
 			public void $invoke(String o) {

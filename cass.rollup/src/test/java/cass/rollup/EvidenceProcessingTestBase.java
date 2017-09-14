@@ -132,6 +132,9 @@ public class EvidenceProcessingTestBase {
 		EcRollupRule rr = new EcRollupRule();
 		rr.competency = competency.shortId();
 		rr.rule = rule;
+		rr.addOwner(EcIdentityManager.ids.$get(0).ppk.toPk());
+		rr.generateId(repo.selectedServer);
+		rr.save(null, failure);
 		return rr;
 	}
 

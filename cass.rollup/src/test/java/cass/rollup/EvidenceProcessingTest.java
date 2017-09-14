@@ -13,7 +13,7 @@ import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
 @RunWith(STJSTestDriverRunner.class)
-@ScriptsBefore({"lib/require.js", "rollupInit.js", "/forge/forge.bundle.js"})
+@ScriptsBefore({"lib/require.js", "rollupInit.js", "/forge/forge.bundle.js","base64toArrayBuffer.js"})
 public class EvidenceProcessingTest extends EvidenceProcessingTestBase {
 	@Test
 	public void basicTrueTest() {

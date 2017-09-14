@@ -15,7 +15,7 @@ import org.stjs.javascript.Array;
 public class RollupRule extends CreativeWork {
 	private static final String TYPE_0_2 = "http://schema.eduworks.com/cass/0.2/rollupRule";
 	private static final String TYPE_0_3 = "http://schema.cassproject.org/0.2/RollupRule";
-	private static final String TYPE_0_4 = "http://schema.cassproject.org/0.4/RollupRule";
+	private static final String TYPE_0_4 = "http://schema.cassproject.org/0.3/RollupRule";
 	public static final String myType = TYPE_0_4;
 	/**
 	 * The rollup rule encoded as source code that is understandable to the assertion processor.

@@ -10,7 +10,7 @@
 
     <name>Eduworks Controller</name>
     <description>EC is a HTML5 web application development framework centered around data modeling, linked data and
-        common schemata.
+        common schemata. It includes an optional UI/UX page/screen/modal framework.
     </description>
     <url>https://github.com/Eduworks/ew</url>
 

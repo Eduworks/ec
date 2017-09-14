@@ -315,7 +315,16 @@ public class EcEncryptedValueTest {
 			console.log("Owner Search, searching for signature 1");
 			r.search("@owner:\"" + ppk.toPk().toPem() + "\"", eachCallback, success, failure);
 			console.log("(SHOULD NOT FIND) Reader Search, searching for signature 2.");
-			r.search("@reader:\"" + ppk2.toPk().toPem() + "\" OR \\*@reader:\"" + ppk2.toPk().toPem() + "\"", eachCallback, successInvert, failure);
+			r.search("@reader:\"" + ppk2.toPk().toPem() + "\" OR \\*@reader:\"" + ppk2.toPk().toPem() + "\"", eachCallback, successInvert, new Callback1<String>() {
+				@Override
+				public void $invoke(String p1) {
+					console.log("\""+p1+"\"");
+					Assert.assertTrue(
+							p1.trim().equals("Readers only exist in encrypted data. Please provide signatures to allow access to resources.")
+									||
+									p1.trim().equals("error!"));
+				}
+			});
 			console.log("_all Search, searching for signature 1.");
 			r.search("\"" + ppk.toPk().toPem() + "\"", eachCallback, success, failure);
 			console.log("(SHOULD NOT FIND) _all Search, searching for signature 2.");
