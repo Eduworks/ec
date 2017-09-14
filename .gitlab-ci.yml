@@ -1,2 +1,0 @@
-build:
-  script: "export MAVEN_OPTS='-Xmx2g';mvn clean;mvn install -B -DskipTests"
