@@ -62,6 +62,67 @@
             </roles>
             <timezone>PST</timezone>
         </developer>
+        <developer>
+            <name>Devlin Junker</name>
+            <email>devlin.junker@eduworks.com</email>
+            <organization>Eduworks Corporation</organization>
+            <organizationUrl>http://www.eduworks.com</organizationUrl>
+            <roles>
+                <role>Architect</role>
+                <role>Developer</role>
+            </roles>
+            <timezone>PST</timezone>
+        </developer>
+        <developer>
+            <name>Debbie Brown</name>
+            <email>debbie.brown@eduworks.com</email>
+            <organization>Eduworks Corporation</organization>
+            <organizationUrl>http://www.eduworks.com</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>CST</timezone>
+        </developer>
+        <developer>
+            <name>Thomas Buskirk</name>
+            <email>tom.buskirk@eduworks.com</email>
+            <organization>Eduworks Corporation</organization>
+            <organizationUrl>http://www.eduworks.com</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>CST</timezone>
+        </developer>
+        <developer>
+            <name>Aaron Veden</name>
+            <email>aaron.veden@eduworks.com</email>
+            <organization>Eduworks Corporation</organization>
+            <organizationUrl>http://www.eduworks.com</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>PST</timezone>
+        </developer>
+        <developer>
+            <name>Elaine Kelsey</name>
+            <email>elaine.kelsey@eduworks.com</email>
+            <organization>Eduworks Corporation</organization>
+            <organizationUrl>http://www.eduworks.com</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>PST</timezone>
+        </developer>
+        <developer>
+            <name>Robby Goetschalckx</name>
+            <email>robby.goetschalckx@eduworks.com</email>
+            <organization>Eduworks Corporation</organization>
+            <organizationUrl>http://www.eduworks.com</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>PST</timezone>
+        </developer>
     </developers>
 
 
@@ -97,11 +158,38 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.10.3</version>
                 <configuration>
                     <excludePackageNames>forge</excludePackageNames>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.st-js</groupId>
@@ -262,7 +350,6 @@
             </plugins>
         </pluginManagement>
     </build>
-    <packaging>pom</packaging>
     <modules>
         <module>ec.service.user</module>
         <module>ec.service.task</module>
@@ -341,10 +428,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jxr-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
