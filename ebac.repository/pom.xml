@@ -42,7 +42,7 @@
 		<version>1.11.3.bv1</version>
 	</dependency>
 	<dependency>
-		<groupId>org.schema</groupId>
+		<groupId>com.eduworks</groupId>
 		<artifactId>org.schema</artifactId>
 		<version>SNAPSHOT</version>
 	</dependency>

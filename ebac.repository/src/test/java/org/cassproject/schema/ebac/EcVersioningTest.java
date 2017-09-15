@@ -7,6 +7,7 @@ import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.schema.Thing;
@@ -21,6 +22,11 @@ import static org.stjs.javascript.Global.console;
 @ScriptsBefore({"/forge/forge.bundle.js"})
 public class EcVersioningTest {
 	static String server = "https://dev.cassproject.org/api/";
+
+	@Before
+	public void begin() {
+		EcRemote.async = false;
+	}
 
 	@Test
 	public void testSaveTwoVersionsBothExist() {
