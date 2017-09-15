@@ -5,12 +5,12 @@
   <parent>
     <groupId>com.eduworks</groupId>
     <artifactId>ec</artifactId>
-    <version>1.0.0</version>
+    <version>SNAPSHOT</version>
   </parent>
   <groupId>com.eduworks</groupId>
-  <artifactId>ec.crypto</artifactId>
-  <version>1.0.0</version>
-  <name>ec.crypto</name>
+  <artifactId>ebac.identity</artifactId>
+  <version>SNAPSHOT</version>
+  <name>ebac.identity</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,8 +18,13 @@
   <dependencies>
     <dependency>
       <groupId>com.eduworks</groupId>
-      <artifactId>ec.base</artifactId>
-      <version>1.0.0</version>
+      <artifactId>ec.crypto</artifactId>
+      <version>SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.eduworks</groupId>
+      <artifactId>org.cassproject.schema.ebac</artifactId>
+      <version>0.1</version>
     </dependency>
     <dependency>
       <groupId>org.st-js.bridge</groupId>

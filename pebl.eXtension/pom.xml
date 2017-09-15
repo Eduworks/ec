@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.eduworks</groupId>
 		<artifactId>ec</artifactId>
-		<version>SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 	<name>com.eduworks.schema.pebl</name>
 	<artifactId>pebl.eXtension</artifactId>
@@ -19,22 +19,22 @@
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>ec.crypto</artifactId>
-			<version>SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>ebac.repository</artifactId>
-			<version>SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>org.json-ld</artifactId>
-			<version>SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>org.schema</artifactId>
-			<version>SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eduworks</groupId>
