@@ -8,7 +8,7 @@
 		<artifactId>ec</artifactId>
 		<version>SNAPSHOT</version>
 	</parent>
-	<groupId>org.credentialengine</groupId>
+	<groupId>com.eduworks</groupId>
 	<artifactId>org.credentialengine</artifactId>
 	<version>SNAPSHOT</version>
 	<name>org.credentialengine</name>
@@ -18,7 +18,7 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>org.schema</groupId>
+			<groupId>com.eduworks</groupId>
 			<artifactId>org.schema</artifactId>
 			<version>SNAPSHOT</version>
 		</dependency>
@@ -43,7 +43,7 @@
 			<version>1.11.3.bv1</version>
 		</dependency>
 		<!--<dependency>
-			<groupId>org.schema</groupId>
+			<groupId>com.eduworks</groupId>
 			<artifactId>org.schema</artifactId>
 			<version>0.0.1</version>
 		</dependency>-->

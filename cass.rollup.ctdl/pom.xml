@@ -18,7 +18,7 @@
 			<version>SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>org.credentialengine</groupId>
+			<groupId>com.eduworks</groupId>
 			<artifactId>org.credentialengine</artifactId>
 			<version>SNAPSHOT</version>
 		</dependency>

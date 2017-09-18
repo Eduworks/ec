@@ -9,6 +9,7 @@ import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.general.repository.GeneralFile;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.stjs.javascript.Array;
@@ -26,6 +27,10 @@ import static org.stjs.javascript.Global.console;
 public class EcRepositoryTest {
 	static String server = "https://dev.cassproject.org/api/";
 
+	@Before
+	public void begin() {
+		EcRemote.async = false;
+	}
 	@Test
 	public void searchForSomethingThatCantExist() {
 		EcRemote.async = false;

@@ -18,7 +18,7 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>org.schema</groupId>
+			<groupId>com.eduworks</groupId>
 			<artifactId>org.schema</artifactId>
 			<version>SNAPSHOT</version>
 		</dependency>

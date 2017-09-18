@@ -1,0 +1,12 @@
+{
+    "name": "EC Library",
+    "description": "EC Library API: ",
+    "version": "1.0.0",
+    "url": "http://ec.eduworks.org/",
+    "logo": "http://eduworks.com/img/eduworks-ring-e.png",
+    "options": {
+        "exclude": "base64toArrayBuffer.js,base64x-1.1.js,blobHelper.js,FileSaver.js,forgeAsync.js,openpgp.js,papaparse.js,random.js,stjs.js,xml2json.js",
+        "themedir": "node_modules/yuidoc-ember-cli-theme",
+        "helpers": ["node_modules/yuidoc-ember-cli-theme/helpers.js"]
+    }
+}

@@ -8,7 +8,7 @@
 		<artifactId>ec</artifactId>
 		<version>SNAPSHOT</version>
 	</parent>
-	<groupId>org.schema</groupId>
+	<groupId>com.eduworks</groupId>
 	<artifactId>org.schema</artifactId>
 	<version>SNAPSHOT</version>
 	<name>org.schema</name>
