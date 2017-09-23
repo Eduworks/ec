@@ -9,7 +9,7 @@
   </parent>
   <groupId>com.eduworks</groupId>
   <artifactId>org.cassproject.schema.ebac</artifactId>
-  <version>0.2</version>
+  <version>SNAPSHOT</version>
   <name>org.cassproject.schema.ebac</name>
   <url>http://maven.apache.org</url>
   <properties>
@@ -39,7 +39,7 @@
     <dependency>
       <groupId>com.eduworks</groupId>
       <artifactId>org.cassproject.schema.general</artifactId>
-      <version>1.1.0</version>
+      <version>SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>

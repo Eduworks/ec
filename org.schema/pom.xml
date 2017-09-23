@@ -25,7 +25,7 @@
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>org.cassproject.schema.general</artifactId>
-			<version>1.1.0</version>
+			<version>SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.st-js.bridge</groupId>
