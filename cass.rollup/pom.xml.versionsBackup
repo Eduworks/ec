@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.eduworks</groupId>
 		<artifactId>ec</artifactId>
-		<version>1.1.0</version>
+		<version>SNAPSHOT</version>
 	</parent>
 	<packaging>jar</packaging>
 	<artifactId>cass.rollup</artifactId>
@@ -17,17 +17,17 @@
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>ec.base</artifactId>
-			<version>1.1.0</version>
+			<version>SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>ec.crypto</artifactId>
-			<version>1.1.0</version>
+			<version>SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>ebac.repository</artifactId>
-			<version>1.1.0</version>
+			<version>SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eduworks</groupId>
@@ -42,7 +42,7 @@
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>cass.competency</artifactId>
-			<version>1.1.0</version>
+			<version>SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<build>

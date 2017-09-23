@@ -6,31 +6,40 @@
 	<parent>
 		<groupId>com.eduworks</groupId>
 		<artifactId>ec</artifactId>
-		<version>1.1.0</version>
+		<version>SNAPSHOT</version>
 	</parent>
-	<groupId>com.eduworks</groupId>
-	<artifactId>org.cassproject.schema.general</artifactId>
-	<version>0.1</version>
-	<name>org.cassproject.schema.general</name>
-	<url>http://maven.apache.org</url>
+	<name>com.eduworks.schema.pebl</name>
+	<artifactId>pebl.eXtension</artifactId>
+	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.eduworks</groupId>
-			<artifactId>ec.base</artifactId>
-			<version>1.1.0</version>
+			<artifactId>ec.crypto</artifactId>
+			<version>SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eduworks</groupId>
-			<artifactId>ec.crypto</artifactId>
-			<version>1.1.0</version>
+			<artifactId>ebac.repository</artifactId>
+			<version>SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>org.json-ld</artifactId>
-			<version>1.1.0</version>
+			<version>SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.eduworks</groupId>
+			<artifactId>org.schema</artifactId>
+			<version>SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.eduworks</groupId>
+			<artifactId>org.cassproject.schema.general</artifactId>
+			<version>0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.st-js.bridge</groupId>
