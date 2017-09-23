@@ -36,12 +36,12 @@
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>org.cassproject.schema.ebac</artifactId>
-			<version>0.2</version>
+			<version>SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>org.cassproject.schema.cass</artifactId>
-			<version>0.3</version>
+			<version>SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>
