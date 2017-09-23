@@ -136,6 +136,26 @@ public class EcRemoteLinkedData extends EcLinkedData {
 	}
 
 	/**
+	 * Will generate an identifier using the server URL provided (usually from
+	 * an EcRepository) and unique identifier.
+	 *
+	 * @param {string} server Base URL of the server's repository functionality.
+	 * @param {string} uniqueIdentifier Canonical identifier. Must contain a letter or symbol.
+	 * @method assignId
+	 */
+	public void assignIdAndVersion(String server, String uniqueIdentifier,String version) {
+		id = server;
+		if (!id.endsWith("/"))
+			id += "/";
+		id += "data/"; //endpoint to CRUD data
+		id += getFullType().replace("http://", "").replaceAll("/", "."); //type information (ease of use)
+		id += "/";
+		id += uniqueIdentifier; //local identifier
+		id += "/";
+		id += version; //version
+	}
+
+	/**
 	 * Determines if the object has an owner identified by pk.
 	 * Homogenizes the PEM strings for comparison.
 	 * Homogenization is necessary for comparing PKCS#1 and PKCS#8 or PKs with Certificates, etc.
