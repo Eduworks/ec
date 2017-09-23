@@ -4,6 +4,7 @@ import com.eduworks.ec.log.Logger;
 import com.eduworks.ec.remote.EcRemote;
 import com.eduworks.ec.remote.FormData;
 import com.eduworks.ec.task.Task;
+import forge.md5;
 import org.cassproject.ebac.identity.EcIdentity;
 import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.schema.general.EcRemoteLinkedData;
@@ -195,9 +196,13 @@ public class EcRepository {
 							if (done)
 								Logger.log("Searching for exact ID:" + url + ", found more than one@:" + repo.selectedServer);
 							done = true;
+							JSObjectAdapter.$properties(fetching).$delete(url);
 							success.$invoke(strings.$get(i));
 						}
 					}
+					if (done)
+						return;
+					find(url, error, history, i + 1, success, failure);
 				}
 			}
 		}, new Callback1<String>() {
@@ -505,7 +510,7 @@ public class EcRepository {
 	 * @memberOf EcRepository
 	 * @method precache
 	 */
-	public void precache(Array<String> urls, final Callback0 success) {
+	public void precache(final Array<String> urls, final Callback0 success) {
 		if (urls == null || urls.$length() == 0) {
 			if (success != null) {
 				success.$invoke();
@@ -513,11 +518,20 @@ public class EcRepository {
 			return;
 		}
 
-		Array<String> cacheUrls = new Array<String>();
+		final Array<String> cacheUrls = new Array<String>();
 		for (int i = 0; i < urls.$length(); i++) {
 			String url = urls.$get(i);
-			if (url.startsWith(selectedServer) && JSObjectAdapter.$get(cache, url) == null) {
+			if (JSObjectAdapter.$get(cache, url) != null)
+			{}
+			else
+			if (url.startsWith(selectedServer)) {
 				cacheUrls.push(url.replace(selectedServer, "").replace("custom/", ""));
+			}
+			else if (!shouldTryUrl(url))
+			{
+				md5 m = md5.create();
+				m.update(url);
+				cacheUrls.push("data/"+m.digest().toHex());
 			}
 		}
 		if (cacheUrls.$length() == 0) {
@@ -539,6 +553,19 @@ public class EcRepository {
 						d.copyFrom(results.$get(i));
 						results.$set(i, d);
 						if (caching) {
+							if (!shouldTryUrl(d.id))
+							{
+								md5 m = md5.create();
+								m.update(d.id);
+								String md5 = m.digest().toHex();
+								for (int j = 0; j < urls.$length(); j++) {
+									String url = urls.$get(j);
+									if (url.indexOf(md5) != -1) {
+										JSObjectAdapter.$put(cache, url, d);
+										break;
+									}
+								}
+							}
 							JSObjectAdapter.$put(cache, d.shortId(), d);
 							JSObjectAdapter.$put(cache, d.id, d);
 						}
@@ -562,6 +589,19 @@ public class EcRepository {
 								d.copyFrom(results.$get(i));
 								results.$set(i, d);
 								if (caching) {
+									if (!shouldTryUrl(d.id))
+									{
+										md5 m = md5.create();
+										m.update(d.id);
+										String md5 = m.digest().toHex();
+										for (int j = 0; j < urls.$length(); j++) {
+											String url = urls.$get(j);
+											if (url.indexOf(md5) != -1) {
+												JSObjectAdapter.$put(cache, url, d);
+												break;
+											}
+										}
+									}
 									JSObjectAdapter.$put(cache, d.shortId(), d);
 									JSObjectAdapter.$put(cache, d.id, d);
 								}

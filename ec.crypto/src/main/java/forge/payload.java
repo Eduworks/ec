@@ -12,6 +12,7 @@ public class payload {
 	public bytes bytes() {
 		return null;
 	}
+	public String toHex() { return null;}
 
 	public payload substring(int i, int len) {
 		return null;
