@@ -8,8 +8,8 @@
 		<artifactId>ec</artifactId>
 		<version>SNAPSHOT</version>
 	</parent>
-	<name>com.eduworks.schema.pebl</name>
-	<artifactId>pebl.eXtension</artifactId>
+	<name>pebl.eXtension.schema</name>
+	<artifactId>pebl.eXtension.schema</artifactId>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
