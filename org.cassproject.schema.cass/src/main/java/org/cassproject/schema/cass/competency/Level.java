@@ -36,11 +36,12 @@ public class Level extends CreativeWork {
 	public String title;
 	/**
 	 * The performance characteristics required by this level in text form.
-	 * TBD: Isn't this what description represents?
+	 * FR - Represented by description.
 	 *
 	 * @property performance
 	 * @type string
 	 */
+	@Deprecated
 	public String performance;
 	public Level() {
 		setContextAndType(Cass.context, myType);
