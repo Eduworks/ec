@@ -209,6 +209,17 @@ public class EcLinkedData {
 			return this.type;
 
 		String computedType = context;
+		if (EcObject.isObject(context)) {
+			Array<String> typeParts = (Array<String>) (Object) this.type.split(":");
+			if (typeParts.$length() == 2) {
+				computedType = (String) JSObjectAdapter.$get(context, typeParts.$get(0));
+				if (!computedType.endsWith("/"))
+					computedType += "/";
+				computedType += typeParts.$get(1);
+				return computedType;
+			} else if (JSObjectAdapter.$get(context, "@vocab") != null)
+				computedType = (String) JSObjectAdapter.$get(context, "@vocab");
+		}
 		if (!computedType.endsWith("/"))
 			computedType += "/";
 		computedType += this.type;
@@ -236,6 +247,39 @@ public class EcLinkedData {
 			if (JSGlobal.typeof(you.$get(key)) != "function")
 				me.$put(key.replace("@", ""), you.$get(key));
 		}
+
+		String stripNamespace = null;
+		String newContext = null;
+
+		if (type != null && context != null && EcObject.isObject(context)) {
+			Array<String> typeParts = (Array<String>) (Object) this.type.split(":");
+			if (typeParts.$length() == 2) {
+				newContext = (String) JSObjectAdapter.$get(context, typeParts.$get(0));
+				stripNamespace = typeParts.$get(0);
+				if (!newContext.endsWith("/"))
+					newContext += "/";
+			} else if (JSObjectAdapter.$get(context, "@vocab") != null)
+				newContext = (String) JSObjectAdapter.$get(context, "@vocab");
+		}
+
+		if (stripNamespace != null)
+			for (String key : me) {
+				if (JSGlobal.typeof(me.$get(key)) != "function") {
+					if (key.startsWith(stripNamespace + ":")) {
+						if (EcArray.isArray(me.$get(key))) {
+							JSObjectAdapter.$put(me, key.replace(stripNamespace + ":", ""), Global.JSON.parse(Global.JSON.stringify(me.$get(key)).replaceAll(stripNamespace + ":", "")));
+						} else if (EcObject.isObject(me.$get(key))) {
+							JSObjectAdapter.$put(me, key.replace(stripNamespace + ":", ""), Global.JSON.parse(Global.JSON.stringify(me.$get(key)).replaceAll(stripNamespace + ":", "")));
+						} else
+							JSObjectAdapter.$put(me, key.replace(stripNamespace + ":", ""), me.$get(key));
+						me.$delete(key);
+					}
+				}
+			}
+
+		if (newContext != null)
+			context = newContext;
+
 		upgrade();
 		if (!isAny(getTypes()))
 			throw new RuntimeException("Incompatible type: " + getFullType());
@@ -280,8 +324,10 @@ public class EcLinkedData {
 	public Array<String> getTypes() {
 		Array<String> a = new Array<>();
 		if (context != null && type != null) {
-			String context = (!this.context.endsWith("/") ? this.context + "/" : this.context);
-			a.push(context + type);
+			if (!EcObject.isObject(context)) {
+				String context = (!this.context.endsWith("/") ? this.context + "/" : this.context);
+				a.push(context + type);
+			}
 		}
 		return a;
 	}
