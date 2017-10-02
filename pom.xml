@@ -382,7 +382,7 @@
         <module>cass.adapter</module>
         <module>com.eduworks.schema</module>
         <module>cfd.competency</module>
-        <module>pebl.eXtension</module>
+        <module>pebl.eXtension.schema</module>
     </modules>
 
 </project>
