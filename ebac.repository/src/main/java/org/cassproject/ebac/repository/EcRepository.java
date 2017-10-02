@@ -87,7 +87,7 @@ public class EcRepository {
 		}
 		final FormData fd = new FormData();
 		if (unsigned) {
-			EcRemote.postExpectingObject(url, null, fd, new Callback1<Object>() {
+			EcRemote.getExpectingObject(url, null, new Callback1<Object>() {
 				@Override
 				public void $invoke(Object p1) {
 					JSObjectAdapter.$properties(fetching).$delete(url);
@@ -208,7 +208,7 @@ public class EcRepository {
 		}, new Callback1<String>() {
 			@Override
 			public void $invoke(String s) {
-				find(url, error, history, i + 1, success, failure);
+				find(url, s, history, i + 1, success, failure);
 			}
 		});
 	}
