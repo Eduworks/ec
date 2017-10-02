@@ -49,7 +49,6 @@ public class CtdlProcessingTest {
 		EcRemote.async = false;
 		final CredentialCompetencyLocator ccl = new CredentialCompetencyLocator();
 		ccl.credentialLocator = CREDENTIAL_LOCATOR;
-		ccl.resourceLocatorUrl = RESOURCE_LOCATOR_URL;
 		ccl.stripId = STRIP_ID;
 		ccl.success = new Callback1<Array<CredentialAlignmentObject>>() {
 			@Override
