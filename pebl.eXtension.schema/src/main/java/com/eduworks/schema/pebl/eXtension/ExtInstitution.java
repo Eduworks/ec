@@ -204,6 +204,61 @@ public class ExtInstitution extends Organization {
 	}
 
 	/**
+	 * Saves this institution on the server corresponding to its ID
+	 *
+	 * @param {Callback1<String>} success
+	 *                            Callback triggered on successfully saving the ExtInstitution
+	 * @param {Callback1<String>} [failure]
+	 *                            Callback triggered if error while saving ExtInstitution
+	 * @return {ExtInstitution}
+	 * @memberOf ExtInstitution
+	 * @method save
+	 */
+	public String save(Callback1<String> success, Callback1<String> failure) {
+		if (getId() == null || getId() == "") {
+			String msg = "ID cannot be missing";
+			if (failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return null;
+		}
+		if (getName() == null || getName() == "") {
+			String msg = "Name cannot be missing";
+			if (failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return null;
+		}
+		if (getWebPage() == null || getWebPage() == "") {
+			String msg = "Official web page cannot be missing";
+			if (failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return null;
+		}
+
+		EcRepository.save(this, success, failure);
+		return "Institution " + getId() + " saved.";
+	}
+
+	/**
+	 * Deletes the institution from the server corresponding to its ID
+	 *
+	 * @param {Callback1<String>} success
+	 *                            Callback triggered on successfully deleting the institution
+	 * @param {Callback1<String>} [failure]
+	 *                            Callback triggered if error while deleting institution
+	 * @memberOf ExtInstitution
+	 * @method _delete
+	 */
+	public void _delete(Callback1<String> success, Callback1<String> failure) {
+		EcRepository.DELETE(this, success, failure);
+	}
+	
+	/**
 	 * Returns the ID of the Institution
 	 *
 	 * @return {String}
@@ -622,56 +677,4 @@ public class ExtInstitution extends Organization {
 
 	}
 
-	/**
-	 * Saves this institution on the server corresponding to its ID
-	 *
-	 * @param {Callback1<String>} success
-	 *                            Callback triggered on successfully saving the ExtInstitution
-	 * @param {Callback1<String>} [failure]
-	 *                            Callback triggered if error while saving ExtInstitution
-	 * @memberOf ExtInstitution
-	 * @method save
-	 */
-	public void save(Callback1<String> success, Callback1<String> failure) {
-		if (getId() == null || getId() == "") {
-			String msg = "ID cannot be missing";
-			if (failure != null)
-				failure.$invoke(msg);
-			else
-				Global.console.error(msg);
-			return;
-		}
-		if (getName() == null || getName() == "") {
-			String msg = "Name cannot be missing";
-			if (failure != null)
-				failure.$invoke(msg);
-			else
-				Global.console.error(msg);
-			return;
-		}
-		if (getWebPage() == null || getWebPage() == "") {
-			String msg = "Official web page cannot be missing";
-			if (failure != null)
-				failure.$invoke(msg);
-			else
-				Global.console.error(msg);
-			return;
-		}
-
-		EcRepository.save(this, success, failure);
-	}
-
-	/**
-	 * Deletes the institution from the server corresponding to its ID
-	 *
-	 * @param {Callback1<String>} success
-	 *                            Callback triggered on successfully deleting the institution
-	 * @param {Callback1<String>} [failure]
-	 *                            Callback triggered if error while deleting institution
-	 * @memberOf ExtInstitution
-	 * @method _delete
-	 */
-	public void _delete(Callback1<String> success, Callback1<String> failure) {
-		EcRepository.DELETE(this, success, failure);
-	}
 }

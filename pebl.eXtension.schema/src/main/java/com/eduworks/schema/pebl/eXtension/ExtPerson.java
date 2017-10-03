@@ -186,6 +186,77 @@ public class ExtPerson extends Person {
 	}
 
 	/**
+	 * Saves this person on the server corresponding to its ID
+	 *
+	 * @param {Callback1<String>} success
+	 *                            Callback triggered on successfully saving the ExtPerson
+	 * @param {Callback1<String>} [failure]
+	 *                            Callback triggered if error while saving ExtPerson
+	 * @return {ExtPerson}
+	 * @memberOf ExtPerson
+	 * @method save
+	 */
+	public String save(Callback1<String> success, Callback1<String> failure) {
+		if (getId() == null || getId() == "") {
+			String msg = "ID cannot be missing";
+			if (failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return null;
+		}
+		if (getFirstName() == null || getFirstName() == "") {
+			String msg = "First name cannot be missing";
+			if (failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return null;
+		}
+		if (getLastName() == null || getLastName() == "") {
+			String msg = "Last name cannot be missing";
+			if (failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return null;
+		}
+		if (getUserName() == null || getUserName() == "") {
+			String msg = "Username cannot be missing";
+			if (failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return null;
+		}
+		if (getEmail() == null || getEmail() == "") {
+			String msg = "Email cannot be missing";
+			if (failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return null;
+		}
+
+		EcRepository.save(this, success, failure);
+		return "Person " + getId() + " saved.";
+	}
+
+	/**
+	 * Deletes the person from the server corresponding to its ID
+	 *
+	 * @param {Callback1<String>} success
+	 *                            Callback triggered on successfully deleting the person
+	 * @param {Callback1<String>} [failure]
+	 *                            Callback triggered if error while deleting person
+	 * @memberOf ExtPerson
+	 * @method _delete
+	 */
+	public void _delete(Callback1<String> success, Callback1<String> failure) {
+		EcRepository.DELETE(this, success, failure);
+	}
+	
+	/**
 	 * Returns the ID of the Person
 	 *
 	 * @return {String}
@@ -684,72 +755,4 @@ public class ExtPerson extends Person {
 		}
 	}
 
-	/**
-	 * Saves this person on the server corresponding to its ID
-	 *
-	 * @param {Callback1<String>} success
-	 *                            Callback triggered on successfully saving the ExtPerson
-	 * @param {Callback1<String>} [failure]
-	 *                            Callback triggered if error while saving ExtPerson
-	 * @memberOf ExtPerson
-	 * @method save
-	 */
-	public void save(Callback1<String> success, Callback1<String> failure) {
-		if (getId() == null || getId() == "") {
-			String msg = "ID cannot be missing";
-			if (failure != null)
-				failure.$invoke(msg);
-			else
-				Global.console.error(msg);
-			return;
-		}
-		if (getFirstName() == null || getFirstName() == "") {
-			String msg = "First name cannot be missing";
-			if (failure != null)
-				failure.$invoke(msg);
-			else
-				Global.console.error(msg);
-			return;
-		}
-		if (getLastName() == null || getLastName() == "") {
-			String msg = "Last name cannot be missing";
-			if (failure != null)
-				failure.$invoke(msg);
-			else
-				Global.console.error(msg);
-			return;
-		}
-		if (getUserName() == null || getUserName() == "") {
-			String msg = "Username cannot be missing";
-			if (failure != null)
-				failure.$invoke(msg);
-			else
-				Global.console.error(msg);
-			return;
-		}
-		if (getEmail() == null || getEmail() == "") {
-			String msg = "Email cannot be missing";
-			if (failure != null)
-				failure.$invoke(msg);
-			else
-				Global.console.error(msg);
-			return;
-		}
-
-		EcRepository.save(this, success, failure);
-	}
-
-	/**
-	 * Deletes the person from the server corresponding to its ID
-	 *
-	 * @param {Callback1<String>} success
-	 *                            Callback triggered on successfully deleting the person
-	 * @param {Callback1<String>} [failure]
-	 *                            Callback triggered if error while deleting person
-	 * @memberOf ExtPerson
-	 * @method _delete
-	 */
-	public void _delete(Callback1<String> success, Callback1<String> failure) {
-		EcRepository.DELETE(this, success, failure);
-	}
 }

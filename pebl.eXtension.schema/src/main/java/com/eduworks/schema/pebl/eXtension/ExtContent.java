@@ -179,6 +179,77 @@ public class ExtContent extends CreativeWork {
 	}
 
 	/**
+	 * Saves this content on the server corresponding to its ID
+	 *
+	 * @param {Callback1<String>} success
+	 *                            Callback triggered on successfully saving the ExtContent
+	 * @param {Callback1<String>} [failure]
+	 *                            Callback triggered if error while saving ExtContent
+	 * @return {ExtContent}
+	 * @memberOf ExtContent
+	 * @method save
+	 */
+	public String save(Callback1<String> success, Callback1<String> failure) {
+		if (getId() == null || getId() == "") {
+			String msg = "ID cannot be missing";
+			if (failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return null;
+		}
+		if (getTitle() == null || getTitle() == "") {
+			String msg = "Title cannot be missing";
+			if (failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return null;
+		}
+		if (getDescription() == null || getDescription() == "") {
+			String msg = "Description cannot be missing";
+			if (failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return null;
+		}
+		if (getLaunchURL() == null || getLaunchURL() == "") {
+			String msg = "Launch URL cannot be missing";
+			if (failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return null;
+		}
+		if (getInstitution() == null || getInstitution().name == null || getInstitution().name == "") {
+			String msg = "Institution name cannot be missing";
+			if (failure != null)
+				failure.$invoke(msg);
+			else
+				Global.console.error(msg);
+			return null;
+		}
+
+		EcRepository.save(this, success, failure);
+		return "Content " + getId() + " saved.";
+	}
+
+	/**
+	 * Deletes the content from the server corresponding to its ID
+	 *
+	 * @param {Callback1<String>} success
+	 *                            Callback triggered on successfully deleting the content
+	 * @param {Callback1<String>} [failure]
+	 *                            Callback triggered if error while deleting content
+	 * @memberOf ExtContent
+	 * @method _delete
+	 */
+	public void _delete(Callback1<String> success, Callback1<String> failure) {
+		EcRepository.DELETE(this, success, failure);
+	}
+	
+	/**
 	 * Returns the ID of the content
 	 *
 	 * @return {String}
@@ -357,72 +428,5 @@ public class ExtContent extends CreativeWork {
 		this.url = url;
 	}
 
-	/**
-	 * Saves this content on the server corresponding to its ID
-	 *
-	 * @param {Callback1<String>} success
-	 *                            Callback triggered on successfully saving the ExtContent
-	 * @param {Callback1<String>} [failure]
-	 *                            Callback triggered if error while saving ExtContent
-	 * @memberOf ExtContent
-	 * @method save
-	 */
-	public void save(Callback1<String> success, Callback1<String> failure) {
-		if (getId() == null || getId() == "") {
-			String msg = "ID cannot be missing";
-			if (failure != null)
-				failure.$invoke(msg);
-			else
-				Global.console.error(msg);
-			return;
-		}
-		if (getTitle() == null || getTitle() == "") {
-			String msg = "Title cannot be missing";
-			if (failure != null)
-				failure.$invoke(msg);
-			else
-				Global.console.error(msg);
-			return;
-		}
-		if (getDescription() == null || getDescription() == "") {
-			String msg = "Description cannot be missing";
-			if (failure != null)
-				failure.$invoke(msg);
-			else
-				Global.console.error(msg);
-			return;
-		}
-		if (getLaunchURL() == null || getLaunchURL() == "") {
-			String msg = "Launch URL cannot be missing";
-			if (failure != null)
-				failure.$invoke(msg);
-			else
-				Global.console.error(msg);
-			return;
-		}
-		if (getInstitution() == null || getInstitution().name == null || getInstitution().name == "") {
-			String msg = "Institution name cannot be missing";
-			if (failure != null)
-				failure.$invoke(msg);
-			else
-				Global.console.error(msg);
-			return;
-		}
 
-		EcRepository.save(this, success, failure);
-	}
-
-	/**
-	 * Deletes the content from the server corresponding to its ID
-	 *
-	 * @param {Callback1<String>} success
-	 *                            Callback triggered on successfully deleting the content
-	 * @param {Callback1<String>} [failure]
-	 *                            Callback triggered if error while deleting content
-	 * @memberOf ExtContent
-	 * @method _delete
-	 */
-	public void _delete(Callback1<String> success, Callback1<String> failure) {
-		EcRepository.DELETE(this, success, failure);
-	}
 }
