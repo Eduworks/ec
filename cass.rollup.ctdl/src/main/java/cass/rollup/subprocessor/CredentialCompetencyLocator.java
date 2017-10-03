@@ -2,12 +2,16 @@ package cass.rollup.subprocessor;
 
 
 import com.eduworks.ec.array.EcArray;
+import com.eduworks.ec.array.EcObject;
+import org.cass.competency.EcCompetency;
+import org.cass.competency.EcFramework;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.credentialengine.*;
 import org.schema.CreativeWork;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSCollections;
+import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback1;
 
@@ -35,8 +39,8 @@ public class CredentialCompetencyLocator {
 	public Array<String> logBuffer;
 
 	public String credentialLocator;
-	public String resourceLocatorUrl;
 	public boolean stripId = true;
+	public EcRepository repo = null;
 	public Callback1<Array<CredentialAlignmentObject>> success;
 	public Callback1<String> failure;
 
@@ -67,9 +71,6 @@ public class CredentialCompetencyLocator {
 		} else if (credentialLocator == null || credentialLocator.trim().equals("")) {
 			log("Invalid credentialLocator");
 			failure.$invoke("credentialLocator required");
-		} else if (resourceLocatorUrl == null || resourceLocatorUrl.trim().equals("")) {
-			log("Invalid resourceLocatorUrl");
-			failure.$invoke("resourceLocatorUrl required");
 		} else {
 			inputValid = true;
 		}
@@ -170,10 +171,59 @@ public class CredentialCompetencyLocator {
 
 	private void addCompetenciesToMap(Array<CredentialAlignmentObject> competencyList) {
 		CredentialAlignmentObject cao;
+		final CredentialCompetencyLocator me = this;
 		for (int i = 0; i < competencyList.$length(); i++) {
-			cao = competencyList.$get(i);
-			competencyMap.$put(cao.framework + "---" + cao.targetNode, cao);
+			addCompetencyToMap(competencyList, i);
 		}
+	}
+
+	private void addCompetencyToMap(Array<CredentialAlignmentObject> competencyList, int i) {
+		final CredentialCompetencyLocator me = this;
+		CredentialAlignmentObject cao;
+		cao = competencyList.$get(i);
+		if (repo != null && cao.targetNode == null && cao.targetNodeName != null) {
+			numberOfTargetsToProcess++;
+			final CredentialAlignmentObject finalCao = cao;
+			EcCompetency.search(repo, "name:\"" + cao.targetNodeName + "\"", new Callback1<Array<EcCompetency>>() {
+				@Override
+				public void $invoke(final Array<EcCompetency> results) {
+					EcCompetency result = null;
+					boolean found = false;
+					for (int i = 0; i < results.$length(); i++) {
+						result = results.$get(i);
+						if (result.getName() == finalCao.targetNodeName) {
+							me.getFrameworkForCompetencyToAddToMap(result, finalCao);
+							found = true;
+							break;
+						}
+					}
+					if (!found){
+						me.numberOfTargetsProcessed++;
+						me.checkForAllTargetsProcessed();}
+				}
+			}, failure, new Object());
+		} else
+			competencyMap.$put(cao.framework + "---" + cao.targetNode, cao);
+	}
+
+	private void getFrameworkForCompetencyToAddToMap(final EcCompetency result, final CredentialAlignmentObject finalCao) {
+		final CredentialCompetencyLocator me = this;
+		EcFramework.search(repo, "competency:\"" + result.shortId() + "\"", new Callback1<Array<EcFramework>>() {
+			@Override
+			public void $invoke(Array<EcFramework> frameworks) {
+				if (frameworks.$length() == 0) {
+
+					me.numberOfTargetsProcessed++;
+					me.checkForAllTargetsProcessed();
+					return;
+				}
+				finalCao.framework = frameworks.$get(0).shortId();
+				finalCao.targetNode = finalCao.targetUrl = result.id;
+				me.competencyMap.$put(result.id, finalCao);
+				me.numberOfTargetsProcessed++;
+				me.checkForAllTargetsProcessed();
+			}
+		}, failure, new Object());
 	}
 
 	private void addSubTargetsToNextTargetList(Object requiresObj) {
@@ -237,11 +287,11 @@ public class CredentialCompetencyLocator {
 		final CredentialCompetencyLocator ccl = this;
 		for (int i = 0; i < numberOfTargetsToProcess; i++) {
 			currentTargetId = currentTargetList.$get(i);
-			if (hasTargetBeenProcessed(resourceLocatorUrl + currentTargetId)) {
+			if (hasTargetBeenProcessed(currentTargetId)) {
 				numberOfTargetsProcessed++;
 				checkForAllTargetsProcessed();
 			} else {
-				EcRepository.get(resourceLocatorUrl + currentTargetId,
+				EcRepository.get(currentTargetId,
 						new Callback1<EcRemoteLinkedData>() {
 							@Override
 							public void $invoke(EcRemoteLinkedData p1) {
@@ -262,7 +312,12 @@ public class CredentialCompetencyLocator {
 
 	private void addStringsToMap(Map<String, String> m, Array<String> sa) {
 		for (int i = 0; i < sa.$length(); i++) {
-			if (sa.$get(i) != null && sa.$get(i).trim().length() > 0) m.$put(sa.$get(i).trim(), sa.$get(i).trim());
+			if (sa.$get(i) != null) {
+				String s = sa.$get(i);
+				if (EcObject.isObject(s))
+					s = ((String) JSObjectAdapter.$get(s, "@id"));
+				m.$put(s.trim(), s.trim());
+			}
 		}
 	}
 
