@@ -74,10 +74,10 @@ public class RollupRuleProcessor {
 
 	public void exitLogical_or_math_operator(context ctx) {
 		if (ctx.cLogic != null) {
-			if ("AND".equals(ctx.cLogic.text.toUpperCase())) {
+			if ("AND"==ctx.cLogic.text.toUpperCase()) {
 				log("ADDING OPERATION: " + OperationType.AND);
 				rollupRulePacketGenerator.addQueryOperation(OperationType.AND);
-			} else if ("OR".equals(ctx.cLogic.text.toUpperCase())) {
+			} else if ("OR"==ctx.cLogic.text.toUpperCase()) {
 				log("ADDING OPERATION: " + OperationType.OR);
 				rollupRulePacketGenerator.addQueryOperation(OperationType.OR);
 			}

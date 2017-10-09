@@ -143,7 +143,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
 	 * @param {string} uniqueIdentifier Canonical identifier. Must contain a letter or symbol.
 	 * @method assignId
 	 */
-	public void assignIdAndVersion(String server, String uniqueIdentifier,String version) {
+	public void assignIdAndVersion(String server, String uniqueIdentifier, String version) {
 		id = server;
 		if (!id.endsWith("/"))
 			id += "/";
@@ -170,7 +170,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
 
 		String pkPem = pk.toPem();
 		for (int i = 0; i < owner.$length(); i++)
-			if (pkPem.equals(EcPk.fromPem(owner.$get(i)).toPem()))
+			if (pkPem == EcPk.fromPem(owner.$get(i)).toPem())
 				return true;
 		return false;
 	}
@@ -235,7 +235,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
 		String signed = EcRsaOaep.sign(ppk, signableJson);
 		if (signature != null) {
 			for (int i = 0; i < signature.$length(); i++)
-				if (signature.$get(i).equals(signed))
+				if (signature.$get(i) == signed)
 					return;
 		} else {
 			signature = new Array<String>();
@@ -296,7 +296,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
 		if (owner == null)
 			owner = new Array<String>();
 		for (int i = 0; i < owner.$length(); i++)
-			if (owner.$get(i).equals(pem))
+			if (owner.$get(i) == pem)
 				return;
 		owner.push(pem);
 		// Changing an owner invalidates the signatures in order to prevent
@@ -316,7 +316,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
 		if (owner == null)
 			owner = new Array<String>();
 		for (int i = 0; i < owner.$length(); i++)
-			if (owner.$get(i).equals(pem))
+			if (owner.$get(i) == pem)
 				owner.splice(i, 1);
 		// Changing an owner invalidates the signatures in order to prevent
 		// server admins from injecting owners or readers into the object.
@@ -335,7 +335,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
 		if (reader == null)
 			reader = new Array<String>();
 		for (int i = 0; i < reader.$length(); i++)
-			if (reader.$get(i).equals(pem))
+			if (reader.$get(i) == pem)
 				return;
 		reader.push(pem);
 		// Changing an owner invalidates the signatures in order to prevent
@@ -355,7 +355,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
 		if (reader == null)
 			reader = new Array<String>();
 		for (int i = 0; i < reader.$length(); i++)
-			if (reader.$get(i).equals(pem))
+			if (reader.$get(i) == pem)
 				reader.splice(i, 1);
 		// Changing an owner invalidates the signatures in order to prevent
 		// server admins from injecting owners or readers into the object.
@@ -415,7 +415,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
 	 * @method isId
 	 */
 	public boolean isId(String id) {
-		return trimVersionFromUrl(this.id).equals(trimVersionFromUrl(id));
+		return trimVersionFromUrl(this.id) == trimVersionFromUrl(id);
 	}
 
 	/**
@@ -472,7 +472,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
 			result += " OR (@context:\"" + types.$get(i).substring(0, lastSlash + 1) + "\" AND @type:\"" + types.$get(i).substring(lastSlash + 1) + "\")";
 		}
 		for (int i = 0; i < types.$length(); i++) {
-			if (result.equals("") == false)
+			if (result != "")
 				result += " OR ";
 			result += "@encryptedType:\"" + types.$get(i) + "\"";
 

@@ -185,10 +185,10 @@ public class MilCredCoprocessor extends AssertionCoprocessor {
 
 	protected String buildRelationsSearchQuery(InquiryPacket ip, Array<String> competencies) {
 		String result = null;
-		if (InquiryPacket.IPType.ROLLUPRULE.equals(ip.type)) {
+		if (InquiryPacket.IPType.ROLLUPRULE==ip.type) {
 			ip.failure.$invoke("NOT SUPPOSED TO BE HERE.");
 			throw new RuntimeException("Collecting assertions when root node is a rollup rule. Not supported.");
-		} else if (InquiryPacket.IPType.COMPETENCY.equals(ip.type)) {
+		} else if (InquiryPacket.IPType.COMPETENCY==ip.type) {
 			result = "educationalAlignment.alignmentType:\"*asserts\" AND (";
 			for (int i = 0; i < competencies.$length(); i++) {
 				if (i != 0)
@@ -204,10 +204,10 @@ public class MilCredCoprocessor extends AssertionCoprocessor {
 
 	protected String buildAssertionSearchQuery(InquiryPacket ip, Array<String> competencies) {
 		String result = null;
-		if (InquiryPacket.IPType.ROLLUPRULE.equals(ip.type)) {
+		if (InquiryPacket.IPType.ROLLUPRULE==ip.type) {
 			ip.failure.$invoke("NOT SUPPOSED TO BE HERE.");
 			throw new RuntimeException("Collecting assertions when root node is a rollup rule. Not supported.");
-		} else if (InquiryPacket.IPType.COMPETENCY.equals(ip.type)) {
+		} else if (InquiryPacket.IPType.COMPETENCY==ip.type) {
 			result = "@type:\"*AchieveAction\" AND (";
 			for (int i = 0; i < competencies.$length(); i++) {
 				if (i != 0)

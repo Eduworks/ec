@@ -86,7 +86,7 @@ public class EcEncryptedValueTest {
 		v = EcEncryptedValue.encryptValueOld(f.name, f.id, ppk.toPk());
 		console.log("Encrypted object: " + v.toJson());
 		assertTrue("Owner exists in encrypted object.", v.hasOwner(ppk.toPk()));
-		assertTrue("Owner can decrypt object.", v.decryptIntoString().equals(f.name));
+		assertTrue("Owner can decrypt object.", v.decryptIntoString()==f.name);
 		Array<String> readers = new Array<String>();
 		readers.push(ppk2.toPk().toPem());
 		EcEncryptedValue v2 = null;
@@ -98,7 +98,7 @@ public class EcEncryptedValueTest {
 		newId2.ppk = ppk2;
 		EcIdentityManager.ids = new Array<EcIdentity>();
 		EcIdentityManager.addIdentity(newId2);
-		assertTrue("Reader Decryption:", v2.decryptIntoString().equals(f.name));
+		assertTrue("Reader Decryption:", v2.decryptIntoString()==f.name);
 	}
 
 	@Test
@@ -147,7 +147,7 @@ public class EcEncryptedValueTest {
 				EcRemoteLinkedData decryptedObject = val.decryptIntoObject();
 				GeneralFile file = new GeneralFile();
 				file.copyFrom(decryptedObject);
-				assertTrue(file.name.equals(f.name));
+				assertTrue(file.name==f.name);
 			}
 		}, new Callback1<String>() {
 			@Override
@@ -215,7 +215,7 @@ public class EcEncryptedValueTest {
 				console.log("Encrypted, downloaded = " + val1.toJson());
 				String decryptIntoString = val1.decryptIntoString();
 				console.log("Decrypted = " + decryptIntoString);
-				assertTrue(decryptIntoString.equals("My_File.txt"));
+				assertTrue(decryptIntoString=="My_File.txt");
 			}
 		}, new Callback1<String>() {
 			@Override
@@ -288,7 +288,7 @@ public class EcEncryptedValueTest {
 			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				boolean found = false;
 				for (int i = 0; i < p1.$length(); i++) {
-					if (p1.$get(i).shortId().equals(f.shortId()))
+					if (p1.$get(i).shortId()==f.shortId())
 						found = true;
 				}
 				assertTrue(found);
@@ -299,7 +299,7 @@ public class EcEncryptedValueTest {
 			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				boolean found = false;
 				for (int i = 0; i < p1.$length(); i++) {
-					if (p1.$get(i).shortId().equals(f.shortId()))
+					if (p1.$get(i).shortId()==f.shortId())
 						found = true;
 				}
 				assertTrue(!found);
@@ -357,9 +357,9 @@ public class EcEncryptedValueTest {
 				public void $invoke(String p1) {
 					console.log("\""+p1+"\"");
 					Assert.assertTrue(
-							p1.trim().equals("Readers only exist in encrypted data. Please provide signatures to allow access to resources.")
+							p1.trim()=="Readers only exist in encrypted data. Please provide signatures to allow access to resources."
 									||
-									p1.trim().equals("error!"));
+									p1.trim()=="error!");
 				}
 			});
 			console.log("_all Search, searching for signature 1.");
@@ -453,7 +453,7 @@ public class EcEncryptedValueTest {
 			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				boolean found = false;
 				for (int i = 0; i < p1.$length(); i++) {
-					if (p1.$get(i).shortId().equals(thing.shortId()))
+					if (p1.$get(i).shortId()==thing.shortId())
 						found = true;
 				}
 
@@ -475,7 +475,7 @@ public class EcEncryptedValueTest {
 			@Override
 			public void $invoke(EcRemoteLinkedData p1) {
 				console.log("Retrieved encrypted object as public");
-				if (p1.type != null && !p1.type.equals(""))
+				if (p1.type != null && p1.type!="")
 					Assert.fail("Retrieved encrypted object as public");
 			}
 		}, new Callback1<String>() {
@@ -491,7 +491,7 @@ public class EcEncryptedValueTest {
 			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				boolean found = false;
 				for (int i = 0; i < p1.$length(); i++) {
-					if (p1.$get(i).shortId().equals(thing.shortId()))
+					if (p1.$get(i).shortId()==thing.shortId())
 						found = true;
 				}
 
@@ -669,7 +669,7 @@ public class EcEncryptedValueTest {
 			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				boolean found = false;
 				for (int i = 0; i < p1.$length(); i++) {
-					if (p1.$get(i).shortId().equals(thing.shortId()))
+					if (p1.$get(i).shortId()==thing.shortId())
 						found = true;
 				}
 
@@ -721,7 +721,7 @@ public class EcEncryptedValueTest {
 			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				boolean found = false;
 				for (int i = 0; i < p1.$length(); i++) {
-					if (p1.$get(i).shortId().equals(thing.shortId()))
+					if (p1.$get(i).shortId()==thing.shortId())
 						found = true;
 				}
 

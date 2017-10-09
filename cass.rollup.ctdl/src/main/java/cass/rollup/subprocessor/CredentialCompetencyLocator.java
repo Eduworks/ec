@@ -68,7 +68,7 @@ public class CredentialCompetencyLocator {
 		} else if (success == null) {
 			log("Invalid success callback");
 			failure.$invoke("success callback required");
-		} else if (credentialLocator == null || credentialLocator.trim().equals("")) {
+		} else if (credentialLocator == null || credentialLocator.trim()=="") {
 			log("Invalid credentialLocator");
 			failure.$invoke("credentialLocator required");
 		} else {

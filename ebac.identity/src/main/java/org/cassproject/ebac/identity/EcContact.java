@@ -81,7 +81,7 @@ public class EcContact {
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof EcContact)
-			return pk.equals(((EcContact) obj).pk);
+			return pk == ((EcContact) obj).pk;
 		return super.equals(obj);
 	}
 

@@ -521,17 +521,13 @@ public class EcRepository {
 		final Array<String> cacheUrls = new Array<String>();
 		for (int i = 0; i < urls.$length(); i++) {
 			String url = urls.$get(i);
-			if (JSObjectAdapter.$get(cache, url) != null)
-			{}
-			else
-			if (url.startsWith(selectedServer)) {
+			if (JSObjectAdapter.$get(cache, url) != null) {
+			} else if (url.startsWith(selectedServer)) {
 				cacheUrls.push(url.replace(selectedServer, "").replace("custom/", ""));
-			}
-			else if (!shouldTryUrl(url))
-			{
+			} else if (!shouldTryUrl(url)) {
 				md5 m = md5.create();
 				m.update(url);
-				cacheUrls.push("data/"+m.digest().toHex());
+				cacheUrls.push("data/" + m.digest().toHex());
 			}
 		}
 		if (cacheUrls.$length() == 0) {
@@ -553,8 +549,7 @@ public class EcRepository {
 						d.copyFrom(results.$get(i));
 						results.$set(i, d);
 						if (caching) {
-							if (!shouldTryUrl(d.id))
-							{
+							if (!shouldTryUrl(d.id)) {
 								md5 m = md5.create();
 								m.update(d.id);
 								String md5 = m.digest().toHex();
@@ -589,8 +584,7 @@ public class EcRepository {
 								d.copyFrom(results.$get(i));
 								results.$set(i, d);
 								if (caching) {
-									if (!shouldTryUrl(d.id))
-									{
+									if (!shouldTryUrl(d.id)) {
 										md5 m = md5.create();
 										m.update(d.id);
 										String md5 = m.digest().toHex();
@@ -984,11 +978,11 @@ public class EcRepository {
 				query = "(" + query + ")";
 			}
 
-			if (ownership.equals("public")) {
+			if (ownership == "public") {
 				query += " AND (_missing_:@owner)";
-			} else if (ownership.equals("owned")) {
+			} else if (ownership == "owned") {
 				query += " AND (_exists_:@owner)";
-			} else if (ownership.equals("me")) {
+			} else if (ownership == "me") {
 				query += " AND (";
 				for (int i = 0; i < EcIdentityManager.ids.$length(); i++) {
 					if (i != 0) {
@@ -1154,7 +1148,7 @@ public class EcRepository {
 			@Override
 			public void $invoke(Object p1) {
 				if (p1 != null) {
-					if (JSObjectAdapter.$get(p1, "ping").equals("pong")) {
+					if (JSObjectAdapter.$get(p1, "ping") == "pong") {
 						me.selectedServer = guess;
 						me.autoDetectFound = true;
 						success.$invoke();
@@ -1166,7 +1160,7 @@ public class EcRepository {
 			@Override
 			public void $invoke(String p1) {
 				if (p1 != null) {
-					if (!p1.equals("")) {
+					if (!(p1 == "")) {
 						if (p1.contains("pong")) {
 							me.selectedServer = guess;
 							me.autoDetectFound = true;
@@ -1176,7 +1170,7 @@ public class EcRepository {
 				}
 			}
 		};
-		if (guess != null && guess.equals("") == false) {
+		if (guess != null && guess != "") {
 			try {
 				EcRemote.getExpectingObject(guess, "ping", successCheck, failureCheck);
 			} catch (Exception ex) {
@@ -1203,7 +1197,7 @@ public class EcRepository {
 			@Override
 			public void $invoke(Object p1) {
 				if (p1 != null) {
-					if (JSObjectAdapter.$get(p1, "ping").equals("pong")) {
+					if (JSObjectAdapter.$get(p1, "ping") == "pong") {
 						me.selectedServer = guess;
 						me.autoDetectFound = true;
 					}
@@ -1214,7 +1208,7 @@ public class EcRepository {
 			@Override
 			public void $invoke(String p1) {
 				if (p1 != null) {
-					if (!p1.equals("")) {
+					if (p1 != "") {
 						if (p1.contains("pong")) {
 							me.selectedServer = guess;
 							me.autoDetectFound = true;
@@ -1223,7 +1217,7 @@ public class EcRepository {
 				}
 			}
 		};
-		if (guess != null && guess.equals("") == false) {
+		if (guess != null && guess != "") {
 			try {
 				EcRemote.getExpectingObject(guess, "ping", successCheck, failureCheck);
 			} catch (Exception ex) {

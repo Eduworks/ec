@@ -16,7 +16,7 @@ import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
 @RunWith(STJSTestDriverRunner.class)
-@ScriptsBefore({"lib/require.js", "rollupInit.js", "base64toArrayBuffer.js","base64toArrayBuffer.js"})
+@ScriptsBefore({"lib/require.js", "rollupInit.js", "base64toArrayBuffer.js", "base64toArrayBuffer.js"})
 public class RollupRuleInterfaceTest extends EvidenceProcessingTestBase {
 
 	String input = "[competency:http://skyrepo.eduworks.com/service/data/schema.eduworks.com.cass.0.1.competency/d885dcd8-f00b-4ccf-82d8-ee14d6c84ef0 AND confidence:>0.6]"
@@ -130,7 +130,7 @@ public class RollupRuleInterfaceTest extends EvidenceProcessingTestBase {
 					InquiryPacket sp;
 					for (int i = 0; i < rip.subPackets.$length(); i++) {
 						sp = rip.subPackets.$get(i);
-						if (sp.type.equals(IPType.ROLLUPRULE))
+						if (sp.type == IPType.ROLLUPRULE)
 							Global.console.log("    " + sp.type + " - " + sp.rule);
 						else {
 							Global.console.log("   " + sp.type);

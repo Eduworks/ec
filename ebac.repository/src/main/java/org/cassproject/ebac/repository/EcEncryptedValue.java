@@ -722,7 +722,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 
 		Array<String> typeSplit = JSCollections.$castArray(type.split("/"));
 
-		return this.encryptedType.equals(type) || this.encryptedType.equals(typeSplit.$get(typeSplit.$length() - 1));
+		return this.encryptedType==type || this.encryptedType==typeSplit.$get(typeSplit.$length() - 1);
 	}
 
 	/**
@@ -738,7 +738,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 			reader = new Array<String>();
 		}
 		for (int i = 0; i < reader.$length(); i++) {
-			if (reader.$get(i).equals(pem)) {
+			if (reader.$get(i)==pem) {
 				return;
 			}
 		}
@@ -768,7 +768,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 			reader = new Array<String>();
 		}
 		for (int i = 0; i < reader.$length(); i++) {
-			if (reader.$get(i).equals(pem)) {
+			if (reader.$get(i)==pem) {
 				reader.splice(i, 1);
 			}
 		}

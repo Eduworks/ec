@@ -250,13 +250,13 @@ public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 	@Override
 	public boolean changePassword(String username, String oldPassword, String newPassword) {
 		String usernameHash = util.encode64(pkcs5.pbkdf2(username, usernameSalt, usernameIterations, usernameWidth));
-		if (!usernameWithSalt.equals(usernameHash)) {
+		if (usernameWithSalt != usernameHash) {
 			Global.alert("Username does not match. Aborting password change.");
 			return false;
 		}
 
 		String oldPasswordHash = util.encode64(pkcs5.pbkdf2(oldPassword, passwordSalt, passwordIterations, passwordWidth));
-		if (!passwordWithSalt.equals(oldPasswordHash)) {
+		if (passwordWithSalt != oldPasswordHash) {
 			Global.alert("Old password does not match. Aborting password change.");
 			return false;
 		}
@@ -399,14 +399,14 @@ public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 
 		for (int i = 0; i < EcIdentityManager.ids.$length(); i++) {
 			EcIdentity id = EcIdentityManager.ids.$get(i);
-			if (id.source != null && id.source.equals(server) == false)
+			if (id.source != null && id.source != server)
 				continue;
 			id.source = server;
 			credentials.push(id.toCredential(secretWithSalt));
 		}
 		for (int i = 0; i < EcIdentityManager.contacts.$length(); i++) {
 			EcContact id = EcIdentityManager.contacts.$get(i);
-			if (id.source != null && id.source.equals(server) == false)
+			if (id.source != null && id.source != server)
 				continue;
 			id.source = server;
 			contacts.push(id.toEncryptedContact(secretWithSalt));

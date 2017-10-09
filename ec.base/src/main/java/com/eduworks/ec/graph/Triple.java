@@ -43,7 +43,7 @@ public class Triple<S1, S2, S3> {
 			return true;
 		if (obj instanceof Triple) {
 			Triple t = (Triple) obj;
-			if (source.equals(t.source) && destination.equals(t.destination) && edge.equals(t.edge))
+			if (source==t.source && destination==t.destination && edge==t.edge)
 				return true;
 		}
 		return false;

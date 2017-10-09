@@ -41,7 +41,7 @@ public class CyclicGraphCollapser {
             nodeRelations =  relationMap.getRelationsForNode(nodeList.$get(i));
             for (int j=0;j<nodeRelations.$length();j++) {
                 nr = nodeRelations.$get(j);
-                if (nr.getType().equals(RelationType.RELATION_TYPE.IS_EQUIVALENT_TO)) {
+                if (nr.getType() == RelationType.RELATION_TYPE.IS_EQUIVALENT_TO) {
                     npg.mergeNodePackets(npg.getNodePacketForNode(nr.getSource()),npg.getNodePacketForNode(nr.getTarget()));
                 }
             }

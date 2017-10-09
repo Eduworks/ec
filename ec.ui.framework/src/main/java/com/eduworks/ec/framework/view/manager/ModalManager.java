@@ -87,8 +87,8 @@ public class ModalManager extends ViewManager {
 
 		String modalSize = modal.getModalSize();
 
-		if (modalSize.equals("tiny") || modalSize.equals("small") || modalSize.equals("medium") ||
-				modalSize.equals("large") || modalSize.equals("full")) {
+		if (modalSize=="tiny" || modalSize=="small" || modalSize=="medium" ||
+				modalSize=="large" || modalSize=="full") {
 			GlobalJQuery.$(MODAL_CONTAINER_ID).addClass(modalSize);
 		} else {
 			GlobalJQuery.$(MODAL_CONTAINER_ID).addClass("small");

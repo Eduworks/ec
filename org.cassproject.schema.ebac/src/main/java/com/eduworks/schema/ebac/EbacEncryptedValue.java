@@ -75,7 +75,7 @@ public class EbacEncryptedValue extends EcRemoteLinkedData {
 	@Override
 	protected void upgrade() {
 		super.upgrade();
-		if (TYPE_0_1.equals(type)) {
+		if (TYPE_0_1==type) {
 			Map<String, Object> me = JSObjectAdapter.$properties(this);
 			// Error in older versions of LD objects: We used @schema instead of
 			// @context. Whoops.
@@ -83,7 +83,7 @@ public class EbacEncryptedValue extends EcRemoteLinkedData {
 				me.$put("@context", me.$get("@schema"));
 			setContextAndType(Ebac.context_0_2, TYPE_0_2);
 		}
-		if (TYPE_0_2.equals(getFullType())) {
+		if (TYPE_0_2==getFullType()) {
 			setContextAndType(Ebac.context_0_3, TYPE_0_3);
 		}
 	}
