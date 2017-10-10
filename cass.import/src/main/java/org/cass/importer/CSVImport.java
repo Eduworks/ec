@@ -429,7 +429,7 @@ public class CSVImport {
 		Map<String, Object> props = JSObjectAdapter.$properties(data);
 		for (String prop : props) {
 
-			if (props.$get(prop) == null || props.$get(prop) == JSGlobal.undefined || !com.eduworks.ec.array.toString.call(props.$get(prop)).contains("String")) {
+			if (props.$get(prop) == null || props.$get(prop) == JSGlobal.undefined || com.eduworks.ec.array.toString.call(props.$get(prop)).indexOf("String") == -1) {
 				if (EcObject.isObject(props.$get(prop))) {
 					Object nested = props.$get(prop);
 					transformReferences(nested);

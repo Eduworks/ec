@@ -68,7 +68,7 @@ public abstract class EcScreen extends EcView {
 	}
 
 	public void fillInnerString(final JQueryCore scope, final Object dataObj, String key) {
-		if (key.contains("/") || key.contains(":") || key.contains("@"))
+		if (key.indexOf("/") != -1 || key.indexOf(":") != -1 || key.indexOf("@") != -1)
 			return;
 		Map<String, Object> a = JSObjectAdapter.$properties(dataObj);
 
@@ -116,7 +116,7 @@ public abstract class EcScreen extends EcView {
 	}
 
 	public void fillInnerStringReferences(final JQueryCore scope, final Object dataObj, String key) {
-		if (key.contains("/") || key.contains(":") || key.contains("@"))
+		if (key.indexOf("/") != -1 || key.indexOf(":") != -1 || key.indexOf("@") != -1)
 			return;
 		Map<String, Object> a = JSObjectAdapter.$properties(dataObj);
 
@@ -137,7 +137,7 @@ public abstract class EcScreen extends EcView {
 	}
 
 	public void fillInnerArray(final JQueryCore scope, final Object dataObj, final String key) {
-		if (key.contains("/") || key.contains(":") || key.contains("@"))
+		if (key.indexOf("/") != -1 || key.indexOf(":") != -1 || key.indexOf("@") != -1)
 			return;
 		final Map<String, Object> props = JSObjectAdapter.$properties(dataObj);
 

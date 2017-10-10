@@ -19,7 +19,7 @@ public class EcAesCtrAsync {
 		}
 		Array<String> keyUsages = new Array<>();
 		keyUsages.push("encrypt", "decrypt");
-		final AlgorithmIdentifier algorithm = new AlgorithmIdentifier();
+		final AlgorithmIdentifier algorithm = (AlgorithmIdentifier)new Object();
 		algorithm.name = "AES-CTR";
 		algorithm.counter = base64.decode(iv);
 		algorithm.length = 128;
@@ -54,7 +54,7 @@ public class EcAesCtrAsync {
 		}
 		Array<String> keyUsages = new Array<>();
 		keyUsages.push("encrypt", "decrypt");
-		final AlgorithmIdentifier algorithm = new AlgorithmIdentifier();
+		final AlgorithmIdentifier algorithm = (AlgorithmIdentifier)new Object();
 		algorithm.name = "AES-CTR";
 		algorithm.counter = base64.decode(iv);
 		algorithm.length = 128;

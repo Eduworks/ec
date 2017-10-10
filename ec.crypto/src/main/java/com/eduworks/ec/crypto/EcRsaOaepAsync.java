@@ -23,7 +23,7 @@ public class EcRsaOaepAsync {
 		}
 		Array<String> keyUsages = new Array<>();
 		keyUsages.push("encrypt");
-		final AlgorithmIdentifier algorithm = new AlgorithmIdentifier();
+		final AlgorithmIdentifier algorithm = (AlgorithmIdentifier)new Object();
 		algorithm.name = "RSA-OAEP";
 		algorithm.hash = "SHA-1";
 
@@ -70,7 +70,7 @@ public class EcRsaOaepAsync {
 		}
 		Array<String> keyUsages = new Array<>();
 		keyUsages.push("decrypt");
-		final AlgorithmIdentifier algorithm = new AlgorithmIdentifier();
+		final AlgorithmIdentifier algorithm = (AlgorithmIdentifier)new Object();
 		algorithm.name = "RSA-OAEP";
 		algorithm.hash = "SHA-1";
 
@@ -107,7 +107,7 @@ public class EcRsaOaepAsync {
 		}
 		Array<String> keyUsages = new Array<>();
 		keyUsages.push("sign");
-		final AlgorithmIdentifier algorithm = new AlgorithmIdentifier();
+		final AlgorithmIdentifier algorithm = (AlgorithmIdentifier)new Object();
 		algorithm.name = "RSASSA-PKCS1-v1_5";
 		algorithm.hash = "SHA-1";
 
@@ -144,7 +144,7 @@ public class EcRsaOaepAsync {
 		}
 		Array<String> keyUsages = new Array<>();
 		keyUsages.push("sign");
-		final AlgorithmIdentifier algorithm = new AlgorithmIdentifier();
+		final AlgorithmIdentifier algorithm = (AlgorithmIdentifier)new Object();
 		algorithm.name = "RSASSA-PKCS1-v1_5";
 		algorithm.hash = "SHA-256";
 
@@ -181,7 +181,7 @@ public class EcRsaOaepAsync {
 		}
 		Array<String> keyUsages = new Array<>();
 		keyUsages.push("verify");
-		final AlgorithmIdentifier algorithm = new AlgorithmIdentifier();
+		final AlgorithmIdentifier algorithm = (AlgorithmIdentifier)new Object();
 		algorithm.name = "RSASSA-PKCS1-v1_5";
 		algorithm.hash = "SHA-1";
 

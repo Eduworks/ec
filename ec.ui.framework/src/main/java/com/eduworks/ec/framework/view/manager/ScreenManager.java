@@ -170,7 +170,7 @@ public class ScreenManager extends ViewManager {
 
 				if (startupScreen != null) {
 					Object params = null;
-					if (window.document.location.hash.contains("?")) {
+					if (window.document.location.hash.indexOf("?") != -1) {
 						Array<String> hashSplit = JSCollections.$castArray(Global.window.document.location.hash.split("?"));
 						if (hashSplit.$length() > 1 && hashSplit.$get(1) != "") {
 							Array<String> paramSplit = JSCollections.$castArray(hashSplit.$get(1).split("&"));

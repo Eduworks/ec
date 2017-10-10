@@ -440,7 +440,7 @@ public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 					}
 				});
 			}
-		});
+		},failure);
 
 	}
 

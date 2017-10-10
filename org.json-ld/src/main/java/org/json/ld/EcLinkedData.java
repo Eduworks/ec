@@ -205,7 +205,7 @@ public class EcLinkedData {
 	public String getFullType() {
 		if (context == null)
 			return this.type;
-		if (this.type.contains("http"))
+		if (this.type.indexOf("http") != -1)
 			return this.type;
 
 		String computedType = context;

@@ -144,7 +144,7 @@ public class EcRepository {
 						}
 					});
 				}
-			});
+			},failure);
 	}
 
 	private static boolean shouldTryUrl(String url) {
@@ -154,7 +154,7 @@ public class EcRepository {
 			return true;
 		if (repos.$length() == 0)
 			return true;
-		if (url.contains("/api/") || url.contains("/data/"))
+		if (url.indexOf("/api/") != -1 || url.indexOf("/data/") != -1)
 			return true;
 		boolean validUrlFound = false;
 		for (int i = 0; i < repos.$length(); i++) {
@@ -439,7 +439,7 @@ public class EcRepository {
 					fd.append("signatureSheet", arg0);
 					EcRemote.postExpectingString(data.id, "", fd, success, failure);
 				}
-			});
+			},failure);
 		} else {
 			EcIdentityManager.signatureSheetAsync(60000, data.id, new Callback1<String>() {
 				@Override
@@ -447,7 +447,7 @@ public class EcRepository {
 					fd.append("signatureSheet", arg0);
 					EcRemote.postExpectingString(data.id, "", fd, success, failure);
 				}
-			});
+			},failure);
 		}
 
 	}
@@ -496,7 +496,7 @@ public class EcRepository {
 			public void $invoke(String signatureSheet) {
 				EcRemote._delete(data.shortId(), signatureSheet, success, failure);
 			}
-		});
+		},failure);
 	}
 
 	/**
@@ -606,7 +606,7 @@ public class EcRepository {
 						}
 					}, null);
 				}
-			});
+			},null);
 	}
 
 	/**
@@ -697,7 +697,7 @@ public class EcRepository {
 						}
 					}, failure);
 				}
-			});
+			},failure);
 
 	}
 
@@ -859,7 +859,7 @@ public class EcRepository {
 						}
 					});
 				}
-			});
+			},failure);
 	}
 
 	/**
@@ -1161,7 +1161,7 @@ public class EcRepository {
 			public void $invoke(String p1) {
 				if (p1 != null) {
 					if (!(p1 == "")) {
-						if (p1.contains("pong")) {
+						if (p1.indexOf("pong") != -1) {
 							me.selectedServer = guess;
 							me.autoDetectFound = true;
 							success.$invoke();
@@ -1209,7 +1209,7 @@ public class EcRepository {
 			public void $invoke(String p1) {
 				if (p1 != null) {
 					if (p1 != "") {
-						if (p1.contains("pong")) {
+						if (p1.indexOf("pong") != -1) {
 							me.selectedServer = guess;
 							me.autoDetectFound = true;
 						}

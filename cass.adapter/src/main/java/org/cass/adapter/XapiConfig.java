@@ -47,7 +47,7 @@ public class XapiConfig extends EcLinkedData {
 				fd.append("signatureSheet", signatureSheet);
 				EcRemote.postExpectingObject(serverUrl, "adapter/xapi/config/get", fd, success, failure);
 			}
-		});
+		},failure);
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class XapiConfig extends EcLinkedData {
 				fd.append("signatureSheet", signatureSheet);
 				EcRemote.postExpectingObject(serverUrl, "adapter/xapi/config/set", fd, success, failure);
 			}
-		});
+		},failure);
 
 	}
 

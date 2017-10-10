@@ -48,7 +48,7 @@ public class MoodleConfig extends EcLinkedData {
 				fd.append("signatureSheet", signatureSheet);
 				EcRemote.postExpectingObject(serverUrl, "adapter/moodle/config/get", fd, success, failure);
 			}
-		});
+		},failure);
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class MoodleConfig extends EcLinkedData {
 				fd.append("signatureSheet", signatureSheet);
 				EcRemote.postExpectingString(serverUrl, "adapter/moodle/config/key", fd, success, failure);
 			}
-		});
+		},failure);
 	}
 
 	public static void syncCassToMoodle(final String serverUrl, Callback1<String> success, final Callback1<String> failure) {
@@ -104,7 +104,7 @@ public class MoodleConfig extends EcLinkedData {
 				fd.append("signatureSheet", signatureSheet);
 				EcRemote.postExpectingObject(serverUrl, "adapter/moodle/config/set", fd, success, failure);
 			}
-		});
+		},failure);
 	}
 
 }
