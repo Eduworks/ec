@@ -506,6 +506,7 @@ public class EcAssertion extends Assertion {
 			subject = EcEncryptedValue.revive(subject);
 			subject.addReader(newReader);
 		}
+		super.addReader(newReader);
 	}
 
 	@Override
@@ -539,6 +540,7 @@ public class EcAssertion extends Assertion {
 			subject = EcEncryptedValue.revive(subject);
 			subject.removeReader(newReader);
 		}
+		super.removeReader(newReader);
 	}
 
 	public String getSearchStringByTypeAndCompetency(EcCompetency competency) {

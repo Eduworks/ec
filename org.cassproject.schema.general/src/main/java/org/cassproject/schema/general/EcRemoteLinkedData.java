@@ -176,6 +176,26 @@ public class EcRemoteLinkedData extends EcLinkedData {
     }
 
     /**
+     * Determines if the object has a reader identified by pk.
+     * Homogenizes the PEM strings for comparison.
+     * Homogenization is necessary for comparing PKCS#1 and PKCS#8 or PKs with Certificates, etc.
+     *
+     * @param {EcPk} pk Public Key of the owner.
+     * @return {boolean} True if owner is represented by the PK, false otherwise.
+     * @method hasOwner
+     */
+    public boolean hasReader(EcPk pk) {
+        if (reader == null)
+            return false;
+
+        String pkPem = pk.toPem();
+        for (int i = 0; i < reader.$length(); i++)
+            if (pkPem == EcPk.fromPem(reader.$get(i)).toPem())
+                return true;
+        return false;
+    }
+
+    /**
      * Determines if the PK matches an owner or if the object is public.
      * Homogenizes the PEM strings for comparison.
      * Homogenization is necessary for comparing PKCS#1 and PKCS#8 or PKs with Certificates, etc.
