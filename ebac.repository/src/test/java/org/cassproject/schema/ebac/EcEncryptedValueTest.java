@@ -312,28 +312,30 @@ public class EcEncryptedValueTest {
 			}
 		};
 		try {
+			Object o = new Object();
+			JSObjectAdapter.$put(o,"size",5000);
 			console.log("ID Search, searching with signature 1.");
-			r.search("@id:\"" + f.shortId() + "\"", eachCallback, success, failure);
+			r.searchWithParams("@id:\"" + f.shortId() + "\"", o,eachCallback, success, failure);
 			console.log("Owner Search, searching for signature 1 using signature 1 signatureSheet.");
-			r.search("@owner:\"" + ppk.toPk().toPem() + "\"", eachCallback, success, failure);
+			r.searchWithParams("@owner:\"" + ppk.toPk().toPem() + "\"", o,eachCallback, success, failure);
 			console.log("Owner Search minus whitespace, searching for signature 1 using signature 1 signatureSheet.");
-			r.search("@owner:\"" + ppk.toPk().toPem().replaceAll("\r?\n", "") + "\"", eachCallback, success, failure);
+			r.searchWithParams("@owner:\"" + ppk.toPk().toPem().replaceAll("\r?\n", "") + "\"", o,eachCallback, success, failure);
 			console.log("Reader Search, searching for signature 2 using signature 1 signatureSheet.");
-			r.search("@reader:\"" + ppk2.toPk().toPem() + "\" OR \\*@reader:\"" + ppk2.toPk().toPem() + "\"", eachCallback, success, failure);
+			r.searchWithParams("@reader:\"" + ppk2.toPk().toPem() + "\" OR \\*@reader:\"" + ppk2.toPk().toPem() + "\"", o,eachCallback, success, failure);
 			console.log("Reader Search minus whitespace, searching for signature 2 using signature 1 signatureSheet.");
-			r.search("@reader:\"" + ppk2.toPk().toPem().replaceAll("\r?\n", "") + "\" OR \\*@reader:\"" + ppk2.toPk().toPem().replaceAll("\r?\n", "") + "\"",
-					eachCallback, success, failure);
+			r.searchWithParams("@reader:\"" + ppk2.toPk().toPem().replaceAll("\r?\n", "") + "\" OR \\*@reader:\"" + ppk2.toPk().toPem().replaceAll("\r?\n", "") + "\"",
+					o,eachCallback, success, failure);
 			console.log("_all Search, searching for signature 1 using signature 1 signatureSheet.");
-			r.search("\"" + ppk.toPk().toPem() + "\"", eachCallback, success, failure);
+			r.searchWithParams("\"" + ppk.toPk().toPem() + "\"", o,eachCallback, success, failure);
 			console.log("_all Search minus whitespace, searching for signature 1 using signature 1 signatureSheet.");
-			r.search("\"" + ppk.toPk().toPem().replaceAll("\r?\n", "") + "\"", eachCallback, success, failure);
+			r.searchWithParams("\"" + ppk.toPk().toPem().replaceAll("\r?\n", "") + "\"", o,eachCallback, success, failure);
 
 			EcIdentityManager.ids = new Array<EcIdentity>();
 			EcIdentityManager.addIdentity(newId2);
 			console.log("ID Search, searching with signature 2.");
-			r.search("@id:\"" + f.shortId() + "\"", eachCallback, success, failure);
+			r.searchWithParams("@id:\"" + f.shortId() + "\"", o,eachCallback, success, failure);
 			console.log("_all Search, searching for signature 1 using signature 2 signatureSheet.");
-			r.search("\"" + ppk.toPk().toPem() + "\"", eachCallback, success, failure);
+			r.searchWithParams("\"" + ppk.toPk().toPem() + "\"", o,eachCallback, success, failure);
 
 			//
 			// This test should not work because sig2 is a @reader on the file
@@ -346,13 +348,13 @@ public class EcEncryptedValueTest {
 			// failure);
 			EcIdentityManager.ids = new Array<EcIdentity>();
 			console.log("ID Search.");
-			r.search("@id:\"" + f.shortId() + "\"", eachCallback, success, failure);
+			r.searchWithParams("@id:\"" + f.shortId() + "\"", o,eachCallback, success, failure);
 			console.log("_all Search, searching for signature 1.");
-			r.search("\"" + ppk.toPk().toPem() + "\"", eachCallback, success, failure);
+			r.searchWithParams("\"" + ppk.toPk().toPem() + "\"", o,eachCallback, success, failure);
 			console.log("Owner Search, searching for signature 1");
-			r.search("@owner:\"" + ppk.toPk().toPem() + "\"", eachCallback, success, failure);
+			r.searchWithParams("@owner:\"" + ppk.toPk().toPem() + "\"", o,eachCallback, success, failure);
 			console.log("(SHOULD NOT FIND) Reader Search, searching for signature 2.");
-			r.search("@reader:\"" + ppk2.toPk().toPem() + "\" OR \\*@reader:\"" + ppk2.toPk().toPem() + "\"", eachCallback, successInvert, new Callback1<String>() {
+			r.searchWithParams("@reader:\"" + ppk2.toPk().toPem() + "\" OR \\*@reader:\"" + ppk2.toPk().toPem() + "\"", o,eachCallback, successInvert, new Callback1<String>() {
 				@Override
 				public void $invoke(String p1) {
 					console.log("\""+p1+"\"");
@@ -363,9 +365,9 @@ public class EcEncryptedValueTest {
 				}
 			});
 			console.log("_all Search, searching for signature 1.");
-			r.search("\"" + ppk.toPk().toPem() + "\"", eachCallback, success, failure);
+			r.searchWithParams("\"" + ppk.toPk().toPem() + "\"", o,eachCallback, success, failure);
 			console.log("(SHOULD NOT FIND) _all Search, searching for signature 2.");
-			r.search("\"" + ppk2.toPk().toPem() + "\"", eachCallback, successInvert, failure);
+			r.searchWithParams("\"" + ppk2.toPk().toPem() + "\"", o,eachCallback, successInvert, failure);
 		} finally {
 			EcIdentityManager.ids = new Array<EcIdentity>();
 			EcIdentityManager.addIdentity(newId1);
