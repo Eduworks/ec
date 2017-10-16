@@ -174,8 +174,8 @@ public class EcFile extends GeneralFile {
 	 * @memberOf EcFile
 	 * @method _delete
 	 */
-	public void _delete(final Callback1<String> success, final Callback1<String> failure) {
-		EcRepository.DELETE(this, success, failure);
+	public void _delete(EcRepository repo, final Callback1<String> success, final Callback1<String> failure) {
+		repo.DELETE(this, success, failure);
 	}
 
 }

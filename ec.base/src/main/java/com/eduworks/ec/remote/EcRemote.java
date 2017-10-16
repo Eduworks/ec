@@ -160,13 +160,7 @@ public class EcRemote {
 	 * @static
 	 */
 	public static void getExpectingObject(String server, String service, final Callback1<Object> success, final Callback1<String> failure) {
-		String url = server;
-		if (!url.endsWith("/") && service != null && service.equals("")) {
-			url += "/";
-		}
-		if (service != null) {
-			url += service;
-		}
+		String url = urlAppend(server, service);
 
 		AjaxParams p = new AjaxParams();
 		p.method = "GET";
@@ -203,13 +197,7 @@ public class EcRemote {
 	 * @static
 	 */
 	public static void getExpectingString(String server, String service, final Callback1<String> success, final Callback1<String> failure) {
-		String url = server;
-		if (!url.endsWith("/") && service != null && service.equals("")) {
-			url += "/";
-		}
-		if (service != null) {
-			url += service;
-		}
+		String url = urlAppend(server, service);
 
 		AjaxParams p = new AjaxParams();
 		p.method = "GET";
@@ -227,6 +215,17 @@ public class EcRemote {
 		} else {
 			$.ajax(p);
 		}
+	}
+
+	public static String urlAppend(String server, String service) {
+		String url = server;
+		if (!url.endsWith("/") && service != null && service.equals("")) {
+			url += "/";
+		}
+		if (service != null) {
+			url += service;
+		}
+		return url;
 	}
 
 	/**

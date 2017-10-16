@@ -105,7 +105,7 @@ public class EcVersioningTest {
 				Assert.fail("Couldn't retrieve the old version.");
 			}
 		});
-		EcRepository._delete(t, new Callback1<String>() {
+		r._delete(t, new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
 

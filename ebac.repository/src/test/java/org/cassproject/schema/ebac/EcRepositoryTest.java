@@ -82,6 +82,8 @@ public class EcRepositoryTest {
 	@Test
 	public void createPublicObjectTest() {
 		EcRemote.async = false;
+		EcRepository r = new EcRepository();
+		r.selectedServer = server;
 
 		final EcRemoteLinkedData thing = new EcRemoteLinkedData(org.cassproject.schema.general.General.context,
 				org.cassproject.schema.general.General.context + "/test");
@@ -176,7 +178,7 @@ public class EcRepositoryTest {
 		});
 
 		console.log("Trying to Delete...");
-		EcRepository._delete(thing, new Callback1<String>() {
+		r._delete(thing, new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
 				console.log("Good, Can Delete Public Object.");
@@ -272,7 +274,7 @@ public class EcRepositoryTest {
 		});
 
 		console.log("Trying to delete as public...");
-		EcRepository._delete(thing, new Callback1<String>() {
+		r._delete(thing, new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
 				Assert.fail("Deleted the Owned Object as public");
@@ -329,7 +331,7 @@ public class EcRepositoryTest {
 		});
 
 		console.log("Deleting...");
-		EcRepository._delete(thing, new Callback1<String>() {
+		r._delete(thing, new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
 				console.log("Deleted the Owned Object.");
@@ -478,7 +480,7 @@ public class EcRepositoryTest {
 		});
 
 		console.log("Deleting...");
-		EcRepository._delete(thing, new Callback1<String>() {
+		r._delete(thing, new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
 				console.log("Deleted the Owned Object.");

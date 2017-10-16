@@ -13,6 +13,8 @@ import org.stjs.javascript.dom.Element;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
 
+import static com.eduworks.ec.remote.EcRemote.urlAppend;
+
 /**
  * Repository object used to interact with the CASS Repository web services.
  * Should be used for all CRUD and search operations
@@ -30,6 +32,7 @@ public class EcRepository {
 	public static Object cache = new Object();
 	public static Object fetching = new Object();
 	public static Array<EcRepository> repos = new Array<>();
+	public Array<String> adminKeys = null;
 	public String selectedServer = null;
 	public boolean autoDetectFound = false;
 
@@ -144,7 +147,7 @@ public class EcRepository {
 						}
 					});
 				}
-			},failure);
+			}, failure);
 	}
 
 	private static boolean shouldTryUrl(String url) {
@@ -439,7 +442,7 @@ public class EcRepository {
 					fd.append("signatureSheet", arg0);
 					EcRemote.postExpectingString(data.id, "", fd, success, failure);
 				}
-			},failure);
+			}, failure);
 		} else {
 			EcIdentityManager.signatureSheetAsync(60000, data.id, new Callback1<String>() {
 				@Override
@@ -447,7 +450,7 @@ public class EcRepository {
 					fd.append("signatureSheet", arg0);
 					EcRemote.postExpectingString(data.id, "", fd, success, failure);
 				}
-			},failure);
+			}, failure);
 		}
 
 	}
@@ -487,16 +490,85 @@ public class EcRepository {
 	 * @static
 	 */
 	public static void DELETE(final EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure) {
+
 		if (caching) {
 			JSObjectAdapter.$properties(cache).$delete(data.id);
 			JSObjectAdapter.$properties(cache).$delete(data.shortId());
 		}
-		EcIdentityManager.signatureSheetForAsync(data.owner, 60000, data.id, new Callback1<String>() {
-			@Override
-			public void $invoke(String signatureSheet) {
-				EcRemote._delete(data.shortId(), signatureSheet, success, failure);
-			}
-		},failure);
+		final String targetUrl;
+		targetUrl = data.id;
+
+		if (data.owner != null && data.owner.$length() > 0) {
+			EcIdentityManager.signatureSheetForAsync(data.owner, 60000, data.id, new Callback1<String>() {
+				@Override
+				public void $invoke(String signatureSheet) {
+					if (signatureSheet.length() == 2) {
+						for (int i = 0; i < repos.$length(); i++) {
+							if (data.id.indexOf(repos.$get(i).selectedServer) != -1) {
+								repos.$get(i).deleteRegistered(data, success, failure);
+								return;
+							}
+						}
+						failure.$invoke("Cannot delete object without a signature. If deleting from a server, use the non-static _delete");
+					} else
+						EcRemote._delete(targetUrl, signatureSheet, success, failure);
+				}
+			}, failure);
+		} else {
+			EcRemote._delete(targetUrl, "[]", success, failure);
+		}
+
+	}
+
+	/**
+	 * Attempts to delete a piece of data.
+	 * <p>
+	 * Uses a signature sheet informed by the owner field of the data.
+	 *
+	 * @param {EcRemoteLinkedData} data Data to save to the location designated
+	 *                             by its id.
+	 * @param {Callback1<String>}  success Callback triggered on successful
+	 *                             delete
+	 * @param {Callback1<String>}  failure Callback triggered if error during
+	 *                             delete
+	 * @memberOf EcRepository
+	 * @method DELETE
+	 * @static
+	 */
+	public void deleteRegistered(final EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure) {
+		if (caching) {
+			JSObjectAdapter.$properties(cache).$delete(data.id);
+			JSObjectAdapter.$properties(cache).$delete(data.shortId());
+		}
+		final String targetUrl;
+		if (shouldTryUrl(data.id))
+			targetUrl = data.id;
+		else {
+			md5 m = md5.create();
+			m.update(data.id);
+			String hash = m.digest().toHex();
+			targetUrl = urlAppend(selectedServer, "data/" + hash);
+		}
+
+		final EcRepository me = this;
+		if (data.owner != null && data.owner.$length() > 0) {
+			EcIdentityManager.signatureSheetForAsync(data.owner, 60000, data.id, new Callback1<String>() {
+				@Override
+				public void $invoke(String signatureSheet) {
+					if (signatureSheet.length() == 2 && me.adminKeys != null) {
+						EcIdentityManager.signatureSheetForAsync(me.adminKeys, 60000, data.id, new Callback1<String>() {
+							@Override
+							public void $invoke(String signatureSheet) {
+								EcRemote._delete(targetUrl, signatureSheet, success, failure);
+							}
+						}, failure);
+					} else
+						EcRemote._delete(targetUrl, signatureSheet, success, failure);
+				}
+			}, failure);
+		} else {
+			EcRemote._delete(targetUrl, "[]", success, failure);
+		}
 	}
 
 	/**
@@ -606,7 +678,7 @@ public class EcRepository {
 						}
 					}, null);
 				}
-			},null);
+			}, null);
 	}
 
 	/**
@@ -697,7 +769,7 @@ public class EcRepository {
 						}
 					}, failure);
 				}
-			},failure);
+			}, failure);
 
 	}
 
@@ -859,7 +931,7 @@ public class EcRepository {
 						}
 					});
 				}
-			},failure);
+			}, failure);
 	}
 
 	/**
@@ -1006,8 +1078,8 @@ public class EcRepository {
 	 * @memberOf EcRepository
 	 * @method autoDetectRepository
 	 */
-	public void autoDetectRepositoryAsync(Callback0 success, final Callback1 failure) {
-		Array<String> protocols = new Array<String>();
+	public void autoDetectRepositoryAsync(final Callback0 success, final Callback1 failure) {
+		final Array<String> protocols = new Array<String>();
 		if (Global.window != null) {
 			if (Global.window.location != null) {
 				if (Global.window.location.protocol == "https:") {
@@ -1027,8 +1099,8 @@ public class EcRepository {
 			protocols.push("https:");
 			protocols.push("http:");
 		}
-		Array<String> hostnames = new Array<String>();
-		Array<String> servicePrefixes = new Array<String>();
+		final Array<String> hostnames = new Array<String>();
+		final Array<String> servicePrefixes = new Array<String>();
 
 		if (selectedServer != null) {
 			Element e = Global.window.document.createElement("a");
@@ -1048,8 +1120,8 @@ public class EcRepository {
 			}
 		}
 
-		servicePrefixes.push("/" + Global.window.location.pathname.split("/")[1] + "/api/", "/" + Global.window.location.pathname.split("/")[1] + "/api/custom/", "/", "/service/",
-				"/api/", "/api/custom/");
+		servicePrefixes.push("/" + Global.window.location.pathname.split("/")[1] + "/api/", "/", "/service/",
+				"/api/");
 		final EcRepository me = this;
 		me.autoDetectFound = false;
 		for (int j = 0; j < hostnames.$length(); j++) {
@@ -1059,10 +1131,28 @@ public class EcRepository {
 					Global.setTimeout(new Callback0() {
 						@Override
 						public void $invoke() {
-							if (me.autoDetectFound == false)
-								failure.$invoke("Could not find service.");
+							if (me.autoDetectFound == false) {
+								//Search using old service endpoints.
+								Array<String> servicePrefixes = new Array<String>();
+								servicePrefixes.push("/" + Global.window.location.pathname.split("/")[1] + "/api/custom/", "/api/custom/");
+								for (int j = 0; j < hostnames.$length(); j++) {
+									for (int k = 0; k < servicePrefixes.$length(); k++) {
+										for (int i = 0; i < protocols.$length(); i++) {
+											me.autoDetectRepositoryActualAsync(protocols.$get(i) + "//" + hostnames.$get(j) + servicePrefixes.$get(k).replaceAll("//", "/"), success, failure);
+											Global.setTimeout(new Callback0() {
+												@Override
+												public void $invoke() {
+													if (me.autoDetectFound == false)
+														failure.$invoke("Could not find service.");
+												}
+											}, 5000);
+										}
+									}
+								}
+							}
 						}
 					}, 5000);
+
 				}
 			}
 		}
@@ -1263,7 +1353,7 @@ public class EcRepository {
 	 * @method backup
 	 */
 	public void backup(String serverSecret, Callback1<Object> success, Callback1<String> failure) {
-		EcRemote.getExpectingObject(selectedServer, "skyrepo/util/backup?secret=" + serverSecret, success, failure);
+		EcRemote.getExpectingObject(selectedServer, "util/backup?secret=" + serverSecret, success, failure);
 	}
 
 	/**
@@ -1276,7 +1366,7 @@ public class EcRepository {
 	 * @method restoreBackup
 	 */
 	public void restoreBackup(String serverSecret, Callback1<Object> success, Callback1<String> failure) {
-		EcRemote.getExpectingObject(selectedServer, "skyrepo/util/restore?secret=" + serverSecret, success, failure);
+		EcRemote.getExpectingObject(selectedServer, "util/restore?secret=" + serverSecret, success, failure);
 	}
 
 	/**
@@ -1289,7 +1379,7 @@ public class EcRepository {
 	 * @method wipe
 	 */
 	public void wipe(String serverSecret, Callback1<Object> success, Callback1<String> failure) {
-		EcRemote.getExpectingObject(selectedServer, "skyrepo/util/purge?secret=" + serverSecret, success, failure);
+		EcRemote.getExpectingObject(selectedServer, "util/purge?secret=" + serverSecret, success, failure);
 	}
 
 	/**
@@ -1345,11 +1435,16 @@ public class EcRepository {
 		} else {
 			service = "/sky/admin";
 		}
-
+		final EcRepository me = this;
 		EcRemote.getExpectingObject(selectedServer, service, new Callback1<Object>() {
 			@Override
 			public void $invoke(Object p1) {
-				success.$invoke((Array<String>) p1);
+				Array<String> ary = (Array<String>) p1;
+				me.adminKeys = new Array();
+				for (int i = 0; i < ary.$length(); i++) {
+					me.adminKeys.push(ary.$get(i));
+				}
+				success.$invoke(ary);
 			}
 		}, new Callback1<String>() {
 			@Override

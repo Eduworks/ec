@@ -12,7 +12,6 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
-import org.stjs.javascript.functions.Function0;
 
 /**
  * Logs into and stores/retrieves credentials from a compatible remote server.
@@ -337,14 +336,13 @@ public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 	 *
 	 * @param {Callback1<String>}   success
 	 * @param {Callback1<String>}   failure
-	 * @param padGenerationCallback
 	 * @memberOf EcRemoteIdentityManager
 	 * @method commit
 	 */
 	@Override
-	public void commit(final Callback1<String> success, final Callback1<String> failure, Function0<String> padGenerationCallback) {
+	public void commit(final Callback1<String> success, final Callback1<String> failure) {
 		String service = "sky/id/commit";
-		sendCredentials(success, failure, padGenerationCallback, service);
+		sendCredentials(success, failure, service);
 	}
 
 	/**
@@ -361,14 +359,13 @@ public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 	 *                              Callback triggered after successfully creating an account
 	 * @param {Callback1<String>}   failure
 	 *                              Callback triggered if error creating an account
-	 * @param padGenerationCallback Callback triggered if pad not specified
 	 * @memberOf EcRemoteIdentityManager
 	 * @method create
 	 */
 	@Override
-	public void create(final Callback1<String> success, final Callback1<String> failure, Function0<String> padGenerationCallback) {
+	public void create(final Callback1<String> success, final Callback1<String> failure) {
 		String service = "sky/id/create";
-		sendCredentials(success, failure, padGenerationCallback, service);
+		sendCredentials(success, failure, service);
 	}
 
 	/**
@@ -378,12 +375,11 @@ public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 	 *                              Callback triggered if credentials sent successfully
 	 * @param {Callback1<String>}   failure
 	 *                              Callback triggered if error sending credentials
-	 * @param padGenerationCallback Callback triggered if pad needed
 	 * @param service               Service to send credentials to on server
 	 * @memberOf EcRemoteIdentityManager
 	 * @method sendCredentials
 	 */
-	private void sendCredentials(final Callback1<String> success, final Callback1<String> failure, Function0<String> padGenerationCallback,
+	private void sendCredentials(final Callback1<String> success, final Callback1<String> failure,
 	                             final String service) {
 		if (!configured)
 			Global.alert("Remote Identity not configured.");
@@ -394,8 +390,6 @@ public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 
 		Array<EbacCredential> credentials = new Array<EbacCredential>();
 		Array<EbacContact> contacts = new Array<EbacContact>();
-		if (pad == null && padGenerationCallback != null)
-			pad = padGenerationCallback.$invoke();
 
 		for (int i = 0; i < EcIdentityManager.ids.$length(); i++) {
 			EcIdentity id = EcIdentityManager.ids.$get(i);

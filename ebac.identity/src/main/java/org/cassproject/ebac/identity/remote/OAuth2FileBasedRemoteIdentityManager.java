@@ -371,7 +371,7 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 	 * @method commit
 	 */
 	@Override
-	public void commit(final Callback1<String> success, final Callback1<String> failure, Function0<String> padGenerationCallback) {
+	public void commit(final Callback1<String> success, final Callback1<String> failure) {
 		final OAuth2FileBasedRemoteIdentityManager me = this;
 		Object apio = new Object();
 		JSObjectAdapter.$put(apio, "network", network);
@@ -398,7 +398,7 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 	}
 
 	@Override
-	public void create(final Callback1<String> success, final Callback1<String> failure, Function0<String> padGenerationCallback) {
+	public void create(final Callback1<String> success, final Callback1<String> failure) {
 		Object o = new Object();
 		JSObjectAdapter.$put(o, "scope", JSObjectAdapter.$get(configuration, server + "Scope"));
 		final OAuth2FileBasedRemoteIdentityManager me = this;
