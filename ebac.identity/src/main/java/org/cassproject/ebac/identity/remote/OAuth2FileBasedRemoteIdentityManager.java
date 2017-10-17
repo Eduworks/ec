@@ -15,7 +15,6 @@ import org.stjs.javascript.dom.File;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback2;
-import org.stjs.javascript.functions.Function0;
 
 /**
  * Created by fray on 5/9/17.
@@ -366,7 +365,6 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 	 *
 	 * @param {Callback1<String>}   success
 	 * @param {Callback1<String>}   failure
-	 * @param padGenerationCallback
 	 * @memberOf OAuth2FileBasedRemoteIdentityManager
 	 * @method commit
 	 */
