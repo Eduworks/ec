@@ -496,7 +496,7 @@ public class EcRepository {
 			JSObjectAdapter.$properties(cache).$delete(data.shortId());
 		}
 		final String targetUrl;
-		targetUrl = data.id;
+		targetUrl = data.shortId();
 
 		if (data.owner != null && data.owner.$length() > 0) {
 			EcIdentityManager.signatureSheetForAsync(data.owner, 60000, data.id, new Callback1<String>() {
@@ -542,7 +542,7 @@ public class EcRepository {
 		}
 		final String targetUrl;
 		if (shouldTryUrl(data.id))
-			targetUrl = data.id;
+			targetUrl = data.shortId();
 		else {
 			md5 m = md5.create();
 			m.update(data.id);
@@ -1239,9 +1239,11 @@ public class EcRepository {
 			public void $invoke(Object p1) {
 				if (p1 != null) {
 					if (JSObjectAdapter.$get(p1, "ping") == "pong") {
-						me.selectedServer = guess;
-						me.autoDetectFound = true;
-						success.$invoke();
+						if (me.autoDetectFound == false) {
+							me.selectedServer = guess;
+							me.autoDetectFound = true;
+							success.$invoke();
+						}
 					}
 				}
 			}
@@ -1252,9 +1254,11 @@ public class EcRepository {
 				if (p1 != null) {
 					if (!(p1 == "")) {
 						if (p1.indexOf("pong") != -1) {
-							me.selectedServer = guess;
-							me.autoDetectFound = true;
-							success.$invoke();
+							if (me.autoDetectFound == false) {
+								me.selectedServer = guess;
+								me.autoDetectFound = true;
+								success.$invoke();
+							}
 						}
 					}
 				}
