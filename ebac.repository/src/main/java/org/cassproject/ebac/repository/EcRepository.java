@@ -1,10 +1,10 @@
 package org.cassproject.ebac.repository;
 
+import com.eduworks.ec.crypto.EcCrypto;
 import com.eduworks.ec.log.Logger;
 import com.eduworks.ec.remote.EcRemote;
 import com.eduworks.ec.remote.FormData;
 import com.eduworks.ec.task.Task;
-import forge.md5;
 import org.cassproject.ebac.identity.EcIdentity;
 import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.schema.general.EcRemoteLinkedData;
@@ -544,10 +544,7 @@ public class EcRepository {
 		if (shouldTryUrl(data.id))
 			targetUrl = data.shortId();
 		else {
-			md5 m = md5.create();
-			m.update(data.id);
-			String hash = m.digest().toHex();
-			targetUrl = urlAppend(selectedServer, "data/" + hash);
+			targetUrl = urlAppend(selectedServer, "data/" + EcCrypto.md5(data.id));
 		}
 
 		final EcRepository me = this;
@@ -597,9 +594,7 @@ public class EcRepository {
 			} else if (url.startsWith(selectedServer)) {
 				cacheUrls.push(url.replace(selectedServer, "").replace("custom/", ""));
 			} else if (!shouldTryUrl(url)) {
-				md5 m = md5.create();
-				m.update(url);
-				cacheUrls.push("data/" + m.digest().toHex());
+				cacheUrls.push("data/" + EcCrypto.md5(url));
 			}
 		}
 		if (cacheUrls.$length() == 0) {
@@ -622,9 +617,7 @@ public class EcRepository {
 						results.$set(i, d);
 						if (caching) {
 							if (!shouldTryUrl(d.id)) {
-								md5 m = md5.create();
-								m.update(d.id);
-								String md5 = m.digest().toHex();
+								String md5 = EcCrypto.md5(d.id);
 								for (int j = 0; j < urls.$length(); j++) {
 									String url = urls.$get(j);
 									if (url.indexOf(md5) != -1) {
@@ -657,9 +650,7 @@ public class EcRepository {
 								results.$set(i, d);
 								if (caching) {
 									if (!shouldTryUrl(d.id)) {
-										md5 m = md5.create();
-										m.update(d.id);
-										String md5 = m.digest().toHex();
+										String md5 = EcCrypto.md5(d.id);
 										for (int j = 0; j < urls.$length(); j++) {
 											String url = urls.$get(j);
 											if (url.indexOf(md5) != -1) {
@@ -817,8 +808,6 @@ public class EcRepository {
 	 *                                          Google query strings.
 	 * @param {Object}                          paramObj Additional parameters that can be used to tailor
 	 *                                          the search.
-	 * @param size
-	 * @param start
 	 * @param {Callback1<EcRemoteLinkedData>}   eachSuccess Success event for each
 	 *                                          found object.
 	 * @param {Callback1<EcRemoteLinkedData[]>} success Success event, called
@@ -943,8 +932,6 @@ public class EcRepository {
 	 *                 Google query strings.
 	 * @param {Object} paramObj Additional parameters that can be used to tailor
 	 *                 the search.
-	 * @param size
-	 * @param start
 	 * @returns EcRemoteLinkedData[]
 	 * @memberOf EcRepository
 	 * @method searchWithParams
