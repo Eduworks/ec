@@ -1,5 +1,6 @@
 package org.cassproject.ebac.repository;
 
+import com.eduworks.ec.array.EcArray;
 import com.eduworks.ec.crypto.EcCrypto;
 import com.eduworks.ec.log.Logger;
 import com.eduworks.ec.remote.EcRemote;
@@ -1106,9 +1107,11 @@ public class EcRepository {
 						Global.window.location.hostname + ":8080", Global.window.location.hostname.replace(".", ".service.") + ":8080");
 			}
 		}
+		EcArray.removeDuplicates(hostnames);
 
 		servicePrefixes.push("/" + Global.window.location.pathname.split("/")[1] + "/api/", "/", "/service/",
 				"/api/");
+		EcArray.removeDuplicates(servicePrefixes);
 		final EcRepository me = this;
 		me.autoDetectFound = false;
 		for (int j = 0; j < hostnames.$length(); j++) {
@@ -1122,6 +1125,7 @@ public class EcRepository {
 								//Search using old service endpoints.
 								Array<String> servicePrefixes = new Array<String>();
 								servicePrefixes.push("/" + Global.window.location.pathname.split("/")[1] + "/api/custom/", "/api/custom/");
+								EcArray.removeDuplicates(servicePrefixes);
 								for (int j = 0; j < hostnames.$length(); j++) {
 									for (int k = 0; k < servicePrefixes.$length(); k++) {
 										for (int i = 0; i < protocols.$length(); i++) {
