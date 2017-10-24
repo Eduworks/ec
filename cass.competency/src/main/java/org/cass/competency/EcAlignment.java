@@ -319,8 +319,6 @@ public class EcAlignment extends Relation {
 	 *                                        Callback triggered if error searching
 	 * @param {Object}                        [paramObj]
 	 *                                        Parameters to include in the search
-	 * @param start
-	 * @param size
 	 * @memberOf EcAlignment
 	 * @method searchByCompetency
 	 * @static
