@@ -181,7 +181,7 @@ public class EcFramework extends Framework {
 		if (competency == null)
 			competency = new Array<String>();
 		for (int i = 0; i < competency.$length(); i++)
-			if (competency.$get(i).equals(id))
+			if (trimVersionFromUrl(competency.$get(i)).equals(id))
 				return;
 		competency.push(id);
 	}
@@ -337,7 +337,7 @@ public class EcFramework extends Framework {
 		if (relation == null)
 			relation = new Array<String>();
 		for (int i = 0; i < relation.$length(); i++)
-			if (relation.$get(i).equals(id))
+			if (trimVersionFromUrl(relation.$get(i)).equals(id))
 				return;
 		relation.push(id);
 	}
@@ -355,7 +355,7 @@ public class EcFramework extends Framework {
 		if (relation == null)
 			relation = new Array<String>();
 		for (int i = 0; i < relation.$length(); i++)
-			if (relation.$get(i).equals(id))
+			if (trimVersionFromUrl(relation.$get(i)).equals(id))
 				relation.splice(i, 1);
 	}
 
@@ -372,7 +372,7 @@ public class EcFramework extends Framework {
 		if (level == null)
 			level = new Array<String>();
 		for (int i = 0; i < level.$length(); i++)
-			if (level.$get(i).equals(id))
+			if (trimVersionFromUrl(level.$get(i)).equals(id))
 				return;
 		level.push(id);
 	}
@@ -390,7 +390,7 @@ public class EcFramework extends Framework {
 		if (level == null)
 			level = new Array<String>();
 		for (int i = 0; i < level.$length(); i++)
-			if (level.$get(i).equals(id))
+			if (trimVersionFromUrl(level.$get(i)).equals(id))
 				level.splice(i, 1);
 	}
 
@@ -407,7 +407,7 @@ public class EcFramework extends Framework {
 		if (rollupRule == null)
 			rollupRule = new Array<String>();
 		for (int i = 0; i < rollupRule.$length(); i++)
-			if (rollupRule.$get(i).equals(id))
+			if (trimVersionFromUrl(rollupRule.$get(i)).equals(id))
 				return;
 		rollupRule.push(id);
 	}
@@ -425,7 +425,7 @@ public class EcFramework extends Framework {
 		if (rollupRule == null)
 			rollupRule = new Array<String>();
 		for (int i = 0; i < rollupRule.$length(); i++)
-			if (rollupRule.$get(i).equals(id))
+			if (trimVersionFromUrl(rollupRule.$get(i)).equals(id))
 				rollupRule.splice(i, 1);
 	}
 
