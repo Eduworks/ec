@@ -679,4 +679,13 @@ public class EcIdentityManager {
 		}
 		return searchString;
 	}
+
+	public static Array<EcPk> getMyPks(){
+		Array<EcPk> pks = new Array<EcPk>();
+		if (ids == null)
+			return pks;
+		for (int i = 0;i < ids.$length();i++)
+			pks.push(ids.$get(i).ppk.toPk());
+		return pks;
+	}
 }
