@@ -211,6 +211,26 @@ public class EcRemoteLinkedData extends EcLinkedData {
     }
 
     /**
+     * Determines if the PK matches an owner or if the object is public.
+     * Homogenizes the PEM strings for comparison.
+     * Homogenization is necessary for comparing PKCS#1 and PKCS#8 or PKs with Certificates, etc.
+     *
+     * @param {EcPk} pk Public Key of the owner.
+     * @return {boolean} True if owner is represented by the PK, false otherwise.
+     * @method canEdit
+     */
+    public boolean canEditAny(Array<EcPk> ids) {
+        if (owner == null || owner.$length() == 0)
+            return true;
+        if (ids == null)
+            return false;
+        for (int i = 0;i < ids.$length();i++)
+            if (hasOwner(ids.$get(i)))
+                return true;
+        return false;
+    }
+
+    /**
      * Encodes the object in a form where it is ready to be signed.
      * This method is under long term review, and may change from version to version.
      *
