@@ -68,6 +68,42 @@ public class EcLevel extends Level {
 	}
 
 	/**
+	 * Retrieves a level from it's server synchronously, the call
+	 * blocks until it is successful or an error occurs
+	 *
+	 * @param {String} id
+	 *                 ID of the level to retrieve
+	 * @return EcLevel
+	 * The level retrieved
+	 * @memberOf EcLevel
+	 * @method getBlocking
+	 * @static
+	 */
+	public static EcLevel getBlocking(String id) {
+		EcRemoteLinkedData p1 = EcRepository.getBlocking(id);
+		if (p1 == null)
+			return null;
+		EcLevel level = new EcLevel();
+
+		if (p1.isA(EcEncryptedValue.myType)) {
+			EcEncryptedValue encrypted = new EcEncryptedValue();
+			encrypted.copyFrom(p1);
+			p1 = encrypted.decryptIntoObject();
+
+			EcEncryptedValue.encryptOnSave(p1.id, true);
+		}
+		if (p1.isAny(level.getTypes())) {
+			level.copyFrom(p1);
+
+			return level;
+		} else {
+			String msg = "Retrieved object was not a level";
+			Global.console.error(msg);
+			return null;
+		}
+	}
+
+	/**
 	 * Searches for levels with a string query
 	 *
 	 * @param {EcRepository}              repo
