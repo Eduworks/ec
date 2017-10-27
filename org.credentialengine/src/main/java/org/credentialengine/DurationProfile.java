@@ -1,40 +1,59 @@
 package org.credentialengine;
 
+import org.stjs.javascript.Date;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 
 /**
  * credentialengine.org/DurationProfile
- * A resource describing the temporal aspects of a resource.
- *
+ * Entity describing the temporal aspects of a resource.
+ * Temporal aspects include exact, minimum, and maximum timeframes of an activity.
  * @author credentialengine.org
  * @class DurationProfile
  * @module org.credentialengine
  */
-public class DurationProfile extends EcRemoteLinkedData {
+public class DurationProfile extends EcRemoteLinkedData
+{
+	/**
+	 * Constructor, automatically sets @context and @type.
+	 * @constructor
+	 */
+	public DurationProfile()
+	{
+		super("http://schema.eduworks.com/simpleCtdl","DurationProfile");
+	}
+
 	/**
 	 * http://purl.org/ctdl/terms/description
-	 * A short description of the resource being described.
-	 *
+	 * Statememnt, characterization or account of the entity.
 	 * @property description
-	 * @type Literal
+	 * @type langString
 	 */
-	public String description;
+	public langString description;
+
+	/**
+	 * http://purl.org/ctdl/terms/exactDuration
+	 * Exact period of time of an activity or event.
+	 * @property exactDuration
+	 * @type duration
+	 */
+	public String exactDuration;
+
 	/**
 	 * http://purl.org/ctdl/terms/maximumDuration
-	 * The maximum amount of time it will take to complete the described resource.
-	 *
+	 * Maximum amount of time it will take to complete the activity.
+	 * The value of ceterms:maximumDuration denotes an approximation of duration.
 	 * @property maximumDuration
 	 * @type duration
 	 */
 	public String maximumDuration;
 
 	/**
-	 * Constructor, automatically sets @context and @type.
-	 *
-	 * @constructor
+	 * http://purl.org/ctdl/terms/minimumDuration
+	 * Minimum amount of time it will take to complete the activity.
+	 * The value of ceterms:minimumDuration denotes an approximation of duration.
+	 * @property minimumDuration
+	 * @type duration
 	 */
-	public DurationProfile() {
-		super("http://schema.eduworks.com/simpleCtdl", "DurationProfile");
-	}
+	public String minimumDuration;
 
 }

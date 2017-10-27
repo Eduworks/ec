@@ -1,72 +1,83 @@
 package org.credentialengine;
 
+import org.stjs.javascript.Date;
+import org.cassproject.schema.general.EcRemoteLinkedData;
+
 /**
  * credentialengine.org/HoldersProfile
- * The count and related statistical information of holders of a given credential.
- *
+ * Entity describing the count and related statistical information of holders of a given credential.
  * @author credentialengine.org
  * @class HoldersProfile
  * @module org.credentialengine
  * @extends CreativeWork
  */
-public class HoldersProfile extends org.schema.CreativeWork {
+public class HoldersProfile extends org.schema.CreativeWork
+{
 	/**
-	 * http://purl.org/ctdl/terms/credentialProfiled
-	 * The resource being described is a profile of the credential being referenced.
-	 *
-	 * @property credentialProfiled
-	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
+	 * Constructor, automatically sets @context and @type.
+	 * @constructor
 	 */
-	public Object credentialProfiled;
+	public HoldersProfile()
+	{
+		context="http://schema.eduworks.com/simpleCtdl";
+		type="HoldersProfile";
+	}
+
 	/**
 	 * http://purl.org/ctdl/terms/dateEffective
-	 * The effective date of the described resource content.
-	 *
+	 * Effective date of the content of a credential, assessment or learning opportunity.
 	 * @property dateEffective
 	 * @type date
 	 */
 	public String dateEffective;
+
+	/**
+	 * http://purl.org/ctdl/terms/demographicInformation
+	 * Aggregate data or summaries of statistical data relating to the population of credential holders including data about gender, geopolitical regions, age, education levels, and other categories of interest.
+	 * @property demographicInformation
+	 * @type langString
+	 */
+	public langString demographicInformation;
+
 	/**
 	 * http://purl.org/ctdl/terms/description
-	 * A short description of the resource being described.
-	 *
+	 * Statememnt, characterization or account of the entity.
 	 * @property description
-	 * @type Literal
+	 * @type langString
 	 */
-	public String description;
+	public langString description;
+
 	/**
 	 * http://purl.org/ctdl/terms/jurisdiction
-	 * The geo-political region in which the described resource is applicable.
-	 *
+	 * Geographic or political region in which the credential is formally applicable or an organization has authority to act.
 	 * @property jurisdiction
 	 * @type JurisdictionProfile
 	 */
 	public JurisdictionProfile jurisdiction;
+
+	/**
+	 * http://purl.org/ctdl/terms/numberAwarded
+	 * Number of credentials awarded.
+	 * @property numberAwarded
+	 * @type integer
+	 */
+	public integer numberAwarded;
+
 	/**
 	 * http://purl.org/ctdl/terms/region
-	 * A geo-political area of the described resource.
-	 *
+	 * Entity that describes the longitude, latitude and other location details of an area.
 	 * @property region
-	 * @type GeoCoordinates
+	 * @type Place
 	 */
-	public GeoCoordinates region;
+	public Place region;
+
 	/**
 	 * http://purl.org/ctdl/terms/source
-	 * The source of this resource's information.
-	 *
+	 * Authoritative source of an entity's information.
+	 * Citation or description of an authoritative souce from which information or description has been derived.
 	 * @property source
 	 * @type anyURI
 	 */
 	public String source;
-
-	/**
-	 * Constructor, automatically sets @context and @type.
-	 *
-	 * @constructor
-	 */
-	public HoldersProfile() {
-		context = "http://schema.eduworks.com/simpleCtdl";
-		type = "HoldersProfile";
-	}
 
 }

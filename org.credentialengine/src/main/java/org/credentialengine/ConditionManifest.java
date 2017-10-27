@@ -1,128 +1,109 @@
 package org.credentialengine;
 
+import org.stjs.javascript.Date;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 
 /**
  * credentialengine.org/ConditionManifest
- * A set of conditions maintained at the organizational and/or sub-organizational level.
- *
+ * Set of constraints, prerequisites, entry conditions, or requirements maintained at the organizational and/or sub-organizational level.
+ * These conditions are intended to be referenced by external entities such as individual credentials in order to facilitate the process of their description and to reduce unnecessary duplication of data applicable across an array of entities.
  * @author credentialengine.org
  * @class ConditionManifest
  * @module org.credentialengine
  */
-public class ConditionManifest extends EcRemoteLinkedData {
+public class ConditionManifest extends EcRemoteLinkedData
+{
 	/**
-	 * http://purl.org/ctdl/terms/advancedStandingFrom
-	 * The resource being described has time or cost reduced by the resource being referenced.
-	 *
-	 * @property advancedStandingFrom
-	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | ConditionProfile | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
+	 * Constructor, automatically sets @context and @type.
+	 * @constructor
 	 */
-	public Object advancedStandingFrom;
+	public ConditionManifest()
+	{
+		super("http://schema.eduworks.com/simpleCtdl","ConditionManifest");
+	}
+
 	/**
-	 * http://purl.org/ctdl/terms/commonConditions
-	 * The resource being referenced describes a set of common conditions applicable to the resource being described.
-	 *
-	 * @property commonConditions
-	 * @type ConditionManifest
+	 * http://purl.org/ctdl/terms/conditionManifestOf
+	 * Organization maintaining the condition manifest.
+	 * @property conditionManifestOf
+	 * @type CredentialOrganization | QACredentialOrganization
 	 */
-	public ConditionManifest commonConditions;
+	public Object conditionManifestOf;
+
+	/**
+	 * http://purl.org/ctdl/terms/corequisite
+	 * Credentials that must be pursued concurrently.
+	 * Includes dual (double) degrees that cannot be earned independently of each other.
+	 * @property corequisite
+	 * @type ConditionProfile
+	 */
+	public ConditionProfile corequisite;
+
+	/**
+	 * http://purl.org/ctdl/terms/ctid
+	 * Globally unique Credential Transparency Identifier (CTID) by which the creator, owner or provider of a credential, learning opportunity competency, or assessment recognizes the entity in transactions with the external environment (e.g., in verifiable claims involving a credential).
+	 * The CTID is the equivalent of a version identifier for the resource. Different versions of a resource are considered distinct expressions and each must be assigned its own CTID. Each version of a resource can have only one CTID assigned. However, a single version of a resource may have distinct identifier values for both the ctid property and the credentialId property. In such a case both identifiers will be recognized by the resource creator/owner/provider in transactions with the external environment.
+	 * @property ctid
+	 * @type string
+	 */
+	public string ctid;
+
 	/**
 	 * http://purl.org/ctdl/terms/description
-	 * A short description of the resource being described.
-	 *
+	 * Statememnt, characterization or account of the entity.
 	 * @property description
-	 * @type Literal
+	 * @type langString
 	 */
-	public String description;
+	public langString description;
+
 	/**
 	 * http://purl.org/ctdl/terms/entryCondition
-	 * The prerequisites for entry into the resource being described.
-	 *
+	 * Prerequisites for entry into a credentialing program, a learning opportunity or an assessment including transcripts, records of previous experience, and lower-level learning opportunities.
 	 * @property entryCondition
 	 * @type ConditionProfile
 	 */
 	public ConditionProfile entryCondition;
-	/**
-	 * http://purl.org/ctdl/terms/isAdvancedStandingFor
-	 * The resource being described reduces time or cost for the resource being referenced.
-	 *
-	 * @property isAdvancedStandingFor
-	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | ConditionProfile | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
-	 */
-	public Object isAdvancedStandingFor;
-	/**
-	 * http://purl.org/ctdl/terms/isPreparationFor
-	 * The resource being described provides preparation for the resource being referenced.
-	 *
-	 * @property isPreparationFor
-	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | ConditionProfile | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
-	 */
-	public Object isPreparationFor;
-	/**
-	 * http://purl.org/ctdl/terms/isRecommendedFor
-	 * The resource being described is recommended for the resource being referenced.
-	 *
-	 * @property isRecommendedFor
-	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | ConditionProfile | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
-	 */
-	public Object isRecommendedFor;
-	/**
-	 * http://purl.org/ctdl/terms/isRequiredFor
-	 * The resource being described is required for the resource being referenced.
-	 *
-	 * @property isRequiredFor
-	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | ConditionProfile | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
-	 */
-	public Object isRequiredFor;
+
 	/**
 	 * http://purl.org/ctdl/terms/name
-	 * The name of the resource being described.
-	 *
+	 * Name or title of the entity.
 	 * @property name
-	 * @type Literal
+	 * @type langString
 	 */
-	public String name;
-	/**
-	 * http://purl.org/ctdl/terms/preparationFrom
-	 * Preparation for the resource being described is provided by the resource being referenced.
-	 *
-	 * @property preparationFrom
-	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | ConditionProfile | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
-	 */
-	public Object preparationFrom;
+	public langString name;
+
 	/**
 	 * http://purl.org/ctdl/terms/recommends
-	 * The resource being described recommends the resource being referenced.
-	 *
+	 * Recommended credential, learning opportunity or assessment.
 	 * @property recommends
-	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | ConditionProfile | Credential | CredentialAlignmentObject | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
+	 * @type ApprenticeshipCertificate | AssessmentProfile | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | Competency | ConditionProfile | Credential | CredentialAlignmentObject | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | LearningOpportunityProfile | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
 	 */
 	public Object recommends;
+
+	/**
+	 * http://purl.org/ctdl/terms/renewal
+	 * Entity describing the constraints, prerequisites, entry conditions, or requirements necessary to maintenance and renewal of an awarded credential.
+	 * Generally, renewal applies to certifications and licenses; however, it may occasionally apply to other types of credentials.
+	 * @property renewal
+	 * @type ConditionProfile
+	 */
+	public ConditionProfile renewal;
+
 	/**
 	 * http://purl.org/ctdl/terms/requires
-	 * The resource being described requires the resource being referenced.
-	 *
+	 * Requirement or set of requirements for this credential, learning opportunity, or assessment.
 	 * @property requires
-	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | ConditionProfile | Credential | CredentialAlignmentObject | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
+	 * @type ApprenticeshipCertificate | AssessmentProfile | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | Competency | ConditionProfile | Credential | CredentialAlignmentObject | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | LearningOpportunityProfile | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
 	 */
 	public Object requires;
+
 	/**
 	 * http://purl.org/ctdl/terms/subjectWebpage
-	 * The web page where the subject of the resource being described is located.
-	 *
+	 * The webpage that describes this entity.
+	 * The web page being referenced describes the entity. The value of subjectWebpage is an authoritative location for information about the subject but should not assumed to be a persistent identifier of the subject.
 	 * @property subjectWebpage
 	 * @type anyURI
 	 */
 	public String subjectWebpage;
-
-	/**
-	 * Constructor, automatically sets @context and @type.
-	 *
-	 * @constructor
-	 */
-	public ConditionManifest() {
-		super("http://schema.eduworks.com/simpleCtdl", "ConditionManifest");
-	}
 
 }

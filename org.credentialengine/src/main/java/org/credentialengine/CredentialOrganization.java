@@ -1,448 +1,493 @@
 package org.credentialengine;
 
+import org.stjs.javascript.Date;
+import org.cassproject.schema.general.EcRemoteLinkedData;
+
 /**
  * credentialengine.org/CredentialOrganization
- * An organization that plays one or more key roles in the lifecycle of a credential.
- *
+ * Organization that plays one or more key roles in the lifecycle of a credential.
  * @author credentialengine.org
  * @class CredentialOrganization
  * @module org.credentialengine
  * @extends Agent
  */
-public class CredentialOrganization extends Agent {
+public class CredentialOrganization extends Agent
+{
+	/**
+	 * Constructor, automatically sets @context and @type.
+	 * @constructor
+	 */
+	public CredentialOrganization()
+	{
+		context="http://schema.eduworks.com/simpleCtdl";
+		type="CredentialOrganization";
+	}
+
 	/**
 	 * http://purl.org/ctdl/terms/accreditedBy
-	 * An agent that accredits the described resource.
-	 *
+	 * Quality assurance organization that provides official authorization to, or approval of, a credential, organization, assessment, or learning opportunity.
 	 * @property accreditedBy
 	 * @type QACredentialOrganization
 	 */
 	public QACredentialOrganization accreditedBy;
+
 	/**
 	 * http://purl.org/ctdl/terms/accreditedIn
-	 * The resource being described is accredited in the jurisdiction being referenced.
-	 *
+	 * Region or political jurisdiction such as a state, province or locale in which the credential, learning opportunity or assessment is accredited.
 	 * @property accreditedIn
 	 * @type JurisdictionProfile
 	 */
 	public JurisdictionProfile accreditedIn;
+
 	/**
 	 * http://purl.org/ctdl/terms/address
-	 * Physical address of the resource.
-	 *
+	 * Particulars describing the location of the place.
 	 * @property address
-	 * @type PostalAddress
+	 * @type Place
 	 */
-	public PostalAddress address;
+	public Place address;
+
 	/**
 	 * http://purl.org/ctdl/terms/administrationProcess
-	 * A profile of the process by which the resource being described, or aspects of it, are administered.
-	 *
+	 * Entity describing the process by which a credential, assessment, organization, or aspects of it, are administered.
+	 * Processes described include the execution of events and the development of resources in the lifecycle of a credential or organization, such as the process for the proctoring of assessments.
 	 * @property administrationProcess
 	 * @type ProcessProfile
 	 */
 	public ProcessProfile administrationProcess;
+
 	/**
 	 * http://purl.org/ctdl/terms/agentPurpose
-	 * A resource that describes the agent's primary purpose.
-	 *
+	 * Organization's primary purpose as found on an "about" page of a website.
 	 * @property agentPurpose
 	 * @type anyURI
 	 */
 	public String agentPurpose;
+
 	/**
 	 * http://purl.org/ctdl/terms/agentPurposeDescription
-	 * A description of the primary purpose of the agent being referenced.
-	 *
+	 * Short, key phrases describing the primary purpose of an organization as might be derived from the "about" page of it's website.
 	 * @property agentPurposeDescription
-	 * @type Literal
+	 * @type langString
 	 */
-	public String agentPurposeDescription;
+	public langString agentPurposeDescription;
+
 	/**
 	 * http://purl.org/ctdl/terms/agentSectorType
-	 * The types of sociological, economic, or political subdivision of society served by an agent.
-	 *
+	 * Type of sociological, economic, or political subdivision served by an organization; select from an existing enumeration of such types.
 	 * @property agentSectorType
 	 * @type CredentialAlignmentObject
 	 */
 	public CredentialAlignmentObject agentSectorType;
+
 	/**
 	 * http://purl.org/ctdl/terms/agentType
-	 * The type of the described agent.
-	 *
+	 * Type of organization such as educational institution, credentialing organization or quality assurance body; select from an existing enumeration of such types.
 	 * @property agentType
 	 * @type CredentialAlignmentObject
 	 */
 	public CredentialAlignmentObject agentType;
+
+	/**
+	 * http://purl.org/ctdl/terms/alternateName
+	 * Alias for a credential including acronyms, alpha-numeric notations, and other forms of name abbreviations in common use such as PhD, MA, and BA.
+	 * @property alternateName
+	 * @type langString
+	 */
+	public langString alternateName;
+
 	/**
 	 * http://purl.org/ctdl/terms/alternativeIdentifier
-	 * An alternative, publicly available and globally unique agent identifier issued by an authoritative entity.
-	 *
+	 * Alternative, publicly available and globally unique identifier for an organization issued by an authoritative entity.
+	 * The alternative identifier should be used where no identifier is available for the DUNS, FEIN, NAICS or IPEDS ID properties.
 	 * @property alternativeIdentifier
 	 * @type IdentifierValue
 	 */
 	public IdentifierValue alternativeIdentifier;
+
+	/**
+	 * http://purl.org/ctdl/terms/appealProcess
+	 * Formal process for objecting to decisions of the organization regarding credentials, assessments or processes.
+	 * @property appealProcess
+	 * @type ProcessProfile
+	 */
+	public ProcessProfile appealProcess;
+
 	/**
 	 * http://purl.org/ctdl/terms/approvedBy
-	 * Pronouncement of a favorable judgment by the agent being referenced.
-	 *
+	 * Organization that pronounces favorable judgment for this credential, assessment, learning opportunity, or organization.
 	 * @property approvedBy
 	 * @type CredentialOrganization | CredentialPerson | QACredentialOrganization
 	 */
 	public Object approvedBy;
+
 	/**
 	 * http://purl.org/ctdl/terms/approvedIn
-	 * The resource being described is approved in the jurisdiction being referenced.
-	 *
+	 * Region or political jurisdiction such as a state, province or locale in which an organization pronounces favorable judgment for this credential, assessment, learning opportunity, or organization.
 	 * @property approvedIn
 	 * @type JurisdictionProfile
 	 */
 	public JurisdictionProfile approvedIn;
+
 	/**
 	 * http://purl.org/ctdl/terms/approves
-	 * The agent being described officially accepts or authorizes the resource being referenced.
-	 *
+	 * Credential, assessment, learning opportunity, or organization for which this organization pronounces favorable judgment.
 	 * @property approves
 	 * @type ApprenticeshipCertificate | AssessmentProfile | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | CompetencyFramework | Credential | CredentialOrganization | CredentialPerson | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | LearningOpportunityProfile | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QACredentialOrganization | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
 	 */
 	public Object approves;
+
 	/**
 	 * http://purl.org/ctdl/terms/availabilityListing
-	 * A resource that lists online and/or physical locations for the described resource.
-	 *
+	 * Listing of online and/or physical locations where a credential can be pursued.
 	 * @property availabilityListing
 	 * @type anyURI
 	 */
 	public String availabilityListing;
+
 	/**
-	 * http://purl.org/ctdl/terms/contactPoint
-	 * A contact point for a person or organization.
-	 *
-	 * @property contactPoint
-	 * @type ContactPoint
+	 * http://purl.org/ctdl/terms/complaintProcess
+	 * Process for handling complaints about a credential, or aspects of it including related learning opportunities and assessments.
+	 * @property complaintProcess
+	 * @type ProcessProfile
 	 */
-	public ContactPoint contactPoint;
+	public ProcessProfile complaintProcess;
+
 	/**
 	 * http://purl.org/ctdl/terms/credentialingAction
 	 * Indicates a past or potential credentialing action in which the resource being described plays an 'object' role.
-	 *
 	 * @property credentialingAction
 	 * @type AccreditAction | AdvancedStandingAction | ApproveAction | CredentialingAction | OfferAction | RecognizeAction | RegulateAction | RenewAction | RevokeAction | RightsAction
 	 */
 	public Object credentialingAction;
+
+	/**
+	 * http://purl.org/ctdl/terms/ctid
+	 * Globally unique Credential Transparency Identifier (CTID) by which the creator, owner or provider of a credential, learning opportunity competency, or assessment recognizes the entity in transactions with the external environment (e.g., in verifiable claims involving a credential).
+	 * The CTID is the equivalent of a version identifier for the resource. Different versions of a resource are considered distinct expressions and each must be assigned its own CTID. Each version of a resource can have only one CTID assigned. However, a single version of a resource may have distinct identifier values for both the ctid property and the credentialId property. In such a case both identifiers will be recognized by the resource creator/owner/provider in transactions with the external environment.
+	 * @property ctid
+	 * @type string
+	 */
+	public string ctid;
+
 	/**
 	 * http://purl.org/ctdl/terms/department
-	 * The organization being referenced is a department of the organization being described.
-	 *
+	 * Department of the organization.
 	 * @property department
 	 * @type CredentialOrganization | QACredentialOrganization
 	 */
 	public Object department;
+
 	/**
 	 * http://purl.org/ctdl/terms/description
-	 * A short description of the resource being described.
-	 *
+	 * Statememnt, characterization or account of the entity.
 	 * @property description
-	 * @type Literal
+	 * @type langString
 	 */
-	public String description;
+	public langString description;
+
 	/**
 	 * http://purl.org/ctdl/terms/developmentProcess
-	 * A profile of the process by which the resource being described, or aspects of it, were created.
-	 *
+	 * Entity describing the process by which a credential, or aspects of it, were created.
 	 * @property developmentProcess
 	 * @type ProcessProfile
 	 */
 	public ProcessProfile developmentProcess;
+
 	/**
 	 * http://purl.org/ctdl/terms/duns
-	 * The Dun & Bradstreet DUNS number for identifying an organization or business person.
-	 *
+	 * Dun & Bradstreet DUNS number for identifying an organization or business person.
 	 * @property duns
-	 * @type Literal
+	 * @type string
 	 */
-	public String duns;
+	public string duns;
+
 	/**
 	 * http://purl.org/ctdl/terms/email
-	 * Email address of the agent being described.
-	 *
+	 * Email address of the organization or person.
 	 * @property email
-	 * @type Literal
+	 * @type string
 	 */
-	public String email;
+	public string email;
+
 	/**
 	 * http://purl.org/ctdl/terms/employee
-	 * The referenced person is an employee of the organization being described.
-	 *
+	 * Person employed for wages or salary by the organization.
 	 * @property employee
 	 * @type CredentialPerson
 	 */
 	public CredentialPerson employee;
+
 	/**
 	 * http://purl.org/ctdl/terms/fein
-	 * A Federal Employer Identification Number (FEIN) for identifying organizations, persons, states, government agencies, corporations, and companies.
-	 *
+	 * Federal Employer Identification Number (FEIN) identifying organizations, persons, states, government agencies, corporations, and companies.
 	 * @property fein
-	 * @type Literal
+	 * @type string
 	 */
-	public String fein;
+	public string fein;
+
 	/**
 	 * http://purl.org/ctdl/terms/foundingDate
-	 * The date that this organization was founded.
-	 *
+	 * Date the organization was founded.
 	 * @property foundingDate
-	 * @type Literal
+	 * @type string
 	 */
-	public String foundingDate;
+	public string foundingDate;
+
 	/**
 	 * http://purl.org/ctdl/terms/hasConditionManifest
-	 * The resource being referenced describes a set of conditions maintained by the agent being described.
-	 *
+	 * Entity that describes a set of constraints, prerequisites, entry conditions, or requirements applicable across the organization, sub-organization or sets of credentials or acitivites.
 	 * @property hasConditionManifest
 	 * @type ConditionManifest
 	 */
 	public ConditionManifest hasConditionManifest;
+
+	/**
+	 * http://purl.org/ctdl/terms/hasCostManifest
+	 * Entity that describes a set of cost data applicable across the organization, sub-organization or sets of credentials or acitivites.
+	 * @property hasCostManifest
+	 * @type CostManifest
+	 */
+	public CostManifest hasCostManifest;
+
 	/**
 	 * http://purl.org/ctdl/terms/hasVerificationService
-	 * A profile of available systems provided by the described agent to verify credential holders.
-	 *
+	 * Entity describing available systems provided by the agent to verify credential holders.
+	 * Systems in place to verify credential holders and communicate the current credentialing status of all credential holders to employers and other labor market participants, as well as to education and workforce development funders and regulators.
 	 * @property hasVerificationService
 	 * @type VerificationServiceProfile
 	 */
 	public VerificationServiceProfile hasVerificationService;
+
 	/**
 	 * http://purl.org/ctdl/terms/image
-	 * The image or icon that represents the resource.
-	 *
+	 * Image, icon or logo that represents the entity including registered trade or service marks.
 	 * @property image
 	 * @type anyURI
 	 */
 	public String image;
+
 	/**
 	 * http://purl.org/ctdl/terms/industryType
-	 * The class identifier for the industry context from an established framework.
-	 *
+	 * Type of industry; select from an existing enumeration of such types such as the SIC, NAICS, and ISIC classifications.
 	 * @property industryType
 	 * @type CredentialAlignmentObject
 	 */
 	public CredentialAlignmentObject industryType;
+
 	/**
 	 * http://purl.org/ctdl/terms/ipedsID
-	 * The unique six (6) digit identifier assigned to all institutions that have submitted data to the Integrated Postsecondary Education Data System (IPEDS).
-	 *
+	 * Unique six digit identifier assigned to all U.S. institutions that have submitted data to the Integrated Postsecondary Education Data System (IPEDS).
 	 * @property ipedsID
-	 * @type Literal
+	 * @type string
 	 */
-	public String ipedsID;
+	public string ipedsID;
+
 	/**
 	 * http://purl.org/ctdl/terms/jurisdiction
-	 * The geo-political region in which the described resource is applicable.
-	 *
+	 * Geographic or political region in which the credential is formally applicable or an organization has authority to act.
 	 * @property jurisdiction
 	 * @type JurisdictionProfile
 	 */
 	public JurisdictionProfile jurisdiction;
+
 	/**
 	 * http://purl.org/ctdl/terms/keyword
-	 * Keywords or key phrases describing aspects of a resource considered useful for its discovery.
-	 *
+	 * Keyword or key phrase describing relevant aspects of an entity.
 	 * @property keyword
-	 * @type Literal
+	 * @type langString
 	 */
-	public String keyword;
-	/**
-	 * http://purl.org/ctdl/terms/learningOpportunityOffered
-	 * A learning opportunity offered by the agent.
-	 *
-	 * @property learningOpportunityOffered
-	 * @type LearningOpportunityProfile
-	 */
-	public LearningOpportunityProfile learningOpportunityOffered;
+	public langString keyword;
+
 	/**
 	 * http://purl.org/ctdl/terms/maintenanceProcess
-	 * The process by which the resource being described is maintained including review and updating.
-	 *
+	 * Entity describing the process by which the credential is maintained including review and updating.
+	 * Such maintenance does not include renewal of a credential by an individual holder.
 	 * @property maintenanceProcess
 	 * @type ProcessProfile
 	 */
 	public ProcessProfile maintenanceProcess;
+
 	/**
 	 * http://purl.org/ctdl/terms/missionAndGoalsStatement
-	 * A resource that defines or explains the mission and goals statement of the resource being described.
-	 *
+	 * Webpage or online document that defines or explains the mission and goals of the organization.
 	 * @property missionAndGoalsStatement
 	 * @type anyURI
 	 */
 	public String missionAndGoalsStatement;
+
 	/**
 	 * http://purl.org/ctdl/terms/missionAndGoalsStatementDescription
-	 * The mission and goals statement of the described agent.
-	 *
+	 * Textual statement of the mission and goals of the organization.
 	 * @property missionAndGoalsStatementDescription
-	 * @type Literal
+	 * @type langString
 	 */
-	public String missionAndGoalsStatementDescription;
+	public langString missionAndGoalsStatementDescription;
+
 	/**
 	 * http://purl.org/ctdl/terms/naics
-	 * The North American Industry Classification System (NAICS) code for a particular organization or business person.
-	 *
+	 * North American Industry Classification System (NAICS) code of an organization or business person.
 	 * @property naics
-	 * @type Literal
+	 * @type string
 	 */
-	public String naics;
+	public string naics;
+
 	/**
 	 * http://purl.org/ctdl/terms/name
-	 * The name of the resource being described.
-	 *
+	 * Name or title of the entity.
 	 * @property name
-	 * @type Literal
+	 * @type langString
 	 */
-	public String name;
+	public langString name;
+
 	/**
 	 * http://purl.org/ctdl/terms/offers
-	 * The agent being described offers or confers the resource being referenced.
-	 *
+	 * Credential, learning opportunity or assessment offered or conferred by the organization or person.
 	 * @property offers
 	 * @type ApprenticeshipCertificate | AssessmentProfile | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | LearningOpportunityProfile | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
 	 */
 	public Object offers;
+
 	/**
 	 * http://purl.org/ctdl/terms/opeID
-	 * OPE ID number (Office of Postsecondary Education Identification) sometimes referred to as the Federal School Code.
-	 *
+	 * OPE ID number (U.S. Office of Postsecondary Education Identification), sometimes referred to as the Federal School Code.
+	 * Identification number used by the U.S. Department of Education's Office of Postsecondary Education (OPE) to identify schools that have Program Participation Agreements (PPA) so that its students are eligible to participate in Federal Student Financial Assistance (FAFSA) programs under Title IV regulations. This is a 6-digit number followed by a 2-digit suffix used to identify branches, additional locations, and other entities that are part of the eligible institution.
 	 * @property opeID
-	 * @type Literal
+	 * @type string
 	 */
-	public String opeID;
+	public string opeID;
+
 	/**
 	 * http://purl.org/ctdl/terms/owns
-	 * The described agent has legal title to the referenced resource.
-	 *
+	 * Credential, learning opportunity or assesment over which the organization or person claims legal title.
+	 * Generally, the value of the property should be one of the subclasses of ceterms:Credential.
 	 * @property owns
 	 * @type ApprenticeshipCertificate | AssessmentProfile | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | LearningOpportunityProfile | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
 	 */
 	public Object owns;
+
 	/**
 	 * http://purl.org/ctdl/terms/parentOrganization
-	 * The larger, parent organization of the organization being described.
-	 *
+	 * Larger organization exercising authority over the organization being described.
 	 * @property parentOrganization
 	 * @type CredentialOrganization | QACredentialOrganization
 	 */
 	public Object parentOrganization;
+
 	/**
 	 * http://purl.org/ctdl/terms/recognizedBy
-	 * The agent being referenced acknowledges the validity of the described resource.
-	 *
+	 * Agent that acknowledges the validity of the credential, learning opportunity of assessment.
 	 * @property recognizedBy
 	 * @type CredentialOrganization | CredentialPerson | QACredentialOrganization
 	 */
 	public Object recognizedBy;
+
 	/**
 	 * http://purl.org/ctdl/terms/recognizedIn
-	 * The resource being described is publicly recommended, acknowledged, or endorsed in the jurisdiction being referenced.
-	 *
+	 * Region or political jurisdiction such as a state, province or locale in which the credential, learning resource, or assessment has been publicly recommended, acknowledged or endorsed.
 	 * @property recognizedIn
 	 * @type JurisdictionProfile
 	 */
 	public JurisdictionProfile recognizedIn;
+
 	/**
 	 * http://purl.org/ctdl/terms/recognizes
-	 * The agent being described recommends, endorses, indicates preference for, or otherwise provides positive judgment of a resource.
-	 *
+	 * Credential, learning opportunity or assessment that the agent recommends, endorses, indicates preference for, or otherwise provides a positive judgment.
 	 * @property recognizes
 	 * @type ApprenticeshipCertificate | AssessmentProfile | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | CompetencyFramework | Credential | CredentialOrganization | CredentialPerson | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | LearningOpportunityProfile | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QACredentialOrganization | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
 	 */
 	public Object recognizes;
+
 	/**
 	 * http://purl.org/ctdl/terms/regulatedBy
-	 * The agent being referenced enforces the legal requirements of the referenced resource.
-	 *
+	 * Quality assurance organization that enforces the legal requirements of the credential, learning resource or assessment.
 	 * @property regulatedBy
 	 * @type QACredentialOrganization
 	 */
 	public QACredentialOrganization regulatedBy;
+
 	/**
 	 * http://purl.org/ctdl/terms/regulatedIn
-	 * The resource being described is regulated in the jurisdiction being referenced.
-	 *
+	 * Region or political jurisdiction such as a state, province or locale in which the credential, learning opportunity or resource is regulated.
 	 * @property regulatedIn
 	 * @type JurisdictionProfile
 	 */
 	public JurisdictionProfile regulatedIn;
+
 	/**
 	 * http://purl.org/ctdl/terms/renews
-	 * The described agent handles the renewal of an award of the referenced credential.
-	 *
+	 * Credential type that has its validity extended by the organization or person.
+	 * The value of ceterms:renews should be one of the specific subclasses of ceterms:Credential.
 	 * @property renews
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
 	 */
 	public Object renews;
+
+	/**
+	 * http://purl.org/ctdl/terms/reviewProcess
+	 * Entity that describes the process by which the credential, or aspects of it, are reviewed.
+	 * @property reviewProcess
+	 * @type ProcessProfile
+	 */
+	public ProcessProfile reviewProcess;
+
+	/**
+	 * http://purl.org/ctdl/terms/revocationProcess
+	 * Entity describing the process by which the credential is revoked.
+	 * @property revocationProcess
+	 * @type ProcessProfile
+	 */
+	public ProcessProfile revocationProcess;
+
 	/**
 	 * http://purl.org/ctdl/terms/revokes
-	 * The described agent ends the validity or operation of the resource being referenced based on cause.
-	 *
+	 * Credential type that can be invalidated or retracted by the awarding agent.
+	 * The value of ceterms:revokes should be one of the specific subclasses of ceterms:Credential.
 	 * @property revokes
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
 	 */
 	public Object revokes;
+
 	/**
 	 * http://purl.org/ctdl/terms/sameAs
-	 * The resource being described is the same as the resource being referenced.
-	 *
+	 * Another entity that unambiguously indicates the identity of the entity being described.
+	 * Entities that may indicate identity include, but are not limited to, descriptions of entities in open databases such as DBpedia and Wikidata or social media accounts such as FaceBook and LinkedIn.
 	 * @property sameAs
 	 * @type anyURI
 	 */
 	public String sameAs;
+
 	/**
 	 * http://purl.org/ctdl/terms/serviceType
-	 * The type of service offered by the agent being described.
-	 *
+	 * Type of service offered by the agent being described; select from an existing enumeration of such terms.
 	 * @property serviceType
 	 * @type CredentialAlignmentObject
 	 */
 	public CredentialAlignmentObject serviceType;
+
 	/**
 	 * http://purl.org/ctdl/terms/socialMedia
-	 * A social media resource for the resource being described.
-	 *
+	 * Social media access point for an agent or an agent's contact point.
 	 * @property socialMedia
 	 * @type anyURI
 	 */
 	public String socialMedia;
+
 	/**
 	 * http://purl.org/ctdl/terms/subjectWebpage
-	 * The web page where the subject of the resource being described is located.
-	 *
+	 * The webpage that describes this entity.
+	 * The web page being referenced describes the entity. The value of subjectWebpage is an authoritative location for information about the subject but should not assumed to be a persistent identifier of the subject.
 	 * @property subjectWebpage
 	 * @type anyURI
 	 */
 	public String subjectWebpage;
+
 	/**
 	 * http://purl.org/ctdl/terms/subOrganization
-	 * The organization being described is the parent of the organization being referenced.
-	 *
+	 * Organization in a subordinate or lower position than a parent organization.
 	 * @property subOrganization
 	 * @type CredentialOrganization | QACredentialOrganization
 	 */
 	public Object subOrganization;
-	/**
-	 * http://purl.org/ctdl/terms/targetContactPoint
-	 * Options for contacting the resource being described.
-	 *
-	 * @property targetContactPoint
-	 * @type ContactPoint
-	 */
-	public ContactPoint targetContactPoint;
-
-	/**
-	 * Constructor, automatically sets @context and @type.
-	 *
-	 * @constructor
-	 */
-	public CredentialOrganization() {
-		context = "http://schema.eduworks.com/simpleCtdl";
-		type = "CredentialOrganization";
-	}
 
 }

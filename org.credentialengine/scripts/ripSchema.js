@@ -11,7 +11,7 @@ $.ajax({
         for (var i = 0; i < graph.length; i++) {
             var node = graph[i];
             var type = node["@type"];
-            if (type == "rdfs:Class") {
+            if (type == "rdf:Class") {
                 if (node["@id"] == "schema:DataType") continue;
                 if (node["@id"] == "schema:Number") continue;
                 if (node["@id"] == "schema:Integer") continue;
@@ -33,7 +33,9 @@ function codeGenerate(graph, node) {
         "import org.cassproject.schema.general.EcRemoteLinkedData;\n\n";
     text += "/**\n";
     text += " * " + classId.replace("ceterms:", "credentialengine.org/") + "\n";
-    text += " * " + node["rdfs:comment"] + "\n";
+    text += " * " + node["rdfs:comment"]["en-US"] + "\n";
+    if (node["dct:description"] != null)
+    text += " * " + node["dct:description"]["en-US"] + "\n";
     text += " * @author credentialengine.org\n";
     text += " * @class " + className + "\n";
     text += " * @module org.credentialengine\n";
@@ -42,11 +44,11 @@ function codeGenerate(graph, node) {
         if (node["rdfs:subClassOf"].toString().indexOf("]") != -1)
             node["rdfs:subClassOf"] = node["rdfs:subClassOf"][0];
     if (node["rdfs:subClassOf"] != null)
-        text += " * @extends " + node["rdfs:subClassOf"]["@id"].split(":")[1] + "\n";
+        text += " * @extends " + node["rdfs:subClassOf"][0].split(":")[1] + "\n";
     text += " */\n";
     text += "public class " + className;
     if (node["rdfs:subClassOf"] != null)
-        text += " extends " + (node["rdfs:subClassOf"]["@id"].split(":")[0] == "schema" ? "org.schema.":"")+node["rdfs:subClassOf"]["@id"].split(":")[1] + "\n";
+        text += " extends " + (node["rdfs:subClassOf"][0].split(":")[0] == "schema" ? "org.schema.":"")+node["rdfs:subClassOf"][0].split(":")[1] + "\n";
     else
         text += " extends EcRemoteLinkedData\n";
     text += "{\n";
@@ -72,7 +74,7 @@ function codeGenerate(graph, node) {
         var gn = graph[i];
         var gi = gn["@id"];
         var gt = gn["@type"];
-        var gd = gn["rdfs:domain"];
+        var gd = gn["rdfs:domainIncludes"];
         if (gt != "rdf:Property")
             continue;
     //    console.log(gn);
@@ -80,39 +82,41 @@ function codeGenerate(graph, node) {
             continue;
     //    console.log(gd);
         if (gd.toString().indexOf(",") == -1) {
-            if (gd["@id"] != classId)
+            if (gd != classId)
                 continue;
         } else {
             var ok = false;
             for (var j = 0; j < gd.length; j++) {
-                if (gd[j]["@id"] == classId)
+                if (gd[j] == classId)
                     ok = true;
             }
             if (!ok) continue;
         }
         text += "\t/**\n";
         text += "\t * " + gi.replace("ceterms:", "http://purl.org/ctdl/terms/") + "\n";
-        text += "\t * " + gn["rdfs:comment"] + "\n";
+        text += "\t * " + gn["rdfs:comment"]["en-US"] + "\n";
+    if (gn["dct:description"] != null)
+        text += "\t * " + gn["dct:description"]["en-US"] + "\n";
         text += "\t * @property " + gn["@id"].split(":")[1] + "\n";
         text += "\t * @type ";
-        var gr = gn["rdfs:range"];
+        var gr = gn["rdfs:rangeIncludes"];
 	if (gr != null)
 	{
-        //console.log(JSON.stringify(gr));
+        console.log(JSON.stringify(gr));
 	if (gr.length === undefined) {
-            text += gr["@id"].split(":")[1] + "\n";
+            text += gr.split(":")[1] + "\n";
         } else {
             for (var j = 0; j < gr.length; j++) {
                 if (j > 0)
                     text += " | ";
-                text += gr[j]["@id"].split(":")[1];
+                text += gr[j].split(":")[1];
             }
             text += "\n";
         }
         text += "\t */\n";
         if (gr.length == 1) {
             text += "\tpublic ";
-            text += (gr[0]["@id"].split(":")[0] == "schema" ? "org.schema.":"")+sub(gr[0]["@id"].split(":")[1]) + " " + gn["@id"].split(":")[1] + ";\n\n";
+            text += (gr[0].split(":")[0] == "schema" ? "org.schema.":"")+sub(gr[0].split(":")[1]) + " " + gn["@id"].split(":")[1] + ";\n\n";
         } else {
             text += "\tpublic Object " + gn["@id"].split(":")[1] + ";\n\n";
         }

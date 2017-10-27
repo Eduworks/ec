@@ -1,96 +1,101 @@
 package org.credentialengine;
 
+import org.stjs.javascript.Date;
+import org.cassproject.schema.general.EcRemoteLinkedData;
+
 /**
  * credentialengine.org/CredentialAlignmentObject
- * An alignment to a credentialing framework.
- *
+ * Entity describing an affiliation or association between an entity such as a credential, learning opportunity or assessment and another entity in a structured framework such as a concept scheme, enumerated list, or competency framework.
  * @author credentialengine.org
  * @class CredentialAlignmentObject
  * @module org.credentialengine
  * @extends AlignmentObject
  */
-public class CredentialAlignmentObject extends org.schema.AlignmentObject {
+public class CredentialAlignmentObject extends org.schema.AlignmentObject
+{
+	/**
+	 * Constructor, automatically sets @context and @type.
+	 * @constructor
+	 */
+	public CredentialAlignmentObject()
+	{
+		context="http://schema.eduworks.com/simpleCtdl";
+		type="CredentialAlignmentObject";
+	}
+
 	/**
 	 * http://purl.org/ctdl/terms/alignmentDate
 	 * The date  the alignment was made.
-	 *
 	 * @property alignmentDate
 	 * @type date
 	 */
 	public String alignmentDate;
+
 	/**
 	 * http://purl.org/ctdl/terms/alignmentType
-	 * A category of alignment between the learning resource and the framework node.
-	 *
+	 * Type of relationship between two entities.
+	 * In CTDL, the alignment type value is definitively identified by the property for which the AlignmentObject is the rdfs:range; therefore, use of this property is generally redundant.
 	 * @property alignmentType
-	 * @type Literal
+	 * @type string
 	 */
-	public String alignmentType;
+	public string alignmentType;
+
 	/**
 	 * http://purl.org/ctdl/terms/codedNotation
-	 * A short set of alpha-numeric symbols that uniquely identifies a resource and supports its discovery.
-	 *
+	 * Set of alpha-numeric symbols that uniquely identifies an item and supports its discovery and use.
+	 * Examples include the alpha-numeric code "CCSS.MATH.CONTENT.HSA.CED.A.2" identifying a node in the U.S. Common Core State Standards on creating equations in algebra, or, the code "8021" in the U.S. Standard Industrial Classification (SIC) for identifying the occupational context for "Offices and Clinics of Dentists".
 	 * @property codedNotation
-	 * @type Literal
+	 * @type string
 	 */
-	public String codedNotation;
+	public string codedNotation;
+
 	/**
 	 * http://purl.org/ctdl/terms/framework
-	 * The framework to which the resource being described is aligned.
-	 *
+	 * Credential framework to which the entity is aligned.
+	 * Frameworks may include, but are not limited to, competency frameworks and concept schemes such as industry, occupation, and instructional program codes.
 	 * @property framework
 	 * @type anyURI
 	 */
 	public String framework;
+
 	/**
 	 * http://purl.org/ctdl/terms/frameworkName
-	 * The name of the framework to which the resource being described is aligned.
-	 *
+	 * Name of the framework.
 	 * @property frameworkName
-	 * @type Literal
+	 * @type langString
 	 */
-	public String frameworkName;
+	public langString frameworkName;
+
 	/**
 	 * http://purl.org/ctdl/terms/targetNode
-	 * The node of a framework targeted by the alignment.
-	 *
+	 * Individual entry in a formally defined framework such as a competency or an industry, instructional program, or occupation code.
 	 * @property targetNode
 	 * @type anyURI
 	 */
 	public String targetNode;
+
 	/**
 	 * http://purl.org/ctdl/terms/targetNodeDescription
-	 * The description of a node in an established educational framework.
-	 *
+	 * Textual description of an individual concept or competency in a formally defined framework.
 	 * @property targetNodeDescription
-	 * @type Literal
+	 * @type langString
 	 */
-	public String targetNodeDescription;
+	public langString targetNodeDescription;
+
 	/**
 	 * http://purl.org/ctdl/terms/targetNodeName
-	 * The name of a node in an established educational framework.
-	 *
+	 * Name of an individual concept or competency in a formally defined framework.
 	 * @property targetNodeName
-	 * @type Literal
+	 * @type langString
 	 */
-	public String targetNodeName;
+	public langString targetNodeName;
+
 	/**
 	 * http://purl.org/ctdl/terms/weight
-	 * An asserted measurement of the weight, degree, percent, or strength of a recommendation, requirement, or comparison.
-	 *
+	 * Measurement of the weight, degree, percent, or strength of a recommendation, requirement, or comparison.
 	 * @property weight
 	 * @type float
 	 */
 	public Float weight;
-
-	/**
-	 * Constructor, automatically sets @context and @type.
-	 *
-	 * @constructor
-	 */
-	public CredentialAlignmentObject() {
-		context = "http://schema.eduworks.com/simpleCtdl";
-		type = "CredentialAlignmentObject";
-	}
 
 }

@@ -1,48 +1,82 @@
 package org.credentialengine;
 
+import org.stjs.javascript.Date;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 
 /**
  * credentialengine.org/ContactPoint
- * A means of contacting a resource or its representative(s).
- *
+ * Means of contacting an organization or its representative.
+ * For example, a public relations email address or phone number.
  * @author credentialengine.org
  * @class ContactPoint
  * @module org.credentialengine
  */
-public class ContactPoint extends EcRemoteLinkedData {
+public class ContactPoint extends EcRemoteLinkedData
+{
+	/**
+	 * Constructor, automatically sets @context and @type.
+	 * @constructor
+	 */
+	public ContactPoint()
+	{
+		super("http://schema.eduworks.com/simpleCtdl","ContactPoint");
+	}
+
+	/**
+	 * http://purl.org/ctdl/terms/contactOption
+	 * Option for a toll-free number or support for hearing-impaired callers.
+	 * @property contactOption
+	 * @type langString
+	 */
+	public langString contactOption;
+
+	/**
+	 * http://purl.org/ctdl/terms/contactType
+	 * Text identifying the type of service provided by an organizational contact.
+	 * A person or organization may have different contact points for different services. The contact type property provides for adding text to identity the service; e.g., "toll-free number" or "support for hearing-impaired callers".
+	 * @property contactType
+	 * @type langString
+	 */
+	public langString contactType;
+
 	/**
 	 * http://purl.org/ctdl/terms/email
-	 * Email address of the agent being described.
-	 *
+	 * Email address of the organization or person.
 	 * @property email
-	 * @type Literal
+	 * @type string
 	 */
-	public String email;
+	public string email;
+
+	/**
+	 * http://purl.org/ctdl/terms/faxNumber
+	 * Fax number.
+	 * @property faxNumber
+	 * @type string
+	 */
+	public string faxNumber;
+
 	/**
 	 * http://purl.org/ctdl/terms/name
-	 * The name of the resource being described.
-	 *
+	 * Name or title of the entity.
 	 * @property name
-	 * @type Literal
+	 * @type langString
 	 */
-	public String name;
+	public langString name;
+
 	/**
 	 * http://purl.org/ctdl/terms/socialMedia
-	 * A social media resource for the resource being described.
-	 *
+	 * Social media access point for an agent or an agent's contact point.
 	 * @property socialMedia
 	 * @type anyURI
 	 */
 	public String socialMedia;
 
 	/**
-	 * Constructor, automatically sets @context and @type.
-	 *
-	 * @constructor
+	 * http://purl.org/ctdl/terms/telephone
+	 * Telephone number.
+	 * @property telephone
+	 * @type string
 	 */
-	public ContactPoint() {
-		super("http://schema.eduworks.com/simpleCtdl", "ContactPoint");
-	}
+	public string telephone;
 
 }

@@ -1,64 +1,74 @@
 package org.credentialengine;
 
+import org.stjs.javascript.Date;
+import org.cassproject.schema.general.EcRemoteLinkedData;
+
 /**
  * credentialengine.org/RevocationProfile
- * The conditions and methods by which a credential can be removed from a holder.
- *
+ * Entity describing conditions and methods by which a credential can be removed from a holder.
  * @author credentialengine.org
  * @class RevocationProfile
  * @module org.credentialengine
  * @extends CreativeWork
  */
-public class RevocationProfile extends org.schema.CreativeWork {
+public class RevocationProfile extends org.schema.CreativeWork
+{
 	/**
-	 * http://purl.org/ctdl/terms/credentialProfiled
-	 * The resource being described is a profile of the credential being referenced.
-	 *
-	 * @property credentialProfiled
-	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
+	 * Constructor, automatically sets @context and @type.
+	 * @constructor
 	 */
-	public Object credentialProfiled;
+	public RevocationProfile()
+	{
+		context="http://schema.eduworks.com/simpleCtdl";
+		type="RevocationProfile";
+	}
+
 	/**
 	 * http://purl.org/ctdl/terms/dateEffective
-	 * The effective date of the described resource content.
-	 *
+	 * Effective date of the content of a credential, assessment or learning opportunity.
 	 * @property dateEffective
 	 * @type date
 	 */
 	public String dateEffective;
+
 	/**
 	 * http://purl.org/ctdl/terms/description
-	 * A short description of the resource being described.
-	 *
+	 * Statememnt, characterization or account of the entity.
 	 * @property description
-	 * @type Literal
+	 * @type langString
 	 */
-	public String description;
+	public langString description;
+
 	/**
 	 * http://purl.org/ctdl/terms/jurisdiction
-	 * The geo-political region in which the described resource is applicable.
-	 *
+	 * Geographic or political region in which the credential is formally applicable or an organization has authority to act.
 	 * @property jurisdiction
 	 * @type JurisdictionProfile
 	 */
 	public JurisdictionProfile jurisdiction;
-	/**
-	 * http://purl.org/ctdl/terms/region
-	 * A geo-political area of the described resource.
-	 *
-	 * @property region
-	 * @type GeoCoordinates
-	 */
-	public GeoCoordinates region;
 
 	/**
-	 * Constructor, automatically sets @context and @type.
-	 *
-	 * @constructor
+	 * http://purl.org/ctdl/terms/region
+	 * Entity that describes the longitude, latitude and other location details of an area.
+	 * @property region
+	 * @type Place
 	 */
-	public RevocationProfile() {
-		context = "http://schema.eduworks.com/simpleCtdl";
-		type = "RevocationProfile";
-	}
+	public Place region;
+
+	/**
+	 * http://purl.org/ctdl/terms/revocationCriteria
+	 * Webpage or online document that provides information about the removal criteria for an awarded credential.
+	 * @property revocationCriteria
+	 * @type anyURI
+	 */
+	public String revocationCriteria;
+
+	/**
+	 * http://purl.org/ctdl/terms/revocationCriteriaDescription
+	 * Textual description providing information about the removal criteria for an awarded credential.
+	 * @property revocationCriteriaDescription
+	 * @type langString
+	 */
+	public langString revocationCriteriaDescription;
 
 }
