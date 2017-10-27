@@ -243,7 +243,7 @@ public class CredentialCompetencyLocator {
 
 	private void processAssessmentProfile(AssessmentProfile ap) {
 		log("Processing as Assessment Profile...");
-		Array<CredentialAlignmentObject> tca = getTargetCompetencyList(ap.targetCompetency);
+		Array<CredentialAlignmentObject> tca = getTargetCompetencyList(ap.assesses);
 		log("Target competency list(" + tca.$length() + "):");
 		logCredentialAlignmentArray(tca);
 		addCompetenciesToMap(tca);
@@ -252,7 +252,7 @@ public class CredentialCompetencyLocator {
 
 	private void processLearningOpportunityProfile(LearningOpportunityProfile lop) {
 		log("Processing as Learning Opportunity Profile...");
-		Array<CredentialAlignmentObject> tca = getTargetCompetencyList(lop.targetCompetency);
+		Array<CredentialAlignmentObject> tca = getTargetCompetencyList(lop.teaches);
 		log("Target competency list(" + tca.$length() + "):");
 		logCredentialAlignmentArray(tca);
 		addCompetenciesToMap(tca);
