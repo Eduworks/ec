@@ -39,7 +39,7 @@ public class FinancialAlignmentObject extends CredentialAlignmentObject
 	 * @property alignmentType
 	 * @type string
 	 */
-	public string alignmentType;
+	public String alignmentType;
 
 	/**
 	 * http://purl.org/ctdl/terms/codedNotation
@@ -48,7 +48,7 @@ public class FinancialAlignmentObject extends CredentialAlignmentObject
 	 * @property codedNotation
 	 * @type string
 	 */
-	public string codedNotation;
+	public String codedNotation;
 
 	/**
 	 * http://purl.org/ctdl/terms/framework
@@ -65,7 +65,7 @@ public class FinancialAlignmentObject extends CredentialAlignmentObject
 	 * @property frameworkName
 	 * @type langString
 	 */
-	public langString frameworkName;
+	public String frameworkName;
 
 	/**
 	 * http://purl.org/ctdl/terms/targetNode
@@ -81,7 +81,7 @@ public class FinancialAlignmentObject extends CredentialAlignmentObject
 	 * @property targetNodeDescription
 	 * @type langString
 	 */
-	public langString targetNodeDescription;
+	public String targetNodeDescription;
 
 	/**
 	 * http://purl.org/ctdl/terms/targetNodeName
@@ -89,7 +89,7 @@ public class FinancialAlignmentObject extends CredentialAlignmentObject
 	 * @property targetNodeName
 	 * @type langString
 	 */
-	public langString targetNodeName;
+	public String targetNodeName;
 
 	/**
 	 * http://purl.org/ctdl/terms/weight

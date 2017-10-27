@@ -1,6 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 
 /**
@@ -11,7 +10,7 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * @module org.credentialengine
  * @extends identifier
  */
-public class IdentifierValue extends identifier
+public class IdentifierValue extends EcRemoteLinkedData
 {
 	/**
 	 * Constructor, automatically sets @context and @type.
@@ -19,8 +18,7 @@ public class IdentifierValue extends identifier
 	 */
 	public IdentifierValue()
 	{
-		context="http://schema.eduworks.com/simpleCtdl";
-		type="IdentifierValue";
+		super("http://schema.eduworks.com/simpleCtdl","IdentifierValue");
 	}
 
 	/**
@@ -29,7 +27,7 @@ public class IdentifierValue extends identifier
 	 * @property description
 	 * @type langString
 	 */
-	public langString description;
+	public String description;
 
 	/**
 	 * http://purl.org/ctdl/terms/identifierType
@@ -37,7 +35,7 @@ public class IdentifierValue extends identifier
 	 * @property identifierType
 	 * @type langString
 	 */
-	public langString identifierType;
+	public String identifierType;
 
 	/**
 	 * http://purl.org/ctdl/terms/identifierValueCode
@@ -46,7 +44,7 @@ public class IdentifierValue extends identifier
 	 * @property identifierValueCode
 	 * @type string
 	 */
-	public string identifierValueCode;
+	public String identifierValueCode;
 
 	/**
 	 * http://purl.org/ctdl/terms/name
@@ -54,6 +52,6 @@ public class IdentifierValue extends identifier
 	 * @property name
 	 * @type langString
 	 */
-	public langString name;
+	public String name;
 
 }

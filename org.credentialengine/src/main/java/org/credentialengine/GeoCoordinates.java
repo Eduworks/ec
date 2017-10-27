@@ -56,6 +56,6 @@ public class GeoCoordinates extends org.schema.StructuredValue
 	 * @property name
 	 * @type langString
 	 */
-	public langString name;
+	public String name;
 
 }

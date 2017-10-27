@@ -95,7 +95,7 @@ public class AssessmentProfile extends org.schema.CreativeWork
 	 * @property assessmentExampleDescription
 	 * @type langString
 	 */
-	public langString assessmentExampleDescription;
+	public String assessmentExampleDescription;
 
 	/**
 	 * http://purl.org/ctdl/terms/assessmentMethodType
@@ -111,7 +111,7 @@ public class AssessmentProfile extends org.schema.CreativeWork
 	 * @property assessmentOutput
 	 * @type langString
 	 */
-	public langString assessmentOutput;
+	public String assessmentOutput;
 
 	/**
 	 * http://purl.org/ctdl/terms/assessmentUseType
@@ -152,7 +152,7 @@ public class AssessmentProfile extends org.schema.CreativeWork
 	 * @property codedNotation
 	 * @type string
 	 */
-	public string codedNotation;
+	public String codedNotation;
 
 	/**
 	 * http://purl.org/ctdl/terms/commonConditions
@@ -185,7 +185,7 @@ public class AssessmentProfile extends org.schema.CreativeWork
 	 * @property creditHourType
 	 * @type langString
 	 */
-	public langString creditHourType;
+	public String creditHourType;
 
 	/**
 	 * http://purl.org/ctdl/terms/creditHourValue
@@ -209,7 +209,7 @@ public class AssessmentProfile extends org.schema.CreativeWork
 	 * @property creditUnitTypeDescription
 	 * @type langString
 	 */
-	public langString creditUnitTypeDescription;
+	public String creditUnitTypeDescription;
 
 	/**
 	 * http://purl.org/ctdl/terms/creditUnitValue
@@ -226,7 +226,7 @@ public class AssessmentProfile extends org.schema.CreativeWork
 	 * @property ctid
 	 * @type string
 	 */
-	public string ctid;
+	public String ctid;
 
 	/**
 	 * http://purl.org/ctdl/terms/dateEffective
@@ -250,7 +250,7 @@ public class AssessmentProfile extends org.schema.CreativeWork
 	 * @property deliveryTypeDescription
 	 * @type langString
 	 */
-	public langString deliveryTypeDescription;
+	public String deliveryTypeDescription;
 
 	/**
 	 * http://purl.org/ctdl/terms/description
@@ -258,7 +258,7 @@ public class AssessmentProfile extends org.schema.CreativeWork
 	 * @property description
 	 * @type langString
 	 */
-	public langString description;
+	public String description;
 
 	/**
 	 * http://purl.org/ctdl/terms/developmentProcess
@@ -397,7 +397,7 @@ public class AssessmentProfile extends org.schema.CreativeWork
 	 * @property keyword
 	 * @type langString
 	 */
-	public langString keyword;
+	public String keyword;
 
 	/**
 	 * http://purl.org/ctdl/terms/maintenanceProcess
@@ -414,7 +414,7 @@ public class AssessmentProfile extends org.schema.CreativeWork
 	 * @property name
 	 * @type langString
 	 */
-	public langString name;
+	public String name;
 
 	/**
 	 * http://purl.org/ctdl/terms/offeredBy
@@ -463,7 +463,7 @@ public class AssessmentProfile extends org.schema.CreativeWork
 	 * @property processStandardsDescription
 	 * @type langString
 	 */
-	public langString processStandardsDescription;
+	public String processStandardsDescription;
 
 	/**
 	 * http://purl.org/ctdl/terms/recognizedBy
@@ -527,7 +527,7 @@ public class AssessmentProfile extends org.schema.CreativeWork
 	 * @property scoringMethodDescription
 	 * @type langString
 	 */
-	public langString scoringMethodDescription;
+	public String scoringMethodDescription;
 
 	/**
 	 * http://purl.org/ctdl/terms/scoringMethodExample
@@ -543,7 +543,7 @@ public class AssessmentProfile extends org.schema.CreativeWork
 	 * @property scoringMethodExampleDescription
 	 * @type langString
 	 */
-	public langString scoringMethodExampleDescription;
+	public String scoringMethodExampleDescription;
 
 	/**
 	 * http://purl.org/ctdl/terms/scoringMethodType
@@ -584,7 +584,7 @@ public class AssessmentProfile extends org.schema.CreativeWork
 	 * @property verificationMethodDescription
 	 * @type langString
 	 */
-	public langString verificationMethodDescription;
+	public String verificationMethodDescription;
 
 	/**
 	 * http://purl.org/ctdl/terms/versionIdentifier

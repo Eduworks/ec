@@ -370,7 +370,6 @@
         <module>org.schema</module>
         <module>org.json-ld</module>
         <module>org.credentialengine</module>
-        <module>org.credentialengine.asn</module>
         <module>org.angles.schema.angles</module>
         <module>org.cassproject.schema.general</module>
         <module>org.cassproject.schema.ebac</module>

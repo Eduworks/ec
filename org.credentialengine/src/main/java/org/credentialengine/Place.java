@@ -27,7 +27,7 @@ public class Place extends EcRemoteLinkedData
 	 * @property addressCountry
 	 * @type langString
 	 */
-	public langString addressCountry;
+	public String addressCountry;
 
 	/**
 	 * http://purl.org/ctdl/terms/addressLocality
@@ -35,7 +35,7 @@ public class Place extends EcRemoteLinkedData
 	 * @property addressLocality
 	 * @type langString
 	 */
-	public langString addressLocality;
+	public String addressLocality;
 
 	/**
 	 * http://purl.org/ctdl/terms/addressRegion
@@ -43,7 +43,7 @@ public class Place extends EcRemoteLinkedData
 	 * @property addressRegion
 	 * @type langString
 	 */
-	public langString addressRegion;
+	public String addressRegion;
 
 	/**
 	 * http://purl.org/ctdl/terms/description
@@ -51,7 +51,7 @@ public class Place extends EcRemoteLinkedData
 	 * @property description
 	 * @type langString
 	 */
-	public langString description;
+	public String description;
 
 	/**
 	 * http://purl.org/ctdl/terms/geoURI
@@ -86,7 +86,7 @@ public class Place extends EcRemoteLinkedData
 	 * @property name
 	 * @type langString
 	 */
-	public langString name;
+	public String name;
 
 	/**
 	 * http://purl.org/ctdl/terms/postalCode
@@ -94,7 +94,7 @@ public class Place extends EcRemoteLinkedData
 	 * @property postalCode
 	 * @type string
 	 */
-	public string postalCode;
+	public String postalCode;
 
 	/**
 	 * http://purl.org/ctdl/terms/postOfficeBoxNumber
@@ -102,7 +102,7 @@ public class Place extends EcRemoteLinkedData
 	 * @property postOfficeBoxNumber
 	 * @type string
 	 */
-	public string postOfficeBoxNumber;
+	public String postOfficeBoxNumber;
 
 	/**
 	 * http://purl.org/ctdl/terms/streetAddress
@@ -110,7 +110,7 @@ public class Place extends EcRemoteLinkedData
 	 * @property streetAddress
 	 * @type langString
 	 */
-	public langString streetAddress;
+	public String streetAddress;
 
 	/**
 	 * http://purl.org/ctdl/terms/targetContactPoint

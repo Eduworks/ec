@@ -28,7 +28,7 @@ public class DurationProfile extends EcRemoteLinkedData
 	 * @property description
 	 * @type langString
 	 */
-	public langString description;
+	public String description;
 
 	/**
 	 * http://purl.org/ctdl/terms/exactDuration

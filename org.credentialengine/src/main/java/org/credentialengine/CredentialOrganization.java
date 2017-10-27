@@ -70,7 +70,7 @@ public class CredentialOrganization extends Agent
 	 * @property agentPurposeDescription
 	 * @type langString
 	 */
-	public langString agentPurposeDescription;
+	public String agentPurposeDescription;
 
 	/**
 	 * http://purl.org/ctdl/terms/agentSectorType
@@ -94,7 +94,7 @@ public class CredentialOrganization extends Agent
 	 * @property alternateName
 	 * @type langString
 	 */
-	public langString alternateName;
+	public String alternateName;
 
 	/**
 	 * http://purl.org/ctdl/terms/alternativeIdentifier
@@ -168,7 +168,7 @@ public class CredentialOrganization extends Agent
 	 * @property ctid
 	 * @type string
 	 */
-	public string ctid;
+	public String ctid;
 
 	/**
 	 * http://purl.org/ctdl/terms/department
@@ -184,7 +184,7 @@ public class CredentialOrganization extends Agent
 	 * @property description
 	 * @type langString
 	 */
-	public langString description;
+	public String description;
 
 	/**
 	 * http://purl.org/ctdl/terms/developmentProcess
@@ -200,7 +200,7 @@ public class CredentialOrganization extends Agent
 	 * @property duns
 	 * @type string
 	 */
-	public string duns;
+	public String duns;
 
 	/**
 	 * http://purl.org/ctdl/terms/email
@@ -208,7 +208,7 @@ public class CredentialOrganization extends Agent
 	 * @property email
 	 * @type string
 	 */
-	public string email;
+	public String email;
 
 	/**
 	 * http://purl.org/ctdl/terms/employee
@@ -224,7 +224,7 @@ public class CredentialOrganization extends Agent
 	 * @property fein
 	 * @type string
 	 */
-	public string fein;
+	public String fein;
 
 	/**
 	 * http://purl.org/ctdl/terms/foundingDate
@@ -232,7 +232,7 @@ public class CredentialOrganization extends Agent
 	 * @property foundingDate
 	 * @type string
 	 */
-	public string foundingDate;
+	public String foundingDate;
 
 	/**
 	 * http://purl.org/ctdl/terms/hasConditionManifest
@@ -281,7 +281,7 @@ public class CredentialOrganization extends Agent
 	 * @property ipedsID
 	 * @type string
 	 */
-	public string ipedsID;
+	public String ipedsID;
 
 	/**
 	 * http://purl.org/ctdl/terms/jurisdiction
@@ -297,7 +297,7 @@ public class CredentialOrganization extends Agent
 	 * @property keyword
 	 * @type langString
 	 */
-	public langString keyword;
+	public String keyword;
 
 	/**
 	 * http://purl.org/ctdl/terms/maintenanceProcess
@@ -322,7 +322,7 @@ public class CredentialOrganization extends Agent
 	 * @property missionAndGoalsStatementDescription
 	 * @type langString
 	 */
-	public langString missionAndGoalsStatementDescription;
+	public String missionAndGoalsStatementDescription;
 
 	/**
 	 * http://purl.org/ctdl/terms/naics
@@ -330,7 +330,7 @@ public class CredentialOrganization extends Agent
 	 * @property naics
 	 * @type string
 	 */
-	public string naics;
+	public String naics;
 
 	/**
 	 * http://purl.org/ctdl/terms/name
@@ -338,7 +338,7 @@ public class CredentialOrganization extends Agent
 	 * @property name
 	 * @type langString
 	 */
-	public langString name;
+	public String name;
 
 	/**
 	 * http://purl.org/ctdl/terms/offers
@@ -355,7 +355,7 @@ public class CredentialOrganization extends Agent
 	 * @property opeID
 	 * @type string
 	 */
-	public string opeID;
+	public String opeID;
 
 	/**
 	 * http://purl.org/ctdl/terms/owns

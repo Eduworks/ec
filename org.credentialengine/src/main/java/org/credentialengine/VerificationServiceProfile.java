@@ -38,7 +38,7 @@ public class VerificationServiceProfile extends org.schema.Intangible
 	 * @property description
 	 * @type langString
 	 */
-	public langString description;
+	public String description;
 
 	/**
 	 * http://purl.org/ctdl/terms/estimatedCost
@@ -119,7 +119,7 @@ public class VerificationServiceProfile extends org.schema.Intangible
 	 * @property verificationMethodDescription
 	 * @type langString
 	 */
-	public langString verificationMethodDescription;
+	public String verificationMethodDescription;
 
 	/**
 	 * http://purl.org/ctdl/terms/verificationService

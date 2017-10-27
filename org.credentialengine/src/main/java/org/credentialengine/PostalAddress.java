@@ -29,7 +29,7 @@ public class PostalAddress extends ContactPoint
 	 * @property addressCountry
 	 * @type langString
 	 */
-	public langString addressCountry;
+	public String addressCountry;
 
 	/**
 	 * http://purl.org/ctdl/terms/addressLocality
@@ -37,7 +37,7 @@ public class PostalAddress extends ContactPoint
 	 * @property addressLocality
 	 * @type langString
 	 */
-	public langString addressLocality;
+	public String addressLocality;
 
 	/**
 	 * http://purl.org/ctdl/terms/addressRegion
@@ -45,7 +45,7 @@ public class PostalAddress extends ContactPoint
 	 * @property addressRegion
 	 * @type langString
 	 */
-	public langString addressRegion;
+	public String addressRegion;
 
 	/**
 	 * http://purl.org/ctdl/terms/name
@@ -53,7 +53,7 @@ public class PostalAddress extends ContactPoint
 	 * @property name
 	 * @type langString
 	 */
-	public langString name;
+	public String name;
 
 	/**
 	 * http://purl.org/ctdl/terms/postalCode
@@ -61,7 +61,7 @@ public class PostalAddress extends ContactPoint
 	 * @property postalCode
 	 * @type string
 	 */
-	public string postalCode;
+	public String postalCode;
 
 	/**
 	 * http://purl.org/ctdl/terms/postOfficeBoxNumber
@@ -69,7 +69,7 @@ public class PostalAddress extends ContactPoint
 	 * @property postOfficeBoxNumber
 	 * @type string
 	 */
-	public string postOfficeBoxNumber;
+	public String postOfficeBoxNumber;
 
 	/**
 	 * http://purl.org/ctdl/terms/streetAddress
@@ -77,6 +77,6 @@ public class PostalAddress extends ContactPoint
 	 * @property streetAddress
 	 * @type langString
 	 */
-	public langString streetAddress;
+	public String streetAddress;
 
 }

@@ -23,6 +23,25 @@ $.ajax({
     }
 });
 
+$.ajax({
+    url: "http://credreg.net/ctdlasn/schema/encoding/json",
+    success: function (object) {
+        var graph = object["@graph"];
+        for (var i = 0; i < graph.length; i++) {
+            var node = graph[i];
+            var type = node["@type"];
+            if (type == "rdf:Class") {
+                if (node["@id"] == "schema:DataType") continue;
+                if (node["@id"] == "schema:Number") continue;
+                if (node["@id"] == "schema:Integer") continue;
+                if (node["@id"] == "schema:Float") continue;
+                if (node["@id"] == "schema:URL") continue;
+                fs.writeFile("src/main/java/org/credentialengine/" + node["@id"].split(":")[1] + ".java", codeGenerate(graph, node));
+            }
+        }
+    }
+});
+
 function codeGenerate(graph, node) {
     var classId = node["@id"];
     var className = classId.split(":")[1];
@@ -131,6 +150,10 @@ function sub(s) {
         return "String";
     if (s == "Number")
         return "Double";
+    if (s == "string")
+        return "String";
+    if (s == "langString")
+        return "String";
     if (s == "Image")
         return "ImageObject";
     if (s == "URL")
@@ -153,5 +176,7 @@ function sub(s) {
         return "String";
     if (s == "duration")
         return "String";
+    if (s == "integer")
+        return "Integer";
     return s;
 }

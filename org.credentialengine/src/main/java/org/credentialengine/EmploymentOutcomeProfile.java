@@ -37,7 +37,7 @@ public class EmploymentOutcomeProfile extends org.schema.CreativeWork
 	 * @property description
 	 * @type langString
 	 */
-	public langString description;
+	public String description;
 
 	/**
 	 * http://purl.org/ctdl/terms/jobsObtained
@@ -45,7 +45,7 @@ public class EmploymentOutcomeProfile extends org.schema.CreativeWork
 	 * @property jobsObtained
 	 * @type integer
 	 */
-	public integer jobsObtained;
+	public Integer jobsObtained;
 
 	/**
 	 * http://purl.org/ctdl/terms/jurisdiction

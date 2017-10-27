@@ -46,7 +46,7 @@ public class ApproveAction extends CredentialingAction
 	 * @property description
 	 * @type langString
 	 */
-	public langString description;
+	public String description;
 
 	/**
 	 * http://purl.org/ctdl/terms/endDate

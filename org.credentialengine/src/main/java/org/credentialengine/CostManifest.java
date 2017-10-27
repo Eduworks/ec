@@ -45,7 +45,7 @@ public class CostManifest extends EcRemoteLinkedData
 	 * @property ctid
 	 * @type string
 	 */
-	public string ctid;
+	public String ctid;
 
 	/**
 	 * http://purl.org/ctdl/terms/description
@@ -53,7 +53,7 @@ public class CostManifest extends EcRemoteLinkedData
 	 * @property description
 	 * @type langString
 	 */
-	public langString description;
+	public String description;
 
 	/**
 	 * http://purl.org/ctdl/terms/endDate
@@ -77,7 +77,7 @@ public class CostManifest extends EcRemoteLinkedData
 	 * @property name
 	 * @type langString
 	 */
-	public langString name;
+	public String name;
 
 	/**
 	 * http://purl.org/ctdl/terms/startDate

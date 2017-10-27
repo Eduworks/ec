@@ -37,7 +37,7 @@ public class RevocationProfile extends org.schema.CreativeWork
 	 * @property description
 	 * @type langString
 	 */
-	public langString description;
+	public String description;
 
 	/**
 	 * http://purl.org/ctdl/terms/jurisdiction
@@ -69,6 +69,6 @@ public class RevocationProfile extends org.schema.CreativeWork
 	 * @property revocationCriteriaDescription
 	 * @type langString
 	 */
-	public langString revocationCriteriaDescription;
+	public String revocationCriteriaDescription;
 
 }

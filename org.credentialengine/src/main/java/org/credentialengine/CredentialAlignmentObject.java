@@ -38,7 +38,7 @@ public class CredentialAlignmentObject extends org.schema.AlignmentObject
 	 * @property alignmentType
 	 * @type string
 	 */
-	public string alignmentType;
+	public String alignmentType;
 
 	/**
 	 * http://purl.org/ctdl/terms/codedNotation
@@ -47,7 +47,7 @@ public class CredentialAlignmentObject extends org.schema.AlignmentObject
 	 * @property codedNotation
 	 * @type string
 	 */
-	public string codedNotation;
+	public String codedNotation;
 
 	/**
 	 * http://purl.org/ctdl/terms/framework
@@ -64,7 +64,7 @@ public class CredentialAlignmentObject extends org.schema.AlignmentObject
 	 * @property frameworkName
 	 * @type langString
 	 */
-	public langString frameworkName;
+	public String frameworkName;
 
 	/**
 	 * http://purl.org/ctdl/terms/targetNode
@@ -80,7 +80,7 @@ public class CredentialAlignmentObject extends org.schema.AlignmentObject
 	 * @property targetNodeDescription
 	 * @type langString
 	 */
-	public langString targetNodeDescription;
+	public String targetNodeDescription;
 
 	/**
 	 * http://purl.org/ctdl/terms/targetNodeName
@@ -88,7 +88,7 @@ public class CredentialAlignmentObject extends org.schema.AlignmentObject
 	 * @property targetNodeName
 	 * @type langString
 	 */
-	public langString targetNodeName;
+	public String targetNodeName;
 
 	/**
 	 * http://purl.org/ctdl/terms/weight

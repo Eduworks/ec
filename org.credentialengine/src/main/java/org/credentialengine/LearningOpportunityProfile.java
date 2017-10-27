@@ -95,7 +95,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	 * @property codedNotation
 	 * @type string
 	 */
-	public string codedNotation;
+	public String codedNotation;
 
 	/**
 	 * http://purl.org/ctdl/terms/commonConditions
@@ -128,7 +128,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	 * @property creditHourType
 	 * @type langString
 	 */
-	public langString creditHourType;
+	public String creditHourType;
 
 	/**
 	 * http://purl.org/ctdl/terms/creditHourValue
@@ -152,7 +152,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	 * @property creditUnitTypeDescription
 	 * @type langString
 	 */
-	public langString creditUnitTypeDescription;
+	public String creditUnitTypeDescription;
 
 	/**
 	 * http://purl.org/ctdl/terms/creditUnitValue
@@ -169,7 +169,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	 * @property ctid
 	 * @type string
 	 */
-	public string ctid;
+	public String ctid;
 
 	/**
 	 * http://purl.org/ctdl/terms/dateEffective
@@ -193,7 +193,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	 * @property deliveryTypeDescription
 	 * @type langString
 	 */
-	public langString deliveryTypeDescription;
+	public String deliveryTypeDescription;
 
 	/**
 	 * http://purl.org/ctdl/terms/description
@@ -201,7 +201,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	 * @property description
 	 * @type langString
 	 */
-	public langString description;
+	public String description;
 
 	/**
 	 * http://purl.org/ctdl/terms/entryCondition
@@ -317,7 +317,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	 * @property keyword
 	 * @type langString
 	 */
-	public langString keyword;
+	public String keyword;
 
 	/**
 	 * http://purl.org/ctdl/terms/learningMethodType
@@ -333,7 +333,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	 * @property name
 	 * @type langString
 	 */
-	public langString name;
+	public String name;
 
 	/**
 	 * http://purl.org/ctdl/terms/offeredBy
@@ -480,7 +480,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	 * @property verificationMethodDescription
 	 * @type langString
 	 */
-	public langString verificationMethodDescription;
+	public String verificationMethodDescription;
 
 	/**
 	 * http://purl.org/ctdl/terms/versionIdentifier

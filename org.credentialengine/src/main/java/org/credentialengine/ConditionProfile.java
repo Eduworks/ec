@@ -79,7 +79,7 @@ public class ConditionProfile extends org.schema.CreativeWork
 	 * @property condition
 	 * @type langString
 	 */
-	public langString condition;
+	public String condition;
 
 	/**
 	 * http://purl.org/ctdl/terms/creditHourType
@@ -87,7 +87,7 @@ public class ConditionProfile extends org.schema.CreativeWork
 	 * @property creditHourType
 	 * @type langString
 	 */
-	public langString creditHourType;
+	public String creditHourType;
 
 	/**
 	 * http://purl.org/ctdl/terms/creditHourValue
@@ -111,7 +111,7 @@ public class ConditionProfile extends org.schema.CreativeWork
 	 * @property creditUnitTypeDescription
 	 * @type langString
 	 */
-	public langString creditUnitTypeDescription;
+	public String creditUnitTypeDescription;
 
 	/**
 	 * http://purl.org/ctdl/terms/creditUnitValue
@@ -135,7 +135,7 @@ public class ConditionProfile extends org.schema.CreativeWork
 	 * @property description
 	 * @type langString
 	 */
-	public langString description;
+	public String description;
 
 	/**
 	 * http://purl.org/ctdl/terms/estimatedCost
@@ -151,7 +151,7 @@ public class ConditionProfile extends org.schema.CreativeWork
 	 * @property experience
 	 * @type langString
 	 */
-	public langString experience;
+	public String experience;
 
 	/**
 	 * http://purl.org/ctdl/terms/jurisdiction
@@ -167,7 +167,7 @@ public class ConditionProfile extends org.schema.CreativeWork
 	 * @property minimumAge
 	 * @type integer
 	 */
-	public integer minimumAge;
+	public Integer minimumAge;
 
 	/**
 	 * http://purl.org/ctdl/terms/name
@@ -175,7 +175,7 @@ public class ConditionProfile extends org.schema.CreativeWork
 	 * @property name
 	 * @type langString
 	 */
-	public langString name;
+	public String name;
 
 	/**
 	 * http://purl.org/ctdl/terms/residentOf
@@ -201,7 +201,7 @@ public class ConditionProfile extends org.schema.CreativeWork
 	 * @property submissionOf
 	 * @type langString
 	 */
-	public langString submissionOf;
+	public String submissionOf;
 
 	/**
 	 * http://purl.org/ctdl/terms/targetAssessment

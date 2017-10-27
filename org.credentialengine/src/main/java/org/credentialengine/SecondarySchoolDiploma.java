@@ -63,7 +63,7 @@ public class SecondarySchoolDiploma extends Diploma
 	 * @property alternateName
 	 * @type langString
 	 */
-	public langString alternateName;
+	public String alternateName;
 
 	/**
 	 * http://purl.org/ctdl/terms/appealProcess
@@ -136,7 +136,7 @@ public class SecondarySchoolDiploma extends Diploma
 	 * @property codedNotation
 	 * @type string
 	 */
-	public string codedNotation;
+	public String codedNotation;
 
 	/**
 	 * http://purl.org/ctdl/terms/commonConditions
@@ -186,7 +186,7 @@ public class SecondarySchoolDiploma extends Diploma
 	 * @property credentialId
 	 * @type string
 	 */
-	public string credentialId;
+	public String credentialId;
 
 	/**
 	 * http://purl.org/ctdl/terms/credentialStatusType
@@ -203,7 +203,7 @@ public class SecondarySchoolDiploma extends Diploma
 	 * @property ctid
 	 * @type string
 	 */
-	public string ctid;
+	public String ctid;
 
 	/**
 	 * http://purl.org/ctdl/terms/dateEffective
@@ -219,7 +219,7 @@ public class SecondarySchoolDiploma extends Diploma
 	 * @property description
 	 * @type langString
 	 */
-	public langString description;
+	public String description;
 
 	/**
 	 * http://purl.org/ctdl/terms/developmentProcess
@@ -375,7 +375,7 @@ public class SecondarySchoolDiploma extends Diploma
 	 * @property keyword
 	 * @type langString
 	 */
-	public langString keyword;
+	public String keyword;
 
 	/**
 	 * http://purl.org/ctdl/terms/latestVersion
@@ -416,7 +416,7 @@ public class SecondarySchoolDiploma extends Diploma
 	 * @property naics
 	 * @type string
 	 */
-	public string naics;
+	public String naics;
 
 	/**
 	 * http://purl.org/ctdl/terms/name
@@ -424,7 +424,7 @@ public class SecondarySchoolDiploma extends Diploma
 	 * @property name
 	 * @type langString
 	 */
-	public langString name;
+	public String name;
 
 	/**
 	 * http://purl.org/ctdl/terms/narrowAlignment
@@ -497,7 +497,7 @@ public class SecondarySchoolDiploma extends Diploma
 	 * @property processStandardsDescription
 	 * @type langString
 	 */
-	public langString processStandardsDescription;
+	public String processStandardsDescription;
 
 	/**
 	 * http://purl.org/ctdl/terms/purposeType

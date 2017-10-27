@@ -37,7 +37,7 @@ public class ProcessProfile extends org.schema.CreativeWork
 	 * @property description
 	 * @type langString
 	 */
-	public langString description;
+	public String description;
 
 	/**
 	 * http://purl.org/ctdl/terms/externalInputType
@@ -61,7 +61,7 @@ public class ProcessProfile extends org.schema.CreativeWork
 	 * @property processFrequency
 	 * @type langString
 	 */
-	public langString processFrequency;
+	public String processFrequency;
 
 	/**
 	 * http://purl.org/ctdl/terms/processingAgent
@@ -85,7 +85,7 @@ public class ProcessProfile extends org.schema.CreativeWork
 	 * @property processMethodDescription
 	 * @type langString
 	 */
-	public langString processMethodDescription;
+	public String processMethodDescription;
 
 	/**
 	 * http://purl.org/ctdl/terms/processStandards
@@ -101,7 +101,7 @@ public class ProcessProfile extends org.schema.CreativeWork
 	 * @property processStandardsDescription
 	 * @type langString
 	 */
-	public langString processStandardsDescription;
+	public String processStandardsDescription;
 
 	/**
 	 * http://purl.org/ctdl/terms/region
@@ -117,7 +117,7 @@ public class ProcessProfile extends org.schema.CreativeWork
 	 * @property scoringMethodDescription
 	 * @type langString
 	 */
-	public langString scoringMethodDescription;
+	public String scoringMethodDescription;
 
 	/**
 	 * http://purl.org/ctdl/terms/scoringMethodExample
@@ -133,7 +133,7 @@ public class ProcessProfile extends org.schema.CreativeWork
 	 * @property scoringMethodExampleDescription
 	 * @type langString
 	 */
-	public langString scoringMethodExampleDescription;
+	public String scoringMethodExampleDescription;
 
 	/**
 	 * http://purl.org/ctdl/terms/subjectWebpage
@@ -182,6 +182,6 @@ public class ProcessProfile extends org.schema.CreativeWork
 	 * @property verificationMethodDescription
 	 * @type langString
 	 */
-	public langString verificationMethodDescription;
+	public String verificationMethodDescription;
 
 }

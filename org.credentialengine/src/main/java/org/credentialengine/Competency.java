@@ -1,6 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 
 /**
@@ -12,7 +11,7 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * @module org.credentialengine
  * @extends Statement
  */
-public class Competency extends Statement
+public class Competency extends EcRemoteLinkedData
 {
 	/**
 	 * Constructor, automatically sets @context and @type.
@@ -20,8 +19,7 @@ public class Competency extends Statement
 	 */
 	public Competency()
 	{
-		context="http://schema.eduworks.com/simpleCtdl";
-		type="Competency";
+		super("http://schema.eduworks.com/simpleCtdl","Competency");
 	}
 
 }

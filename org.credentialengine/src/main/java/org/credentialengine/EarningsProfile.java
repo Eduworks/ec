@@ -37,7 +37,7 @@ public class EarningsProfile extends org.schema.CreativeWork
 	 * @property highEarnings
 	 * @type integer
 	 */
-	public integer highEarnings;
+	public Integer highEarnings;
 
 	/**
 	 * http://purl.org/ctdl/terms/jurisdiction
@@ -53,7 +53,7 @@ public class EarningsProfile extends org.schema.CreativeWork
 	 * @property lowEarnings
 	 * @type integer
 	 */
-	public integer lowEarnings;
+	public Integer lowEarnings;
 
 	/**
 	 * http://purl.org/ctdl/terms/medianEarnings
@@ -61,7 +61,7 @@ public class EarningsProfile extends org.schema.CreativeWork
 	 * @property medianEarnings
 	 * @type integer
 	 */
-	public integer medianEarnings;
+	public Integer medianEarnings;
 
 	/**
 	 * http://purl.org/ctdl/terms/postReceiptMonths
@@ -70,7 +70,7 @@ public class EarningsProfile extends org.schema.CreativeWork
 	 * @property postReceiptMonths
 	 * @type integer
 	 */
-	public integer postReceiptMonths;
+	public Integer postReceiptMonths;
 
 	/**
 	 * http://purl.org/ctdl/terms/region

@@ -28,7 +28,7 @@ public class ContactPoint extends EcRemoteLinkedData
 	 * @property contactOption
 	 * @type langString
 	 */
-	public langString contactOption;
+	public String contactOption;
 
 	/**
 	 * http://purl.org/ctdl/terms/contactType
@@ -37,7 +37,7 @@ public class ContactPoint extends EcRemoteLinkedData
 	 * @property contactType
 	 * @type langString
 	 */
-	public langString contactType;
+	public String contactType;
 
 	/**
 	 * http://purl.org/ctdl/terms/email
@@ -45,7 +45,7 @@ public class ContactPoint extends EcRemoteLinkedData
 	 * @property email
 	 * @type string
 	 */
-	public string email;
+	public String email;
 
 	/**
 	 * http://purl.org/ctdl/terms/faxNumber
@@ -53,7 +53,7 @@ public class ContactPoint extends EcRemoteLinkedData
 	 * @property faxNumber
 	 * @type string
 	 */
-	public string faxNumber;
+	public String faxNumber;
 
 	/**
 	 * http://purl.org/ctdl/terms/name
@@ -61,7 +61,7 @@ public class ContactPoint extends EcRemoteLinkedData
 	 * @property name
 	 * @type langString
 	 */
-	public langString name;
+	public String name;
 
 	/**
 	 * http://purl.org/ctdl/terms/socialMedia
@@ -77,6 +77,6 @@ public class ContactPoint extends EcRemoteLinkedData
 	 * @property telephone
 	 * @type string
 	 */
-	public string telephone;
+	public String telephone;
 
 }

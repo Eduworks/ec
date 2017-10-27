@@ -69,7 +69,7 @@ public class TaskProfile extends org.schema.CreativeWork
 	 * @property description
 	 * @type langString
 	 */
-	public langString description;
+	public String description;
 
 	/**
 	 * http://purl.org/ctdl/terms/estimatedCost
@@ -101,7 +101,7 @@ public class TaskProfile extends org.schema.CreativeWork
 	 * @property name
 	 * @type langString
 	 */
-	public langString name;
+	public String name;
 
 	/**
 	 * http://purl.org/ctdl/terms/taskDetails

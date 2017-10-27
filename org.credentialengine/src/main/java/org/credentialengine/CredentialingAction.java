@@ -46,7 +46,7 @@ public class CredentialingAction extends org.schema.Action
 	 * @property description
 	 * @type langString
 	 */
-	public langString description;
+	public String description;
 
 	/**
 	 * http://purl.org/ctdl/terms/endDate

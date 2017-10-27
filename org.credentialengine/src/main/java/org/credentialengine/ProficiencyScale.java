@@ -1,6 +1,5 @@
 package org.credentialengine;
 
-import org.stjs.javascript.Date;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 
 /**
@@ -12,7 +11,7 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  * @module org.credentialengine
  * @extends EducationalFramework
  */
-public class ProficiencyScale extends EducationalFramework
+public class ProficiencyScale extends EcRemoteLinkedData
 {
 	/**
 	 * Constructor, automatically sets @context and @type.
@@ -20,8 +19,7 @@ public class ProficiencyScale extends EducationalFramework
 	 */
 	public ProficiencyScale()
 	{
-		context="http://schema.eduworks.com/simpleCtdl";
-		type="ProficiencyScale";
+		super("http://schema.eduworks.com/simpleCtdl","ProficiencyScale");
 	}
 
 }

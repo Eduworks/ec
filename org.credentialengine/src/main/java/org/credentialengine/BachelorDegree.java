@@ -63,7 +63,7 @@ public class BachelorDegree extends Degree
 	 * @property alternateName
 	 * @type langString
 	 */
-	public langString alternateName;
+	public String alternateName;
 
 	/**
 	 * http://purl.org/ctdl/terms/appealProcess
@@ -136,7 +136,7 @@ public class BachelorDegree extends Degree
 	 * @property codedNotation
 	 * @type string
 	 */
-	public string codedNotation;
+	public String codedNotation;
 
 	/**
 	 * http://purl.org/ctdl/terms/commonConditions
@@ -186,7 +186,7 @@ public class BachelorDegree extends Degree
 	 * @property credentialId
 	 * @type string
 	 */
-	public string credentialId;
+	public String credentialId;
 
 	/**
 	 * http://purl.org/ctdl/terms/credentialStatusType
@@ -203,7 +203,7 @@ public class BachelorDegree extends Degree
 	 * @property ctid
 	 * @type string
 	 */
-	public string ctid;
+	public String ctid;
 
 	/**
 	 * http://purl.org/ctdl/terms/dateEffective
@@ -243,7 +243,7 @@ public class BachelorDegree extends Degree
 	 * @property description
 	 * @type langString
 	 */
-	public langString description;
+	public String description;
 
 	/**
 	 * http://purl.org/ctdl/terms/developmentProcess
@@ -399,7 +399,7 @@ public class BachelorDegree extends Degree
 	 * @property keyword
 	 * @type langString
 	 */
-	public langString keyword;
+	public String keyword;
 
 	/**
 	 * http://purl.org/ctdl/terms/latestVersion
@@ -440,7 +440,7 @@ public class BachelorDegree extends Degree
 	 * @property naics
 	 * @type string
 	 */
-	public string naics;
+	public String naics;
 
 	/**
 	 * http://purl.org/ctdl/terms/name
@@ -448,7 +448,7 @@ public class BachelorDegree extends Degree
 	 * @property name
 	 * @type langString
 	 */
-	public langString name;
+	public String name;
 
 	/**
 	 * http://purl.org/ctdl/terms/narrowAlignment
@@ -521,7 +521,7 @@ public class BachelorDegree extends Degree
 	 * @property processStandardsDescription
 	 * @type langString
 	 */
-	public langString processStandardsDescription;
+	public String processStandardsDescription;
 
 	/**
 	 * http://purl.org/ctdl/terms/purposeType

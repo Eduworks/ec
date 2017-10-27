@@ -37,7 +37,7 @@ public class CostProfile extends org.schema.CreativeWork
 	 * @property condition
 	 * @type langString
 	 */
-	public langString condition;
+	public String condition;
 
 	/**
 	 * http://purl.org/ctdl/terms/costDetails
@@ -53,7 +53,7 @@ public class CostProfile extends org.schema.CreativeWork
 	 * @property currency
 	 * @type string
 	 */
-	public string currency;
+	public String currency;
 
 	/**
 	 * http://purl.org/ctdl/terms/description
@@ -61,7 +61,7 @@ public class CostProfile extends org.schema.CreativeWork
 	 * @property description
 	 * @type langString
 	 */
-	public langString description;
+	public String description;
 
 	/**
 	 * http://purl.org/ctdl/terms/directCostType
@@ -93,7 +93,7 @@ public class CostProfile extends org.schema.CreativeWork
 	 * @property name
 	 * @type langString
 	 */
-	public langString name;
+	public String name;
 
 	/**
 	 * http://purl.org/ctdl/terms/paymentPattern
@@ -101,7 +101,7 @@ public class CostProfile extends org.schema.CreativeWork
 	 * @property paymentPattern
 	 * @type langString
 	 */
-	public langString paymentPattern;
+	public String paymentPattern;
 
 	/**
 	 * http://purl.org/ctdl/terms/price
@@ -109,7 +109,7 @@ public class CostProfile extends org.schema.CreativeWork
 	 * @property price
 	 * @type integer
 	 */
-	public integer price;
+	public Integer price;
 
 	/**
 	 * http://purl.org/ctdl/terms/region

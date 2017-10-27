@@ -62,7 +62,7 @@ public class CredentialPerson extends Agent
 	 * @property description
 	 * @type langString
 	 */
-	public langString description;
+	public String description;
 
 	/**
 	 * http://purl.org/ctdl/terms/email
@@ -70,7 +70,7 @@ public class CredentialPerson extends Agent
 	 * @property email
 	 * @type string
 	 */
-	public string email;
+	public String email;
 
 	/**
 	 * http://purl.org/ctdl/terms/familyName
@@ -79,7 +79,7 @@ public class CredentialPerson extends Agent
 	 * @property familyName
 	 * @type langString
 	 */
-	public langString familyName;
+	public String familyName;
 
 	/**
 	 * http://purl.org/ctdl/terms/givenName
@@ -87,7 +87,7 @@ public class CredentialPerson extends Agent
 	 * @property givenName
 	 * @type langString
 	 */
-	public langString givenName;
+	public String givenName;
 
 	/**
 	 * http://purl.org/ctdl/terms/honorificSuffix
@@ -95,7 +95,7 @@ public class CredentialPerson extends Agent
 	 * @property honorificSuffix
 	 * @type langString
 	 */
-	public langString honorificSuffix;
+	public String honorificSuffix;
 
 	/**
 	 * http://purl.org/ctdl/terms/image
@@ -111,7 +111,7 @@ public class CredentialPerson extends Agent
 	 * @property keyword
 	 * @type langString
 	 */
-	public langString keyword;
+	public String keyword;
 
 	/**
 	 * http://purl.org/ctdl/terms/offers

@@ -37,7 +37,7 @@ public class HoldersProfile extends org.schema.CreativeWork
 	 * @property demographicInformation
 	 * @type langString
 	 */
-	public langString demographicInformation;
+	public String demographicInformation;
 
 	/**
 	 * http://purl.org/ctdl/terms/description
@@ -45,7 +45,7 @@ public class HoldersProfile extends org.schema.CreativeWork
 	 * @property description
 	 * @type langString
 	 */
-	public langString description;
+	public String description;
 
 	/**
 	 * http://purl.org/ctdl/terms/jurisdiction
@@ -61,7 +61,7 @@ public class HoldersProfile extends org.schema.CreativeWork
 	 * @property numberAwarded
 	 * @type integer
 	 */
-	public integer numberAwarded;
+	public Integer numberAwarded;
 
 	/**
 	 * http://purl.org/ctdl/terms/region
