@@ -463,7 +463,7 @@ public class ExtResource extends CreativeWork {
 	}
 
 	/**
-	 * Sets the web page URL of the resource
+	 * Sets the launch URL of the resource
 	 *
 	 * @param {String} page
 	 *                 Launch url of the resource
@@ -472,6 +472,26 @@ public class ExtResource extends CreativeWork {
 		this.sameAs = page;
 	}
 
+	/**
+     *  Returns the resource's authoring URL
+     * 
+     *  @return {String}
+     *  authoring url of resource
+     */
+	public String getAuthoringURL() {
+        return (String) isBasedOn;
+    }
+	
+    /**
+     *  Sets the authoring URL of the resource
+     * 
+     *  @param {String} page
+     *                  Authoring url of the resource
+     */
+	public void setAuthoringURL(String page) {
+        this.isBasedOn = page;
+    }
+    
 	/**
 	 * Returns the resource object URL
 	 *
