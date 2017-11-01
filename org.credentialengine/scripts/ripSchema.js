@@ -17,7 +17,7 @@ $.ajax({
                 if (node["@id"] == "schema:Integer") continue;
                 if (node["@id"] == "schema:Float") continue;
                 if (node["@id"] == "schema:URL") continue;
-                fs.writeFile("src/main/java/org/credentialengine/" + node["@id"].split(":")[1] + ".java", codeGenerate(graph, node));
+                fs.writeFile("src/main/java/org/credentialengine/" + node["@id"].split(":")[1] + ".java", codeGenerate(graph, node,"http://schema.eduworks.com/simpleCtdl"));
             }
         }
     }
@@ -36,13 +36,13 @@ $.ajax({
                 if (node["@id"] == "schema:Integer") continue;
                 if (node["@id"] == "schema:Float") continue;
                 if (node["@id"] == "schema:URL") continue;
-                fs.writeFile("src/main/java/org/credentialengine/" + node["@id"].split(":")[1] + ".java", codeGenerate(graph, node));
+                fs.writeFile("src/main/java/org/credentialengine/" + node["@id"].split(":")[1] + ".java", codeGenerate(graph, node,"http://credreg.net/ctdlasn/schema/context/json?releaseID=20170929"));
             }
         }
     }
 });
 
-function codeGenerate(graph, node) {
+function codeGenerate(graph, node,context) {
     var classId = node["@id"];
     var className = classId.split(":")[1];
     //console.log(node);
@@ -79,12 +79,12 @@ function codeGenerate(graph, node) {
     text += "\t{\n";
     if (node["rdfs:subClassOf"] != null)
     {
-        text += "\t\tcontext=\"http://schema.eduworks.com/simpleCtdl\";\n";
+        text += "\t\tcontext=\""+context+"\";\n";
         text += "\t\ttype=\"" + className + "\";\n";
     }
     else
     {
-        text += "\t\tsuper(\"http://schema.eduworks.com/simpleCtdl\"";
+        text += "\t\tsuper(\""+context+"\"";
         text += ",\"" + className + "\");\n";
     }
     text += "\t}\n\n";

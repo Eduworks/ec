@@ -17,7 +17,7 @@ public class CompetencyFramework extends EcRemoteLinkedData
 	 */
 	public CompetencyFramework()
 	{
-		super("http://schema.eduworks.com/simpleCtdl","CompetencyFramework");
+		super("http://credreg.net/ctdlasn/schema/context/json?releaseID=20170929","CompetencyFramework");
 	}
 
 	/**

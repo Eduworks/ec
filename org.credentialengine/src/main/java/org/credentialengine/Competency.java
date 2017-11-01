@@ -17,7 +17,7 @@ public class Competency extends EcRemoteLinkedData
 	 */
 	public Competency()
 	{
-		super("http://schema.eduworks.com/simpleCtdl","Competency");
+		super("http://credreg.net/ctdlasn/schema/context/json?releaseID=20170929","Competency");
 	}
 
 	/**
