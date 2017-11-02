@@ -1031,7 +1031,13 @@ public class EcRepository {
 		if (JSObjectAdapter.$get(paramObj, "types") != null) {
 			paramProps.$put("types", JSObjectAdapter.$get(paramObj, "types"));
 		}
-
+	    if (JSObjectAdapter.$get(paramObj, "sort") != null) { 
+	        paramProps.$put("sort", JSObjectAdapter.$get(paramObj, "sort")); 
+	    } 
+	    if (JSObjectAdapter.$get(paramObj, "track_scores") != null) { 
+	        paramProps.$put("track_scores", JSObjectAdapter.$get(paramObj, "track_scores")); 
+	    } 
+	    
 		if (JSObjectAdapter.$get(paramObj, "ownership") != null) {
 			String ownership = (String) JSObjectAdapter.$get(paramObj, "ownership");
 			if (!query.startsWith("(") || !query.endsWith(")")) {
