@@ -337,6 +337,26 @@ public class ExtPerson extends Person {
 	}
 
 	/**
+	 * Returns the combined name of the Person
+	 *
+	 * @return {String}
+	 * combined name of person
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Sets the combined name of the Person
+	 *
+	 * @param {String} name
+	 *                 combined name of the Person
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	/**
 	 * Returns the alternate name of the Person
 	 *
 	 * @return {String}
