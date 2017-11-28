@@ -367,6 +367,7 @@
         <module>ec.task</module>
         <module>ebac.identity</module>
         <module>ebac.repository</module>
+        <module>org.w3.skos</module>
         <module>org.schema</module>
         <module>org.json-ld</module>
         <module>org.credentialengine</module>
