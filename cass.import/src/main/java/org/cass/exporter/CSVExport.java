@@ -79,7 +79,19 @@ public class CSVExport extends Exporter {
 									// incremental if we want
 								}
 							}
-						}, failure);
+						}, new Callback1<String>() {
+							public void $invoke(String s) {
+								frameworkCompetencies.push(null);
+
+								if (frameworkCompetencies.$length() == fw.competency.$length()) {
+									CSVExportProcess compExport = new CSVExport().new CSVExportProcess();
+									compExport.buildExport(frameworkCompetencies);
+									compExport.downloadCSV(fw.getName() + " - Competencies.csv");
+								} else {
+									// incremental if we want
+								}
+							}
+						});
 					}
 
 					for (int i = 0; i < fw.relation.$length(); i++) {
@@ -88,8 +100,6 @@ public class CSVExport extends Exporter {
 						EcRepository.get(relationUrl, new Callback1<EcRemoteLinkedData>() {
 							public void $invoke(EcRemoteLinkedData relation) {
 								frameworkRelations.push(relation);
-
-
 								if (frameworkRelations.$length() == fw.relation.$length()) {
 									CSVExportProcess compExport = new CSVExport().new CSVExportProcess();
 									compExport.buildExport(frameworkRelations);
@@ -101,7 +111,21 @@ public class CSVExport extends Exporter {
 								}
 
 							}
-						}, failure);
+						}, new Callback1<String>() {
+							@Override
+							public void $invoke(String s) {
+								frameworkRelations.push(null);
+								if (frameworkRelations.$length() == fw.relation.$length()) {
+									CSVExportProcess compExport = new CSVExport().new CSVExportProcess();
+									compExport.buildExport(frameworkRelations);
+									compExport.downloadCSV(fw.getName() + " - Relations.csv");
+									if (success != null && success != JSGlobal.undefined)
+										success.$invoke();
+								} else {
+									// incremental if we want
+								}
+							}
+						});
 					}
 				}
 			}
@@ -156,11 +180,13 @@ public class CSVExport extends Exporter {
 		}
 
 		public void buildExport(Array<EcRemoteLinkedData> objects) {
-			for (int i = 0; i < objects.$length(); i++) {
-				EcRemoteLinkedData object = objects.$get(i);
+			for (int i = 0; i < objects.$length(); i++)
+				if (objects.$get(i) != null) {
 
-				addCSVRow(object);
-			}
+					EcRemoteLinkedData object = objects.$get(i);
+
+					addCSVRow(object);
+				}
 		}
 
 		public void downloadCSV(String name) {

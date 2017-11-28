@@ -336,12 +336,14 @@ public class CSVImport {
 							String relationTypeKey = tabularData.$get(i).$get(relationTypeIndex);
 							String destKey = tabularData.$get(i).$get(destIndex);
 							if (JSObjectAdapter.$get(importCsvLookup, sourceKey) == null)
-								continue;
+								alignment.source = sourceKey;
+							else
+								alignment.source = (String) JSObjectAdapter.$get(importCsvLookup, sourceKey);
 							if (JSObjectAdapter.$get(importCsvLookup, destKey) == null)
-								continue;
-							alignment.source = (String) JSObjectAdapter.$get(importCsvLookup, sourceKey);
+								alignment.target = destKey;
+							else
+								alignment.target = (String) JSObjectAdapter.$get(importCsvLookup, destKey);
 							alignment.relationType = relationTypeKey;
-							alignment.target = (String) JSObjectAdapter.$get(importCsvLookup, destKey);
 							if (owner != null)
 								alignment.addOwner(owner.ppk.toPk());
 							alignment.generateId(serverUrl);
@@ -383,6 +385,9 @@ public class CSVImport {
 									}
 								}
 							});
+						}
+						if (saved == 0 && saved == relations.$length()) {
+							success.$invoke(competencies, relations);
 						}
 					}
 				};
