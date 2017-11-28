@@ -92,6 +92,7 @@ public class EcAlignment extends Relation {
 	 */
 	public static EcAlignment getBlocking(String id) {
 		EcRemoteLinkedData p1 = EcRepository.getBlocking(id);
+		if (p1 == null) return null;
 		if (p1 instanceof EcAlignment)
 			return (EcAlignment) p1;
 
