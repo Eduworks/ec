@@ -6,12 +6,12 @@
 	<parent>
 		<groupId>com.eduworks</groupId>
 		<artifactId>ec</artifactId>
-		<version>1.4.0</version>
+		<version>SNAPSHOT</version>
 	</parent>
 	<groupId>com.eduworks</groupId>
-	<artifactId>org.schema</artifactId>
-	<version>1.4.0</version>
-	<name>org.schema</name>
+	<artifactId>org.w3.skos</artifactId>
+	<version>SNAPSHOT</version>
+	<name>org.w3.skos</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -20,12 +20,12 @@
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>org.json-ld</artifactId>
-			<version>1.4.0</version>
+			<version>SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>org.cassproject.schema.general</artifactId>
-			<version>1.4.0</version>
+			<version>SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.st-js.bridge</groupId>

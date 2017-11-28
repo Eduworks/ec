@@ -5,12 +5,12 @@
   <parent>
     <groupId>com.eduworks</groupId>
     <artifactId>ec</artifactId>
-    <version>1.4.0</version>
+    <version>SNAPSHOT</version>
   </parent>
   <groupId>com.eduworks</groupId>
-  <artifactId>org.cassproject.schema.ebac</artifactId>
-  <version>1.4.0</version>
-  <name>org.cassproject.schema.ebac</name>
+  <artifactId>ec.task</artifactId>
+  <version>SNAPSHOT</version>
+  <name>ec.base</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,20 +26,10 @@
 		<artifactId>jquery</artifactId>
 		<version>1.11.3.bv1</version>
 	</dependency>
-    <dependency>
-      <groupId>com.eduworks</groupId>
-      <artifactId>org.json-ld</artifactId>
-      <version>1.4.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.eduworks</groupId>
-      <artifactId>ec.crypto</artifactId>
-      <version>1.4.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.eduworks</groupId>
-      <artifactId>org.cassproject.schema.general</artifactId>
-      <version>1.4.0</version>
-    </dependency>
+	<dependency>
+		<groupId>com.eduworks</groupId>
+		<artifactId>ec.base</artifactId>
+		<version>SNAPSHOT</version>
+	</dependency>
   </dependencies>
 </project>
