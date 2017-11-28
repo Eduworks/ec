@@ -108,11 +108,15 @@ public class EcRemoteLinkedData extends EcLinkedData {
         if (!id.endsWith("/"))
             id += "/";
         id += "data/";
-        id += getFullType().replace("http://", "").replaceAll("/", ".");
+        id += getDottedType();
         id += "/";
         id += EcRandom.generateUUID();
         id += "/";
         id += new Date().getTime();
+    }
+
+    public String getDottedType() {
+        return getFullType().replace("http://", "").replaceAll("/", ".");
     }
 
     /**
@@ -128,7 +132,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
         if (!id.endsWith("/"))
             id += "/";
         id += "data/"; //endpoint to CRUD data
-        id += getFullType().replace("http://", "").replaceAll("/", "."); //type information (ease of use)
+        id += getDottedType(); //type information (ease of use)
         id += "/";
         id += uniqueIdentifier; //local identifier
         id += "/";
@@ -148,7 +152,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
         if (!id.endsWith("/"))
             id += "/";
         id += "data/"; //endpoint to CRUD data
-        id += getFullType().replace("http://", "").replaceAll("/", "."); //type information (ease of use)
+        id += getDottedType(); //type information (ease of use)
         id += "/";
         id += uniqueIdentifier; //local identifier
         id += "/";

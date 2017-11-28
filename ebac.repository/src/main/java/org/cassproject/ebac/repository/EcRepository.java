@@ -545,7 +545,7 @@ public class EcRepository {
 		if (shouldTryUrl(data.id))
 			targetUrl = data.shortId();
 		else {
-			targetUrl = urlAppend(selectedServer, "data/" + EcCrypto.md5(data.id));
+			targetUrl = urlAppend(selectedServer, "data/" + data.getDottedType() + "/" + EcCrypto.md5(data.id));
 		}
 
 		final EcRepository me = this;
@@ -1031,13 +1031,13 @@ public class EcRepository {
 		if (JSObjectAdapter.$get(paramObj, "types") != null) {
 			paramProps.$put("types", JSObjectAdapter.$get(paramObj, "types"));
 		}
-	    if (JSObjectAdapter.$get(paramObj, "sort") != null) { 
-	        paramProps.$put("sort", JSObjectAdapter.$get(paramObj, "sort")); 
-	    } 
-	    if (JSObjectAdapter.$get(paramObj, "track_scores") != null) { 
-	        paramProps.$put("track_scores", JSObjectAdapter.$get(paramObj, "track_scores")); 
-	    } 
-	    
+		if (JSObjectAdapter.$get(paramObj, "sort") != null) {
+			paramProps.$put("sort", JSObjectAdapter.$get(paramObj, "sort"));
+		}
+		if (JSObjectAdapter.$get(paramObj, "track_scores") != null) {
+			paramProps.$put("track_scores", JSObjectAdapter.$get(paramObj, "track_scores"));
+		}
+
 		if (JSObjectAdapter.$get(paramObj, "ownership") != null) {
 			String ownership = (String) JSObjectAdapter.$get(paramObj, "ownership");
 			if (!query.startsWith("(") || !query.endsWith(")")) {
@@ -1250,12 +1250,15 @@ public class EcRepository {
 			public void $invoke(String p1) {
 				if (p1 != null) {
 					if (!(p1 == "")) {
-						if (p1.indexOf("pong") != -1) {
-							if (me.autoDetectFound == false) {
-								me.selectedServer = guess;
-								me.autoDetectFound = true;
-								success.$invoke();
+						try {
+							if (p1.indexOf("pong") != -1) {
+								if (me.autoDetectFound == false) {
+									me.selectedServer = guess;
+									me.autoDetectFound = true;
+									success.$invoke();
+								}
 							}
+						} catch (Exception ex) {
 						}
 					}
 				}
@@ -1300,9 +1303,12 @@ public class EcRepository {
 			public void $invoke(String p1) {
 				if (p1 != null) {
 					if (p1 != "") {
-						if (p1.indexOf("pong") != -1) {
-							me.selectedServer = guess;
-							me.autoDetectFound = true;
+						try {
+							if (p1.indexOf("pong") != -1) {
+								me.selectedServer = guess;
+								me.autoDetectFound = true;
+							}
+						} catch (Exception ex) {
 						}
 					}
 				}
