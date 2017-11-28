@@ -254,7 +254,7 @@ public class EcRepositoryTest {
 		EcRepository r = new EcRepository();
 		r.selectedServer = server;
 		console.log("Searching...");
-		r.search("@type:\"" + thing.type + "\"", null, new Callback1<Array<EcRemoteLinkedData>>() {
+		r.search("@id:\"" + thing.id + "\"", null, new Callback1<Array<EcRemoteLinkedData>>() {
 			@Override
 			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				boolean found = false;
@@ -415,7 +415,7 @@ public class EcRepositoryTest {
 		EcRepository r = new EcRepository();
 		r.selectedServer = server;
 		console.log("Searching...");
-		r.search("@type:\"" + thing.type + "\"", null, new Callback1<Array<EcRemoteLinkedData>>() {
+		r.search("@id:\"" + thing.id + "\"", null, new Callback1<Array<EcRemoteLinkedData>>() {
 			@Override
 			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				boolean found = false;
