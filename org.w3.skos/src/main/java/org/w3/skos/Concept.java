@@ -1,6 +1,5 @@
 package org.w3.skos;
 
-import org.stjs.javascript.Date;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 
 /**
@@ -12,6 +11,7 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  */
 public class Concept extends EcRemoteLinkedData
 {
+	public static final String myType = "http://schema.cassproject.org/0.3/skos/Concept";
 	/**
 	 * Constructor, automatically sets @context and @type.
 	 * @constructor

@@ -5,7 +5,7 @@ var fs = require('fs');
 require("node-jquery-xhr");
 
 $.ajax({
-    url: "http://rdf-translator.appspot.com/convert/detect/json-ld/http%3A%2F%2Fwww.w3.org%2FTR%2Fskos-reference%2Fskos.rdf",
+    url: "http://rdf-translator.appspot.com/convert/detect/json-ld/pygmentize/http%3A%2F%2Fwww.w3.org%2FTR%2Fskos-reference%2Fskos.rdf",
     success: function (object) {
         var graph = object["@graph"];
         for (var i = 0; i < graph.length; i++) {
