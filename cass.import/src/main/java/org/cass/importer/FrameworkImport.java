@@ -1,5 +1,6 @@
 package org.cass.importer;
 
+import com.eduworks.ec.task.Task;
 import org.cass.competency.EcAlignment;
 import org.cass.competency.EcCompetency;
 import org.cass.competency.EcFramework;
@@ -9,6 +10,7 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
+import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback2;
 
@@ -90,7 +92,7 @@ public class FrameworkImport {
 
 				EcCompetency.get(id, new Callback1<EcCompetency>() {
 					public void $invoke(EcCompetency comp) {
-						EcCompetency competency = new EcCompetency();
+						final EcCompetency competency = new EcCompetency();
 						competency.copyFrom(comp);
 
 						competency.generateId(serverUrl);
@@ -101,82 +103,98 @@ public class FrameworkImport {
 							competency.addOwner(owner.ppk.toPk());
 
 						final String id = competency.id;
-						competency.save(new Callback1<String>() {
-							public void $invoke(String str) {
-								savedComp++;
-								targetUsable.addCompetency(id);
+						Task.asyncImmediate(new Callback1() {
+							@Override
+							public void $invoke(Object o) {
+								final Callback0 keepGoing = (Callback0) o;
+								competency.save(new Callback1<String>() {
+									public void $invoke(String str) {
+										savedComp++;
+										targetUsable.addCompetency(id);
 
-								if (savedComp == competencies.$length()) {
+										if (savedComp == competencies.$length()) {
 
-									targetUsable.save(new Callback1<String>() {
-										@Override
-										public void $invoke(String p1) {
-											for (int i = 0; i < source.relation.$length(); i++) {
-												String id = source.relation.$get(i);
+											targetUsable.save(new Callback1<String>() {
+												@Override
+												public void $invoke(String p1) {
+													for (int i = 0; i < source.relation.$length(); i++) {
+														String id = source.relation.$get(i);
 
-												EcAlignment.get(id, new Callback1<EcAlignment>() {
-													public void $invoke(EcAlignment rel) {
-														EcAlignment relation = new EcAlignment();
-														relation.copyFrom(rel);
+														EcAlignment.get(id, new Callback1<EcAlignment>() {
+															public void $invoke(EcAlignment rel) {
+																final EcAlignment relation = new EcAlignment();
+																relation.copyFrom(rel);
 
-														relation.generateId(serverUrl);
+																relation.generateId(serverUrl);
 
-														relation.source = compMap.$get(rel.source);
-														relation.target = compMap.$get(rel.target);
+																relation.source = compMap.$get(rel.source);
+																relation.target = compMap.$get(rel.target);
 
-														if (owner != null)
-															relation.addOwner(owner.ppk.toPk());
+																if (owner != null)
+																	relation.addOwner(owner.ppk.toPk());
 
-														final String id = relation.id;
-														relation.save(new Callback1<String>() {
-															public void $invoke(String str) {
-																savedRel++;
-																targetUsable.addRelation(id);
+																final String id = relation.id;
+																Task.asyncImmediate(new Callback1() {
+																	@Override
+																	public void $invoke(Object o) {
+																		final Callback0 keepGoing2 = (Callback0) o;
+																		relation.save(new Callback1<String>() {
+																			public void $invoke(String str) {
+																				savedRel++;
+																				targetUsable.addRelation(id);
 
-																if (savedRel == relations.$length()) {
+																				if (savedRel == relations.$length()) {
 
-																	targetUsable.save(new Callback1<String>() {
-																		@Override
-																		public void $invoke(String p1) {
+																					targetUsable.save(new Callback1<String>() {
+																						@Override
+																						public void $invoke(String p1) {
 
 
-																			success.$invoke(competencies, relations);
-																		}
-																	}, new Callback1<String>() {
-																		@Override
-																		public void $invoke(String p1) {
-																			failure.$invoke(p1);
-																		}
-																	});
-																}
+																							success.$invoke(competencies, relations);
+																						}
+																					}, new Callback1<String>() {
+																						@Override
+																						public void $invoke(String p1) {
+																							failure.$invoke(p1);
+																						}
+																					});
+																				}
+																				keepGoing2.$invoke();
+																			}
+																		}, new Callback1<String>() {
+																			public void $invoke(String str) {
+																				failure.$invoke("Trouble Saving Copied Competency");
+																				keepGoing2.$invoke();
+																			}
+																		});
+																	}
+																});
+
+																relations.push(relation);
 															}
 														}, new Callback1<String>() {
 															public void $invoke(String str) {
-																failure.$invoke("Trouble Saving Copied Competency");
+																failure.$invoke(str);
 															}
 														});
 
-														relations.push(relation);
 													}
-												}, new Callback1<String>() {
-													public void $invoke(String str) {
-														failure.$invoke(str);
-													}
-												});
-
-											}
+												}
+											}, new Callback1<String>() {
+												@Override
+												public void $invoke(String p1) {
+													failure.$invoke(p1);
+												}
+											});
 										}
-									}, new Callback1<String>() {
-										@Override
-										public void $invoke(String p1) {
-											failure.$invoke(p1);
-										}
-									});
-								}
-							}
-						}, new Callback1<String>() {
-							public void $invoke(String str) {
-								failure.$invoke("Trouble Saving Copied Competency");
+										keepGoing.$invoke();
+									}
+								}, new Callback1<String>() {
+									public void $invoke(String str) {
+										failure.$invoke("Trouble Saving Copied Competency");
+										keepGoing.$invoke();
+									}
+								});
 							}
 						});
 
@@ -218,15 +236,23 @@ public class FrameworkImport {
 
 														if (relations.$length() == source.relation.$length()) {
 															JSObjectAdapter.$properties(targetUsable).$delete("competencyObjects");
-															targetUsable.save(new Callback1<String>() {
+															Task.asyncImmediate(new Callback1() {
 																@Override
-																public void $invoke(String p1) {
-																	success.$invoke(competencies, relations);
-																}
-															}, new Callback1<String>() {
-																@Override
-																public void $invoke(String p1) {
-																	failure.$invoke(p1);
+																public void $invoke(Object o) {
+																	final Callback0 keepGoing = (Callback0) o;
+																	targetUsable.save(new Callback1<String>() {
+																		@Override
+																		public void $invoke(String p1) {
+																			success.$invoke(competencies, relations);
+																			keepGoing.$invoke();
+																		}
+																	}, new Callback1<String>() {
+																		@Override
+																		public void $invoke(String p1) {
+																			failure.$invoke(p1);
+																			keepGoing.$invoke();
+																		}
+																	});
 																}
 															});
 														}

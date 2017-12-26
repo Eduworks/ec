@@ -1,5 +1,6 @@
 package org.cass.importer;
 
+import com.eduworks.ec.task.Task;
 import js.FileReader;
 import org.cass.competency.EcAlignment;
 import org.cass.competency.EcCompetency;
@@ -110,7 +111,7 @@ public class ASNImport extends Importer {
 	/**
 	 * Analyzes an ASN File for competencies and relationships.
 	 * <p>
-	 * This should be called before import, the sucess callback returns an object
+	 * This should be called before import, the success callback returns an object
 	 * indicating the number of competencies and relationships found.
 	 *
 	 * @param {Object}            file
@@ -269,37 +270,49 @@ public class ASNImport extends Importer {
 
 			competencies.$put(key, comp);
 
-			comp.save(new Callback1<String>() {
-				@Override
-				public void $invoke(String p1) {
-					savedCompetencies++;
-
-					if (savedCompetencies % INCREMENTAL_STEP == 0) {
-						if (progressObject == null)
-							progressObject = new Object();
-
-						JSObjectAdapter.$put(progressObject, "competencies", savedCompetencies);
-
-						incremental.$invoke(progressObject);
-					}
-
-					if (savedCompetencies == competencyCount) {
-						if (progressObject == null)
-							progressObject = new Object();
-
-						JSObjectAdapter.$put(progressObject, "competencies", savedCompetencies);
-						incremental.$invoke(progressObject);
-
-						success.$invoke();
-					}
-				}
-			}, new Callback1<String>() {
-				@Override
-				public void $invoke(String p1) {
-					failure.$invoke("Failed to save competency");
-				}
-			});
+			saveCompetency(success, failure, incremental, comp);
 		}
+	}
+
+	private static void saveCompetency(final Callback0 success, final Callback1<Object> failure, final Callback1<Object> incremental, final EcCompetency comp) {
+		Task.asyncImmediate(new Callback1() {
+			@Override
+			public void $invoke(Object o) {
+				final Callback0 keepGoing = (Callback0) o;
+				comp.save(new Callback1<String>() {
+					@Override
+					public void $invoke(String p1) {
+						savedCompetencies++;
+
+						if (savedCompetencies % INCREMENTAL_STEP == 0) {
+							if (progressObject == null)
+								progressObject = new Object();
+
+							JSObjectAdapter.$put(progressObject, "competencies", savedCompetencies);
+
+							incremental.$invoke(progressObject);
+						}
+
+						if (savedCompetencies == competencyCount) {
+							if (progressObject == null)
+								progressObject = new Object();
+
+							JSObjectAdapter.$put(progressObject, "competencies", savedCompetencies);
+							incremental.$invoke(progressObject);
+
+							success.$invoke();
+						}
+						keepGoing.$invoke();
+					}
+				}, new Callback1<String>() {
+					@Override
+					public void $invoke(String p1) {
+						failure.$invoke("Failed to save competency");
+						keepGoing.$invoke();
+					}
+				});
+			}
+		});
 	}
 
 	/**
@@ -352,30 +365,7 @@ public class ASNImport extends Importer {
 					if (importedFramework != null)
 						importedFramework.addRelation(relation.shortId());
 
-					relation.save(new Callback1<String>() {
-						@Override
-						public void $invoke(String p1) {
-							savedRelations++;
-
-							if (savedRelations % INCREMENTAL_STEP == 0) {
-								if (progressObject == null)
-									progressObject = new Object();
-
-								JSObjectAdapter.$put(progressObject, "relations", savedRelations);
-
-								incremental.$invoke(progressObject);
-							}
-
-							if (savedRelations == relationCount) {
-								success.$invoke();
-							}
-						}
-					}, new Callback1<String>() {
-						@Override
-						public void $invoke(String p1) {
-							failure.$invoke("Failed to save Relationship");
-						}
-					});
+					saveRelation(success, failure, incremental, relation);
 				}
 
 				createRelationships(serverUrl, owner,
@@ -384,6 +374,41 @@ public class ASNImport extends Importer {
 						success, failure, incremental
 				);
 			}
+	}
+
+	private static void saveRelation(final Callback0 success, final Callback1<Object> failure, final Callback1<Object> incremental, final EcAlignment relation) {
+		Task.asyncImmediate(new Callback1() {
+			@Override
+			public void $invoke(Object o) {
+				final Callback0 keepGoing = (Callback0) o;
+				relation.save(new Callback1<String>() {
+					@Override
+					public void $invoke(String p1) {
+						savedRelations++;
+
+						if (savedRelations % INCREMENTAL_STEP == 0) {
+							if (progressObject == null)
+								progressObject = new Object();
+
+							JSObjectAdapter.$put(progressObject, "relations", savedRelations);
+
+							incremental.$invoke(progressObject);
+						}
+
+						if (savedRelations == relationCount) {
+							success.$invoke();
+						}
+						keepGoing.$invoke();
+					}
+				}, new Callback1<String>() {
+					@Override
+					public void $invoke(String p1) {
+						failure.$invoke("Failed to save Relationship");
+						keepGoing.$invoke();
+					}
+				});
+			}
+		});
 	}
 
 

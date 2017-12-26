@@ -1,5 +1,6 @@
 package org.cass.importer;
 
+import com.eduworks.ec.task.Task;
 import js.FileReader;
 import js.X2JS;
 import org.cass.competency.EcCompetency;
@@ -7,6 +8,7 @@ import org.cassproject.ebac.identity.EcIdentity;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSObjectAdapter;
+import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
 
 /**
@@ -169,36 +171,48 @@ public class MedbiqImport extends Importer {
 			if (owner != null)
 				comp.addOwner(owner.ppk.toPk());
 
-			comp.save(new Callback1<String>() {
-				@Override
-				public void $invoke(String p1) {
-					saved++;
-
-					if (saved % INCREMENTAL_STEP == 0) {
-						if (progressObject == null)
-							progressObject = new Object();
-
-						JSObjectAdapter.$put(progressObject, "competencies", saved);
-
-						incremental.$invoke(progressObject);
-					}
-
-					if (saved == medbiqXmlCompetencies.$length()) {
-						if (progressObject == null)
-							progressObject = new Object();
-
-						JSObjectAdapter.$put(progressObject, "competencies", saved);
-						incremental.$invoke(progressObject);
-
-						success.$invoke(medbiqXmlCompetencies);
-					}
-				}
-			}, new Callback1<String>() {
-				@Override
-				public void $invoke(String p1) {
-					failure.$invoke("Failed to Save Competency");
-				}
-			});
+			saveCompetency(success, failure, incremental, comp);
 		}
+	}
+
+	public static void saveCompetency(final Callback1<Array<EcCompetency>> success, final Callback1<Object> failure, final Callback1<Object> incremental, final EcCompetency comp) {
+		Task.asyncImmediate(new Callback1() {
+			@Override
+			public void $invoke(Object o) {
+				final Callback0 keepGoing = (Callback0) o;
+				comp.save(new Callback1<String>() {
+					@Override
+					public void $invoke(String p1) {
+						saved++;
+
+						if (saved % INCREMENTAL_STEP == 0) {
+							if (progressObject == null)
+								progressObject = new Object();
+
+							JSObjectAdapter.$put(progressObject, "competencies", saved);
+
+							incremental.$invoke(progressObject);
+						}
+
+						if (saved == medbiqXmlCompetencies.$length()) {
+							if (progressObject == null)
+								progressObject = new Object();
+
+							JSObjectAdapter.$put(progressObject, "competencies", saved);
+							incremental.$invoke(progressObject);
+
+							success.$invoke(medbiqXmlCompetencies);
+						}
+						keepGoing.$invoke();
+					}
+				}, new Callback1<String>() {
+					@Override
+					public void $invoke(String p1) {
+						failure.$invoke("Failed to Save Competency");
+						keepGoing.$invoke();
+					}
+				});
+			}
+		});
 	}
 }

@@ -2,6 +2,7 @@ package org.cass.importer;
 
 import com.eduworks.ec.array.EcObject;
 import com.eduworks.ec.random.EcRandom;
+import com.eduworks.ec.task.Task;
 import js.Papa;
 import js.PapaParseParams;
 import org.cass.competency.EcAlignment;
@@ -10,6 +11,7 @@ import org.cassproject.ebac.identity.EcIdentity;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.*;
+import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback2;
 
@@ -236,40 +238,52 @@ public class CSVImport {
 						saved = 0;
 						for (int i = 0; i < competencies.$length(); i++) {
 							EcCompetency comp = competencies.$get(i);
-							comp.save(new Callback1<String>() {
-								public void $invoke(String results) {
-									saved++;
-
-									if (saved % INCREMENTAL_STEP == 0) {
-										if (progressObject == null)
-											progressObject = new Object();
-										JSObjectAdapter.$put(progressObject, "competencies", saved);
-
-										incremental.$invoke(progressObject);
-									}
-
-									if (saved == competencies.$length()) {
-										if (relations == null)
-											success.$invoke(competencies, new Array<EcAlignment>());
-										else
-											importRelations(serverUrl, owner, relations, sourceIndex, relationTypeIndex,
-													destIndex, competencies, success, failure, incremental);
-									}
-								}
-
-							}, new Callback1<String>() {
-								public void $invoke(String results) {
-									failure.$invoke("Failed to save competency");
-
-									for (int j = 0; j < competencies.$length(); j++) {
-										competencies.$get(j)._delete(null, null, null);
-									}
-								}
-							});
+							saveCompetency(comp, incremental, competencies, relations, success, serverUrl, owner, sourceIndex, relationTypeIndex, destIndex, failure);
 						}
 					}
 				};
 				error = failure;
+			}
+		});
+	}
+
+	public static void saveCompetency(final EcCompetency comp, final Callback1<Object> incremental, final Array<EcCompetency> competencies, final Object relations, final Callback2<Array<EcCompetency>, Array<EcAlignment>> success, final String serverUrl, final EcIdentity owner, final Integer sourceIndex, final Integer relationTypeIndex, final Integer destIndex, final Callback1<Object> failure) {
+		Task.asyncImmediate(new Callback1() {
+			@Override
+			public void $invoke(Object o) {
+				final Callback0 keepGoing = (Callback0) o;
+				comp.save(new Callback1<String>() {
+					public void $invoke(String results) {
+						saved++;
+
+						if (saved % INCREMENTAL_STEP == 0) {
+							if (progressObject == null)
+								progressObject = new Object();
+							JSObjectAdapter.$put(progressObject, "competencies", saved);
+
+							incremental.$invoke(progressObject);
+						}
+
+						if (saved == competencies.$length()) {
+							if (relations == null)
+								success.$invoke(competencies, new Array<EcAlignment>());
+							else
+								importRelations(serverUrl, owner, relations, sourceIndex, relationTypeIndex,
+										destIndex, competencies, success, failure, incremental);
+						}
+						keepGoing.$invoke();
+					}
+
+				}, new Callback1<String>() {
+					public void $invoke(String results) {
+						failure.$invoke("Failed to save competency");
+
+						for (int j = 0; j < competencies.$length(); j++) {
+							competencies.$get(j)._delete(null, null, null);
+						}
+						keepGoing.$invoke();
+					}
+				});
 			}
 		});
 	}
@@ -353,38 +367,7 @@ public class CSVImport {
 						saved = 0;
 						for (int i = 0; i < relations.$length(); i++) {
 							EcAlignment relation = relations.$get(i);
-							relation.save(new Callback1<String>() {
-								public void $invoke(String results) {
-									saved++;
-
-									if (saved % INCREMENTAL_STEP == 0) {
-										if (progressObject == null)
-											progressObject = new Object();
-
-										JSObjectAdapter.$put(progressObject, "relations", saved);
-
-										incremental.$invoke(progressObject);
-
-										incremental.$invoke(saved);
-									}
-
-									if (saved == relations.$length()) {
-										success.$invoke(competencies, relations);
-									}
-								}
-
-							}, new Callback1<String>() {
-								public void $invoke(String results) {
-									failure.$invoke("Failed to save competency or relation");
-
-									for (int j = 0; j < competencies.$length(); j++) {
-										competencies.$get(j)._delete(null, null, null);
-									}
-									for (int j = 0; j < relations.$length(); j++) {
-										relations.$get(j)._delete(null, null);
-									}
-								}
-							});
+							saveRelation(relation, incremental, relations, success, competencies, failure);
 						}
 						if (saved == 0 && saved == relations.$length()) {
 							success.$invoke(competencies, relations);
@@ -392,6 +375,49 @@ public class CSVImport {
 					}
 				};
 				error = failure;
+			}
+		});
+	}
+
+	public static void saveRelation(final EcAlignment relation, final Callback1<Object> incremental, final Array<EcAlignment> relations, final Callback2<Array<EcCompetency>, Array<EcAlignment>> success, final Array<EcCompetency> competencies, final Callback1<Object> failure) {
+		Task.asyncImmediate(new Callback1() {
+			@Override
+			public void $invoke(Object o) {
+				final Callback0 keepGoing = (Callback0) o;
+				relation.save(new Callback1<String>() {
+					public void $invoke(String results) {
+						saved++;
+
+						if (saved % INCREMENTAL_STEP == 0) {
+							if (progressObject == null)
+								progressObject = new Object();
+
+							JSObjectAdapter.$put(progressObject, "relations", saved);
+
+							incremental.$invoke(progressObject);
+
+							incremental.$invoke(saved);
+						}
+
+						if (saved == relations.$length()) {
+							success.$invoke(competencies, relations);
+						}
+						keepGoing.$invoke();
+					}
+
+				}, new Callback1<String>() {
+					public void $invoke(String results) {
+						failure.$invoke("Failed to save competency or relation");
+
+						for (int j = 0; j < competencies.$length(); j++) {
+							competencies.$get(j)._delete(null, null, null);
+						}
+						for (int j = 0; j < relations.$length(); j++) {
+							relations.$get(j)._delete(null, null);
+						}
+						keepGoing.$invoke();
+					}
+				});
 			}
 		});
 	}
@@ -571,25 +597,37 @@ public class CSVImport {
 
 							transformReferences(data);
 
-							EcRepository.save(data, new Callback1<String>() {
-								public void $invoke(String results) {
-									saved++;
-
-									if (saved % INCREMENTAL_STEP == 0)
-										incremental.$invoke(saved);
-									if (saved == objects.$length())
-										success.$invoke(objects);
-								}
-
-							}, new Callback1<String>() {
-								public void $invoke(String results) {
-									failure.$invoke("Failed to save object");
-								}
-							});
+							saveTransformedData(data, incremental, objects, success, failure);
 						}
 					}
 				};
 				error = failure;
+			}
+		});
+	}
+
+	public static void saveTransformedData(final EcRemoteLinkedData data, final Callback1<Object> incremental, final Array<EcRemoteLinkedData> objects, final Callback1<Array<EcRemoteLinkedData>> success, final Callback1<Object> failure) {
+		Task.asyncImmediate(new Callback1() {
+			@Override
+			public void $invoke(Object o) {
+				final Callback0 keepGoing = (Callback0) o;
+				EcRepository.save(data, new Callback1<String>() {
+					public void $invoke(String results) {
+						saved++;
+
+						if (saved % INCREMENTAL_STEP == 0)
+							incremental.$invoke(saved);
+						if (saved == objects.$length())
+							success.$invoke(objects);
+						keepGoing.$invoke();
+					}
+
+				}, new Callback1<String>() {
+					public void $invoke(String results) {
+						failure.$invoke("Failed to save object");
+						keepGoing.$invoke();
+					}
+				});
 			}
 		});
 	}
