@@ -23,7 +23,17 @@ public class EcFramework extends Framework {
 
 	static Map<String, Boolean> relDone = JSCollections.$map();
 	static Map<String, Boolean> levelDone = JSCollections.$map();
+	public static Object template;
 
+	public EcFramework(){
+		Map<String, Object> me = JSObjectAdapter.$properties(this);
+		if (template != null){
+			Map<String, Object> you = JSObjectAdapter.$properties(template);
+			for (String key : you) {
+				if (JSGlobal.typeof(you.$get(key)) != "function")
+					me.$put(key.replace("@", ""), you.$get(key));
+			}}
+	}
 	/**
 	 * Retrieves a framework from the server, specified by the ID
 	 *
@@ -122,8 +132,6 @@ public class EcFramework extends Framework {
 	 *                                       Callback triggered if an error occurs while searching
 	 * @param {Object}                       paramObj
 	 *                                       Parameter object for search
-	 * @param size
-	 * @param start
 	 * @memberOf EcFramework
 	 * @method search
 	 * @static

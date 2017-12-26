@@ -24,6 +24,18 @@ import org.stjs.javascript.functions.Callback1;
 public class EcCompetency extends Competency {
 	static Map<String, Boolean> relDone = JSCollections.$map();
 	static Map<String, Boolean> levelDone = JSCollections.$map();
+	static Object template = null;
+
+	public EcCompetency() {
+		Map<String, Object> me = JSObjectAdapter.$properties(this);
+		if (template != null) {
+			Map<String, Object> you = JSObjectAdapter.$properties(template);
+			for (String key : you) {
+				if (JSGlobal.typeof(you.$get(key)) != "function")
+					me.$put(key.replace("@", ""), you.$get(key));
+			}
+		}
+	}
 
 	/**
 	 * Retrieves a competency from it's server asynchronously
