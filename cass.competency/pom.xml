@@ -43,5 +43,10 @@
 			<artifactId>org.cassproject.schema.cass</artifactId>
 			<version>SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>com.eduworks</groupId>
+			<artifactId>org.w3.skos</artifactId>
+			<version>SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>
