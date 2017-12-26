@@ -6,36 +6,39 @@
 	<parent>
 		<groupId>com.eduworks</groupId>
 		<artifactId>ec</artifactId>
-		<version>1.5.0</version>
+		<version>SNAPSHOT</version>
 	</parent>
-	<groupId>com.eduworks</groupId>
-	<artifactId>org.schema</artifactId>
-	<version>1.5.0</version>
-	<name>org.schema</name>
+	<artifactId>cfd.competency</artifactId>
+	<name>com.eduworks.schema.cfd</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
-		<dependency>
-			<groupId>com.eduworks</groupId>
-			<artifactId>org.json-ld</artifactId>
-			<version>1.5.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.eduworks</groupId>
-			<artifactId>org.cassproject.schema.general</artifactId>
-			<version>1.5.0</version>
-		</dependency>
-		<dependency>
+	<dependency>
 			<groupId>org.st-js.bridge</groupId>
 			<artifactId>html</artifactId>
 			<version>5.0.bv2</version>
 		</dependency>
 		<dependency>
-			<groupId>org.st-js.bridge</groupId>
-			<artifactId>jquery</artifactId>
-			<version>1.11.3.bv1</version>
+			<groupId>com.eduworks</groupId>
+			<artifactId>ec.base</artifactId>
+			<version>SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.eduworks</groupId>
+			<artifactId>ec.crypto</artifactId>
+			<version>SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.eduworks</groupId>
+			<artifactId>ebac.repository</artifactId>
+			<version>SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.eduworks</groupId>
+			<artifactId>cass.competency</artifactId>
+			<version>SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>

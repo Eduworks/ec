@@ -5,31 +5,28 @@
   <parent>
     <groupId>com.eduworks</groupId>
     <artifactId>ec</artifactId>
-    <version>1.5.0</version>
+    <version>SNAPSHOT</version>
   </parent>
-  <groupId>com.eduworks</groupId>
-  <artifactId>ec.task</artifactId>
-  <version>1.5.0</version>
-  <name>ec.base</name>
-  <url>http://maven.apache.org</url>
+  <artifactId>cass.adapter</artifactId>
+  <name>cass.adapter</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
-    <dependency>
-      <groupId>org.st-js.bridge</groupId>
-      <artifactId>html</artifactId>
-      <version>5.0.bv2</version>
-    </dependency>
-	<dependency>
-		<groupId>org.st-js.bridge</groupId>
-		<artifactId>jquery</artifactId>
-		<version>1.11.3.bv1</version>
-	</dependency>
-	<dependency>
+  	<dependency>
+  		<groupId>com.eduworks</groupId>
+  		<artifactId>org.json-ld</artifactId>
+  		<version>SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>com.eduworks</groupId>
+  		<artifactId>ec.base</artifactId>
+  		<version>SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
 		<groupId>com.eduworks</groupId>
-		<artifactId>ec.base</artifactId>
-		<version>1.5.0</version>
+		<artifactId>ebac.repository</artifactId>
+		<version>SNAPSHOT</version>
 	</dependency>
   </dependencies>
 </project>
