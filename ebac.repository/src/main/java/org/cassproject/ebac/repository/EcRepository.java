@@ -201,6 +201,9 @@ public class EcRepository {
 								Logger.log("Searching for exact ID:" + url + ", found more than one@:" + repo.selectedServer);
 							done = true;
 							JSObjectAdapter.$properties(fetching).$delete(url);
+							if (caching) {
+								JSObjectAdapter.$put(cache, url, strings.$get(i));
+							}
 							success.$invoke(strings.$get(i));
 						}
 					}
@@ -232,6 +235,10 @@ public class EcRepository {
 		else {
 			for (int j = 0; j < strings.$length(); j++) {
 				if (strings.$get(j).id == url) {
+					JSObjectAdapter.$properties(fetching).$delete(url);
+					if (caching) {
+						JSObjectAdapter.$put(cache, url, strings.$get(j));
+					}
 					return strings.$get(j);
 				}
 			}
