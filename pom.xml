@@ -16,7 +16,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <stjs.version>3.2.2</stjs.version>
+        <stjs.version>3.3.2</stjs.version>
         <tools_location>/usr/lib/jvm/java-8-oracle/lib/tools.jar</tools_location>
     </properties>
 
@@ -136,7 +136,7 @@
         <dependency>
             <groupId>org.st-js.bridge</groupId>
             <artifactId>html</artifactId>
-            <version>5.0.bv2</version>
+            <version>5.0.bv6</version>
         </dependency>
         <dependency>
             <groupId>org.st-js.bridge</groupId>

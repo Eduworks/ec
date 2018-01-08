@@ -647,7 +647,7 @@ public class EcIdentityManager {
 					}
 				}
 				if (!works) {
-					d.signature.splice(i);
+					d.signature.splice(i,1);
 				} else {
 					i++;
 				}

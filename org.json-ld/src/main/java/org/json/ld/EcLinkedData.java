@@ -2,7 +2,10 @@ package org.json.ld;
 
 import com.eduworks.ec.array.EcArray;
 import com.eduworks.ec.array.EcObject;
+import js.jsonld;
 import org.stjs.javascript.*;
+import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback3;
 
 /**
  * Represents a JSON-LD linked data object and performs serialization.
@@ -330,6 +333,21 @@ public class EcLinkedData {
 			}
 		}
 		return a;
+	}
+
+	public void compact(String remoteContextUrl, final Callback1<Object> success, final Callback1<String> failure) {
+		final EcLinkedData me = this;
+		jsonld.compact(toJson(), remoteContextUrl, new Object(), new Callback3<String, Object, Object>() {
+			@Override
+			public void $invoke(String err, Object compacted, Object context) {
+				if (err != null) {
+					failure.$invoke(err);
+					return;
+				}
+				me.copyFrom(compacted);
+				success.$invoke(this);
+			}
+		});
 	}
 
 }

@@ -14,11 +14,6 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>org.st-js.bridge</groupId>
-			<artifactId>html</artifactId>
-			<version>5.0.bv2</version>
-		</dependency>
-		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>ec.base</artifactId>
 			<version>SNAPSHOT</version>

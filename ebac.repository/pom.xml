@@ -31,16 +31,6 @@
       <artifactId>org.cassproject.schema.general</artifactId>
       <version>SNAPSHOT</version>
     </dependency>
-    <dependency>
-      <groupId>org.st-js.bridge</groupId>
-      <artifactId>html</artifactId>
-      <version>5.0.bv2</version>
-    </dependency>
-	<dependency>
-		<groupId>org.st-js.bridge</groupId>
-		<artifactId>jquery</artifactId>
-		<version>1.11.3.bv1</version>
-	</dependency>
 	<dependency>
 		<groupId>com.eduworks</groupId>
 		<artifactId>org.schema</artifactId>
