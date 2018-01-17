@@ -10,10 +10,11 @@ import window.AlgorithmIdentifier;
 import window.CryptoKey;
 import window.base64;
 import window.crypto;
+import window.window;
 
 public class EcAesCtrAsync {
 	public static void encrypt(String text, String secret, String iv, final Callback1<String> success, final Callback1<String> failure) {
-		if (crypto.subtle == null) {
+		if (window.crypto == null || crypto.subtle == null) {
 			EcAesCtrAsyncWorker.encrypt(text, secret, iv, success, failure);
 			return;
 		}
@@ -48,7 +49,7 @@ public class EcAesCtrAsync {
 				return;
 			}
 		}
-		if (crypto.subtle == null) {
+		if (window.crypto == null || crypto.subtle == null) {
 			EcAesCtrAsyncWorker.decrypt(text, secret, iv, success, failure);
 			return;
 		}

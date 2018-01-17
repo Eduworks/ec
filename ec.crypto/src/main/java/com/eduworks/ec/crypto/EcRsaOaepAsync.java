@@ -6,10 +6,7 @@ import com.eduworks.ec.remote.EcRemote;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
-import window.AlgorithmIdentifier;
-import window.CryptoKey;
-import window.base64;
-import window.crypto;
+import window.*;
 
 public class EcRsaOaepAsync {
 	public static void encrypt(final EcPk pk, final String text, final Callback1<String> success, final Callback1<String> failure) {
@@ -17,7 +14,7 @@ public class EcRsaOaepAsync {
 			success.$invoke(EcRsaOaep.encrypt(pk, text));
 			return;
 		}
-		if (crypto.subtle == null) {
+		if (window.crypto == null || crypto.subtle == null) {
 			EcRsaOaepAsyncWorker.encrypt(pk, text, success, failure);
 			return;
 		}
@@ -64,7 +61,7 @@ public class EcRsaOaepAsync {
 			success.$invoke(EcRsaOaep.decrypt(ppk, text));
 			return;
 		}
-		if (crypto.subtle == null) {
+		if (window.crypto == null || crypto.subtle == null) {
 			EcRsaOaepAsyncWorker.decrypt(ppk, text, success, failure);
 			return;
 		}
@@ -101,7 +98,7 @@ public class EcRsaOaepAsync {
 			success.$invoke(EcRsaOaep.sign(ppk, text));
 			return;
 		}
-		if (crypto.subtle == null) {
+		if (window.crypto == null || crypto.subtle == null) {
 			EcRsaOaepAsyncWorker.sign(ppk, text, success, failure);
 			return;
 		}
@@ -138,7 +135,7 @@ public class EcRsaOaepAsync {
 			success.$invoke(EcRsaOaep.signSha256(ppk, text));
 			return;
 		}
-		if (crypto.subtle == null) {
+		if (window.crypto == null || crypto.subtle == null) {
 			EcRsaOaepAsyncWorker.sign(ppk, text, success, failure);
 			return;
 		}
@@ -175,7 +172,7 @@ public class EcRsaOaepAsync {
 			success.$invoke(EcRsaOaep.verify(pk, text, signature));
 			return;
 		}
-		if (crypto.subtle == null) {
+		if (window.crypto == null || crypto.subtle == null) {
 			EcRsaOaepAsyncWorker.verify(pk, text, signature, success, failure);
 			return;
 		}
