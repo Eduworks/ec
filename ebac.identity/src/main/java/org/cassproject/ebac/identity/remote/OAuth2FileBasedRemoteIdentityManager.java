@@ -135,6 +135,7 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 	public void fetch(final Callback1<Object> success, final Callback1<String> failure) {
 		Object o = new Object();
 		JSObjectAdapter.$put(o, "scope", JSObjectAdapter.$get(configuration, server + "Scope"));
+		JSObjectAdapter.$put(o, "display", "page");
 		final OAuth2FileBasedRemoteIdentityManager me = this;
 		hello.on("auth.login", new Callback1<Object>() {
 			@Override
