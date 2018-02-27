@@ -193,6 +193,119 @@ public class EcRepositoryTest {
 	}
 
 	@Test
+	public void createPublicRegisteredObjectTest() {
+		EcRemote.async = false;
+		EcRepository r = new EcRepository();
+		r.selectedServer = server;
+
+		final EcRemoteLinkedData thing = new EcRemoteLinkedData(org.cassproject.schema.general.General.context,
+				org.cassproject.schema.general.General.context + "/test");
+		thing.id = "http://cnn.com";
+		if (!thing.id.endsWith("/"))
+			thing.id += "/";
+		thing.id += "dunno/";
+		thing.id += thing.type.replace("http://", "").replaceAll("/", ".");
+		thing.id += "/";
+		thing.id += "test-public-object";
+		thing.id += "/";
+		JSObjectAdapter.$put(thing, "name", "Test Public Registered Object");
+
+		console.log("Saving Public Registered Object...");
+		r.saveTo(thing, new Callback1<String>() {
+			@Override
+			public void $invoke(String p1) {
+				console.log("Saved.");
+			}
+		}, new Callback1<String>() {
+			@Override
+			public void $invoke(String p1) {
+				console.log("Failed to save.");
+				console.log(p1);
+				Assert.fail("Failed to save object.");
+			}
+		});
+
+		console.log("Retrieving Public Registered Object...");
+		EcRepository.get(thing.shortId(), new Callback1<EcRemoteLinkedData>() {
+			@Override
+			public void $invoke(EcRemoteLinkedData p1) {
+				GeneralFile retrieved = (GeneralFile) p1;
+
+				if (retrieved.owner != null)
+					Assert.assertEquals("File is not Public, has an owner", retrieved.owner.$length(), 0);
+				Assert.assertEquals("Name Does Not Match Registered Object Name", JSObjectAdapter.$get(thing, "name"), retrieved.name);
+				Assert.assertEquals("ID Does Not Match Registered Object ID", thing.id, retrieved.id);
+
+				console.log("Retrieved Unchanged.");
+			}
+		}, new Callback1<String>() {
+			@Override
+			public void $invoke(String p1) {
+				console.log("Failed to retrieve");
+				console.log(p1);
+				Assert.fail("Failed to retrieve public Registered object after save.");
+			}
+		});
+
+		final EcRemoteLinkedData thing2 = new EcRemoteLinkedData(org.cassproject.schema.general.General.context,
+				org.cassproject.schema.general.General.context + "/test");
+		thing2.copyFrom(thing);
+		;
+		JSObjectAdapter.$put(thing, "name", "Changed Public Registered Object Name");
+
+		console.log("Updating Public Registered Object...");
+		r.saveTo(thing2, new Callback1<String>() {
+			@Override
+			public void $invoke(String p1) {
+				console.log("Updated.");
+			}
+		}, new Callback1<String>() {
+			@Override
+			public void $invoke(String p1) {
+				console.log("Failed to update.");
+				console.log(p1);
+				Assert.fail("Failed to update object.");
+			}
+		});
+
+		console.log("Retrieving After update...");
+		EcRepository.get(thing2.shortId(), new Callback1<EcRemoteLinkedData>() {
+			@Override
+			public void $invoke(EcRemoteLinkedData p1) {
+				GeneralFile retrieved = (GeneralFile) p1;
+
+				if (retrieved.owner != null)
+					Assert.assertEquals("File is not Public, has an owner", retrieved.owner.$length(), 0);
+				Assert.assertEquals("Name Does Not Match Registered Object Name", JSObjectAdapter.$get(thing2, "name"), retrieved.name);
+				Assert.assertEquals("ID Does Not Match Registered Object ID", thing2.id, retrieved.id);
+
+				console.log("Retrieved Unchanged.");
+			}
+		}, new Callback1<String>() {
+			@Override
+			public void $invoke(String p1) {
+				console.log("Failed to retrieve after update");
+				console.log(p1);
+				Assert.fail("Failed to retrieve public Registered object after update.");
+			}
+		});
+
+		console.log("Trying to Delete...");
+		r.deleteRegistered(thing, new Callback1<String>() {
+			@Override
+			public void $invoke(String p1) {
+				console.log("Good, Can Delete Public Registered Object.");
+				console.log(p1);
+			}
+		}, new Callback1<String>() {
+			@Override
+			public void $invoke(String p1) {
+				Assert.fail("Could not delete public Registered object. This is now allowed (10/26/2016).");
+			}
+		});
+	}
+
+	@Test
 	public void createAndDeleteSingleOwnedObjectTest() {
 		EcRemote.async = false;
 
