@@ -56,6 +56,17 @@ public class EcRepository {
 	 * @static
 	 */
 	public static void get(final String url, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure) {
+		if (EcRemote.async == false)
+		{
+			EcRemoteLinkedData result = getBlocking(url);
+			if (result == null)
+				if (failure != null)
+				failure.$invoke("Could not locate object. May be due to EcRepository.alwaysTryUrl flag.");
+			else
+				if (success != null)
+				success.$invoke(result);
+			return;
+		}
 		if (caching) {
 			if (JSObjectAdapter.$get(cache, url) != null) {
 				if (EcRemote.async) {
@@ -446,7 +457,8 @@ public class EcRepository {
 			return;
 		}
 
-		data.updateTimestamp();
+		if (alwaysTryUrl || repo == null || repo.shouldTryUrl(data.id))
+			data.updateTimestamp();
 
 		final FormData fd = new FormData();
 		fd.append("data", data.toJson());
@@ -843,6 +855,22 @@ public class EcRepository {
 	 */
 	public void searchWithParams(final String originalQuery, final Object originalParamObj, final Callback1<EcRemoteLinkedData> eachSuccess,
 	                             final Callback1<Array<EcRemoteLinkedData>> success, final Callback1<String> failure) {
+
+		if (EcRemote.async == false)
+		{
+			Array<EcRemoteLinkedData> result = searchWithParamsBlocking(originalQuery,originalParamObj);
+			if (result == null)
+				if (failure != null)
+				failure.$invoke("Search failed.");
+			else {
+				for (int i = 0;i < result.$length();i++)
+					if (eachSuccess != null)
+					eachSuccess.$invoke(result.$get(i));
+				if (success != null)
+				success.$invoke(result);
+			}
+			return;
+		}
 		String query = originalQuery;
 		Object paramObj = originalParamObj;
 		if (paramObj == null) {
@@ -861,7 +889,7 @@ public class EcRepository {
 		if (cachingSearch) {
 			cacheKey = JSGlobal.JSON.stringify(paramProps) + query;
 			if (JSObjectAdapter.$get(cache, cacheKey) != null) {
-				handleSearchResults((Array<EcRemoteLinkedData>) JSObjectAdapter.$get(cache, cacheKey), eachSuccess, success);
+				handleSearchResults((Array<EcRemoteLinkedData>) JSObjectAdapter.$get(cache, cacheKey), eachSuccess, success,failure);
 				return;
 			}
 			final EcRepository me = this;
@@ -901,7 +929,7 @@ public class EcRepository {
 						JSObjectAdapter.$properties(fetching).$delete(cacheKey);
 					}
 
-					me.handleSearchResults((Array<EcRemoteLinkedData>) p1, eachSuccess, success);
+					me.handleSearchResults((Array<EcRemoteLinkedData>) p1, eachSuccess, success, failure);
 				}
 			}, new Callback1<String>() {
 
@@ -930,7 +958,7 @@ public class EcRepository {
 								JSObjectAdapter.$properties(fetching).$delete(cacheKey);
 							}
 
-							me.handleSearchResults((Array<EcRemoteLinkedData>) p1, eachSuccess, success);
+							me.handleSearchResults((Array<EcRemoteLinkedData>) p1, eachSuccess, success, failure);
 						}
 					}, new Callback1<String>() {
 
@@ -982,7 +1010,7 @@ public class EcRepository {
 		cacheKey = JSGlobal.JSON.stringify(paramProps) + query;
 		if (cachingSearch) {
 			if (JSObjectAdapter.$get(cache, cacheKey) != null) {
-				return handleSearchResults((Array<EcRemoteLinkedData>) JSObjectAdapter.$get(cache, cacheKey), null, null);
+				return handleSearchResults((Array<EcRemoteLinkedData>) JSObjectAdapter.$get(cache, cacheKey), null, null, null);
 			}
 		}
 
@@ -1037,7 +1065,7 @@ public class EcRepository {
 			});
 		}
 
-		Array<EcRemoteLinkedData> result = handleSearchResults((Array<EcRemoteLinkedData>) JSObjectAdapter.$get(cache, cacheKey), null, null);
+		Array<EcRemoteLinkedData> result = handleSearchResults((Array<EcRemoteLinkedData>) JSObjectAdapter.$get(cache, cacheKey), null, null, null);
 		if (!cachingSearch) {
 			JSObjectAdapter.$properties(cache).$delete(cacheKey);
 		}
@@ -1422,12 +1450,18 @@ public class EcRepository {
 	 *                                          trigger for each search result
 	 * @param {Callback1<EcRemoteLinkedData[]>} success Callback function to
 	 *                                          trigger with all search results
+	 * @param failure
 	 * @memberOf EcRepository
 	 * @method handleSearchResults
 	 * @private
 	 */
 	private Array<EcRemoteLinkedData> handleSearchResults(Array<EcRemoteLinkedData> results, final Callback1<EcRemoteLinkedData> eachSuccess,
-	                                                      final Callback1<Array<EcRemoteLinkedData>> success) {
+	                                                      final Callback1<Array<EcRemoteLinkedData>> success, Callback1<String> failure) {
+		if (results == null) {
+			if (failure != null)
+				failure.$invoke("Error in search. See HTTP request for more details.");
+			return null;
+		}
 		for (int i = 0; i < results.$length(); i++) {
 			EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
 			d.copyFrom(results.$get(i));
