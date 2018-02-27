@@ -365,7 +365,8 @@ public class EcEncryptedValueTest {
 					Assert.assertTrue(
 							p1.trim()=="Readers only exist in encrypted data. Please provide signatures to allow access to resources."
 									||
-									p1.trim()=="error!");
+									p1.trim()=="error!"||
+									p1.trim()=="Search failed.");
 				}
 			});
 			console.log("_all Search, searching for signature 1.");
