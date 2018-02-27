@@ -21,7 +21,7 @@ import static org.stjs.javascript.Global.console;
 @RunWith(STJSTestDriverRunner.class)
 @ScriptsBefore({"/forge/forge.bundle.js"})
 public class EcVersioningTest {
-	static String server = "https://dev.cassproject.org/api/";
+	static String server = "http://localhost:8080/api/";
 
 	@Before
 	public void begin() {
