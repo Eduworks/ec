@@ -153,7 +153,7 @@ public class EcFile extends GeneralFile {
 	 */
 	public void save(final Callback1<String> success, Callback1<String> failure) {
 		if (this.name == null || this.name == "") {
-			String msg = "Competency Name can not be empty";
+			String msg = "File Name can not be empty";
 			if (failure != null)
 				failure.$invoke(msg);
 			else
@@ -161,7 +161,7 @@ public class EcFile extends GeneralFile {
 			return;
 		}
 
-		EcRepository._save(this, success, failure);
+		EcRepository.save(this, success, failure);
 	}
 
 	/**

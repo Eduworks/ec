@@ -139,7 +139,7 @@ public class EvidenceProcessingTestBase {
 		credential.name = credentialName;
 		credential.generateId(repo.selectedServer);
 
-		repo._save(credential, null, failure);
+		repo.save(credential, null, failure);
 		return credential;
 	}
 
@@ -150,7 +150,7 @@ public class EvidenceProcessingTestBase {
 		action.agent = (String) (Object) EcIdentityManager.ids.$get(0).ppk.toPk().toPem();
 		action.generateId(repo.selectedServer);
 
-		repo._save(action, null, failure);
+		repo.save(action, null, failure);
 		return action;
 	}
 
@@ -174,7 +174,7 @@ public class EvidenceProcessingTestBase {
 		r.url = c.shortId();
 		r.educationalAlignment.targetUrl = c2.shortId();
 		r.educationalAlignment.alignmentType = alignmentType;
-		repo._save(r, null, failure);
+		repo.save(r, null, failure);
 
 		return r;
 	}

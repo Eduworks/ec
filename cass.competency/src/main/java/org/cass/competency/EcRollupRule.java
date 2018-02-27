@@ -167,7 +167,7 @@ public class EcRollupRule extends RollupRule {
 			return;
 		}
 
-		EcRepository._save(this, success, failure);
+		EcRepository.save(this, success, failure);
 	}
 
 	/**

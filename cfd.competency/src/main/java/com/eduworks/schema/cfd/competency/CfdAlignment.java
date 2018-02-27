@@ -241,7 +241,7 @@ public class CfdAlignment extends AlignmentObject {
 			return;
 		}
 
-		EcRepository._save(this, success, failure);
+		EcRepository.save(this, success, failure);
 	}
 
 	/**

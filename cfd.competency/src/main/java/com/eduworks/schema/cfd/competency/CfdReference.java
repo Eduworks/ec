@@ -340,7 +340,7 @@ public class CfdReference extends CreativeWork {
 			return;
 		}
 
-		EcRepository._save(this, success, failure);
+		EcRepository.save(this, success, failure);
 	}
 
 	/**

@@ -458,7 +458,7 @@ public class EcFramework extends Framework {
 			return;
 		}
 
-		EcRepository._save(this, success, failure);
+		EcRepository.save(this, success, failure);
 	}
 
 	/**

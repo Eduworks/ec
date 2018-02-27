@@ -217,7 +217,7 @@ public class EcCompetency extends Competency {
 		a.relationType = alignmentType;
 		a.addOwner(owner.toPk());
 
-		EcRepository._save(a, success, failure);
+		EcRepository.save(a, success, failure);
 
 		return a;
 	}
@@ -317,7 +317,7 @@ public class EcCompetency extends Competency {
 		l.name = name;
 		l.addOwner(owner.toPk());
 
-		EcRepository._save(l, success, failure);
+		EcRepository.save(l, success, failure);
 
 		return l;
 	}
@@ -430,7 +430,7 @@ public class EcCompetency extends Competency {
 		r.name = name;
 		r.addOwner(owner.toPk());
 
-		EcRepository._save(r, success, failure);
+		EcRepository.save(r, success, failure);
 
 		return r;
 	}
@@ -546,7 +546,7 @@ public class EcCompetency extends Competency {
 			return;
 		}
 
-		EcRepository._save(this, success, failure);
+		EcRepository.save(this, success, failure);
 	}
 
 	/**

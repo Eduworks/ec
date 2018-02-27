@@ -305,7 +305,7 @@ public class EcLevel extends Level {
 			return;
 		}
 
-		EcRepository._save(this, success, failure);
+		EcRepository.save(this, success, failure);
 	}
 
 	/**

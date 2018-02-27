@@ -472,7 +472,7 @@ public class EcAssertion extends Assertion {
 			return;
 		}
 
-		EcRepository._save(this, success, failure);
+		EcRepository.save(this, success, failure);
 	}
 
 	@Override
