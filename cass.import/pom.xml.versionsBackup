@@ -5,16 +5,18 @@
   <parent>
     <groupId>com.eduworks</groupId>
     <artifactId>ec</artifactId>
-    <version>1.6.0</version>
+    <version>SNAPSHOT</version>
   </parent>
-  <groupId>com.eduworks</groupId>
-  <artifactId>ec.base</artifactId>
-  <version>1.6.0</version>
-  <name>ec.base</name>
-  <url>http://maven.apache.org</url>
+  <artifactId>cass.import</artifactId>
+  <name>cass.import</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
+    <dependency>
+    	<groupId>com.eduworks</groupId>
+    	<artifactId>cass.competency</artifactId>
+    	<version>SNAPSHOT</version>
+    </dependency>
   </dependencies>
 </project>
