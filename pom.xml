@@ -30,7 +30,7 @@
             <name>Apache License, Version 2.0</name>
             <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
             <distribution>repo</distribution>
-            <comments>Copyright 2015-2017 Eduworks Corporation</comments>
+            <comments>Copyright 2015-2018 Eduworks Corporation</comments>
         </license>
     </licenses>
 
@@ -125,7 +125,6 @@
         </developer>
     </developers>
 
-
     <dependencies>
         <dependency>
             <groupId>org.st-js</groupId>
@@ -144,6 +143,7 @@
             <version>1.11.3.bv1</version>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -359,6 +359,7 @@
             </plugins>
         </pluginManagement>
     </build>
+
     <modules>
         <module>ec.service.user</module>
         <module>ec.service.task</module>
