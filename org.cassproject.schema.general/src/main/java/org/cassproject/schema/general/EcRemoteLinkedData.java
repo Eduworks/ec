@@ -115,6 +115,20 @@ public class EcRemoteLinkedData extends EcLinkedData {
         id += new Date().getTime();
     }
 
+    /**
+     * Will generate an short (non-versioned) identifier using the server URL provided (usually from
+     * an EcRepository).
+     *
+     * @param {string} server Base URL of the server's repository functionality.
+     * @method generateShortId
+     */
+    public void generateShortId(String server) {
+        id = server;
+        if (!id.endsWith("/"))
+            id += "/";
+        id += EcRandom.generateUUID();
+    }
+
     public String getDottedType() {
         return getFullType().replace("http://", "").replaceAll("/", ".");
     }
