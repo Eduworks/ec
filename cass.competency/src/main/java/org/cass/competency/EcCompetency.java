@@ -209,15 +209,18 @@ public class EcCompetency extends Competency {
 	 * @method addAlignment
 	 */
 	public EcAlignment addAlignment(EcCompetency target, final String alignmentType, final EcPpk owner,
-	                                final String server, Callback1<String> success, Callback1<String> failure) {
+	                                final String serverUrl, Callback1<String> success, Callback1<String> failure,EcRepository repo) {
 		final EcAlignment a = new EcAlignment();
-		a.generateId(server);
+		if (repo == null || repo.selectedServer.indexOf(serverUrl) != -1)
+			a.generateId(serverUrl);
+		else
+			a.generateShortId(serverUrl);
 		a.source = shortId();
 		a.target = target.shortId();
 		a.relationType = alignmentType;
 		a.addOwner(owner.toPk());
 
-		EcRepository.save(a, success, failure);
+		a.save(success,failure,repo);
 
 		return a;
 	}
@@ -309,15 +312,18 @@ public class EcCompetency extends Competency {
 	 * @memberOf EcCompetency
 	 * @method addLevel
 	 */
-	public EcLevel addLevel(String name, String description, final EcPpk owner, final String server, Callback1<String> success, Callback1<String> failure) {
+	public EcLevel addLevel(String name, String description, final EcPpk owner, final String serverUrl, Callback1<String> success, Callback1<String> failure,EcRepository repo) {
 		final EcLevel l = new EcLevel();
-		l.generateId(server);
+		if (repo == null || repo.selectedServer.indexOf(serverUrl) != -1)
+			l.generateId(serverUrl);
+		else
+			l.generateShortId(serverUrl);
 		l.competency = shortId();
 		l.description = description;
 		l.name = name;
 		l.addOwner(owner.toPk());
 
-		EcRepository.save(l, success, failure);
+		l.save(success,failure,repo);
 
 		return l;
 	}
@@ -421,16 +427,21 @@ public class EcCompetency extends Competency {
 	 * @memberOf EcCompetency
 	 * @method addRollupRule
 	 */
-	public EcRollupRule addRollupRule(String name, String description, final EcPpk owner, final String server, Callback1<String> success,
-	                                  Callback1<String> failure) {
+	public EcRollupRule addRollupRule(String name, String description, final EcPpk owner, final String serverUrl, Callback1<String> success,
+	                                  Callback1<String> failure, EcRepository repo) {
 		final EcRollupRule r = new EcRollupRule();
-		r.generateId(server);
+		if (repo == null)
+
+			if (repo == null || repo.selectedServer.indexOf(serverUrl) != -1)
+				r.generateId(serverUrl);
+			else
+				r.generateShortId(serverUrl);
 		r.competency = shortId();
 		r.description = description;
 		r.name = name;
 		r.addOwner(owner.toPk());
 
-		EcRepository.save(r, success, failure);
+		r.save(success,failure,repo);
 
 		return r;
 	}
@@ -536,7 +547,7 @@ public class EcCompetency extends Competency {
 	 * @memberOf EcCompetency
 	 * @method save
 	 */
-	public void save(Callback1<String> success, Callback1<String> failure) {
+	public void save(Callback1<String> success, Callback1<String> failure, EcRepository repo) {
 		if (this.name == null || this.name == "") {
 			String msg = "Competency Name can not be empty";
 			if (failure != null)
@@ -545,8 +556,10 @@ public class EcCompetency extends Competency {
 				Global.console.error(msg);
 			return;
 		}
-
+if (repo == null)
 		EcRepository.save(this, success, failure);
+		else
+			repo.saveTo(this,success,failure);
 	}
 
 	/**

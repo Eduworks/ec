@@ -77,21 +77,21 @@ public class EcAlignmentTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to create Source Competency");
 			}
-		});
+		},null);
 
 		targetComp.save(null, new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
 				Assert.fail("Failed to create Target Competency");
 			}
-		});
+		},null);
 
 		relation.save(null, new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
 				Assert.fail("Failed to create Relation");
 			}
-		});
+		},null);
 	}
 
 	@After
@@ -155,7 +155,7 @@ public class EcAlignmentTest {
 			public void $invoke(String p1) {
 				Assert.fail("Relation Saved without source competency, shouldn't happen");
 			}
-		}, null);
+		}, null,null);
 	}
 
 	@Test
@@ -172,7 +172,7 @@ public class EcAlignmentTest {
 			public void $invoke(String p1) {
 				Assert.fail("Relation Saved without target competency, shouldn't happen");
 			}
-		}, null);
+		}, null,null);
 	}
 
 	@Test
@@ -189,7 +189,7 @@ public class EcAlignmentTest {
 			public void $invoke(String p1) {
 				Assert.fail("Relation Saved without relationType field, shouldn't happen");
 			}
-		}, null);
+		}, null,null);
 	}
 
 	@Test
@@ -239,7 +239,7 @@ public class EcAlignmentTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to save updated relation");
 			}
-		});
+		},null);
 
 		Global.console.log("Getting Relation after update");
 		EcRepository.get(relation.id, new Callback1<EcRemoteLinkedData>() {
@@ -274,7 +274,7 @@ public class EcAlignmentTest {
 			public void $invoke(String p1) {
 				Assert.fail("Saved Relation without source, shouldn't be allowed");
 			}
-		}, null);
+		}, null,null);
 	}
 
 	@Test
@@ -287,7 +287,7 @@ public class EcAlignmentTest {
 			public void $invoke(String p1) {
 				Assert.fail("Saved Relation without target, shouldn't be allowed");
 			}
-		}, null);
+		}, null,null);
 	}
 
 	@Test
@@ -301,7 +301,7 @@ public class EcAlignmentTest {
 			public void $invoke(String p1) {
 				Assert.fail("Saved Relation without relation Type, shouldn't be allowed");
 			}
-		}, null);
+		}, null,null);
 	}
 
 	@Test

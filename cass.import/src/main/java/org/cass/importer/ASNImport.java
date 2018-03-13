@@ -6,6 +6,7 @@ import org.cass.competency.EcAlignment;
 import org.cass.competency.EcCompetency;
 import org.cass.competency.EcFramework;
 import org.cassproject.ebac.identity.EcIdentity;
+import org.cassproject.ebac.repository.EcRepository;
 import org.stjs.javascript.*;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
@@ -187,7 +188,7 @@ public class ASNImport extends Importer {
 	 */
 	public static void importCompetencies(final String serverUrl, final EcIdentity owner, final boolean createFramework,
 	                                      final Callback2<Array<EcCompetency>, EcFramework> success, final Callback1<Object> failure,
-	                                      final Callback1<Object> incremental) {
+	                                      final Callback1<Object> incremental, final EcRepository repo) {
 		competencies = JSCollections.$map();
 		if (createFramework) {
 			importedFramework = new EcFramework();
@@ -206,7 +207,7 @@ public class ASNImport extends Importer {
 					@Override
 					public void $invoke() {
 						if (createFramework) {
-							createFramework(serverUrl, owner, success, failure);
+							createFramework(serverUrl, owner, success, failure, repo);
 						} else {
 							Array<EcCompetency> compList = JSCollections.$array();
 							for (String key : competencies) {
@@ -217,9 +218,9 @@ public class ASNImport extends Importer {
 								success.$invoke(compList, null);
 						}
 					}
-				}, failure, incremental);
+				}, failure, incremental, repo);
 			}
-		}, failure, incremental);
+		}, failure, incremental, repo);
 
 	}
 
@@ -243,7 +244,7 @@ public class ASNImport extends Importer {
 	 * @static
 	 */
 	private static void createCompetencies(String serverUrl, EcIdentity owner, final Callback0 success,
-	                                       final Callback1<Object> failure, final Callback1<Object> incremental) {
+	                                       final Callback1<Object> failure, final Callback1<Object> incremental, EcRepository repo) {
 		savedCompetencies = 0;
 
 		for (String key : jsonCompetencies) {
@@ -260,7 +261,10 @@ public class ASNImport extends Importer {
 			if (JSObjectAdapter.$get(jsonComp, "http://purl.org/dc/terms/description") != null)
 				comp.description = (String) JSObjectAdapter.$get(JSObjectAdapter.$get(JSObjectAdapter.$get(jsonComp, "http://purl.org/dc/terms/description"), "0"), "value");
 
-			comp.generateId(serverUrl);
+			if (repo == null || repo.selectedServer.indexOf(serverUrl) != -1)
+				comp.generateId(serverUrl);
+			else
+				comp.generateShortId(serverUrl);
 
 			if (owner != null)
 				comp.addOwner(owner.ppk.toPk());
@@ -270,11 +274,11 @@ public class ASNImport extends Importer {
 
 			competencies.$put(key, comp);
 
-			saveCompetency(success, failure, incremental, comp);
+			saveCompetency(success, failure, incremental, comp, repo);
 		}
 	}
 
-	private static void saveCompetency(final Callback0 success, final Callback1<Object> failure, final Callback1<Object> incremental, final EcCompetency comp) {
+	private static void saveCompetency(final Callback0 success, final Callback1<Object> failure, final Callback1<Object> incremental, final EcCompetency comp, final EcRepository repo) {
 		Task.asyncImmediate(new Callback1() {
 			@Override
 			public void $invoke(Object o) {
@@ -310,7 +314,7 @@ public class ASNImport extends Importer {
 						failure.$invoke("Failed to save competency");
 						keepGoing.$invoke();
 					}
-				});
+				}, repo);
 			}
 		});
 	}
@@ -338,7 +342,7 @@ public class ASNImport extends Importer {
 	 * @static
 	 */
 	private static void createRelationships(String serverUrl, EcIdentity owner, Object node, String nodeId,
-	                                        final Callback0 success, final Callback1<Object> failure, final Callback1<Object> incremental) {
+	                                        final Callback0 success, final Callback1<Object> failure, final Callback1<Object> incremental, EcRepository repo) {
 		savedRelations = 0;
 
 		if (relationCount == 0) {
@@ -357,7 +361,10 @@ public class ASNImport extends Importer {
 					relation.relationType = "narrows";
 					relation.name = "";
 					relation.description = "";
-					relation.generateId(serverUrl);
+					if (repo == null || repo.selectedServer.indexOf(serverUrl) != -1)
+						relation.generateId(serverUrl);
+					else
+						relation.generateShortId(serverUrl);
 
 					if (owner != null)
 						relation.addOwner(owner.ppk.toPk());
@@ -365,18 +372,18 @@ public class ASNImport extends Importer {
 					if (importedFramework != null)
 						importedFramework.addRelation(relation.shortId());
 
-					saveRelation(success, failure, incremental, relation);
+					saveRelation(success, failure, incremental, relation,repo);
 				}
 
 				createRelationships(serverUrl, owner,
 						jsonCompetencies.$get((String) JSObjectAdapter.$get(children.$get(j), "value")),
 						(String) JSObjectAdapter.$get(children.$get(j), "value"),
-						success, failure, incremental
+						success, failure, incremental, repo
 				);
 			}
 	}
 
-	private static void saveRelation(final Callback0 success, final Callback1<Object> failure, final Callback1<Object> incremental, final EcAlignment relation) {
+	private static void saveRelation(final Callback0 success, final Callback1<Object> failure, final Callback1<Object> incremental, final EcAlignment relation, final EcRepository repo) {
 		Task.asyncImmediate(new Callback1() {
 			@Override
 			public void $invoke(Object o) {
@@ -406,7 +413,7 @@ public class ASNImport extends Importer {
 						failure.$invoke("Failed to save Relationship");
 						keepGoing.$invoke();
 					}
-				});
+				}, repo);
 			}
 		});
 	}
@@ -428,12 +435,15 @@ public class ASNImport extends Importer {
 	 * @private
 	 * @static
 	 */
-	private static void createFramework(String serverUrl, EcIdentity owner, final Callback2<Array<EcCompetency>, EcFramework> success, final Callback1<Object> failure) {
+	private static void createFramework(String serverUrl, EcIdentity owner, final Callback2<Array<EcCompetency>, EcFramework> success, final Callback1<Object> failure, EcRepository repo) {
 		importedFramework.name = (String) JSObjectAdapter.$get(JSObjectAdapter.$get(JSObjectAdapter.$get(jsonFramework, "http://purl.org/dc/elements/1.1/title"), "0"), "value");
 
 		importedFramework.description = (String) JSObjectAdapter.$get(JSObjectAdapter.$get(JSObjectAdapter.$get(jsonFramework, "http://purl.org/dc/terms/description"), "0"), "value");
 
-		importedFramework.generateId(serverUrl);
+		if (repo == null || repo.selectedServer.indexOf(serverUrl) != -1)
+			importedFramework.generateId(serverUrl);
+		else
+			importedFramework.generateShortId(serverUrl);
 		importedFramework.sameAs = frameworkUrl;
 
 		if (owner != null)
@@ -455,6 +465,6 @@ public class ASNImport extends Importer {
 			public void $invoke(String p1) {
 				failure.$invoke("Failed to save framework");
 			}
-		});
+		}, repo);
 	}
 }

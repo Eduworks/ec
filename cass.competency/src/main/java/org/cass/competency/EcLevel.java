@@ -116,8 +116,6 @@ public class EcLevel extends Level {
 	 *                                    Callback triggered if an error occurs while searching
 	 * @param {Object}                    paramObj
 	 *                                    Search parameters object to pass in
-	 * @param size
-	 * @param start
 	 * @memberOf EcLevel
 	 * @method search
 	 * @static
@@ -173,8 +171,6 @@ public class EcLevel extends Level {
 	 *                                    Callback triggered if an error occurs while searching
 	 * @param {Object}                    paramObj
 	 *                                    Search parameters object to pass in
-	 * @param size
-	 * @param start
 	 * @memberOf EcLevel
 	 * @method searchByCompetency
 	 * @static
@@ -242,14 +238,18 @@ public class EcLevel extends Level {
 	 * @memberOf EcLevel
 	 * @method addRelationship
 	 */
-	public void addRelationship(EcLevel targetLevel, String alignmentType, final EcPpk identity, final String server) {
+	public void addRelationship(EcLevel targetLevel, String alignmentType, final EcPpk identity, final String serverUrl, Callback1<String> success, Callback1<String> failure, final EcRepository repo) {
 		final EcAlignment a = new EcAlignment();
 		a.source = id;
 		a.target = targetLevel.id;
 		a.relationType = alignmentType;
 		a.addOwner(identity.toPk());
-		a.generateId(server);
+		if (repo == null || repo.selectedServer.indexOf(serverUrl) != -1)
+			a.generateId(serverUrl);
+		else
+			a.generateShortId(serverUrl);
 		a.signWith(identity);
+		a.save(success, failure, repo);
 	}
 
 	/**
@@ -286,7 +286,7 @@ public class EcLevel extends Level {
 	 * @memberOf EcLevel
 	 * @method save
 	 */
-	public void save(Callback1<String> success, Callback1<String> failure) {
+	public void save(Callback1<String> success, Callback1<String> failure, EcRepository repo) {
 		if (name == null || name == "") {
 			String msg = "Level name cannot be empty";
 			if (failure != null)
@@ -305,7 +305,10 @@ public class EcLevel extends Level {
 			return;
 		}
 
-		EcRepository.save(this, success, failure);
+		if (repo == null)
+			EcRepository.save(this, success, failure);
+		else
+			repo.saveTo(this, success, failure);
 	}
 
 	/**

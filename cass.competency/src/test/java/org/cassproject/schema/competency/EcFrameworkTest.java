@@ -79,7 +79,7 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to Save Framework");
 			}
-		});
+		},null);
 
 
 		comp = new EcCompetency();
@@ -242,7 +242,7 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Global.console.log("Failed to save a Framework without a name");
 			}
-		});
+		},null);
 	}
 
 	@Test
@@ -282,7 +282,7 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to update Framework");
 			}
-		});
+		},null);
 
 		EcRepository.get(editedFramework.id, new Callback1<EcRemoteLinkedData>() {
 			@Override
@@ -318,7 +318,7 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Global.console.log("Failed to update framework with no name");
 			}
-		});
+		},null);
 
 		EcRepository.get(editedFramework.id, new Callback1<EcRemoteLinkedData>() {
 			@Override
@@ -354,7 +354,7 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to add competency to Framework");
 			}
-		});
+		},null);
 
 		EcRepository.get(editedFramework.id, new Callback1<EcRemoteLinkedData>() {
 			@Override
@@ -388,7 +388,7 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to Remove Competency from Framework");
 			}
-		});
+		},null);
 
 		EcRepository.get(frameworkCompRemoved.id, new Callback1<EcRemoteLinkedData>() {
 			@Override
@@ -427,7 +427,7 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to Remove Competency from Framework");
 			}
-		});
+		},null);
 
 		EcRepository.get(frameworkCompRemoved.id, new Callback1<EcRemoteLinkedData>() {
 			@Override
@@ -466,7 +466,7 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to add level to Framework");
 			}
-		});
+		},null);
 
 		EcRepository.get(editedFramework.id, new Callback1<EcRemoteLinkedData>() {
 			@Override
@@ -501,7 +501,7 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to Remove Level from Framework");
 			}
-		});
+		},null);
 
 		EcRepository.get(frameworkLevelRemoved.id, new Callback1<EcRemoteLinkedData>() {
 			@Override
@@ -540,7 +540,7 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to Remove Competency from Framework");
 			}
-		});
+		},null);
 
 		EcRepository.get(frameworkCompRemoved.id, new Callback1<EcRemoteLinkedData>() {
 			@Override
@@ -577,7 +577,7 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to add relation to Framework");
 			}
-		});
+		},null);
 
 		EcRepository.get(editedFramework.id, new Callback1<EcRemoteLinkedData>() {
 			@Override
@@ -612,7 +612,7 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to Remove relation from Framework");
 			}
-		});
+		},null);
 
 		EcRepository.get(frameworkRelationRemoved.id, new Callback1<EcRemoteLinkedData>() {
 			@Override
@@ -651,7 +651,7 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to Remove Competency from Framework");
 			}
-		});
+		},null);
 
 		EcRepository.get(frameworkCompRemoved.id, new Callback1<EcRemoteLinkedData>() {
 			@Override
@@ -691,7 +691,7 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to Save Framework");
 			}
-		});
+		},null);
 
 		Global.console.log("Deleting Framework...");
 		toDelete._delete(new Callback1<String>() {

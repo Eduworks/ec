@@ -151,7 +151,7 @@ public class CSVImport {
 	                                      final Integer nameIndex, final Integer descriptionIndex, final Integer scopeIndex, final Integer idIndex,
 	                                      final Object relations, final Integer sourceIndex, final Integer relationTypeIndex, final Integer destIndex,
 	                                      final Callback2<Array<EcCompetency>, Array<EcAlignment>> success, final Callback1<Object> failure,
-	                                      final Callback1<Object> incremental, final Boolean uniquify) {
+	                                      final Callback1<Object> incremental, final Boolean uniquify, final EcRepository repo) {
 		progressObject = null;
 		importCsvLookup = new Object();
 		if (nameIndex < 0) {
@@ -198,7 +198,11 @@ public class CSVImport {
 								transformId(tabularData.$get(i).$get(idIndex), competency, serverUrl);
 								// otherwise (unique or no idIndex), generate new ID
 							} else {
-								competency.generateId(serverUrl);
+								if (repo == null || repo.selectedServer.indexOf(serverUrl) != -1)
+									competency.generateId(serverUrl);
+								else
+									competency.generateShortId(serverUrl);
+
 							}
 
 							// Set owner if we are given one
@@ -238,7 +242,7 @@ public class CSVImport {
 						saved = 0;
 						for (int i = 0; i < competencies.$length(); i++) {
 							EcCompetency comp = competencies.$get(i);
-							saveCompetency(comp, incremental, competencies, relations, success, serverUrl, owner, sourceIndex, relationTypeIndex, destIndex, failure);
+							saveCompetency(comp, incremental, competencies, relations, success, serverUrl, owner, sourceIndex, relationTypeIndex, destIndex, failure, repo);
 						}
 					}
 				};
@@ -247,7 +251,7 @@ public class CSVImport {
 		});
 	}
 
-	public static void saveCompetency(final EcCompetency comp, final Callback1<Object> incremental, final Array<EcCompetency> competencies, final Object relations, final Callback2<Array<EcCompetency>, Array<EcAlignment>> success, final String serverUrl, final EcIdentity owner, final Integer sourceIndex, final Integer relationTypeIndex, final Integer destIndex, final Callback1<Object> failure) {
+	public static void saveCompetency(final EcCompetency comp, final Callback1<Object> incremental, final Array<EcCompetency> competencies, final Object relations, final Callback2<Array<EcCompetency>, Array<EcAlignment>> success, final String serverUrl, final EcIdentity owner, final Integer sourceIndex, final Integer relationTypeIndex, final Integer destIndex, final Callback1<Object> failure, final EcRepository repo) {
 		Task.asyncImmediate(new Callback1() {
 			@Override
 			public void $invoke(Object o) {
@@ -269,7 +273,7 @@ public class CSVImport {
 								success.$invoke(competencies, new Array<EcAlignment>());
 							else
 								importRelations(serverUrl, owner, relations, sourceIndex, relationTypeIndex,
-										destIndex, competencies, success, failure, incremental);
+										destIndex, competencies, success, failure, incremental, repo);
 						}
 						keepGoing.$invoke();
 					}
@@ -283,7 +287,7 @@ public class CSVImport {
 						}
 						keepGoing.$invoke();
 					}
-				});
+				}, repo);
 			}
 		});
 	}
@@ -319,7 +323,7 @@ public class CSVImport {
 	private static void importRelations(final String serverUrl, final EcIdentity owner, Object file,
 	                                    final Integer sourceIndex, final Integer relationTypeIndex, final Integer destIndex,
 	                                    final Array<EcCompetency> competencies, final Callback2<Array<EcCompetency>, Array<EcAlignment>> success,
-	                                    final Callback1<Object> failure, final Callback1<Object> incremental) {
+	                                    final Callback1<Object> failure, final Callback1<Object> incremental, final EcRepository repo) {
 		final Array<EcAlignment> relations = new Array<>();
 
 		if (sourceIndex == null || sourceIndex < 0) {
@@ -360,14 +364,18 @@ public class CSVImport {
 							alignment.relationType = relationTypeKey;
 							if (owner != null)
 								alignment.addOwner(owner.ppk.toPk());
-							alignment.generateId(serverUrl);
+							if (repo == null || repo.selectedServer.indexOf(serverUrl) != -1)
+								alignment.generateId(serverUrl);
+							else
+								alignment.generateShortId(serverUrl);
+
 							relations.push(alignment);
 						}
 
 						saved = 0;
 						for (int i = 0; i < relations.$length(); i++) {
 							EcAlignment relation = relations.$get(i);
-							saveRelation(relation, incremental, relations, success, competencies, failure);
+							saveRelation(relation, incremental, relations, success, competencies, failure, repo);
 						}
 						if (saved == 0 && saved == relations.$length()) {
 							success.$invoke(competencies, relations);
@@ -379,7 +387,7 @@ public class CSVImport {
 		});
 	}
 
-	public static void saveRelation(final EcAlignment relation, final Callback1<Object> incremental, final Array<EcAlignment> relations, final Callback2<Array<EcCompetency>, Array<EcAlignment>> success, final Array<EcCompetency> competencies, final Callback1<Object> failure) {
+	public static void saveRelation(final EcAlignment relation, final Callback1<Object> incremental, final Array<EcAlignment> relations, final Callback2<Array<EcCompetency>, Array<EcAlignment>> success, final Array<EcCompetency> competencies, final Callback1<Object> failure, final EcRepository repo) {
 		Task.asyncImmediate(new Callback1() {
 			@Override
 			public void $invoke(Object o) {
@@ -417,7 +425,7 @@ public class CSVImport {
 						}
 						keepGoing.$invoke();
 					}
-				});
+				}, repo);
 			}
 		});
 	}
@@ -478,7 +486,7 @@ public class CSVImport {
 
 	public static void importData(Object file, final String serverUrl, final EcIdentity owner,
 	                              final Callback1<Array<EcRemoteLinkedData>> success, final Callback1<Object> failure, final Callback1<Object> incremental,
-	                              final Integer idIndex, final String assignedContext, final String assignedType) {
+	                              final Integer idIndex, final String assignedContext, final String assignedType, final EcRepository repo) {
 		final Array<EcRemoteLinkedData> objects = JSCollections.$array();
 
 		final boolean hasAssignedContext = assignedContext != JSGlobal.undefined && assignedContext != null && assignedContext.trim() != "";
@@ -569,7 +577,10 @@ public class CSVImport {
 								data.id = tabularData.$get(i).$get(idIndex);
 								transformId(tabularData.$get(i).$get(idIndex), data, serverUrl);
 							} else {
-								data.generateId(serverUrl);
+								if (repo == null || repo.selectedServer.indexOf(serverUrl) != -1)
+									data.generateId(serverUrl);
+								else
+									data.generateShortId(serverUrl);
 							}
 
 							String shortId;
@@ -597,7 +608,7 @@ public class CSVImport {
 
 							transformReferences(data);
 
-							saveTransformedData(data, incremental, objects, success, failure);
+							saveTransformedData(data, incremental, objects, success, failure, repo);
 						}
 					}
 				};
@@ -606,12 +617,12 @@ public class CSVImport {
 		});
 	}
 
-	public static void saveTransformedData(final EcRemoteLinkedData data, final Callback1<Object> incremental, final Array<EcRemoteLinkedData> objects, final Callback1<Array<EcRemoteLinkedData>> success, final Callback1<Object> failure) {
+	public static void saveTransformedData(final EcRemoteLinkedData data, final Callback1<Object> incremental, final Array<EcRemoteLinkedData> objects, final Callback1<Array<EcRemoteLinkedData>> success, final Callback1<Object> failure, final EcRepository repo) {
 		Task.asyncImmediate(new Callback1() {
 			@Override
 			public void $invoke(Object o) {
 				final Callback0 keepGoing = (Callback0) o;
-				EcRepository.save(data, new Callback1<String>() {
+				Callback1<String> scs = new Callback1<String>() {
 					public void $invoke(String results) {
 						saved++;
 
@@ -622,12 +633,17 @@ public class CSVImport {
 						keepGoing.$invoke();
 					}
 
-				}, new Callback1<String>() {
+				};
+				Callback1<String> err = new Callback1<String>() {
 					public void $invoke(String results) {
 						failure.$invoke("Failed to save object");
 						keepGoing.$invoke();
 					}
-				});
+				};
+				if (repo == null)
+					EcRepository.save(data, scs, err);
+				else
+					repo.saveTo(data, scs, err);
 			}
 		});
 	}

@@ -402,7 +402,7 @@ public class EcAlignment extends Relation {
 	 * @memberOf EcAlignment
 	 * @method save
 	 */
-	public void save(Callback1<String> success, Callback1<String> failure) {
+	public void save(Callback1<String> success, Callback1<String> failure, EcRepository repo) {
 		if (source == null || source == "") {
 			String msg = "Source Competency cannot be missing";
 			if (failure != null)
@@ -430,7 +430,10 @@ public class EcAlignment extends Relation {
 			return;
 		}
 
-		EcRepository.save(this, success, failure);
+		if (repo == null)
+			EcRepository.save(this, success, failure);
+		else
+			repo.saveTo(this, success, failure);
 	}
 
 	/**

@@ -23,7 +23,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase {
 
 		f.addCompetency(c.shortId());
 
-		f.save(null, failure);
+		f.save(null, failure,repo);
 
 		EcAssertion a = newAssertion(c);
 
@@ -49,7 +49,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase {
 
 		f.addCompetency(c.shortId());
 
-		f.save(null, failure);
+		f.save(null, failure,repo);
 
 		EcAssertion a = newFalseAssertion(c);
 
@@ -75,7 +75,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase {
 
 		f.addCompetency(c.shortId());
 
-		f.save(null, failure);
+		f.save(null, failure,repo);
 
 		EcAssertion a = newAssertion(c);
 		EcAssertion a2 = newFalseAssertion(c);
@@ -103,7 +103,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase {
 
 		f.addCompetency(c.shortId());
 
-		f.save(null, failure);
+		f.save(null, failure,repo);
 
 		performTest(f, c, new Callback1<InquiryPacket>() {
 			@Override
@@ -132,7 +132,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase {
 
 		f.addRelation(r.shortId());
 
-		f.save(null, failure);
+		f.save(null, failure,repo);
 
 		EcAssertion a = newAssertion(c2);
 
@@ -166,7 +166,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase {
 
 		f.addRelation(r.shortId());
 
-		f.save(null, failure);
+		f.save(null, failure,repo);
 
 		EcAssertion a = newFalseAssertion(c2);
 
@@ -200,7 +200,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase {
 
 		f.addRelation(r.shortId());
 
-		f.save(null, failure);
+		f.save(null, failure,repo);
 
 		EcAssertion a = newAssertion(c);
 		EcAssertion a2 = newFalseAssertion(c2);
@@ -235,7 +235,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase {
 
 		f.addRelation(r.shortId());
 
-		f.save(null, failure);
+		f.save(null, failure,repo);
 
 		performTest(f, c, new Callback1<InquiryPacket>() {
 			@Override
@@ -271,7 +271,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase {
 		f.addRelation(r.shortId());
 		f.addRelation(r2.shortId());
 
-		f.save(null, failure);
+		f.save(null, failure,repo);
 
 		EcAssertion a = newAssertion(c3);
 
@@ -308,7 +308,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase {
 
 		f.addRelation(r.shortId());
 
-		f.save(null, failure);
+		f.save(null, failure,repo);
 
 		EcAssertion a = newAssertion(c3);
 
@@ -344,7 +344,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase {
 
 		f.addRelation(r.shortId());
 
-		f.save(null, failure);
+		f.save(null, failure,repo);
 
 		EcAssertion a = newAssertion(c2);
 
@@ -380,7 +380,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase {
 
 		f.addRelation(r.shortId());
 
-		f.save(null, failure);
+		f.save(null, failure,repo);
 
 		EcAssertion a = newFalseAssertion(c2);
 

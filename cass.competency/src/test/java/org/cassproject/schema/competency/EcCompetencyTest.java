@@ -57,7 +57,7 @@ public class EcCompetencyTest {
 			public void $invoke(String p1) {
 				Assert.fail("Unable to save Competency");
 			}
-		});
+		},null);
 	}
 
 	@After
@@ -104,7 +104,7 @@ public class EcCompetencyTest {
 			public void $invoke(String p1) {
 				Assert.fail("Saved Competency with missing name, shouldn't happen");
 			}
-		}, null);
+		}, null,null);
 	}
 
 	@Test
@@ -145,7 +145,7 @@ public class EcCompetencyTest {
 			public void $invoke(String p1) {
 				Assert.fail("failed to save target competency");
 			}
-		});
+		},null);
 
 
 		Global.console.log("Creating Relationship..");
@@ -159,7 +159,7 @@ public class EcCompetencyTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to create relationship");
 			}
-		});
+		},null);
 
 		Global.console.log("finding relationships...");
 		comp.relationships(repo, new Callback1<EcAlignment>() {
@@ -236,7 +236,7 @@ public class EcCompetencyTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to Create Level");
 			}
-		});
+		},null);
 
 		Global.console.log("Finding level...");
 		comp.levels(repo, new Callback1<EcLevel>() {
@@ -310,7 +310,7 @@ public class EcCompetencyTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to Update the Competency");
 			}
-		});
+		},null);
 
 		Global.console.log("Retrieving Competency after update...");
 		EcRepository.get(comp.id, new Callback1<EcRemoteLinkedData>() {
@@ -347,7 +347,7 @@ public class EcCompetencyTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to save competency for delete");
 			}
-		});
+		},null);
 
 		Global.console.log("deleting competency...");
 		toDelete._delete(new Callback1<String>() {
@@ -398,7 +398,7 @@ public class EcCompetencyTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to save competency for delete");
 			}
-		});
+		},null);
 
 		EcCompetency comp2 = new EcCompetency();
 		comp2.generateId(server);
@@ -411,7 +411,7 @@ public class EcCompetencyTest {
 			public void $invoke(String p1) {
 				Global.console.log("Saved Target Competency");
 			}
-		});
+		},null);
 
 		Global.console.log("Creating Relationship...");
 		EcAlignment rel = toDelete.addAlignment(comp2, "requires", ppk, server, new Callback1<String>() {
@@ -424,7 +424,7 @@ public class EcCompetencyTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to Create Relationship");
 			}
-		});
+		},null);
 
 		Global.console.log("Deleting Competency with Relationship...");
 		toDelete._delete(new Callback1<String>() {
@@ -487,7 +487,7 @@ public class EcCompetencyTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to save competency for delete");
 			}
-		});
+		},null);
 
 
 		Global.console.log("Creating Relationship...");
@@ -501,7 +501,7 @@ public class EcCompetencyTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to Create Level");
 			}
-		});
+		},null);
 
 		Global.console.log("Deleting Competency with Level...");
 		toDelete._delete(new Callback1<String>() {

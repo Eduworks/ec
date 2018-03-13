@@ -29,7 +29,7 @@ public class MilCredCoprocessorTest extends EvidenceProcessingTestBase {
 
 		f.addCompetency(c.shortId());
 
-		f.save(null, failure);
+		f.save(null, failure,repo);
 
 		final Credential cr = newCredential("Adding Credential");
 
@@ -69,7 +69,7 @@ public class MilCredCoprocessorTest extends EvidenceProcessingTestBase {
 
 		f.addCompetency(c.shortId());
 
-		f.save(null, failure);
+		f.save(null, failure,repo);
 
 		final Credential cr = newCredential("Adding Credential");
 

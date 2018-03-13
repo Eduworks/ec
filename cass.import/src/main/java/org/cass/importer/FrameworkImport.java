@@ -5,6 +5,7 @@ import org.cass.competency.EcAlignment;
 import org.cass.competency.EcCompetency;
 import org.cass.competency.EcFramework;
 import org.cassproject.ebac.identity.EcIdentity;
+import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSCollections;
@@ -62,7 +63,7 @@ public class FrameworkImport {
 	 */
 	public static void importCompetencies(final EcFramework source, final EcFramework target, boolean copy,
 	                                      final String serverUrl, final EcIdentity owner,
-	                                      final Callback2<Array<EcCompetency>, Array<EcAlignment>> success, final Callback1<Object> failure) {
+	                                      final Callback2<Array<EcCompetency>, Array<EcAlignment>> success, final Callback1<Object> failure, final EcRepository repo) {
 
 		if (source == null) {
 			failure.$invoke("Source Framework not set");
@@ -95,7 +96,10 @@ public class FrameworkImport {
 						final EcCompetency competency = new EcCompetency();
 						competency.copyFrom(comp);
 
-						competency.generateId(serverUrl);
+						if (repo == null || repo.selectedServer.indexOf(serverUrl) != -1)
+							competency.generateId(serverUrl);
+						else
+							competency.generateShortId(serverUrl);
 
 						compMap.$put(comp.shortId(), competency.shortId());
 
@@ -125,7 +129,10 @@ public class FrameworkImport {
 																final EcAlignment relation = new EcAlignment();
 																relation.copyFrom(rel);
 
-																relation.generateId(serverUrl);
+																if (repo == null || repo.selectedServer.indexOf(serverUrl) != -1)
+																	relation.generateId(serverUrl);
+																else
+																	relation.generateShortId(serverUrl);
 
 																relation.source = compMap.$get(rel.source);
 																relation.target = compMap.$get(rel.target);
@@ -157,7 +164,7 @@ public class FrameworkImport {
 																						public void $invoke(String p1) {
 																							failure.$invoke(p1);
 																						}
-																					});
+																					},repo);
 																				}
 																				keepGoing2.$invoke();
 																			}
@@ -166,7 +173,7 @@ public class FrameworkImport {
 																				failure.$invoke("Trouble Saving Copied Competency");
 																				keepGoing2.$invoke();
 																			}
-																		});
+																		},repo);
 																	}
 																});
 
@@ -185,7 +192,7 @@ public class FrameworkImport {
 												public void $invoke(String p1) {
 													failure.$invoke(p1);
 												}
-											});
+											},repo);
 										}
 										keepGoing.$invoke();
 									}
@@ -194,7 +201,7 @@ public class FrameworkImport {
 										failure.$invoke("Trouble Saving Copied Competency");
 										keepGoing.$invoke();
 									}
-								});
+								},repo);
 							}
 						});
 
@@ -252,7 +259,7 @@ public class FrameworkImport {
 																			failure.$invoke(p1);
 																			keepGoing.$invoke();
 																		}
-																	});
+																	},repo);
 																}
 															});
 														}
@@ -271,7 +278,7 @@ public class FrameworkImport {
 									public void $invoke(String p1) {
 										failure.$invoke(p1);
 									}
-								});
+								},repo);
 							}
 						}
 					}, new Callback1<String>() {

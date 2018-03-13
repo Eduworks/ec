@@ -98,7 +98,7 @@ public class EvidenceProcessingTestBase {
 		a.setAssertionDate((long) new Date().getTime());
 		a.setExpirationDate((long) (new Date().getTime()) + 1000 * 60 * 60);
 		a.setDecayFunction("t");
-		a.save(null, failure);
+		a.save(null, failure,repo);
 		return a;
 	}
 
@@ -114,7 +114,7 @@ public class EvidenceProcessingTestBase {
 		a.setAssertionDate((long) new Date().getTime());
 		a.setExpirationDate((long) (new Date().getTime()) + 1000 * 60 * 60);
 		a.setDecayFunction("t");
-		a.save(null, failure);
+		a.save(null, failure,repo);
 		return a;
 	}
 
@@ -124,7 +124,7 @@ public class EvidenceProcessingTestBase {
 		competency.name = competencyName;
 		competency.generateId(repo.selectedServer);
 
-		competency.save(null, failure);
+		competency.save(null, failure,repo);
 		return competency;
 	}
 
@@ -134,7 +134,7 @@ public class EvidenceProcessingTestBase {
 		rr.rule = rule;
 		rr.addOwner(EcIdentityManager.ids.$get(0).ppk.toPk());
 		rr.generateId(repo.selectedServer);
-		rr.save(null, failure);
+		rr.save(null, failure,repo);
 		return rr;
 	}
 
@@ -145,7 +145,7 @@ public class EvidenceProcessingTestBase {
 		r.relationType = relationType;
 		r.source = c.shortId();
 		r.target = c2.shortId();
-		r.save(null, failure);
+		r.save(null, failure,repo);
 
 		return r;
 	}
@@ -169,7 +169,7 @@ public class EvidenceProcessingTestBase {
 		framework.addOwner(EcIdentityManager.ids.$get(0).ppk.toPk());
 		framework.generateId(repo.selectedServer);
 
-		framework.save(null, failure);
+		framework.save(null, failure,repo);
 		return framework;
 	}
 

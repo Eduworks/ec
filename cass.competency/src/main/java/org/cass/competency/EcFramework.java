@@ -25,15 +25,17 @@ public class EcFramework extends Framework {
 	static Map<String, Boolean> levelDone = JSCollections.$map();
 	public static Object template;
 
-	public EcFramework(){
+	public EcFramework() {
 		Map<String, Object> me = JSObjectAdapter.$properties(this);
-		if (template != null){
+		if (template != null) {
 			Map<String, Object> you = JSObjectAdapter.$properties(template);
 			for (String key : you) {
 				if (JSGlobal.typeof(you.$get(key)) != "function")
 					me.$put(key.replace("@", ""), you.$get(key));
-			}}
+			}
+		}
 	}
+
 	/**
 	 * Retrieves a framework from the server, specified by the ID
 	 *
@@ -447,7 +449,7 @@ public class EcFramework extends Framework {
 	 * @memberOf EcFramework
 	 * @method save
 	 */
-	public void save(Callback1<String> success, Callback1<String> failure) {
+	public void save(Callback1<String> success, Callback1<String> failure, EcRepository repo) {
 		if (this.name == null || this.name == "") {
 			String msg = "Framework Name Cannot be Empty";
 
@@ -458,7 +460,10 @@ public class EcFramework extends Framework {
 			return;
 		}
 
-		EcRepository.save(this, success, failure);
+		if (repo == null)
+			EcRepository.save(this, success, failure);
+		else
+			repo.saveTo(this, success, failure);
 	}
 
 	/**

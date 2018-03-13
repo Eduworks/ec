@@ -5,6 +5,7 @@ import js.FileReader;
 import js.X2JS;
 import org.cass.competency.EcCompetency;
 import org.cassproject.ebac.identity.EcIdentity;
+import org.cassproject.ebac.repository.EcRepository;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSObjectAdapter;
@@ -160,27 +161,30 @@ public class MedbiqImport extends Importer {
 	 * @static
 	 */
 	public static void importCompetencies(final String serverUrl, final EcIdentity owner,
-	                                      final Callback1<Array<EcCompetency>> success, final Callback1<Object> failure, final Callback1<Object> incremental) {
+	                                      final Callback1<Array<EcCompetency>> success, final Callback1<Object> failure, final Callback1<Object> incremental, EcRepository repo) {
 		progressObject = null;
 		saved = 0;
 		for (int i = 0; i < medbiqXmlCompetencies.$length(); i++) {
 			EcCompetency comp = medbiqXmlCompetencies.$get(i);
 
-			comp.generateId(serverUrl);
+			if (repo == null || repo.selectedServer.indexOf(serverUrl) != -1)
+				comp.generateId(serverUrl);
+			else
+				comp.generateShortId(serverUrl);
 
 			if (owner != null)
 				comp.addOwner(owner.ppk.toPk());
 
-			saveCompetency(success, failure, incremental, comp);
+			saveCompetency(success, failure, incremental, comp, repo);
 		}
 	}
 
-	public static void saveCompetency(final Callback1<Array<EcCompetency>> success, final Callback1<Object> failure, final Callback1<Object> incremental, final EcCompetency comp) {
+	public static void saveCompetency(final Callback1<Array<EcCompetency>> success, final Callback1<Object> failure, final Callback1<Object> incremental, final EcCompetency comp, final EcRepository repo) {
 		Task.asyncImmediate(new Callback1() {
 			@Override
 			public void $invoke(Object o) {
 				final Callback0 keepGoing = (Callback0) o;
-				comp.save(new Callback1<String>() {
+				Callback1 scs = new Callback1<String>() {
 					@Override
 					public void $invoke(String p1) {
 						saved++;
@@ -205,13 +209,15 @@ public class MedbiqImport extends Importer {
 						}
 						keepGoing.$invoke();
 					}
-				}, new Callback1<String>() {
+				};
+				Callback1 err = new Callback1<String>() {
 					@Override
 					public void $invoke(String p1) {
 						failure.$invoke("Failed to Save Competency");
 						keepGoing.$invoke();
 					}
-				});
+				};
+					comp.save(scs, err,repo);
 			}
 		});
 	}

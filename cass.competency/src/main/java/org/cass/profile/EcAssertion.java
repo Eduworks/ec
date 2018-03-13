@@ -417,7 +417,7 @@ public class EcAssertion extends Assertion {
 		evidence = encryptedValues;
 	}
 
-	public void save(Callback1<String> success, Callback1<String> failure) {
+	public void save(Callback1<String> success, Callback1<String> failure, EcRepository repo) {
 		if (competency == null || competency == "") {
 			String msg = "Failing to save: Competency cannot be missing";
 			if (failure != null)
@@ -472,7 +472,10 @@ public class EcAssertion extends Assertion {
 			return;
 		}
 
-		EcRepository.save(this, success, failure);
+		if (repo == null)
+			EcRepository.save(this, success, failure);
+		else
+			repo.saveTo(this, success, failure);
 	}
 
 	@Override

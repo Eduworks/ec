@@ -65,7 +65,7 @@ public class EcLevelTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to Save Level Competency");
 			}
-		});
+		},null);
 
 		level.competency = comp.shortId();
 
@@ -74,7 +74,7 @@ public class EcLevelTest {
 			public void $invoke(String p1) {
 				Assert.fail("Unable to save Level");
 			}
-		});
+		},null);
 	}
 
 	@After
@@ -129,7 +129,7 @@ public class EcLevelTest {
 			public void $invoke(String p1) {
 				Assert.fail("Level saved without name, should not happen");
 			}
-		}, null);
+		}, null,null);
 	}
 
 	@Test
@@ -144,7 +144,7 @@ public class EcLevelTest {
 			public void $invoke(String p1) {
 				Assert.fail("Level saved without competency, should not happen");
 			}
-		}, null);
+		}, null,null);
 	}
 
 	@Test
@@ -187,7 +187,7 @@ public class EcLevelTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to Update the Level");
 			}
-		});
+		},null);
 
 		Global.console.log("Retrieving Level after update...");
 		EcRepository.get(level.id, new Callback1<EcRemoteLinkedData>() {
@@ -227,7 +227,7 @@ public class EcLevelTest {
 			public void $invoke(String p1) {
 				Global.console.log("Failed to update Level");
 			}
-		});
+		},null);
 	}
 
 	@Test
@@ -246,7 +246,7 @@ public class EcLevelTest {
 			public void $invoke(String p1) {
 				Global.console.log("Failed to update Level");
 			}
-		});
+		},null);
 	}
 
 	@Test
@@ -264,7 +264,7 @@ public class EcLevelTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to save level for delete");
 			}
-		});
+		},null);
 
 		Global.console.log("deleting level...");
 		toDelete._delete(null, new Callback1<String>() {

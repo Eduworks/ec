@@ -49,25 +49,25 @@ public class RollupRuleInterfaceTest extends EvidenceProcessingTestBase {
 
 		EcRollupRule rr = newRollupRule(c, input);
 
-		c.save(null, failure);
-		c2.save(null, failure);
-		c3.save(null, failure);
-		c4.save(null, failure);
-		cx.save(null, failure);
+		c.save(null, failure,repo);
+		c2.save(null, failure,repo);
+		c3.save(null, failure,repo);
+		c4.save(null, failure,repo);
+		cx.save(null, failure,repo);
 
-		rr.save(null, failure);
+		rr.save(null, failure,repo);
 
 		f.addRollupRule(rr.shortId());
 
-		f.save(null, failure);
+		f.save(null, failure,repo);
 
 		EcAssertion a = newAssertion(c);
 		EcAssertion a2 = newAssertion(c2);
 		EcAssertion a3 = newAssertion(c3);
 
-		a.save(null, failure);
-		a2.save(null, failure);
-		a3.save(null, failure);
+		a.save(null, failure,repo);
+		a2.save(null, failure,repo);
+		a3.save(null, failure,repo);
 
 		performTest(f, cx, new Callback1<InquiryPacket>() {
 			@Override

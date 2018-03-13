@@ -148,7 +148,7 @@ public class EcRollupRule extends RollupRule {
 	 * @memberOf EcRollupRule
 	 * @method save
 	 */
-	public void save(Callback1<String> success, Callback1<String> failure) {
+	public void save(Callback1<String> success, Callback1<String> failure, EcRepository repo) {
 		if (rule == null || rule == "") {
 			String msg = "RollupRule Rule cannot be empty";
 			if (failure != null)
@@ -167,7 +167,10 @@ public class EcRollupRule extends RollupRule {
 			return;
 		}
 
-		EcRepository.save(this, success, failure);
+		if (repo == null)
+			EcRepository.save(this, success, failure);
+		else
+			repo.saveTo(this, success, failure);
 	}
 
 	/**
