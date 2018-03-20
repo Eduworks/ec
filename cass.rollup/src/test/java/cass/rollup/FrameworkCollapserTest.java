@@ -19,8 +19,9 @@ import org.stjs.testing.driver.STJSTestDriverRunner;
 @RunWith(STJSTestDriverRunner.class)
 public class FrameworkCollapserTest {
 
-    //private String FRAMEWORK_ID = "https://sandbox.cassproject.org/api/custom/data/schema.cassproject.org.0.3.Framework/tom-profile-dev-1";
-    private String FRAMEWORK_ID = "https://sandbox.cassproject.org/api/custom/data/schema.cassproject.org.0.3.Framework/tom-profile-dev-2";
+    private String FRAMEWORK_ID = "https://sandbox.cassproject.org/api/custom/data/schema.cassproject.org.0.3.Framework/tom-profile-dev-1";
+    //private String FRAMEWORK_ID = "https://sandbox.cassproject.org/api/custom/data/schema.cassproject.org.0.3.Framework/tom-profile-dev-2";
+    //private String FRAMEWORK_ID = "https://sandbox.cassproject.org/api/custom/data/sc…925d345-42bc-4d3a-b564-92ee56d29707/1464393782288";
 
     protected EcRepository repo;
     protected Array<String> urlArray;

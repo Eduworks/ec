@@ -66,6 +66,7 @@ public class FrameworkCollapser {
             cmp = competencyArray.$get(i);
             n = new Node(cmp.shortId());
             n.setName(cmp.name);
+            n.setDescription(cmp.description);
             frameworkNodeGraph.addNode(n);
             competencyNodeMap.$put(cmp.shortId(),n);
         }
