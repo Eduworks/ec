@@ -56,15 +56,13 @@ public class EcRepository {
 	 * @static
 	 */
 	public static void get(final String url, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure) {
-		if (EcRemote.async == false)
-		{
+		if (EcRemote.async == false) {
 			EcRemoteLinkedData result = getBlocking(url);
 			if (result == null)
 				if (failure != null)
-				failure.$invoke("Could not locate object. May be due to EcRepository.alwaysTryUrl flag.");
-			else
-				if (success != null)
-				success.$invoke(result);
+					failure.$invoke("Could not locate object. May be due to EcRepository.alwaysTryUrl flag.");
+				else if (success != null)
+					success.$invoke(result);
 			return;
 		}
 		if (caching) {
@@ -586,20 +584,30 @@ public class EcRepository {
 
 		final EcRepository me = this;
 		if (data.owner != null && data.owner.$length() > 0) {
-			EcIdentityManager.signatureSheetForAsync(data.owner, 60000, data.id, new Callback1<String>() {
-				@Override
-				public void $invoke(String signatureSheet) {
-					if (signatureSheet.length() == 2 && me.adminKeys != null) {
-						EcIdentityManager.signatureSheetForAsync(me.adminKeys, 60000, data.id, new Callback1<String>() {
-							@Override
-							public void $invoke(String signatureSheet) {
-								EcRemote._delete(targetUrl, signatureSheet, success, failure);
-							}
-						}, failure);
-					} else
-						EcRemote._delete(targetUrl, signatureSheet, success, failure);
-				}
-			}, failure);
+			if (EcRemote.async) {
+				EcIdentityManager.signatureSheetForAsync(data.owner, 60000, data.id, new Callback1<String>() {
+					@Override
+					public void $invoke(String signatureSheet) {
+						if (signatureSheet.length() == 2 && me.adminKeys != null) {
+							EcIdentityManager.signatureSheetForAsync(me.adminKeys, 60000, data.id, new Callback1<String>() {
+								@Override
+								public void $invoke(String signatureSheet) {
+									EcRemote._delete(targetUrl, signatureSheet, success, failure);
+								}
+							}, failure);
+						} else
+							EcRemote._delete(targetUrl, signatureSheet, success, failure);
+					}
+				}, failure);
+			}
+			else {
+				String signatureSheet = EcIdentityManager.signatureSheetFor(data.owner, 60000, data.id);
+				if (signatureSheet.length() == 2 && me.adminKeys != null) {
+					signatureSheet = EcIdentityManager.signatureSheetFor(me.adminKeys, 60000, data.id);
+					EcRemote._delete(targetUrl, signatureSheet, success, failure);
+				} else
+					EcRemote._delete(targetUrl, signatureSheet, success, failure);
+			}
 		} else {
 			EcRemote._delete(targetUrl, "[]", success, failure);
 		}
@@ -856,18 +864,17 @@ public class EcRepository {
 	public void searchWithParams(final String originalQuery, final Object originalParamObj, final Callback1<EcRemoteLinkedData> eachSuccess,
 	                             final Callback1<Array<EcRemoteLinkedData>> success, final Callback1<String> failure) {
 
-		if (EcRemote.async == false)
-		{
-			Array<EcRemoteLinkedData> result = searchWithParamsBlocking(originalQuery,originalParamObj);
-			if (result == null)
+		if (EcRemote.async == false) {
+			Array<EcRemoteLinkedData> result = searchWithParamsBlocking(originalQuery, originalParamObj);
+			if (result == null) {
 				if (failure != null)
-				failure.$invoke("Search failed.");
-			else {
-				for (int i = 0;i < result.$length();i++)
+					failure.$invoke("Search failed.");
+			} else {
+				for (int i = 0; i < result.$length(); i++)
 					if (eachSuccess != null)
-					eachSuccess.$invoke(result.$get(i));
+						eachSuccess.$invoke(result.$get(i));
 				if (success != null)
-				success.$invoke(result);
+					success.$invoke(result);
 			}
 			return;
 		}
@@ -889,7 +896,7 @@ public class EcRepository {
 		if (cachingSearch) {
 			cacheKey = JSGlobal.JSON.stringify(paramProps) + query;
 			if (JSObjectAdapter.$get(cache, cacheKey) != null) {
-				handleSearchResults((Array<EcRemoteLinkedData>) JSObjectAdapter.$get(cache, cacheKey), eachSuccess, success,failure);
+				handleSearchResults((Array<EcRemoteLinkedData>) JSObjectAdapter.$get(cache, cacheKey), eachSuccess, success, failure);
 				return;
 			}
 			final EcRepository me = this;
