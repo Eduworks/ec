@@ -27,7 +27,7 @@ public class EcAesCtrAsyncWorker {
 	static Array<Array<Callback1>> q2;
 
 	private static void initWorker() {
-		if (Global.window == null && JSGlobal.typeof(WorkerGlobalScope.self).equals("undefined")) {
+		if (Global.window == null && (JSGlobal.typeof(WorkerGlobalScope.self).equals("undefined")) || EcLevrCrypto.Worker == JSGlobal.undefined || EcLevrCrypto.Worker == null) {
 			return;
 		}
 		if (!EcRemote.async) {

@@ -10,6 +10,7 @@ import org.stjs.javascript.worker.ErrorEvent;
 import org.stjs.javascript.worker.MessageEvent;
 import org.stjs.javascript.worker.Worker;
 import org.stjs.javascript.worker.WorkerGlobalScope;
+import window.EcLevrCrypto;
 
 /**
  * Asynchronous implementation of {{#crossLink
@@ -27,7 +28,7 @@ public class EcRsaOaepAsyncWorker {
 	static Array<Array<Callback1>> q2;
 
 	public static void initWorker() {
-		if (Global.window == null && JSGlobal.typeof(WorkerGlobalScope.self).equals("undefined")) {
+		if (Global.window == null && (JSGlobal.typeof(WorkerGlobalScope.self).equals("undefined")) || EcLevrCrypto.Worker == JSGlobal.undefined || EcLevrCrypto.Worker == null) {
 			return;
 		}
 		if (!EcRemote.async) {

@@ -11,6 +11,9 @@ import org.stjs.javascript.annotation.STJSBridge;
 @GlobalScope
 @STJSBridge()
 public class EcLevrCrypto {
+
+	public static Object Worker;
+
 	public static String aesEncrypt(String obj, String iv, String secret) {
 		return null;
 	}
