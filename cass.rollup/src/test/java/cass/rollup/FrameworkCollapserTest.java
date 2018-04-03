@@ -1,10 +1,12 @@
 package cass.rollup;
 
 import cass.rollup.processors.v2.graph.collapser.*;
+import com.eduworks.ec.crypto.EcPpk;
 import com.eduworks.ec.remote.EcRemote;
 import org.cass.competency.EcAlignment;
 import org.cass.competency.EcCompetency;
 import org.cass.competency.EcFramework;
+import org.cass.profile.EcAssertion;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.junit.Assert;
@@ -14,12 +16,14 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
 @RunWith(STJSTestDriverRunner.class)
 public class FrameworkCollapserTest {
 
-    private String FRAMEWORK_ID = "https://sandbox.cassproject.org/api/custom/data/schema.cassproject.org.0.3.Framework/tom-profile-dev-1";
+    //private String FRAMEWORK_ID = "https://sandbox.cassproject.org/api/custom/data/schema.cassproject.org.0.3.Framework/tom-profile-dev-1";
+    private String FRAMEWORK_ID = "https://sandbox.service.cassproject.org/data/schema.cassproject.org.0.3.Framework/ef23be65-b99e-44c6-93e6-1fdeacf1bbe2";
     //private String FRAMEWORK_ID = "https://sandbox.cassproject.org/api/custom/data/schema.cassproject.org.0.3.Framework/tom-profile-dev-2";
     //private String FRAMEWORK_ID = "https://sandbox.cassproject.org/api/custom/data/sc…925d345-42bc-4d3a-b564-92ee56d29707/1464393782288";
 
@@ -31,10 +35,10 @@ public class FrameworkCollapserTest {
         Global.console.log("Framework: " + framework.name);
         FrameworkCollapser fc = new FrameworkCollapser();
         fc.collapseFramework(repo,framework,true,
-                new Callback1<NodePacketGraph>() {
+                new Callback2<String,NodePacketGraph>() {
                     @SuppressWarnings("unchecked")
                     @Override
-                    public void $invoke(NodePacketGraph npg) {
+                    public void $invoke(String fwId, NodePacketGraph npg) {
                         Global.console.log("--================ FRAMEWORK COLLAPSED GRAPH ================--");
                         Global.console.log(npg.toStringGraphAll());
                     }
@@ -84,6 +88,39 @@ public class FrameworkCollapserTest {
     }
 
     @Test
+    public void basicAssertionSearchTest() {
+        EcRemote.async = false;
+        Global.console.log("start basicCollapseTest:");
+        try {
+            repo = new EcRepository();
+            repo.selectedServer = "https://sandbox.cassproject.org/api/";
+            EcAssertion.search(repo,null,new Callback1<Array<EcAssertion>>() {
+                        @SuppressWarnings("unchecked")
+                        @Override
+                        public void $invoke(Array<EcAssertion> eca) {
+                            Global.console.log("Success: " + eca.$length());
+                        }
+                    },
+                    new Callback1<String>() {
+                        @SuppressWarnings("unchecked")
+                        @Override
+                        public void $invoke(String err) {
+                            Global.console.log("Failure: " + err);
+                        }
+                    },null);
+        }
+        catch (Exception e) {
+            Global.console.log("Exception: " + e.toString());
+        }
+
+        //TODO figure out valid test case???
+        Assert.assertSame(true,true);
+
+        Global.console.log("end basicCollapseTest TEST");
+
+    }
+
+    @Test
     public void basicMultiGetTest() {
         EcRemote.async = false;
         Global.console.log("start basicCollapseTest:");
@@ -127,7 +164,6 @@ public class FrameworkCollapserTest {
 
         //TODO figure out valid test case???
         Assert.assertSame(true,true);
-
         Global.console.log("end basicCollapseTest TEST");
 
     }

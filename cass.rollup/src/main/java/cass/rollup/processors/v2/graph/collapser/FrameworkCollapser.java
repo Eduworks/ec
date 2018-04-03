@@ -10,6 +10,7 @@ import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 
 public class FrameworkCollapser {
 
@@ -20,7 +21,7 @@ public class FrameworkCollapser {
     private Array<EcAlignment> relationArray;
     private NodeGraph frameworkNodeGraph;
     private NodePacketGraph collapsedFrameworkNodePacketGraph;
-    private Callback1<NodePacketGraph> successCallback;
+    private Callback2<String,NodePacketGraph> successCallback;
     private Callback1<String> failureCallback;
 
     private Array<String> buildFrameworkUrlLookups() {
@@ -108,7 +109,7 @@ public class FrameworkCollapser {
             generateFrameworkNodeGraph();
             try {
                 collapseFrameworkNodeGraph();
-                successCallback.$invoke(collapsedFrameworkNodePacketGraph);
+                successCallback.$invoke(framework.shortId(),collapsedFrameworkNodePacketGraph);
             }
             catch (Exception e2) {
                 failureCallback.$invoke("Framework collapse failed: " + e2.toString());
@@ -119,7 +120,7 @@ public class FrameworkCollapser {
         }
     }
 
-    public void collapseFramework(EcRepository repo, EcFramework framework, boolean createImpliedRelations, final Callback1<NodePacketGraph> success, final Callback1<String> failure) {
+    public void collapseFramework(EcRepository repo, EcFramework framework, boolean createImpliedRelations, final Callback2<String,NodePacketGraph> success, final Callback1<String> failure) {
         if (framework == null) failure.$invoke("Framework is null or undefined");
         else if (framework.competency == null || framework.competency.$length() < 1) failure.$invoke("Framework has no competencies");
         else if (repo == null) failure.$invoke("Repo is null or undefined");
