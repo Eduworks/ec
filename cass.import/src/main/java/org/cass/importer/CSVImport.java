@@ -1,7 +1,6 @@
 package org.cass.importer;
 
 import com.eduworks.ec.array.EcObject;
-import com.eduworks.ec.random.EcRandom;
 import com.eduworks.ec.task.Task;
 import js.Papa;
 import js.PapaParseParams;
@@ -47,6 +46,7 @@ public class CSVImport {
 	 * @static
 	 */
 	public static void analyzeFile(Object file, final Callback1<Object> success, final Callback1<Object> failure) {
+
 		if (file == null) {
 			failure.$invoke("No file to analyze");
 			return;
@@ -88,25 +88,10 @@ public class CSVImport {
 	 */
 	private static void transformId(String oldId, EcRemoteLinkedData newObject, String selectedServer) {
 		if (oldId == null || oldId == "")
-			oldId = EcRandom.generateUUID();
-		if (oldId.indexOf("http") != -1) {
-			Array<String> parts = JSStringAdapter.split(oldId, "/");
-			String guid = null;
-			String timestamp = null;
-			RegExp pattern = new RegExp("^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
-					"i");
-			for (int i = 0; i < parts.$length(); i++) {
-				if (!JSGlobal.isNaN(JSGlobal.parseInt(parts.$get(i))))
-					timestamp = parts.$get(i);
-				else if (pattern.test(parts.$get(i)))
-					guid = parts.$get(i);
-			}
-			if (guid == null)
-				newObject.assignId(selectedServer, parts.$get(parts.$length() - 2));
-			else
-				newObject.assignId(selectedServer, guid);
-		} else
 			newObject.assignId(selectedServer, oldId);
+		else if (oldId.indexOf("http") != -1) {
+			newObject.id = oldId;
+		}
 	}
 
 	/**
@@ -191,7 +176,6 @@ public class CSVImport {
 							if (scopeIndex >= 0)
 								competency.scope = tabularData.$get(i).$get(scopeIndex);
 
-
 							// If not unique and IdIndex set, copy GUID from CSV but prepend our serverUrl
 							if ((uniquify == JSGlobal.undefined || uniquify == null || uniquify == false) && idIndex != null && idIndex >= 0) {
 								competency.id = tabularData.$get(i).$get(idIndex);
@@ -202,7 +186,6 @@ public class CSVImport {
 									competency.generateId(serverUrl);
 								else
 									competency.generateShortId(serverUrl);
-
 							}
 
 							// Set owner if we are given one
@@ -221,7 +204,6 @@ public class CSVImport {
 								if (JSObjectAdapter.$get(importCsvLookup, tabularData.$get(i).$get(idIndex)) == null)
 									JSObjectAdapter.$put(importCsvLookup, tabularData.$get(i).$get(idIndex), competency.shortId());
 							}
-
 
 							// Copy extraneous fields in CSV 
 							for (int idx = 0; idx < tabularData.$get(i).$length(); idx++) {
