@@ -10,6 +10,7 @@ import org.stjs.javascript.worker.ErrorEvent;
 import org.stjs.javascript.worker.MessageEvent;
 import org.stjs.javascript.worker.Worker;
 import org.stjs.javascript.worker.WorkerGlobalScope;
+import window.EcLevrCrypto;
 
 /**
  * Asynchronous implementation of {{#crossLink
