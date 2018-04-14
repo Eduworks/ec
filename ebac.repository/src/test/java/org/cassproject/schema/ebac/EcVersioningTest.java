@@ -32,7 +32,7 @@ public class EcVersioningTest {
 	public void testSaveTwoVersionsBothExist() {
 		EcRemote.async = false;
 
-		EcRepository r = new EcRepository();
+		final EcRepository r = new EcRepository();
 		r.selectedServer = server;
 
 		EcPpk ppk = EcPpk.fromPem(
@@ -44,7 +44,7 @@ public class EcVersioningTest {
 		EcIdentityManager.ids = new Array<EcIdentity>();
 		EcIdentityManager.addIdentity(newId1);
 
-		Thing t = new Thing();
+		final Thing t = new Thing();
 		t.name = "Foo";
 		t.generateId(r.selectedServer);
 		t.addOwner(ppk.toPk());
@@ -108,7 +108,30 @@ public class EcVersioningTest {
 		r._delete(t, new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
-
+				console.log("Deleted the thing.");
+				EcRepository.get(t.shortId(), new Callback1<EcRemoteLinkedData>() {
+					@Override
+					public void $invoke(EcRemoteLinkedData p1) {
+						Assert.fail("Could find the thing that was supposed to be gone.");
+					}
+				}, new Callback1<String>() {
+					@Override
+					public void $invoke(String p1) {
+						console.log("Couldn't find the deleted 'latest' -- good.");
+					}
+				});
+				r.search(t.shortId(), null, new Callback1<Array<EcRemoteLinkedData>>() {
+					@Override
+					public void $invoke(Array<EcRemoteLinkedData> p1) {
+						if (p1.$length() != 0)
+							Assert.fail("Could find the thing that was supposed to be gone.");
+					}
+				}, new Callback1<String>() {
+					@Override
+					public void $invoke(String p1) {
+						console.log("Couldn't find the deleted 'latest' -- good.");
+					}
+				});
 			}
 		}, new Callback1<String>() {
 
@@ -145,28 +168,6 @@ public class EcVersioningTest {
 				Assert.fail("Couldn't retrieve the old version 2.");
 			}
 		});
-		EcRepository.get(t.shortId(), new Callback1<EcRemoteLinkedData>() {
-			@Override
-			public void $invoke(EcRemoteLinkedData p1) {
-				Assert.fail("Could find the thing that was supposed to be gone.");
-			}
-		}, new Callback1<String>() {
-			@Override
-			public void $invoke(String p1) {
-				console.log("Couldn't find the deleted 'latest' -- good.");
-			}
-		});
-		r.search(t.shortId(), null, new Callback1<Array<EcRemoteLinkedData>>() {
-			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1) {
-				if (p1.$length() != 0)
-					Assert.fail("Could find the thing that was supposed to be gone.");
-			}
-		}, new Callback1<String>() {
-			@Override
-			public void $invoke(String p1) {
-				console.log("Couldn't find the deleted 'latest' -- good.");
-			}
-		});
+
 	}
 }
