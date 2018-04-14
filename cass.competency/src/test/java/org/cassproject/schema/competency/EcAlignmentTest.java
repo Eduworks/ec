@@ -22,7 +22,7 @@ import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
 @RunWith(STJSTestDriverRunner.class)
-@ScriptsBefore({"/forge/forge.bundle.js"})
+@ScriptsBefore({"pem-jwk.js", "require.js","/forge/forge.bundle.js"})
 public class EcAlignmentTest {
 
 	static String server = "http://localhost:8080/api/";

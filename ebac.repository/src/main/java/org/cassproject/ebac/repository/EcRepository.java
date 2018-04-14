@@ -534,21 +534,37 @@ public class EcRepository {
 		targetUrl = data.shortId();
 
 		if (data.owner != null && data.owner.$length() > 0) {
-			EcIdentityManager.signatureSheetForAsync(data.owner, 60000, data.id, new Callback1<String>() {
-				@Override
-				public void $invoke(String signatureSheet) {
-					if (signatureSheet.length() == 2) {
-						for (int i = 0; i < repos.$length(); i++) {
-							if (data.id.indexOf(repos.$get(i).selectedServer) != -1) {
-								repos.$get(i).deleteRegistered(data, success, failure);
-								return;
+			if (EcRemote.async) {
+				EcIdentityManager.signatureSheetForAsync(data.owner, 60000, data.id, new Callback1<String>() {
+					@Override
+					public void $invoke(String signatureSheet) {
+						if (signatureSheet.length() == 2) {
+							for (int i = 0; i < repos.$length(); i++) {
+								if (data.id.indexOf(repos.$get(i).selectedServer) != -1) {
+									repos.$get(i).deleteRegistered(data, success, failure);
+									return;
+								}
 							}
+							failure.$invoke("Cannot delete object without a signature. If deleting from a server, use the non-static _delete");
+						} else
+							EcRemote._delete(targetUrl, signatureSheet, success, failure);
+					}
+				}, failure);
+			}
+			else
+			{
+				String signatureSheet = EcIdentityManager.signatureSheetFor(data.owner,60000,data.id);
+				if (signatureSheet.length() == 2) {
+					for (int i = 0; i < repos.$length(); i++) {
+						if (data.id.indexOf(repos.$get(i).selectedServer) != -1) {
+							repos.$get(i).deleteRegistered(data, success, failure);
+							return;
 						}
-						failure.$invoke("Cannot delete object without a signature. If deleting from a server, use the non-static _delete");
-					} else
-						EcRemote._delete(targetUrl, signatureSheet, success, failure);
-				}
-			}, failure);
+					}
+					failure.$invoke("Cannot delete object without a signature. If deleting from a server, use the non-static _delete");
+				} else
+					EcRemote._delete(targetUrl, signatureSheet, success, failure);
+			}
 		} else {
 			EcRemote._delete(targetUrl, "[]", success, failure);
 		}
