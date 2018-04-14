@@ -21,7 +21,7 @@ import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
 @RunWith(STJSTestDriverRunner.class)
-@ScriptsBefore({"/forge/forge.bundle.js"})
+@ScriptsBefore({"pem-jwk.js", "require.js","/forge/forge.bundle.js"})
 public class EcCompetencyTest {
 
 	static String server = "http://localhost:8080/api/";
@@ -57,7 +57,7 @@ public class EcCompetencyTest {
 			public void $invoke(String p1) {
 				Assert.fail("Unable to save Competency");
 			}
-		},null);
+		}, null);
 	}
 
 	@After
@@ -104,7 +104,7 @@ public class EcCompetencyTest {
 			public void $invoke(String p1) {
 				Assert.fail("Saved Competency with missing name, shouldn't happen");
 			}
-		}, null,null);
+		}, null, null);
 	}
 
 	@Test
@@ -145,7 +145,7 @@ public class EcCompetencyTest {
 			public void $invoke(String p1) {
 				Assert.fail("failed to save target competency");
 			}
-		},null);
+		}, null);
 
 
 		Global.console.log("Creating Relationship..");
@@ -159,7 +159,7 @@ public class EcCompetencyTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to create relationship");
 			}
-		},null);
+		}, null);
 
 		Global.console.log("finding relationships...");
 		comp.relationships(repo, new Callback1<EcAlignment>() {
@@ -186,30 +186,30 @@ public class EcCompetencyTest {
 			@Override
 			public void $invoke(String p1) {
 
+				Global.console.log("finding relationships after delete...");
+				comp.relationships(repo, new Callback1<EcAlignment>() {
+					@Override
+					public void $invoke(EcAlignment p1) {
+						Assert.fail("No Relationships should be found. "+p1.shortId());
+					}
+				}, new Callback1<String>() {
+					@Override
+					public void $invoke(String p1) {
+						Assert.fail("failed to search for relationships");
+					}
+				}, new Callback1<Array<EcAlignment>>() {
+					@Override
+					public void $invoke(Array<EcAlignment> p1) {
+						if (p1.$length() > 0)
+							Assert.fail("Return a relationship after deleting it");
+					}
+				});
+
 			}
 		}, new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
 				Assert.fail("failed to delete relationship");
-			}
-		});
-
-		Global.console.log("finding relationships after delete...");
-		comp.relationships(repo, new Callback1<EcAlignment>() {
-			@Override
-			public void $invoke(EcAlignment p1) {
-				Assert.fail("No Relationships should be found");
-			}
-		}, new Callback1<String>() {
-			@Override
-			public void $invoke(String p1) {
-				Assert.fail("failed to search for relationships");
-			}
-		}, new Callback1<Array<EcAlignment>>() {
-			@Override
-			public void $invoke(Array<EcAlignment> p1) {
-				if (p1.$length() > 0)
-					Assert.fail("Return a relationship after deleting it");
 			}
 		});
 
@@ -236,7 +236,7 @@ public class EcCompetencyTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to Create Level");
 			}
-		},null);
+		}, null);
 
 		Global.console.log("Finding level...");
 		comp.levels(repo, new Callback1<EcLevel>() {
@@ -310,7 +310,7 @@ public class EcCompetencyTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to Update the Competency");
 			}
-		},null);
+		}, null);
 
 		Global.console.log("Retrieving Competency after update...");
 		EcRepository.get(comp.id, new Callback1<EcRemoteLinkedData>() {
@@ -347,7 +347,7 @@ public class EcCompetencyTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to save competency for delete");
 			}
-		},null);
+		}, null);
 
 		Global.console.log("deleting competency...");
 		toDelete._delete(new Callback1<String>() {
@@ -387,7 +387,7 @@ public class EcCompetencyTest {
 	@Test
 	public void deleteCompetencyWithRelationshipTest() {
 
-		EcCompetency toDelete = new EcCompetency();
+		final EcCompetency toDelete = new EcCompetency();
 		toDelete.generateId(server);
 		toDelete.name = "Competency To Delete";
 		toDelete.addOwner(ppk.toPk());
@@ -398,7 +398,7 @@ public class EcCompetencyTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to save competency for delete");
 			}
-		},null);
+		}, null);
 
 		EcCompetency comp2 = new EcCompetency();
 		comp2.generateId(server);
@@ -411,7 +411,7 @@ public class EcCompetencyTest {
 			public void $invoke(String p1) {
 				Global.console.log("Saved Target Competency");
 			}
-		},null);
+		}, null);
 
 		Global.console.log("Creating Relationship...");
 		EcAlignment rel = toDelete.addAlignment(comp2, "requires", ppk, server, new Callback1<String>() {
@@ -424,13 +424,31 @@ public class EcCompetencyTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to Create Relationship");
 			}
-		},null);
+		}, null);
 
 		Global.console.log("Deleting Competency with Relationship...");
 		toDelete._delete(new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
 				Global.console.log("Deleted Competency with Relationship");
+				toDelete.relationships(repo, new Callback1<EcAlignment>() {
+					@Override
+					public void $invoke(EcAlignment p1) {
+						Assert.fail("No Relationships should be found");
+					}
+				}, new Callback1<String>() {
+					@Override
+					public void $invoke(String p1) {
+						Assert.fail("failed to search for relationships");
+					}
+				}, new Callback1<Array<EcAlignment>>() {
+					@Override
+					public void $invoke(Array<EcAlignment> p1) {
+						if (p1.$length() > 0)
+							Assert.fail("Returned a relationship after deleting the competency");
+					}
+				});
+
 			}
 		}, new Callback1<String>() {
 			@Override
@@ -438,24 +456,6 @@ public class EcCompetencyTest {
 				Assert.fail("Failed to delete relationship Competency");
 			}
 		}, repo);
-
-		toDelete.relationships(repo, new Callback1<EcAlignment>() {
-			@Override
-			public void $invoke(EcAlignment p1) {
-				Assert.fail("No Relationships should be found");
-			}
-		}, new Callback1<String>() {
-			@Override
-			public void $invoke(String p1) {
-				Assert.fail("failed to search for relationships");
-			}
-		}, new Callback1<Array<EcAlignment>>() {
-			@Override
-			public void $invoke(Array<EcAlignment> p1) {
-				if (p1.$length() > 0)
-					Assert.fail("Returned a relationship after deleting the competency");
-			}
-		});
 
 
 		comp2._delete(new Callback1<String>() {
@@ -476,7 +476,7 @@ public class EcCompetencyTest {
 	@Test
 	public void deleteCompetencyWithLevelTest() {
 
-		EcCompetency toDelete = new EcCompetency();
+		final EcCompetency toDelete = new EcCompetency();
 		toDelete.generateId(server);
 		toDelete.name = "Competency To Delete";
 		toDelete.addOwner(ppk.toPk());
@@ -487,7 +487,7 @@ public class EcCompetencyTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to save competency for delete");
 			}
-		},null);
+		}, null);
 
 
 		Global.console.log("Creating Relationship...");
@@ -501,13 +501,31 @@ public class EcCompetencyTest {
 			public void $invoke(String p1) {
 				Assert.fail("Failed to Create Level");
 			}
-		},null);
+		}, null);
 
 		Global.console.log("Deleting Competency with Level...");
 		toDelete._delete(new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
 				Global.console.log("Deleted Competency with Level");
+				toDelete.levels(repo, new Callback1<EcLevel>() {
+					@Override
+					public void $invoke(EcLevel p1) {
+						Assert.fail("No Relationships should be found");
+					}
+				}, new Callback1<String>() {
+					@Override
+					public void $invoke(String p1) {
+						Assert.fail("failed to search for relationships");
+					}
+				}, new Callback1<Array<EcLevel>>() {
+					@Override
+					public void $invoke(Array<EcLevel> p1) {
+						if (p1.$length() > 0)
+							Assert.fail("Returned a relationship after deleting the competency");
+					}
+				});
+
 			}
 		}, new Callback1<String>() {
 			@Override
@@ -515,24 +533,6 @@ public class EcCompetencyTest {
 				Assert.fail("Failed to delete Level Competency");
 			}
 		}, repo);
-
-		toDelete.levels(repo, new Callback1<EcLevel>() {
-			@Override
-			public void $invoke(EcLevel p1) {
-				Assert.fail("No Relationships should be found");
-			}
-		}, new Callback1<String>() {
-			@Override
-			public void $invoke(String p1) {
-				Assert.fail("failed to search for relationships");
-			}
-		}, new Callback1<Array<EcLevel>>() {
-			@Override
-			public void $invoke(Array<EcLevel> p1) {
-				if (p1.$length() > 0)
-					Assert.fail("Returned a relationship after deleting the competency");
-			}
-		});
 
 	}
 
