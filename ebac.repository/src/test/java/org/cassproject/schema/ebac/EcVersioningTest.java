@@ -19,7 +19,7 @@ import org.stjs.testing.driver.STJSTestDriverRunner;
 import static org.stjs.javascript.Global.console;
 
 @RunWith(STJSTestDriverRunner.class)
-@ScriptsBefore({"/forge/forge.bundle.js"})
+@ScriptsBefore({"pem-jwk.js", "require.js","/forge/forge.bundle.js"})
 public class EcVersioningTest {
 	static String server = "http://localhost:8080/api/";
 
@@ -120,7 +120,7 @@ public class EcVersioningTest {
 						console.log("Couldn't find the deleted 'latest' -- good.");
 					}
 				});
-				r.search(t.shortId(), null, new Callback1<Array<EcRemoteLinkedData>>() {
+				r.search("\""+t.shortId()+"\"", null, new Callback1<Array<EcRemoteLinkedData>>() {
 					@Override
 					public void $invoke(Array<EcRemoteLinkedData> p1) {
 						if (p1.$length() != 0)
