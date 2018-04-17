@@ -33,38 +33,49 @@ public class NodeGraph {
 	}
 
 	public void createImpliedRelations() throws Exception {
-		Array<NodeRelation> relationsToAdd = new Array<NodeRelation>();
-		NodeRelation nr;
-		for (int i = 0; i < relationList.$length(); i++) {
-			nr = relationList.$get(i);
-			if (nr.getType() == RelationType.RELATION_TYPE.NARROWS) {
-				relationsToAdd.push(new NodeRelation(nr.getTarget(), nr.getSource(), RelationType.RELATION_TYPE.BROADENS));
-			} else if (nr.getType() == RelationType.RELATION_TYPE.REQUIRES) {
-				relationsToAdd.push(new NodeRelation(nr.getTarget(), nr.getSource(), RelationType.RELATION_TYPE.IS_REQUIRED_BY));
-			} else if (nr.getType() == RelationType.RELATION_TYPE.BROADENS) {
-				relationsToAdd.push(new NodeRelation(nr.getTarget(), nr.getSource(), RelationType.RELATION_TYPE.NARROWS));
-			} else if (nr.getType() == RelationType.RELATION_TYPE.IS_REQUIRED_BY) {
-				relationsToAdd.push(new NodeRelation(nr.getTarget(), nr.getSource(), RelationType.RELATION_TYPE.REQUIRES));
+		try {
+			Array<NodeRelation> relationsToAdd = new Array<NodeRelation>();
+			NodeRelation nr;
+			for (int i = 0; i < relationList.$length(); i++) {
+				nr = relationList.$get(i);
+				if (nr.getType() == RelationType.RELATION_TYPE.NARROWS) {
+					relationsToAdd.push(new NodeRelation(nr.getTarget(), nr.getSource(), RelationType.RELATION_TYPE.BROADENS));
+				} else if (nr.getType() == RelationType.RELATION_TYPE.REQUIRES) {
+					relationsToAdd.push(new NodeRelation(nr.getTarget(), nr.getSource(), RelationType.RELATION_TYPE.IS_REQUIRED_BY));
+				} else if (nr.getType() == RelationType.RELATION_TYPE.BROADENS) {
+					relationsToAdd.push(new NodeRelation(nr.getTarget(), nr.getSource(), RelationType.RELATION_TYPE.NARROWS));
+				} else if (nr.getType() == RelationType.RELATION_TYPE.IS_REQUIRED_BY) {
+					relationsToAdd.push(new NodeRelation(nr.getTarget(), nr.getSource(), RelationType.RELATION_TYPE.REQUIRES));
+				}
+			}
+			NodeRelation nnr;
+			for (int i = 0; i < relationsToAdd.$length(); i++) {
+				nnr = relationsToAdd.$get(i);
+				addRelation(nnr.getSource(), nnr.getTarget(), nnr.getType());
 			}
 		}
-		NodeRelation nnr;
-		for (int i = 0; i < relationsToAdd.$length(); i++) {
-			nnr = relationsToAdd.$get(i);
-			addRelation(nnr.getSource(), nnr.getTarget(), nnr.getType());
+		catch (Exception e) {
+			throw new Exception ("createImpliedRelations: " + e.toString());
 		}
 	}
 
 	public void addRelation(Node sourceNode, Node targetNode, RelationType.RELATION_TYPE relationType) throws Exception {
-		Array<NodeRelation> nodeRelationList;
-		if (nodeHasRelations(sourceNode)) nodeRelationList = getRelationListForNode(sourceNode);
-		else {
-			nodeRelationList = new Array<NodeRelation>();
-			relationMap.$put(sourceNode.getId(), nodeRelationList);
+		try {
+			if (sourceNode == null || targetNode == null) return;
+			Array<NodeRelation> nodeRelationList;
+			if (nodeHasRelations(sourceNode)) nodeRelationList = getRelationListForNode(sourceNode);
+			else {
+				nodeRelationList = new Array<NodeRelation>();
+				relationMap.$put(sourceNode.getId(), nodeRelationList);
+			}
+			NodeRelation newNodeRelation = new NodeRelation(sourceNode, targetNode, relationType);
+			if (!doesRelationAlreadyExist(newNodeRelation, nodeRelationList)) {
+				nodeRelationList.push(newNodeRelation);
+				relationList.push(newNodeRelation);
+			}
 		}
-		NodeRelation newNodeRelation = new NodeRelation(sourceNode, targetNode, relationType);
-		if (!doesRelationAlreadyExist(newNodeRelation, nodeRelationList)) {
-			nodeRelationList.push(newNodeRelation);
-			relationList.push(newNodeRelation);
+		catch (Exception e) {
+			throw new Exception ("addRelation: " + e.toString());
 		}
 	}
 
