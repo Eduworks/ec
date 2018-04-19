@@ -26,6 +26,7 @@ public class Assertion extends CreativeWork {
 	private static final String TYPE_0_3 = "http://schema.cassproject.org/0.2/Assertion";
 	private static final String TYPE_0_4 = "http://schema.cassproject.org/0.3/Assertion";
 	public static final String myType = TYPE_0_4;
+	public static Object codebooks;
 	/**
 	 * URL of the competency.
 	 *
@@ -319,6 +320,17 @@ public class Assertion extends CreativeWork {
 		if (TYPE_0_3.equals(getFullType())) {
 			setContextAndType(Cass.context_0_4, TYPE_0_4);
 		}
+		agent = EcEncryptedValue.revive(agent);
+		subject = EcEncryptedValue.revive(subject);
+		assertionDate = EcEncryptedValue.revive(assertionDate);
+		expirationDate = EcEncryptedValue.revive(expirationDate);
+		decayFunction = EcEncryptedValue.revive(decayFunction);
+		negative = EcEncryptedValue.revive(negative);
+		if (evidence != null)
+			for (int i = 0;i < evidence.$length();i++)
+			{
+				evidence.$set(i,EcEncryptedValue.revive(evidence.$get(i)));
+			}
 	}
 
 	@Override
@@ -329,5 +341,11 @@ public class Assertion extends CreativeWork {
 		a.push(TYPE_0_2);
 		a.push(TYPE_0_1);
 		return a;
+	}
+
+	public static AssertionCodebook getCodebook(Assertion assertion) {
+		if (codebooks == null)
+			codebooks = new Object();
+		return (AssertionCodebook) JSObjectAdapter.$get(codebooks,assertion.id);
 	}
 }

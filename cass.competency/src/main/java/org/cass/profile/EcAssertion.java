@@ -8,6 +8,7 @@ import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.ebac.repository.EcEncryptedValue;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.cass.profile.Assertion;
+import org.cassproject.schema.cass.profile.AssertionCodebook;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
@@ -74,9 +75,17 @@ public class EcAssertion extends Assertion {
 	public EcPk getSubject() {
 		if (subject == null)
 			return null;
+
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(subject);
-		String decryptedString = v.decryptIntoString();
+
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		String decryptedString;
+		if (codebook != null)
+			decryptedString = v.decryptIntoStringUsingSecret(codebook.subject);
+		else {
+			decryptedString = v.decryptIntoString();
+		}
 		if (decryptedString == null)
 			return null;
 		return EcPk.fromPem(decryptedString);
@@ -113,7 +122,7 @@ public class EcAssertion extends Assertion {
 		}
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(subject);
-		v.decryptIntoStringAsync(new Callback1<String>() {
+		Callback1<String> decrypted = new Callback1<String>() {
 			@Override
 			public void $invoke(String decryptedString) {
 				if (decryptedString == null)
@@ -121,7 +130,12 @@ public class EcAssertion extends Assertion {
 				else
 					success.$invoke(EcPk.fromPem(decryptedString));
 			}
-		}, failure);
+		};
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		if (codebook != null)
+			v.decryptIntoStringUsingSecretAsync(codebook.subject,decrypted,failure);
+		else
+			v.decryptIntoStringAsync(decrypted, failure);
 	}
 
 	public EcPk getAgent() {
@@ -129,7 +143,13 @@ public class EcAssertion extends Assertion {
 			return null;
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(agent);
-		String decryptedString = v.decryptIntoString();
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		String decryptedString;
+		if (codebook != null)
+			decryptedString = v.decryptIntoStringUsingSecret(codebook.agent);
+		else {
+			decryptedString = v.decryptIntoString();
+		}
 		if (decryptedString == null)
 			return null;
 		return EcPk.fromPem(decryptedString);
@@ -146,7 +166,7 @@ public class EcAssertion extends Assertion {
 		}
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(agent);
-		v.decryptIntoStringAsync(new Callback1<String>() {
+		Callback1<String> decrypted = new Callback1<String>() {
 			@Override
 			public void $invoke(String decryptedString) {
 				if (decryptedString == null)
@@ -154,7 +174,12 @@ public class EcAssertion extends Assertion {
 				else
 					success.$invoke(EcPk.fromPem(decryptedString));
 			}
-		}, failure);
+		};
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		if (codebook != null)
+			v.decryptIntoStringUsingSecretAsync(codebook.agent,decrypted,failure);
+		else
+			v.decryptIntoStringAsync(decrypted, failure);
 	}
 
 	public String getSubjectName() {
@@ -234,7 +259,13 @@ public class EcAssertion extends Assertion {
 			return null;
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(assertionDate);
-		String decryptedString = v.decryptIntoString();
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		String decryptedString;
+		if (codebook != null)
+			decryptedString = v.decryptIntoStringUsingSecret(codebook.assertionDate);
+		else {
+			decryptedString = v.decryptIntoString();
+		}
 		if (decryptedString == null)
 			return null;
 		return Long.parseLong(decryptedString);
@@ -251,7 +282,7 @@ public class EcAssertion extends Assertion {
 		}
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(assertionDate);
-		v.decryptIntoStringAsync(new Callback1<String>() {
+		Callback1<String> decrypted = new Callback1<String>() {
 			@Override
 			public void $invoke(String decryptedString) {
 				if (decryptedString == null)
@@ -259,15 +290,26 @@ public class EcAssertion extends Assertion {
 				else
 					success.$invoke(Long.parseLong(decryptedString));
 			}
-		}, failure);
+		};
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		if (codebook != null)
+			v.decryptIntoStringUsingSecretAsync(codebook.assertionDate,decrypted,failure);
+		else
+			v.decryptIntoStringAsync(decrypted, failure);
 	}
 
 	public Long getExpirationDate() {
 		if (expirationDate == null)
 			return null;
 		EcEncryptedValue v = new EcEncryptedValue();
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		String decryptedString;
 		v.copyFrom(expirationDate);
-		String decryptedString = v.decryptIntoString();
+		if (codebook != null)
+			decryptedString = v.decryptIntoStringUsingSecret(codebook.expirationDate);
+		else {
+			decryptedString = v.decryptIntoString();
+		}
 		if (decryptedString == null)
 			return null;
 		return Long.parseLong(decryptedString);
@@ -284,7 +326,7 @@ public class EcAssertion extends Assertion {
 		}
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(expirationDate);
-		v.decryptIntoStringAsync(new Callback1<String>() {
+		Callback1<String> decrypted = new Callback1<String>() {
 			@Override
 			public void $invoke(String decryptedString) {
 				if (decryptedString == null)
@@ -292,7 +334,12 @@ public class EcAssertion extends Assertion {
 				else
 					success.$invoke(Long.parseLong(decryptedString));
 			}
-		}, failure);
+		};
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		if (codebook != null)
+			v.decryptIntoStringUsingSecretAsync(codebook.expirationDate,decrypted,failure);
+		else
+			v.decryptIntoStringAsync(decrypted, failure);
 	}
 
 	public int getEvidenceCount() {
@@ -307,7 +354,13 @@ public class EcAssertion extends Assertion {
 
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(evidence.$get(index));
-		String decryptedString = v.decryptIntoString();
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		String decryptedString;
+		if (codebook != null)
+			decryptedString = v.decryptIntoStringUsingSecret(codebook.evidence.$get(index));
+		else {
+			decryptedString = v.decryptIntoString();
+		}
 		return decryptedString;
 	}
 
@@ -318,7 +371,7 @@ public class EcAssertion extends Assertion {
 		}
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(evidence.$get(index));
-		v.decryptIntoStringAsync(new Callback1<String>() {
+		Callback1<String> decrypted = new Callback1<String>() {
 			@Override
 			public void $invoke(String decryptedString) {
 				if (decryptedString == null)
@@ -326,7 +379,12 @@ public class EcAssertion extends Assertion {
 				else
 					success.$invoke(decryptedString);
 			}
-		}, failure);
+		};
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		if (codebook != null)
+			v.decryptIntoStringUsingSecretAsync(codebook.evidence.$get(index),decrypted,failure);
+		else
+			v.decryptIntoStringAsync(decrypted, failure);
 	}
 
 	public String getDecayFunction() {
@@ -334,7 +392,13 @@ public class EcAssertion extends Assertion {
 			return null;
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(decayFunction);
-		String decryptedString = v.decryptIntoString();
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		String decryptedString;
+		if (codebook != null)
+			decryptedString = v.decryptIntoStringUsingSecret(codebook.decayFunction);
+		else {
+			decryptedString = v.decryptIntoString();
+		}
 		if (decryptedString == null)
 			return null;
 		return decryptedString;
@@ -351,7 +415,7 @@ public class EcAssertion extends Assertion {
 		}
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(decayFunction);
-		v.decryptIntoStringAsync(new Callback1<String>() {
+		Callback1<String> decrypted = new Callback1<String>() {
 			@Override
 			public void $invoke(String decryptedString) {
 				if (decryptedString == null)
@@ -359,7 +423,12 @@ public class EcAssertion extends Assertion {
 				else
 					success.$invoke(decryptedString);
 			}
-		}, failure);
+		};
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		if (codebook != null)
+			v.decryptIntoStringUsingSecretAsync(codebook.decayFunction,decrypted,failure);
+		else
+			v.decryptIntoStringAsync(decrypted, failure);
 	}
 
 	public Boolean getNegative() {
@@ -367,7 +436,13 @@ public class EcAssertion extends Assertion {
 			return false;
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(negative);
-		String decryptedString = v.decryptIntoString();
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		String decryptedString;
+		if (codebook != null)
+			decryptedString = v.decryptIntoStringUsingSecret(codebook.negative);
+		else {
+			decryptedString = v.decryptIntoString();
+		}
 		if (decryptedString != null)
 			decryptedString.toLowerCase();
 		return "true".equals(decryptedString);
@@ -384,18 +459,24 @@ public class EcAssertion extends Assertion {
 		}
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(negative);
-		v.decryptIntoStringAsync(new Callback1<String>() {
+		Callback1<String> decrypted = new Callback1<String>() {
 			@Override
 			public void $invoke(String decryptedString) {
-				if (decryptedString == null) {
-					failure.$invoke("Could not decrypt negative.");
-					return;
-				}
+				if (decryptedString == null)
+					if (decryptedString == null) {
+						failure.$invoke("Could not decrypt negative.");
+						return;
+					}
 				if (decryptedString != null)
 					decryptedString.toLowerCase();
 				success.$invoke("true".equals(decryptedString));
 			}
-		}, failure);
+		};
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		if (codebook != null)
+			v.decryptIntoStringUsingSecretAsync(codebook.negative,decrypted,failure);
+		else
+			v.decryptIntoStringAsync(decrypted, failure);
 	}
 
 	public void setCompetency(String competencyUrl) {
@@ -481,32 +562,25 @@ public class EcAssertion extends Assertion {
 	@Override
 	public void addReader(EcPk newReader) {
 		if (agent != null) {
-			agent = EcEncryptedValue.revive(agent);
 			agent.addReader(newReader);
 		}
 		if (assertionDate != null) {
-			assertionDate = EcEncryptedValue.revive(assertionDate);
 			assertionDate.addReader(newReader);
 		}
 		if (decayFunction != null) {
-			decayFunction = EcEncryptedValue.revive(decayFunction);
 			decayFunction.addReader(newReader);
 		}
 		if (evidence != null)
 			for (int i = 0; i < evidence.$length(); i++) {
-				evidence.$set(i, EcEncryptedValue.revive(evidence.$get(i)));
 				evidence.$get(i).addReader(newReader);
 			}
 		if (expirationDate != null) {
-			expirationDate = EcEncryptedValue.revive(expirationDate);
 			expirationDate.addReader(newReader);
 		}
 		if (negative != null) {
-			negative = EcEncryptedValue.revive(negative);
 			negative.addReader(newReader);
 		}
 		if (subject != null) {
-			subject = EcEncryptedValue.revive(subject);
 			subject.addReader(newReader);
 		}
 		super.addReader(newReader);
@@ -515,32 +589,25 @@ public class EcAssertion extends Assertion {
 	@Override
 	public void removeReader(EcPk newReader) {
 		if (agent != null) {
-			agent = EcEncryptedValue.revive(agent);
 			agent.removeReader(newReader);
 		}
 		if (assertionDate != null) {
-			assertionDate = EcEncryptedValue.revive(assertionDate);
 			assertionDate.removeReader(newReader);
 		}
 		if (decayFunction != null) {
-			decayFunction = EcEncryptedValue.revive(decayFunction);
 			decayFunction.removeReader(newReader);
 		}
 		if (evidence != null)
 			for (int i = 0; i < evidence.$length(); i++) {
-				evidence.$set(i, EcEncryptedValue.revive(evidence.$get(i)));
 				evidence.$get(i).removeReader(newReader);
 			}
 		if (expirationDate != null) {
-			expirationDate = EcEncryptedValue.revive(expirationDate);
 			expirationDate.removeReader(newReader);
 		}
 		if (negative != null) {
-			negative = EcEncryptedValue.revive(negative);
 			negative.removeReader(newReader);
 		}
 		if (subject != null) {
-			subject = EcEncryptedValue.revive(subject);
 			subject.removeReader(newReader);
 		}
 		super.removeReader(newReader);

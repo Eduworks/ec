@@ -36,6 +36,8 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 	}
 
 	public static EcEncryptedValue revive(EcEncryptedValue partiallyRehydratedObject) {
+		if (partiallyRehydratedObject == null)
+			return null;
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(partiallyRehydratedObject);
 		return v;
@@ -462,6 +464,20 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 	}
 
 	/**
+	 * Decrypts an encrypted value into a string using an alternative secret.
+	 *
+	 * @return {String} Decrypted string value
+	 * @memberOf EcEncryptedValue
+	 * @method decryptIntoString
+	 */
+	public String decryptIntoStringUsingSecret(EbacEncryptedSecret decryptSecret) {
+		if (decryptSecret != null) {
+			return EcAesCtr.decrypt(payload, decryptSecret.secret, decryptSecret.iv);
+		}
+		return null;
+	}
+
+	/**
 	 * Asynchronously decrypts an encrypted value into a string
 	 *
 	 * @param {Callback1<String>} success Callback triggered after successfully
@@ -485,6 +501,27 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 				}
 			}
 		}, failure);
+	}
+
+	/**
+	 * Asynchronously decrypts an encrypted value into a string
+	 *
+	 * @param {Callback1<String>} success Callback triggered after successfully
+	 *                            decrypted, returns decrypted string
+	 * @param {Callback1<String>} failure Callback triggered if error during
+	 *                            decryption
+	 * @memberOf EcEncryptedValue
+	 * @method decryptIntoStringAsync
+	 */
+	public void decryptIntoStringUsingSecretAsync(EbacEncryptedSecret decryptSecret, final Callback1<String> success, final Callback1<String> failure) {
+		final EcEncryptedValue me = this;
+		if (decryptSecret != null) {
+			if (me.context == Ebac.context_0_2 || me.context == Ebac.context_0_3) {
+				if (base64.decode(decryptSecret.iv).byteLength == 32)
+					decryptSecret.iv = base64.encode(base64.decode(decryptSecret.iv).slice(0, 16));
+			}
+			EcAesCtrAsync.decrypt(me.payload, decryptSecret.secret, decryptSecret.iv, success, failure);
+		}
 	}
 
 	/**
@@ -517,18 +554,19 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 	 * @method decryptSecret
 	 */
 	public EbacEncryptedSecret decryptSecret() {
+		int candidateIndex = 0;
 		// See if I am an owner.
 		if (owner != null) {
 			for (int i = 0; i < owner.$length(); i++) {
 				EcPpk decryptionKey = EcIdentityManager.getPpk(EcPk.fromPem(owner.$get(i)));
 				if (decryptionKey == null) {
+					candidateIndex++;
 					continue;
 				}
-				EbacEncryptedSecret decrypted = decryptSecretByKey(decryptionKey);
+				EbacEncryptedSecret decrypted = decryptSecretByKey(decryptionKey, candidateIndex);
 				if (decrypted != null) {
 					return decrypted;
 				}
-
 			}
 		}
 		// See if I have read-only access.
@@ -536,9 +574,10 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 			for (int i = 0; i < reader.$length(); i++) {
 				EcPpk decryptionKey = EcIdentityManager.getPpk(EcPk.fromPem(reader.$get(i)));
 				if (decryptionKey == null) {
+					candidateIndex++;
 					continue;
 				}
-				EbacEncryptedSecret decrypted = decryptSecretByKey(decryptionKey);
+				EbacEncryptedSecret decrypted = decryptSecretByKey(decryptionKey, candidateIndex);
 				if (decrypted != null) {
 					return decrypted;
 				}
@@ -547,9 +586,40 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 		// Last resort, try all the keys I have on all the possible locks.
 		for (int i = 0; i < EcIdentityManager.ids.$length(); i++) {
 			EcPpk decryptionKey = EcIdentityManager.ids.$get(i).ppk;
-			EbacEncryptedSecret decrypted = decryptSecretByKey(decryptionKey);
+			EbacEncryptedSecret decrypted = decryptSecretByKey(decryptionKey, -1);
 			if (decrypted != null) {
 				return decrypted;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Attempts to decrypt secret with a specific key
+	 *
+	 * @param {EcPpk} decryptionKey Key to attempt secret decryption
+	 * @return {EbacEncryptedSecret} Decrypted Secret
+	 * @memberOf EcEncryptedValue
+	 * @method decryptSecretByKey
+	 */
+	private EbacEncryptedSecret decryptSecretByKey(EcPpk decryptionKey, int tryThisIndexFirst) {
+		EbacEncryptedSecret encryptedSecret = null;
+		if (this.secret != null) {
+			if (tryThisIndexFirst >= 0)
+				try {
+					encryptedSecret = tryDecryptSecretByKeyAndIndex(decryptionKey, tryThisIndexFirst);
+					if (encryptedSecret != null)
+						return encryptedSecret;
+				} catch (Exception ex) {
+				}
+			for (int j = 0; j < this.secret.$length(); j++) {
+				if (tryThisIndexFirst < 0 || j != tryThisIndexFirst)
+					try {
+						encryptedSecret = tryDecryptSecretByKeyAndIndex(decryptionKey, j);
+					} catch (Exception ex) {
+					}
+				if (encryptedSecret != null)
+					return encryptedSecret;
 			}
 		}
 		return null;
@@ -567,7 +637,8 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 	 * @method decryptSecretAsync
 	 */
 	public void decryptSecretAsync(final Callback1<EbacEncryptedSecret> success, final Callback1<String> failure) {
-		Array<EcPpk> ppks = new Array<>();
+		final Array<EcPpk> ppks = new Array<>();
+		final Array<Integer> estimatedIndices = new Array<>();
 
 		// See if I am an owner.
 		if (owner != null) {
@@ -576,6 +647,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 				if (decryptionKey != null) {
 					if (!decryptionKey.inArray(ppks)) {
 						ppks.push(decryptionKey);
+						estimatedIndices.push(i);
 					}
 				}
 			}
@@ -587,16 +659,8 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 				if (decryptionKey != null) {
 					if (!decryptionKey.inArray(ppks)) {
 						ppks.push(decryptionKey);
+						estimatedIndices.push(i + owner.$length());
 					}
-				}
-			}
-		}
-		// Last resort, try all the keys I have on all the possible locks.
-		for (int i = 0; i < EcIdentityManager.ids.$length(); i++) {
-			EcPpk decryptionKey = EcIdentityManager.ids.$get(i).ppk;
-			if (decryptionKey != null) {
-				if (!decryptionKey.inArray(ppks)) {
-					ppks.push(decryptionKey);
 				}
 			}
 		}
@@ -605,7 +669,11 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 		helper.each(ppks, new Callback2<EcPpk, Callback0>() {
 			@Override
 			public void $invoke(EcPpk decryptionKey, final Callback0 countdown) {
-				me.decryptSecretByKeyAsync(decryptionKey, new Callback1<EbacEncryptedSecret>() {
+				int estimatedIndex = -1;
+				for (int i = 0; i < ppks.$length(); i++)
+					if (ppks.$get(i).equals(decryptionKey))
+						estimatedIndex = estimatedIndices.$get(i);
+				me.decryptSecretByKeyAsync(decryptionKey, estimatedIndex, new Callback1<EbacEncryptedSecret>() {
 					@Override
 					public void $invoke(EbacEncryptedSecret p1) {
 						if (helper.counter == -1) {
@@ -627,33 +695,27 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 				failure.$invoke("Could not decrypt secret.");
 			}
 		});
+
+		// Last resort, try all the keys I have on all the possible locks.
+		// Disabled for performance reasons. I hope this won't bite us.
+//		for (int i = 0; i < EcIdentityManager.ids.$length(); i++) {
+//			EcPpk decryptionKey = EcIdentityManager.ids.$get(i).ppk;
+//			if (decryptionKey != null) {
+//				if (!decryptionKey.inArray(ppks)) {
+//					ppks.push(decryptionKey);
+//				}
+//			}
+//		}
 	}
 
-	/**
-	 * Attempts to decrypt secret with a specific key
-	 *
-	 * @param {EcPpk} decryptionKey Key to attempt secret decryption
-	 * @return {EbacEncryptedSecret} Decrypted Secret
-	 * @memberOf EcEncryptedValue
-	 * @method decryptSecretByKey
-	 */
-	private EbacEncryptedSecret decryptSecretByKey(EcPpk decryptionKey) {
-		EbacEncryptedSecret encryptedSecret = null;
-		if (this.secret != null) {
-			for (int j = 0; j < this.secret.$length(); j++) {
-				try {
-					String decryptedSecret = null;
-					decryptedSecret = EcRsaOaep.decrypt(decryptionKey, this.secret.$get(j));
-					if (!EcLinkedData.isProbablyJson(decryptedSecret)) {
-						continue;
-					}
-					encryptedSecret = EbacEncryptedSecret.fromEncryptableJson(JSGlobal.JSON.parse(decryptedSecret));
-				} catch (Exception ex) {
-
-				}
-			}
+	private EbacEncryptedSecret tryDecryptSecretByKeyAndIndex(EcPpk decryptionKey, int j) {
+		String decryptedSecret = null;
+		decryptedSecret = EcRsaOaep.decrypt(decryptionKey, this.secret.$get(j));
+		if (EcLinkedData.isProbablyJson(decryptedSecret)) {
+			EbacEncryptedSecret encryptedSecret = EbacEncryptedSecret.fromEncryptableJson(JSGlobal.JSON.parse(decryptedSecret));
+			return encryptedSecret;
 		}
-		return encryptedSecret;
+		return null;
 	}
 
 	/**
@@ -667,42 +729,66 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 	 * @memberOf EcEncryptedValue
 	 * @method decryptSecretByKeyAsync
 	 */
-	private void decryptSecretByKeyAsync(final EcPpk decryptionKey, final Callback1<EbacEncryptedSecret> success, final Callback1<String> failure) {
+	private void decryptSecretByKeyAsync(final EcPpk decryptionKey, final int estimatedIndex, final Callback1<EbacEncryptedSecret> success, final Callback1<String> failure) {
 		EbacEncryptedSecret encryptedSecret = null;
+		final EcEncryptedValue me = this;
 		if (this.secret != null) {
-			final EcAsyncHelper<String> helper = new EcAsyncHelper<String>();
-			helper.each(secret, new Callback2<String, Callback0>() {
-				@Override
-				public void $invoke(String decryptionSecret, final Callback0 decrement) {
-					EcRsaOaepAsync.decrypt(decryptionKey, decryptionSecret, new Callback1<String>() {
-						@Override
-						public void $invoke(String decryptedSecret) {
-							if (helper.counter == -1) {
-								return;
-							}
-							if (!EcLinkedData.isProbablyJson(decryptedSecret)) {
-								decrement.$invoke();
-							} else {
-								helper.stop();
-								success.$invoke(EbacEncryptedSecret.fromEncryptableJson(JSGlobal.JSON.parse(decryptedSecret)));
-							}
+			if (estimatedIndex < 0) {
+				decryptSecretsByKeyAsync(decryptionKey, success, failure);
+			} else {
+				EcRsaOaepAsync.decrypt(decryptionKey, secret.$get(estimatedIndex), new Callback1<String>() {
+					@Override
+					public void $invoke(String decryptedSecret) {
+						if (!EcLinkedData.isProbablyJson(decryptedSecret)) {
+							me.decryptSecretsByKeyAsync(decryptionKey, success, failure);
+						} else {
+							success.$invoke(EbacEncryptedSecret.fromEncryptableJson(JSGlobal.JSON.parse(decryptedSecret)));
 						}
-					}, new Callback1<String>() {
-						@Override
-						public void $invoke(String arg0) {
-							decrement.$invoke();
-						}
-					});
-				}
-			}, new Callback1<Array<String>>() {
-
-				@Override
-				public void $invoke(Array<String> arg0) {
-					failure.$invoke("Could not find decryption key.");
-				}
-			});
+					}
+				}, new Callback1<String>() {
+					@Override
+					public void $invoke(String arg0) {
+						me.decryptSecretsByKeyAsync(decryptionKey, success, failure);
+					}
+				});
+			}
 		} else
 			failure.$invoke("Secret field is empty.");
+	}
+
+	private void decryptSecretsByKeyAsync(final EcPpk decryptionKey, final Callback1<EbacEncryptedSecret> success, final Callback1<String> failure) {
+
+		final EcAsyncHelper<String> helper = new EcAsyncHelper<String>();
+		helper.each(secret, new Callback2<String, Callback0>() {
+			@Override
+			public void $invoke(String decryptionSecret, final Callback0 decrement) {
+				EcRsaOaepAsync.decrypt(decryptionKey, decryptionSecret, new Callback1<String>() {
+					@Override
+					public void $invoke(String decryptedSecret) {
+						if (helper.counter == -1) {
+							return;
+						}
+						if (!EcLinkedData.isProbablyJson(decryptedSecret)) {
+							decrement.$invoke();
+						} else {
+							helper.stop();
+							success.$invoke(EbacEncryptedSecret.fromEncryptableJson(JSGlobal.JSON.parse(decryptedSecret)));
+						}
+					}
+				}, new Callback1<String>() {
+					@Override
+					public void $invoke(String arg0) {
+						decrement.$invoke();
+					}
+				});
+			}
+		}, new Callback1<Array<String>>() {
+
+			@Override
+			public void $invoke(Array<String> arg0) {
+				failure.$invoke("Could not find decryption key.");
+			}
+		});
 	}
 
 	/**
@@ -722,7 +808,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 
 		Array<String> typeSplit = JSCollections.$castArray(type.split("/"));
 
-		return this.encryptedType==type || this.encryptedType==typeSplit.$get(typeSplit.$length() - 1);
+		return this.encryptedType == type || this.encryptedType == typeSplit.$get(typeSplit.$length() - 1);
 	}
 
 	/**
@@ -738,7 +824,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 			reader = new Array<String>();
 		}
 		for (int i = 0; i < reader.$length(); i++) {
-			if (reader.$get(i)==pem) {
+			if (reader.$get(i) == pem) {
 				return;
 			}
 		}
@@ -768,7 +854,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 			reader = new Array<String>();
 		}
 		for (int i = 0; i < reader.$length(); i++) {
-			if (reader.$get(i)==pem) {
+			if (reader.$get(i) == pem) {
 				reader.splice(i, 1);
 			}
 		}
