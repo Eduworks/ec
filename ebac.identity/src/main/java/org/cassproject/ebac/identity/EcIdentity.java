@@ -76,8 +76,13 @@ public class EcIdentity {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof EcIdentity)
+		if (obj instanceof EcIdentity) {
+			if (ppk == null)
+				return false;
+			if (((EcIdentity) obj).ppk == null)
+				return false;
 			return ppk.toPem().equals(((EcIdentity) obj).ppk.toPem());
+		}
 		return super.equals(obj);
 	}
 

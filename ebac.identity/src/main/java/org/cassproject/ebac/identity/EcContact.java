@@ -80,8 +80,13 @@ public class EcContact {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof EcContact)
-			return pk == ((EcContact) obj).pk;
+		if (obj instanceof EcContact) {
+			if (pk == null)
+				return false;
+			if (((EcContact) obj).pk == null)
+				return false;
+			return pk.toPem().equals(((EcContact) obj).pk.toPem());
+		}
 		return super.equals(obj);
 	}
 
