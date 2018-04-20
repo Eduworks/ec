@@ -11,6 +11,14 @@ import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback2;
 
+/**
+ * Container for storing assertions and the secrets used to decrypt those assertions.
+ *
+ * @author fritz.ray@eduworks.com
+ * @class AssertionEnvelope
+ * @extends CreativeWork
+ * @module org.cassproject
+ */
 public class AssertionEnvelope extends CreativeWork {
 	private static final String TYPE_0_5 = "http://schema.cassproject.org/0.4/AssertionEnvelope";
 	public static final String myType = TYPE_0_5;
@@ -21,11 +29,17 @@ public class AssertionEnvelope extends CreativeWork {
 
 	/***
 	 * List of assertions to pack in the envelope.
+	 *
+	 * @property assertion
+	 * @type Assertion[]
 	 */
 	public Array<Assertion> assertion;
 
 	/***
-	 * Map of secrets found in assertions to the objects necessary to decrypt the assertion data.
+	 * List of secrets found in assertions to the objects necessary to decrypt the assertion data.
+	 *
+	 * @property codebook
+	 * @type AssertionCodebook[]
 	 */
 	public Array<AssertionCodebook> codebook;
 
@@ -38,6 +52,7 @@ public class AssertionEnvelope extends CreativeWork {
 	/***
 	 * Returns the assertion indexed at position @index.
 	 * @param index
+	 * @method getAssertion
 	 * @return
 	 */
 	public Assertion getAssertion(int index) {
@@ -56,6 +71,7 @@ public class AssertionEnvelope extends CreativeWork {
 	/***
 	 * Adds the assertion to the envelope and adds the keys necessary to decode the assertion to the envelope.
 	 * @param a Assertion to add.
+	 * @method addAssertion
 	 */
 	public void addAssertion(Assertion a) {
 		AssertionEnvelope me = this;
@@ -93,6 +109,9 @@ public class AssertionEnvelope extends CreativeWork {
 	/***
 	 * Adds the assertion to the envelope and adds the keys necessary to decode the assertion to the envelope.
 	 * @param a Assertion to add.
+	 * @param success Event to call when success occurs.
+	 * @param failure Event to call when failure occurs.
+	 * @method addAssertionAsync
 	 */
 	public void addAssertionAsync(final Assertion a, final Callback0 success, final Callback1<String> failure) {
 		AssertionEnvelope me = this;
@@ -234,6 +253,7 @@ public class AssertionEnvelope extends CreativeWork {
 	 * Validates that all assertions have not been tampered with (are authentic).
 	 * Does not validate the sources of assertions.
 	 * @return True IFF assertions are authentic.
+	 * @method validate
 	 */
 	public boolean validate() {
 		if (assertion != null)

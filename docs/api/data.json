@@ -819,7 +819,9 @@
         "org.cassproject.schema.cass/src/main/java/org/cassproject/schema/cass/profile/AssertionEnvelope.java": {
             "name": "org.cassproject.schema.cass/src/main/java/org/cassproject/schema/cass/profile/AssertionEnvelope.java",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "AssertionEnvelope": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -7000,6 +7002,7 @@
                 "Relation": 1,
                 "RollupRule": 1,
                 "Assertion": 1,
+                "AssertionEnvelope": 1,
                 "Cass": 1,
                 "EbacContact": 1,
                 "EbacContactGrant": 1,
@@ -8793,6 +8796,22 @@
             "file": "org.cassproject.schema.cass/src/main/java/org/cassproject/schema/cass/profile/Assertion.java",
             "line": 15,
             "description": "A claim of competence in CASS is called an Assertion. It states with some confidence that an individual has mastered a competency at a given level, provides evidence of such mastery, and records data such as the time of assertion and the party making the assertion.",
+            "author": "fritz.ray@eduworks.com",
+            "extends": "CreativeWork"
+        },
+        "AssertionEnvelope": {
+            "name": "AssertionEnvelope",
+            "shortname": "AssertionEnvelope",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "org.cassproject",
+            "namespace": "",
+            "file": "org.cassproject.schema.cass/src/main/java/org/cassproject/schema/cass/profile/AssertionEnvelope.java",
+            "line": 14,
+            "description": "Container for storing assertions and the secrets used to decrypt those assertions.",
             "author": "fritz.ray@eduworks.com",
             "extends": "CreativeWork"
         },
@@ -29841,21 +29860,27 @@
         },
         {
             "file": "org.cassproject.schema.cass/src/main/java/org/cassproject/schema/cass/profile/AssertionEnvelope.java",
-            "line": 22,
+            "line": 30,
             "description": "List of assertions to pack in the envelope.",
-            "class": "Cass",
-            "module": "org.cassproject"
-        },
-        {
-            "file": "org.cassproject.schema.cass/src/main/java/org/cassproject/schema/cass/profile/AssertionEnvelope.java",
-            "line": 27,
-            "description": "Map of secrets found in assertions to the objects necessary to decrypt the assertion data.",
-            "class": "Cass",
+            "itemtype": "property",
+            "name": "assertion",
+            "type": "Assertion[]",
+            "class": "AssertionEnvelope",
             "module": "org.cassproject"
         },
         {
             "file": "org.cassproject.schema.cass/src/main/java/org/cassproject/schema/cass/profile/AssertionEnvelope.java",
             "line": 38,
+            "description": "List of secrets found in assertions to the objects necessary to decrypt the assertion data.",
+            "itemtype": "property",
+            "name": "codebook",
+            "type": "AssertionCodebook[]",
+            "class": "AssertionEnvelope",
+            "module": "org.cassproject"
+        },
+        {
+            "file": "org.cassproject.schema.cass/src/main/java/org/cassproject/schema/cass/profile/AssertionEnvelope.java",
+            "line": 52,
             "description": "Returns the assertion indexed at position @index.",
             "params": [
                 {
@@ -29863,15 +29888,17 @@
                     "description": ""
                 }
             ],
+            "itemtype": "method",
+            "name": "getAssertion",
             "return": {
                 "description": ""
             },
-            "class": "Cass",
+            "class": "AssertionEnvelope",
             "module": "org.cassproject"
         },
         {
             "file": "org.cassproject.schema.cass/src/main/java/org/cassproject/schema/cass/profile/AssertionEnvelope.java",
-            "line": 56,
+            "line": 71,
             "description": "Adds the assertion to the envelope and adds the keys necessary to decode the assertion to the envelope.",
             "params": [
                 {
@@ -29879,30 +29906,44 @@
                     "description": "Assertion to add."
                 }
             ],
-            "class": "Cass",
+            "itemtype": "method",
+            "name": "addAssertion",
+            "class": "AssertionEnvelope",
             "module": "org.cassproject"
         },
         {
             "file": "org.cassproject.schema.cass/src/main/java/org/cassproject/schema/cass/profile/AssertionEnvelope.java",
-            "line": 93,
+            "line": 109,
             "description": "Adds the assertion to the envelope and adds the keys necessary to decode the assertion to the envelope.",
             "params": [
                 {
                     "name": "a",
                     "description": "Assertion to add."
+                },
+                {
+                    "name": "success",
+                    "description": "Event to call when success occurs."
+                },
+                {
+                    "name": "failure",
+                    "description": "Event to call when failure occurs."
                 }
             ],
-            "class": "Cass",
+            "itemtype": "method",
+            "name": "addAssertionAsync",
+            "class": "AssertionEnvelope",
             "module": "org.cassproject"
         },
         {
             "file": "org.cassproject.schema.cass/src/main/java/org/cassproject/schema/cass/profile/AssertionEnvelope.java",
-            "line": 233,
+            "line": 252,
             "description": "Validates that all assertions have not been tampered with (are authentic).\nDoes not validate the sources of assertions.",
             "return": {
                 "description": "True IFF assertions are authentic."
             },
-            "class": "Cass",
+            "itemtype": "method",
+            "name": "validate",
+            "class": "AssertionEnvelope",
             "module": "org.cassproject"
         },
         {
@@ -76732,30 +76773,6 @@
         {
             "message": "Missing item type\nSets the subject of an assertion. Makes a few assumptions: Owners of the\nobject should be able to see and change the encrypted value. Owners and\nreaders of the object should be persisted.",
             "line": " org.cassproject.schema.cass/src/main/java/org/cassproject/schema/cass/profile/Assertion.java:116"
-        },
-        {
-            "message": "Missing item type\nList of assertions to pack in the envelope.",
-            "line": " org.cassproject.schema.cass/src/main/java/org/cassproject/schema/cass/profile/AssertionEnvelope.java:22"
-        },
-        {
-            "message": "Missing item type\nMap of secrets found in assertions to the objects necessary to decrypt the assertion data.",
-            "line": " org.cassproject.schema.cass/src/main/java/org/cassproject/schema/cass/profile/AssertionEnvelope.java:27"
-        },
-        {
-            "message": "Missing item type\nReturns the assertion indexed at position @index.",
-            "line": " org.cassproject.schema.cass/src/main/java/org/cassproject/schema/cass/profile/AssertionEnvelope.java:38"
-        },
-        {
-            "message": "Missing item type\nAdds the assertion to the envelope and adds the keys necessary to decode the assertion to the envelope.",
-            "line": " org.cassproject.schema.cass/src/main/java/org/cassproject/schema/cass/profile/AssertionEnvelope.java:56"
-        },
-        {
-            "message": "Missing item type\nAdds the assertion to the envelope and adds the keys necessary to decode the assertion to the envelope.",
-            "line": " org.cassproject.schema.cass/src/main/java/org/cassproject/schema/cass/profile/AssertionEnvelope.java:93"
-        },
-        {
-            "message": "Missing item type\nValidates that all assertions have not been tampered with (are authentic).\nDoes not validate the sources of assertions.",
-            "line": " org.cassproject.schema.cass/src/main/java/org/cassproject/schema/cass/profile/AssertionEnvelope.java:233"
         },
         {
             "message": "Missing item type\nConstructor for remote linked data object.",
