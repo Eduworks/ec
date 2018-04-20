@@ -5,7 +5,7 @@
     <title>EcRemoteIdentityManager - EC Library</title>
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.0/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -37,6 +37,8 @@
                             <li><a href="../modules/org.json.ld.html">org.json.ld</a>
                             </li>
                             <li><a href="../modules/org.schema.html">org.schema</a>
+                            </li>
+                            <li><a href="../modules/org.w3.skos.html">org.w3.skos</a>
                             </li>
                     </ul>
                 </div>
@@ -178,6 +180,7 @@
                             <li><a href="../classes/Clip.html">Clip</a></li>
                             <li><a href="../classes/ClothingStore.html">ClothingStore</a></li>
                             <li><a href="../classes/Code.html">Code</a></li>
+                            <li><a href="../classes/Collection.html">Collection</a></li>
                             <li><a href="../classes/CollectionPage.html">CollectionPage</a></li>
                             <li><a href="../classes/CollegeOrUniversity.html">CollegeOrUniversity</a></li>
                             <li><a href="../classes/ComedyClub.html">ComedyClub</a></li>
@@ -190,6 +193,8 @@
                             <li><a href="../classes/CompoundPriceSpecification.html">CompoundPriceSpecification</a></li>
                             <li><a href="../classes/ComputerLanguage.html">ComputerLanguage</a></li>
                             <li><a href="../classes/ComputerStore.html">ComputerStore</a></li>
+                            <li><a href="../classes/Concept.html">Concept</a></li>
+                            <li><a href="../classes/ConceptScheme.html">ConceptScheme</a></li>
                             <li><a href="../classes/ConditionManifest.html">ConditionManifest</a></li>
                             <li><a href="../classes/ConditionProfile.html">ConditionProfile</a></li>
                             <li><a href="../classes/ConfirmAction.html">ConfirmAction</a></li>
@@ -203,6 +208,7 @@
                             <li><a href="../classes/Conversation.html">Conversation</a></li>
                             <li><a href="../classes/CookAction.html">CookAction</a></li>
                             <li><a href="../classes/Corporation.html">Corporation</a></li>
+                            <li><a href="../classes/CostManifest.html">CostManifest</a></li>
                             <li><a href="../classes/CostProfile.html">CostProfile</a></li>
                             <li><a href="../classes/Country.html">Country</a></li>
                             <li><a href="../classes/Course.html">Course</a></li>
@@ -524,6 +530,7 @@
                             <li><a href="../classes/OpeningHoursSpecification.html">OpeningHoursSpecification</a></li>
                             <li><a href="../classes/Order.html">Order</a></li>
                             <li><a href="../classes/OrderAction.html">OrderAction</a></li>
+                            <li><a href="../classes/OrderedCollection.html">OrderedCollection</a></li>
                             <li><a href="../classes/OrderItem.html">OrderItem</a></li>
                             <li><a href="../classes/OrderStatus.html">OrderStatus</a></li>
                             <li><a href="../classes/Organization.html">Organization</a></li>
@@ -578,6 +585,7 @@
                             <li><a href="../classes/ProductModel.html">ProductModel</a></li>
                             <li><a href="../classes/ProfessionalDoctorate.html">ProfessionalDoctorate</a></li>
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
+                            <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
@@ -842,7 +850,7 @@
 
         <div id="main" class="yui3-u">
             <div class="content"><div class="title">
-    <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_remote_EcRemoteIdentityManager.java.html#l17"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;remote&#x2F;EcRemoteIdentityManager.java:17</code></a></span>
+    <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_remote_EcRemoteIdentityManager.java.html#l16"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;remote&#x2F;EcRemoteIdentityManager.java:16</code></a></span>
     <h1 class="class-name">EcRemoteIdentityManager</h1>
 </div>
 
@@ -978,7 +986,7 @@ and their data should be considered lost.</div>
           </td>
           <td>
             <div class="method-name ">
-              <a href="#method_commit">commit</a>(success, failure, padGenerationCallback)
+              <a href="#method_commit">commit</a>(success, failure)
             </div>
             <div class="short-description">
               <p>Commits credentials in EcIdentityManager to remote server.</p>
@@ -1023,7 +1031,7 @@ and their data should be considered lost.</div>
           </td>
           <td>
             <div class="method-name ">
-              <a href="#method_create">create</a>(success, failure, padGenerationCallback)
+              <a href="#method_create">create</a>(success, failure)
             </div>
             <div class="short-description">
               <p>Creates an account.</p>
@@ -1053,7 +1061,7 @@ and their data should be considered lost.</div>
           </td>
           <td>
             <div class="method-name ">
-              <a href="#method_sendCredentials">sendCredentials</a>(success, failure, padGenerationCallback, service)
+              <a href="#method_sendCredentials">sendCredentials</a>(success, failure, service)
             </div>
             <div class="short-description">
               <p>Sends the identity managers credentials to the service specified</p>
@@ -1473,7 +1481,7 @@ completing the search, returns the results</p>
     <h2 id="public-methods">Public Methods</h2>
 <div class="method item">
     <div id="method_changePassword" class="title">
-        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_remote_EcRemoteIdentityManager.java.html#l234"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;remote&#x2F;EcRemoteIdentityManager.java:234</code></a></span>
+        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_remote_EcRemoteIdentityManager.java.html#l233"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;remote&#x2F;EcRemoteIdentityManager.java:233</code></a></span>
         <h3 class="">
             public
             
@@ -1559,7 +1567,7 @@ Please clear username and password fields after this function is called.</div>
 </div>
 <div class="method item">
     <div id="method_clear" class="title">
-        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_remote_EcRemoteIdentityManager.java.html#l177"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;remote&#x2F;EcRemoteIdentityManager.java:177</code></a></span>
+        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_remote_EcRemoteIdentityManager.java.html#l176"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;remote&#x2F;EcRemoteIdentityManager.java:176</code></a></span>
         <h3 class="">
             public
             
@@ -1579,12 +1587,12 @@ Please clear username and password fields after this function is called.</div>
 </div>
 <div class="method item">
     <div id="method_commit" class="title">
-        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_remote_EcRemoteIdentityManager.java.html#l333"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;remote&#x2F;EcRemoteIdentityManager.java:333</code></a></span>
+        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_remote_EcRemoteIdentityManager.java.html#l332"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;remote&#x2F;EcRemoteIdentityManager.java:332</code></a></span>
         <h3 class="">
             public
             
             
-            commit(success, failure, padGenerationCallback)
+            commit(success, failure)
         </h3>
     </div>
 
@@ -1632,19 +1640,6 @@ Will trigger pad generation and fail if the pad has not been specified.</div>
               <td> </td>
             </tr>
 
-            <tr>
-              <td>padGenerationCallback</td>
-              <td>Object</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td> </td>
-            </tr>
-
           </tbody>
         </table>
       </div>
@@ -1654,7 +1649,7 @@ Will trigger pad generation and fail if the pad has not been specified.</div>
 </div>
 <div class="method item">
     <div id="method_configure" class="title">
-        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_remote_EcRemoteIdentityManager.java.html#l69"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;remote&#x2F;EcRemoteIdentityManager.java:69</code></a></span>
+        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_remote_EcRemoteIdentityManager.java.html#l68"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;remote&#x2F;EcRemoteIdentityManager.java:68</code></a></span>
         <h3 class="">
             public
             
@@ -1801,7 +1796,7 @@ Will trigger pad generation and fail if the pad has not been specified.</div>
 </div>
 <div class="method item">
     <div id="method_configureFromServer" class="title">
-        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_remote_EcRemoteIdentityManager.java.html#l105"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;remote&#x2F;EcRemoteIdentityManager.java:105</code></a></span>
+        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_remote_EcRemoteIdentityManager.java.html#l104"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;remote&#x2F;EcRemoteIdentityManager.java:104</code></a></span>
         <h3 class="">
             public
             
@@ -1864,12 +1859,12 @@ Will trigger pad generation and fail if the pad has not been specified.</div>
 </div>
 <div class="method item">
     <div id="method_create" class="title">
-        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_remote_EcRemoteIdentityManager.java.html#l350"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;remote&#x2F;EcRemoteIdentityManager.java:350</code></a></span>
+        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_remote_EcRemoteIdentityManager.java.html#l348"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;remote&#x2F;EcRemoteIdentityManager.java:348</code></a></span>
         <h3 class="">
             public
             
             
-            create(success, failure, padGenerationCallback)
+            create(success, failure)
         </h3>
     </div>
 
@@ -1924,20 +1919,6 @@ Will trigger pad generation and fail if the pad has not been specified.</div>
 </td>
             </tr>
 
-            <tr>
-              <td>padGenerationCallback</td>
-              <td>Object</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>Callback triggered if pad not specified</p>
-</td>
-            </tr>
-
           </tbody>
         </table>
       </div>
@@ -1947,7 +1928,7 @@ Will trigger pad generation and fail if the pad has not been specified.</div>
 </div>
 <div class="method item">
     <div id="method_fetch" class="title">
-        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_remote_EcRemoteIdentityManager.java.html#l273"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;remote&#x2F;EcRemoteIdentityManager.java:273</code></a></span>
+        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_remote_EcRemoteIdentityManager.java.html#l272"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;remote&#x2F;EcRemoteIdentityManager.java:272</code></a></span>
         <h3 class="">
             public
             
@@ -2012,12 +1993,12 @@ Requires login().</div>
 </div>
 <div class="method item">
     <div id="method_sendCredentials" class="title">
-        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_remote_EcRemoteIdentityManager.java.html#l374"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;remote&#x2F;EcRemoteIdentityManager.java:374</code></a></span>
+        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_remote_EcRemoteIdentityManager.java.html#l371"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;remote&#x2F;EcRemoteIdentityManager.java:371</code></a></span>
         <h3 class="">
             public
             
             
-            sendCredentials(success, failure, padGenerationCallback, service)
+            sendCredentials(success, failure, service)
         </h3>
     </div>
 
@@ -2067,20 +2048,6 @@ Requires login().</div>
             </tr>
 
             <tr>
-              <td>padGenerationCallback</td>
-              <td>Object</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>Callback triggered if pad needed</p>
-</td>
-            </tr>
-
-            <tr>
               <td>service</td>
               <td>Object</td>
               <td>
@@ -2103,7 +2070,7 @@ Requires login().</div>
 </div>
 <div class="method item">
     <div id="method_setDefaultIdentityManagementServer" class="title">
-        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_remote_EcRemoteIdentityManager.java.html#l192"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;remote&#x2F;EcRemoteIdentityManager.java:192</code></a></span>
+        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_remote_EcRemoteIdentityManager.java.html#l191"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;remote&#x2F;EcRemoteIdentityManager.java:191</code></a></span>
         <h3 class="">
             public
             
@@ -2152,7 +2119,7 @@ Requires login().</div>
 </div>
 <div class="method item">
     <div id="method_splicePasswords" class="title">
-        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_remote_EcRemoteIdentityManager.java.html#l447"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;remote&#x2F;EcRemoteIdentityManager.java:447</code></a></span>
+        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_remote_EcRemoteIdentityManager.java.html#l441"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;remote&#x2F;EcRemoteIdentityManager.java:441</code></a></span>
         <h3 class="">
             public
             
@@ -2210,7 +2177,7 @@ cards, not appending).</p>
 </div>
 <div class="method item">
     <div id="method_startLogin" class="title">
-        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_remote_EcRemoteIdentityManager.java.html#l205"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;remote&#x2F;EcRemoteIdentityManager.java:205</code></a></span>
+        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_remote_EcRemoteIdentityManager.java.html#l204"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;remote&#x2F;EcRemoteIdentityManager.java:204</code></a></span>
         <h3 class="">
             public
             

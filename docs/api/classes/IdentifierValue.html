@@ -5,7 +5,7 @@
     <title>IdentifierValue - EC Library</title>
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.0/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -37,6 +37,8 @@
                             <li><a href="../modules/org.json.ld.html">org.json.ld</a>
                             </li>
                             <li><a href="../modules/org.schema.html">org.schema</a>
+                            </li>
+                            <li><a href="../modules/org.w3.skos.html">org.w3.skos</a>
                             </li>
                     </ul>
                 </div>
@@ -178,6 +180,7 @@
                             <li><a href="../classes/Clip.html">Clip</a></li>
                             <li><a href="../classes/ClothingStore.html">ClothingStore</a></li>
                             <li><a href="../classes/Code.html">Code</a></li>
+                            <li><a href="../classes/Collection.html">Collection</a></li>
                             <li><a href="../classes/CollectionPage.html">CollectionPage</a></li>
                             <li><a href="../classes/CollegeOrUniversity.html">CollegeOrUniversity</a></li>
                             <li><a href="../classes/ComedyClub.html">ComedyClub</a></li>
@@ -190,6 +193,8 @@
                             <li><a href="../classes/CompoundPriceSpecification.html">CompoundPriceSpecification</a></li>
                             <li><a href="../classes/ComputerLanguage.html">ComputerLanguage</a></li>
                             <li><a href="../classes/ComputerStore.html">ComputerStore</a></li>
+                            <li><a href="../classes/Concept.html">Concept</a></li>
+                            <li><a href="../classes/ConceptScheme.html">ConceptScheme</a></li>
                             <li><a href="../classes/ConditionManifest.html">ConditionManifest</a></li>
                             <li><a href="../classes/ConditionProfile.html">ConditionProfile</a></li>
                             <li><a href="../classes/ConfirmAction.html">ConfirmAction</a></li>
@@ -203,6 +208,7 @@
                             <li><a href="../classes/Conversation.html">Conversation</a></li>
                             <li><a href="../classes/CookAction.html">CookAction</a></li>
                             <li><a href="../classes/Corporation.html">Corporation</a></li>
+                            <li><a href="../classes/CostManifest.html">CostManifest</a></li>
                             <li><a href="../classes/CostProfile.html">CostProfile</a></li>
                             <li><a href="../classes/Country.html">Country</a></li>
                             <li><a href="../classes/Course.html">Course</a></li>
@@ -524,6 +530,7 @@
                             <li><a href="../classes/OpeningHoursSpecification.html">OpeningHoursSpecification</a></li>
                             <li><a href="../classes/Order.html">Order</a></li>
                             <li><a href="../classes/OrderAction.html">OrderAction</a></li>
+                            <li><a href="../classes/OrderedCollection.html">OrderedCollection</a></li>
                             <li><a href="../classes/OrderItem.html">OrderItem</a></li>
                             <li><a href="../classes/OrderStatus.html">OrderStatus</a></li>
                             <li><a href="../classes/Organization.html">Organization</a></li>
@@ -578,6 +585,7 @@
                             <li><a href="../classes/ProductModel.html">ProductModel</a></li>
                             <li><a href="../classes/ProfessionalDoctorate.html">ProfessionalDoctorate</a></li>
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
+                            <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
@@ -806,6 +814,8 @@
                   <div><a href="#public-properties">Public Properties</a></div>
                   <ul>
                       <li><a href="#props_description">description</a></li>
+                      <li><a href="#props_identifierType">identifierType</a></li>
+                      <li><a href="#props_identifierValueCode">identifierValueCode</a></li>
                       <li><a href="#props_name">name</a></li>
                   </ul>
             
@@ -838,7 +848,7 @@
     </div>
 
 <div class="class-description"><p><a href="http://credentialengine.org/IdentifierValue">credentialengine.org/IdentifierValue</a>
-An identifier value.</p>
+Alphanumeric Identifier value.</p>
 </div>
 
 
@@ -864,10 +874,10 @@ An identifier value.</p>
           </td>
           <td>
             <div class="property-name ">
-              <a href="#props_description">description</a>: Literal
+              <a href="#props_description">description</a>: LangString
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/description">http://purl.org/ctdl/terms/description</a> A short description of the resource being described.</p>
+              <p><a href="http://purl.org/ctdl/terms/description">http://purl.org/ctdl/terms/description</a> Statememnt, characterization or account of the entity.</p>
             </div>
           </td>
         </tr>
@@ -879,10 +889,40 @@ An identifier value.</p>
           </td>
           <td>
             <div class="property-name ">
-              <a href="#props_name">name</a>: Literal
+              <a href="#props_identifierType">identifierType</a>: LangString
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/name">http://purl.org/ctdl/terms/name</a> The name of the resource being described.</p>
+              <p><a href="http://purl.org/ctdl/terms/identifierType">http://purl.org/ctdl/terms/identifierType</a> Formal name or acronym of the identifier type such as ISBN and ISSN.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_identifierValueCode">identifierValueCode</a>: String
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/identifierValueCode">http://purl.org/ctdl/terms/identifierValueCode</a> Alphanumeric string identifier of the entity. Where a formal identification system exists for the identifier, recommended best practice is to use a string conforming to that system.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_name">name</a>: LangString
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/name">http://purl.org/ctdl/terms/name</a> Name or title of the entity.</p>
             </div>
           </td>
         </tr>
@@ -905,35 +945,70 @@ An identifier value.</p>
         <h2 id="public-properties">Public Properties</h2>
 <div class="property item">
   <div id="props_description" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_IdentifierValue.java.html#l15"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;IdentifierValue.java:15</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_IdentifierValue.java.html#l24"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;IdentifierValue.java:24</code></a></span>
     <h3 class="">
       public
       
       
-      description: Literal
+      description: LangString
     </h3>
   </div>
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/description">http://purl.org/ctdl/terms/description</a>
-A short description of the resource being described.</p>
+Statememnt, characterization or account of the entity.</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_identifierType" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_IdentifierValue.java.html#l32"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;IdentifierValue.java:32</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      identifierType: LangString
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/identifierType">http://purl.org/ctdl/terms/identifierType</a>
+Formal name or acronym of the identifier type such as ISBN and ISSN.</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_identifierValueCode" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_IdentifierValue.java.html#l40"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;IdentifierValue.java:40</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      identifierValueCode: String
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/identifierValueCode">http://purl.org/ctdl/terms/identifierValueCode</a>
+Alphanumeric string identifier of the entity.
+Where a formal identification system exists for the identifier, recommended best practice is to use a string conforming to that system.</p>
 </div>
 
 </div>
 <div class="property item">
   <div id="props_name" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_IdentifierValue.java.html#l23"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;IdentifierValue.java:23</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_IdentifierValue.java.html#l49"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;IdentifierValue.java:49</code></a></span>
     <h3 class="">
       public
       
       
-      name: Literal
+      name: LangString
     </h3>
   </div>
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/name">http://purl.org/ctdl/terms/name</a>
-The name of the resource being described.</p>
+Name or title of the entity.</p>
 </div>
 
 </div>

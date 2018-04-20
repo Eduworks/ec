@@ -5,7 +5,7 @@
     <title>cass.import/src/main/java/org/cass/importer/FrameworkImport.java - EC Library</title>
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.0/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -37,6 +37,8 @@
                             <li><a href="../modules/org.json.ld.html">org.json.ld</a>
                             </li>
                             <li><a href="../modules/org.schema.html">org.schema</a>
+                            </li>
+                            <li><a href="../modules/org.w3.skos.html">org.w3.skos</a>
                             </li>
                     </ul>
                 </div>
@@ -178,6 +180,7 @@
                             <li><a href="../classes/Clip.html">Clip</a></li>
                             <li><a href="../classes/ClothingStore.html">ClothingStore</a></li>
                             <li><a href="../classes/Code.html">Code</a></li>
+                            <li><a href="../classes/Collection.html">Collection</a></li>
                             <li><a href="../classes/CollectionPage.html">CollectionPage</a></li>
                             <li><a href="../classes/CollegeOrUniversity.html">CollegeOrUniversity</a></li>
                             <li><a href="../classes/ComedyClub.html">ComedyClub</a></li>
@@ -190,6 +193,8 @@
                             <li><a href="../classes/CompoundPriceSpecification.html">CompoundPriceSpecification</a></li>
                             <li><a href="../classes/ComputerLanguage.html">ComputerLanguage</a></li>
                             <li><a href="../classes/ComputerStore.html">ComputerStore</a></li>
+                            <li><a href="../classes/Concept.html">Concept</a></li>
+                            <li><a href="../classes/ConceptScheme.html">ConceptScheme</a></li>
                             <li><a href="../classes/ConditionManifest.html">ConditionManifest</a></li>
                             <li><a href="../classes/ConditionProfile.html">ConditionProfile</a></li>
                             <li><a href="../classes/ConfirmAction.html">ConfirmAction</a></li>
@@ -203,6 +208,7 @@
                             <li><a href="../classes/Conversation.html">Conversation</a></li>
                             <li><a href="../classes/CookAction.html">CookAction</a></li>
                             <li><a href="../classes/Corporation.html">Corporation</a></li>
+                            <li><a href="../classes/CostManifest.html">CostManifest</a></li>
                             <li><a href="../classes/CostProfile.html">CostProfile</a></li>
                             <li><a href="../classes/Country.html">Country</a></li>
                             <li><a href="../classes/Course.html">Course</a></li>
@@ -524,6 +530,7 @@
                             <li><a href="../classes/OpeningHoursSpecification.html">OpeningHoursSpecification</a></li>
                             <li><a href="../classes/Order.html">Order</a></li>
                             <li><a href="../classes/OrderAction.html">OrderAction</a></li>
+                            <li><a href="../classes/OrderedCollection.html">OrderedCollection</a></li>
                             <li><a href="../classes/OrderItem.html">OrderItem</a></li>
                             <li><a href="../classes/OrderStatus.html">OrderStatus</a></li>
                             <li><a href="../classes/Organization.html">Organization</a></li>
@@ -578,6 +585,7 @@
                             <li><a href="../classes/ProductModel.html">ProductModel</a></li>
                             <li><a href="../classes/ProfessionalDoctorate.html">ProfessionalDoctorate</a></li>
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
+                            <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
@@ -800,15 +808,18 @@
 <pre class="code prettyprint linenums">
 package org.cass.importer;
 
+import com.eduworks.ec.task.Task;
 import org.cass.competency.EcAlignment;
 import org.cass.competency.EcCompetency;
 import org.cass.competency.EcFramework;
 import org.cassproject.ebac.identity.EcIdentity;
+import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
+import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback2;
 
@@ -860,7 +871,7 @@ public class FrameworkImport {
 	 */
 	public static void importCompetencies(final EcFramework source, final EcFramework target, boolean copy,
 	                                      final String serverUrl, final EcIdentity owner,
-	                                      final Callback2&lt;Array&lt;EcCompetency&gt;, Array&lt;EcAlignment&gt;&gt; success, final Callback1&lt;Object&gt; failure) {
+	                                      final Callback2&lt;Array&lt;EcCompetency&gt;, Array&lt;EcAlignment&gt;&gt; success, final Callback1&lt;Object&gt; failure, final EcRepository repo) {
 
 		if (source == null) {
 			failure.$invoke(&quot;Source Framework not set&quot;);
@@ -890,10 +901,13 @@ public class FrameworkImport {
 
 				EcCompetency.get(id, new Callback1&lt;EcCompetency&gt;() {
 					public void $invoke(EcCompetency comp) {
-						EcCompetency competency = new EcCompetency();
+						final EcCompetency competency = new EcCompetency();
 						competency.copyFrom(comp);
 
-						competency.generateId(serverUrl);
+						if (repo == null || repo.selectedServer.indexOf(serverUrl) != -1)
+							competency.generateId(serverUrl);
+						else
+							competency.generateShortId(serverUrl);
 
 						compMap.$put(comp.shortId(), competency.shortId());
 
@@ -901,82 +915,101 @@ public class FrameworkImport {
 							competency.addOwner(owner.ppk.toPk());
 
 						final String id = competency.id;
-						competency.save(new Callback1&lt;String&gt;() {
-							public void $invoke(String str) {
-								savedComp++;
-								targetUsable.addCompetency(id);
+						Task.asyncImmediate(new Callback1() {
+							@Override
+							public void $invoke(Object o) {
+								final Callback0 keepGoing = (Callback0) o;
+								competency.save(new Callback1&lt;String&gt;() {
+									public void $invoke(String str) {
+										savedComp++;
+										targetUsable.addCompetency(id);
 
-								if (savedComp == competencies.$length()) {
+										if (savedComp == competencies.$length()) {
 
-									targetUsable.save(new Callback1&lt;String&gt;() {
-										@Override
-										public void $invoke(String p1) {
-											for (int i = 0; i &lt; source.relation.$length(); i++) {
-												String id = source.relation.$get(i);
+											targetUsable.save(new Callback1&lt;String&gt;() {
+												@Override
+												public void $invoke(String p1) {
+													for (int i = 0; i &lt; source.relation.$length(); i++) {
+														String id = source.relation.$get(i);
 
-												EcAlignment.get(id, new Callback1&lt;EcAlignment&gt;() {
-													public void $invoke(EcAlignment rel) {
-														EcAlignment relation = new EcAlignment();
-														relation.copyFrom(rel);
+														EcAlignment.get(id, new Callback1&lt;EcAlignment&gt;() {
+															public void $invoke(EcAlignment rel) {
+																final EcAlignment relation = new EcAlignment();
+																relation.copyFrom(rel);
 
-														relation.generateId(serverUrl);
+																if (repo == null || repo.selectedServer.indexOf(serverUrl) != -1)
+																	relation.generateId(serverUrl);
+																else
+																	relation.generateShortId(serverUrl);
 
-														relation.source = compMap.$get(rel.source);
-														relation.target = compMap.$get(rel.target);
+																relation.source = compMap.$get(rel.source);
+																relation.target = compMap.$get(rel.target);
 
-														if (owner != null)
-															relation.addOwner(owner.ppk.toPk());
+																if (owner != null)
+																	relation.addOwner(owner.ppk.toPk());
 
-														final String id = relation.id;
-														relation.save(new Callback1&lt;String&gt;() {
-															public void $invoke(String str) {
-																savedRel++;
-																targetUsable.addRelation(id);
+																final String id = relation.id;
+																Task.asyncImmediate(new Callback1() {
+																	@Override
+																	public void $invoke(Object o) {
+																		final Callback0 keepGoing2 = (Callback0) o;
+																		relation.save(new Callback1&lt;String&gt;() {
+																			public void $invoke(String str) {
+																				savedRel++;
+																				targetUsable.addRelation(id);
 
-																if (savedRel == relations.$length()) {
+																				if (savedRel == relations.$length()) {
 
-																	targetUsable.save(new Callback1&lt;String&gt;() {
-																		@Override
-																		public void $invoke(String p1) {
+																					targetUsable.save(new Callback1&lt;String&gt;() {
+																						@Override
+																						public void $invoke(String p1) {
 
 
-																			success.$invoke(competencies, relations);
-																		}
-																	}, new Callback1&lt;String&gt;() {
-																		@Override
-																		public void $invoke(String p1) {
-																			failure.$invoke(p1);
-																		}
-																	});
-																}
+																							success.$invoke(competencies, relations);
+																						}
+																					}, new Callback1&lt;String&gt;() {
+																						@Override
+																						public void $invoke(String p1) {
+																							failure.$invoke(p1);
+																						}
+																					},repo);
+																				}
+																				keepGoing2.$invoke();
+																			}
+																		}, new Callback1&lt;String&gt;() {
+																			public void $invoke(String str) {
+																				failure.$invoke(&quot;Trouble Saving Copied Competency&quot;);
+																				keepGoing2.$invoke();
+																			}
+																		},repo);
+																	}
+																});
+
+																relations.push(relation);
 															}
 														}, new Callback1&lt;String&gt;() {
 															public void $invoke(String str) {
-																failure.$invoke(&quot;Trouble Saving Copied Competency&quot;);
+																failure.$invoke(str);
 															}
 														});
 
-														relations.push(relation);
 													}
-												}, new Callback1&lt;String&gt;() {
-													public void $invoke(String str) {
-														failure.$invoke(str);
-													}
-												});
-
-											}
+												}
+											}, new Callback1&lt;String&gt;() {
+												@Override
+												public void $invoke(String p1) {
+													failure.$invoke(p1);
+												}
+											},repo);
 										}
-									}, new Callback1&lt;String&gt;() {
-										@Override
-										public void $invoke(String p1) {
-											failure.$invoke(p1);
-										}
-									});
-								}
-							}
-						}, new Callback1&lt;String&gt;() {
-							public void $invoke(String str) {
-								failure.$invoke(&quot;Trouble Saving Copied Competency&quot;);
+										keepGoing.$invoke();
+									}
+								}, new Callback1&lt;String&gt;() {
+									public void $invoke(String str) {
+										failure.$invoke(&quot;Trouble Saving Copied Competency&quot;);
+										keepGoing.$invoke();
+									}
+								},repo);
 							}
 						});
 
@@ -1018,15 +1051,23 @@ public class FrameworkImport {
 
 														if (relations.$length() == source.relation.$length()) {
 															JSObjectAdapter.$properties(targetUsable).$delete(&quot;competencyObjects&quot;);
-															targetUsable.save(new Callback1&lt;String&gt;() {
+															Task.asyncImmediate(new Callback1() {
 																@Override
-																public void $invoke(String p1) {
-																	success.$invoke(competencies, relations);
-																}
-															}, new Callback1&lt;String&gt;() {
-																@Override
-																public void $invoke(String p1) {
-																	failure.$invoke(p1);
+																public void $invoke(Object o) {
+																	final Callback0 keepGoing = (Callback0) o;
+																	targetUsable.save(new Callback1&lt;String&gt;() {
+																		@Override
+																		public void $invoke(String p1) {
+																			success.$invoke(competencies, relations);
+																			keepGoing.$invoke();
+																		}
+																	}, new Callback1&lt;String&gt;() {
+																		@Override
+																		public void $invoke(String p1) {
+																			failure.$invoke(p1);
+																			keepGoing.$invoke();
+																		}
+																	},repo);
 																}
 															});
 														}
@@ -1045,7 +1086,7 @@ public class FrameworkImport {
 									public void $invoke(String p1) {
 										failure.$invoke(p1);
 									}
-								});
+								},repo);
 							}
 						}
 					}, new Callback1&lt;String&gt;() {

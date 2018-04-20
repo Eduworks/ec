@@ -5,7 +5,7 @@
     <title>ebac.identity/src/main/java/org/cassproject/ebac/identity/remote/EcRemoteIdentityManager.java - EC Library</title>
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.0/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -37,6 +37,8 @@
                             <li><a href="../modules/org.json.ld.html">org.json.ld</a>
                             </li>
                             <li><a href="../modules/org.schema.html">org.schema</a>
+                            </li>
+                            <li><a href="../modules/org.w3.skos.html">org.w3.skos</a>
                             </li>
                     </ul>
                 </div>
@@ -178,6 +180,7 @@
                             <li><a href="../classes/Clip.html">Clip</a></li>
                             <li><a href="../classes/ClothingStore.html">ClothingStore</a></li>
                             <li><a href="../classes/Code.html">Code</a></li>
+                            <li><a href="../classes/Collection.html">Collection</a></li>
                             <li><a href="../classes/CollectionPage.html">CollectionPage</a></li>
                             <li><a href="../classes/CollegeOrUniversity.html">CollegeOrUniversity</a></li>
                             <li><a href="../classes/ComedyClub.html">ComedyClub</a></li>
@@ -190,6 +193,8 @@
                             <li><a href="../classes/CompoundPriceSpecification.html">CompoundPriceSpecification</a></li>
                             <li><a href="../classes/ComputerLanguage.html">ComputerLanguage</a></li>
                             <li><a href="../classes/ComputerStore.html">ComputerStore</a></li>
+                            <li><a href="../classes/Concept.html">Concept</a></li>
+                            <li><a href="../classes/ConceptScheme.html">ConceptScheme</a></li>
                             <li><a href="../classes/ConditionManifest.html">ConditionManifest</a></li>
                             <li><a href="../classes/ConditionProfile.html">ConditionProfile</a></li>
                             <li><a href="../classes/ConfirmAction.html">ConfirmAction</a></li>
@@ -203,6 +208,7 @@
                             <li><a href="../classes/Conversation.html">Conversation</a></li>
                             <li><a href="../classes/CookAction.html">CookAction</a></li>
                             <li><a href="../classes/Corporation.html">Corporation</a></li>
+                            <li><a href="../classes/CostManifest.html">CostManifest</a></li>
                             <li><a href="../classes/CostProfile.html">CostProfile</a></li>
                             <li><a href="../classes/Country.html">Country</a></li>
                             <li><a href="../classes/Course.html">Course</a></li>
@@ -524,6 +530,7 @@
                             <li><a href="../classes/OpeningHoursSpecification.html">OpeningHoursSpecification</a></li>
                             <li><a href="../classes/Order.html">Order</a></li>
                             <li><a href="../classes/OrderAction.html">OrderAction</a></li>
+                            <li><a href="../classes/OrderedCollection.html">OrderedCollection</a></li>
                             <li><a href="../classes/OrderItem.html">OrderItem</a></li>
                             <li><a href="../classes/OrderStatus.html">OrderStatus</a></li>
                             <li><a href="../classes/Organization.html">Organization</a></li>
@@ -578,6 +585,7 @@
                             <li><a href="../classes/ProductModel.html">ProductModel</a></li>
                             <li><a href="../classes/ProfessionalDoctorate.html">ProfessionalDoctorate</a></li>
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
+                            <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
@@ -812,7 +820,6 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
-import org.stjs.javascript.functions.Function0;
 
 /**
  * Logs into and stores/retrieves credentials from a compatible remote server.
@@ -1050,13 +1057,13 @@ public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 	@Override
 	public boolean changePassword(String username, String oldPassword, String newPassword) {
 		String usernameHash = util.encode64(pkcs5.pbkdf2(username, usernameSalt, usernameIterations, usernameWidth));
-		if (!usernameWithSalt.equals(usernameHash)) {
+		if (usernameWithSalt != usernameHash) {
 			Global.alert(&quot;Username does not match. Aborting password change.&quot;);
 			return false;
 		}
 
 		String oldPasswordHash = util.encode64(pkcs5.pbkdf2(oldPassword, passwordSalt, passwordIterations, passwordWidth));
-		if (!passwordWithSalt.equals(oldPasswordHash)) {
+		if (passwordWithSalt != oldPasswordHash) {
 			Global.alert(&quot;Old password does not match. Aborting password change.&quot;);
 			return false;
 		}
@@ -1137,14 +1144,13 @@ public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 	 *
 	 * @param {Callback1&lt;String&gt;}   success
 	 * @param {Callback1&lt;String&gt;}   failure
-	 * @param padGenerationCallback
 	 * @memberOf EcRemoteIdentityManager
 	 * @method commit
 	 */
 	@Override
-	public void commit(final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure, Function0&lt;String&gt; padGenerationCallback) {
+	public void commit(final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure) {
 		String service = &quot;sky/id/commit&quot;;
-		sendCredentials(success, failure, padGenerationCallback, service);
+		sendCredentials(success, failure, service);
 	}
 
 	/**
@@ -1161,14 +1167,13 @@ public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 	 *                              Callback triggered after successfully creating an account
 	 * @param {Callback1&lt;String&gt;}   failure
 	 *                              Callback triggered if error creating an account
-	 * @param padGenerationCallback Callback triggered if pad not specified
 	 * @memberOf EcRemoteIdentityManager
 	 * @method create
 	 */
 	@Override
-	public void create(final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure, Function0&lt;String&gt; padGenerationCallback) {
+	public void create(final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure) {
 		String service = &quot;sky/id/create&quot;;
-		sendCredentials(success, failure, padGenerationCallback, service);
+		sendCredentials(success, failure, service);
 	}
 
 	/**
@@ -1178,12 +1183,11 @@ public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 	 *                              Callback triggered if credentials sent successfully
 	 * @param {Callback1&lt;String&gt;}   failure
 	 *                              Callback triggered if error sending credentials
-	 * @param padGenerationCallback Callback triggered if pad needed
 	 * @param service               Service to send credentials to on server
 	 * @memberOf EcRemoteIdentityManager
 	 * @method sendCredentials
 	 */
-	private void sendCredentials(final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure, Function0&lt;String&gt; padGenerationCallback,
+	private void sendCredentials(final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure,
 	                             final String service) {
 		if (!configured)
 			Global.alert(&quot;Remote Identity not configured.&quot;);
@@ -1194,19 +1198,17 @@ public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 
 		Array&lt;EbacCredential&gt; credentials = new Array&lt;EbacCredential&gt;();
 		Array&lt;EbacContact&gt; contacts = new Array&lt;EbacContact&gt;();
-		if (pad == null &amp;&amp; padGenerationCallback != null)
-			pad = padGenerationCallback.$invoke();
 
 		for (int i = 0; i &lt; EcIdentityManager.ids.$length(); i++) {
 			EcIdentity id = EcIdentityManager.ids.$get(i);
-			if (id.source != null &amp;&amp; id.source.equals(server) == false)
+			if (id.source != null &amp;&amp; id.source != server)
 				continue;
 			id.source = server;
 			credentials.push(id.toCredential(secretWithSalt));
 		}
 		for (int i = 0; i &lt; EcIdentityManager.contacts.$length(); i++) {
 			EcContact id = EcIdentityManager.contacts.$get(i);
-			if (id.source != null &amp;&amp; id.source.equals(server) == false)
+			if (id.source != null &amp;&amp; id.source != server)
 				continue;
 			id.source = server;
 			contacts.push(id.toEncryptedContact(secretWithSalt));
@@ -1240,7 +1242,7 @@ public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 					}
 				});
 			}
-		});
+		},failure);
 
 	}
 

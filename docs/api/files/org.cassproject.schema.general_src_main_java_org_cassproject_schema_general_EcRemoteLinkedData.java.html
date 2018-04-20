@@ -5,7 +5,7 @@
     <title>org.cassproject.schema.general/src/main/java/org/cassproject/schema/general/EcRemoteLinkedData.java - EC Library</title>
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.0/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -37,6 +37,8 @@
                             <li><a href="../modules/org.json.ld.html">org.json.ld</a>
                             </li>
                             <li><a href="../modules/org.schema.html">org.schema</a>
+                            </li>
+                            <li><a href="../modules/org.w3.skos.html">org.w3.skos</a>
                             </li>
                     </ul>
                 </div>
@@ -178,6 +180,7 @@
                             <li><a href="../classes/Clip.html">Clip</a></li>
                             <li><a href="../classes/ClothingStore.html">ClothingStore</a></li>
                             <li><a href="../classes/Code.html">Code</a></li>
+                            <li><a href="../classes/Collection.html">Collection</a></li>
                             <li><a href="../classes/CollectionPage.html">CollectionPage</a></li>
                             <li><a href="../classes/CollegeOrUniversity.html">CollegeOrUniversity</a></li>
                             <li><a href="../classes/ComedyClub.html">ComedyClub</a></li>
@@ -190,6 +193,8 @@
                             <li><a href="../classes/CompoundPriceSpecification.html">CompoundPriceSpecification</a></li>
                             <li><a href="../classes/ComputerLanguage.html">ComputerLanguage</a></li>
                             <li><a href="../classes/ComputerStore.html">ComputerStore</a></li>
+                            <li><a href="../classes/Concept.html">Concept</a></li>
+                            <li><a href="../classes/ConceptScheme.html">ConceptScheme</a></li>
                             <li><a href="../classes/ConditionManifest.html">ConditionManifest</a></li>
                             <li><a href="../classes/ConditionProfile.html">ConditionProfile</a></li>
                             <li><a href="../classes/ConfirmAction.html">ConfirmAction</a></li>
@@ -203,6 +208,7 @@
                             <li><a href="../classes/Conversation.html">Conversation</a></li>
                             <li><a href="../classes/CookAction.html">CookAction</a></li>
                             <li><a href="../classes/Corporation.html">Corporation</a></li>
+                            <li><a href="../classes/CostManifest.html">CostManifest</a></li>
                             <li><a href="../classes/CostProfile.html">CostProfile</a></li>
                             <li><a href="../classes/Country.html">Country</a></li>
                             <li><a href="../classes/Course.html">Course</a></li>
@@ -524,6 +530,7 @@
                             <li><a href="../classes/OpeningHoursSpecification.html">OpeningHoursSpecification</a></li>
                             <li><a href="../classes/Order.html">Order</a></li>
                             <li><a href="../classes/OrderAction.html">OrderAction</a></li>
+                            <li><a href="../classes/OrderedCollection.html">OrderedCollection</a></li>
                             <li><a href="../classes/OrderItem.html">OrderItem</a></li>
                             <li><a href="../classes/OrderStatus.html">OrderStatus</a></li>
                             <li><a href="../classes/Organization.html">Organization</a></li>
@@ -578,6 +585,7 @@
                             <li><a href="../classes/ProductModel.html">ProductModel</a></li>
                             <li><a href="../classes/ProfessionalDoctorate.html">ProfessionalDoctorate</a></li>
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
+                            <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
@@ -820,490 +828,568 @@ import org.stjs.javascript.functions.Callback1;
  * @module org.cassproject
  */
 public class EcRemoteLinkedData extends EcLinkedData {
-	// An owner has write privileges according to a repository.
-	// These owners are in PEM format.
-	/**
-	 * PEM encoded public keys of the owner of the object. A repository, upon
-	 * receiving a write operation, will ensure either the data did not
-	 * previously exist, or that an owner has provided a signature authorizing
-	 * the replacement of the old data with the new data.
-	 *
-	 * @property owner
-	 * @type string[] (PEM)
-	 */
-	public Array&lt;String&gt; owner;
+    // An owner has write privileges according to a repository.
+    // These owners are in PEM format.
+    /**
+     * PEM encoded public keys of the owner of the object. A repository, upon
+     * receiving a write operation, will ensure either the data did not
+     * previously exist, or that an owner has provided a signature authorizing
+     * the replacement of the old data with the new data.
+     *
+     * @property owner
+     * @type string[] (PEM)
+     */
+    public Array&lt;String&gt; owner;
 
-	/**
-	 * Signatures of the object. The signing method is as follows: Remove the
-	 * signature field. Encode the object and its fields in ascii-sort order
-	 * JSON-LD using a space-free, tab-free encoding. Sign the aforementioned
-	 * string.
-	 *
-	 * @property signature
-	 * @type string[] (Base64)
-	 */
-	public Array&lt;String&gt; signature;
+    /**
+     * Signatures of the object. The signing method is as follows: Remove the
+     * signature field. Encode the object and its fields in ascii-sort order
+     * JSON-LD using a space-free, tab-free encoding. Sign the aforementioned
+     * string.
+     *
+     * @property signature
+     * @type string[] (Base64)
+     */
+    public Array&lt;String&gt; signature;
 
-	/**
-	 * URL/URI used to retrieve, store and identify the object.
-	 *
-	 * @property id
-	 * @type string (URL)
-	 */
-	public String id;
+    /**
+     * URL/URI used to retrieve, store and identify the object.
+     *
+     * @property id
+     * @type string (URL)
+     */
+    public String id;
 
-	/**
-	 * PEM encoded public keys of identities authorized to view the object. A
-	 * repository will ignore write operations from these identities, but will
-	 * allow them to read the object.
-	 *
-	 * @property reader
-	 * @type string[] (PEM)
-	 */
-	public Array&lt;String&gt; reader;
+    /**
+     * PEM encoded public keys of identities authorized to view the object. A
+     * repository will ignore write operations from these identities, but will
+     * allow them to read the object.
+     *
+     * @property reader
+     * @type string[] (PEM)
+     */
+    public Array&lt;String&gt; reader;
 
-	/**
-	 * Constructor for remote linked data object.
-	 *
-	 * @param {string} context JSON-LD Context.
-	 * @param {string} type JSON-LD Type.
-	 * @constructor
-	 */
-	public EcRemoteLinkedData(String context, String type) {
-		super(context, type);
-	}
+    /**
+     * Constructor for remote linked data object.
+     *
+     * @param {string} context JSON-LD Context.
+     * @param {string} type JSON-LD Type.
+     * @constructor
+     */
+    public EcRemoteLinkedData(String context, String type) {
+        super(context, type);
+    }
 
-	/**
-	 * Removes the version information from an identifier.
-	 * Warning: Will remove identifier if the identifier is composed solely of digits!!!
-	 *
-	 * @param {string} id Slash delimited URL or path.
-	 * @return ID without version.
-	 * @method trimVersionFromUrl
-	 * @static
-	 */
-	public static String trimVersionFromUrl(String id) {
-		if (id == null)
-			return null;
-		// May not be a GUID, may be more canonical. Check to see if it is a
-		// parsable long.
+    /**
+     * Removes the version information from an identifier.
+     * Warning: Will remove identifier if the identifier is composed solely of digits!!!
+     *
+     * @param {string} id Slash delimited URL or path.
+     * @return ID without version.
+     * @method trimVersionFromUrl
+     * @static
+     */
+    public static String trimVersionFromUrl(String id) {
+        if (id == null)
+            return null;
+        // May not be a GUID, may be more canonical. Check to see if it is a
+        // parsable long.
 
-		if (!id.substring(id.lastIndexOf(&quot;/&quot;)).matches(&quot;\\/[0-9]+&quot;))
-			return id;
-		String rawId = id.substring(0, id.lastIndexOf(&quot;/&quot;));
-		if (rawId.endsWith(&quot;/&quot;))
-			rawId = rawId.substring(0, rawId.length() - 1);
-		return rawId;
-	}
+        if (!id.substring(id.lastIndexOf(&quot;/&quot;)).matches(&quot;\\/[0-9]+&quot;))
+            return id;
+        String rawId = id.substring(0, id.lastIndexOf(&quot;/&quot;));
+        if (rawId.endsWith(&quot;/&quot;))
+            rawId = rawId.substring(0, rawId.length() - 1);
+        return rawId;
+    }
 
-	/**
-	 * Will generate an identifier using the server URL provided (usually from
-	 * an EcRepository).
-	 *
-	 * @param {string} server Base URL of the server&#x27;s repository functionality.
-	 * @method generateId
-	 */
-	public void generateId(String server) {
-		id = server;
-		if (!id.endsWith(&quot;/&quot;))
-			id += &quot;/&quot;;
-		id += &quot;data/&quot;;
-		id += getFullType().replace(&quot;http://&quot;, &quot;&quot;).replaceAll(&quot;/&quot;, &quot;.&quot;);
-		id += &quot;/&quot;;
-		id += EcRandom.generateUUID();
-		id += &quot;/&quot;;
-		id += new Date().getTime();
-	}
+    /**
+     * Will generate an identifier using the server URL provided (usually from
+     * an EcRepository).
+     *
+     * @param {string} server Base URL of the server&#x27;s repository functionality.
+     * @method generateId
+     */
+    public void generateId(String server) {
+        id = server;
+        if (!id.endsWith(&quot;/&quot;))
+            id += &quot;/&quot;;
+        id += &quot;data/&quot;;
+        id += getDottedType();
+        id += &quot;/&quot;;
+        id += EcRandom.generateUUID();
+        id += &quot;/&quot;;
+        id += new Date().getTime();
+    }
 
-	/**
-	 * Will generate an identifier using the server URL provided (usually from
-	 * an EcRepository) and unique identifier.
-	 *
-	 * @param {string} server Base URL of the server&#x27;s repository functionality.
-	 * @param {string} uniqueIdentifier Canonical identifier. Must contain a letter or symbol.
-	 * @method assignId
-	 */
-	public void assignId(String server, String uniqueIdentifier) {
-		id = server;
-		if (!id.endsWith(&quot;/&quot;))
-			id += &quot;/&quot;;
-		id += &quot;data/&quot;; //endpoint to CRUD data
-		id += getFullType().replace(&quot;http://&quot;, &quot;&quot;).replaceAll(&quot;/&quot;, &quot;.&quot;); //type information (ease of use)
-		id += &quot;/&quot;;
-		id += uniqueIdentifier; //local identifier
-		id += &quot;/&quot;;
-		id += new Date().getTime(); //version
-	}
+    /**
+     * Will generate an short (non-versioned) identifier using the server URL provided (usually from
+     * an EcRepository).
+     *
+     * @param {string} server Base URL of the server&#x27;s repository functionality.
+     * @method generateShortId
+     */
+    public void generateShortId(String server) {
+        id = server;
+        if (!id.endsWith(&quot;/&quot;))
+            id += &quot;/&quot;;
+        id += EcRandom.generateUUID();
+    }
 
-	/**
-	 * Determines if the object has an owner identified by pk.
-	 * Homogenizes the PEM strings for comparison.
-	 * Homogenization is necessary for comparing PKCS#1 and PKCS#8 or PKs with Certificates, etc.
-	 *
-	 * @param {EcPk} pk Public Key of the owner.
-	 * @return {boolean} True if owner is represented by the PK, false otherwise.
-	 * @method hasOwner
-	 */
-	public boolean hasOwner(EcPk pk) {
-		if (owner == null)
-			return false;
+    public String getDottedType() {
+        return getFullType().replace(&quot;http://&quot;, &quot;&quot;).replaceAll(&quot;/&quot;, &quot;.&quot;);
+    }
 
-		String pkPem = pk.toPem();
-		for (int i = 0; i &lt; owner.$length(); i++)
-			if (pkPem.equals(EcPk.fromPem(owner.$get(i)).toPem()))
-				return true;
-		return false;
-	}
+    /**
+     * Will generate an identifier using the server URL provided (usually from
+     * an EcRepository) and unique identifier.
+     *
+     * @param {string} server Base URL of the server&#x27;s repository functionality.
+     * @param {string} uniqueIdentifier Canonical identifier. Must contain a letter or symbol.
+     * @method assignId
+     */
+    public void assignId(String server, String uniqueIdentifier) {
+        id = server;
+        if (!id.endsWith(&quot;/&quot;))
+            id += &quot;/&quot;;
+        id += &quot;data/&quot;; //endpoint to CRUD data
+        id += getDottedType(); //type information (ease of use)
+        id += &quot;/&quot;;
+        id += uniqueIdentifier; //local identifier
+        id += &quot;/&quot;;
+        id += new Date().getTime(); //version
+    }
 
-	/**
-	 * Determines if the PK matches an owner or if the object is public.
-	 * Homogenizes the PEM strings for comparison.
-	 * Homogenization is necessary for comparing PKCS#1 and PKCS#8 or PKs with Certificates, etc.
-	 *
-	 * @param {EcPk} pk Public Key of the owner.
-	 * @return {boolean} True if owner is represented by the PK, false otherwise.
-	 * @method canEdit
-	 */
-	public boolean canEdit(EcPk pk) {
-		if (owner == null || owner.$length() == 0)
-			return true;
-		return hasOwner(pk);
-	}
+    /**
+     * Will generate an identifier using the server URL provided (usually from
+     * an EcRepository) and unique identifier.
+     *
+     * @param {string} server Base URL of the server&#x27;s repository functionality.
+     * @param {string} uniqueIdentifier Canonical identifier. Must contain a letter or symbol.
+     * @method assignId
+     */
+    public void assignIdAndVersion(String server, String uniqueIdentifier, String version) {
+        id = server;
+        if (!id.endsWith(&quot;/&quot;))
+            id += &quot;/&quot;;
+        id += &quot;data/&quot;; //endpoint to CRUD data
+        id += getDottedType(); //type information (ease of use)
+        id += &quot;/&quot;;
+        id += uniqueIdentifier; //local identifier
+        id += &quot;/&quot;;
+        id += version; //version
+    }
 
-	/**
-	 * Encodes the object in a form where it is ready to be signed.
-	 * This method is under long term review, and may change from version to version.
-	 *
-	 * @return ASCII-sort order encoded space-free and tab-free JSON-LD.
-	 * @method toSignableJson
-	 */
-	public String toSignableJson() {
-		EcLinkedData d = (EcLinkedData) JSGlobal.JSON.parse(toJson());
+    /**
+     * Determines if the object has an owner identified by pk.
+     * Homogenizes the PEM strings for comparison.
+     * Homogenization is necessary for comparing PKCS#1 and PKCS#8 or PKs with Certificates, etc.
+     *
+     * @param {EcPk} pk Public Key of the owner.
+     * @return {boolean} True if owner is represented by the PK, false otherwise.
+     * @method hasOwner
+     */
+    public boolean hasOwner(EcPk pk) {
+        if (owner == null)
+            return false;
 
-		if (type.contains(&quot;http://schema.eduworks.com/&quot;) &amp;&amp; type.contains(&quot;/0.1/&quot;)) {
-			JSObjectAdapter.$properties(d).$delete(&quot;@signature&quot;);
-			JSObjectAdapter.$properties(d).$delete(&quot;@owner&quot;);
-			JSObjectAdapter.$properties(d).$delete(&quot;@reader&quot;);
-			JSObjectAdapter.$properties(d).$delete(&quot;@id&quot;);
-		} else {
-			// Whom else has signed the object does not change the contents of
-			// the object.
-			JSObjectAdapter.$properties(d).$delete(&quot;@signature&quot;);
-			// Where the object resides does not change the contents of the
-			// object, and provides server administration capabilities.
-			JSObjectAdapter.$properties(d).$delete(&quot;@id&quot;);
+        String pkPem = pk.toPem();
+        for (int i = 0; i &lt; owner.$length(); i++)
+            if (pkPem == EcPk.fromPem(owner.$get(i)).toPem())
+                return true;
+        return false;
+    }
 
-			// Who owns the object, or who can read the object *does* matter
-			// though, as administrators should not be able to change the
-			// ownership properties of the object in a clandestine fashion.
-		}
+    /**
+     * Determines if the object has a reader identified by pk.
+     * Homogenizes the PEM strings for comparison.
+     * Homogenization is necessary for comparing PKCS#1 and PKCS#8 or PKs with Certificates, etc.
+     *
+     * @param {EcPk} pk Public Key of the owner.
+     * @return {boolean} True if owner is represented by the PK, false otherwise.
+     * @method hasOwner
+     */
+    public boolean hasReader(EcPk pk) {
+        if (reader == null)
+            return false;
 
-		EcLinkedData e = new EcLinkedData(d.context, d.type);
-		e.copyFrom(d);
-		return e.toJson();
-	}
+        String pkPem = pk.toPem();
+        for (int i = 0; i &lt; reader.$length(); i++)
+            if (pkPem == EcPk.fromPem(reader.$get(i)).toPem())
+                return true;
+        return false;
+    }
 
-	/**
-	 * Sign this object using a private key.
-	 * Does not check for ownership, objects signed with keys absent from @owner or @reader may be removed.
-	 *
-	 * @param {EcPpk} ppk Public private keypair.
-	 * @method signWith
-	 */
-	public void signWith(EcPpk ppk) {
-		String signableJson = toSignableJson();
-		String signed = EcRsaOaep.sign(ppk, signableJson);
-		if (signature != null) {
-			for (int i = 0; i &lt; signature.$length(); i++)
-				if (signature.$get(i).equals(signed))
-					return;
-		} else {
-			signature = new Array&lt;String&gt;();
-		}
-		signature.push(signed);
-	}
+    /**
+     * Determines if the PK matches an owner or if the object is public.
+     * Homogenizes the PEM strings for comparison.
+     * Homogenization is necessary for comparing PKCS#1 and PKCS#8 or PKs with Certificates, etc.
+     *
+     * @param {EcPk} pk Public Key of the owner.
+     * @return {boolean} True if owner is represented by the PK, false otherwise.
+     * @method canEdit
+     */
+    public boolean canEdit(EcPk pk) {
+        if (owner == null || owner.$length() == 0)
+            return true;
+        return hasOwner(pk);
+    }
 
-	/**
-	 * Verifies the object&#x27;s signatures.
-	 *
-	 * @return {boolean} true if all of the signatures could be verified, false if they could not
-	 * @method verify
-	 */
-	public boolean verify() {
-		if (signature != null) {
-			for (int i = 0; i &lt; signature.$length(); ) {
-				boolean works = false;
-				String sig = signature.$get(i);
-				if (owner != null) {
-					for (int j = 0; j &lt; owner.$length(); j++) {
-						String own = owner.$get(j);
-						EcPk pk = EcPk.fromPem(own);
-						Boolean verify = false;
-						try {
-							verify = EcRsaOaep.verify(pk, toSignableJson(), sig);
-						} catch (Exception ex) {
-						}
-						if (verify) {
-							works = true;
-							break;
-						}
-					}
-				}
-				if (!works)
-					return false;
-				else
-					i++;
-			}
+    /**
+     * Determines if the PK matches an owner or if the object is public.
+     * Homogenizes the PEM strings for comparison.
+     * Homogenization is necessary for comparing PKCS#1 and PKCS#8 or PKs with Certificates, etc.
+     *
+     * @param {EcPk} pk Public Key of the owner.
+     * @return {boolean} True if owner is represented by the PK, false otherwise.
+     * @method canEdit
+     */
+    public boolean canEditAny(Array&lt;EcPk&gt; ids) {
+        if (owner == null || owner.$length() == 0)
+            return true;
+        if (ids == null)
+            return false;
+        for (int i = 0;i &lt; ids.$length();i++)
+            if (hasOwner(ids.$get(i)))
+                return true;
+        return false;
+    }
 
-			if (signature.$length() == 0)
-				return false;
+    /**
+     * Encodes the object in a form where it is ready to be signed.
+     * This method is under long term review, and may change from version to version.
+     *
+     * @return ASCII-sort order encoded space-free and tab-free JSON-LD.
+     * @method toSignableJson
+     */
+    public String toSignableJson() {
+        EcLinkedData d = (EcLinkedData) JSGlobal.JSON.parse(toJson());
 
-			return true;
-		}
+        if (type.indexOf(&quot;http://schema.eduworks.com/&quot;) != -1 &amp;&amp; type.indexOf(&quot;/0.1/&quot;) != -1) {
+            JSObjectAdapter.$properties(d).$delete(&quot;@signature&quot;);
+            JSObjectAdapter.$properties(d).$delete(&quot;@owner&quot;);
+            JSObjectAdapter.$properties(d).$delete(&quot;@reader&quot;);
+            JSObjectAdapter.$properties(d).$delete(&quot;@id&quot;);
+        } else {
+            // Whom else has signed the object does not change the contents of
+            // the object.
+            JSObjectAdapter.$properties(d).$delete(&quot;@signature&quot;);
+            // Where the object resides does not change the contents of the
+            // object, and provides server administration capabilities.
+            JSObjectAdapter.$properties(d).$delete(&quot;@id&quot;);
 
-		return false;
-	}
+            // Who owns the object, or who can read the object *does* matter
+            // though, as administrators should not be able to change the
+            // ownership properties of the object in a clandestine fashion.
+        }
 
-	/**
-	 * Adds an owner to the object, if the owner does not exist.
-	 * Note that this method invalidates all signatures.
-	 *
-	 * @param {EcPk} newOwner PK of the new owner.
-	 * @method addOwner
-	 */
-	public void addOwner(EcPk newOwner) {
-		String pem = newOwner.toPem();
-		if (owner == null)
-			owner = new Array&lt;String&gt;();
-		for (int i = 0; i &lt; owner.$length(); i++)
-			if (owner.$get(i).equals(pem))
-				return;
-		owner.push(pem);
-		// Changing an owner invalidates the signatures in order to prevent
-		// server admins from injecting owners or readers into the object.
-		signature = null;
-	}
+        EcLinkedData e = new EcLinkedData(d.context, d.type);
+        e.copyFrom(d);
+        return e.toJson();
+    }
 
-	/**
-	 * Removes an owner from the object, if the owner does exist.
-	 * Note that this method invalidates all signatures.
-	 *
-	 * @param {EcPk} oldOwner PK to remove.
-	 * @method removeOwner
-	 */
-	public void removeOwner(EcPk oldOwner) {
-		String pem = oldOwner.toPem();
-		if (owner == null)
-			owner = new Array&lt;String&gt;();
-		for (int i = 0; i &lt; owner.$length(); i++)
-			if (owner.$get(i).equals(pem))
-				owner.splice(i, 1);
-		// Changing an owner invalidates the signatures in order to prevent
-		// server admins from injecting owners or readers into the object.
-		signature = null;
-	}
+    /**
+     * Sign this object using a private key.
+     * Does not check for ownership, objects signed with keys absent from @owner or @reader may be removed.
+     *
+     * @param {EcPpk} ppk Public private keypair.
+     * @method signWith
+     */
+    public void signWith(EcPpk ppk) {
+        String signableJson = toSignableJson();
+        String signed = EcRsaOaep.sign(ppk, signableJson);
+        if (signature != null) {
+            for (int i = 0; i &lt; signature.$length(); i++)
+                if (signature.$get(i) == signed)
+                    return;
+        } else {
+            signature = new Array&lt;String&gt;();
+        }
+        signature.push(signed);
+    }
 
-	/**
-	 * Adds a reader to the object, if the reader does not exist.
-	 * Note that this method invalidates all signatures.
-	 *
-	 * @param {EcPk} newReader PK of the new reader.
-	 * @method addReader
-	 */
-	public void addReader(EcPk newReader) {
-		String pem = newReader.toPem();
-		if (reader == null)
-			reader = new Array&lt;String&gt;();
-		for (int i = 0; i &lt; reader.$length(); i++)
-			if (reader.$get(i).equals(pem))
-				return;
-		reader.push(pem);
-		// Changing an owner invalidates the signatures in order to prevent
-		// server admins from injecting owners or readers into the object.
-		signature = null;
-	}
+    /**
+     * Verifies the object&#x27;s signatures.
+     *
+     * @return {boolean} true if all of the signatures could be verified, false if they could not
+     * @method verify
+     */
+    public boolean verify() {
+        if (signature != null) {
+            for (int i = 0; i &lt; signature.$length(); ) {
+                boolean works = false;
+                String sig = signature.$get(i);
+                if (owner != null) {
+                    for (int j = 0; j &lt; owner.$length(); j++) {
+                        String own = owner.$get(j);
+                        EcPk pk = EcPk.fromPem(own);
+                        Boolean verify = false;
+                        try {
+                            verify = EcRsaOaep.verify(pk, toSignableJson(), sig);
+                        } catch (Exception ex) {
+                        }
+                        if (verify) {
+                            works = true;
+                            break;
+                        }
+                    }
+                }
+                if (!works)
+                    return false;
+                else
+                    i++;
+            }
 
-	/**
-	 * Removes a reader from the object, if the reader does exist.
-	 * Note that this method invalidates all signatures.
-	 *
-	 * @param {EcPk} oldReader PK of the old reader.
-	 * @method removeReader
-	 */
-	public void removeReader(EcPk oldReader) {
-		String pem = oldReader.toPem();
-		if (reader == null)
-			reader = new Array&lt;String&gt;();
-		for (int i = 0; i &lt; reader.$length(); i++)
-			if (reader.$get(i).equals(pem))
-				reader.splice(i, 1);
-		// Changing an owner invalidates the signatures in order to prevent
-		// server admins from injecting owners or readers into the object.
-		signature = null;
-	}
+            if (signature.$length() == 0)
+                return false;
 
-	/**
-	 * Determines if the object is not retrievable from a repository should it be written.
-	 *
-	 * @return {boolean} True if the object is NOT VALID for storage, false otherwise.
-	 * @method invalid
-	 */
-	public boolean invalid() {
-		if (id == null)
-			return true;
-		// Allow relative pathed data.
-		// if (id.contains(&quot;http://&quot;) == false &amp;&amp; id.contains(&quot;https://&quot;) ==
-		// false)
-		// return true;
-		if (context == null)
-			return true;
-		if (getFullType() == null)
-			return true;
-		if (getFullType().contains(&quot;http://&quot;) == false &amp;&amp; getFullType().contains(&quot;https://&quot;) == false)
-			return true;
-		return false;
-	}
+            return true;
+        }
 
-	/**
-	 * Updates the ID timestamp of the object, for versioning purposes.
-	 *
-	 * @method updateTimestamp
-	 */
-	public void updateTimestamp() {
-		String rawId = id.substring(0, id.lastIndexOf(&quot;/&quot;));
-		if (rawId.endsWith(&quot;/&quot;) == false)
-			rawId += &quot;/&quot;;
-		rawId += new Date().getTime();
-		id = rawId;
-	}
+        return false;
+    }
 
-	/**
-	 * Updates the ID timestamp of the object, for versioning purposes.
-	 *
-	 * @method updateTimestamp
-	 */
-	public Integer getTimestamp() {
-		return Integer.parseInt(id.substring(id.lastIndexOf(&quot;/&quot;)));
-	}
+    /**
+     * Adds an owner to the object, if the owner does not exist.
+     * Note that this method invalidates all signatures.
+     *
+     * @param {EcPk} newOwner PK of the new owner.
+     * @method addOwner
+     */
+    public void addOwner(EcPk newOwner) {
+        String pem = newOwner.toPem();
+        if (owner == null)
+            owner = new Array&lt;String&gt;();
+        for (int i = 0; i &lt; owner.$length(); i++)
+            if (owner.$get(i) == pem)
+                return;
+        owner.push(pem);
+        // Changing an owner invalidates the signatures in order to prevent
+        // server admins from injecting owners or readers into the object.
+        signature = null;
+    }
 
-	/**
-	 * Returns true if the provided ID represents this object.
-	 * Use this, as version information can make direct comparison difficult.
-	 *
-	 * @param {string} id
-	 * @return {boolean} True if the provided ID represents this object.
-	 * @method isId
-	 */
-	public boolean isId(String id) {
-		return trimVersionFromUrl(this.id).equals(trimVersionFromUrl(id));
-	}
+    /**
+     * Removes an owner from the object, if the owner does exist.
+     * Note that this method invalidates all signatures.
+     *
+     * @param {EcPk} oldOwner PK to remove.
+     * @method removeOwner
+     */
+    public void removeOwner(EcPk oldOwner) {
+        String pem = oldOwner.toPem();
+        if (owner == null)
+            owner = new Array&lt;String&gt;();
+        for (int i = 0; i &lt; owner.$length(); i++)
+            if (owner.$get(i) == pem)
+                owner.splice(i, 1);
+        // Changing an owner invalidates the signatures in order to prevent
+        // server admins from injecting owners or readers into the object.
+        signature = null;
+    }
 
-	/**
-	 * Return the ID of this object without the version information.
-	 * Used to reference the latest version of an object.
-	 *
-	 * @return {string} ID of the latest version of this object.
-	 * @method shortId
-	 */
-	public String shortId() {
-		return trimVersionFromUrl(id);
-	}
+    /**
+     * Adds a reader to the object, if the reader does not exist.
+     * Note that this method invalidates all signatures.
+     *
+     * @param {EcPk} newReader PK of the new reader.
+     * @method addReader
+     */
+    public void addReader(EcPk newReader) {
+        String pem = newReader.toPem();
+        if (reader == null)
+            reader = new Array&lt;String&gt;();
+        for (int i = 0; i &lt; reader.$length(); i++)
+            if (reader.$get(i) == pem)
+                return;
+        reader.push(pem);
+        // Changing an owner invalidates the signatures in order to prevent
+        // server admins from injecting owners or readers into the object.
+        signature = null;
+    }
 
-	/**
-	 * Return the GUID portion of the short ID.
-	 *
-	 * @return {string} Guid of the linked data object.
-	 * @method getGuid
-	 */
-	public String getGuid() {
-		String shortId = trimVersionFromUrl(id);
-		Array&lt;String&gt; parts = (Array&lt;String&gt;) (Object) shortId.split(&quot;/&quot;);
-		return parts.$get(parts.$length() - 1);
-	}
+    /**
+     * Removes a reader from the object, if the reader does exist.
+     * Note that this method invalidates all signatures.
+     *
+     * @param {EcPk} oldReader PK of the old reader.
+     * @method removeReader
+     */
+    public void removeReader(EcPk oldReader) {
+        String pem = oldReader.toPem();
+        if (reader == null)
+            reader = new Array&lt;String&gt;();
+        for (int i = 0; i &lt; reader.$length(); i++)
+            if (reader.$get(i) == pem)
+                reader.splice(i, 1);
+        // Changing an owner invalidates the signatures in order to prevent
+        // server admins from injecting owners or readers into the object.
+        signature = null;
+    }
 
-	/**
-	 * Return the URL Base portion of the short ID.
-	 *
-	 * @return {string} Server Base URL of the linked data object.
-	 * @method getServerBaseUrl
-	 */
-	public String getServerBaseUrl() {
-		String shortId = trimVersionFromUrl(id);
-		Array&lt;String&gt; parts = (Array&lt;String&gt;) (Object) shortId.split(&quot;/&quot;);
+    /**
+     * Determines if the object is not retrievable from a repository should it be written.
+     *
+     * @return {boolean} True if the object is NOT VALID for storage, false otherwise.
+     * @method invalid
+     */
+    public boolean invalid() {
+        if (id == null)
+            return true;
+        // Allow relative pathed data.
+        // if (id.contains(&quot;http://&quot;) == false &amp;&amp; id.contains(&quot;https://&quot;) ==
+        // false)
+        // return true;
+        if (context == null)
+            return true;
+        if (getFullType() == null)
+            return true;
+        if (getFullType().indexOf(&quot;http://&quot;) == -1 &amp;&amp; getFullType().indexOf(&quot;https://&quot;) == -1)
+            return true;
+        return false;
+    }
 
-		return parts.slice(0, parts.indexOf(&quot;data&quot;)).join(&quot;/&quot;);
-	}
+    /**
+     * Updates the ID timestamp of the object, for versioning purposes.
+     *
+     * @method updateTimestamp
+     */
+    public void updateTimestamp() {
+        String rawId = id.substring(0, id.lastIndexOf(&quot;/&quot;));
+        if (rawId.endsWith(&quot;/&quot;) == false)
+            rawId += &quot;/&quot;;
+        rawId += new Date().getTime();
+        id = rawId;
+    }
 
-	/**
-	 * Return a valid ElasticSearch search string that will retrieve all objects with this type.
-	 *
-	 * @return {string} ElasticSearch compatible search string.
-	 * @method getSearchStringByType
-	 */
-	public String getSearchStringByType() {
-		Array&lt;String&gt; types = getTypes();
-		String result = &quot;&quot;;
-		for (int i = 0; i &lt; types.$length(); i++) {
-			if (i != 0)
-				result += &quot; OR &quot;;
-			result += &quot;@type:\&quot;&quot; + types.$get(i) + &quot;\&quot;&quot;;
+    /**
+     * Updates the ID timestamp of the object, for versioning purposes.
+     *
+     * @method updateTimestamp
+     */
+    public Integer getTimestamp() {
+        return Integer.parseInt(id.substring(id.lastIndexOf(&quot;/&quot;)));
+    }
 
-			int lastSlash = types.$get(i).lastIndexOf(&quot;/&quot;);
-			result += &quot; OR (@context:\&quot;&quot; + types.$get(i).substring(0, lastSlash + 1) + &quot;\&quot; AND @type:\&quot;&quot; + types.$get(i).substring(lastSlash + 1) + &quot;\&quot;)&quot;;
-		}
-		for (int i = 0; i &lt; types.$length(); i++) {
-			if (result.equals(&quot;&quot;) == false)
-				result += &quot; OR &quot;;
-			result += &quot;@encryptedType:\&quot;&quot; + types.$get(i) + &quot;\&quot;&quot;;
+    /**
+     * Returns true if the provided ID represents this object.
+     * Use this, as version information can make direct comparison difficult.
+     *
+     * @param {string} id
+     * @return {boolean} True if the provided ID represents this object.
+     * @method isId
+     */
+    public boolean isId(String id) {
+        return trimVersionFromUrl(this.id) == trimVersionFromUrl(id);
+    }
 
-			int lastSlash = types.$get(i).lastIndexOf(&quot;/&quot;);
-			result += &quot; OR (@context:\&quot;&quot; + Ebac.context + &quot;\&quot; AND @encryptedType:\&quot;&quot; + types.$get(i).substring(lastSlash + 1) + &quot;\&quot;)&quot;;
-		}
-		return &quot;(&quot; + result + &quot;)&quot;;
-	}
+    /**
+     * Return the ID of this object without the version information.
+     * Used to reference the latest version of an object.
+     *
+     * @return {string} ID of the latest version of this object.
+     * @method shortId
+     */
+    public String shortId() {
+        return trimVersionFromUrl(id);
+    }
+
+    /**
+     * Return the GUID portion of the short ID.
+     *
+     * @return {string} Guid of the linked data object.
+     * @method getGuid
+     */
+    public String getGuid() {
+        String shortId = trimVersionFromUrl(id);
+        Array&lt;String&gt; parts = (Array&lt;String&gt;) (Object) shortId.split(&quot;/&quot;);
+        return parts.$get(parts.$length() - 1);
+    }
+
+    /**
+     * Return the URL Base portion of the short ID.
+     *
+     * @return {string} Server Base URL of the linked data object.
+     * @method getServerBaseUrl
+     */
+    public String getServerBaseUrl() {
+        String shortId = trimVersionFromUrl(id);
+        Array&lt;String&gt; parts = (Array&lt;String&gt;) (Object) shortId.split(&quot;/&quot;);
+
+        return parts.slice(0, parts.indexOf(&quot;data&quot;)).join(&quot;/&quot;);
+    }
+
+    /**
+     * Return a valid ElasticSearch search string that will retrieve all objects with this type.
+     *
+     * @return {string} ElasticSearch compatible search string.
+     * @method getSearchStringByType
+     */
+    public String getSearchStringByType() {
+        Array&lt;String&gt; types = getTypes();
+        String result = &quot;&quot;;
+        for (int i = 0; i &lt; types.$length(); i++) {
+            if (i != 0)
+                result += &quot; OR &quot;;
+            result += &quot;@type:\&quot;&quot; + types.$get(i) + &quot;\&quot;&quot;;
+
+            int lastSlash = types.$get(i).lastIndexOf(&quot;/&quot;);
+            result += &quot; OR (@context:\&quot;&quot; + types.$get(i).substring(0, lastSlash + 1) + &quot;\&quot; AND @type:\&quot;&quot; + types.$get(i).substring(lastSlash + 1) + &quot;\&quot;)&quot;;
+        }
+        for (int i = 0; i &lt; types.$length(); i++) {
+            if (result != &quot;&quot;)
+                result += &quot; OR &quot;;
+            result += &quot;@encryptedType:\&quot;&quot; + types.$get(i) + &quot;\&quot;&quot;;
+
+            int lastSlash = types.$get(i).lastIndexOf(&quot;/&quot;);
+            result += &quot; OR (@context:\&quot;&quot; + Ebac.context + &quot;\&quot; AND @encryptedType:\&quot;&quot; + types.$get(i).substring(lastSlash + 1) + &quot;\&quot;)&quot;;
+        }
+        return &quot;(&quot; + result + &quot;)&quot;;
+    }
 
 
-	public void asRdfXml(Callback1&lt;String&gt; success, Callback1&lt;String&gt; failure, String signatureSheet) {
-		final FormData fd = new FormData();
+    public void asRdfXml(Callback1&lt;String&gt; success, Callback1&lt;String&gt; failure, String signatureSheet) {
+        final FormData fd = new FormData();
 
-		final String id = this.id;
+        final String id = this.id;
 
-		if (signatureSheet != null || signatureSheet != JSGlobal.undefined)
-			fd.append(&quot;signatureSheet&quot;, signatureSheet);
+        if (signatureSheet != null || signatureSheet != JSGlobal.undefined)
+            fd.append(&quot;signatureSheet&quot;, signatureSheet);
 
-		Map&lt;String, String&gt; headers = JSCollections.$map();
-		headers.$put(&quot;Accept&quot;, &quot;application/rdf+xml&quot;);
+        Map&lt;String, String&gt; headers = JSCollections.$map();
+        headers.$put(&quot;Accept&quot;, &quot;application/rdf+xml&quot;);
 
-		EcRemote.postWithHeadersExpectingString(id, &quot;&quot;, fd, headers, success, failure);
-	}
+        EcRemote.postWithHeadersExpectingString(id, &quot;&quot;, fd, headers, success, failure);
+    }
 
-	public void asNQuads(Callback1&lt;String&gt; success, Callback1&lt;String&gt; failure, String signatureSheet) {
-		final FormData fd = new FormData();
+    public void asNQuads(Callback1&lt;String&gt; success, Callback1&lt;String&gt; failure, String signatureSheet) {
+        final FormData fd = new FormData();
 
-		final String id = this.id;
+        final String id = this.id;
 
-		if (signatureSheet != null || signatureSheet != JSGlobal.undefined)
-			fd.append(&quot;signatureSheet&quot;, signatureSheet);
+        if (signatureSheet != null || signatureSheet != JSGlobal.undefined)
+            fd.append(&quot;signatureSheet&quot;, signatureSheet);
 
-		Map&lt;String, String&gt; headers = JSCollections.$map();
-		headers.$put(&quot;Accept&quot;, &quot;text/n4&quot;);
+        Map&lt;String, String&gt; headers = JSCollections.$map();
+        headers.$put(&quot;Accept&quot;, &quot;text/n4&quot;);
 
-		EcRemote.postWithHeadersExpectingString(id, &quot;&quot;, fd, headers, success, failure);
-	}
+        EcRemote.postWithHeadersExpectingString(id, &quot;&quot;, fd, headers, success, failure);
+    }
 
-	public void asTurtle(Callback1&lt;String&gt; success, Callback1&lt;String&gt; failure, String signatureSheet) {
-		final FormData fd = new FormData();
+    public void asTurtle(Callback1&lt;String&gt; success, Callback1&lt;String&gt; failure, String signatureSheet) {
+        final FormData fd = new FormData();
 
-		final String id = this.id;
+        final String id = this.id;
 
-		if (signatureSheet != null || signatureSheet != JSGlobal.undefined)
-			fd.append(&quot;signatureSheet&quot;, signatureSheet);
+        if (signatureSheet != null || signatureSheet != JSGlobal.undefined)
+            fd.append(&quot;signatureSheet&quot;, signatureSheet);
 
-		Map&lt;String, String&gt; headers = JSCollections.$map();
-		headers.$put(&quot;Accept&quot;, &quot;text/turtle&quot;);
+        Map&lt;String, String&gt; headers = JSCollections.$map();
+        headers.$put(&quot;Accept&quot;, &quot;text/turtle&quot;);
 
-		EcRemote.postWithHeadersExpectingString(id, &quot;&quot;, fd, headers, success, failure);
-	}
+        EcRemote.postWithHeadersExpectingString(id, &quot;&quot;, fd, headers, success, failure);
+    }
 }
 
 </pre>

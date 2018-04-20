@@ -5,7 +5,7 @@
     <title>MedbiqImport - EC Library</title>
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.0/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -37,6 +37,8 @@
                             <li><a href="../modules/org.json.ld.html">org.json.ld</a>
                             </li>
                             <li><a href="../modules/org.schema.html">org.schema</a>
+                            </li>
+                            <li><a href="../modules/org.w3.skos.html">org.w3.skos</a>
                             </li>
                     </ul>
                 </div>
@@ -178,6 +180,7 @@
                             <li><a href="../classes/Clip.html">Clip</a></li>
                             <li><a href="../classes/ClothingStore.html">ClothingStore</a></li>
                             <li><a href="../classes/Code.html">Code</a></li>
+                            <li><a href="../classes/Collection.html">Collection</a></li>
                             <li><a href="../classes/CollectionPage.html">CollectionPage</a></li>
                             <li><a href="../classes/CollegeOrUniversity.html">CollegeOrUniversity</a></li>
                             <li><a href="../classes/ComedyClub.html">ComedyClub</a></li>
@@ -190,6 +193,8 @@
                             <li><a href="../classes/CompoundPriceSpecification.html">CompoundPriceSpecification</a></li>
                             <li><a href="../classes/ComputerLanguage.html">ComputerLanguage</a></li>
                             <li><a href="../classes/ComputerStore.html">ComputerStore</a></li>
+                            <li><a href="../classes/Concept.html">Concept</a></li>
+                            <li><a href="../classes/ConceptScheme.html">ConceptScheme</a></li>
                             <li><a href="../classes/ConditionManifest.html">ConditionManifest</a></li>
                             <li><a href="../classes/ConditionProfile.html">ConditionProfile</a></li>
                             <li><a href="../classes/ConfirmAction.html">ConfirmAction</a></li>
@@ -203,6 +208,7 @@
                             <li><a href="../classes/Conversation.html">Conversation</a></li>
                             <li><a href="../classes/CookAction.html">CookAction</a></li>
                             <li><a href="../classes/Corporation.html">Corporation</a></li>
+                            <li><a href="../classes/CostManifest.html">CostManifest</a></li>
                             <li><a href="../classes/CostProfile.html">CostProfile</a></li>
                             <li><a href="../classes/Country.html">Country</a></li>
                             <li><a href="../classes/Course.html">Course</a></li>
@@ -524,6 +530,7 @@
                             <li><a href="../classes/OpeningHoursSpecification.html">OpeningHoursSpecification</a></li>
                             <li><a href="../classes/Order.html">Order</a></li>
                             <li><a href="../classes/OrderAction.html">OrderAction</a></li>
+                            <li><a href="../classes/OrderedCollection.html">OrderedCollection</a></li>
                             <li><a href="../classes/OrderItem.html">OrderItem</a></li>
                             <li><a href="../classes/OrderStatus.html">OrderStatus</a></li>
                             <li><a href="../classes/Organization.html">Organization</a></li>
@@ -578,6 +585,7 @@
                             <li><a href="../classes/ProductModel.html">ProductModel</a></li>
                             <li><a href="../classes/ProfessionalDoctorate.html">ProfessionalDoctorate</a></li>
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
+                            <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
@@ -831,7 +839,7 @@
 
         <div id="main" class="yui3-u">
             <div class="content"><div class="title">
-    <span class="source-link"><a href="../files/cass.import_src_main_java_org_cass_importer_MedbiqImport.java.html#l12"><code>cass.import&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;importer&#x2F;MedbiqImport.java:12</code></a></span>
+    <span class="source-link"><a href="../files/cass.import_src_main_java_org_cass_importer_MedbiqImport.java.html#l15"><code>cass.import&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;importer&#x2F;MedbiqImport.java:15</code></a></span>
     <h1 class="class-name">MedbiqImport</h1>
 </div>
 
@@ -939,7 +947,7 @@ Medbiquitous competency XML file</p>
         <h2 id="static-public-methods">Static Public Methods</h2>
 <div class="method item">
     <div id="method_analyzeFile" class="title">
-        <span class="source-link"><a href="../files/cass.import_src_main_java_org_cass_importer_MedbiqImport.java.html#l86"><code>cass.import&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;importer&#x2F;MedbiqImport.java:86</code></a></span>
+        <span class="source-link"><a href="../files/cass.import_src_main_java_org_cass_importer_MedbiqImport.java.html#l89"><code>cass.import&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;importer&#x2F;MedbiqImport.java:89</code></a></span>
         <h3 class="">
             public
             static
@@ -1017,7 +1025,7 @@ returns an array of all of the competencies found</p>
 </div>
 <div class="method item">
     <div id="method_importCompetencies" class="title">
-        <span class="source-link"><a href="../files/cass.import_src_main_java_org_cass_importer_MedbiqImport.java.html#l141"><code>cass.import&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;importer&#x2F;MedbiqImport.java:141</code></a></span>
+        <span class="source-link"><a href="../files/cass.import_src_main_java_org_cass_importer_MedbiqImport.java.html#l144"><code>cass.import&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;importer&#x2F;MedbiqImport.java:144</code></a></span>
         <h3 class="">
             public
             static
@@ -1129,7 +1137,7 @@ Medbiquitous XML file has been parsed. Must be called after analyzeFile</p>
         <h2 id="static-private-methods">Static Private Methods</h2>
 <div class="method item private">
     <div id="method_medbiqXmlLookForCompetencyObject" class="title">
-        <span class="source-link"><a href="../files/cass.import_src_main_java_org_cass_importer_MedbiqImport.java.html#l30"><code>cass.import&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;importer&#x2F;MedbiqImport.java:30</code></a></span>
+        <span class="source-link"><a href="../files/cass.import_src_main_java_org_cass_importer_MedbiqImport.java.html#l33"><code>cass.import&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;importer&#x2F;MedbiqImport.java:33</code></a></span>
         <h3 class="">
             private
             static
@@ -1178,7 +1186,7 @@ Medbiquitous XML file has been parsed. Must be called after analyzeFile</p>
 </div>
 <div class="method item private">
     <div id="method_medbiqXmlParseCompetencyObject" class="title">
-        <span class="source-link"><a href="../files/cass.import_src_main_java_org_cass_importer_MedbiqImport.java.html#l50"><code>cass.import&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;importer&#x2F;MedbiqImport.java:50</code></a></span>
+        <span class="source-link"><a href="../files/cass.import_src_main_java_org_cass_importer_MedbiqImport.java.html#l53"><code>cass.import&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;importer&#x2F;MedbiqImport.java:53</code></a></span>
         <h3 class="">
             private
             static

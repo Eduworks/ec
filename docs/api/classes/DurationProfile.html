@@ -5,7 +5,7 @@
     <title>DurationProfile - EC Library</title>
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.0/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -37,6 +37,8 @@
                             <li><a href="../modules/org.json.ld.html">org.json.ld</a>
                             </li>
                             <li><a href="../modules/org.schema.html">org.schema</a>
+                            </li>
+                            <li><a href="../modules/org.w3.skos.html">org.w3.skos</a>
                             </li>
                     </ul>
                 </div>
@@ -178,6 +180,7 @@
                             <li><a href="../classes/Clip.html">Clip</a></li>
                             <li><a href="../classes/ClothingStore.html">ClothingStore</a></li>
                             <li><a href="../classes/Code.html">Code</a></li>
+                            <li><a href="../classes/Collection.html">Collection</a></li>
                             <li><a href="../classes/CollectionPage.html">CollectionPage</a></li>
                             <li><a href="../classes/CollegeOrUniversity.html">CollegeOrUniversity</a></li>
                             <li><a href="../classes/ComedyClub.html">ComedyClub</a></li>
@@ -190,6 +193,8 @@
                             <li><a href="../classes/CompoundPriceSpecification.html">CompoundPriceSpecification</a></li>
                             <li><a href="../classes/ComputerLanguage.html">ComputerLanguage</a></li>
                             <li><a href="../classes/ComputerStore.html">ComputerStore</a></li>
+                            <li><a href="../classes/Concept.html">Concept</a></li>
+                            <li><a href="../classes/ConceptScheme.html">ConceptScheme</a></li>
                             <li><a href="../classes/ConditionManifest.html">ConditionManifest</a></li>
                             <li><a href="../classes/ConditionProfile.html">ConditionProfile</a></li>
                             <li><a href="../classes/ConfirmAction.html">ConfirmAction</a></li>
@@ -203,6 +208,7 @@
                             <li><a href="../classes/Conversation.html">Conversation</a></li>
                             <li><a href="../classes/CookAction.html">CookAction</a></li>
                             <li><a href="../classes/Corporation.html">Corporation</a></li>
+                            <li><a href="../classes/CostManifest.html">CostManifest</a></li>
                             <li><a href="../classes/CostProfile.html">CostProfile</a></li>
                             <li><a href="../classes/Country.html">Country</a></li>
                             <li><a href="../classes/Course.html">Course</a></li>
@@ -524,6 +530,7 @@
                             <li><a href="../classes/OpeningHoursSpecification.html">OpeningHoursSpecification</a></li>
                             <li><a href="../classes/Order.html">Order</a></li>
                             <li><a href="../classes/OrderAction.html">OrderAction</a></li>
+                            <li><a href="../classes/OrderedCollection.html">OrderedCollection</a></li>
                             <li><a href="../classes/OrderItem.html">OrderItem</a></li>
                             <li><a href="../classes/OrderStatus.html">OrderStatus</a></li>
                             <li><a href="../classes/Organization.html">Organization</a></li>
@@ -578,6 +585,7 @@
                             <li><a href="../classes/ProductModel.html">ProductModel</a></li>
                             <li><a href="../classes/ProfessionalDoctorate.html">ProfessionalDoctorate</a></li>
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
+                            <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
@@ -806,7 +814,9 @@
                   <div><a href="#public-properties">Public Properties</a></div>
                   <ul>
                       <li><a href="#props_description">description</a></li>
+                      <li><a href="#props_exactDuration">exactDuration</a></li>
                       <li><a href="#props_maximumDuration">maximumDuration</a></li>
+                      <li><a href="#props_minimumDuration">minimumDuration</a></li>
                   </ul>
             
             
@@ -826,7 +836,7 @@
 
         <div id="main" class="yui3-u">
             <div class="content"><div class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_DurationProfile.java.html#l5"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;DurationProfile.java:5</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_DurationProfile.java.html#l6"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;DurationProfile.java:6</code></a></span>
     <h1 class="class-name">DurationProfile</h1>
 </div>
 
@@ -834,7 +844,8 @@
 
 
 <div class="class-description"><p><a href="http://credentialengine.org/DurationProfile">credentialengine.org/DurationProfile</a>
-A resource describing the temporal aspects of a resource.</p>
+Entity describing the temporal aspects of a resource.
+Temporal aspects include exact, minimum, and maximum timeframes of an activity.</p>
 </div>
 
 
@@ -860,10 +871,25 @@ A resource describing the temporal aspects of a resource.</p>
           </td>
           <td>
             <div class="property-name ">
-              <a href="#props_description">description</a>: Literal
+              <a href="#props_description">description</a>: LangString
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/description">http://purl.org/ctdl/terms/description</a> A short description of the resource being described.</p>
+              <p><a href="http://purl.org/ctdl/terms/description">http://purl.org/ctdl/terms/description</a> Statememnt, characterization or account of the entity.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_exactDuration">exactDuration</a>: <a href="../classes/Duration.html" class="crosslink">Duration</a>
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/exactDuration">http://purl.org/ctdl/terms/exactDuration</a> Exact period of time of an activity or event.</p>
             </div>
           </td>
         </tr>
@@ -878,7 +904,22 @@ A resource describing the temporal aspects of a resource.</p>
               <a href="#props_maximumDuration">maximumDuration</a>: <a href="../classes/Duration.html" class="crosslink">Duration</a>
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/maximumDuration">http://purl.org/ctdl/terms/maximumDuration</a> The maximum amount of time it will take to complete the described resource.</p>
+              <p><a href="http://purl.org/ctdl/terms/maximumDuration">http://purl.org/ctdl/terms/maximumDuration</a> Maximum amount of time it will take to complete the activity. The value of ceterms:maximumDuration denotes an approximation of duration.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_minimumDuration">minimumDuration</a>: <a href="../classes/Duration.html" class="crosslink">Duration</a>
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/minimumDuration">http://purl.org/ctdl/terms/minimumDuration</a> Minimum amount of time it will take to complete the activity. The value of ceterms:minimumDuration denotes an approximation of duration.</p>
             </div>
           </td>
         </tr>
@@ -901,24 +942,41 @@ A resource describing the temporal aspects of a resource.</p>
         <h2 id="public-properties">Public Properties</h2>
 <div class="property item">
   <div id="props_description" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_DurationProfile.java.html#l14"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;DurationProfile.java:14</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_DurationProfile.java.html#l25"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;DurationProfile.java:25</code></a></span>
     <h3 class="">
       public
       
       
-      description: Literal
+      description: LangString
     </h3>
   </div>
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/description">http://purl.org/ctdl/terms/description</a>
-A short description of the resource being described.</p>
+Statememnt, characterization or account of the entity.</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_exactDuration" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_DurationProfile.java.html#l33"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;DurationProfile.java:33</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      exactDuration: <a href="../classes/Duration.html" class="crosslink">Duration</a>
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/exactDuration">http://purl.org/ctdl/terms/exactDuration</a>
+Exact period of time of an activity or event.</p>
 </div>
 
 </div>
 <div class="property item">
   <div id="props_maximumDuration" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_DurationProfile.java.html#l22"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;DurationProfile.java:22</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_DurationProfile.java.html#l41"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;DurationProfile.java:41</code></a></span>
     <h3 class="">
       public
       
@@ -929,7 +987,26 @@ A short description of the resource being described.</p>
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/maximumDuration">http://purl.org/ctdl/terms/maximumDuration</a>
-The maximum amount of time it will take to complete the described resource.</p>
+Maximum amount of time it will take to complete the activity.
+The value of ceterms:maximumDuration denotes an approximation of duration.</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_minimumDuration" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_DurationProfile.java.html#l50"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;DurationProfile.java:50</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      minimumDuration: <a href="../classes/Duration.html" class="crosslink">Duration</a>
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/minimumDuration">http://purl.org/ctdl/terms/minimumDuration</a>
+Minimum amount of time it will take to complete the activity.
+The value of ceterms:minimumDuration denotes an approximation of duration.</p>
 </div>
 
 </div>

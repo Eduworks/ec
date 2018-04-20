@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>pebl.eXtension/src/main/java/com/eduworks/schema/pebl/eXtension/ExtPerson.java - EC Library</title>
+    <title>org.cassproject.schema.cass/src/main/java/org/cassproject/schema/cass/profile/AssertionEnvelope.java - EC Library</title>
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.0/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -37,6 +37,8 @@
                             <li><a href="../modules/org.json.ld.html">org.json.ld</a>
                             </li>
                             <li><a href="../modules/org.schema.html">org.schema</a>
+                            </li>
+                            <li><a href="../modules/org.w3.skos.html">org.w3.skos</a>
                             </li>
                     </ul>
                 </div>
@@ -178,6 +180,7 @@
                             <li><a href="../classes/Clip.html">Clip</a></li>
                             <li><a href="../classes/ClothingStore.html">ClothingStore</a></li>
                             <li><a href="../classes/Code.html">Code</a></li>
+                            <li><a href="../classes/Collection.html">Collection</a></li>
                             <li><a href="../classes/CollectionPage.html">CollectionPage</a></li>
                             <li><a href="../classes/CollegeOrUniversity.html">CollegeOrUniversity</a></li>
                             <li><a href="../classes/ComedyClub.html">ComedyClub</a></li>
@@ -190,6 +193,8 @@
                             <li><a href="../classes/CompoundPriceSpecification.html">CompoundPriceSpecification</a></li>
                             <li><a href="../classes/ComputerLanguage.html">ComputerLanguage</a></li>
                             <li><a href="../classes/ComputerStore.html">ComputerStore</a></li>
+                            <li><a href="../classes/Concept.html">Concept</a></li>
+                            <li><a href="../classes/ConceptScheme.html">ConceptScheme</a></li>
                             <li><a href="../classes/ConditionManifest.html">ConditionManifest</a></li>
                             <li><a href="../classes/ConditionProfile.html">ConditionProfile</a></li>
                             <li><a href="../classes/ConfirmAction.html">ConfirmAction</a></li>
@@ -203,6 +208,7 @@
                             <li><a href="../classes/Conversation.html">Conversation</a></li>
                             <li><a href="../classes/CookAction.html">CookAction</a></li>
                             <li><a href="../classes/Corporation.html">Corporation</a></li>
+                            <li><a href="../classes/CostManifest.html">CostManifest</a></li>
                             <li><a href="../classes/CostProfile.html">CostProfile</a></li>
                             <li><a href="../classes/Country.html">Country</a></li>
                             <li><a href="../classes/Course.html">Course</a></li>
@@ -524,6 +530,7 @@
                             <li><a href="../classes/OpeningHoursSpecification.html">OpeningHoursSpecification</a></li>
                             <li><a href="../classes/Order.html">Order</a></li>
                             <li><a href="../classes/OrderAction.html">OrderAction</a></li>
+                            <li><a href="../classes/OrderedCollection.html">OrderedCollection</a></li>
                             <li><a href="../classes/OrderItem.html">OrderItem</a></li>
                             <li><a href="../classes/OrderStatus.html">OrderStatus</a></li>
                             <li><a href="../classes/Organization.html">Organization</a></li>
@@ -578,6 +585,7 @@
                             <li><a href="../classes/ProductModel.html">ProductModel</a></li>
                             <li><a href="../classes/ProfessionalDoctorate.html">ProfessionalDoctorate</a></li>
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
+                            <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
@@ -794,764 +802,256 @@
 
         <div id="main" class="yui3-u">
             <div class="content"><div class="title">
-  <h1 class="file-name">pebl.eXtension/src/main/java/com/eduworks/schema/pebl/eXtension/ExtPerson.java</h1>
+  <h1 class="file-name">org.cassproject.schema.cass/src/main/java/org/cassproject/schema/cass/profile/AssertionEnvelope.java</h1>
 </div>
 
 <pre class="code prettyprint linenums">
-package com.eduworks.schema.pebl.eXtension;
+package org.cassproject.schema.cass.profile;
 
+import com.eduworks.ec.array.EcAsyncHelper;
+import com.eduworks.schema.ebac.EbacEncryptedSecret;
 import org.cassproject.ebac.repository.EcEncryptedValue;
-import org.cassproject.ebac.repository.EcRepository;
-import org.cassproject.schema.general.EcRemoteLinkedData;
-import org.schema.ImageObject;
-import org.schema.Organization;
-import org.schema.Person;
-import org.stjs.javascript.*;
+import org.cassproject.schema.cass.Cass;
+import org.schema.CreativeWork;
+import org.stjs.javascript.Array;
+import org.stjs.javascript.JSObjectAdapter;
+import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 
-/**
- * @author debbie.brown@eduworks.com
- */
+public class AssertionEnvelope extends CreativeWork {
+	private static final String TYPE_0_5 = &quot;http://schema.cassproject.org/0.4/AssertionEnvelope&quot;;
+	public static final String myType = TYPE_0_5;
 
-public class ExtPerson extends Person {
-
-	static Map&lt;String, String&gt; positionLabelsMap = JSCollections.$map();
-	static Map&lt;String, String&gt; positionUrlsMap = JSCollections.$map();
-	// legacy eXtension data not mapped to schema.org structure yet -- simply copied over during import for now
-	public String legacyId;
-	public String agreementStatus;
-	public String addressRegion;            // for State
-	public String addressLocality;          // for county
-	public String lastActiveAt;
-	public String communities;
-	public String dateCreated;
-
-	/**
-	 * Constructor, automatically sets @context and @type.
-	 *
-	 * @constructor
-	 */
-	public ExtPerson() {
-		context = &quot;http://schema.eduworks.com/pebleXtension/0.1/&quot;;
-		type = &quot;Person&quot;;
+	public AssertionEnvelope() {
+		setContextAndType(Cass.context_0_5, myType);
 	}
 
-	/**
-	 * Retrieves the person specified with the ID from the server
-	 *
-	 * @param {String}               id
-	 *                               ID of the person to retrieve
-	 * @param {Callback1&lt;ExtPerson&gt;} success
-	 *                               Callback triggered on successfully retrieving the person,
-	 *                               returns the person
-	 * @param {Callback1&lt;String&gt;}    [failure]
-	 *                               Callback triggered if error while retrieving person
-	 * @memberOf ExtPerson
-	 * @method get
-	 * @static
+	/***
+	 * List of assertions to pack in the envelope.
 	 */
-	public static void get(String id, final Callback1&lt;ExtPerson&gt; success, final Callback1&lt;String&gt; failure) {
-		EcRepository.get(id, new Callback1&lt;EcRemoteLinkedData&gt;() {
+	public Array&lt;Assertion&gt; assertion;
+
+	/***
+	 * Map of secrets found in assertions to the objects necessary to decrypt the assertion data.
+	 */
+	public Array&lt;AssertionCodebook&gt; codebook;
+
+	public int length() {
+		if (assertion != null)
+			return assertion.$length();
+		return 0;
+	}
+
+	/***
+	 * Returns the assertion indexed at position @index.
+	 * @param index
+	 * @return
+	 */
+	public Assertion getAssertion(int index) {
+		if (assertion != null)
+			if (index &lt; assertion.$length()) {
+				if (Assertion.codebooks == null)
+					Assertion.codebooks = new Object();
+				Assertion a = new Assertion();
+				a.copyFrom(assertion.$get(index));
+				JSObjectAdapter.$put(Assertion.codebooks,a.id,codebook.$get(index));
+				return a;
+			}
+		return null;
+	}
+
+	/***
+	 * Adds the assertion to the envelope and adds the keys necessary to decode the assertion to the envelope.
+	 * @param a Assertion to add.
+	 */
+	public void addAssertion(Assertion a) {
+		AssertionEnvelope me = this;
+
+		final AssertionCodebook ac = new AssertionCodebook();
+		if (assertion == null)
+			assertion = new Array&lt;&gt;();
+		assertion.push(a);
+		if (codebook == null)
+			codebook = new Array&lt;&gt;();
+		codebook.push(ac);
+
+
+		if (a.agent != null)
+			ac.agent = a.agent.decryptSecret();
+		if (a.subject != null)
+			ac.subject = a.subject.decryptSecret();
+		if (a.assertionDate != null)
+			ac.assertionDate = a.assertionDate.decryptSecret();
+		if (a.expirationDate != null)
+			ac.expirationDate = a.expirationDate.decryptSecret();
+		if (a.decayFunction != null)
+			ac.decayFunction = a.decayFunction.decryptSecret();
+		if (a.negative != null)
+			ac.negative = a.negative.decryptSecret();
+		if (a.evidence != null)
+			for (int i = 0; i &lt; a.evidence.$length(); i++) {
+				if (ac.evidence == null)
+					ac.evidence = new Array&lt;EbacEncryptedSecret&gt;();
+				EcEncryptedValue ecEncryptedValue = a.evidence.$get(i);
+				ac.evidence.push(ecEncryptedValue.decryptSecret());
+			}
+	}
+
+	/***
+	 * Adds the assertion to the envelope and adds the keys necessary to decode the assertion to the envelope.
+	 * @param a Assertion to add.
+	 */
+	public void addAssertionAsync(final Assertion a, final Callback0 success, final Callback1&lt;String&gt; failure) {
+		AssertionEnvelope me = this;
+
+		final AssertionCodebook ac = new AssertionCodebook();
+		if (assertion == null)
+			assertion = new Array&lt;&gt;();
+		assertion.push(a);
+		if (codebook == null)
+			codebook = new Array&lt;&gt;();
+		codebook.push(ac);
+
+		Array&lt;Callback1&lt;Callback0&gt;&gt; thingsToRun = new Array&lt;&gt;();
+		EcAsyncHelper&lt;Callback1&lt;Callback0&gt;&gt; eah = new EcAsyncHelper&lt;&gt;();
+
+		if (a.agent != null)
+			thingsToRun.push(new Callback1&lt;Callback0&gt;() {
+				@Override
+				public void $invoke(final Callback0 finished) {
+					a.agent.decryptSecretAsync(new Callback1&lt;EbacEncryptedSecret&gt;() {
+						@Override
+						public void $invoke(EbacEncryptedSecret secret) {
+							ac.agent = secret;
+							finished.$invoke();
+						}
+					}, failure);
+				}
+			});
+
+		if (a.subject != null)
+			thingsToRun.push(new Callback1&lt;Callback0&gt;() {
+				@Override
+				public void $invoke(final Callback0 finished) {
+					a.subject.decryptSecretAsync(new Callback1&lt;EbacEncryptedSecret&gt;() {
+						@Override
+						public void $invoke(EbacEncryptedSecret secret) {
+							ac.subject = secret;
+							finished.$invoke();
+						}
+					}, failure);
+				}
+			});
+
+		if (a.assertionDate != null)
+			thingsToRun.push(new Callback1&lt;Callback0&gt;() {
+				@Override
+				public void $invoke(final Callback0 finished) {
+					a.assertionDate.decryptSecretAsync(new Callback1&lt;EbacEncryptedSecret&gt;() {
+						@Override
+						public void $invoke(EbacEncryptedSecret secret) {
+							ac.assertionDate = secret;
+							finished.$invoke();
+						}
+					}, failure);
+				}
+			});
+		if (a.expirationDate != null)
+			thingsToRun.push(new Callback1&lt;Callback0&gt;() {
+				@Override
+				public void $invoke(final Callback0 finished) {
+					a.expirationDate.decryptSecretAsync(new Callback1&lt;EbacEncryptedSecret&gt;() {
+						@Override
+						public void $invoke(EbacEncryptedSecret secret) {
+							ac.expirationDate = secret;
+							finished.$invoke();
+						}
+					}, failure);
+
+				}
+			});
+		if (a.decayFunction != null)
+			thingsToRun.push(new Callback1&lt;Callback0&gt;() {
+				@Override
+				public void $invoke(final Callback0 finished) {
+					a.decayFunction.decryptSecretAsync(new Callback1&lt;EbacEncryptedSecret&gt;() {
+						@Override
+						public void $invoke(EbacEncryptedSecret secret) {
+							ac.decayFunction = secret;
+							finished.$invoke();
+						}
+					}, failure);
+				}
+			});
+		if (a.negative != null)
+			thingsToRun.push(new Callback1&lt;Callback0&gt;() {
+				@Override
+				public void $invoke(final Callback0 finished) {
+					a.negative.decryptSecretAsync(new Callback1&lt;EbacEncryptedSecret&gt;() {
+						@Override
+						public void $invoke(EbacEncryptedSecret secret) {
+							ac.negative = secret;
+							finished.$invoke();
+						}
+					}, failure);
+				}
+			});
+		if (a.evidence != null)
+			thingsToRun.push(new Callback1&lt;Callback0&gt;() {
+				@Override
+				public void $invoke(final Callback0 finished) {
+					EcAsyncHelper&lt;EcEncryptedValue&gt; eah = new EcAsyncHelper&lt;&gt;();
+					eah.each(a.evidence, new Callback2&lt;EcEncryptedValue, Callback0&gt;() {
+						@Override
+						public void $invoke(EcEncryptedValue ecEncryptedValue, final Callback0 callback0) {
+							ecEncryptedValue.decryptSecretAsync(new Callback1&lt;EbacEncryptedSecret&gt;() {
+								@Override
+								public void $invoke(EbacEncryptedSecret ebacEncryptedSecret) {
+									if (ebacEncryptedSecret != null) {
+										if (ac.evidence == null)
+											ac.evidence = new Array&lt;EbacEncryptedSecret&gt;();
+										ac.evidence.push(ebacEncryptedSecret);
+									}
+									callback0.$invoke();
+								}
+							}, failure);
+						}
+					}, new Callback1&lt;Array&lt;EcEncryptedValue&gt;&gt;() {
+						@Override
+						public void $invoke(Array&lt;EcEncryptedValue&gt; strings) {
+							finished.$invoke();
+						}
+					});
+				}
+			});
+		eah.each(thingsToRun, new Callback2&lt;Callback1&lt;Callback0&gt;, Callback0&gt;() {
 			@Override
-			public void $invoke(EcRemoteLinkedData p1) {
-				if (p1 instanceof ExtPerson)
-					if (success != null) {
-						success.$invoke((ExtPerson) p1);
-						return;
-					}
-
-				ExtPerson person = new ExtPerson();
-
-				if (p1.isA(EcEncryptedValue.myType)) {
-					EcEncryptedValue encrypted = new EcEncryptedValue();
-					encrypted.copyFrom(p1);
-					p1 = encrypted.decryptIntoObject();
-				}
-				if (p1.isAny(person.getTypes())) {
-					person.copyFrom(p1);
-					if (EcRepository.caching) {
-						JSObjectAdapter.$put(EcRepository.cache, person.shortId(), person);
-						JSObjectAdapter.$put(EcRepository.cache, person.id, person);
-					}
-					if (success != null)
-						success.$invoke(person);
-				} else {
-					String msg = &quot;Resultant object is not a person.&quot;;
-					if (failure != null)
-						failure.$invoke(msg);
-					else
-						Global.console.error(msg);
-				}
-
+			public void $invoke(Callback1&lt;Callback0&gt; theThingToDo, Callback0 callback0) {
+				theThingToDo.$invoke(callback0);
 			}
-		}, failure);
-	}
-
-	/**
-	 * Retrieves a person from the server synchronously, the call
-	 * blocks until it is successful or an error occurs
-	 *
-	 * @param {String} id
-	 *                 ID of the person to retrieve
-	 * @return ExtPerson
-	 * The person retrieved
-	 * @memberOf ExtPerson
-	 * @method getBlocking
-	 * @static
-	 */
-	public static ExtPerson getBlocking(String id) {
-		EcRemoteLinkedData p1 = EcRepository.getBlocking(id);
-		if (p1 instanceof ExtPerson)
-			return (ExtPerson) p1;
-
-		ExtPerson person = new ExtPerson();
-
-		if (p1.isA(EcEncryptedValue.myType)) {
-			EcEncryptedValue encrypted = new EcEncryptedValue();
-			encrypted.copyFrom(p1);
-			p1 = encrypted.decryptIntoObject();
-
-			EcEncryptedValue.encryptOnSave(p1.id, true);
-		}
-		if (p1.isAny(person.getTypes())) {
-			person.copyFrom(p1);
-			if (EcRepository.caching) {
-				JSObjectAdapter.$put(EcRepository.cache, person.shortId(), person);
-				JSObjectAdapter.$put(EcRepository.cache, person.id, person);
-			}
-			return person;
-		} else {
-			String msg = &quot;Retrieved object was not a person&quot;;
-			Global.console.error(msg);
-			return null;
-		}
-	}
-
-	/**
-	 * Searches the repository using the query and optional parameters provided
-	 *
-	 * @param {EcRepository}                repo
-	 *                                      Repository to search using the query provided
-	 * @param {String}                      query
-	 *                                      The query to send to the search
-	 * @param {Callback1&lt;Array&lt;ExtPerson&gt;&gt;} success
-	 *                                      Callback triggered on successful search return
-	 * @param {Callback1&lt;String&gt;}           [failure]
-	 *                                      Callback triggered if error searching
-	 * @param {Object}                      [paramObj]
-	 *                                      Parameters to include in the search
-	 * @param start
-	 * @param size
-	 * @memberOf ExtPerson
-	 * @method search
-	 * @static
-	 */
-	public static void search(EcRepository repo, String query, final Callback1&lt;Array&lt;ExtPerson&gt;&gt; success, Callback1&lt;String&gt; failure, Object paramObj) {
-		String queryAdd = new ExtPerson().getSearchStringByType();
-
-		if (query == null || query == &quot;&quot;)
-			query = queryAdd;
-		else
-//			query = &quot;(&quot; + query + &quot;) AND educationalUse:\&quot;&quot;+edUse+&quot;\&quot; AND &quot; + queryAdd;
-			query = &quot;(&quot; + query + &quot;) AND &quot; + queryAdd;
-
-		repo.searchWithParams(query, paramObj, null, new Callback1&lt;Array&lt;EcRemoteLinkedData&gt;&gt;() {
-
+		}, new Callback1&lt;Array&lt;Callback1&lt;Callback0&gt;&gt;&gt;() {
 			@Override
-			public void $invoke(Array&lt;EcRemoteLinkedData&gt; p1) {
-				if (success != null) {
-					Array&lt;ExtPerson&gt; ret = JSCollections.$array();
-					for (int i = 0; i &lt; p1.$length(); i++) {
-						ExtPerson person = new ExtPerson();
-//						if(p1.$get(i).isAny(person.getTypes())){
-						person.copyFrom(p1.$get(i));
-//						}
-//						else if(p1.$get(i).isA(EcEncryptedValue.myType)){
-//							EcEncryptedValue val = new EcEncryptedValue();
-//							val.copyFrom(p1.$get(i));
-//							if(val.isAnEncrypted(ExtPerson.myType)){
-//								EcRemoteLinkedData obj = val.decryptIntoObject();
-//								person.copyFrom(obj);
-//							}
-//						}
-
-						ret.$set(i, person);
-					}
-
-					success.$invoke(ret);
-				}
+			public void $invoke(Array&lt;Callback1&lt;Callback0&gt;&gt; strings) {
+				success.$invoke();
 			}
-
-		}, failure);
+		});
 	}
 
-	/**
-	 * Returns the ID of the Person
-	 *
-	 * @return {String}
-	 * ID of person
+	/***
+	 * Validates that all assertions have not been tampered with (are authentic).
+	 * Does not validate the sources of assertions.
+	 * @return True IFF assertions are authentic.
 	 */
-	public String getId() {
-		return id;
+	public boolean validate() {
+		if (assertion != null)
+			for (int i = 0; i &lt; assertion.$length(); i++)
+				if (assertion.$get(i).invalid())
+					return false;
+		return true;
 	}
 
-	/**
-	 * Sets the ID of the Person
-	 *
-	 * @param {String} id
-	 *                 ID of the Person
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
 
-	/**
-	 * Returns the legacyId of the Person
-	 *
-	 * @return {String}
-	 * legacyId of person
-	 */
-	public String getLegacyId() {
-		return legacyId;
-	}
-
-	/**
-	 * Sets the legacyId of the Person
-	 *
-	 * @param {String} id
-	 *                 legacyId of the Person
-	 */
-	public void setLegacyId(String id) {
-		this.legacyId = id;
-	}
-
-	/**
-	 * Returns the first name of the Person
-	 *
-	 * @return {String}
-	 * first name of person
-	 */
-	public String getFirstName() {
-		return givenName;
-	}
-
-	/**
-	 * Sets the first name of the Person
-	 *
-	 * @param {String} name
-	 *                 first name of the Person
-	 */
-	public void setFirstName(String name) {
-		this.givenName = name;
-	}
-
-	/**
-	 * Returns the last name of the Person
-	 *
-	 * @return {String}
-	 * last name of person
-	 */
-	public String getLastName() {
-		return familyName;
-	}
-
-	/**
-	 * Sets the last name of the Person
-	 *
-	 * @param {String} name
-	 *                 last name of the Person
-	 */
-	public void setLastName(String name) {
-		this.familyName = name;
-	}
-
-	/**
-	 * Returns the alternate name of the Person
-	 *
-	 * @return {String}
-	 * username of person
-	 */
-	public String getUserName() {
-		return alternateName;
-	}
-
-	/**
-	 * Sets the alternate name of the Person
-	 *
-	 * @param {String} name
-	 *                 username of the Person
-	 */
-	public void setUserName(String name) {
-		this.alternateName = name;
-	}
-
-	/**
-	 * Returns the job title of the Person
-	 *
-	 * @return {String}
-	 * job title of person
-	 */
-	public String getJobTitle() {
-		return jobTitle;
-	}
-
-	/**
-	 * Sets the job title of the Person
-	 *
-	 * @param {String} title
-	 *                 job title of the Person
-	 */
-	public void setJobTitle(String title) {
-		this.jobTitle = title;
-	}
-
-	/**
-	 * Returns the email of the Person
-	 *
-	 * @return {String}
-	 * email of person
-	 */
-	public String getEmail() {
-		return email;
-	}
-
-	/**
-	 * Sets the email of the Person
-	 *
-	 * @param {String} email
-	 *                 email of the Person
-	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	/**
-	 * Returns the telephone of the Person
-	 *
-	 * @return {String}
-	 * telephone of person
-	 */
-	public String getPhone() {
-		return telephone;
-	}
-
-	/**
-	 * Sets the telephone number of the Person
-	 *
-	 * @param {String} phone
-	 *                 telephone of the Person
-	 */
-	public void setPhone(String phone) {
-		this.telephone = phone;
-	}
-
-	/**
-	 * Returns the bio of the Person
-	 *
-	 * @return {String}
-	 * bio of person
-	 */
-	public String getBio() {
-		return description;
-	}
-
-	/**
-	 * Sets the bio of the Person
-	 *
-	 * @param {String} bio
-	 *                 bio of the Person
-	 */
-	public void setBio(String bio) {
-		this.description = bio;
-	}
-
-	/**
-	 * Returns the awards of the Person
-	 *
-	 * @return {String}
-	 * awards of person
-	 */
-	public String getAwards() {
-		return award;
-	}
-
-	/**
-	 * Sets the awards of the Person
-	 *
-	 * @param {String} awards
-	 *                 awards of the Person
-	 */
-	public void setAwards(String awards) {
-		this.award = awards;
-	}
-
-	/**
-	 * Returns the institution of the Person
-	 *
-	 * @return {Organization}
-	 * affiliation of person
-	 */
-	public Organization getInstitution() {
-		return affiliation;
-	}
-
-	/**
-	 * Sets the institution of the Person
-	 *
-	 * @param {Organization} affiliation
-	 *                       affiliation of the Person
-	 */
-	public void setInstitution(Organization affiliation) {
-		this.affiliation = affiliation;
-	}
-
-	/**
-	 * Returns the person&#x27;s location state
-	 *
-	 * @return {String}
-	 * location state of person
-	 */
-	public String getLocationState() {
-		return addressRegion;
-	}
-
-	/**
-	 * Sets the location state of the Person
-	 *
-	 * @param {String} state
-	 *                 location state of the Person
-	 */
-	public void setLocationState(String state) {
-		this.addressRegion = state;
-	}
-
-	/**
-	 * Returns the person&#x27;s location county
-	 *
-	 * @return {String}
-	 * location county of person
-	 */
-	public String getLocationCounty() {
-		return addressLocality;
-	}
-
-	/**
-	 * Sets the location county of the Person
-	 *
-	 * @param {String} county
-	 *                 location county of the Person
-	 */
-	public void setLocationCounty(String county) {
-		this.addressLocality = county;
-	}
-
-	/**
-	 * Returns the agreement status of the Person
-	 *
-	 * @return {String}
-	 * agreement status of person
-	 */
-	public String getAgreementStatus() {
-		return agreementStatus;
-	}
-
-	/**
-	 * Sets the agreement status number of the Person
-	 *
-	 * @param {String} status
-	 *                 agreement status of the Person
-	 */
-	public void setAgreementStatus(String status) {
-		this.agreementStatus = status;
-	}
-
-	/**
-	 * Returns the Account Created of the Person
-	 *
-	 * @return {String}
-	 * account created of person
-	 */
-	public String getAccountCreated() {
-		return dateCreated;
-	}
-
-	/**
-	 * Sets the account created date of the Person
-	 *
-	 * @param {String} created
-	 *                 account created of the Person
-	 */
-	public void setAccountCreated(String created) {
-		this.dateCreated = created;
-	}
-
-	/**
-	 * Returns the last active groups of the Person
-	 *
-	 * @return {String}
-	 * last active groups of person
-	 */
-	public String getLastActiveAt() {
-		return lastActiveAt;
-	}
-
-	/**
-	 * Sets the last active group of the Person
-	 *
-	 * @param {String} lastGroups
-	 *                 last active groups of the Person
-	 */
-	public void setLastActiveAt(String lastGroups) {
-		this.lastActiveAt = lastGroups;
-	}
-
-	/**
-	 * Returns the communities of the Person
-	 *
-	 * @return {String}
-	 * communities of person
-	 */
-	public String getCommunities() {
-		return communities;
-	}
-
-	/**
-	 * Sets the communities of the Person
-	 *
-	 * @param {String} communities
-	 *                 communities of the Person
-	 */
-	public void setCommunities(String communities) {
-		this.communities = communities;
-	}
-
-	/**
-	 * Returns the thumbnail image URL of the Person
-	 *
-	 * @return {ImageObject}
-	 * image url of person
-	 */
-	public ImageObject getImage() {
-		return (ImageObject) image;
-	}
-
-	/**
-	 * Sets the thumbnail image URL of the Person
-	 *
-	 * @param {ImageObject} image
-	 *                      image object of the Person
-	 */
-	public void setImage(ImageObject image) {
-		this.image = image;
-	}
-
-	/**
-	 * Returns the person&#x27;s web page
-	 *
-	 * @return {String}
-	 * web page url of person
-	 */
-	public String getWebPage() {
-		return sameAs;
-	}
-
-	/**
-	 * Sets the web page URL of the Person
-	 *
-	 * @param {String} page
-	 *                 web page url of the Person
-	 */
-	public void setWebPage(String page) {
-		this.sameAs = page;
-	}
-
-	/**
-	 * Returns the person object URL
-	 *
-	 * @return {String}
-	 * url of person object
-	 */
-	public String getUrl() {
-		return url;
-	}
-
-	/**
-	 * Sets the person object URL
-	 *
-	 * @param {String} url
-	 *                 url of the Person object
-	 */
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	/**
-	 * Returns the person&#x27;s position in URL form
-	 *
-	 * @return {String}
-	 * URL of person&#x27;s position
-	 */
-	public String getPosition() {
-		return additionalType;
-	}
-
-	/**
-	 * Sets the person&#x27;s position URL.
-	 * Validates url as an actual URL, and if not then looks for it in the positionLabels list. (Actual URLs saved as is)
-	 *
-	 * @param {String} url
-	 *                 url of the Person object
-	 */
-	public void setPosition(String url) {
-		initPositions();
-		if (url.indexOf(&quot;http&quot;) &gt; 0)
-			this.additionalType = url;
-		else if (positionLabelsMap.$get(url) != null)
-			this.additionalType = positionLabelsMap.$get(url);
-		else
-			Global.console.log(&quot;error: &quot; + url + &quot; not a supported position&quot;);
-	}
-
-	/**
-	 * Returns position label corresponding to the URL form
-	 *
-	 * @param url URL of the person&#x27;s position
-	 * @return {String}
-	 */
-	public String getPositionLabel(String url) {
-		initPositions();
-		if (url != null &amp;&amp; url.length() &gt; 0) {
-			if (positionUrlsMap.$get(url) != null)
-				return positionUrlsMap.$get(url);
-			else
-				return &quot;Position \&quot;&quot; + url + &quot;\&quot; not found.&quot;;
-		} else
-			return &quot;&quot;;
-	}
-
-	/**
-	 * Returns position URL corresponding to the label form
-	 *
-	 * @param type type label of the person&#x27;s position
-	 * @return {String}
-	 */
-	public String getPositionUrl(String type) {
-		initPositions();
-		if (type != null &amp;&amp; type.length() &gt; 0) {
-			if (positionLabelsMap.$get(type) != null)
-				return positionLabelsMap.$get(type);
-			else
-				return &quot;Position \&quot;&quot; + type + &quot;\&quot; not found.&quot;;
-		} else
-			return &quot;&quot;;
-	}
-
-	/**
-	 * Initializes positions arrays so that it can translate legacy position types to JSONLD format
-	 */
-	private void initPositions() {
-		if (positionLabelsMap.$get(&quot;Administrator&quot;) == null) {
-			positionLabelsMap = JSCollections.$map();
-			positionLabelsMap.$put(&quot;Administrative assistant&quot;, &quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/Administrative Assistant&quot;);
-			positionLabelsMap.$put(&quot;Administrator&quot;, &quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/Administrator&quot;);
-			positionLabelsMap.$put(&quot;Area or regional educator&quot;, &quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/AreaOrRegionalEducator&quot;);
-			positionLabelsMap.$put(&quot;Communicator&quot;, &quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/Communicator&quot;);
-			positionLabelsMap.$put(&quot;County agent/educator&quot;, &quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/CountyAgentOrEducator&quot;);
-			positionLabelsMap.$put(&quot;Faculty&quot;, &quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/Faculty&quot;);
-			positionLabelsMap.$put(&quot;Information technologist&quot;, &quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/InformationTechnologist&quot;);
-			positionLabelsMap.$put(&quot;Other&quot;, &quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/Other&quot;);
-			positionLabelsMap.$put(&quot;Professional/staff development&quot;, &quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/ProfessionalOrStaffDevelopment&quot;);
-			positionLabelsMap.$put(&quot;Program assistant&quot;, &quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/ProgramAssistant&quot;);
-			positionLabelsMap.$put(&quot;Master gardener&quot;, &quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/MasterGardener&quot;);
-			positionLabelsMap.$put(&quot;Specialist&quot;, &quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/Specialist&quot;);
-			positionLabelsMap.$put(&quot;Volunteer&quot;, &quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/Volunteer&quot;);
-		}
-		if (positionUrlsMap.$get(&quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/Administrator&quot;) == null) {
-			positionUrlsMap = JSCollections.$map();
-			positionUrlsMap.$put(&quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/Administrative Assistant&quot;, &quot;Administrative assistant&quot;);
-			positionUrlsMap.$put(&quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/Administrator&quot;, &quot;Administrator&quot;);
-			positionUrlsMap.$put(&quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/AreaOrRegionalEducator&quot;, &quot;Area or regional educator&quot;);
-			positionUrlsMap.$put(&quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/Communicator&quot;, &quot;Communicator&quot;);
-			positionUrlsMap.$put(&quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/CountyAgentOrEducator&quot;, &quot;County agent/educator&quot;);
-			positionUrlsMap.$put(&quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/Faculty&quot;, &quot;Faculty&quot;);
-			positionUrlsMap.$put(&quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/InformationTechnologist&quot;, &quot;Information technologist&quot;);
-			positionUrlsMap.$put(&quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/Other&quot;, &quot;Other&quot;);
-			positionUrlsMap.$put(&quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/ProfessionalOrStaffDevelopment&quot;, &quot;Professional/staff development&quot;);
-			positionUrlsMap.$put(&quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/ProgramAssistant&quot;, &quot;Program assistant&quot;);
-			positionUrlsMap.$put(&quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/MasterGardener&quot;, &quot;Master gardener&quot;);
-			positionUrlsMap.$put(&quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/Specialist&quot;, &quot;Specialist&quot;);
-			positionUrlsMap.$put(&quot;http://schema.eduworks.com/pebleXtension/0.1/positionType/Volunteer&quot;, &quot;Volunteer&quot;);
-		}
-	}
-
-	/**
-	 * Saves this person on the server corresponding to its ID
-	 *
-	 * @param {Callback1&lt;String&gt;} success
-	 *                            Callback triggered on successfully saving the ExtPerson
-	 * @param {Callback1&lt;String&gt;} [failure]
-	 *                            Callback triggered if error while saving ExtPerson
-	 * @memberOf ExtPerson
-	 * @method save
-	 */
-	public void save(Callback1&lt;String&gt; success, Callback1&lt;String&gt; failure) {
-		if (getId() == null || getId() == &quot;&quot;) {
-			String msg = &quot;ID cannot be missing&quot;;
-			if (failure != null)
-				failure.$invoke(msg);
-			else
-				Global.console.error(msg);
-			return;
-		}
-		if (getFirstName() == null || getFirstName() == &quot;&quot;) {
-			String msg = &quot;First name cannot be missing&quot;;
-			if (failure != null)
-				failure.$invoke(msg);
-			else
-				Global.console.error(msg);
-			return;
-		}
-		if (getLastName() == null || getLastName() == &quot;&quot;) {
-			String msg = &quot;Last name cannot be missing&quot;;
-			if (failure != null)
-				failure.$invoke(msg);
-			else
-				Global.console.error(msg);
-			return;
-		}
-		if (getUserName() == null || getUserName() == &quot;&quot;) {
-			String msg = &quot;Username cannot be missing&quot;;
-			if (failure != null)
-				failure.$invoke(msg);
-			else
-				Global.console.error(msg);
-			return;
-		}
-		if (getEmail() == null || getEmail() == &quot;&quot;) {
-			String msg = &quot;Email cannot be missing&quot;;
-			if (failure != null)
-				failure.$invoke(msg);
-			else
-				Global.console.error(msg);
-			return;
-		}
-
-		EcRepository.save(this, success, failure);
-	}
-
-	/**
-	 * Deletes the person from the server corresponding to its ID
-	 *
-	 * @param {Callback1&lt;String&gt;} success
-	 *                            Callback triggered on successfully deleting the person
-	 * @param {Callback1&lt;String&gt;} [failure]
-	 *                            Callback triggered if error while deleting person
-	 * @memberOf ExtPerson
-	 * @method _delete
-	 */
-	public void _delete(Callback1&lt;String&gt; success, Callback1&lt;String&gt; failure) {
-		EcRepository.DELETE(this, success, failure);
-	}
 }
 
 </pre>

@@ -5,7 +5,7 @@
     <title>CSVExport - EC Library</title>
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.0/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -37,6 +37,8 @@
                             <li><a href="../modules/org.json.ld.html">org.json.ld</a>
                             </li>
                             <li><a href="../modules/org.schema.html">org.schema</a>
+                            </li>
+                            <li><a href="../modules/org.w3.skos.html">org.w3.skos</a>
                             </li>
                     </ul>
                 </div>
@@ -178,6 +180,7 @@
                             <li><a href="../classes/Clip.html">Clip</a></li>
                             <li><a href="../classes/ClothingStore.html">ClothingStore</a></li>
                             <li><a href="../classes/Code.html">Code</a></li>
+                            <li><a href="../classes/Collection.html">Collection</a></li>
                             <li><a href="../classes/CollectionPage.html">CollectionPage</a></li>
                             <li><a href="../classes/CollegeOrUniversity.html">CollegeOrUniversity</a></li>
                             <li><a href="../classes/ComedyClub.html">ComedyClub</a></li>
@@ -190,6 +193,8 @@
                             <li><a href="../classes/CompoundPriceSpecification.html">CompoundPriceSpecification</a></li>
                             <li><a href="../classes/ComputerLanguage.html">ComputerLanguage</a></li>
                             <li><a href="../classes/ComputerStore.html">ComputerStore</a></li>
+                            <li><a href="../classes/Concept.html">Concept</a></li>
+                            <li><a href="../classes/ConceptScheme.html">ConceptScheme</a></li>
                             <li><a href="../classes/ConditionManifest.html">ConditionManifest</a></li>
                             <li><a href="../classes/ConditionProfile.html">ConditionProfile</a></li>
                             <li><a href="../classes/ConfirmAction.html">ConfirmAction</a></li>
@@ -203,6 +208,7 @@
                             <li><a href="../classes/Conversation.html">Conversation</a></li>
                             <li><a href="../classes/CookAction.html">CookAction</a></li>
                             <li><a href="../classes/Corporation.html">Corporation</a></li>
+                            <li><a href="../classes/CostManifest.html">CostManifest</a></li>
                             <li><a href="../classes/CostProfile.html">CostProfile</a></li>
                             <li><a href="../classes/Country.html">Country</a></li>
                             <li><a href="../classes/Course.html">Course</a></li>
@@ -524,6 +530,7 @@
                             <li><a href="../classes/OpeningHoursSpecification.html">OpeningHoursSpecification</a></li>
                             <li><a href="../classes/Order.html">Order</a></li>
                             <li><a href="../classes/OrderAction.html">OrderAction</a></li>
+                            <li><a href="../classes/OrderedCollection.html">OrderedCollection</a></li>
                             <li><a href="../classes/OrderItem.html">OrderItem</a></li>
                             <li><a href="../classes/OrderStatus.html">OrderStatus</a></li>
                             <li><a href="../classes/Organization.html">Organization</a></li>
@@ -578,6 +585,7 @@
                             <li><a href="../classes/ProductModel.html">ProductModel</a></li>
                             <li><a href="../classes/ProfessionalDoctorate.html">ProfessionalDoctorate</a></li>
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
+                            <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
@@ -800,6 +808,12 @@
                   <div><a href="#static-public-methods">Static Public Methods</a></div>
                   <ul>
                       <li><a href="#method_export">export</a></li>
+                      <li><a href="#method_get">get</a></li>
+                      <li><a href="#method_get">get</a></li>
+                      <li><a href="#method_getBlocking">getBlocking</a></li>
+                      <li><a href="#method_getBlocking">getBlocking</a></li>
+                      <li><a href="#method_search">search</a></li>
+                      <li><a href="#method_search">search</a></li>
                   </ul>
             
             
@@ -857,6 +871,96 @@ and one of relationships representing a framework</p>
             </div>
             <div class="short-description">
               <p>Method to export the CSV files of competencies and relationships for a framework</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            static
+            
+          </td>
+          <td>
+            <div class="method-name ">
+              <a href="#method_get">get</a>(id, success, failure)
+            </div>
+            <div class="short-description">
+              <p>Retrieves a concept from it's server asynchronously</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            static
+            
+          </td>
+          <td>
+            <div class="method-name ">
+              <a href="#method_get">get</a>(id, success, failure)
+            </div>
+            <div class="short-description">
+              <p>Retrieves a concept scheme from the server, specified by the ID</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            static
+            
+          </td>
+          <td>
+            <div class="method-name ">
+              <a href="#method_getBlocking">getBlocking</a>(id): 
+            </div>
+            <div class="short-description">
+              <p>Retrieves a concept from it's server synchronously, the call blocks until it is successful or an error occurs</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            static
+            
+          </td>
+          <td>
+            <div class="method-name ">
+              <a href="#method_getBlocking">getBlocking</a>(id, success, failure)
+            </div>
+            <div class="short-description">
+              <p>Retrieves a concept scheme from the server in a blocking fashion, specified by the ID</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            static
+            
+          </td>
+          <td>
+            <div class="method-name ">
+              <a href="#method_search">search</a>(repo, query, {Callback1&lt;Array&lt;EcConcept&gt;&gt;, failure, paramObj)
+            </div>
+            <div class="short-description">
+              <p>Searches a repository for competencies that match the search query</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            static
+            
+          </td>
+          <td>
+            <div class="method-name ">
+              <a href="#method_search">search</a>(repo, query, success, failure, paramObj)
+            </div>
+            <div class="short-description">
+              <p>Searches the repository given for concept schemes using the query passed in</p>
             </div>
           </td>
         </tr>
@@ -944,6 +1048,511 @@ and one of relationships representing a framework</p>
                 </ul>
               </td>
               <td><p>Callback triggered if an error occurs during export</p>
+</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+
+
+</div>
+<div class="method item">
+    <div id="method_get" class="title">
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_w3_skos_EcConcept.java.html#l17"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;w3&#x2F;skos&#x2F;EcConcept.java:17</code></a></span>
+        <h3 class="">
+            public
+            static
+            
+            get(id, success, failure)
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Retrieves a concept from it's server asynchronously</p>
+</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>id</td>
+              <td>String</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>ID of the concept to retrieve from the server</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>success</td>
+              <td>Callback1<String></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Callback triggered after retrieving the concept,
+returns the concept retrieved</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>failure</td>
+              <td>Callback1<String></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Callback triggered if error retrieving concept</p>
+</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+
+
+</div>
+<div class="method item">
+    <div id="method_get" class="title">
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_w3_skos_EcConceptScheme.java.html#l15"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;w3&#x2F;skos&#x2F;EcConceptScheme.java:15</code></a></span>
+        <h3 class="">
+            public
+            static
+            
+            get(id, success, failure)
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Retrieves a concept scheme from the server, specified by the ID</p>
+</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>id</td>
+              <td>String</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>ID of the concept scheme to retrieve</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>success</td>
+              <td>Callback1<EcConceptScheme></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Callback triggered after successfully retrieving the concept scheme,
+returns the retrieved concept scheme</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>failure</td>
+              <td>Callback1<String></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Callback triggered if an error occurs while retrieving the concept scheme</p>
+</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+
+
+</div>
+<div class="method item">
+    <div id="method_getBlocking" class="title">
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_w3_skos_EcConcept.java.html#l72"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;w3&#x2F;skos&#x2F;EcConcept.java:72</code></a></span>
+        <h3 class="">
+            public
+            static
+            
+            getBlocking(id): 
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Retrieves a concept from it's server synchronously, the call
+blocks until it is successful or an error occurs</p>
+</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>id</td>
+              <td>String</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>ID of the concept to retrieve</p>
+</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+      <div class="return">
+        <h4>Return:</h4>
+        <div>
+          
+          <span class="return-description"><p>EcConcept
+The concept retrieved</p>
+</span>
+        </div>
+      </div>
+
+
+</div>
+<div class="method item">
+    <div id="method_getBlocking" class="title">
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_w3_skos_EcConceptScheme.java.html#l65"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;w3&#x2F;skos&#x2F;EcConceptScheme.java:65</code></a></span>
+        <h3 class="">
+            public
+            static
+            
+            getBlocking(id, success, failure)
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Retrieves a concept scheme from the server in a blocking fashion, specified by the ID</p>
+</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>id</td>
+              <td>String</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>ID of the concept scheme to retrieve</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>success</td>
+              <td>Callback1<EcConceptScheme></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Callback triggered after successfully retrieving the concept scheme,
+returns the retrieved concept scheme</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>failure</td>
+              <td>Callback1<String></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Callback triggered if an error occurs while retrieving the concept scheme</p>
+</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+
+
+</div>
+<div class="method item">
+    <div id="method_search" class="title">
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_w3_skos_EcConcept.java.html#l108"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;w3&#x2F;skos&#x2F;EcConcept.java:108</code></a></span>
+        <h3 class="">
+            public
+            static
+            
+            search(repo, query, {Callback1&lt;Array&lt;EcConcept&gt;&gt;, failure, paramObj)
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Searches a repository for competencies that match the search query</p>
+</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>repo</td>
+              <td><a href="../classes/EcRepository.html" class="crosslink">EcRepository</a></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Repository to search using the query</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>query</td>
+              <td>String</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Query string to pass to the search web service</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>{Callback1&lt;Array&lt;EcConcept&gt;&gt;</td>
+              <td>Object</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>success
+Callback triggered after completing the search, returns the results</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>failure</td>
+              <td>Callback1<String></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Callback triggered if error searching</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>paramObj</td>
+              <td>Object</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Parameter object for search</p>
+</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+
+
+</div>
+<div class="method item">
+    <div id="method_search" class="title">
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_w3_skos_EcConceptScheme.java.html#l99"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;w3&#x2F;skos&#x2F;EcConceptScheme.java:99</code></a></span>
+        <h3 class="">
+            public
+            static
+            
+            search(repo, query, success, failure, paramObj)
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Searches the repository given for concept schemes using the query passed in</p>
+</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>repo</td>
+              <td><a href="../classes/EcRepository.html" class="crosslink">EcRepository</a></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Repository to search for concept schemes</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>query</td>
+              <td>String</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Query string used to search for a concept scheme</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>success</td>
+              <td>Callback1<Array<EcConceptScheme></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Callback triggered when the search successfully returns,
+returns search results</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>failure</td>
+              <td>Callback1<String></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Callback triggered if an error occurs while searching</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>paramObj</td>
+              <td>Object</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Parameter object for search</p>
 </td>
             </tr>
 

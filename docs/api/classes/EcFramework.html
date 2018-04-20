@@ -5,7 +5,7 @@
     <title>EcFramework - EC Library</title>
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.0/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -37,6 +37,8 @@
                             <li><a href="../modules/org.json.ld.html">org.json.ld</a>
                             </li>
                             <li><a href="../modules/org.schema.html">org.schema</a>
+                            </li>
+                            <li><a href="../modules/org.w3.skos.html">org.w3.skos</a>
                             </li>
                     </ul>
                 </div>
@@ -178,6 +180,7 @@
                             <li><a href="../classes/Clip.html">Clip</a></li>
                             <li><a href="../classes/ClothingStore.html">ClothingStore</a></li>
                             <li><a href="../classes/Code.html">Code</a></li>
+                            <li><a href="../classes/Collection.html">Collection</a></li>
                             <li><a href="../classes/CollectionPage.html">CollectionPage</a></li>
                             <li><a href="../classes/CollegeOrUniversity.html">CollegeOrUniversity</a></li>
                             <li><a href="../classes/ComedyClub.html">ComedyClub</a></li>
@@ -190,6 +193,8 @@
                             <li><a href="../classes/CompoundPriceSpecification.html">CompoundPriceSpecification</a></li>
                             <li><a href="../classes/ComputerLanguage.html">ComputerLanguage</a></li>
                             <li><a href="../classes/ComputerStore.html">ComputerStore</a></li>
+                            <li><a href="../classes/Concept.html">Concept</a></li>
+                            <li><a href="../classes/ConceptScheme.html">ConceptScheme</a></li>
                             <li><a href="../classes/ConditionManifest.html">ConditionManifest</a></li>
                             <li><a href="../classes/ConditionProfile.html">ConditionProfile</a></li>
                             <li><a href="../classes/ConfirmAction.html">ConfirmAction</a></li>
@@ -203,6 +208,7 @@
                             <li><a href="../classes/Conversation.html">Conversation</a></li>
                             <li><a href="../classes/CookAction.html">CookAction</a></li>
                             <li><a href="../classes/Corporation.html">Corporation</a></li>
+                            <li><a href="../classes/CostManifest.html">CostManifest</a></li>
                             <li><a href="../classes/CostProfile.html">CostProfile</a></li>
                             <li><a href="../classes/Country.html">Country</a></li>
                             <li><a href="../classes/Course.html">Course</a></li>
@@ -524,6 +530,7 @@
                             <li><a href="../classes/OpeningHoursSpecification.html">OpeningHoursSpecification</a></li>
                             <li><a href="../classes/Order.html">Order</a></li>
                             <li><a href="../classes/OrderAction.html">OrderAction</a></li>
+                            <li><a href="../classes/OrderedCollection.html">OrderedCollection</a></li>
                             <li><a href="../classes/OrderItem.html">OrderItem</a></li>
                             <li><a href="../classes/OrderStatus.html">OrderStatus</a></li>
                             <li><a href="../classes/Organization.html">Organization</a></li>
@@ -578,6 +585,7 @@
                             <li><a href="../classes/ProductModel.html">ProductModel</a></li>
                             <li><a href="../classes/ProfessionalDoctorate.html">ProfessionalDoctorate</a></li>
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
+                            <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
@@ -904,7 +912,7 @@ services on a server.</p>
           </td>
           <td>
             <div class="method-name ">
-              <a href="#method_search">search</a>(repo, query, success, failure, paramObj, size, start)
+              <a href="#method_search">search</a>(repo, query, success, failure, paramObj)
             </div>
             <div class="short-description">
               <p>Searches the repository given for frameworks using the query passed in</p>
@@ -1132,7 +1140,7 @@ services on a server.</p>
         <h2 id="static-public-methods">Static Public Methods</h2>
 <div class="method item">
     <div id="method_get" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l27"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:27</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l39"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:39</code></a></span>
         <h3 class="">
             public
             static
@@ -1210,7 +1218,7 @@ returns the retrieved framework</p>
 </div>
 <div class="method item">
     <div id="method_getBlocking" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l77"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:77</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l89"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:89</code></a></span>
         <h3 class="">
             public
             static
@@ -1288,12 +1296,12 @@ returns the retrieved framework</p>
 </div>
 <div class="method item">
     <div id="method_search" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l111"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:111</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l123"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:123</code></a></span>
         <h3 class="">
             public
             static
             
-            search(repo, query, success, failure, paramObj, size, start)
+            search(repo, query, success, failure, paramObj)
         </h3>
     </div>
 
@@ -1385,32 +1393,6 @@ returns search results</p>
 </td>
             </tr>
 
-            <tr>
-              <td>size</td>
-              <td>Object</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td> </td>
-            </tr>
-
-            <tr>
-              <td>start</td>
-              <td>Object</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td> </td>
-            </tr>
-
           </tbody>
         </table>
       </div>
@@ -1432,7 +1414,7 @@ returns search results</p>
     <h2 id="public-methods">Public Methods</h2>
 <div class="method item">
     <div id="method__delete" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l456"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:456</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l470"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:470</code></a></span>
         <h3 class="">
             public
             
@@ -1495,7 +1477,7 @@ returns search results</p>
 </div>
 <div class="method item">
     <div id="method_addCompetency" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l171"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:171</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l181"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:181</code></a></span>
         <h3 class="">
             public
             
@@ -1544,7 +1526,7 @@ returns search results</p>
 </div>
 <div class="method item">
     <div id="method_addLevel" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l362"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:362</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l373"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:373</code></a></span>
         <h3 class="">
             public
             
@@ -1593,7 +1575,7 @@ returns search results</p>
 </div>
 <div class="method item">
     <div id="method_addRelation" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l327"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:327</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l338"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:338</code></a></span>
         <h3 class="">
             public
             
@@ -1642,7 +1624,7 @@ returns search results</p>
 </div>
 <div class="method item">
     <div id="method_addRollupRule" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l397"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:397</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l408"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:408</code></a></span>
         <h3 class="">
             public
             
@@ -1691,7 +1673,7 @@ returns search results</p>
 </div>
 <div class="method item">
     <div id="method_removeCompetency" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l189"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:189</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l199"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:199</code></a></span>
         <h3 class="">
             public
             
@@ -1770,7 +1752,7 @@ TODO: remove rollup rules? should we add flag to remove these extras</div>
 </div>
 <div class="method item">
     <div id="method_removeCompetency" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l345"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:345</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l356"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:356</code></a></span>
         <h3 class="">
             public
             
@@ -1819,7 +1801,7 @@ TODO: remove rollup rules? should we add flag to remove these extras</div>
 </div>
 <div class="method item">
     <div id="method_removeLevel" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l380"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:380</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l391"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:391</code></a></span>
         <h3 class="">
             public
             
@@ -1868,7 +1850,7 @@ TODO: remove rollup rules? should we add flag to remove these extras</div>
 </div>
 <div class="method item">
     <div id="method_removeRollupRule" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l415"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:415</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l426"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:426</code></a></span>
         <h3 class="">
             public
             
@@ -1917,7 +1899,7 @@ TODO: remove rollup rules? should we add flag to remove these extras</div>
 </div>
 <div class="method item">
     <div id="method_save" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l432"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:432</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l443"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:443</code></a></span>
         <h3 class="">
             public
             
@@ -1985,7 +1967,7 @@ TODO: remove rollup rules? should we add flag to remove these extras</div>
         <h2 id="private-methods">Private Methods</h2>
 <div class="method item private">
     <div id="method_removeLevelsThatInclude" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l292"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:292</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l300"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:300</code></a></span>
         <h3 class="">
             private
             
@@ -2076,7 +2058,7 @@ TODO: remove rollup rules? should we add flag to remove these extras</div>
 </div>
 <div class="method item private">
     <div id="method_removeRelationshipsThatInclude" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l250"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:250</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcFramework.java.html#l262"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcFramework.java:262</code></a></span>
         <h3 class="">
             private
             

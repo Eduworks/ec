@@ -5,7 +5,7 @@
     <title>cass.competency/src/main/java/org/cass/competency/EcFramework.java - EC Library</title>
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.0/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -37,6 +37,8 @@
                             <li><a href="../modules/org.json.ld.html">org.json.ld</a>
                             </li>
                             <li><a href="../modules/org.schema.html">org.schema</a>
+                            </li>
+                            <li><a href="../modules/org.w3.skos.html">org.w3.skos</a>
                             </li>
                     </ul>
                 </div>
@@ -178,6 +180,7 @@
                             <li><a href="../classes/Clip.html">Clip</a></li>
                             <li><a href="../classes/ClothingStore.html">ClothingStore</a></li>
                             <li><a href="../classes/Code.html">Code</a></li>
+                            <li><a href="../classes/Collection.html">Collection</a></li>
                             <li><a href="../classes/CollectionPage.html">CollectionPage</a></li>
                             <li><a href="../classes/CollegeOrUniversity.html">CollegeOrUniversity</a></li>
                             <li><a href="../classes/ComedyClub.html">ComedyClub</a></li>
@@ -190,6 +193,8 @@
                             <li><a href="../classes/CompoundPriceSpecification.html">CompoundPriceSpecification</a></li>
                             <li><a href="../classes/ComputerLanguage.html">ComputerLanguage</a></li>
                             <li><a href="../classes/ComputerStore.html">ComputerStore</a></li>
+                            <li><a href="../classes/Concept.html">Concept</a></li>
+                            <li><a href="../classes/ConceptScheme.html">ConceptScheme</a></li>
                             <li><a href="../classes/ConditionManifest.html">ConditionManifest</a></li>
                             <li><a href="../classes/ConditionProfile.html">ConditionProfile</a></li>
                             <li><a href="../classes/ConfirmAction.html">ConfirmAction</a></li>
@@ -203,6 +208,7 @@
                             <li><a href="../classes/Conversation.html">Conversation</a></li>
                             <li><a href="../classes/CookAction.html">CookAction</a></li>
                             <li><a href="../classes/Corporation.html">Corporation</a></li>
+                            <li><a href="../classes/CostManifest.html">CostManifest</a></li>
                             <li><a href="../classes/CostProfile.html">CostProfile</a></li>
                             <li><a href="../classes/Country.html">Country</a></li>
                             <li><a href="../classes/Course.html">Course</a></li>
@@ -524,6 +530,7 @@
                             <li><a href="../classes/OpeningHoursSpecification.html">OpeningHoursSpecification</a></li>
                             <li><a href="../classes/Order.html">Order</a></li>
                             <li><a href="../classes/OrderAction.html">OrderAction</a></li>
+                            <li><a href="../classes/OrderedCollection.html">OrderedCollection</a></li>
                             <li><a href="../classes/OrderItem.html">OrderItem</a></li>
                             <li><a href="../classes/OrderStatus.html">OrderStatus</a></li>
                             <li><a href="../classes/Organization.html">Organization</a></li>
@@ -578,6 +585,7 @@
                             <li><a href="../classes/ProductModel.html">ProductModel</a></li>
                             <li><a href="../classes/ProfessionalDoctorate.html">ProfessionalDoctorate</a></li>
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
+                            <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
@@ -823,6 +831,18 @@ public class EcFramework extends Framework {
 
 	static Map&lt;String, Boolean&gt; relDone = JSCollections.$map();
 	static Map&lt;String, Boolean&gt; levelDone = JSCollections.$map();
+	public static Object template;
+
+	public EcFramework() {
+		Map&lt;String, Object&gt; me = JSObjectAdapter.$properties(this);
+		if (template != null) {
+			Map&lt;String, Object&gt; you = JSObjectAdapter.$properties(template);
+			for (String key : you) {
+				if (JSGlobal.typeof(you.$get(key)) != &quot;function&quot;)
+					me.$put(key.replace(&quot;@&quot;, &quot;&quot;), you.$get(key));
+			}
+		}
+	}
 
 	/**
 	 * Retrieves a framework from the server, specified by the ID
@@ -922,8 +942,6 @@ public class EcFramework extends Framework {
 	 *                                       Callback triggered if an error occurs while searching
 	 * @param {Object}                       paramObj
 	 *                                       Parameter object for search
-	 * @param size
-	 * @param start
 	 * @memberOf EcFramework
 	 * @method search
 	 * @static
@@ -981,7 +999,7 @@ public class EcFramework extends Framework {
 		if (competency == null)
 			competency = new Array&lt;String&gt;();
 		for (int i = 0; i &lt; competency.$length(); i++)
-			if (competency.$get(i).equals(id))
+			if (trimVersionFromUrl(competency.$get(i)).equals(id))
 				return;
 		competency.push(id);
 	}
@@ -1009,8 +1027,10 @@ public class EcFramework extends Framework {
 			if (competency.$get(i).equals(shortId) || competency.$get(i).equals(id))
 				competency.splice(i, 1);
 		if ((relation == null || relation.$length() == 0) &amp;&amp; (level == null || level.$length() == 0))
-			if (success != null)
+			if (success != null) {
 				success.$invoke(&quot;&quot;);
+				return;
+			}
 
 		relDone.$put(id, false);
 		levelDone.$put(id, false);
@@ -1068,25 +1088,21 @@ public class EcFramework extends Framework {
 		if (i &gt;= relation.$length() &amp;&amp; success != null)
 			success.$invoke(&quot;&quot;);
 		else
-			EcRepository.get(relation.$get(i), new Callback1&lt;EcRemoteLinkedData&gt;() {
+			EcAlignment.get(relation.$get(i), new Callback1&lt;EcAlignment&gt;() {
 				@Override
-				public void $invoke(EcRemoteLinkedData p1) {
-					EcAlignment a = null;
-
-					// Wrap this in case there&#x27;s an error retrieving, will skip that relationship
-					try {
-						a = new EcAlignment();
-						a.copyFrom(p1);
-					} catch (Exception e) {
-					}
-
+				public void $invoke(EcAlignment a) {
 					if (a != null &amp;&amp; a.source == shortId || a.target == shortId || a.source == id || a.target == id) {
 						me.relation.splice(i, 1);
 						me.removeRelationshipsThatInclude(id, i, success, failure);
 					} else
 						me.removeRelationshipsThatInclude(id, i + 1, success, failure);
 				}
-			}, failure);
+			}, new Callback1&lt;String&gt;() {
+				@Override
+				public void $invoke(String s) {
+					me.removeRelationshipsThatInclude(id, i + 1, success, failure);
+				}
+			});
 	}
 
 	/**
@@ -1110,18 +1126,21 @@ public class EcFramework extends Framework {
 		if (i &gt;= level.$length() &amp;&amp; success != null)
 			success.$invoke(&quot;&quot;);
 		else
-			EcRepository.get(level.$get(i), new Callback1&lt;EcRemoteLinkedData&gt;() {
+			EcLevel.get(level.$get(i), new Callback1&lt;EcLevel&gt;() {
 				@Override
-				public void $invoke(EcRemoteLinkedData p1) {
-					EcLevel a = new EcLevel();
-					a.copyFrom(p1);
+				public void $invoke(EcLevel a) {
 					if (a.competency == shortId || a.competency == id) {
 						me.level.splice(i, 1);
 						me.removeLevelsThatInclude(id, i, success, failure);
 					} else
 						me.removeLevelsThatInclude(id, i + 1, success, failure);
 				}
-			}, failure);
+			}, new Callback1&lt;String&gt;() {
+				@Override
+				public void $invoke(String s) {
+					me.removeLevelsThatInclude(id, i + 1, success, failure);
+				}
+			});
 	}
 
 	/**
@@ -1137,7 +1156,7 @@ public class EcFramework extends Framework {
 		if (relation == null)
 			relation = new Array&lt;String&gt;();
 		for (int i = 0; i &lt; relation.$length(); i++)
-			if (relation.$get(i).equals(id))
+			if (trimVersionFromUrl(relation.$get(i)).equals(id))
 				return;
 		relation.push(id);
 	}
@@ -1155,7 +1174,7 @@ public class EcFramework extends Framework {
 		if (relation == null)
 			relation = new Array&lt;String&gt;();
 		for (int i = 0; i &lt; relation.$length(); i++)
-			if (relation.$get(i).equals(id))
+			if (trimVersionFromUrl(relation.$get(i)).equals(id))
 				relation.splice(i, 1);
 	}
 
@@ -1172,7 +1191,7 @@ public class EcFramework extends Framework {
 		if (level == null)
 			level = new Array&lt;String&gt;();
 		for (int i = 0; i &lt; level.$length(); i++)
-			if (level.$get(i).equals(id))
+			if (trimVersionFromUrl(level.$get(i)).equals(id))
 				return;
 		level.push(id);
 	}
@@ -1190,7 +1209,7 @@ public class EcFramework extends Framework {
 		if (level == null)
 			level = new Array&lt;String&gt;();
 		for (int i = 0; i &lt; level.$length(); i++)
-			if (level.$get(i).equals(id))
+			if (trimVersionFromUrl(level.$get(i)).equals(id))
 				level.splice(i, 1);
 	}
 
@@ -1207,7 +1226,7 @@ public class EcFramework extends Framework {
 		if (rollupRule == null)
 			rollupRule = new Array&lt;String&gt;();
 		for (int i = 0; i &lt; rollupRule.$length(); i++)
-			if (rollupRule.$get(i).equals(id))
+			if (trimVersionFromUrl(rollupRule.$get(i)).equals(id))
 				return;
 		rollupRule.push(id);
 	}
@@ -1225,7 +1244,7 @@ public class EcFramework extends Framework {
 		if (rollupRule == null)
 			rollupRule = new Array&lt;String&gt;();
 		for (int i = 0; i &lt; rollupRule.$length(); i++)
-			if (rollupRule.$get(i).equals(id))
+			if (trimVersionFromUrl(rollupRule.$get(i)).equals(id))
 				rollupRule.splice(i, 1);
 	}
 
@@ -1239,7 +1258,7 @@ public class EcFramework extends Framework {
 	 * @memberOf EcFramework
 	 * @method save
 	 */
-	public void save(Callback1&lt;String&gt; success, Callback1&lt;String&gt; failure) {
+	public void save(Callback1&lt;String&gt; success, Callback1&lt;String&gt; failure, EcRepository repo) {
 		if (this.name == null || this.name == &quot;&quot;) {
 			String msg = &quot;Framework Name Cannot be Empty&quot;;
 
@@ -1250,7 +1269,10 @@ public class EcFramework extends Framework {
 			return;
 		}
 
-		EcRepository._save(this, success, failure);
+		if (repo == null)
+			EcRepository.save(this, success, failure);
+		else
+			repo.saveTo(this, success, failure);
 	}
 
 	/**

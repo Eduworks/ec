@@ -5,7 +5,7 @@
     <title>EcAlignment - EC Library</title>
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.0/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -37,6 +37,8 @@
                             <li><a href="../modules/org.json.ld.html">org.json.ld</a>
                             </li>
                             <li><a href="../modules/org.schema.html">org.schema</a>
+                            </li>
+                            <li><a href="../modules/org.w3.skos.html">org.w3.skos</a>
                             </li>
                     </ul>
                 </div>
@@ -178,6 +180,7 @@
                             <li><a href="../classes/Clip.html">Clip</a></li>
                             <li><a href="../classes/ClothingStore.html">ClothingStore</a></li>
                             <li><a href="../classes/Code.html">Code</a></li>
+                            <li><a href="../classes/Collection.html">Collection</a></li>
                             <li><a href="../classes/CollectionPage.html">CollectionPage</a></li>
                             <li><a href="../classes/CollegeOrUniversity.html">CollegeOrUniversity</a></li>
                             <li><a href="../classes/ComedyClub.html">ComedyClub</a></li>
@@ -190,6 +193,8 @@
                             <li><a href="../classes/CompoundPriceSpecification.html">CompoundPriceSpecification</a></li>
                             <li><a href="../classes/ComputerLanguage.html">ComputerLanguage</a></li>
                             <li><a href="../classes/ComputerStore.html">ComputerStore</a></li>
+                            <li><a href="../classes/Concept.html">Concept</a></li>
+                            <li><a href="../classes/ConceptScheme.html">ConceptScheme</a></li>
                             <li><a href="../classes/ConditionManifest.html">ConditionManifest</a></li>
                             <li><a href="../classes/ConditionProfile.html">ConditionProfile</a></li>
                             <li><a href="../classes/ConfirmAction.html">ConfirmAction</a></li>
@@ -203,6 +208,7 @@
                             <li><a href="../classes/Conversation.html">Conversation</a></li>
                             <li><a href="../classes/CookAction.html">CookAction</a></li>
                             <li><a href="../classes/Corporation.html">Corporation</a></li>
+                            <li><a href="../classes/CostManifest.html">CostManifest</a></li>
                             <li><a href="../classes/CostProfile.html">CostProfile</a></li>
                             <li><a href="../classes/Country.html">Country</a></li>
                             <li><a href="../classes/Course.html">Course</a></li>
@@ -524,6 +530,7 @@
                             <li><a href="../classes/OpeningHoursSpecification.html">OpeningHoursSpecification</a></li>
                             <li><a href="../classes/Order.html">Order</a></li>
                             <li><a href="../classes/OrderAction.html">OrderAction</a></li>
+                            <li><a href="../classes/OrderedCollection.html">OrderedCollection</a></li>
                             <li><a href="../classes/OrderItem.html">OrderItem</a></li>
                             <li><a href="../classes/OrderStatus.html">OrderStatus</a></li>
                             <li><a href="../classes/Organization.html">Organization</a></li>
@@ -578,6 +585,7 @@
                             <li><a href="../classes/ProductModel.html">ProductModel</a></li>
                             <li><a href="../classes/ProfessionalDoctorate.html">ProfessionalDoctorate</a></li>
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
+                            <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
@@ -911,7 +919,7 @@ services on a server.</p>
           </td>
           <td>
             <div class="method-name ">
-              <a href="#method_searchByCompetency">searchByCompetency</a>(repo, competencyId, success, [failure], [paramObj], start, size)
+              <a href="#method_searchByCompetency">searchByCompetency</a>(repo, competencyId, success, [failure], [paramObj])
             </div>
             <div class="short-description">
               <p>Searches the repository for alignments with a specific ID in the target field</p>
@@ -1177,7 +1185,7 @@ The alignment retrieved</p>
 </div>
 <div class="method item">
     <div id="method_search" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcAlignment.java.html#l121"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcAlignment.java:121</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcAlignment.java.html#l122"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcAlignment.java:122</code></a></span>
         <h3 class="">
             public
             static
@@ -1308,12 +1316,12 @@ The alignment retrieved</p>
 </div>
 <div class="method item">
     <div id="method_searchByCompetency" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcAlignment.java.html#l309"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcAlignment.java:309</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcAlignment.java.html#l310"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcAlignment.java:310</code></a></span>
         <h3 class="">
             public
             static
             
-            searchByCompetency(repo, competencyId, success, [failure], [paramObj], start, size)
+            searchByCompetency(repo, competencyId, success, [failure], [paramObj])
         </h3>
     </div>
 
@@ -1404,32 +1412,6 @@ The alignment retrieved</p>
 </td>
             </tr>
 
-            <tr>
-              <td>start</td>
-              <td>Object</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td> </td>
-            </tr>
-
-            <tr>
-              <td>size</td>
-              <td>Object</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td> </td>
-            </tr>
-
           </tbody>
         </table>
       </div>
@@ -1439,7 +1421,7 @@ The alignment retrieved</p>
 </div>
 <div class="method item">
     <div id="method_searchBySource" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcAlignment.java.html#l177"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcAlignment.java:177</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcAlignment.java.html#l178"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcAlignment.java:178</code></a></span>
         <h3 class="">
             public
             static
@@ -1570,7 +1552,7 @@ The alignment retrieved</p>
 </div>
 <div class="method item">
     <div id="method_searchBySource" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcAlignment.java.html#l237"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcAlignment.java:237</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcAlignment.java.html#l238"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcAlignment.java:238</code></a></span>
         <h3 class="">
             public
             static
@@ -1713,7 +1695,7 @@ The alignment retrieved</p>
     <h2 id="public-methods">Public Methods</h2>
 <div class="method item">
     <div id="method__delete" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcAlignment.java.html#l437"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcAlignment.java:437</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcAlignment.java.html#l439"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcAlignment.java:439</code></a></span>
         <h3 class="">
             public
             
@@ -1776,7 +1758,7 @@ The alignment retrieved</p>
 </div>
 <div class="method item">
     <div id="method_save" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcAlignment.java.html#l396"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcAlignment.java:396</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcAlignment.java.html#l395"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcAlignment.java:395</code></a></span>
         <h3 class="">
             public
             
@@ -1839,7 +1821,7 @@ The alignment retrieved</p>
 </div>
 <div class="method item">
     <div id="method_setDescription" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcAlignment.java.html#l384"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcAlignment.java:384</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcAlignment.java.html#l383"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcAlignment.java:383</code></a></span>
         <h3 class="">
             public
             
@@ -1888,7 +1870,7 @@ The alignment retrieved</p>
 </div>
 <div class="method item">
     <div id="method_setName" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcAlignment.java.html#l372"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcAlignment.java:372</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcAlignment.java.html#l371"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcAlignment.java:371</code></a></span>
         <h3 class="">
             public
             

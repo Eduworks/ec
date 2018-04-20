@@ -5,7 +5,7 @@
     <title>CostProfile - EC Library</title>
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.0/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -37,6 +37,8 @@
                             <li><a href="../modules/org.json.ld.html">org.json.ld</a>
                             </li>
                             <li><a href="../modules/org.schema.html">org.schema</a>
+                            </li>
+                            <li><a href="../modules/org.w3.skos.html">org.w3.skos</a>
                             </li>
                     </ul>
                 </div>
@@ -178,6 +180,7 @@
                             <li><a href="../classes/Clip.html">Clip</a></li>
                             <li><a href="../classes/ClothingStore.html">ClothingStore</a></li>
                             <li><a href="../classes/Code.html">Code</a></li>
+                            <li><a href="../classes/Collection.html">Collection</a></li>
                             <li><a href="../classes/CollectionPage.html">CollectionPage</a></li>
                             <li><a href="../classes/CollegeOrUniversity.html">CollegeOrUniversity</a></li>
                             <li><a href="../classes/ComedyClub.html">ComedyClub</a></li>
@@ -190,6 +193,8 @@
                             <li><a href="../classes/CompoundPriceSpecification.html">CompoundPriceSpecification</a></li>
                             <li><a href="../classes/ComputerLanguage.html">ComputerLanguage</a></li>
                             <li><a href="../classes/ComputerStore.html">ComputerStore</a></li>
+                            <li><a href="../classes/Concept.html">Concept</a></li>
+                            <li><a href="../classes/ConceptScheme.html">ConceptScheme</a></li>
                             <li><a href="../classes/ConditionManifest.html">ConditionManifest</a></li>
                             <li><a href="../classes/ConditionProfile.html">ConditionProfile</a></li>
                             <li><a href="../classes/ConfirmAction.html">ConfirmAction</a></li>
@@ -203,6 +208,7 @@
                             <li><a href="../classes/Conversation.html">Conversation</a></li>
                             <li><a href="../classes/CookAction.html">CookAction</a></li>
                             <li><a href="../classes/Corporation.html">Corporation</a></li>
+                            <li><a href="../classes/CostManifest.html">CostManifest</a></li>
                             <li><a href="../classes/CostProfile.html">CostProfile</a></li>
                             <li><a href="../classes/Country.html">Country</a></li>
                             <li><a href="../classes/Course.html">Course</a></li>
@@ -524,6 +530,7 @@
                             <li><a href="../classes/OpeningHoursSpecification.html">OpeningHoursSpecification</a></li>
                             <li><a href="../classes/Order.html">Order</a></li>
                             <li><a href="../classes/OrderAction.html">OrderAction</a></li>
+                            <li><a href="../classes/OrderedCollection.html">OrderedCollection</a></li>
                             <li><a href="../classes/OrderItem.html">OrderItem</a></li>
                             <li><a href="../classes/OrderStatus.html">OrderStatus</a></li>
                             <li><a href="../classes/Organization.html">Organization</a></li>
@@ -578,6 +585,7 @@
                             <li><a href="../classes/ProductModel.html">ProductModel</a></li>
                             <li><a href="../classes/ProfessionalDoctorate.html">ProfessionalDoctorate</a></li>
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
+                            <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
@@ -830,16 +838,20 @@
                       <li><a href="#props_citation">citation</a></li>
                       <li><a href="#props_comment">comment</a></li>
                       <li><a href="#props_commentCount">commentCount</a></li>
+                      <li><a href="#props_condition">condition</a></li>
                       <li><a href="#props_contentLocation">contentLocation</a></li>
                       <li><a href="#props_contentRating">contentRating</a></li>
                       <li><a href="#props_contributor">contributor</a></li>
                       <li><a href="#props_copyrightHolder">copyrightHolder</a></li>
                       <li><a href="#props_copyrightYear">copyrightYear</a></li>
+                      <li><a href="#props_costDetails">costDetails</a></li>
                       <li><a href="#props_creator">creator</a></li>
+                      <li><a href="#props_currency">currency</a></li>
                       <li><a href="#props_dateCreated">dateCreated</a></li>
                       <li><a href="#props_dateModified">dateModified</a></li>
                       <li><a href="#props_datePublished">datePublished</a></li>
                       <li><a href="#props_description">description</a></li>
+                      <li><a href="#props_directCostType">directCostType</a></li>
                       <li><a href="#props_disambiguatingDescription">disambiguatingDescription</a></li>
                       <li><a href="#props_discussionUrl">discussionUrl</a></li>
                       <li><a href="#props_editor">editor</a></li>
@@ -875,8 +887,10 @@
                       <li><a href="#props_mentions">mentions</a></li>
                       <li><a href="#props_name">name</a></li>
                       <li><a href="#props_offers">offers</a></li>
+                      <li><a href="#props_paymentPattern">paymentPattern</a></li>
                       <li><a href="#props_position">position</a></li>
                       <li><a href="#props_potentialAction">potentialAction</a></li>
+                      <li><a href="#props_price">price</a></li>
                       <li><a href="#props_producer">producer</a></li>
                       <li><a href="#props_provider">provider</a></li>
                       <li><a href="#props_publication">publication</a></li>
@@ -885,6 +899,7 @@
                       <li><a href="#props_recordedAt">recordedAt</a></li>
                       <li><a href="#props_region">region</a></li>
                       <li><a href="#props_releasedEvent">releasedEvent</a></li>
+                      <li><a href="#props_residencyType">residencyType</a></li>
                       <li><a href="#props_review">review</a></li>
                       <li><a href="#props_reviews">reviews</a></li>
                       <li><a href="#props_sameAs">sameAs</a></li>
@@ -929,7 +944,7 @@
 
         <div id="main" class="yui3-u">
             <div class="content"><div class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_CostProfile.java.html#l3"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;CostProfile.java:3</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_CostProfile.java.html#l6"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;CostProfile.java:6</code></a></span>
     <h1 class="class-name">CostProfile</h1>
 </div>
 
@@ -941,7 +956,7 @@
     </div>
 
 <div class="class-description"><p><a href="http://credentialengine.org/CostProfile">credentialengine.org/CostProfile</a>
-The type and nature of direct costs one would incur if one were to pursue attaining a credential.</p>
+Entity that describes direct costs one would incur if one were to pursue a credential, assessment, learning opportunity, or aspects thereof.</p>
 </div>
 
 
@@ -1195,7 +1210,7 @@ The type and nature of direct costs one would incur if one were to pursue attain
               <a href="#props_audienceType">audienceType</a>: <a href="../classes/CredentialAlignmentObject.html" class="crosslink">CredentialAlignmentObject</a>
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/audienceType">http://purl.org/ctdl/terms/audienceType</a> The applicable audience.</p>
+              <p><a href="http://purl.org/ctdl/terms/audienceType">http://purl.org/ctdl/terms/audienceType</a> Type of credential seeker for whom the particular condition or cost is applicable; select from an existing enumeration of such types.</p>
             </div>
           </td>
         </tr>
@@ -1327,6 +1342,21 @@ The type and nature of direct costs one would incur if one were to pursue attain
           </td>
           <td>
             <div class="property-name ">
+              <a href="#props_condition">condition</a>: LangString
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/condition">http://purl.org/ctdl/terms/condition</a> Single constraint, prerequisite, entry condition, requirement, or cost.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
               <a href="#props_contentLocation">contentLocation</a>: <a href="../classes/Place.html" class="crosslink">Place</a>
             </div>
             <div class="short-description">
@@ -1402,10 +1432,40 @@ The type and nature of direct costs one would incur if one were to pursue attain
           </td>
           <td>
             <div class="property-name ">
+              <a href="#props_costDetails">costDetails</a>: AnyURI
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/costDetails">http://purl.org/ctdl/terms/costDetails</a> Webpage or online document containing human-readable, in-depth information about costs.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
               <a href="#props_creator">creator</a>: Schema, Organization | schema,Person
             </div>
             <div class="short-description">
               
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_currency">currency</a>: String
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/currency">http://purl.org/ctdl/terms/currency</a> Currency in which the monetary amount is expressed in 3-letter ISO 4217 format such as "USD".</p>
             </div>
           </td>
         </tr>
@@ -1462,10 +1522,25 @@ The type and nature of direct costs one would incur if one were to pursue attain
           </td>
           <td>
             <div class="property-name ">
-              <a href="#props_description">description</a>: Literal
+              <a href="#props_description">description</a>: LangString
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/description">http://purl.org/ctdl/terms/description</a> A short description of the resource being described.</p>
+              <p><a href="http://purl.org/ctdl/terms/description">http://purl.org/ctdl/terms/description</a> Statememnt, characterization or account of the entity.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_directCostType">directCostType</a>: <a href="../classes/CredentialAlignmentObject.html" class="crosslink">CredentialAlignmentObject</a>
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/directCostType">http://purl.org/ctdl/terms/directCostType</a> Types of direct costs associated with earning or completing a credential, assessment or learning opportunity; select from an existing enumeration of such types.</p>
             </div>
           </td>
         </tr>
@@ -1585,7 +1660,7 @@ The type and nature of direct costs one would incur if one were to pursue attain
               <a href="#props_endDate">endDate</a>: Date
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/endDate">http://purl.org/ctdl/terms/endDate</a> The end date of something.</p>
+              <p><a href="http://purl.org/ctdl/terms/endDate">http://purl.org/ctdl/terms/endDate</a> Date some event or activity ends.</p>
             </div>
           </td>
         </tr>
@@ -1840,7 +1915,7 @@ The type and nature of direct costs one would incur if one were to pursue attain
               <a href="#props_jurisdiction">jurisdiction</a>: <a href="../classes/JurisdictionProfile.html" class="crosslink">JurisdictionProfile</a>
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/jurisdiction">http://purl.org/ctdl/terms/jurisdiction</a> The geo-political region in which the described resource is applicable.</p>
+              <p><a href="http://purl.org/ctdl/terms/jurisdiction">http://purl.org/ctdl/terms/jurisdiction</a> Geographic or political region in which the credential is formally applicable or an organization has authority to act.</p>
             </div>
           </td>
         </tr>
@@ -1972,10 +2047,10 @@ The type and nature of direct costs one would incur if one were to pursue attain
           </td>
           <td>
             <div class="property-name ">
-              <a href="#props_name">name</a>: Literal
+              <a href="#props_name">name</a>: LangString
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/name">http://purl.org/ctdl/terms/name</a> The name of the resource being described.</p>
+              <p><a href="http://purl.org/ctdl/terms/name">http://purl.org/ctdl/terms/name</a> Name or title of the entity.</p>
             </div>
           </td>
         </tr>
@@ -1991,6 +2066,21 @@ The type and nature of direct costs one would incur if one were to pursue attain
             </div>
             <div class="short-description">
               
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_paymentPattern">paymentPattern</a>: LangString
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/paymentPattern">http://purl.org/ctdl/terms/paymentPattern</a> Applicable pattern for payments such as "per sementer" and "every three months".</p>
             </div>
           </td>
         </tr>
@@ -2021,6 +2111,21 @@ The type and nature of direct costs one would incur if one were to pursue attain
             </div>
             <div class="short-description">
               
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_price">price</a>: Integer
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/price">http://purl.org/ctdl/terms/price</a> Offer price of a credential, learning resource, assessment, related activity or resource.</p>
             </div>
           </td>
         </tr>
@@ -2122,10 +2227,10 @@ The type and nature of direct costs one would incur if one were to pursue attain
           </td>
           <td>
             <div class="property-name ">
-              <a href="#props_region">region</a>: <a href="../classes/GeoCoordinates.html" class="crosslink">GeoCoordinates</a>
+              <a href="#props_region">region</a>: <a href="../classes/Place.html" class="crosslink">Place</a>
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/region">http://purl.org/ctdl/terms/region</a> A geo-political area of the described resource.</p>
+              <p><a href="http://purl.org/ctdl/terms/region">http://purl.org/ctdl/terms/region</a> Entity that describes the longitude, latitude and other location details of an area.</p>
             </div>
           </td>
         </tr>
@@ -2141,6 +2246,21 @@ The type and nature of direct costs one would incur if one were to pursue attain
             </div>
             <div class="short-description">
               
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_residencyType">residencyType</a>: <a href="../classes/CredentialAlignmentObject.html" class="crosslink">CredentialAlignmentObject</a>
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/residencyType">http://purl.org/ctdl/terms/residencyType</a> Type of legal residency status of a person; select from an existing enumeration of such types. Residency defines the duration of stay required by national, state, provincial or local laws that entitles a person to the legal protection and benefits provided to the applicable type.</p>
             </div>
           </td>
         </tr>
@@ -2260,7 +2380,7 @@ The type and nature of direct costs one would incur if one were to pursue attain
               <a href="#props_startDate">startDate</a>: Date
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/startDate">http://purl.org/ctdl/terms/startDate</a> The start date of something.</p>
+              <p><a href="http://purl.org/ctdl/terms/startDate">http://purl.org/ctdl/terms/startDate</a> Date the validity or usefulness of the information in this resource begins.</p>
             </div>
           </td>
         </tr>
@@ -2746,7 +2866,7 @@ An intended audience, i.e. a group for whom something was created.</div>
 </div>
 <div class="property item">
   <div id="props_audienceType" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_CostProfile.java.html#l13"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;CostProfile.java:13</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_CostProfile.java.html#l26"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;CostProfile.java:26</code></a></span>
     <h3 class="">
       public
       
@@ -2757,7 +2877,7 @@ An intended audience, i.e. a group for whom something was created.</div>
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/audienceType">http://purl.org/ctdl/terms/audienceType</a>
-The applicable audience.</p>
+Type of credential seeker for whom the particular condition or cost is applicable; select from an existing enumeration of such types.</p>
 </div>
 
 </div>
@@ -2890,6 +3010,23 @@ The number of comments this CreativeWork (e.g. Article, Question or Answer) has 
 
 </div>
 <div class="property item">
+  <div id="props_condition" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_CostProfile.java.html#l34"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;CostProfile.java:34</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      condition: LangString
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/condition">http://purl.org/ctdl/terms/condition</a>
+Single constraint, prerequisite, entry condition, requirement, or cost.</p>
+</div>
+
+</div>
+<div class="property item">
   <div id="props_contentLocation" class="title">
     <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_CreativeWork.java.html#l69"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;CreativeWork.java:69</code></a></span>
     <h3 class="">
@@ -2970,6 +3107,23 @@ The year during which the claimed copyright for the CreativeWork was first asser
 
 </div>
 <div class="property item">
+  <div id="props_costDetails" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_CostProfile.java.html#l42"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;CostProfile.java:42</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      costDetails: AnyURI
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/costDetails">http://purl.org/ctdl/terms/costDetails</a>
+Webpage or online document containing human-readable, in-depth information about costs.</p>
+</div>
+
+</div>
+<div class="property item">
   <div id="props_creator" class="title">
     <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_CreativeWork.java.html#l223"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;CreativeWork.java:223</code></a></span>
     <h3 class="">
@@ -2983,6 +3137,23 @@ The year during which the claimed copyright for the CreativeWork was first asser
 
   <div class="property-description">Schema.org/creator
 The creator/author of this CreativeWork. This is the same as the Author property for CreativeWork.</div>
+
+</div>
+<div class="property item">
+  <div id="props_currency" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_CostProfile.java.html#l50"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;CostProfile.java:50</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      currency: String
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/currency">http://purl.org/ctdl/terms/currency</a>
+Currency in which the monetary amount is expressed in 3-letter ISO 4217 format such as "USD".</p>
+</div>
 
 </div>
 <div class="property item">
@@ -3035,18 +3206,35 @@ Date of first broadcast/publication.</div>
 </div>
 <div class="property item">
   <div id="props_description" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_CostProfile.java.html#l21"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;CostProfile.java:21</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_CostProfile.java.html#l58"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;CostProfile.java:58</code></a></span>
     <h3 class="">
       public
       
       
-      description: Literal
+      description: LangString
     </h3>
   </div>
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/description">http://purl.org/ctdl/terms/description</a>
-A short description of the resource being described.</p>
+Statememnt, characterization or account of the entity.</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_directCostType" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_CostProfile.java.html#l66"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;CostProfile.java:66</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      directCostType: <a href="../classes/CredentialAlignmentObject.html" class="crosslink">CredentialAlignmentObject</a>
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/directCostType">http://purl.org/ctdl/terms/directCostType</a>
+Types of direct costs associated with earning or completing a credential, assessment or learning opportunity; select from an existing enumeration of such types.</p>
 </div>
 
 </div>
@@ -3164,7 +3352,7 @@ A media object that encodes this CreativeWork.</div>
 </div>
 <div class="property item">
   <div id="props_endDate" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_CostProfile.java.html#l29"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;CostProfile.java:29</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_CostProfile.java.html#l74"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;CostProfile.java:74</code></a></span>
     <h3 class="">
       public
       
@@ -3175,7 +3363,7 @@ A media object that encodes this CreativeWork.</div>
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/endDate">http://purl.org/ctdl/terms/endDate</a>
-The end date of something.</p>
+Date some event or activity ends.</p>
 </div>
 
 </div>
@@ -3437,7 +3625,7 @@ Indicates a CreativeWork that this CreativeWork is (in some sense) part of.</div
 </div>
 <div class="property item">
   <div id="props_jurisdiction" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_CostProfile.java.html#l37"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;CostProfile.java:37</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_CostProfile.java.html#l82"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;CostProfile.java:82</code></a></span>
     <h3 class="">
       public
       
@@ -3448,7 +3636,7 @@ Indicates a CreativeWork that this CreativeWork is (in some sense) part of.</div
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/jurisdiction">http://purl.org/ctdl/terms/jurisdiction</a>
-The geo-political region in which the described resource is applicable.</p>
+Geographic or political region in which the credential is formally applicable or an organization has authority to act.</p>
 </div>
 
 </div>
@@ -3582,18 +3770,18 @@ Indicates that the CreativeWork contains a reference to, but is not necessarily 
 </div>
 <div class="property item">
   <div id="props_name" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_CostProfile.java.html#l45"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;CostProfile.java:45</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_CostProfile.java.html#l90"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;CostProfile.java:90</code></a></span>
     <h3 class="">
       public
       
       
-      name: Literal
+      name: LangString
     </h3>
   </div>
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/name">http://purl.org/ctdl/terms/name</a>
-The name of the resource being described.</p>
+Name or title of the entity.</p>
 </div>
 
 </div>
@@ -3611,6 +3799,23 @@ The name of the resource being described.</p>
 
   <div class="property-description">Schema.org/offers
 An offer to provide this item&#x2014;for example, an offer to sell a product, rent the DVD of a movie, perform a service, or give away tickets to an event.</div>
+
+</div>
+<div class="property item">
+  <div id="props_paymentPattern" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_CostProfile.java.html#l98"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;CostProfile.java:98</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      paymentPattern: LangString
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/paymentPattern">http://purl.org/ctdl/terms/paymentPattern</a>
+Applicable pattern for payments such as "per sementer" and "every three months".</p>
+</div>
 
 </div>
 <div class="property item">
@@ -3643,6 +3848,23 @@ The position of an item in a series or sequence of items.</div>
 
   <div class="property-description">Schema.org/potentialAction
 Indicates a potential Action, which describes an idealized action in which this thing would play an 'object' role.</div>
+
+</div>
+<div class="property item">
+  <div id="props_price" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_CostProfile.java.html#l106"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;CostProfile.java:106</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      price: Integer
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/price">http://purl.org/ctdl/terms/price</a>
+Offer price of a credential, learning resource, assessment, related activity or resource.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -3743,18 +3965,18 @@ The Event where the CreativeWork was recorded. The CreativeWork may capture all 
 </div>
 <div class="property item">
   <div id="props_region" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_CostProfile.java.html#l53"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;CostProfile.java:53</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_CostProfile.java.html#l114"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;CostProfile.java:114</code></a></span>
     <h3 class="">
       public
       
       
-      region: <a href="../classes/GeoCoordinates.html" class="crosslink">GeoCoordinates</a>
+      region: <a href="../classes/Place.html" class="crosslink">Place</a>
     </h3>
   </div>
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/region">http://purl.org/ctdl/terms/region</a>
-A geo-political area of the described resource.</p>
+Entity that describes the longitude, latitude and other location details of an area.</p>
 </div>
 
 </div>
@@ -3772,6 +3994,24 @@ A geo-political area of the described resource.</p>
 
   <div class="property-description">Schema.org/releasedEvent
 The place and time the release was issued, expressed as a PublicationEvent.</div>
+
+</div>
+<div class="property item">
+  <div id="props_residencyType" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_CostProfile.java.html#l122"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;CostProfile.java:122</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      residencyType: <a href="../classes/CredentialAlignmentObject.html" class="crosslink">CredentialAlignmentObject</a>
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/residencyType">http://purl.org/ctdl/terms/residencyType</a>
+Type of legal residency status of a person; select from an existing enumeration of such types.
+Residency defines the duration of stay required by national, state, provincial or local laws that entitles a person to the legal protection and benefits provided to the applicable type.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -3890,7 +4130,7 @@ A person or organization that supports a thing through a pledge, promise, or fin
 </div>
 <div class="property item">
   <div id="props_startDate" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_CostProfile.java.html#l61"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;CostProfile.java:61</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_CostProfile.java.html#l131"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;CostProfile.java:131</code></a></span>
     <h3 class="">
       public
       
@@ -3901,7 +4141,7 @@ A person or organization that supports a thing through a pledge, promise, or fin
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/startDate">http://purl.org/ctdl/terms/startDate</a>
-The start date of something.</p>
+Date the validity or usefulness of the information in this resource begins.</p>
 </div>
 
 </div>

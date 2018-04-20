@@ -5,7 +5,7 @@
     <title>CampingPitch - EC Library</title>
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.0/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -37,6 +37,8 @@
                             <li><a href="../modules/org.json.ld.html">org.json.ld</a>
                             </li>
                             <li><a href="../modules/org.schema.html">org.schema</a>
+                            </li>
+                            <li><a href="../modules/org.w3.skos.html">org.w3.skos</a>
                             </li>
                     </ul>
                 </div>
@@ -178,6 +180,7 @@
                             <li><a href="../classes/Clip.html">Clip</a></li>
                             <li><a href="../classes/ClothingStore.html">ClothingStore</a></li>
                             <li><a href="../classes/Code.html">Code</a></li>
+                            <li><a href="../classes/Collection.html">Collection</a></li>
                             <li><a href="../classes/CollectionPage.html">CollectionPage</a></li>
                             <li><a href="../classes/CollegeOrUniversity.html">CollegeOrUniversity</a></li>
                             <li><a href="../classes/ComedyClub.html">ComedyClub</a></li>
@@ -190,6 +193,8 @@
                             <li><a href="../classes/CompoundPriceSpecification.html">CompoundPriceSpecification</a></li>
                             <li><a href="../classes/ComputerLanguage.html">ComputerLanguage</a></li>
                             <li><a href="../classes/ComputerStore.html">ComputerStore</a></li>
+                            <li><a href="../classes/Concept.html">Concept</a></li>
+                            <li><a href="../classes/ConceptScheme.html">ConceptScheme</a></li>
                             <li><a href="../classes/ConditionManifest.html">ConditionManifest</a></li>
                             <li><a href="../classes/ConditionProfile.html">ConditionProfile</a></li>
                             <li><a href="../classes/ConfirmAction.html">ConfirmAction</a></li>
@@ -203,6 +208,7 @@
                             <li><a href="../classes/Conversation.html">Conversation</a></li>
                             <li><a href="../classes/CookAction.html">CookAction</a></li>
                             <li><a href="../classes/Corporation.html">Corporation</a></li>
+                            <li><a href="../classes/CostManifest.html">CostManifest</a></li>
                             <li><a href="../classes/CostProfile.html">CostProfile</a></li>
                             <li><a href="../classes/Country.html">Country</a></li>
                             <li><a href="../classes/Course.html">Course</a></li>
@@ -524,6 +530,7 @@
                             <li><a href="../classes/OpeningHoursSpecification.html">OpeningHoursSpecification</a></li>
                             <li><a href="../classes/Order.html">Order</a></li>
                             <li><a href="../classes/OrderAction.html">OrderAction</a></li>
+                            <li><a href="../classes/OrderedCollection.html">OrderedCollection</a></li>
                             <li><a href="../classes/OrderItem.html">OrderItem</a></li>
                             <li><a href="../classes/OrderStatus.html">OrderStatus</a></li>
                             <li><a href="../classes/Organization.html">Organization</a></li>
@@ -578,6 +585,7 @@
                             <li><a href="../classes/ProductModel.html">ProductModel</a></li>
                             <li><a href="../classes/ProfessionalDoctorate.html">ProfessionalDoctorate</a></li>
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
+                            <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
@@ -809,6 +817,9 @@
                       <li><a href="#props_additionalProperty">additionalProperty</a></li>
                       <li><a href="#props_additionalType">additionalType</a></li>
                       <li><a href="#props_address">address</a></li>
+                      <li><a href="#props_addressCountry">addressCountry</a></li>
+                      <li><a href="#props_addressLocality">addressLocality</a></li>
+                      <li><a href="#props_addressRegion">addressRegion</a></li>
                       <li><a href="#props_aggregateRating">aggregateRating</a></li>
                       <li><a href="#props_alternateName">alternateName</a></li>
                       <li><a href="#props_amenityFeature">amenityFeature</a></li>
@@ -823,12 +834,15 @@
                       <li><a href="#props_faxNumber">faxNumber</a></li>
                       <li><a href="#props_floorSize">floorSize</a></li>
                       <li><a href="#props_geo">geo</a></li>
+                      <li><a href="#props_geoURI">geoURI</a></li>
                       <li><a href="#props_globalLocationNumber">globalLocationNumber</a></li>
                       <li><a href="#props_hasMap">hasMap</a></li>
                       <li><a href="#props_identifier">identifier</a></li>
                       <li><a href="#props_image">image</a></li>
                       <li><a href="#props_isicV4">isicV4</a></li>
+                      <li><a href="#props_latitude">latitude</a></li>
                       <li><a href="#props_logo">logo</a></li>
+                      <li><a href="#props_longitude">longitude</a></li>
                       <li><a href="#props_mainEntityOfPage">mainEntityOfPage</a></li>
                       <li><a href="#props_map">map</a></li>
                       <li><a href="#props_maps">maps</a></li>
@@ -840,12 +854,16 @@
                       <li><a href="#props_petsAllowed">petsAllowed</a></li>
                       <li><a href="#props_photo">photo</a></li>
                       <li><a href="#props_photos">photos</a></li>
+                      <li><a href="#props_postalCode">postalCode</a></li>
+                      <li><a href="#props_postOfficeBoxNumber">postOfficeBoxNumber</a></li>
                       <li><a href="#props_potentialAction">potentialAction</a></li>
                       <li><a href="#props_review">review</a></li>
                       <li><a href="#props_reviews">reviews</a></li>
                       <li><a href="#props_sameAs">sameAs</a></li>
                       <li><a href="#props_smokingAllowed">smokingAllowed</a></li>
                       <li><a href="#props_specialOpeningHoursSpecification">specialOpeningHoursSpecification</a></li>
+                      <li><a href="#props_streetAddress">streetAddress</a></li>
+                      <li><a href="#props_targetContactPoint">targetContactPoint</a></li>
                       <li><a href="#props_telephone">telephone</a></li>
                       <li><a href="#props_url">url</a></li>
                   </ul>
@@ -917,7 +935,7 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_additionalProperty">additionalProperty</a>: <a href="../classes/PropertyValue.html" class="crosslink">PropertyValue</a>
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/additionalProperty">Schema.org/additionalProperty</a> A property-value pair representing an additional characteristics of the entitity, e.g. a product feature or another characteristic for which there is no matching property in <a href="http://schema.org">schema.org</a>.\n\nNote: Publishers should be aware that applications designed to use specific <a href="http://schema.org">schema.org</a> properties (e.g. <a href="http://schema.org/width">http://schema.org/width</a>, <a href="http://schema.org/color">http://schema.org/color</a>, <a href="http://schema.org/gtin13">http://schema.org/gtin13</a>, ...) will typically expect such data to be provided using those properties, rather than using the generic property/value mechanism.</p>
             </div>
           </td>
         </tr>
@@ -947,7 +965,52 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_address">address</a>: Schema, PostalAddress | schema,Text
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/address">Schema.org/address</a> Physical address of the item.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_addressCountry">addressCountry</a>: LangString
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/addressCountry">http://purl.org/ctdl/terms/addressCountry</a> Nation with its own government and occupying a particular territory identified by the two-letter ISO 3166-1 alpha-2 country code.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_addressLocality">addressLocality</a>: LangString
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/addressLocality">http://purl.org/ctdl/terms/addressLocality</a> Town, city, or village in which a particular location is situtated.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_addressRegion">addressRegion</a>: LangString
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/addressRegion">http://purl.org/ctdl/terms/addressRegion</a> State or province in which a particular location is situtated.</p>
             </div>
           </td>
         </tr>
@@ -962,7 +1025,7 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_aggregateRating">aggregateRating</a>: <a href="../classes/AggregateRating.html" class="crosslink">AggregateRating</a>
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/aggregateRating">Schema.org/aggregateRating</a> The overall rating, based on a collection of reviews or ratings, of the item.</p>
             </div>
           </td>
         </tr>
@@ -1007,7 +1070,7 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_branchCode">branchCode</a>: Text
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/branchCode">Schema.org/branchCode</a> A short textual code (also called "store code") that uniquely identifies a place of business. The code is typically assigned by the parentOrganization and used in structured URLs.\n\nFor example, in the URL <a href="http://www.starbucks.co.uk/store-locator/etc/detail/3047">http://www.starbucks.co.uk/store-locator/etc/detail/3047</a> the code "3047" is a branchCode for a particular branch.</p>
             </div>
           </td>
         </tr>
@@ -1022,7 +1085,7 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_containedIn">containedIn</a>: <a href="../classes/Place.html" class="crosslink">Place</a>
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/containedIn">Schema.org/containedIn</a> The basic containment relation between a place and one that contains it.</p>
             </div>
           </td>
         </tr>
@@ -1037,7 +1100,7 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_containedInPlace">containedInPlace</a>: <a href="../classes/Place.html" class="crosslink">Place</a>
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/containedInPlace">Schema.org/containedInPlace</a> The basic containment relation between a place and one that contains it.</p>
             </div>
           </td>
         </tr>
@@ -1052,7 +1115,7 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_containsPlace">containsPlace</a>: <a href="../classes/Place.html" class="crosslink">Place</a>
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/containsPlace">Schema.org/containsPlace</a> The basic containment relation between a place and another that it contains.</p>
             </div>
           </td>
         </tr>
@@ -1064,10 +1127,10 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
           </td>
           <td>
             <div class="property-name ">
-              <a href="#props_description">description</a>: Text
+              <a href="#props_description">description</a>: LangString
             </div>
             <div class="short-description">
-              
+              <p><a href="http://purl.org/ctdl/terms/description">http://purl.org/ctdl/terms/description</a> Statememnt, characterization or account of the entity.</p>
             </div>
           </td>
         </tr>
@@ -1097,7 +1160,7 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_event">event</a>: <a href="../classes/Event.html" class="crosslink">Event</a>
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/event">Schema.org/event</a> Upcoming or past event associated with this place, organization, or action.</p>
             </div>
           </td>
         </tr>
@@ -1112,7 +1175,7 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_events">events</a>: <a href="../classes/Event.html" class="crosslink">Event</a>
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/events">Schema.org/events</a> Upcoming or past events associated with this place or organization.</p>
             </div>
           </td>
         </tr>
@@ -1127,7 +1190,7 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_faxNumber">faxNumber</a>: Text
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/faxNumber">Schema.org/faxNumber</a> The fax number.</p>
             </div>
           </td>
         </tr>
@@ -1157,7 +1220,22 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_geo">geo</a>: Schema, GeoShape | schema,GeoCoordinates
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/geo">Schema.org/geo</a> The geo coordinates of the place.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_geoURI">geoURI</a>: AnyURI
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/geoURI">http://purl.org/ctdl/terms/geoURI</a> Entity that describes the longitude, latitude and other location details of a place. This may define a place at any scale. Examples include a city, state, province, country, or continent.</p>
             </div>
           </td>
         </tr>
@@ -1172,7 +1250,7 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_globalLocationNumber">globalLocationNumber</a>: Text
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/globalLocationNumber">Schema.org/globalLocationNumber</a> The <a href="http://www.gs1.org/gln">Global Location Number</a> (GLN, sometimes also referred to as International Location Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit number used to identify parties and physical locations.</p>
             </div>
           </td>
         </tr>
@@ -1187,7 +1265,7 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_hasMap">hasMap</a>: Schema, URL | schema,Map
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/hasMap">Schema.org/hasMap</a> A URL to a map of the place.</p>
             </div>
           </td>
         </tr>
@@ -1232,7 +1310,22 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_isicV4">isicV4</a>: Text
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/isicV4">Schema.org/isicV4</a> The International Standard of Industrial Classification of All Economic Activities (ISIC), Revision 4 code for a particular organization, business person, or place.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_latitude">latitude</a>: Float
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/latitude">http://purl.org/ctdl/terms/latitude</a> Latitude of a location. For example 37.42242 (WGS 84)</p>
             </div>
           </td>
         </tr>
@@ -1247,7 +1340,22 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_logo">logo</a>: Schema, URL | schema,ImageObject
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/logo">Schema.org/logo</a> An associated logo.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_longitude">longitude</a>: Float
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/longitude">http://purl.org/ctdl/terms/longitude</a> The longitude of a location. For example -122.08585 (WGS 84).</p>
             </div>
           </td>
         </tr>
@@ -1277,7 +1385,7 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_map">map</a>: URL
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/map">Schema.org/map</a> A URL to a map of the place.</p>
             </div>
           </td>
         </tr>
@@ -1292,7 +1400,7 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_maps">maps</a>: URL
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/maps">Schema.org/maps</a> A URL to a map of the place.</p>
             </div>
           </td>
         </tr>
@@ -1307,7 +1415,7 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_maximumAttendeeCapacity">maximumAttendeeCapacity</a>: Integer
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/maximumAttendeeCapacity">Schema.org/maximumAttendeeCapacity</a> The total number of individuals that may attend an event or venue.</p>
             </div>
           </td>
         </tr>
@@ -1319,10 +1427,10 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
           </td>
           <td>
             <div class="property-name ">
-              <a href="#props_name">name</a>: Text
+              <a href="#props_name">name</a>: LangString
             </div>
             <div class="short-description">
-              
+              <p><a href="http://purl.org/ctdl/terms/name">http://purl.org/ctdl/terms/name</a> Name or title of the entity.</p>
             </div>
           </td>
         </tr>
@@ -1352,7 +1460,7 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_openingHoursSpecification">openingHoursSpecification</a>: <a href="../classes/OpeningHoursSpecification.html" class="crosslink">OpeningHoursSpecification</a>
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/openingHoursSpecification">Schema.org/openingHoursSpecification</a> The opening hours of a certain place.</p>
             </div>
           </td>
         </tr>
@@ -1397,7 +1505,7 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_photo">photo</a>: Schema, Photograph | schema,ImageObject
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/photo">Schema.org/photo</a> A photograph of this place.</p>
             </div>
           </td>
         </tr>
@@ -1412,7 +1520,37 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_photos">photos</a>: Schema, Photograph | schema,ImageObject
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/photos">Schema.org/photos</a> Photographs of this place.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_postalCode">postalCode</a>: String
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/postalCode">http://purl.org/ctdl/terms/postalCode</a> The postal code. For example, 94043.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_postOfficeBoxNumber">postOfficeBoxNumber</a>: String
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/postOfficeBoxNumber">http://purl.org/ctdl/terms/postOfficeBoxNumber</a> Post office box number for post office addresses.</p>
             </div>
           </td>
         </tr>
@@ -1442,7 +1580,7 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_review">review</a>: <a href="../classes/Review.html" class="crosslink">Review</a>
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/review">Schema.org/review</a> A review of the item.</p>
             </div>
           </td>
         </tr>
@@ -1457,7 +1595,7 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_reviews">reviews</a>: <a href="../classes/Review.html" class="crosslink">Review</a>
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/reviews">Schema.org/reviews</a> Review of the item.</p>
             </div>
           </td>
         </tr>
@@ -1487,7 +1625,7 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_smokingAllowed">smokingAllowed</a>: Boolean
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/smokingAllowed">Schema.org/smokingAllowed</a> Indicates whether it is allowed to smoke in the place, e.g. in the restaurant, hotel or hotel room.</p>
             </div>
           </td>
         </tr>
@@ -1502,7 +1640,37 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_specialOpeningHoursSpecification">specialOpeningHoursSpecification</a>: <a href="../classes/OpeningHoursSpecification.html" class="crosslink">OpeningHoursSpecification</a>
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/specialOpeningHoursSpecification">Schema.org/specialOpeningHoursSpecification</a> The special opening hours of a certain place.\n\nUse this to explicitly override general opening hours brought in scope by [[openingHoursSpecification]] or [[openingHours]].</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_streetAddress">streetAddress</a>: LangString
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/streetAddress">http://purl.org/ctdl/terms/streetAddress</a> Street address. e.g. "1600 Amphitheatre Pkwy".</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_targetContactPoint">targetContactPoint</a>: <a href="../classes/ContactPoint.html" class="crosslink">ContactPoint</a>
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/targetContactPoint">http://purl.org/ctdl/terms/targetContactPoint</a> Options for contacting the organization or person.</p>
             </div>
           </td>
         </tr>
@@ -1517,7 +1685,7 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
               <a href="#props_telephone">telephone</a>: Text
             </div>
             <div class="short-description">
-              
+              <p><a href="http://Schema.org/telephone">Schema.org/telephone</a> The telephone number.</p>
             </div>
           </td>
         </tr>
@@ -1638,8 +1806,9 @@ See also the <a href="/docs/hotels.html">dedicated document on the use of schema
   </div>
 
 
-  <div class="property-description">Schema.org/additionalProperty
-A property-value pair representing an additional characteristics of the entitity, e.g. a product feature or another characteristic for which there is no matching property in schema.org.\n\nNote: Publishers should be aware that applications designed to use specific schema.org properties (e.g. http://schema.org/width, http://schema.org/color, http://schema.org/gtin13, ...) will typically expect such data to be provided using those properties, rather than using the generic property/value mechanism.</div>
+  <div class="property-description"><p><a href="http://Schema.org/additionalProperty">Schema.org/additionalProperty</a>
+A property-value pair representing an additional characteristics of the entitity, e.g. a product feature or another characteristic for which there is no matching property in <a href="http://schema.org">schema.org</a>.\n\nNote: Publishers should be aware that applications designed to use specific <a href="http://schema.org">schema.org</a> properties (e.g. <a href="http://schema.org/width">http://schema.org/width</a>, <a href="http://schema.org/color">http://schema.org/color</a>, <a href="http://schema.org/gtin13">http://schema.org/gtin13</a>, ...) will typically expect such data to be provided using those properties, rather than using the generic property/value mechanism.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -1670,8 +1839,60 @@ An additional type for the item, typically used for adding more specific types f
   </div>
 
 
-  <div class="property-description">Schema.org/address
-Physical address of the item.</div>
+  <div class="property-description"><p><a href="http://Schema.org/address">Schema.org/address</a>
+Physical address of the item.</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_addressCountry" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_Place.java.html#l24"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;Place.java:24</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      addressCountry: LangString
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/addressCountry">http://purl.org/ctdl/terms/addressCountry</a>
+Nation with its own government and occupying a particular territory identified by the two-letter ISO 3166-1 alpha-2 country code.</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_addressLocality" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_Place.java.html#l32"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;Place.java:32</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      addressLocality: LangString
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/addressLocality">http://purl.org/ctdl/terms/addressLocality</a>
+Town, city, or village in which a particular location is situtated.</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_addressRegion" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_Place.java.html#l40"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;Place.java:40</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      addressRegion: LangString
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/addressRegion">http://purl.org/ctdl/terms/addressRegion</a>
+State or province in which a particular location is situtated.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -1686,8 +1907,9 @@ Physical address of the item.</div>
   </div>
 
 
-  <div class="property-description">Schema.org/aggregateRating
-The overall rating, based on a collection of reviews or ratings, of the item.</div>
+  <div class="property-description"><p><a href="http://Schema.org/aggregateRating">Schema.org/aggregateRating</a>
+The overall rating, based on a collection of reviews or ratings, of the item.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -1735,8 +1957,9 @@ An amenity feature (e.g. a characteristic or service) of the Accommodation. This
   </div>
 
 
-  <div class="property-description">Schema.org/branchCode
-A short textual code (also called "store code") that uniquely identifies a place of business. The code is typically assigned by the parentOrganization and used in structured URLs.\n\nFor example, in the URL http://www.starbucks.co.uk/store-locator/etc/detail/3047 the code "3047" is a branchCode for a particular branch.</div>
+  <div class="property-description"><p><a href="http://Schema.org/branchCode">Schema.org/branchCode</a>
+A short textual code (also called "store code") that uniquely identifies a place of business. The code is typically assigned by the parentOrganization and used in structured URLs.\n\nFor example, in the URL <a href="http://www.starbucks.co.uk/store-locator/etc/detail/3047">http://www.starbucks.co.uk/store-locator/etc/detail/3047</a> the code "3047" is a branchCode for a particular branch.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -1751,8 +1974,9 @@ A short textual code (also called "store code") that uniquely identifies a place
   </div>
 
 
-  <div class="property-description">Schema.org/containedIn
-The basic containment relation between a place and one that contains it.</div>
+  <div class="property-description"><p><a href="http://Schema.org/containedIn">Schema.org/containedIn</a>
+The basic containment relation between a place and one that contains it.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -1767,8 +1991,9 @@ The basic containment relation between a place and one that contains it.</div>
   </div>
 
 
-  <div class="property-description">Schema.org/containedInPlace
-The basic containment relation between a place and one that contains it.</div>
+  <div class="property-description"><p><a href="http://Schema.org/containedInPlace">Schema.org/containedInPlace</a>
+The basic containment relation between a place and one that contains it.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -1783,24 +2008,26 @@ The basic containment relation between a place and one that contains it.</div>
   </div>
 
 
-  <div class="property-description">Schema.org/containsPlace
-The basic containment relation between a place and another that it contains.</div>
+  <div class="property-description"><p><a href="http://Schema.org/containsPlace">Schema.org/containsPlace</a>
+The basic containment relation between a place and another that it contains.</p>
+</div>
 
 </div>
 <div class="property item">
   <div id="props_description" class="title">
-    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l48"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:48</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_Place.java.html#l48"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;Place.java:48</code></a></span>
     <h3 class="">
       public
       
       
-      description: Text
+      description: LangString
     </h3>
   </div>
 
 
-  <div class="property-description">Schema.org/description
-A description of the item.</div>
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/description">http://purl.org/ctdl/terms/description</a>
+Statememnt, characterization or account of the entity.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -1831,8 +2058,9 @@ A sub property of description. A short description of the item used to disambigu
   </div>
 
 
-  <div class="property-description">Schema.org/event
-Upcoming or past event associated with this place, organization, or action.</div>
+  <div class="property-description"><p><a href="http://Schema.org/event">Schema.org/event</a>
+Upcoming or past event associated with this place, organization, or action.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -1847,8 +2075,9 @@ Upcoming or past event associated with this place, organization, or action.</div
   </div>
 
 
-  <div class="property-description">Schema.org/events
-Upcoming or past events associated with this place or organization.</div>
+  <div class="property-description"><p><a href="http://Schema.org/events">Schema.org/events</a>
+Upcoming or past events associated with this place or organization.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -1863,8 +2092,9 @@ Upcoming or past events associated with this place or organization.</div>
   </div>
 
 
-  <div class="property-description">Schema.org/faxNumber
-The fax number.</div>
+  <div class="property-description"><p><a href="http://Schema.org/faxNumber">Schema.org/faxNumber</a>
+The fax number.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -1897,8 +2127,27 @@ Typical unit code(s): MTK for square meter, FTK for square foot, or YDK for squa
   </div>
 
 
-  <div class="property-description">Schema.org/geo
-The geo coordinates of the place.</div>
+  <div class="property-description"><p><a href="http://Schema.org/geo">Schema.org/geo</a>
+The geo coordinates of the place.</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_geoURI" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_Place.java.html#l56"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;Place.java:56</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      geoURI: AnyURI
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/geoURI">http://purl.org/ctdl/terms/geoURI</a>
+Entity that describes the longitude, latitude and other location details of a place.
+This may define a place at any scale. Examples include a city, state, province, country, or continent.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -1913,8 +2162,9 @@ The geo coordinates of the place.</div>
   </div>
 
 
-  <div class="property-description">Schema.org/globalLocationNumber
-The [Global Location Number](http://www.gs1.org/gln) (GLN, sometimes also referred to as International Location Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit number used to identify parties and physical locations.</div>
+  <div class="property-description"><p><a href="http://Schema.org/globalLocationNumber">Schema.org/globalLocationNumber</a>
+The <a href="http://www.gs1.org/gln">Global Location Number</a> (GLN, sometimes also referred to as International Location Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit number used to identify parties and physical locations.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -1929,8 +2179,9 @@ The [Global Location Number](http://www.gs1.org/gln) (GLN, sometimes also referr
   </div>
 
 
-  <div class="property-description">Schema.org/hasMap
-A URL to a map of the place.</div>
+  <div class="property-description"><p><a href="http://Schema.org/hasMap">Schema.org/hasMap</a>
+A URL to a map of the place.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -1977,8 +2228,27 @@ An image of the item. This can be a [[URL]] or a fully described [[ImageObject]]
   </div>
 
 
-  <div class="property-description">Schema.org/isicV4
-The International Standard of Industrial Classification of All Economic Activities (ISIC), Revision 4 code for a particular organization, business person, or place.</div>
+  <div class="property-description"><p><a href="http://Schema.org/isicV4">Schema.org/isicV4</a>
+The International Standard of Industrial Classification of All Economic Activities (ISIC), Revision 4 code for a particular organization, business person, or place.</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_latitude" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_Place.java.html#l65"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;Place.java:65</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      latitude: Float
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/latitude">http://purl.org/ctdl/terms/latitude</a>
+Latitude of a location.
+For example 37.42242 (WGS 84)</p>
+</div>
 
 </div>
 <div class="property item">
@@ -1993,8 +2263,27 @@ The International Standard of Industrial Classification of All Economic Activiti
   </div>
 
 
-  <div class="property-description">Schema.org/logo
-An associated logo.</div>
+  <div class="property-description"><p><a href="http://Schema.org/logo">Schema.org/logo</a>
+An associated logo.</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_longitude" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_Place.java.html#l74"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;Place.java:74</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      longitude: Float
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/longitude">http://purl.org/ctdl/terms/longitude</a>
+The longitude of a location.
+For example -122.08585 (WGS 84).</p>
+</div>
 
 </div>
 <div class="property item">
@@ -2025,8 +2314,9 @@ Indicates a page (or other CreativeWork) for which this thing is the main entity
   </div>
 
 
-  <div class="property-description">Schema.org/map
-A URL to a map of the place.</div>
+  <div class="property-description"><p><a href="http://Schema.org/map">Schema.org/map</a>
+A URL to a map of the place.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -2041,8 +2331,9 @@ A URL to a map of the place.</div>
   </div>
 
 
-  <div class="property-description">Schema.org/maps
-A URL to a map of the place.</div>
+  <div class="property-description"><p><a href="http://Schema.org/maps">Schema.org/maps</a>
+A URL to a map of the place.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -2057,24 +2348,26 @@ A URL to a map of the place.</div>
   </div>
 
 
-  <div class="property-description">Schema.org/maximumAttendeeCapacity
-The total number of individuals that may attend an event or venue.</div>
+  <div class="property-description"><p><a href="http://Schema.org/maximumAttendeeCapacity">Schema.org/maximumAttendeeCapacity</a>
+The total number of individuals that may attend an event or venue.</p>
+</div>
 
 </div>
 <div class="property item">
   <div id="props_name" class="title">
-    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l16"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:16</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_Place.java.html#l83"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;Place.java:83</code></a></span>
     <h3 class="">
       public
       
       
-      name: Text
+      name: LangString
     </h3>
   </div>
 
 
-  <div class="property-description">Schema.org/name
-The name of the item.</div>
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/name">http://purl.org/ctdl/terms/name</a>
+Name or title of the entity.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -2107,8 +2400,9 @@ Typical unit code(s): ROM for room or C62 for no unit. The type of room can be p
   </div>
 
 
-  <div class="property-description">Schema.org/openingHoursSpecification
-The opening hours of a certain place.</div>
+  <div class="property-description"><p><a href="http://Schema.org/openingHoursSpecification">Schema.org/openingHoursSpecification</a>
+The opening hours of a certain place.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -2157,8 +2451,9 @@ Indicates whether pets are allowed to enter the accommodation or lodging busines
   </div>
 
 
-  <div class="property-description">Schema.org/photo
-A photograph of this place.</div>
+  <div class="property-description"><p><a href="http://Schema.org/photo">Schema.org/photo</a>
+A photograph of this place.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -2173,8 +2468,43 @@ A photograph of this place.</div>
   </div>
 
 
-  <div class="property-description">Schema.org/photos
-Photographs of this place.</div>
+  <div class="property-description"><p><a href="http://Schema.org/photos">Schema.org/photos</a>
+Photographs of this place.</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_postalCode" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_Place.java.html#l91"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;Place.java:91</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      postalCode: String
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/postalCode">http://purl.org/ctdl/terms/postalCode</a>
+The postal code. For example, 94043.</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_postOfficeBoxNumber" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_Place.java.html#l99"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;Place.java:99</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      postOfficeBoxNumber: String
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/postOfficeBoxNumber">http://purl.org/ctdl/terms/postOfficeBoxNumber</a>
+Post office box number for post office addresses.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -2205,8 +2535,9 @@ Indicates a potential Action, which describes an idealized action in which this 
   </div>
 
 
-  <div class="property-description">Schema.org/review
-A review of the item.</div>
+  <div class="property-description"><p><a href="http://Schema.org/review">Schema.org/review</a>
+A review of the item.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -2221,8 +2552,9 @@ A review of the item.</div>
   </div>
 
 
-  <div class="property-description">Schema.org/reviews
-Review of the item.</div>
+  <div class="property-description"><p><a href="http://Schema.org/reviews">Schema.org/reviews</a>
+Review of the item.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -2253,8 +2585,9 @@ URL of a reference Web page that unambiguously indicates the item's identity. E.
   </div>
 
 
-  <div class="property-description">Schema.org/smokingAllowed
-Indicates whether it is allowed to smoke in the place, e.g. in the restaurant, hotel or hotel room.</div>
+  <div class="property-description"><p><a href="http://Schema.org/smokingAllowed">Schema.org/smokingAllowed</a>
+Indicates whether it is allowed to smoke in the place, e.g. in the restaurant, hotel or hotel room.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -2269,8 +2602,43 @@ Indicates whether it is allowed to smoke in the place, e.g. in the restaurant, h
   </div>
 
 
-  <div class="property-description">Schema.org/specialOpeningHoursSpecification
-The special opening hours of a certain place.\n\nUse this to explicitly override general opening hours brought in scope by [[openingHoursSpecification]] or [[openingHours]].</div>
+  <div class="property-description"><p><a href="http://Schema.org/specialOpeningHoursSpecification">Schema.org/specialOpeningHoursSpecification</a>
+The special opening hours of a certain place.\n\nUse this to explicitly override general opening hours brought in scope by [[openingHoursSpecification]] or [[openingHours]].</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_streetAddress" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_Place.java.html#l107"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;Place.java:107</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      streetAddress: LangString
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/streetAddress">http://purl.org/ctdl/terms/streetAddress</a>
+Street address. e.g. "1600 Amphitheatre Pkwy".</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_targetContactPoint" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_Place.java.html#l115"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;Place.java:115</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      targetContactPoint: <a href="../classes/ContactPoint.html" class="crosslink">ContactPoint</a>
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/targetContactPoint">http://purl.org/ctdl/terms/targetContactPoint</a>
+Options for contacting the organization or person.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -2285,8 +2653,9 @@ The special opening hours of a certain place.\n\nUse this to explicitly override
   </div>
 
 
-  <div class="property-description">Schema.org/telephone
-The telephone number.</div>
+  <div class="property-description"><p><a href="http://Schema.org/telephone">Schema.org/telephone</a>
+The telephone number.</p>
+</div>
 
 </div>
 <div class="property item">

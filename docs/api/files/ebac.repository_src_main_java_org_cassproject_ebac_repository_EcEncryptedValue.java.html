@@ -5,7 +5,7 @@
     <title>ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java - EC Library</title>
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.0/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -37,6 +37,8 @@
                             <li><a href="../modules/org.json.ld.html">org.json.ld</a>
                             </li>
                             <li><a href="../modules/org.schema.html">org.schema</a>
+                            </li>
+                            <li><a href="../modules/org.w3.skos.html">org.w3.skos</a>
                             </li>
                     </ul>
                 </div>
@@ -178,6 +180,7 @@
                             <li><a href="../classes/Clip.html">Clip</a></li>
                             <li><a href="../classes/ClothingStore.html">ClothingStore</a></li>
                             <li><a href="../classes/Code.html">Code</a></li>
+                            <li><a href="../classes/Collection.html">Collection</a></li>
                             <li><a href="../classes/CollectionPage.html">CollectionPage</a></li>
                             <li><a href="../classes/CollegeOrUniversity.html">CollegeOrUniversity</a></li>
                             <li><a href="../classes/ComedyClub.html">ComedyClub</a></li>
@@ -190,6 +193,8 @@
                             <li><a href="../classes/CompoundPriceSpecification.html">CompoundPriceSpecification</a></li>
                             <li><a href="../classes/ComputerLanguage.html">ComputerLanguage</a></li>
                             <li><a href="../classes/ComputerStore.html">ComputerStore</a></li>
+                            <li><a href="../classes/Concept.html">Concept</a></li>
+                            <li><a href="../classes/ConceptScheme.html">ConceptScheme</a></li>
                             <li><a href="../classes/ConditionManifest.html">ConditionManifest</a></li>
                             <li><a href="../classes/ConditionProfile.html">ConditionProfile</a></li>
                             <li><a href="../classes/ConfirmAction.html">ConfirmAction</a></li>
@@ -203,6 +208,7 @@
                             <li><a href="../classes/Conversation.html">Conversation</a></li>
                             <li><a href="../classes/CookAction.html">CookAction</a></li>
                             <li><a href="../classes/Corporation.html">Corporation</a></li>
+                            <li><a href="../classes/CostManifest.html">CostManifest</a></li>
                             <li><a href="../classes/CostProfile.html">CostProfile</a></li>
                             <li><a href="../classes/Country.html">Country</a></li>
                             <li><a href="../classes/Course.html">Course</a></li>
@@ -524,6 +530,7 @@
                             <li><a href="../classes/OpeningHoursSpecification.html">OpeningHoursSpecification</a></li>
                             <li><a href="../classes/Order.html">Order</a></li>
                             <li><a href="../classes/OrderAction.html">OrderAction</a></li>
+                            <li><a href="../classes/OrderedCollection.html">OrderedCollection</a></li>
                             <li><a href="../classes/OrderItem.html">OrderItem</a></li>
                             <li><a href="../classes/OrderStatus.html">OrderStatus</a></li>
                             <li><a href="../classes/Organization.html">Organization</a></li>
@@ -578,6 +585,7 @@
                             <li><a href="../classes/ProductModel.html">ProductModel</a></li>
                             <li><a href="../classes/ProfessionalDoctorate.html">ProfessionalDoctorate</a></li>
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
+                            <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
@@ -836,6 +844,8 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 	}
 
 	public static EcEncryptedValue revive(EcEncryptedValue partiallyRehydratedObject) {
+		if (partiallyRehydratedObject == null)
+			return null;
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(partiallyRehydratedObject);
 		return v;
@@ -1262,6 +1272,20 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 	}
 
 	/**
+	 * Decrypts an encrypted value into a string using an alternative secret.
+	 *
+	 * @return {String} Decrypted string value
+	 * @memberOf EcEncryptedValue
+	 * @method decryptIntoString
+	 */
+	public String decryptIntoStringUsingSecret(EbacEncryptedSecret decryptSecret) {
+		if (decryptSecret != null) {
+			return EcAesCtr.decrypt(payload, decryptSecret.secret, decryptSecret.iv);
+		}
+		return null;
+	}
+
+	/**
 	 * Asynchronously decrypts an encrypted value into a string
 	 *
 	 * @param {Callback1&lt;String&gt;} success Callback triggered after successfully
@@ -1285,6 +1309,27 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 				}
 			}
 		}, failure);
+	}
+
+	/**
+	 * Asynchronously decrypts an encrypted value into a string
+	 *
+	 * @param {Callback1&lt;String&gt;} success Callback triggered after successfully
+	 *                            decrypted, returns decrypted string
+	 * @param {Callback1&lt;String&gt;} failure Callback triggered if error during
+	 *                            decryption
+	 * @memberOf EcEncryptedValue
+	 * @method decryptIntoStringAsync
+	 */
+	public void decryptIntoStringUsingSecretAsync(EbacEncryptedSecret decryptSecret, final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure) {
+		final EcEncryptedValue me = this;
+		if (decryptSecret != null) {
+			if (me.context == Ebac.context_0_2 || me.context == Ebac.context_0_3) {
+				if (base64.decode(decryptSecret.iv).byteLength == 32)
+					decryptSecret.iv = base64.encode(base64.decode(decryptSecret.iv).slice(0, 16));
+			}
+			EcAesCtrAsync.decrypt(me.payload, decryptSecret.secret, decryptSecret.iv, success, failure);
+		}
 	}
 
 	/**
@@ -1317,18 +1362,19 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 	 * @method decryptSecret
 	 */
 	public EbacEncryptedSecret decryptSecret() {
+		int candidateIndex = 0;
 		// See if I am an owner.
 		if (owner != null) {
 			for (int i = 0; i &lt; owner.$length(); i++) {
 				EcPpk decryptionKey = EcIdentityManager.getPpk(EcPk.fromPem(owner.$get(i)));
 				if (decryptionKey == null) {
+					candidateIndex++;
 					continue;
 				}
-				EbacEncryptedSecret decrypted = decryptSecretByKey(decryptionKey);
+				EbacEncryptedSecret decrypted = decryptSecretByKey(decryptionKey, candidateIndex);
 				if (decrypted != null) {
 					return decrypted;
 				}
-
 			}
 		}
 		// See if I have read-only access.
@@ -1336,9 +1382,10 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 			for (int i = 0; i &lt; reader.$length(); i++) {
 				EcPpk decryptionKey = EcIdentityManager.getPpk(EcPk.fromPem(reader.$get(i)));
 				if (decryptionKey == null) {
+					candidateIndex++;
 					continue;
 				}
-				EbacEncryptedSecret decrypted = decryptSecretByKey(decryptionKey);
+				EbacEncryptedSecret decrypted = decryptSecretByKey(decryptionKey, candidateIndex);
 				if (decrypted != null) {
 					return decrypted;
 				}
@@ -1347,9 +1394,40 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 		// Last resort, try all the keys I have on all the possible locks.
 		for (int i = 0; i &lt; EcIdentityManager.ids.$length(); i++) {
 			EcPpk decryptionKey = EcIdentityManager.ids.$get(i).ppk;
-			EbacEncryptedSecret decrypted = decryptSecretByKey(decryptionKey);
+			EbacEncryptedSecret decrypted = decryptSecretByKey(decryptionKey, -1);
 			if (decrypted != null) {
 				return decrypted;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Attempts to decrypt secret with a specific key
+	 *
+	 * @param {EcPpk} decryptionKey Key to attempt secret decryption
+	 * @return {EbacEncryptedSecret} Decrypted Secret
+	 * @memberOf EcEncryptedValue
+	 * @method decryptSecretByKey
+	 */
+	private EbacEncryptedSecret decryptSecretByKey(EcPpk decryptionKey, int tryThisIndexFirst) {
+		EbacEncryptedSecret encryptedSecret = null;
+		if (this.secret != null) {
+			if (tryThisIndexFirst &gt;= 0)
+				try {
+					encryptedSecret = tryDecryptSecretByKeyAndIndex(decryptionKey, tryThisIndexFirst);
+					if (encryptedSecret != null)
+						return encryptedSecret;
+				} catch (Exception ex) {
+				}
+			for (int j = 0; j &lt; this.secret.$length(); j++) {
+				if (tryThisIndexFirst &lt; 0 || j != tryThisIndexFirst)
+					try {
+						encryptedSecret = tryDecryptSecretByKeyAndIndex(decryptionKey, j);
+					} catch (Exception ex) {
+					}
+				if (encryptedSecret != null)
+					return encryptedSecret;
 			}
 		}
 		return null;
@@ -1367,7 +1445,8 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 	 * @method decryptSecretAsync
 	 */
 	public void decryptSecretAsync(final Callback1&lt;EbacEncryptedSecret&gt; success, final Callback1&lt;String&gt; failure) {
-		Array&lt;EcPpk&gt; ppks = new Array&lt;&gt;();
+		final Array&lt;EcPpk&gt; ppks = new Array&lt;&gt;();
+		final Array&lt;Integer&gt; estimatedIndices = new Array&lt;&gt;();
 
 		// See if I am an owner.
 		if (owner != null) {
@@ -1376,6 +1455,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 				if (decryptionKey != null) {
 					if (!decryptionKey.inArray(ppks)) {
 						ppks.push(decryptionKey);
+						estimatedIndices.push(i);
 					}
 				}
 			}
@@ -1387,16 +1467,8 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 				if (decryptionKey != null) {
 					if (!decryptionKey.inArray(ppks)) {
 						ppks.push(decryptionKey);
+						estimatedIndices.push(i + owner.$length());
 					}
-				}
-			}
-		}
-		// Last resort, try all the keys I have on all the possible locks.
-		for (int i = 0; i &lt; EcIdentityManager.ids.$length(); i++) {
-			EcPpk decryptionKey = EcIdentityManager.ids.$get(i).ppk;
-			if (decryptionKey != null) {
-				if (!decryptionKey.inArray(ppks)) {
-					ppks.push(decryptionKey);
 				}
 			}
 		}
@@ -1405,7 +1477,11 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 		helper.each(ppks, new Callback2&lt;EcPpk, Callback0&gt;() {
 			@Override
 			public void $invoke(EcPpk decryptionKey, final Callback0 countdown) {
-				me.decryptSecretByKeyAsync(decryptionKey, new Callback1&lt;EbacEncryptedSecret&gt;() {
+				int estimatedIndex = -1;
+				for (int i = 0; i &lt; ppks.$length(); i++)
+					if (ppks.$get(i).equals(decryptionKey))
+						estimatedIndex = estimatedIndices.$get(i);
+				me.decryptSecretByKeyAsync(decryptionKey, estimatedIndex, new Callback1&lt;EbacEncryptedSecret&gt;() {
 					@Override
 					public void $invoke(EbacEncryptedSecret p1) {
 						if (helper.counter == -1) {
@@ -1427,33 +1503,27 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 				failure.$invoke(&quot;Could not decrypt secret.&quot;);
 			}
 		});
+
+		// Last resort, try all the keys I have on all the possible locks.
+		// Disabled for performance reasons. I hope this won&#x27;t bite us.
+//		for (int i = 0; i &lt; EcIdentityManager.ids.$length(); i++) {
+//			EcPpk decryptionKey = EcIdentityManager.ids.$get(i).ppk;
+//			if (decryptionKey != null) {
+//				if (!decryptionKey.inArray(ppks)) {
+//					ppks.push(decryptionKey);
+//				}
+//			}
+//		}
 	}
 
-	/**
-	 * Attempts to decrypt secret with a specific key
-	 *
-	 * @param {EcPpk} decryptionKey Key to attempt secret decryption
-	 * @return {EbacEncryptedSecret} Decrypted Secret
-	 * @memberOf EcEncryptedValue
-	 * @method decryptSecretByKey
-	 */
-	private EbacEncryptedSecret decryptSecretByKey(EcPpk decryptionKey) {
-		EbacEncryptedSecret encryptedSecret = null;
-		if (this.secret != null) {
-			for (int j = 0; j &lt; this.secret.$length(); j++) {
-				try {
-					String decryptedSecret = null;
-					decryptedSecret = EcRsaOaep.decrypt(decryptionKey, this.secret.$get(j));
-					if (!EcLinkedData.isProbablyJson(decryptedSecret)) {
-						continue;
-					}
-					encryptedSecret = EbacEncryptedSecret.fromEncryptableJson(JSGlobal.JSON.parse(decryptedSecret));
-				} catch (Exception ex) {
-
-				}
-			}
+	private EbacEncryptedSecret tryDecryptSecretByKeyAndIndex(EcPpk decryptionKey, int j) {
+		String decryptedSecret = null;
+		decryptedSecret = EcRsaOaep.decrypt(decryptionKey, this.secret.$get(j));
+		if (EcLinkedData.isProbablyJson(decryptedSecret)) {
+			EbacEncryptedSecret encryptedSecret = EbacEncryptedSecret.fromEncryptableJson(JSGlobal.JSON.parse(decryptedSecret));
+			return encryptedSecret;
 		}
-		return encryptedSecret;
+		return null;
 	}
 
 	/**
@@ -1467,42 +1537,66 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 	 * @memberOf EcEncryptedValue
 	 * @method decryptSecretByKeyAsync
 	 */
-	private void decryptSecretByKeyAsync(final EcPpk decryptionKey, final Callback1&lt;EbacEncryptedSecret&gt; success, final Callback1&lt;String&gt; failure) {
+	private void decryptSecretByKeyAsync(final EcPpk decryptionKey, final int estimatedIndex, final Callback1&lt;EbacEncryptedSecret&gt; success, final Callback1&lt;String&gt; failure) {
 		EbacEncryptedSecret encryptedSecret = null;
+		final EcEncryptedValue me = this;
 		if (this.secret != null) {
-			final EcAsyncHelper&lt;String&gt; helper = new EcAsyncHelper&lt;String&gt;();
-			helper.each(secret, new Callback2&lt;String, Callback0&gt;() {
-				@Override
-				public void $invoke(String decryptionSecret, final Callback0 decrement) {
-					EcRsaOaepAsync.decrypt(decryptionKey, decryptionSecret, new Callback1&lt;String&gt;() {
-						@Override
-						public void $invoke(String decryptedSecret) {
-							if (helper.counter == -1) {
-								return;
-							}
-							if (!EcLinkedData.isProbablyJson(decryptedSecret)) {
-								decrement.$invoke();
-							} else {
-								helper.stop();
-								success.$invoke(EbacEncryptedSecret.fromEncryptableJson(JSGlobal.JSON.parse(decryptedSecret)));
-							}
+			if (estimatedIndex &lt; 0) {
+				decryptSecretsByKeyAsync(decryptionKey, success, failure);
+			} else {
+				EcRsaOaepAsync.decrypt(decryptionKey, secret.$get(estimatedIndex), new Callback1&lt;String&gt;() {
+					@Override
+					public void $invoke(String decryptedSecret) {
+						if (!EcLinkedData.isProbablyJson(decryptedSecret)) {
+							me.decryptSecretsByKeyAsync(decryptionKey, success, failure);
+						} else {
+							success.$invoke(EbacEncryptedSecret.fromEncryptableJson(JSGlobal.JSON.parse(decryptedSecret)));
 						}
-					}, new Callback1&lt;String&gt;() {
-						@Override
-						public void $invoke(String arg0) {
-							decrement.$invoke();
-						}
-					});
-				}
-			}, new Callback1&lt;Array&lt;String&gt;&gt;() {
-
-				@Override
-				public void $invoke(Array&lt;String&gt; arg0) {
-					failure.$invoke(&quot;Could not find decryption key.&quot;);
-				}
-			});
+					}
+				}, new Callback1&lt;String&gt;() {
+					@Override
+					public void $invoke(String arg0) {
+						me.decryptSecretsByKeyAsync(decryptionKey, success, failure);
+					}
+				});
+			}
 		} else
 			failure.$invoke(&quot;Secret field is empty.&quot;);
+	}
+
+	private void decryptSecretsByKeyAsync(final EcPpk decryptionKey, final Callback1&lt;EbacEncryptedSecret&gt; success, final Callback1&lt;String&gt; failure) {
+
+		final EcAsyncHelper&lt;String&gt; helper = new EcAsyncHelper&lt;String&gt;();
+		helper.each(secret, new Callback2&lt;String, Callback0&gt;() {
+			@Override
+			public void $invoke(String decryptionSecret, final Callback0 decrement) {
+				EcRsaOaepAsync.decrypt(decryptionKey, decryptionSecret, new Callback1&lt;String&gt;() {
+					@Override
+					public void $invoke(String decryptedSecret) {
+						if (helper.counter == -1) {
+							return;
+						}
+						if (!EcLinkedData.isProbablyJson(decryptedSecret)) {
+							decrement.$invoke();
+						} else {
+							helper.stop();
+							success.$invoke(EbacEncryptedSecret.fromEncryptableJson(JSGlobal.JSON.parse(decryptedSecret)));
+						}
+					}
+				}, new Callback1&lt;String&gt;() {
+					@Override
+					public void $invoke(String arg0) {
+						decrement.$invoke();
+					}
+				});
+			}
+		}, new Callback1&lt;Array&lt;String&gt;&gt;() {
+
+			@Override
+			public void $invoke(Array&lt;String&gt; arg0) {
+				failure.$invoke(&quot;Could not find decryption key.&quot;);
+			}
+		});
 	}
 
 	/**
@@ -1522,7 +1616,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 
 		Array&lt;String&gt; typeSplit = JSCollections.$castArray(type.split(&quot;/&quot;));
 
-		return this.encryptedType.equals(type) || this.encryptedType.equals(typeSplit.$get(typeSplit.$length() - 1));
+		return this.encryptedType == type || this.encryptedType == typeSplit.$get(typeSplit.$length() - 1);
 	}
 
 	/**
@@ -1538,7 +1632,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 			reader = new Array&lt;String&gt;();
 		}
 		for (int i = 0; i &lt; reader.$length(); i++) {
-			if (reader.$get(i).equals(pem)) {
+			if (reader.$get(i) == pem) {
 				return;
 			}
 		}
@@ -1568,7 +1662,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 			reader = new Array&lt;String&gt;();
 		}
 		for (int i = 0; i &lt; reader.$length(); i++) {
-			if (reader.$get(i).equals(pem)) {
+			if (reader.$get(i) == pem) {
 				reader.splice(i, 1);
 			}
 		}

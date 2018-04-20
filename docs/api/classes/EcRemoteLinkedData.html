@@ -5,7 +5,7 @@
     <title>EcRemoteLinkedData - EC Library</title>
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.0/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -37,6 +37,8 @@
                             <li><a href="../modules/org.json.ld.html">org.json.ld</a>
                             </li>
                             <li><a href="../modules/org.schema.html">org.schema</a>
+                            </li>
+                            <li><a href="../modules/org.w3.skos.html">org.w3.skos</a>
                             </li>
                     </ul>
                 </div>
@@ -178,6 +180,7 @@
                             <li><a href="../classes/Clip.html">Clip</a></li>
                             <li><a href="../classes/ClothingStore.html">ClothingStore</a></li>
                             <li><a href="../classes/Code.html">Code</a></li>
+                            <li><a href="../classes/Collection.html">Collection</a></li>
                             <li><a href="../classes/CollectionPage.html">CollectionPage</a></li>
                             <li><a href="../classes/CollegeOrUniversity.html">CollegeOrUniversity</a></li>
                             <li><a href="../classes/ComedyClub.html">ComedyClub</a></li>
@@ -190,6 +193,8 @@
                             <li><a href="../classes/CompoundPriceSpecification.html">CompoundPriceSpecification</a></li>
                             <li><a href="../classes/ComputerLanguage.html">ComputerLanguage</a></li>
                             <li><a href="../classes/ComputerStore.html">ComputerStore</a></li>
+                            <li><a href="../classes/Concept.html">Concept</a></li>
+                            <li><a href="../classes/ConceptScheme.html">ConceptScheme</a></li>
                             <li><a href="../classes/ConditionManifest.html">ConditionManifest</a></li>
                             <li><a href="../classes/ConditionProfile.html">ConditionProfile</a></li>
                             <li><a href="../classes/ConfirmAction.html">ConfirmAction</a></li>
@@ -203,6 +208,7 @@
                             <li><a href="../classes/Conversation.html">Conversation</a></li>
                             <li><a href="../classes/CookAction.html">CookAction</a></li>
                             <li><a href="../classes/Corporation.html">Corporation</a></li>
+                            <li><a href="../classes/CostManifest.html">CostManifest</a></li>
                             <li><a href="../classes/CostProfile.html">CostProfile</a></li>
                             <li><a href="../classes/Country.html">Country</a></li>
                             <li><a href="../classes/Course.html">Course</a></li>
@@ -524,6 +530,7 @@
                             <li><a href="../classes/OpeningHoursSpecification.html">OpeningHoursSpecification</a></li>
                             <li><a href="../classes/Order.html">Order</a></li>
                             <li><a href="../classes/OrderAction.html">OrderAction</a></li>
+                            <li><a href="../classes/OrderedCollection.html">OrderedCollection</a></li>
                             <li><a href="../classes/OrderItem.html">OrderItem</a></li>
                             <li><a href="../classes/OrderStatus.html">OrderStatus</a></li>
                             <li><a href="../classes/Organization.html">Organization</a></li>
@@ -578,6 +585,7 @@
                             <li><a href="../classes/ProductModel.html">ProductModel</a></li>
                             <li><a href="../classes/ProfessionalDoctorate.html">ProfessionalDoctorate</a></li>
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
+                            <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
@@ -826,16 +834,20 @@
                       <li><a href="#method_addOwner">addOwner</a></li>
                       <li><a href="#method_addReader">addReader</a></li>
                       <li><a href="#method_assignId">assignId</a></li>
+                      <li><a href="#method_assignId">assignId</a></li>
                       <li><a href="#method_atIfy">atIfy</a></li>
+                      <li><a href="#method_canEdit">canEdit</a></li>
                       <li><a href="#method_canEdit">canEdit</a></li>
                       <li><a href="#method_copyFrom">copyFrom</a></li>
                       <li><a href="#method_deAtify">deAtify</a></li>
                       <li><a href="#method_generateId">generateId</a></li>
+                      <li><a href="#method_generateShortId">generateShortId</a></li>
                       <li><a href="#method_getFullType">getFullType</a></li>
                       <li><a href="#method_getGuid">getGuid</a></li>
                       <li><a href="#method_getSearchStringByType">getSearchStringByType</a></li>
                       <li><a href="#method_getServerBaseUrl">getServerBaseUrl</a></li>
                       <li><a href="#method_getTypes">getTypes</a></li>
+                      <li><a href="#method_hasOwner">hasOwner</a></li>
                       <li><a href="#method_hasOwner">hasOwner</a></li>
                       <li><a href="#method_invalid">invalid</a></li>
                       <li><a href="#method_isA">isA</a></li>
@@ -1083,10 +1095,40 @@ permission controls, signing, identifying and locating the object.</p>
           </td>
           <td>
             <div class="method-name ">
+              <a href="#method_assignId">assignId</a>(server, uniqueIdentifier)
+            </div>
+            <div class="short-description">
+              <p>Will generate an identifier using the server URL provided (usually from an EcRepository) and unique identifier.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="method-name ">
               <a href="#method_atIfy">atIfy</a>( ): Object
             </div>
             <div class="short-description">
               
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="method-name ">
+              <a href="#method_canEdit">canEdit</a>(pk): Boolean
+            </div>
+            <div class="short-description">
+              <p>Determines if the PK matches an owner or if the object is public. Homogenizes the PEM strings for comparison. Homogenization is necessary for comparing PKCS#1 and PKCS#8 or PKs with Certificates, etc.</p>
             </div>
           </td>
         </tr>
@@ -1147,6 +1189,21 @@ permission controls, signing, identifying and locating the object.</p>
             </div>
             <div class="short-description">
               <p>Will generate an identifier using the server URL provided (usually from an EcRepository).</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="method-name ">
+              <a href="#method_generateShortId">generateShortId</a>(server)
+            </div>
+            <div class="short-description">
+              <p>Will generate an short (non-versioned) identifier using the server URL provided (usually from an EcRepository).</p>
             </div>
           </td>
         </tr>
@@ -1222,6 +1279,21 @@ permission controls, signing, identifying and locating the object.</p>
             </div>
             <div class="short-description">
               
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="method-name ">
+              <a href="#method_hasOwner">hasOwner</a>(pk): Boolean
+            </div>
+            <div class="short-description">
+              <p>Determines if the object has a reader identified by pk. Homogenizes the PEM strings for comparison. Homogenization is necessary for comparing PKCS#1 and PKCS#8 or PKs with Certificates, etc.</p>
             </div>
           </td>
         </tr>
@@ -1544,7 +1616,7 @@ Warning: Will remove identifier if the identifier is composed solely of digits!!
         <h2 id="public-properties">Public Properties</h2>
 <div class="property item">
   <div id="props_context" class="title">
-    <span class="source-link"><a href="../files/org.json-ld_src_main_java_org_json_ld_EcLinkedData.java.html#l25"><code>org.json-ld&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;json&#x2F;ld&#x2F;EcLinkedData.java:25</code></a></span>
+    <span class="source-link"><a href="../files/org.json-ld_src_main_java_org_json_ld_EcLinkedData.java.html#l28"><code>org.json-ld&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;json&#x2F;ld&#x2F;EcLinkedData.java:28</code></a></span>
     <h3 class="">
       public
       
@@ -1631,7 +1703,7 @@ string.</p>
 </div>
 <div class="property item">
   <div id="props_type" class="title">
-    <span class="source-link"><a href="../files/org.json-ld_src_main_java_org_json_ld_EcLinkedData.java.html#l18"><code>org.json-ld&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;json&#x2F;ld&#x2F;EcLinkedData.java:18</code></a></span>
+    <span class="source-link"><a href="../files/org.json-ld_src_main_java_org_json_ld_EcLinkedData.java.html#l21"><code>org.json-ld&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;json&#x2F;ld&#x2F;EcLinkedData.java:21</code></a></span>
     <h3 class="">
       public
       
@@ -1652,7 +1724,7 @@ string.</p>
     <h2 id="public-methods">Public Methods</h2>
 <div class="method item">
     <div id="method_addOwner" class="title">
-        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l267"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:267</code></a></span>
+        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l345"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:345</code></a></span>
         <h3 class="">
             public
             
@@ -1702,7 +1774,7 @@ Note that this method invalidates all signatures.</p>
 </div>
 <div class="method item">
     <div id="method_addReader" class="title">
-        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l306"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:306</code></a></span>
+        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l384"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:384</code></a></span>
         <h3 class="">
             public
             
@@ -1752,7 +1824,71 @@ Note that this method invalidates all signatures.</p>
 </div>
 <div class="method item">
     <div id="method_assignId" class="title">
-        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l118"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:118</code></a></span>
+        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l156"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:156</code></a></span>
+        <h3 class="">
+            public
+            
+            
+            assignId(server, uniqueIdentifier)
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Will generate an identifier using the server URL provided (usually from
+an EcRepository) and unique identifier.</p>
+</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>server</td>
+              <td>String</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Base URL of the server's repository functionality.</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>uniqueIdentifier</td>
+              <td>String</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Canonical identifier. Must contain a letter or symbol.</p>
+</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+
+
+</div>
+<div class="method item">
+    <div id="method_assignId" class="title">
+        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l136"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:136</code></a></span>
         <h3 class="">
             public
             
@@ -1816,7 +1952,7 @@ an EcRepository) and unique identifier.</p>
 </div>
 <div class="method item">
     <div id="method_atIfy" class="title">
-        <span class="source-link"><a href="../files/org.json-ld_src_main_java_org_json_ld_EcLinkedData.java.html#l103"><code>org.json-ld&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;json&#x2F;ld&#x2F;EcLinkedData.java:103</code></a></span>
+        <span class="source-link"><a href="../files/org.json-ld_src_main_java_org_json_ld_EcLinkedData.java.html#l106"><code>org.json-ld&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;json&#x2F;ld&#x2F;EcLinkedData.java:106</code></a></span>
         <h3 class="">
             public
             
@@ -1847,7 +1983,66 @@ front of appropriate fields.</div>
 </div>
 <div class="method item">
     <div id="method_canEdit" class="title">
-        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l158"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:158</code></a></span>
+        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l231"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:231</code></a></span>
+        <h3 class="">
+            public
+            
+            
+            canEdit(pk): Boolean
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Determines if the PK matches an owner or if the object is public.
+Homogenizes the PEM strings for comparison.
+Homogenization is necessary for comparing PKCS#1 and PKCS#8 or PKs with Certificates, etc.</p>
+</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>pk</td>
+              <td><a href="../classes/EcPk.html" class="crosslink">EcPk</a></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Public Key of the owner.</p>
+</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+      <div class="return">
+        <h4>Return:</h4>
+        <div>
+          <span class="return-type">Boolean</span>
+          <span class="return-description"><p>True if owner is represented by the PK, false otherwise.</p>
+</span>
+        </div>
+      </div>
+
+
+</div>
+<div class="method item">
+    <div id="method_canEdit" class="title">
+        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l216"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:216</code></a></span>
         <h3 class="">
             public
             
@@ -1906,7 +2101,7 @@ Homogenization is necessary for comparing PKCS#1 and PKCS#8 or PKs with Certific
 </div>
 <div class="method item">
     <div id="method_copyFrom" class="title">
-        <span class="source-link"><a href="../files/org.json-ld_src_main_java_org_json_ld_EcLinkedData.java.html#l218"><code>org.json-ld&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;json&#x2F;ld&#x2F;EcLinkedData.java:218</code></a></span>
+        <span class="source-link"><a href="../files/org.json-ld_src_main_java_org_json_ld_EcLinkedData.java.html#l232"><code>org.json-ld&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;json&#x2F;ld&#x2F;EcLinkedData.java:232</code></a></span>
         <h3 class="">
             public
             
@@ -1960,7 +2155,7 @@ their type, it is this or factory hell.</div>
 </div>
 <div class="method item">
     <div id="method_deAtify" class="title">
-        <span class="source-link"><a href="../files/org.json-ld_src_main_java_org_json_ld_EcLinkedData.java.html#l252"><code>org.json-ld&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;json&#x2F;ld&#x2F;EcLinkedData.java:252</code></a></span>
+        <span class="source-link"><a href="../files/org.json-ld_src_main_java_org_json_ld_EcLinkedData.java.html#l299"><code>org.json-ld&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;json&#x2F;ld&#x2F;EcLinkedData.java:299</code></a></span>
         <h3 class="">
             public
             
@@ -2039,8 +2234,58 @@ an EcRepository).</p>
 
 </div>
 <div class="method item">
+    <div id="method_generateShortId" class="title">
+        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l118"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:118</code></a></span>
+        <h3 class="">
+            public
+            
+            
+            generateShortId(server)
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Will generate an short (non-versioned) identifier using the server URL provided (usually from
+an EcRepository).</p>
+</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>server</td>
+              <td>String</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Base URL of the server's repository functionality.</p>
+</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+
+
+</div>
+<div class="method item">
     <div id="method_getFullType" class="title">
-        <span class="source-link"><a href="../files/org.json-ld_src_main_java_org_json_ld_EcLinkedData.java.html#l198"><code>org.json-ld&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;json&#x2F;ld&#x2F;EcLinkedData.java:198</code></a></span>
+        <span class="source-link"><a href="../files/org.json-ld_src_main_java_org_json_ld_EcLinkedData.java.html#l201"><code>org.json-ld&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;json&#x2F;ld&#x2F;EcLinkedData.java:201</code></a></span>
         <h3 class="">
             public
             
@@ -2070,7 +2315,7 @@ the type to be defined in @context.</div>
 </div>
 <div class="method item">
     <div id="method_getGuid" class="title">
-        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l412"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:412</code></a></span>
+        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l490"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:490</code></a></span>
         <h3 class="">
             public
             
@@ -2098,7 +2343,7 @@ the type to be defined in @context.</div>
 </div>
 <div class="method item">
     <div id="method_getSearchStringByType" class="title">
-        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l437"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:437</code></a></span>
+        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l515"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:515</code></a></span>
         <h3 class="">
             public
             
@@ -2126,7 +2371,7 @@ the type to be defined in @context.</div>
 </div>
 <div class="method item">
     <div id="method_getServerBaseUrl" class="title">
-        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l424"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:424</code></a></span>
+        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l502"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:502</code></a></span>
         <h3 class="">
             public
             
@@ -2154,7 +2399,7 @@ the type to be defined in @context.</div>
 </div>
 <div class="method item">
     <div id="method_getTypes" class="title">
-        <span class="source-link"><a href="../files/org.json-ld_src_main_java_org_json_ld_EcLinkedData.java.html#l274"><code>org.json-ld&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;json&#x2F;ld&#x2F;EcLinkedData.java:274</code></a></span>
+        <span class="source-link"><a href="../files/org.json-ld_src_main_java_org_json_ld_EcLinkedData.java.html#l321"><code>org.json-ld&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;json&#x2F;ld&#x2F;EcLinkedData.java:321</code></a></span>
         <h3 class="">
             public
             
@@ -2183,7 +2428,66 @@ the type to be defined in @context.</div>
 </div>
 <div class="method item">
     <div id="method_hasOwner" class="title">
-        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l138"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:138</code></a></span>
+        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l196"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:196</code></a></span>
+        <h3 class="">
+            public
+            
+            
+            hasOwner(pk): Boolean
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Determines if the object has a reader identified by pk.
+Homogenizes the PEM strings for comparison.
+Homogenization is necessary for comparing PKCS#1 and PKCS#8 or PKs with Certificates, etc.</p>
+</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>pk</td>
+              <td><a href="../classes/EcPk.html" class="crosslink">EcPk</a></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Public Key of the owner.</p>
+</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+      <div class="return">
+        <h4>Return:</h4>
+        <div>
+          <span class="return-type">Boolean</span>
+          <span class="return-description"><p>True if owner is represented by the PK, false otherwise.</p>
+</span>
+        </div>
+      </div>
+
+
+</div>
+<div class="method item">
+    <div id="method_hasOwner" class="title">
+        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l176"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:176</code></a></span>
         <h3 class="">
             public
             
@@ -2242,7 +2546,7 @@ Homogenization is necessary for comparing PKCS#1 and PKCS#8 or PKs with Certific
 </div>
 <div class="method item">
     <div id="method_invalid" class="title">
-        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l345"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:345</code></a></span>
+        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l423"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:423</code></a></span>
         <h3 class="">
             public
             
@@ -2270,7 +2574,7 @@ Homogenization is necessary for comparing PKCS#1 and PKCS#8 or PKs with Certific
 </div>
 <div class="method item">
     <div id="method_isA" class="title">
-        <span class="source-link"><a href="../files/org.json-ld_src_main_java_org_json_ld_EcLinkedData.java.html#l167"><code>org.json-ld&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;json&#x2F;ld&#x2F;EcLinkedData.java:167</code></a></span>
+        <span class="source-link"><a href="../files/org.json-ld_src_main_java_org_json_ld_EcLinkedData.java.html#l170"><code>org.json-ld&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;json&#x2F;ld&#x2F;EcLinkedData.java:170</code></a></span>
         <h3 class="">
             public
             
@@ -2328,7 +2632,7 @@ provided type.</div>
 </div>
 <div class="method item">
     <div id="method_isAny" class="title">
-        <span class="source-link"><a href="../files/org.json-ld_src_main_java_org_json_ld_EcLinkedData.java.html#l180"><code>org.json-ld&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;json&#x2F;ld&#x2F;EcLinkedData.java:180</code></a></span>
+        <span class="source-link"><a href="../files/org.json-ld_src_main_java_org_json_ld_EcLinkedData.java.html#l183"><code>org.json-ld&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;json&#x2F;ld&#x2F;EcLinkedData.java:183</code></a></span>
         <h3 class="">
             public
             
@@ -2386,7 +2690,7 @@ provided type.</div>
 </div>
 <div class="method item">
     <div id="method_isId" class="title">
-        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l389"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:389</code></a></span>
+        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l467"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:467</code></a></span>
         <h3 class="">
             public
             
@@ -2443,7 +2747,7 @@ Use this, as version information can make direct comparison difficult.</p>
 </div>
 <div class="method item">
     <div id="method_removeOwner" class="title">
-        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l287"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:287</code></a></span>
+        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l365"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:365</code></a></span>
         <h3 class="">
             public
             
@@ -2493,7 +2797,7 @@ Note that this method invalidates all signatures.</p>
 </div>
 <div class="method item">
     <div id="method_removeReader" class="title">
-        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l326"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:326</code></a></span>
+        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l404"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:404</code></a></span>
         <h3 class="">
             public
             
@@ -2543,7 +2847,7 @@ Note that this method invalidates all signatures.</p>
 </div>
 <div class="method item">
     <div id="method_setContextAndType" class="title">
-        <span class="source-link"><a href="../files/org.json-ld_src_main_java_org_json_ld_EcLinkedData.java.html#l73"><code>org.json-ld&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;json&#x2F;ld&#x2F;EcLinkedData.java:73</code></a></span>
+        <span class="source-link"><a href="../files/org.json-ld_src_main_java_org_json_ld_EcLinkedData.java.html#l76"><code>org.json-ld&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;json&#x2F;ld&#x2F;EcLinkedData.java:76</code></a></span>
         <h3 class="">
             public
             
@@ -2606,7 +2910,7 @@ Note that this method invalidates all signatures.</p>
 </div>
 <div class="method item">
     <div id="method_shortId" class="title">
-        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l401"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:401</code></a></span>
+        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l479"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:479</code></a></span>
         <h3 class="">
             public
             
@@ -2635,7 +2939,7 @@ Used to reference the latest version of an object.</p>
 </div>
 <div class="method item">
     <div id="method_signWith" class="title">
-        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l206"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:206</code></a></span>
+        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l284"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:284</code></a></span>
         <h3 class="">
             public
             
@@ -2685,7 +2989,7 @@ Does not check for ownership, objects signed with keys absent from @owner or @re
 </div>
 <div class="method item">
     <div id="method_toJson" class="title">
-        <span class="source-link"><a href="../files/org.json-ld_src_main_java_org_json_ld_EcLinkedData.java.html#l90"><code>org.json-ld&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;json&#x2F;ld&#x2F;EcLinkedData.java:90</code></a></span>
+        <span class="source-link"><a href="../files/org.json-ld_src_main_java_org_json_ld_EcLinkedData.java.html#l93"><code>org.json-ld&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;json&#x2F;ld&#x2F;EcLinkedData.java:93</code></a></span>
         <h3 class="">
             public
             
@@ -2714,7 +3018,7 @@ Does not check for ownership, objects signed with keys absent from @owner or @re
 </div>
 <div class="method item">
     <div id="method_toSignableJson" class="title">
-        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l173"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:173</code></a></span>
+        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l251"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:251</code></a></span>
         <h3 class="">
             public
             
@@ -2743,7 +3047,7 @@ This method is under long term review, and may change from version to version.</
 </div>
 <div class="method item">
     <div id="method_updateTimestamp" class="title">
-        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l367"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:367</code></a></span>
+        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l458"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:458</code></a></span>
         <h3 class="">
             public
             
@@ -2763,7 +3067,7 @@ This method is under long term review, and may change from version to version.</
 </div>
 <div class="method item">
     <div id="method_updateTimestamp" class="title">
-        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l380"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:380</code></a></span>
+        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l445"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:445</code></a></span>
         <h3 class="">
             public
             
@@ -2783,7 +3087,7 @@ This method is under long term review, and may change from version to version.</
 </div>
 <div class="method item">
     <div id="method_upgrade" class="title">
-        <span class="source-link"><a href="../files/org.json-ld_src_main_java_org_json_ld_EcLinkedData.java.html#l244"><code>org.json-ld&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;json&#x2F;ld&#x2F;EcLinkedData.java:244</code></a></span>
+        <span class="source-link"><a href="../files/org.json-ld_src_main_java_org_json_ld_EcLinkedData.java.html#l291"><code>org.json-ld&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;json&#x2F;ld&#x2F;EcLinkedData.java:291</code></a></span>
         <h3 class="">
             public
             
@@ -2805,7 +3109,7 @@ This method is under long term review, and may change from version to version.</
 </div>
 <div class="method item">
     <div id="method_verify" class="title">
-        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l226"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:226</code></a></span>
+        <span class="source-link"><a href="../files/org.cassproject.schema.general_src_main_java_org_cassproject_schema_general_EcRemoteLinkedData.java.html#l304"><code>org.cassproject.schema.general&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;general&#x2F;EcRemoteLinkedData.java:304</code></a></span>
         <h3 class="">
             public
             

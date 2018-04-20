@@ -5,7 +5,7 @@
     <title>ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java - EC Library</title>
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.0/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -37,6 +37,8 @@
                             <li><a href="../modules/org.json.ld.html">org.json.ld</a>
                             </li>
                             <li><a href="../modules/org.schema.html">org.schema</a>
+                            </li>
+                            <li><a href="../modules/org.w3.skos.html">org.w3.skos</a>
                             </li>
                     </ul>
                 </div>
@@ -178,6 +180,7 @@
                             <li><a href="../classes/Clip.html">Clip</a></li>
                             <li><a href="../classes/ClothingStore.html">ClothingStore</a></li>
                             <li><a href="../classes/Code.html">Code</a></li>
+                            <li><a href="../classes/Collection.html">Collection</a></li>
                             <li><a href="../classes/CollectionPage.html">CollectionPage</a></li>
                             <li><a href="../classes/CollegeOrUniversity.html">CollegeOrUniversity</a></li>
                             <li><a href="../classes/ComedyClub.html">ComedyClub</a></li>
@@ -190,6 +193,8 @@
                             <li><a href="../classes/CompoundPriceSpecification.html">CompoundPriceSpecification</a></li>
                             <li><a href="../classes/ComputerLanguage.html">ComputerLanguage</a></li>
                             <li><a href="../classes/ComputerStore.html">ComputerStore</a></li>
+                            <li><a href="../classes/Concept.html">Concept</a></li>
+                            <li><a href="../classes/ConceptScheme.html">ConceptScheme</a></li>
                             <li><a href="../classes/ConditionManifest.html">ConditionManifest</a></li>
                             <li><a href="../classes/ConditionProfile.html">ConditionProfile</a></li>
                             <li><a href="../classes/ConfirmAction.html">ConfirmAction</a></li>
@@ -203,6 +208,7 @@
                             <li><a href="../classes/Conversation.html">Conversation</a></li>
                             <li><a href="../classes/CookAction.html">CookAction</a></li>
                             <li><a href="../classes/Corporation.html">Corporation</a></li>
+                            <li><a href="../classes/CostManifest.html">CostManifest</a></li>
                             <li><a href="../classes/CostProfile.html">CostProfile</a></li>
                             <li><a href="../classes/Country.html">Country</a></li>
                             <li><a href="../classes/Course.html">Course</a></li>
@@ -524,6 +530,7 @@
                             <li><a href="../classes/OpeningHoursSpecification.html">OpeningHoursSpecification</a></li>
                             <li><a href="../classes/Order.html">Order</a></li>
                             <li><a href="../classes/OrderAction.html">OrderAction</a></li>
+                            <li><a href="../classes/OrderedCollection.html">OrderedCollection</a></li>
                             <li><a href="../classes/OrderItem.html">OrderItem</a></li>
                             <li><a href="../classes/OrderStatus.html">OrderStatus</a></li>
                             <li><a href="../classes/Organization.html">Organization</a></li>
@@ -578,6 +585,7 @@
                             <li><a href="../classes/ProductModel.html">ProductModel</a></li>
                             <li><a href="../classes/ProfessionalDoctorate.html">ProfessionalDoctorate</a></li>
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
+                            <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
@@ -800,6 +808,8 @@
 <pre class="code prettyprint linenums">
 package org.cassproject.ebac.repository;
 
+import com.eduworks.ec.array.EcArray;
+import com.eduworks.ec.crypto.EcCrypto;
 import com.eduworks.ec.log.Logger;
 import com.eduworks.ec.remote.EcRemote;
 import com.eduworks.ec.remote.FormData;
@@ -811,6 +821,8 @@ import org.stjs.javascript.*;
 import org.stjs.javascript.dom.Element;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
+
+import static com.eduworks.ec.remote.EcRemote.urlAppend;
 
 /**
  * Repository object used to interact with the CASS Repository web services.
@@ -829,6 +841,7 @@ public class EcRepository {
 	public static Object cache = new Object();
 	public static Object fetching = new Object();
 	public static Array&lt;EcRepository&gt; repos = new Array&lt;&gt;();
+	public Array&lt;String&gt; adminKeys = null;
 	public String selectedServer = null;
 	public boolean autoDetectFound = false;
 
@@ -851,6 +864,15 @@ public class EcRepository {
 	 * @static
 	 */
 	public static void get(final String url, final Callback1&lt;EcRemoteLinkedData&gt; success, final Callback1&lt;String&gt; failure) {
+		if (EcRemote.async == false) {
+			EcRemoteLinkedData result = getBlocking(url);
+			if (result == null)
+				if (failure != null)
+					failure.$invoke(&quot;Could not locate object. May be due to EcRepository.alwaysTryUrl flag.&quot;);
+				else if (success != null)
+					success.$invoke(result);
+			return;
+		}
 		if (caching) {
 			if (JSObjectAdapter.$get(cache, url) != null) {
 				if (EcRemote.async) {
@@ -886,7 +908,7 @@ public class EcRepository {
 		}
 		final FormData fd = new FormData();
 		if (unsigned) {
-			EcRemote.postExpectingObject(url, null, fd, new Callback1&lt;Object&gt;() {
+			EcRemote.getExpectingObject(url, null, new Callback1&lt;Object&gt;() {
 				@Override
 				public void $invoke(Object p1) {
 					JSObjectAdapter.$properties(fetching).$delete(url);
@@ -943,7 +965,7 @@ public class EcRepository {
 						}
 					});
 				}
-			});
+			}, failure);
 	}
 
 	private static boolean shouldTryUrl(String url) {
@@ -953,7 +975,7 @@ public class EcRepository {
 			return true;
 		if (repos.$length() == 0)
 			return true;
-		if (url.contains(&quot;/api/&quot;) || url.contains(&quot;/data/&quot;))
+		if (url.indexOf(&quot;/api/&quot;) != -1 || url.indexOf(&quot;/data/&quot;) != -1)
 			return true;
 		boolean validUrlFound = false;
 		for (int i = 0; i &lt; repos.$length(); i++) {
@@ -995,15 +1017,22 @@ public class EcRepository {
 							if (done)
 								Logger.log(&quot;Searching for exact ID:&quot; + url + &quot;, found more than one@:&quot; + repo.selectedServer);
 							done = true;
+							JSObjectAdapter.$properties(fetching).$delete(url);
+							if (caching) {
+								JSObjectAdapter.$put(cache, url, strings.$get(i));
+							}
 							success.$invoke(strings.$get(i));
 						}
 					}
+					if (done)
+						return;
+					find(url, error, history, i + 1, success, failure);
 				}
 			}
 		}, new Callback1&lt;String&gt;() {
 			@Override
 			public void $invoke(String s) {
-				find(url, error, history, i + 1, success, failure);
+				find(url, s, history, i + 1, success, failure);
 			}
 		});
 	}
@@ -1023,6 +1052,10 @@ public class EcRepository {
 		else {
 			for (int j = 0; j &lt; strings.$length(); j++) {
 				if (strings.$get(j).id == url) {
+					JSObjectAdapter.$properties(fetching).$delete(url);
+					if (caching) {
+						JSObjectAdapter.$put(cache, url, strings.$get(j));
+					}
 					return strings.$get(j);
 				}
 			}
@@ -1122,10 +1155,7 @@ public class EcRepository {
 	}
 
 	/**
-	 * Attempts to save a piece of data. Does some checks before saving to
-	 * ensure the data is valid. Warns the developer that they are using the
-	 * repository save function rather than an object specific version, this can
-	 * be avoided by calling _save
+	 * Attempts to save a piece of data.
 	 * &lt;p&gt;
 	 * Uses a signature sheet informed by the owner field of the data.
 	 *
@@ -1141,7 +1171,27 @@ public class EcRepository {
 	public static void save(EcRemoteLinkedData data, final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure) {
 		//Using EcRepository &#x27;save&#x27; method, if this is intentional consider calling &#x27;_save&#x27;
 		//Using this method instead of the save method for your object (if it exists) bypasses quality checks.
-		_save(data, success, failure);
+		_save(data, success, failure, null);
+	}
+
+	/**
+	 * Attempts to save a piece of data. If the @id of the data is not of this server, will register the data to the server.
+	 * &lt;p&gt;
+	 * Uses a signature sheet informed by the owner field of the data.
+	 *
+	 * @param {EcRemoteLinkedData} data Data to save to the location designated
+	 *                             by its id.
+	 * @param {Callback1&lt;String&gt;}  success Callback triggered on successful save
+	 * @param {Callback1&lt;String&gt;}  failure Callback triggered if error during
+	 *                             save
+	 * @memberOf EcRepository
+	 * @method save
+	 * @static
+	 */
+	public void saveTo(EcRemoteLinkedData data, final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure) {
+		//Using EcRepository &#x27;save&#x27; method, if this is intentional consider calling &#x27;_save&#x27;
+		//Using this method instead of the save method for your object (if it exists) bypasses quality checks.
+		_save(data, success, failure, this);
 	}
 
 	/**
@@ -1159,7 +1209,7 @@ public class EcRepository {
 	 * @method _save
 	 * @static
 	 */
-	public static void _save(EcRemoteLinkedData data, final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure) {
+	public static void _save(EcRemoteLinkedData data, final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure, EcRepository repo) {
 		if (data.invalid()) {
 			String msg = &quot;Cannot save data. It is missing a vital component.&quot;;
 			if (failure != null) {
@@ -1181,10 +1231,10 @@ public class EcRepository {
 		if (EcEncryptedValue.encryptOnSave(data.id, null)) {
 			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(data, false);
 			EcIdentityManager.sign(data);
-			_saveWithoutSigning(data, success, failure);
+			_saveWithoutSigning(data, success, failure, repo);
 		} else {
 			EcIdentityManager.sign(data);
-			_saveWithoutSigning(data, success, failure);
+			_saveWithoutSigning(data, success, failure, repo);
 		}
 	}
 
@@ -1202,7 +1252,7 @@ public class EcRepository {
 	 * @method _saveWithoutSigning
 	 * @static
 	 */
-	private static void _saveWithoutSigning(final EcRemoteLinkedData data, final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure) {
+	private static void _saveWithoutSigning(final EcRemoteLinkedData data, final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure, final EcRepository repo) {
 
 		if (caching) {
 			JSObjectAdapter.$properties(cache).$delete(data.id);
@@ -1213,36 +1263,37 @@ public class EcRepository {
 			return;
 		}
 
-		data.updateTimestamp();
+		if (alwaysTryUrl || repo == null || repo.shouldTryUrl(data.id))
+			data.updateTimestamp();
 
 		final FormData fd = new FormData();
 		fd.append(&quot;data&quot;, data.toJson());
-		if (EcRemote.async == false) {
-			if (data.owner != null &amp;&amp; data.owner.$length() &gt; 0) {
-				String arg0 = EcIdentityManager.signatureSheetFor(data.owner, 60000, data.id);
-				fd.append(&quot;signatureSheet&quot;, arg0);
-				EcRemote.postExpectingString(data.id, &quot;&quot;, fd, success, failure);
-			} else {
-				String arg0 = EcIdentityManager.signatureSheet(60000, data.id);
-				fd.append(&quot;signatureSheet&quot;, arg0);
+		Callback1 afterSignatureSheet = new Callback1&lt;String&gt;() {
+			@Override
+			public void $invoke(String signatureSheet) {
+				fd.append(&quot;signatureSheet&quot;, signatureSheet);
+				if (!alwaysTryUrl)
+					if (repo != null)
+						if (!repo.shouldTryUrl(data.id)) {
+							EcRemote.postExpectingString(urlAppend(repo.selectedServer, &quot;data/&quot; + data.getDottedType() + &quot;/&quot; + EcCrypto.md5(data.id)), &quot;&quot;, fd, success, failure);
+							return;
+						}
 				EcRemote.postExpectingString(data.id, &quot;&quot;, fd, success, failure);
 			}
+		};
+
+		if (EcRemote.async == false) {
+			String signatureSheet;
+			if (data.owner != null &amp;&amp; data.owner.$length() &gt; 0) {
+				signatureSheet = EcIdentityManager.signatureSheetFor(data.owner, 60000, data.id);
+			} else {
+				signatureSheet = EcIdentityManager.signatureSheet(60000, data.id);
+			}
+			afterSignatureSheet.$invoke(signatureSheet);
 		} else if (data.owner != null &amp;&amp; data.owner.$length() &gt; 0) {
-			EcIdentityManager.signatureSheetForAsync(data.owner, 60000, data.id, new Callback1&lt;String&gt;() {
-				@Override
-				public void $invoke(String arg0) {
-					fd.append(&quot;signatureSheet&quot;, arg0);
-					EcRemote.postExpectingString(data.id, &quot;&quot;, fd, success, failure);
-				}
-			});
+			EcIdentityManager.signatureSheetForAsync(data.owner, 60000, data.id, afterSignatureSheet, failure);
 		} else {
-			EcIdentityManager.signatureSheetAsync(60000, data.id, new Callback1&lt;String&gt;() {
-				@Override
-				public void $invoke(String arg0) {
-					fd.append(&quot;signatureSheet&quot;, arg0);
-					EcRemote.postExpectingString(data.id, &quot;&quot;, fd, success, failure);
-				}
-			});
+			EcIdentityManager.signatureSheetAsync(60000, data.id, afterSignatureSheet, failure);
 		}
 
 	}
@@ -1282,16 +1333,108 @@ public class EcRepository {
 	 * @static
 	 */
 	public static void DELETE(final EcRemoteLinkedData data, final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure) {
+
 		if (caching) {
 			JSObjectAdapter.$properties(cache).$delete(data.id);
 			JSObjectAdapter.$properties(cache).$delete(data.shortId());
 		}
-		EcIdentityManager.signatureSheetForAsync(data.owner, 60000, data.id, new Callback1&lt;String&gt;() {
-			@Override
-			public void $invoke(String signatureSheet) {
-				EcRemote._delete(data.shortId(), signatureSheet, success, failure);
+		final String targetUrl;
+		targetUrl = data.shortId();
+
+		if (data.owner != null &amp;&amp; data.owner.$length() &gt; 0) {
+			if (EcRemote.async) {
+				EcIdentityManager.signatureSheetForAsync(data.owner, 60000, data.id, new Callback1&lt;String&gt;() {
+					@Override
+					public void $invoke(String signatureSheet) {
+						if (signatureSheet.length() == 2) {
+							for (int i = 0; i &lt; repos.$length(); i++) {
+								if (data.id.indexOf(repos.$get(i).selectedServer) != -1) {
+									repos.$get(i).deleteRegistered(data, success, failure);
+									return;
+								}
+							}
+							failure.$invoke(&quot;Cannot delete object without a signature. If deleting from a server, use the non-static _delete&quot;);
+						} else
+							EcRemote._delete(targetUrl, signatureSheet, success, failure);
+					}
+				}, failure);
 			}
-		});
+			else
+			{
+				String signatureSheet = EcIdentityManager.signatureSheetFor(data.owner,60000,data.id);
+				if (signatureSheet.length() == 2) {
+					for (int i = 0; i &lt; repos.$length(); i++) {
+						if (data.id.indexOf(repos.$get(i).selectedServer) != -1) {
+							repos.$get(i).deleteRegistered(data, success, failure);
+							return;
+						}
+					}
+					failure.$invoke(&quot;Cannot delete object without a signature. If deleting from a server, use the non-static _delete&quot;);
+				} else
+					EcRemote._delete(targetUrl, signatureSheet, success, failure);
+			}
+		} else {
+			EcRemote._delete(targetUrl, &quot;[]&quot;, success, failure);
+		}
+
+	}
+
+	/**
+	 * Attempts to delete a piece of data.
+	 * &lt;p&gt;
+	 * Uses a signature sheet informed by the owner field of the data.
+	 *
+	 * @param {EcRemoteLinkedData} data Data to save to the location designated
+	 *                             by its id.
+	 * @param {Callback1&lt;String&gt;}  success Callback triggered on successful
+	 *                             delete
+	 * @param {Callback1&lt;String&gt;}  failure Callback triggered if error during
+	 *                             delete
+	 * @memberOf EcRepository
+	 * @method DELETE
+	 * @static
+	 */
+	public void deleteRegistered(final EcRemoteLinkedData data, final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure) {
+		if (caching) {
+			JSObjectAdapter.$properties(cache).$delete(data.id);
+			JSObjectAdapter.$properties(cache).$delete(data.shortId());
+		}
+		final String targetUrl;
+		if (shouldTryUrl(data.id))
+			targetUrl = data.shortId();
+		else {
+			targetUrl = urlAppend(selectedServer, &quot;data/&quot; + data.getDottedType() + &quot;/&quot; + EcCrypto.md5(data.id));
+		}
+
+		final EcRepository me = this;
+		if (data.owner != null &amp;&amp; data.owner.$length() &gt; 0) {
+			if (EcRemote.async) {
+				EcIdentityManager.signatureSheetForAsync(data.owner, 60000, data.id, new Callback1&lt;String&gt;() {
+					@Override
+					public void $invoke(String signatureSheet) {
+						if (signatureSheet.length() == 2 &amp;&amp; me.adminKeys != null) {
+							EcIdentityManager.signatureSheetForAsync(me.adminKeys, 60000, data.id, new Callback1&lt;String&gt;() {
+								@Override
+								public void $invoke(String signatureSheet) {
+									EcRemote._delete(targetUrl, signatureSheet, success, failure);
+								}
+							}, failure);
+						} else
+							EcRemote._delete(targetUrl, signatureSheet, success, failure);
+					}
+				}, failure);
+			}
+			else {
+				String signatureSheet = EcIdentityManager.signatureSheetFor(data.owner, 60000, data.id);
+				if (signatureSheet.length() == 2 &amp;&amp; me.adminKeys != null) {
+					signatureSheet = EcIdentityManager.signatureSheetFor(me.adminKeys, 60000, data.id);
+					EcRemote._delete(targetUrl, signatureSheet, success, failure);
+				} else
+					EcRemote._delete(targetUrl, signatureSheet, success, failure);
+			}
+		} else {
+			EcRemote._delete(targetUrl, &quot;[]&quot;, success, failure);
+		}
 	}
 
 	/**
@@ -1305,7 +1448,7 @@ public class EcRepository {
 	 * @memberOf EcRepository
 	 * @method precache
 	 */
-	public void precache(Array&lt;String&gt; urls, final Callback0 success) {
+	public void precache(final Array&lt;String&gt; urls, final Callback0 success) {
 		if (urls == null || urls.$length() == 0) {
 			if (success != null) {
 				success.$invoke();
@@ -1313,11 +1456,14 @@ public class EcRepository {
 			return;
 		}
 
-		Array&lt;String&gt; cacheUrls = new Array&lt;String&gt;();
+		final Array&lt;String&gt; cacheUrls = new Array&lt;String&gt;();
 		for (int i = 0; i &lt; urls.$length(); i++) {
 			String url = urls.$get(i);
-			if (url.startsWith(selectedServer) &amp;&amp; JSObjectAdapter.$get(cache, url) == null) {
+			if (JSObjectAdapter.$get(cache, url) != null) {
+			} else if (url.startsWith(selectedServer)) {
 				cacheUrls.push(url.replace(selectedServer, &quot;&quot;).replace(&quot;custom/&quot;, &quot;&quot;));
+			} else if (!shouldTryUrl(url)) {
+				cacheUrls.push(&quot;data/&quot; + EcCrypto.md5(url));
 			}
 		}
 		if (cacheUrls.$length() == 0) {
@@ -1339,6 +1485,16 @@ public class EcRepository {
 						d.copyFrom(results.$get(i));
 						results.$set(i, d);
 						if (caching) {
+							if (!shouldTryUrl(d.id)) {
+								String md5 = EcCrypto.md5(d.id);
+								for (int j = 0; j &lt; urls.$length(); j++) {
+									String url = urls.$get(j);
+									if (url.indexOf(md5) != -1) {
+										JSObjectAdapter.$put(cache, url, d);
+										break;
+									}
+								}
+							}
 							JSObjectAdapter.$put(cache, d.shortId(), d);
 							JSObjectAdapter.$put(cache, d.id, d);
 						}
@@ -1362,6 +1518,16 @@ public class EcRepository {
 								d.copyFrom(results.$get(i));
 								results.$set(i, d);
 								if (caching) {
+									if (!shouldTryUrl(d.id)) {
+										String md5 = EcCrypto.md5(d.id);
+										for (int j = 0; j &lt; urls.$length(); j++) {
+											String url = urls.$get(j);
+											if (url.indexOf(md5) != -1) {
+												JSObjectAdapter.$put(cache, url, d);
+												break;
+											}
+										}
+									}
 									JSObjectAdapter.$put(cache, d.shortId(), d);
 									JSObjectAdapter.$put(cache, d.id, d);
 								}
@@ -1372,7 +1538,7 @@ public class EcRepository {
 						}
 					}, null);
 				}
-			});
+			}, null);
 	}
 
 	/**
@@ -1463,7 +1629,7 @@ public class EcRepository {
 						}
 					}, failure);
 				}
-			});
+			}, failure);
 
 	}
 
@@ -1511,8 +1677,6 @@ public class EcRepository {
 	 *                                          Google query strings.
 	 * @param {Object}                          paramObj Additional parameters that can be used to tailor
 	 *                                          the search.
-	 * @param size
-	 * @param start
 	 * @param {Callback1&lt;EcRemoteLinkedData&gt;}   eachSuccess Success event for each
 	 *                                          found object.
 	 * @param {Callback1&lt;EcRemoteLinkedData[]&gt;} success Success event, called
@@ -1523,6 +1687,21 @@ public class EcRepository {
 	 */
 	public void searchWithParams(final String originalQuery, final Object originalParamObj, final Callback1&lt;EcRemoteLinkedData&gt; eachSuccess,
 	                             final Callback1&lt;Array&lt;EcRemoteLinkedData&gt;&gt; success, final Callback1&lt;String&gt; failure) {
+
+		if (EcRemote.async == false) {
+			Array&lt;EcRemoteLinkedData&gt; result = searchWithParamsBlocking(originalQuery, originalParamObj);
+			if (result == null) {
+				if (failure != null)
+					failure.$invoke(&quot;Search failed.&quot;);
+			} else {
+				for (int i = 0; i &lt; result.$length(); i++)
+					if (eachSuccess != null)
+						eachSuccess.$invoke(result.$get(i));
+				if (success != null)
+					success.$invoke(result);
+			}
+			return;
+		}
 		String query = originalQuery;
 		Object paramObj = originalParamObj;
 		if (paramObj == null) {
@@ -1541,7 +1720,7 @@ public class EcRepository {
 		if (cachingSearch) {
 			cacheKey = JSGlobal.JSON.stringify(paramProps) + query;
 			if (JSObjectAdapter.$get(cache, cacheKey) != null) {
-				handleSearchResults((Array&lt;EcRemoteLinkedData&gt;) JSObjectAdapter.$get(cache, cacheKey), eachSuccess, success);
+				handleSearchResults((Array&lt;EcRemoteLinkedData&gt;) JSObjectAdapter.$get(cache, cacheKey), eachSuccess, success, failure);
 				return;
 			}
 			final EcRepository me = this;
@@ -1581,7 +1760,7 @@ public class EcRepository {
 						JSObjectAdapter.$properties(fetching).$delete(cacheKey);
 					}
 
-					me.handleSearchResults((Array&lt;EcRemoteLinkedData&gt;) p1, eachSuccess, success);
+					me.handleSearchResults((Array&lt;EcRemoteLinkedData&gt;) p1, eachSuccess, success, failure);
 				}
 			}, new Callback1&lt;String&gt;() {
 
@@ -1610,7 +1789,7 @@ public class EcRepository {
 								JSObjectAdapter.$properties(fetching).$delete(cacheKey);
 							}
 
-							me.handleSearchResults((Array&lt;EcRemoteLinkedData&gt;) p1, eachSuccess, success);
+							me.handleSearchResults((Array&lt;EcRemoteLinkedData&gt;) p1, eachSuccess, success, failure);
 						}
 					}, new Callback1&lt;String&gt;() {
 
@@ -1625,7 +1804,7 @@ public class EcRepository {
 						}
 					});
 				}
-			});
+			}, failure);
 	}
 
 	/**
@@ -1637,8 +1816,6 @@ public class EcRepository {
 	 *                 Google query strings.
 	 * @param {Object} paramObj Additional parameters that can be used to tailor
 	 *                 the search.
-	 * @param size
-	 * @param start
 	 * @returns EcRemoteLinkedData[]
 	 * @memberOf EcRepository
 	 * @method searchWithParams
@@ -1664,7 +1841,7 @@ public class EcRepository {
 		cacheKey = JSGlobal.JSON.stringify(paramProps) + query;
 		if (cachingSearch) {
 			if (JSObjectAdapter.$get(cache, cacheKey) != null) {
-				return handleSearchResults((Array&lt;EcRemoteLinkedData&gt;) JSObjectAdapter.$get(cache, cacheKey), null, null);
+				return handleSearchResults((Array&lt;EcRemoteLinkedData&gt;) JSObjectAdapter.$get(cache, cacheKey), null, null, null);
 			}
 		}
 
@@ -1719,7 +1896,7 @@ public class EcRepository {
 			});
 		}
 
-		Array&lt;EcRemoteLinkedData&gt; result = handleSearchResults((Array&lt;EcRemoteLinkedData&gt;) JSObjectAdapter.$get(cache, cacheKey), null, null);
+		Array&lt;EcRemoteLinkedData&gt; result = handleSearchResults((Array&lt;EcRemoteLinkedData&gt;) JSObjectAdapter.$get(cache, cacheKey), null, null, null);
 		if (!cachingSearch) {
 			JSObjectAdapter.$properties(cache).$delete(cacheKey);
 		}
@@ -1737,6 +1914,12 @@ public class EcRepository {
 		if (JSObjectAdapter.$get(paramObj, &quot;types&quot;) != null) {
 			paramProps.$put(&quot;types&quot;, JSObjectAdapter.$get(paramObj, &quot;types&quot;));
 		}
+		if (JSObjectAdapter.$get(paramObj, &quot;sort&quot;) != null) {
+			paramProps.$put(&quot;sort&quot;, JSObjectAdapter.$get(paramObj, &quot;sort&quot;));
+		}
+		if (JSObjectAdapter.$get(paramObj, &quot;track_scores&quot;) != null) {
+			paramProps.$put(&quot;track_scores&quot;, JSObjectAdapter.$get(paramObj, &quot;track_scores&quot;));
+		}
 
 		if (JSObjectAdapter.$get(paramObj, &quot;ownership&quot;) != null) {
 			String ownership = (String) JSObjectAdapter.$get(paramObj, &quot;ownership&quot;);
@@ -1744,11 +1927,11 @@ public class EcRepository {
 				query = &quot;(&quot; + query + &quot;)&quot;;
 			}
 
-			if (ownership.equals(&quot;public&quot;)) {
+			if (ownership == &quot;public&quot;) {
 				query += &quot; AND (_missing_:@owner)&quot;;
-			} else if (ownership.equals(&quot;owned&quot;)) {
+			} else if (ownership == &quot;owned&quot;) {
 				query += &quot; AND (_exists_:@owner)&quot;;
-			} else if (ownership.equals(&quot;me&quot;)) {
+			} else if (ownership == &quot;me&quot;) {
 				query += &quot; AND (&quot;;
 				for (int i = 0; i &lt; EcIdentityManager.ids.$length(); i++) {
 					if (i != 0) {
@@ -1772,8 +1955,8 @@ public class EcRepository {
 	 * @memberOf EcRepository
 	 * @method autoDetectRepository
 	 */
-	public void autoDetectRepositoryAsync(Callback0 success, final Callback1 failure) {
-		Array&lt;String&gt; protocols = new Array&lt;String&gt;();
+	public void autoDetectRepositoryAsync(final Callback0 success, final Callback1 failure) {
+		final Array&lt;String&gt; protocols = new Array&lt;String&gt;();
 		if (Global.window != null) {
 			if (Global.window.location != null) {
 				if (Global.window.location.protocol == &quot;https:&quot;) {
@@ -1793,8 +1976,8 @@ public class EcRepository {
 			protocols.push(&quot;https:&quot;);
 			protocols.push(&quot;http:&quot;);
 		}
-		Array&lt;String&gt; hostnames = new Array&lt;String&gt;();
-		Array&lt;String&gt; servicePrefixes = new Array&lt;String&gt;();
+		final Array&lt;String&gt; hostnames = new Array&lt;String&gt;();
+		final Array&lt;String&gt; servicePrefixes = new Array&lt;String&gt;();
 
 		if (selectedServer != null) {
 			Element e = Global.window.document.createElement(&quot;a&quot;);
@@ -1813,9 +1996,11 @@ public class EcRepository {
 						Global.window.location.hostname + &quot;:8080&quot;, Global.window.location.hostname.replace(&quot;.&quot;, &quot;.service.&quot;) + &quot;:8080&quot;);
 			}
 		}
+		EcArray.removeDuplicates(hostnames);
 
-		servicePrefixes.push(&quot;/&quot; + Global.window.location.pathname.split(&quot;/&quot;)[1] + &quot;/api/&quot;, &quot;/&quot; + Global.window.location.pathname.split(&quot;/&quot;)[1] + &quot;/api/custom/&quot;, &quot;/&quot;, &quot;/service/&quot;,
-				&quot;/api/&quot;, &quot;/api/custom/&quot;);
+		servicePrefixes.push(&quot;/&quot; + Global.window.location.pathname.split(&quot;/&quot;)[1] + &quot;/api/&quot;, &quot;/&quot;, &quot;/service/&quot;,
+				&quot;/api/&quot;);
+		EcArray.removeDuplicates(servicePrefixes);
 		final EcRepository me = this;
 		me.autoDetectFound = false;
 		for (int j = 0; j &lt; hostnames.$length(); j++) {
@@ -1825,10 +2010,29 @@ public class EcRepository {
 					Global.setTimeout(new Callback0() {
 						@Override
 						public void $invoke() {
-							if (me.autoDetectFound == false)
-								failure.$invoke(&quot;Could not find service.&quot;);
+							if (me.autoDetectFound == false) {
+								//Search using old service endpoints.
+								Array&lt;String&gt; servicePrefixes = new Array&lt;String&gt;();
+								servicePrefixes.push(&quot;/&quot; + Global.window.location.pathname.split(&quot;/&quot;)[1] + &quot;/api/custom/&quot;, &quot;/api/custom/&quot;);
+								EcArray.removeDuplicates(servicePrefixes);
+								for (int j = 0; j &lt; hostnames.$length(); j++) {
+									for (int k = 0; k &lt; servicePrefixes.$length(); k++) {
+										for (int i = 0; i &lt; protocols.$length(); i++) {
+											me.autoDetectRepositoryActualAsync(protocols.$get(i) + &quot;//&quot; + hostnames.$get(j) + servicePrefixes.$get(k).replaceAll(&quot;//&quot;, &quot;/&quot;), success, failure);
+											Global.setTimeout(new Callback0() {
+												@Override
+												public void $invoke() {
+													if (me.autoDetectFound == false)
+														failure.$invoke(&quot;Could not find service.&quot;);
+												}
+											}, 5000);
+										}
+									}
+								}
+							}
 						}
 					}, 5000);
+
 				}
 			}
 		}
@@ -1914,20 +2118,8 @@ public class EcRepository {
 			@Override
 			public void $invoke(Object p1) {
 				if (p1 != null) {
-					if (JSObjectAdapter.$get(p1, &quot;ping&quot;).equals(&quot;pong&quot;)) {
-						me.selectedServer = guess;
-						me.autoDetectFound = true;
-						success.$invoke();
-					}
-				}
-			}
-		};
-		Callback1&lt;String&gt; failureCheck = new Callback1&lt;String&gt;() {
-			@Override
-			public void $invoke(String p1) {
-				if (p1 != null) {
-					if (!p1.equals(&quot;&quot;)) {
-						if (p1.contains(&quot;pong&quot;)) {
+					if (JSObjectAdapter.$get(p1, &quot;ping&quot;) == &quot;pong&quot;) {
+						if (me.autoDetectFound == false) {
 							me.selectedServer = guess;
 							me.autoDetectFound = true;
 							success.$invoke();
@@ -1936,7 +2128,26 @@ public class EcRepository {
 				}
 			}
 		};
-		if (guess != null &amp;&amp; guess.equals(&quot;&quot;) == false) {
+		Callback1&lt;String&gt; failureCheck = new Callback1&lt;String&gt;() {
+			@Override
+			public void $invoke(String p1) {
+				if (p1 != null) {
+					if (!(p1 == &quot;&quot;)) {
+						try {
+							if (p1.indexOf(&quot;pong&quot;) != -1) {
+								if (me.autoDetectFound == false) {
+									me.selectedServer = guess;
+									me.autoDetectFound = true;
+									success.$invoke();
+								}
+							}
+						} catch (Exception ex) {
+						}
+					}
+				}
+			}
+		};
+		if (guess != null &amp;&amp; guess != &quot;&quot;) {
 			try {
 				EcRemote.getExpectingObject(guess, &quot;ping&quot;, successCheck, failureCheck);
 			} catch (Exception ex) {
@@ -1963,7 +2174,7 @@ public class EcRepository {
 			@Override
 			public void $invoke(Object p1) {
 				if (p1 != null) {
-					if (JSObjectAdapter.$get(p1, &quot;ping&quot;).equals(&quot;pong&quot;)) {
+					if (JSObjectAdapter.$get(p1, &quot;ping&quot;) == &quot;pong&quot;) {
 						me.selectedServer = guess;
 						me.autoDetectFound = true;
 					}
@@ -1974,16 +2185,19 @@ public class EcRepository {
 			@Override
 			public void $invoke(String p1) {
 				if (p1 != null) {
-					if (!p1.equals(&quot;&quot;)) {
-						if (p1.contains(&quot;pong&quot;)) {
-							me.selectedServer = guess;
-							me.autoDetectFound = true;
+					if (p1 != &quot;&quot;) {
+						try {
+							if (p1.indexOf(&quot;pong&quot;) != -1) {
+								me.selectedServer = guess;
+								me.autoDetectFound = true;
+							}
+						} catch (Exception ex) {
 						}
 					}
 				}
 			}
 		};
-		if (guess != null &amp;&amp; guess.equals(&quot;&quot;) == false) {
+		if (guess != null &amp;&amp; guess != &quot;&quot;) {
 			try {
 				EcRemote.getExpectingObject(guess, &quot;ping&quot;, successCheck, failureCheck);
 			} catch (Exception ex) {
@@ -2029,7 +2243,7 @@ public class EcRepository {
 	 * @method backup
 	 */
 	public void backup(String serverSecret, Callback1&lt;Object&gt; success, Callback1&lt;String&gt; failure) {
-		EcRemote.getExpectingObject(selectedServer, &quot;skyrepo/util/backup?secret=&quot; + serverSecret, success, failure);
+		EcRemote.getExpectingObject(selectedServer, &quot;util/backup?secret=&quot; + serverSecret, success, failure);
 	}
 
 	/**
@@ -2042,7 +2256,7 @@ public class EcRepository {
 	 * @method restoreBackup
 	 */
 	public void restoreBackup(String serverSecret, Callback1&lt;Object&gt; success, Callback1&lt;String&gt; failure) {
-		EcRemote.getExpectingObject(selectedServer, &quot;skyrepo/util/restore?secret=&quot; + serverSecret, success, failure);
+		EcRemote.getExpectingObject(selectedServer, &quot;util/restore?secret=&quot; + serverSecret, success, failure);
 	}
 
 	/**
@@ -2055,7 +2269,7 @@ public class EcRepository {
 	 * @method wipe
 	 */
 	public void wipe(String serverSecret, Callback1&lt;Object&gt; success, Callback1&lt;String&gt; failure) {
-		EcRemote.getExpectingObject(selectedServer, &quot;skyrepo/util/purge?secret=&quot; + serverSecret, success, failure);
+		EcRemote.getExpectingObject(selectedServer, &quot;util/purge?secret=&quot; + serverSecret, success, failure);
 	}
 
 	/**
@@ -2067,12 +2281,18 @@ public class EcRepository {
 	 *                                          trigger for each search result
 	 * @param {Callback1&lt;EcRemoteLinkedData[]&gt;} success Callback function to
 	 *                                          trigger with all search results
+	 * @param failure
 	 * @memberOf EcRepository
 	 * @method handleSearchResults
 	 * @private
 	 */
 	private Array&lt;EcRemoteLinkedData&gt; handleSearchResults(Array&lt;EcRemoteLinkedData&gt; results, final Callback1&lt;EcRemoteLinkedData&gt; eachSuccess,
-	                                                      final Callback1&lt;Array&lt;EcRemoteLinkedData&gt;&gt; success) {
+	                                                      final Callback1&lt;Array&lt;EcRemoteLinkedData&gt;&gt; success, Callback1&lt;String&gt; failure) {
+		if (results == null) {
+			if (failure != null)
+				failure.$invoke(&quot;Error in search. See HTTP request for more details.&quot;);
+			return null;
+		}
 		for (int i = 0; i &lt; results.$length(); i++) {
 			EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
 			d.copyFrom(results.$get(i));
@@ -2111,11 +2331,16 @@ public class EcRepository {
 		} else {
 			service = &quot;/sky/admin&quot;;
 		}
-
+		final EcRepository me = this;
 		EcRemote.getExpectingObject(selectedServer, service, new Callback1&lt;Object&gt;() {
 			@Override
 			public void $invoke(Object p1) {
-				success.$invoke((Array&lt;String&gt;) p1);
+				Array&lt;String&gt; ary = (Array&lt;String&gt;) p1;
+				me.adminKeys = new Array();
+				for (int i = 0; i &lt; ary.$length(); i++) {
+					me.adminKeys.push(ary.$get(i));
+				}
+				success.$invoke(ary);
 			}
 		}, new Callback1&lt;String&gt;() {
 			@Override

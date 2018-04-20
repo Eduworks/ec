@@ -5,7 +5,7 @@
     <title>cass.competency/src/main/java/org/cass/profile/EcAssertion.java - EC Library</title>
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.0/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -37,6 +37,8 @@
                             <li><a href="../modules/org.json.ld.html">org.json.ld</a>
                             </li>
                             <li><a href="../modules/org.schema.html">org.schema</a>
+                            </li>
+                            <li><a href="../modules/org.w3.skos.html">org.w3.skos</a>
                             </li>
                     </ul>
                 </div>
@@ -178,6 +180,7 @@
                             <li><a href="../classes/Clip.html">Clip</a></li>
                             <li><a href="../classes/ClothingStore.html">ClothingStore</a></li>
                             <li><a href="../classes/Code.html">Code</a></li>
+                            <li><a href="../classes/Collection.html">Collection</a></li>
                             <li><a href="../classes/CollectionPage.html">CollectionPage</a></li>
                             <li><a href="../classes/CollegeOrUniversity.html">CollegeOrUniversity</a></li>
                             <li><a href="../classes/ComedyClub.html">ComedyClub</a></li>
@@ -190,6 +193,8 @@
                             <li><a href="../classes/CompoundPriceSpecification.html">CompoundPriceSpecification</a></li>
                             <li><a href="../classes/ComputerLanguage.html">ComputerLanguage</a></li>
                             <li><a href="../classes/ComputerStore.html">ComputerStore</a></li>
+                            <li><a href="../classes/Concept.html">Concept</a></li>
+                            <li><a href="../classes/ConceptScheme.html">ConceptScheme</a></li>
                             <li><a href="../classes/ConditionManifest.html">ConditionManifest</a></li>
                             <li><a href="../classes/ConditionProfile.html">ConditionProfile</a></li>
                             <li><a href="../classes/ConfirmAction.html">ConfirmAction</a></li>
@@ -203,6 +208,7 @@
                             <li><a href="../classes/Conversation.html">Conversation</a></li>
                             <li><a href="../classes/CookAction.html">CookAction</a></li>
                             <li><a href="../classes/Corporation.html">Corporation</a></li>
+                            <li><a href="../classes/CostManifest.html">CostManifest</a></li>
                             <li><a href="../classes/CostProfile.html">CostProfile</a></li>
                             <li><a href="../classes/Country.html">Country</a></li>
                             <li><a href="../classes/Course.html">Course</a></li>
@@ -524,6 +530,7 @@
                             <li><a href="../classes/OpeningHoursSpecification.html">OpeningHoursSpecification</a></li>
                             <li><a href="../classes/Order.html">Order</a></li>
                             <li><a href="../classes/OrderAction.html">OrderAction</a></li>
+                            <li><a href="../classes/OrderedCollection.html">OrderedCollection</a></li>
                             <li><a href="../classes/OrderItem.html">OrderItem</a></li>
                             <li><a href="../classes/OrderStatus.html">OrderStatus</a></li>
                             <li><a href="../classes/Organization.html">Organization</a></li>
@@ -578,6 +585,7 @@
                             <li><a href="../classes/ProductModel.html">ProductModel</a></li>
                             <li><a href="../classes/ProfessionalDoctorate.html">ProfessionalDoctorate</a></li>
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
+                            <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
@@ -808,6 +816,7 @@ import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.ebac.repository.EcEncryptedValue;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.cass.profile.Assertion;
+import org.cassproject.schema.cass.profile.AssertionCodebook;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
@@ -874,9 +883,17 @@ public class EcAssertion extends Assertion {
 	public EcPk getSubject() {
 		if (subject == null)
 			return null;
+
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(subject);
-		String decryptedString = v.decryptIntoString();
+
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		String decryptedString;
+		if (codebook != null)
+			decryptedString = v.decryptIntoStringUsingSecret(codebook.subject);
+		else {
+			decryptedString = v.decryptIntoString();
+		}
 		if (decryptedString == null)
 			return null;
 		return EcPk.fromPem(decryptedString);
@@ -913,7 +930,7 @@ public class EcAssertion extends Assertion {
 		}
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(subject);
-		v.decryptIntoStringAsync(new Callback1&lt;String&gt;() {
+		Callback1&lt;String&gt; decrypted = new Callback1&lt;String&gt;() {
 			@Override
 			public void $invoke(String decryptedString) {
 				if (decryptedString == null)
@@ -921,7 +938,12 @@ public class EcAssertion extends Assertion {
 				else
 					success.$invoke(EcPk.fromPem(decryptedString));
 			}
-		}, failure);
+		};
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		if (codebook != null)
+			v.decryptIntoStringUsingSecretAsync(codebook.subject,decrypted,failure);
+		else
+			v.decryptIntoStringAsync(decrypted, failure);
 	}
 
 	public EcPk getAgent() {
@@ -929,7 +951,13 @@ public class EcAssertion extends Assertion {
 			return null;
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(agent);
-		String decryptedString = v.decryptIntoString();
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		String decryptedString;
+		if (codebook != null)
+			decryptedString = v.decryptIntoStringUsingSecret(codebook.agent);
+		else {
+			decryptedString = v.decryptIntoString();
+		}
 		if (decryptedString == null)
 			return null;
 		return EcPk.fromPem(decryptedString);
@@ -946,7 +974,7 @@ public class EcAssertion extends Assertion {
 		}
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(agent);
-		v.decryptIntoStringAsync(new Callback1&lt;String&gt;() {
+		Callback1&lt;String&gt; decrypted = new Callback1&lt;String&gt;() {
 			@Override
 			public void $invoke(String decryptedString) {
 				if (decryptedString == null)
@@ -954,7 +982,12 @@ public class EcAssertion extends Assertion {
 				else
 					success.$invoke(EcPk.fromPem(decryptedString));
 			}
-		}, failure);
+		};
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		if (codebook != null)
+			v.decryptIntoStringUsingSecretAsync(codebook.agent,decrypted,failure);
+		else
+			v.decryptIntoStringAsync(decrypted, failure);
 	}
 
 	public String getSubjectName() {
@@ -1034,7 +1067,13 @@ public class EcAssertion extends Assertion {
 			return null;
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(assertionDate);
-		String decryptedString = v.decryptIntoString();
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		String decryptedString;
+		if (codebook != null)
+			decryptedString = v.decryptIntoStringUsingSecret(codebook.assertionDate);
+		else {
+			decryptedString = v.decryptIntoString();
+		}
 		if (decryptedString == null)
 			return null;
 		return Long.parseLong(decryptedString);
@@ -1051,7 +1090,7 @@ public class EcAssertion extends Assertion {
 		}
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(assertionDate);
-		v.decryptIntoStringAsync(new Callback1&lt;String&gt;() {
+		Callback1&lt;String&gt; decrypted = new Callback1&lt;String&gt;() {
 			@Override
 			public void $invoke(String decryptedString) {
 				if (decryptedString == null)
@@ -1059,15 +1098,26 @@ public class EcAssertion extends Assertion {
 				else
 					success.$invoke(Long.parseLong(decryptedString));
 			}
-		}, failure);
+		};
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		if (codebook != null)
+			v.decryptIntoStringUsingSecretAsync(codebook.assertionDate,decrypted,failure);
+		else
+			v.decryptIntoStringAsync(decrypted, failure);
 	}
 
 	public Long getExpirationDate() {
 		if (expirationDate == null)
 			return null;
 		EcEncryptedValue v = new EcEncryptedValue();
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		String decryptedString;
 		v.copyFrom(expirationDate);
-		String decryptedString = v.decryptIntoString();
+		if (codebook != null)
+			decryptedString = v.decryptIntoStringUsingSecret(codebook.expirationDate);
+		else {
+			decryptedString = v.decryptIntoString();
+		}
 		if (decryptedString == null)
 			return null;
 		return Long.parseLong(decryptedString);
@@ -1084,7 +1134,7 @@ public class EcAssertion extends Assertion {
 		}
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(expirationDate);
-		v.decryptIntoStringAsync(new Callback1&lt;String&gt;() {
+		Callback1&lt;String&gt; decrypted = new Callback1&lt;String&gt;() {
 			@Override
 			public void $invoke(String decryptedString) {
 				if (decryptedString == null)
@@ -1092,7 +1142,12 @@ public class EcAssertion extends Assertion {
 				else
 					success.$invoke(Long.parseLong(decryptedString));
 			}
-		}, failure);
+		};
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		if (codebook != null)
+			v.decryptIntoStringUsingSecretAsync(codebook.expirationDate,decrypted,failure);
+		else
+			v.decryptIntoStringAsync(decrypted, failure);
 	}
 
 	public int getEvidenceCount() {
@@ -1107,7 +1162,13 @@ public class EcAssertion extends Assertion {
 
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(evidence.$get(index));
-		String decryptedString = v.decryptIntoString();
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		String decryptedString;
+		if (codebook != null)
+			decryptedString = v.decryptIntoStringUsingSecret(codebook.evidence.$get(index));
+		else {
+			decryptedString = v.decryptIntoString();
+		}
 		return decryptedString;
 	}
 
@@ -1118,7 +1179,7 @@ public class EcAssertion extends Assertion {
 		}
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(evidence.$get(index));
-		v.decryptIntoStringAsync(new Callback1&lt;String&gt;() {
+		Callback1&lt;String&gt; decrypted = new Callback1&lt;String&gt;() {
 			@Override
 			public void $invoke(String decryptedString) {
 				if (decryptedString == null)
@@ -1126,7 +1187,12 @@ public class EcAssertion extends Assertion {
 				else
 					success.$invoke(decryptedString);
 			}
-		}, failure);
+		};
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		if (codebook != null)
+			v.decryptIntoStringUsingSecretAsync(codebook.evidence.$get(index),decrypted,failure);
+		else
+			v.decryptIntoStringAsync(decrypted, failure);
 	}
 
 	public String getDecayFunction() {
@@ -1134,7 +1200,13 @@ public class EcAssertion extends Assertion {
 			return null;
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(decayFunction);
-		String decryptedString = v.decryptIntoString();
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		String decryptedString;
+		if (codebook != null)
+			decryptedString = v.decryptIntoStringUsingSecret(codebook.decayFunction);
+		else {
+			decryptedString = v.decryptIntoString();
+		}
 		if (decryptedString == null)
 			return null;
 		return decryptedString;
@@ -1151,7 +1223,7 @@ public class EcAssertion extends Assertion {
 		}
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(decayFunction);
-		v.decryptIntoStringAsync(new Callback1&lt;String&gt;() {
+		Callback1&lt;String&gt; decrypted = new Callback1&lt;String&gt;() {
 			@Override
 			public void $invoke(String decryptedString) {
 				if (decryptedString == null)
@@ -1159,7 +1231,12 @@ public class EcAssertion extends Assertion {
 				else
 					success.$invoke(decryptedString);
 			}
-		}, failure);
+		};
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		if (codebook != null)
+			v.decryptIntoStringUsingSecretAsync(codebook.decayFunction,decrypted,failure);
+		else
+			v.decryptIntoStringAsync(decrypted, failure);
 	}
 
 	public Boolean getNegative() {
@@ -1167,7 +1244,13 @@ public class EcAssertion extends Assertion {
 			return false;
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(negative);
-		String decryptedString = v.decryptIntoString();
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		String decryptedString;
+		if (codebook != null)
+			decryptedString = v.decryptIntoStringUsingSecret(codebook.negative);
+		else {
+			decryptedString = v.decryptIntoString();
+		}
 		if (decryptedString != null)
 			decryptedString.toLowerCase();
 		return &quot;true&quot;.equals(decryptedString);
@@ -1184,18 +1267,24 @@ public class EcAssertion extends Assertion {
 		}
 		EcEncryptedValue v = new EcEncryptedValue();
 		v.copyFrom(negative);
-		v.decryptIntoStringAsync(new Callback1&lt;String&gt;() {
+		Callback1&lt;String&gt; decrypted = new Callback1&lt;String&gt;() {
 			@Override
 			public void $invoke(String decryptedString) {
-				if (decryptedString == null) {
-					failure.$invoke(&quot;Could not decrypt negative.&quot;);
-					return;
-				}
+				if (decryptedString == null)
+					if (decryptedString == null) {
+						failure.$invoke(&quot;Could not decrypt negative.&quot;);
+						return;
+					}
 				if (decryptedString != null)
 					decryptedString.toLowerCase();
 				success.$invoke(&quot;true&quot;.equals(decryptedString));
 			}
-		}, failure);
+		};
+		AssertionCodebook codebook = Assertion.getCodebook(this);
+		if (codebook != null)
+			v.decryptIntoStringUsingSecretAsync(codebook.negative,decrypted,failure);
+		else
+			v.decryptIntoStringAsync(decrypted, failure);
 	}
 
 	public void setCompetency(String competencyUrl) {
@@ -1217,7 +1306,7 @@ public class EcAssertion extends Assertion {
 		evidence = encryptedValues;
 	}
 
-	public void save(Callback1&lt;String&gt; success, Callback1&lt;String&gt; failure) {
+	public void save(Callback1&lt;String&gt; success, Callback1&lt;String&gt; failure, EcRepository repo) {
 		if (competency == null || competency == &quot;&quot;) {
 			String msg = &quot;Failing to save: Competency cannot be missing&quot;;
 			if (failure != null)
@@ -1272,73 +1361,64 @@ public class EcAssertion extends Assertion {
 			return;
 		}
 
-		EcRepository._save(this, success, failure);
+		if (repo == null)
+			EcRepository.save(this, success, failure);
+		else
+			repo.saveTo(this, success, failure);
 	}
 
 	@Override
 	public void addReader(EcPk newReader) {
 		if (agent != null) {
-			agent = EcEncryptedValue.revive(agent);
 			agent.addReader(newReader);
 		}
 		if (assertionDate != null) {
-			assertionDate = EcEncryptedValue.revive(assertionDate);
 			assertionDate.addReader(newReader);
 		}
 		if (decayFunction != null) {
-			decayFunction = EcEncryptedValue.revive(decayFunction);
 			decayFunction.addReader(newReader);
 		}
 		if (evidence != null)
 			for (int i = 0; i &lt; evidence.$length(); i++) {
-				evidence.$set(i, EcEncryptedValue.revive(evidence.$get(i)));
 				evidence.$get(i).addReader(newReader);
 			}
 		if (expirationDate != null) {
-			expirationDate = EcEncryptedValue.revive(expirationDate);
 			expirationDate.addReader(newReader);
 		}
 		if (negative != null) {
-			negative = EcEncryptedValue.revive(negative);
 			negative.addReader(newReader);
 		}
 		if (subject != null) {
-			subject = EcEncryptedValue.revive(subject);
 			subject.addReader(newReader);
 		}
+		super.addReader(newReader);
 	}
 
 	@Override
 	public void removeReader(EcPk newReader) {
 		if (agent != null) {
-			agent = EcEncryptedValue.revive(agent);
 			agent.removeReader(newReader);
 		}
 		if (assertionDate != null) {
-			assertionDate = EcEncryptedValue.revive(assertionDate);
 			assertionDate.removeReader(newReader);
 		}
 		if (decayFunction != null) {
-			decayFunction = EcEncryptedValue.revive(decayFunction);
 			decayFunction.removeReader(newReader);
 		}
 		if (evidence != null)
 			for (int i = 0; i &lt; evidence.$length(); i++) {
-				evidence.$set(i, EcEncryptedValue.revive(evidence.$get(i)));
 				evidence.$get(i).removeReader(newReader);
 			}
 		if (expirationDate != null) {
-			expirationDate = EcEncryptedValue.revive(expirationDate);
 			expirationDate.removeReader(newReader);
 		}
 		if (negative != null) {
-			negative = EcEncryptedValue.revive(negative);
 			negative.removeReader(newReader);
 		}
 		if (subject != null) {
-			subject = EcEncryptedValue.revive(subject);
 			subject.removeReader(newReader);
 		}
+		super.removeReader(newReader);
 	}
 
 	public String getSearchStringByTypeAndCompetency(EcCompetency competency) {

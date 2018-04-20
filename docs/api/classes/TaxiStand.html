@@ -5,7 +5,7 @@
     <title>TaxiStand - EC Library</title>
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.0/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -37,6 +37,8 @@
                             <li><a href="../modules/org.json.ld.html">org.json.ld</a>
                             </li>
                             <li><a href="../modules/org.schema.html">org.schema</a>
+                            </li>
+                            <li><a href="../modules/org.w3.skos.html">org.w3.skos</a>
                             </li>
                     </ul>
                 </div>
@@ -178,6 +180,7 @@
                             <li><a href="../classes/Clip.html">Clip</a></li>
                             <li><a href="../classes/ClothingStore.html">ClothingStore</a></li>
                             <li><a href="../classes/Code.html">Code</a></li>
+                            <li><a href="../classes/Collection.html">Collection</a></li>
                             <li><a href="../classes/CollectionPage.html">CollectionPage</a></li>
                             <li><a href="../classes/CollegeOrUniversity.html">CollegeOrUniversity</a></li>
                             <li><a href="../classes/ComedyClub.html">ComedyClub</a></li>
@@ -190,6 +193,8 @@
                             <li><a href="../classes/CompoundPriceSpecification.html">CompoundPriceSpecification</a></li>
                             <li><a href="../classes/ComputerLanguage.html">ComputerLanguage</a></li>
                             <li><a href="../classes/ComputerStore.html">ComputerStore</a></li>
+                            <li><a href="../classes/Concept.html">Concept</a></li>
+                            <li><a href="../classes/ConceptScheme.html">ConceptScheme</a></li>
                             <li><a href="../classes/ConditionManifest.html">ConditionManifest</a></li>
                             <li><a href="../classes/ConditionProfile.html">ConditionProfile</a></li>
                             <li><a href="../classes/ConfirmAction.html">ConfirmAction</a></li>
@@ -203,6 +208,7 @@
                             <li><a href="../classes/Conversation.html">Conversation</a></li>
                             <li><a href="../classes/CookAction.html">CookAction</a></li>
                             <li><a href="../classes/Corporation.html">Corporation</a></li>
+                            <li><a href="../classes/CostManifest.html">CostManifest</a></li>
                             <li><a href="../classes/CostProfile.html">CostProfile</a></li>
                             <li><a href="../classes/Country.html">Country</a></li>
                             <li><a href="../classes/Course.html">Course</a></li>
@@ -524,6 +530,7 @@
                             <li><a href="../classes/OpeningHoursSpecification.html">OpeningHoursSpecification</a></li>
                             <li><a href="../classes/Order.html">Order</a></li>
                             <li><a href="../classes/OrderAction.html">OrderAction</a></li>
+                            <li><a href="../classes/OrderedCollection.html">OrderedCollection</a></li>
                             <li><a href="../classes/OrderItem.html">OrderItem</a></li>
                             <li><a href="../classes/OrderStatus.html">OrderStatus</a></li>
                             <li><a href="../classes/Organization.html">Organization</a></li>
@@ -578,6 +585,7 @@
                             <li><a href="../classes/ProductModel.html">ProductModel</a></li>
                             <li><a href="../classes/ProfessionalDoctorate.html">ProfessionalDoctorate</a></li>
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
+                            <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
@@ -809,6 +817,9 @@
                       <li><a href="#props_additionalProperty">additionalProperty</a></li>
                       <li><a href="#props_additionalType">additionalType</a></li>
                       <li><a href="#props_address">address</a></li>
+                      <li><a href="#props_addressCountry">addressCountry</a></li>
+                      <li><a href="#props_addressLocality">addressLocality</a></li>
+                      <li><a href="#props_addressRegion">addressRegion</a></li>
                       <li><a href="#props_aggregateRating">aggregateRating</a></li>
                       <li><a href="#props_alternateName">alternateName</a></li>
                       <li><a href="#props_amenityFeature">amenityFeature</a></li>
@@ -822,12 +833,15 @@
                       <li><a href="#props_events">events</a></li>
                       <li><a href="#props_faxNumber">faxNumber</a></li>
                       <li><a href="#props_geo">geo</a></li>
+                      <li><a href="#props_geoURI">geoURI</a></li>
                       <li><a href="#props_globalLocationNumber">globalLocationNumber</a></li>
                       <li><a href="#props_hasMap">hasMap</a></li>
                       <li><a href="#props_identifier">identifier</a></li>
                       <li><a href="#props_image">image</a></li>
                       <li><a href="#props_isicV4">isicV4</a></li>
+                      <li><a href="#props_latitude">latitude</a></li>
                       <li><a href="#props_logo">logo</a></li>
+                      <li><a href="#props_longitude">longitude</a></li>
                       <li><a href="#props_mainEntityOfPage">mainEntityOfPage</a></li>
                       <li><a href="#props_map">map</a></li>
                       <li><a href="#props_maps">maps</a></li>
@@ -837,12 +851,16 @@
                       <li><a href="#props_openingHoursSpecification">openingHoursSpecification</a></li>
                       <li><a href="#props_photo">photo</a></li>
                       <li><a href="#props_photos">photos</a></li>
+                      <li><a href="#props_postalCode">postalCode</a></li>
+                      <li><a href="#props_postOfficeBoxNumber">postOfficeBoxNumber</a></li>
                       <li><a href="#props_potentialAction">potentialAction</a></li>
                       <li><a href="#props_review">review</a></li>
                       <li><a href="#props_reviews">reviews</a></li>
                       <li><a href="#props_sameAs">sameAs</a></li>
                       <li><a href="#props_smokingAllowed">smokingAllowed</a></li>
                       <li><a href="#props_specialOpeningHoursSpecification">specialOpeningHoursSpecification</a></li>
+                      <li><a href="#props_streetAddress">streetAddress</a></li>
+                      <li><a href="#props_targetContactPoint">targetContactPoint</a></li>
                       <li><a href="#props_telephone">telephone</a></li>
                       <li><a href="#props_url">url</a></li>
                   </ul>
@@ -943,6 +961,51 @@ A taxi stand.</p>
             </div>
             <div class="short-description">
               <p><a href="http://Schema.org/address">Schema.org/address</a> Physical address of the item.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_addressCountry">addressCountry</a>: LangString
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/addressCountry">http://purl.org/ctdl/terms/addressCountry</a> Nation with its own government and occupying a particular territory identified by the two-letter ISO 3166-1 alpha-2 country code.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_addressLocality">addressLocality</a>: LangString
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/addressLocality">http://purl.org/ctdl/terms/addressLocality</a> Town, city, or village in which a particular location is situtated.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_addressRegion">addressRegion</a>: LangString
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/addressRegion">http://purl.org/ctdl/terms/addressRegion</a> State or province in which a particular location is situtated.</p>
             </div>
           </td>
         </tr>
@@ -1059,10 +1122,10 @@ A taxi stand.</p>
           </td>
           <td>
             <div class="property-name ">
-              <a href="#props_description">description</a>: Text
+              <a href="#props_description">description</a>: LangString
             </div>
             <div class="short-description">
-              
+              <p><a href="http://purl.org/ctdl/terms/description">http://purl.org/ctdl/terms/description</a> Statememnt, characterization or account of the entity.</p>
             </div>
           </td>
         </tr>
@@ -1149,6 +1212,21 @@ A taxi stand.</p>
           </td>
           <td>
             <div class="property-name ">
+              <a href="#props_geoURI">geoURI</a>: AnyURI
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/geoURI">http://purl.org/ctdl/terms/geoURI</a> Entity that describes the longitude, latitude and other location details of a place. This may define a place at any scale. Examples include a city, state, province, country, or continent.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
               <a href="#props_globalLocationNumber">globalLocationNumber</a>: Text
             </div>
             <div class="short-description">
@@ -1224,10 +1302,40 @@ A taxi stand.</p>
           </td>
           <td>
             <div class="property-name ">
+              <a href="#props_latitude">latitude</a>: Float
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/latitude">http://purl.org/ctdl/terms/latitude</a> Latitude of a location. For example 37.42242 (WGS 84)</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
               <a href="#props_logo">logo</a>: Schema, URL | schema,ImageObject
             </div>
             <div class="short-description">
               <p><a href="http://Schema.org/logo">Schema.org/logo</a> An associated logo.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_longitude">longitude</a>: Float
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/longitude">http://purl.org/ctdl/terms/longitude</a> The longitude of a location. For example -122.08585 (WGS 84).</p>
             </div>
           </td>
         </tr>
@@ -1299,10 +1407,10 @@ A taxi stand.</p>
           </td>
           <td>
             <div class="property-name ">
-              <a href="#props_name">name</a>: Text
+              <a href="#props_name">name</a>: LangString
             </div>
             <div class="short-description">
-              
+              <p><a href="http://purl.org/ctdl/terms/name">http://purl.org/ctdl/terms/name</a> Name or title of the entity.</p>
             </div>
           </td>
         </tr>
@@ -1363,6 +1471,36 @@ A taxi stand.</p>
             </div>
             <div class="short-description">
               <p><a href="http://Schema.org/photos">Schema.org/photos</a> Photographs of this place.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_postalCode">postalCode</a>: String
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/postalCode">http://purl.org/ctdl/terms/postalCode</a> The postal code. For example, 94043.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_postOfficeBoxNumber">postOfficeBoxNumber</a>: String
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/postOfficeBoxNumber">http://purl.org/ctdl/terms/postOfficeBoxNumber</a> Post office box number for post office addresses.</p>
             </div>
           </td>
         </tr>
@@ -1453,6 +1591,36 @@ A taxi stand.</p>
             </div>
             <div class="short-description">
               <p><a href="http://Schema.org/specialOpeningHoursSpecification">Schema.org/specialOpeningHoursSpecification</a> The special opening hours of a certain place.\n\nUse this to explicitly override general opening hours brought in scope by [[openingHoursSpecification]] or [[openingHours]].</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_streetAddress">streetAddress</a>: LangString
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/streetAddress">http://purl.org/ctdl/terms/streetAddress</a> Street address. e.g. "1600 Amphitheatre Pkwy".</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_targetContactPoint">targetContactPoint</a>: <a href="../classes/ContactPoint.html" class="crosslink">ContactPoint</a>
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/targetContactPoint">http://purl.org/ctdl/terms/targetContactPoint</a> Options for contacting the organization or person.</p>
             </div>
           </td>
         </tr>
@@ -1627,6 +1795,57 @@ Physical address of the item.</p>
 
 </div>
 <div class="property item">
+  <div id="props_addressCountry" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_Place.java.html#l24"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;Place.java:24</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      addressCountry: LangString
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/addressCountry">http://purl.org/ctdl/terms/addressCountry</a>
+Nation with its own government and occupying a particular territory identified by the two-letter ISO 3166-1 alpha-2 country code.</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_addressLocality" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_Place.java.html#l32"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;Place.java:32</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      addressLocality: LangString
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/addressLocality">http://purl.org/ctdl/terms/addressLocality</a>
+Town, city, or village in which a particular location is situtated.</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_addressRegion" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_Place.java.html#l40"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;Place.java:40</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      addressRegion: LangString
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/addressRegion">http://purl.org/ctdl/terms/addressRegion</a>
+State or province in which a particular location is situtated.</p>
+</div>
+
+</div>
+<div class="property item">
   <div id="props_aggregateRating" class="title">
     <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Place.java.html#l189"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Place.java:189</code></a></span>
     <h3 class="">
@@ -1746,18 +1965,19 @@ The basic containment relation between a place and another that it contains.</p>
 </div>
 <div class="property item">
   <div id="props_description" class="title">
-    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l48"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:48</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_Place.java.html#l48"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;Place.java:48</code></a></span>
     <h3 class="">
       public
       
       
-      description: Text
+      description: LangString
     </h3>
   </div>
 
 
-  <div class="property-description">Schema.org/description
-A description of the item.</div>
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/description">http://purl.org/ctdl/terms/description</a>
+Statememnt, characterization or account of the entity.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -1845,6 +2065,24 @@ The geo coordinates of the place.</p>
 
 </div>
 <div class="property item">
+  <div id="props_geoURI" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_Place.java.html#l56"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;Place.java:56</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      geoURI: AnyURI
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/geoURI">http://purl.org/ctdl/terms/geoURI</a>
+Entity that describes the longitude, latitude and other location details of a place.
+This may define a place at any scale. Examples include a city, state, province, country, or continent.</p>
+</div>
+
+</div>
+<div class="property item">
   <div id="props_globalLocationNumber" class="title">
     <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Place.java.html#l221"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Place.java:221</code></a></span>
     <h3 class="">
@@ -1928,6 +2166,24 @@ The International Standard of Industrial Classification of All Economic Activiti
 
 </div>
 <div class="property item">
+  <div id="props_latitude" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_Place.java.html#l65"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;Place.java:65</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      latitude: Float
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/latitude">http://purl.org/ctdl/terms/latitude</a>
+Latitude of a location.
+For example 37.42242 (WGS 84)</p>
+</div>
+
+</div>
+<div class="property item">
   <div id="props_logo" class="title">
     <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Place.java.html#l213"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Place.java:213</code></a></span>
     <h3 class="">
@@ -1941,6 +2197,24 @@ The International Standard of Industrial Classification of All Economic Activiti
 
   <div class="property-description"><p><a href="http://Schema.org/logo">Schema.org/logo</a>
 An associated logo.</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_longitude" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_Place.java.html#l74"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;Place.java:74</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      longitude: Float
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/longitude">http://purl.org/ctdl/terms/longitude</a>
+The longitude of a location.
+For example -122.08585 (WGS 84).</p>
 </div>
 
 </div>
@@ -2013,18 +2287,19 @@ The total number of individuals that may attend an event or venue.</p>
 </div>
 <div class="property item">
   <div id="props_name" class="title">
-    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l16"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:16</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_Place.java.html#l83"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;Place.java:83</code></a></span>
     <h3 class="">
       public
       
       
-      name: Text
+      name: LangString
     </h3>
   </div>
 
 
-  <div class="property-description">Schema.org/name
-The name of the item.</div>
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/name">http://purl.org/ctdl/terms/name</a>
+Name or title of the entity.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -2092,6 +2367,40 @@ A photograph of this place.</p>
 
   <div class="property-description"><p><a href="http://Schema.org/photos">Schema.org/photos</a>
 Photographs of this place.</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_postalCode" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_Place.java.html#l91"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;Place.java:91</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      postalCode: String
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/postalCode">http://purl.org/ctdl/terms/postalCode</a>
+The postal code. For example, 94043.</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_postOfficeBoxNumber" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_Place.java.html#l99"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;Place.java:99</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      postOfficeBoxNumber: String
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/postOfficeBoxNumber">http://purl.org/ctdl/terms/postOfficeBoxNumber</a>
+Post office box number for post office addresses.</p>
 </div>
 
 </div>
@@ -2192,6 +2501,40 @@ Indicates whether it is allowed to smoke in the place, e.g. in the restaurant, h
 
   <div class="property-description"><p><a href="http://Schema.org/specialOpeningHoursSpecification">Schema.org/specialOpeningHoursSpecification</a>
 The special opening hours of a certain place.\n\nUse this to explicitly override general opening hours brought in scope by [[openingHoursSpecification]] or [[openingHours]].</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_streetAddress" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_Place.java.html#l107"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;Place.java:107</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      streetAddress: LangString
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/streetAddress">http://purl.org/ctdl/terms/streetAddress</a>
+Street address. e.g. "1600 Amphitheatre Pkwy".</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_targetContactPoint" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_Place.java.html#l115"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;Place.java:115</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      targetContactPoint: <a href="../classes/ContactPoint.html" class="crosslink">ContactPoint</a>
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/targetContactPoint">http://purl.org/ctdl/terms/targetContactPoint</a>
+Options for contacting the organization or person.</p>
 </div>
 
 </div>

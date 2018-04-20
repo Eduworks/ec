@@ -5,7 +5,7 @@
     <title>GeoCoordinates - EC Library</title>
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.0/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -37,6 +37,8 @@
                             <li><a href="../modules/org.json.ld.html">org.json.ld</a>
                             </li>
                             <li><a href="../modules/org.schema.html">org.schema</a>
+                            </li>
+                            <li><a href="../modules/org.w3.skos.html">org.w3.skos</a>
                             </li>
                     </ul>
                 </div>
@@ -178,6 +180,7 @@
                             <li><a href="../classes/Clip.html">Clip</a></li>
                             <li><a href="../classes/ClothingStore.html">ClothingStore</a></li>
                             <li><a href="../classes/Code.html">Code</a></li>
+                            <li><a href="../classes/Collection.html">Collection</a></li>
                             <li><a href="../classes/CollectionPage.html">CollectionPage</a></li>
                             <li><a href="../classes/CollegeOrUniversity.html">CollegeOrUniversity</a></li>
                             <li><a href="../classes/ComedyClub.html">ComedyClub</a></li>
@@ -190,6 +193,8 @@
                             <li><a href="../classes/CompoundPriceSpecification.html">CompoundPriceSpecification</a></li>
                             <li><a href="../classes/ComputerLanguage.html">ComputerLanguage</a></li>
                             <li><a href="../classes/ComputerStore.html">ComputerStore</a></li>
+                            <li><a href="../classes/Concept.html">Concept</a></li>
+                            <li><a href="../classes/ConceptScheme.html">ConceptScheme</a></li>
                             <li><a href="../classes/ConditionManifest.html">ConditionManifest</a></li>
                             <li><a href="../classes/ConditionProfile.html">ConditionProfile</a></li>
                             <li><a href="../classes/ConfirmAction.html">ConfirmAction</a></li>
@@ -203,6 +208,7 @@
                             <li><a href="../classes/Conversation.html">Conversation</a></li>
                             <li><a href="../classes/CookAction.html">CookAction</a></li>
                             <li><a href="../classes/Corporation.html">Corporation</a></li>
+                            <li><a href="../classes/CostManifest.html">CostManifest</a></li>
                             <li><a href="../classes/CostProfile.html">CostProfile</a></li>
                             <li><a href="../classes/Country.html">Country</a></li>
                             <li><a href="../classes/Course.html">Course</a></li>
@@ -524,6 +530,7 @@
                             <li><a href="../classes/OpeningHoursSpecification.html">OpeningHoursSpecification</a></li>
                             <li><a href="../classes/Order.html">Order</a></li>
                             <li><a href="../classes/OrderAction.html">OrderAction</a></li>
+                            <li><a href="../classes/OrderedCollection.html">OrderedCollection</a></li>
                             <li><a href="../classes/OrderItem.html">OrderItem</a></li>
                             <li><a href="../classes/OrderStatus.html">OrderStatus</a></li>
                             <li><a href="../classes/Organization.html">Organization</a></li>
@@ -578,6 +585,7 @@
                             <li><a href="../classes/ProductModel.html">ProductModel</a></li>
                             <li><a href="../classes/ProfessionalDoctorate.html">ProfessionalDoctorate</a></li>
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
+                            <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
@@ -808,15 +816,17 @@
                   <ul>
                       <li><a href="#props_additionalType">additionalType</a></li>
                       <li><a href="#props_address">address</a></li>
-                      <li><a href="#props_address">address</a></li>
                       <li><a href="#props_addressCountry">addressCountry</a></li>
                       <li><a href="#props_alternateName">alternateName</a></li>
                       <li><a href="#props_description">description</a></li>
                       <li><a href="#props_disambiguatingDescription">disambiguatingDescription</a></li>
                       <li><a href="#props_elevation">elevation</a></li>
+                      <li><a href="#props_geoURI">geoURI</a></li>
                       <li><a href="#props_identifier">identifier</a></li>
                       <li><a href="#props_image">image</a></li>
                       <li><a href="#props_latitude">latitude</a></li>
+                      <li><a href="#props_latitude">latitude</a></li>
+                      <li><a href="#props_longitude">longitude</a></li>
                       <li><a href="#props_longitude">longitude</a></li>
                       <li><a href="#props_mainEntityOfPage">mainEntityOfPage</a></li>
                       <li><a href="#props_name">name</a></li>
@@ -892,21 +902,6 @@ The geographic coordinates of a place or event.</p>
             </div>
             <div class="short-description">
               
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            public
-            
-            
-          </td>
-          <td>
-            <div class="property-name ">
-              <a href="#props_address">address</a>: <a href="../classes/PostalAddress.html" class="crosslink">PostalAddress</a>
-            </div>
-            <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/address">http://purl.org/ctdl/terms/address</a> Physical address of the resource.</p>
             </div>
           </td>
         </tr>
@@ -1008,6 +1003,21 @@ The geographic coordinates of a place or event.</p>
           </td>
           <td>
             <div class="property-name ">
+              <a href="#props_geoURI">geoURI</a>: AnyURI
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/geoURI">http://purl.org/ctdl/terms/geoURI</a> Entity that describes the longitude, latitude and other location details of a place. This may define a place at any scale. Examples include a city, state, province, country, or continent.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
               <a href="#props_identifier">identifier</a>: Schema, URL | schema,Text | schema,PropertyValue
             </div>
             <div class="short-description">
@@ -1053,10 +1063,40 @@ The geographic coordinates of a place or event.</p>
           </td>
           <td>
             <div class="property-name ">
+              <a href="#props_latitude">latitude</a>: Float
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/latitude">http://purl.org/ctdl/terms/latitude</a> Latitude of a location. For example 37.42242 (WGS 84)</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
               <a href="#props_longitude">longitude</a>: Schema, Number | schema,Text
             </div>
             <div class="short-description">
               <p><a href="http://Schema.org/longitude">Schema.org/longitude</a> The longitude of a location. For example <code>-122.08585</code> (<a href="https://en.wikipedia.org/wiki/World_Geodetic_System">WGS 84</a>).</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_longitude">longitude</a>: Float
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/longitude">http://purl.org/ctdl/terms/longitude</a> The longitude of a location. For example -122.08585 (WGS 84).</p>
             </div>
           </td>
         </tr>
@@ -1083,10 +1123,10 @@ The geographic coordinates of a place or event.</p>
           </td>
           <td>
             <div class="property-name ">
-              <a href="#props_name">name</a>: Literal
+              <a href="#props_name">name</a>: LangString
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/name">http://purl.org/ctdl/terms/name</a> The name of the resource being described.</p>
+              <p><a href="http://purl.org/ctdl/terms/name">http://purl.org/ctdl/terms/name</a> Name or title of the entity.</p>
             </div>
           </td>
         </tr>
@@ -1143,10 +1183,10 @@ The geographic coordinates of a place or event.</p>
           </td>
           <td>
             <div class="property-name ">
-              <a href="#props_url">url</a>: AnyURI
+              <a href="#props_url">url</a>: URL
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/url">http://purl.org/ctdl/terms/url</a> URL of the resource being described.</p>
+              
             </div>
           </td>
         </tr>
@@ -1258,23 +1298,6 @@ An additional type for the item, typically used for adding more specific types f
 </div>
 <div class="property item">
   <div id="props_address" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_GeoCoordinates.java.html#l13"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;GeoCoordinates.java:13</code></a></span>
-    <h3 class="">
-      public
-      
-      
-      address: <a href="../classes/PostalAddress.html" class="crosslink">PostalAddress</a>
-    </h3>
-  </div>
-
-
-  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/address">http://purl.org/ctdl/terms/address</a>
-Physical address of the resource.</p>
-</div>
-
-</div>
-<div class="property item">
-  <div id="props_address" class="title">
     <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_GeoCoordinates.java.html#l53"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;GeoCoordinates.java:53</code></a></span>
     <h3 class="">
       public
@@ -1373,6 +1396,24 @@ The elevation of a location (<a href="https://en.wikipedia.org/wiki/World_Geodet
 
 </div>
 <div class="property item">
+  <div id="props_geoURI" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_GeoCoordinates.java.html#l26"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;GeoCoordinates.java:26</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      geoURI: AnyURI
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/geoURI">http://purl.org/ctdl/terms/geoURI</a>
+Entity that describes the longitude, latitude and other location details of a place.
+This may define a place at any scale. Examples include a city, state, province, country, or continent.</p>
+</div>
+
+</div>
+<div class="property item">
   <div id="props_identifier" class="title">
     <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l24"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:24</code></a></span>
     <h3 class="">
@@ -1422,6 +1463,24 @@ The latitude of a location. For example <code>37.42242</code> (<a href="https://
 
 </div>
 <div class="property item">
+  <div id="props_latitude" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_GeoCoordinates.java.html#l35"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;GeoCoordinates.java:35</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      latitude: Float
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/latitude">http://purl.org/ctdl/terms/latitude</a>
+Latitude of a location.
+For example 37.42242 (WGS 84)</p>
+</div>
+
+</div>
+<div class="property item">
   <div id="props_longitude" class="title">
     <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_GeoCoordinates.java.html#l37"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;GeoCoordinates.java:37</code></a></span>
     <h3 class="">
@@ -1435,6 +1494,24 @@ The latitude of a location. For example <code>37.42242</code> (<a href="https://
 
   <div class="property-description"><p><a href="http://Schema.org/longitude">Schema.org/longitude</a>
 The longitude of a location. For example <code>-122.08585</code> (<a href="https://en.wikipedia.org/wiki/World_Geodetic_System">WGS 84</a>).</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_longitude" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_GeoCoordinates.java.html#l44"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;GeoCoordinates.java:44</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      longitude: Float
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/longitude">http://purl.org/ctdl/terms/longitude</a>
+The longitude of a location.
+For example -122.08585 (WGS 84).</p>
 </div>
 
 </div>
@@ -1456,18 +1533,18 @@ Indicates a page (or other CreativeWork) for which this thing is the main entity
 </div>
 <div class="property item">
   <div id="props_name" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_GeoCoordinates.java.html#l21"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;GeoCoordinates.java:21</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_GeoCoordinates.java.html#l53"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;GeoCoordinates.java:53</code></a></span>
     <h3 class="">
       public
       
       
-      name: Literal
+      name: LangString
     </h3>
   </div>
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/name">http://purl.org/ctdl/terms/name</a>
-The name of the resource being described.</p>
+Name or title of the entity.</p>
 </div>
 
 </div>
@@ -1522,19 +1599,18 @@ URL of a reference Web page that unambiguously indicates the item's identity. E.
 </div>
 <div class="property item">
   <div id="props_url" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_GeoCoordinates.java.html#l29"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;GeoCoordinates.java:29</code></a></span>
+    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l32"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:32</code></a></span>
     <h3 class="">
       public
       
       
-      url: AnyURI
+      url: URL
     </h3>
   </div>
 
 
-  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/url">http://purl.org/ctdl/terms/url</a>
-URL of the resource being described.</p>
-</div>
+  <div class="property-description">Schema.org/url
+URL of the item.</div>
 
 </div>
     </div>

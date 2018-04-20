@@ -5,7 +5,7 @@
     <title>VerificationServiceProfile - EC Library</title>
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.0/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -37,6 +37,8 @@
                             <li><a href="../modules/org.json.ld.html">org.json.ld</a>
                             </li>
                             <li><a href="../modules/org.schema.html">org.schema</a>
+                            </li>
+                            <li><a href="../modules/org.w3.skos.html">org.w3.skos</a>
                             </li>
                     </ul>
                 </div>
@@ -178,6 +180,7 @@
                             <li><a href="../classes/Clip.html">Clip</a></li>
                             <li><a href="../classes/ClothingStore.html">ClothingStore</a></li>
                             <li><a href="../classes/Code.html">Code</a></li>
+                            <li><a href="../classes/Collection.html">Collection</a></li>
                             <li><a href="../classes/CollectionPage.html">CollectionPage</a></li>
                             <li><a href="../classes/CollegeOrUniversity.html">CollegeOrUniversity</a></li>
                             <li><a href="../classes/ComedyClub.html">ComedyClub</a></li>
@@ -190,6 +193,8 @@
                             <li><a href="../classes/CompoundPriceSpecification.html">CompoundPriceSpecification</a></li>
                             <li><a href="../classes/ComputerLanguage.html">ComputerLanguage</a></li>
                             <li><a href="../classes/ComputerStore.html">ComputerStore</a></li>
+                            <li><a href="../classes/Concept.html">Concept</a></li>
+                            <li><a href="../classes/ConceptScheme.html">ConceptScheme</a></li>
                             <li><a href="../classes/ConditionManifest.html">ConditionManifest</a></li>
                             <li><a href="../classes/ConditionProfile.html">ConditionProfile</a></li>
                             <li><a href="../classes/ConfirmAction.html">ConfirmAction</a></li>
@@ -203,6 +208,7 @@
                             <li><a href="../classes/Conversation.html">Conversation</a></li>
                             <li><a href="../classes/CookAction.html">CookAction</a></li>
                             <li><a href="../classes/Corporation.html">Corporation</a></li>
+                            <li><a href="../classes/CostManifest.html">CostManifest</a></li>
                             <li><a href="../classes/CostProfile.html">CostProfile</a></li>
                             <li><a href="../classes/Country.html">Country</a></li>
                             <li><a href="../classes/Course.html">Course</a></li>
@@ -524,6 +530,7 @@
                             <li><a href="../classes/OpeningHoursSpecification.html">OpeningHoursSpecification</a></li>
                             <li><a href="../classes/Order.html">Order</a></li>
                             <li><a href="../classes/OrderAction.html">OrderAction</a></li>
+                            <li><a href="../classes/OrderedCollection.html">OrderedCollection</a></li>
                             <li><a href="../classes/OrderItem.html">OrderItem</a></li>
                             <li><a href="../classes/OrderStatus.html">OrderStatus</a></li>
                             <li><a href="../classes/Organization.html">Organization</a></li>
@@ -578,6 +585,7 @@
                             <li><a href="../classes/ProductModel.html">ProductModel</a></li>
                             <li><a href="../classes/ProfessionalDoctorate.html">ProfessionalDoctorate</a></li>
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
+                            <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
@@ -812,6 +820,7 @@
                       <li><a href="#props_description">description</a></li>
                       <li><a href="#props_disambiguatingDescription">disambiguatingDescription</a></li>
                       <li><a href="#props_estimatedCost">estimatedCost</a></li>
+                      <li><a href="#props_holderMustAuthorize">holderMustAuthorize</a></li>
                       <li><a href="#props_identifier">identifier</a></li>
                       <li><a href="#props_image">image</a></li>
                       <li><a href="#props_jurisdiction">jurisdiction</a></li>
@@ -822,9 +831,13 @@
                       <li><a href="#props_potentialAction">potentialAction</a></li>
                       <li><a href="#props_region">region</a></li>
                       <li><a href="#props_sameAs">sameAs</a></li>
+                      <li><a href="#props_subjectWebpage">subjectWebpage</a></li>
                       <li><a href="#props_targetCredential">targetCredential</a></li>
                       <li><a href="#props_url">url</a></li>
+                      <li><a href="#props_verificationDirectory">verificationDirectory</a></li>
                       <li><a href="#props_verificationMethodDescription">verificationMethodDescription</a></li>
+                      <li><a href="#props_verificationService">verificationService</a></li>
+                      <li><a href="#props_verifiedClaimType">verifiedClaimType</a></li>
                   </ul>
             
             
@@ -851,7 +864,7 @@
 
         <div id="main" class="yui3-u">
             <div class="content"><div class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_VerificationServiceProfile.java.html#l3"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;VerificationServiceProfile.java:3</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_VerificationServiceProfile.java.html#l6"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;VerificationServiceProfile.java:6</code></a></span>
     <h1 class="class-name">VerificationServiceProfile</h1>
 </div>
 
@@ -863,7 +876,8 @@
     </div>
 
 <div class="class-description"><p><a href="http://credentialengine.org/VerificationServiceProfile">credentialengine.org/VerificationServiceProfile</a>
-A resource describing the means by which someone can verify whether a credential has been attained.</p>
+Entity describing the means by which someone can verify whether a credential has been attained.
+Includes, but is not limited to, verification of whether quality assurance credentials have been issued for organizations, learning opportunities, and assessments.</p>
 </div>
 
 
@@ -922,7 +936,7 @@ A resource describing the means by which someone can verify whether a credential
               <a href="#props_dateEffective">dateEffective</a>: Date
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/dateEffective">http://purl.org/ctdl/terms/dateEffective</a> The effective date of the described resource content.</p>
+              <p><a href="http://purl.org/ctdl/terms/dateEffective">http://purl.org/ctdl/terms/dateEffective</a> Effective date of the content of a credential, assessment or learning opportunity.</p>
             </div>
           </td>
         </tr>
@@ -934,10 +948,10 @@ A resource describing the means by which someone can verify whether a credential
           </td>
           <td>
             <div class="property-name ">
-              <a href="#props_description">description</a>: Literal
+              <a href="#props_description">description</a>: LangString
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/description">http://purl.org/ctdl/terms/description</a> A short description of the resource being described.</p>
+              <p><a href="http://purl.org/ctdl/terms/description">http://purl.org/ctdl/terms/description</a> Statememnt, characterization or account of the entity.</p>
             </div>
           </td>
         </tr>
@@ -967,7 +981,22 @@ A resource describing the means by which someone can verify whether a credential
               <a href="#props_estimatedCost">estimatedCost</a>: <a href="../classes/CostProfile.html" class="crosslink">CostProfile</a>
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/estimatedCost">http://purl.org/ctdl/terms/estimatedCost</a> The estimated cost of the described resource.</p>
+              <p><a href="http://purl.org/ctdl/terms/estimatedCost">http://purl.org/ctdl/terms/estimatedCost</a> Estimated cost of a credential, learning opportunity or assessment.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_holderMustAuthorize">holderMustAuthorize</a>: Boolean
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/holderMustAuthorize">http://purl.org/ctdl/terms/holderMustAuthorize</a> Whether or not the credential holder must authorize the organization to provide the verification service.</p>
             </div>
           </td>
         </tr>
@@ -1012,7 +1041,7 @@ A resource describing the means by which someone can verify whether a credential
               <a href="#props_jurisdiction">jurisdiction</a>: <a href="../classes/JurisdictionProfile.html" class="crosslink">JurisdictionProfile</a>
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/jurisdiction">http://purl.org/ctdl/terms/jurisdiction</a> The geo-political region in which the described resource is applicable.</p>
+              <p><a href="http://purl.org/ctdl/terms/jurisdiction">http://purl.org/ctdl/terms/jurisdiction</a> Geographic or political region in which the credential is formally applicable or an organization has authority to act.</p>
             </div>
           </td>
         </tr>
@@ -1057,7 +1086,7 @@ A resource describing the means by which someone can verify whether a credential
               <a href="#props_offeredBy">offeredBy</a>: <a href="../classes/CredentialOrganization.html" class="crosslink">CredentialOrganization</a> | <a href="../classes/CredentialPerson.html" class="crosslink">CredentialPerson</a> | <a href="../classes/QACredentialOrganization.html" class="crosslink">QACredentialOrganization</a>
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/offeredBy">http://purl.org/ctdl/terms/offeredBy</a> Access to the described resource is offered by the referenced agent.</p>
+              <p><a href="http://purl.org/ctdl/terms/offeredBy">http://purl.org/ctdl/terms/offeredBy</a> Agent that offers the credential, learning opportunity or assessment.</p>
             </div>
           </td>
         </tr>
@@ -1072,7 +1101,7 @@ A resource describing the means by which someone can verify whether a credential
               <a href="#props_offeredIn">offeredIn</a>: <a href="../classes/JurisdictionProfile.html" class="crosslink">JurisdictionProfile</a>
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/offeredIn">http://purl.org/ctdl/terms/offeredIn</a> The resource being described is offered in the jurisdiction being referenced.</p>
+              <p><a href="http://purl.org/ctdl/terms/offeredIn">http://purl.org/ctdl/terms/offeredIn</a> Region or political jurisdiction such as a state, province or locale where the credential, learning resource or assessment is offered.</p>
             </div>
           </td>
         </tr>
@@ -1099,10 +1128,10 @@ A resource describing the means by which someone can verify whether a credential
           </td>
           <td>
             <div class="property-name ">
-              <a href="#props_region">region</a>: <a href="../classes/GeoCoordinates.html" class="crosslink">GeoCoordinates</a>
+              <a href="#props_region">region</a>: <a href="../classes/Place.html" class="crosslink">Place</a>
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/region">http://purl.org/ctdl/terms/region</a> A geo-political area of the described resource.</p>
+              <p><a href="http://purl.org/ctdl/terms/region">http://purl.org/ctdl/terms/region</a> Entity that describes the longitude, latitude and other location details of an area.</p>
             </div>
           </td>
         </tr>
@@ -1129,10 +1158,25 @@ A resource describing the means by which someone can verify whether a credential
           </td>
           <td>
             <div class="property-name ">
+              <a href="#props_subjectWebpage">subjectWebpage</a>: AnyURI
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/subjectWebpage">http://purl.org/ctdl/terms/subjectWebpage</a> The webpage that describes this entity. The web page being referenced describes the entity. The value of subjectWebpage is an authoritative location for information about the subject but should not assumed to be a persistent identifier of the subject.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
               <a href="#props_targetCredential">targetCredential</a>: <a href="../classes/ApprenticeshipCertificate.html" class="crosslink">ApprenticeshipCertificate</a> | <a href="../classes/AssociateDegree.html" class="crosslink">AssociateDegree</a> | <a href="../classes/BachelorDegree.html" class="crosslink">BachelorDegree</a> | <a href="../classes/Badge.html" class="crosslink">Badge</a> | <a href="../classes/Certificate.html" class="crosslink">Certificate</a> | <a href="../classes/Certification.html" class="crosslink">Certification</a> | <a href="../classes/Credential.html" class="crosslink">Credential</a> | <a href="../classes/Degree.html" class="crosslink">Degree</a> | <a href="../classes/DigitalBadge.html" class="crosslink">DigitalBadge</a> | <a href="../classes/Diploma.html" class="crosslink">Diploma</a> | <a href="../classes/DoctoralDegree.html" class="crosslink">DoctoralDegree</a> | <a href="../classes/GeneralEducationDevelopment.html" class="crosslink">GeneralEducationDevelopment</a> | <a href="../classes/JourneymanCertificate.html" class="crosslink">JourneymanCertificate</a> | <a href="../classes/License.html" class="crosslink">License</a> | <a href="../classes/MasterCertificate.html" class="crosslink">MasterCertificate</a> | <a href="../classes/MasterDegree.html" class="crosslink">MasterDegree</a> | <a href="../classes/MicroCredential.html" class="crosslink">MicroCredential</a> | <a href="../classes/OpenBadge.html" class="crosslink">OpenBadge</a> | <a href="../classes/ProfessionalDoctorate.html" class="crosslink">ProfessionalDoctorate</a> | <a href="../classes/QualityAssuranceCredential.html" class="crosslink">QualityAssuranceCredential</a> | <a href="../classes/ResearchDoctorate.html" class="crosslink">ResearchDoctorate</a> | <a href="../classes/SecondarySchoolDiploma.html" class="crosslink">SecondarySchoolDiploma</a>
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/targetCredential">http://purl.org/ctdl/terms/targetCredential</a> A credential that is a focus or target of the resource being described.</p>
+              <p><a href="http://purl.org/ctdl/terms/targetCredential">http://purl.org/ctdl/terms/targetCredential</a> Credential that is a focus or target of the condition, process or verification service.</p>
             </div>
           </td>
         </tr>
@@ -1159,10 +1203,55 @@ A resource describing the means by which someone can verify whether a credential
           </td>
           <td>
             <div class="property-name ">
-              <a href="#props_verificationMethodDescription">verificationMethodDescription</a>: Literal
+              <a href="#props_verificationDirectory">verificationDirectory</a>: AnyURI
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/verificationMethodDescription">http://purl.org/ctdl/terms/verificationMethodDescription</a> Description of the methods used to evaluate the resource validity and reliability.</p>
+              <p><a href="http://purl.org/ctdl/terms/verificationDirectory">http://purl.org/ctdl/terms/verificationDirectory</a> Directory of credential holders and their current statuses.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_verificationMethodDescription">verificationMethodDescription</a>: LangString
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/verificationMethodDescription">http://purl.org/ctdl/terms/verificationMethodDescription</a> Textual description of the methods used to evaluate an assessment, learning opportunity, process or verificaiton service for validity or reliability.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_verificationService">verificationService</a>: AnyURI
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/verificationService">http://purl.org/ctdl/terms/verificationService</a> Direct access to the verification service. This property identifies machine-accessible services, such as API endpoints, that provide direct access to the verification service being described.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_verifiedClaimType">verifiedClaimType</a>: <a href="../classes/CredentialAlignmentObject.html" class="crosslink">CredentialAlignmentObject</a>
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/verifiedClaimType">http://purl.org/ctdl/terms/verifiedClaimType</a> Type of claim provided through a verification service; select from an existing enumeration of such types.</p>
             </div>
           </td>
         </tr>
@@ -1290,7 +1379,7 @@ An alias for the item.</div>
 </div>
 <div class="property item">
   <div id="props_dateEffective" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_VerificationServiceProfile.java.html#l13"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;VerificationServiceProfile.java:13</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_VerificationServiceProfile.java.html#l27"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;VerificationServiceProfile.java:27</code></a></span>
     <h3 class="">
       public
       
@@ -1301,24 +1390,24 @@ An alias for the item.</div>
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/dateEffective">http://purl.org/ctdl/terms/dateEffective</a>
-The effective date of the described resource content.</p>
+Effective date of the content of a credential, assessment or learning opportunity.</p>
 </div>
 
 </div>
 <div class="property item">
   <div id="props_description" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_VerificationServiceProfile.java.html#l21"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;VerificationServiceProfile.java:21</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_VerificationServiceProfile.java.html#l35"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;VerificationServiceProfile.java:35</code></a></span>
     <h3 class="">
       public
       
       
-      description: Literal
+      description: LangString
     </h3>
   </div>
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/description">http://purl.org/ctdl/terms/description</a>
-A short description of the resource being described.</p>
+Statememnt, characterization or account of the entity.</p>
 </div>
 
 </div>
@@ -1340,7 +1429,7 @@ A sub property of description. A short description of the item used to disambigu
 </div>
 <div class="property item">
   <div id="props_estimatedCost" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_VerificationServiceProfile.java.html#l29"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;VerificationServiceProfile.java:29</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_VerificationServiceProfile.java.html#l43"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;VerificationServiceProfile.java:43</code></a></span>
     <h3 class="">
       public
       
@@ -1351,7 +1440,24 @@ A sub property of description. A short description of the item used to disambigu
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/estimatedCost">http://purl.org/ctdl/terms/estimatedCost</a>
-The estimated cost of the described resource.</p>
+Estimated cost of a credential, learning opportunity or assessment.</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_holderMustAuthorize" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_VerificationServiceProfile.java.html#l51"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;VerificationServiceProfile.java:51</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      holderMustAuthorize: Boolean
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/holderMustAuthorize">http://purl.org/ctdl/terms/holderMustAuthorize</a>
+Whether or not the credential holder must authorize the organization to provide the verification service.</p>
 </div>
 
 </div>
@@ -1389,7 +1495,7 @@ An image of the item. This can be a [[URL]] or a fully described [[ImageObject]]
 </div>
 <div class="property item">
   <div id="props_jurisdiction" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_VerificationServiceProfile.java.html#l37"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;VerificationServiceProfile.java:37</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_VerificationServiceProfile.java.html#l59"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;VerificationServiceProfile.java:59</code></a></span>
     <h3 class="">
       public
       
@@ -1400,7 +1506,7 @@ An image of the item. This can be a [[URL]] or a fully described [[ImageObject]]
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/jurisdiction">http://purl.org/ctdl/terms/jurisdiction</a>
-The geo-political region in which the described resource is applicable.</p>
+Geographic or political region in which the credential is formally applicable or an organization has authority to act.</p>
 </div>
 
 </div>
@@ -1438,7 +1544,7 @@ The name of the item.</div>
 </div>
 <div class="property item">
   <div id="props_offeredBy" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_VerificationServiceProfile.java.html#l45"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;VerificationServiceProfile.java:45</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_VerificationServiceProfile.java.html#l67"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;VerificationServiceProfile.java:67</code></a></span>
     <h3 class="">
       public
       
@@ -1449,13 +1555,13 @@ The name of the item.</div>
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/offeredBy">http://purl.org/ctdl/terms/offeredBy</a>
-Access to the described resource is offered by the referenced agent.</p>
+Agent that offers the credential, learning opportunity or assessment.</p>
 </div>
 
 </div>
 <div class="property item">
   <div id="props_offeredIn" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_VerificationServiceProfile.java.html#l53"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;VerificationServiceProfile.java:53</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_VerificationServiceProfile.java.html#l75"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;VerificationServiceProfile.java:75</code></a></span>
     <h3 class="">
       public
       
@@ -1466,7 +1572,7 @@ Access to the described resource is offered by the referenced agent.</p>
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/offeredIn">http://purl.org/ctdl/terms/offeredIn</a>
-The resource being described is offered in the jurisdiction being referenced.</p>
+Region or political jurisdiction such as a state, province or locale where the credential, learning resource or assessment is offered.</p>
 </div>
 
 </div>
@@ -1488,18 +1594,18 @@ Indicates a potential Action, which describes an idealized action in which this 
 </div>
 <div class="property item">
   <div id="props_region" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_VerificationServiceProfile.java.html#l61"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;VerificationServiceProfile.java:61</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_VerificationServiceProfile.java.html#l83"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;VerificationServiceProfile.java:83</code></a></span>
     <h3 class="">
       public
       
       
-      region: <a href="../classes/GeoCoordinates.html" class="crosslink">GeoCoordinates</a>
+      region: <a href="../classes/Place.html" class="crosslink">Place</a>
     </h3>
   </div>
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/region">http://purl.org/ctdl/terms/region</a>
-A geo-political area of the described resource.</p>
+Entity that describes the longitude, latitude and other location details of an area.</p>
 </div>
 
 </div>
@@ -1520,8 +1626,26 @@ URL of a reference Web page that unambiguously indicates the item's identity. E.
 
 </div>
 <div class="property item">
+  <div id="props_subjectWebpage" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_VerificationServiceProfile.java.html#l91"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;VerificationServiceProfile.java:91</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      subjectWebpage: AnyURI
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/subjectWebpage">http://purl.org/ctdl/terms/subjectWebpage</a>
+The webpage that describes this entity.
+The web page being referenced describes the entity. The value of subjectWebpage is an authoritative location for information about the subject but should not assumed to be a persistent identifier of the subject.</p>
+</div>
+
+</div>
+<div class="property item">
   <div id="props_targetCredential" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_VerificationServiceProfile.java.html#l69"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;VerificationServiceProfile.java:69</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_VerificationServiceProfile.java.html#l100"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;VerificationServiceProfile.java:100</code></a></span>
     <h3 class="">
       public
       
@@ -1532,7 +1656,7 @@ URL of a reference Web page that unambiguously indicates the item's identity. E.
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/targetCredential">http://purl.org/ctdl/terms/targetCredential</a>
-A credential that is a focus or target of the resource being described.</p>
+Credential that is a focus or target of the condition, process or verification service.</p>
 </div>
 
 </div>
@@ -1553,19 +1677,71 @@ URL of the item.</div>
 
 </div>
 <div class="property item">
-  <div id="props_verificationMethodDescription" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_VerificationServiceProfile.java.html#l77"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;VerificationServiceProfile.java:77</code></a></span>
+  <div id="props_verificationDirectory" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_VerificationServiceProfile.java.html#l108"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;VerificationServiceProfile.java:108</code></a></span>
     <h3 class="">
       public
       
       
-      verificationMethodDescription: Literal
+      verificationDirectory: AnyURI
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/verificationDirectory">http://purl.org/ctdl/terms/verificationDirectory</a>
+Directory of credential holders and their current statuses.</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_verificationMethodDescription" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_VerificationServiceProfile.java.html#l116"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;VerificationServiceProfile.java:116</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      verificationMethodDescription: LangString
     </h3>
   </div>
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/verificationMethodDescription">http://purl.org/ctdl/terms/verificationMethodDescription</a>
-Description of the methods used to evaluate the resource validity and reliability.</p>
+Textual description of the methods used to evaluate an assessment, learning opportunity, process or verificaiton service for validity or reliability.</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_verificationService" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_VerificationServiceProfile.java.html#l124"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;VerificationServiceProfile.java:124</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      verificationService: AnyURI
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/verificationService">http://purl.org/ctdl/terms/verificationService</a>
+Direct access to the verification service.
+This property identifies machine-accessible services, such as API endpoints, that provide direct access to the verification service being described.</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_verifiedClaimType" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_VerificationServiceProfile.java.html#l133"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;VerificationServiceProfile.java:133</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      verifiedClaimType: <a href="../classes/CredentialAlignmentObject.html" class="crosslink">CredentialAlignmentObject</a>
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/verifiedClaimType">http://purl.org/ctdl/terms/verifiedClaimType</a>
+Type of claim provided through a verification service; select from an existing enumeration of such types.</p>
 </div>
 
 </div>

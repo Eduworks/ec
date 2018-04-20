@@ -5,7 +5,7 @@
     <title>JurisdictionProfile - EC Library</title>
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.0/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -37,6 +37,8 @@
                             <li><a href="../modules/org.json.ld.html">org.json.ld</a>
                             </li>
                             <li><a href="../modules/org.schema.html">org.schema</a>
+                            </li>
+                            <li><a href="../modules/org.w3.skos.html">org.w3.skos</a>
                             </li>
                     </ul>
                 </div>
@@ -178,6 +180,7 @@
                             <li><a href="../classes/Clip.html">Clip</a></li>
                             <li><a href="../classes/ClothingStore.html">ClothingStore</a></li>
                             <li><a href="../classes/Code.html">Code</a></li>
+                            <li><a href="../classes/Collection.html">Collection</a></li>
                             <li><a href="../classes/CollectionPage.html">CollectionPage</a></li>
                             <li><a href="../classes/CollegeOrUniversity.html">CollegeOrUniversity</a></li>
                             <li><a href="../classes/ComedyClub.html">ComedyClub</a></li>
@@ -190,6 +193,8 @@
                             <li><a href="../classes/CompoundPriceSpecification.html">CompoundPriceSpecification</a></li>
                             <li><a href="../classes/ComputerLanguage.html">ComputerLanguage</a></li>
                             <li><a href="../classes/ComputerStore.html">ComputerStore</a></li>
+                            <li><a href="../classes/Concept.html">Concept</a></li>
+                            <li><a href="../classes/ConceptScheme.html">ConceptScheme</a></li>
                             <li><a href="../classes/ConditionManifest.html">ConditionManifest</a></li>
                             <li><a href="../classes/ConditionProfile.html">ConditionProfile</a></li>
                             <li><a href="../classes/ConfirmAction.html">ConfirmAction</a></li>
@@ -203,6 +208,7 @@
                             <li><a href="../classes/Conversation.html">Conversation</a></li>
                             <li><a href="../classes/CookAction.html">CookAction</a></li>
                             <li><a href="../classes/Corporation.html">Corporation</a></li>
+                            <li><a href="../classes/CostManifest.html">CostManifest</a></li>
                             <li><a href="../classes/CostProfile.html">CostProfile</a></li>
                             <li><a href="../classes/Country.html">Country</a></li>
                             <li><a href="../classes/Course.html">Course</a></li>
@@ -524,6 +530,7 @@
                             <li><a href="../classes/OpeningHoursSpecification.html">OpeningHoursSpecification</a></li>
                             <li><a href="../classes/Order.html">Order</a></li>
                             <li><a href="../classes/OrderAction.html">OrderAction</a></li>
+                            <li><a href="../classes/OrderedCollection.html">OrderedCollection</a></li>
                             <li><a href="../classes/OrderItem.html">OrderItem</a></li>
                             <li><a href="../classes/OrderStatus.html">OrderStatus</a></li>
                             <li><a href="../classes/Organization.html">Organization</a></li>
@@ -578,6 +585,7 @@
                             <li><a href="../classes/ProductModel.html">ProductModel</a></li>
                             <li><a href="../classes/ProfessionalDoctorate.html">ProfessionalDoctorate</a></li>
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
+                            <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
@@ -851,6 +859,7 @@
                       <li><a href="#props_fileFormat">fileFormat</a></li>
                       <li><a href="#props_funder">funder</a></li>
                       <li><a href="#props_genre">genre</a></li>
+                      <li><a href="#props_globalJurisdiction">globalJurisdiction</a></li>
                       <li><a href="#props_hasPart">hasPart</a></li>
                       <li><a href="#props_headline">headline</a></li>
                       <li><a href="#props_identifier">identifier</a></li>
@@ -863,12 +872,14 @@
                       <li><a href="#props_isBasedOnUrl">isBasedOnUrl</a></li>
                       <li><a href="#props_isFamilyFriendly">isFamilyFriendly</a></li>
                       <li><a href="#props_isPartOf">isPartOf</a></li>
+                      <li><a href="#props_jurisdictionException">jurisdictionException</a></li>
                       <li><a href="#props_keywords">keywords</a></li>
                       <li><a href="#props_learningResourceType">learningResourceType</a></li>
                       <li><a href="#props_license">license</a></li>
                       <li><a href="#props_locationCreated">locationCreated</a></li>
                       <li><a href="#props_mainEntity">mainEntity</a></li>
                       <li><a href="#props_mainEntityOfPage">mainEntityOfPage</a></li>
+                      <li><a href="#props_mainJurisdiction">mainJurisdiction</a></li>
                       <li><a href="#props_material">material</a></li>
                       <li><a href="#props_mentions">mentions</a></li>
                       <li><a href="#props_name">name</a></li>
@@ -925,7 +936,7 @@
 
         <div id="main" class="yui3-u">
             <div class="content"><div class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_JurisdictionProfile.java.html#l3"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;JurisdictionProfile.java:3</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_JurisdictionProfile.java.html#l6"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;JurisdictionProfile.java:6</code></a></span>
     <h1 class="class-name">JurisdictionProfile</h1>
 </div>
 
@@ -1161,7 +1172,7 @@ Geo-political information about applicable geographic areas and their exceptions
               <a href="#props_assertedBy">assertedBy</a>: <a href="../classes/CredentialOrganization.html" class="crosslink">CredentialOrganization</a> | <a href="../classes/CredentialPerson.html" class="crosslink">CredentialPerson</a> | <a href="../classes/QACredentialOrganization.html" class="crosslink">QACredentialOrganization</a>
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/assertedBy">http://purl.org/ctdl/terms/assertedBy</a> The agent providing the information contained in the entity being described.</p>
+              <p><a href="http://purl.org/ctdl/terms/assertedBy">http://purl.org/ctdl/terms/assertedBy</a> Agent making a statement based on fact or belief.</p>
             </div>
           </td>
         </tr>
@@ -1458,10 +1469,10 @@ Geo-political information about applicable geographic areas and their exceptions
           </td>
           <td>
             <div class="property-name ">
-              <a href="#props_description">description</a>: Literal
+              <a href="#props_description">description</a>: LangString
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/description">http://purl.org/ctdl/terms/description</a> A short description of the resource being described.</p>
+              <p><a href="http://purl.org/ctdl/terms/description">http://purl.org/ctdl/terms/description</a> Statememnt, characterization or account of the entity.</p>
             </div>
           </td>
         </tr>
@@ -1627,6 +1638,21 @@ Geo-political information about applicable geographic areas and their exceptions
             </div>
             <div class="short-description">
               
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_globalJurisdiction">globalJurisdiction</a>: Boolean
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/globalJurisdiction">http://purl.org/ctdl/terms/globalJurisdiction</a> Whether or not the credential is useful, applicable or recognized everywhere. Exceptions indicated by the ceterms:jurisdictionException property apply.</p>
             </div>
           </td>
         </tr>
@@ -1818,6 +1844,21 @@ Geo-political information about applicable geographic areas and their exceptions
           </td>
           <td>
             <div class="property-name ">
+              <a href="#props_jurisdictionException">jurisdictionException</a>: <a href="../classes/Place.html" class="crosslink">Place</a>
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/jurisdictionException">http://purl.org/ctdl/terms/jurisdictionException</a> Geographic or political region in which the credential is not formally recognized or an organization has no authority to act . The ceterms:jurisdictionalException property is used in conjunction with the ceterms:jurisdiction property and expresses any exceptions to a more general statement; e.g., the United states except for Colorado.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
               <a href="#props_keywords">keywords</a>: Text
             </div>
             <div class="short-description">
@@ -1897,6 +1938,21 @@ Geo-political information about applicable geographic areas and their exceptions
             </div>
             <div class="short-description">
               
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_mainJurisdiction">mainJurisdiction</a>: <a href="../classes/Place.html" class="crosslink">Place</a>
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/mainJurisdiction">http://purl.org/ctdl/terms/mainJurisdiction</a> Primary geographic or political region in which the credential is recognized as applicable or in which an organization has recognized authority to act.</p>
             </div>
           </td>
         </tr>
@@ -2650,7 +2706,7 @@ A secondary title of the CreativeWork.</div>
 </div>
 <div class="property item">
   <div id="props_assertedBy" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_JurisdictionProfile.java.html#l13"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;JurisdictionProfile.java:13</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_JurisdictionProfile.java.html#l26"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;JurisdictionProfile.java:26</code></a></span>
     <h3 class="">
       public
       
@@ -2661,7 +2717,7 @@ A secondary title of the CreativeWork.</div>
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/assertedBy">http://purl.org/ctdl/terms/assertedBy</a>
-The agent providing the information contained in the entity being described.</p>
+Agent making a statement based on fact or belief.</p>
 </div>
 
 </div>
@@ -2971,18 +3027,18 @@ Date of first broadcast/publication.</div>
 </div>
 <div class="property item">
   <div id="props_description" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_JurisdictionProfile.java.html#l21"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;JurisdictionProfile.java:21</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_JurisdictionProfile.java.html#l34"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;JurisdictionProfile.java:34</code></a></span>
     <h3 class="">
       public
       
       
-      description: Literal
+      description: LangString
     </h3>
   </div>
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/description">http://purl.org/ctdl/terms/description</a>
-A short description of the resource being described.</p>
+Statememnt, characterization or account of the entity.</p>
 </div>
 
 </div>
@@ -3160,6 +3216,24 @@ A person or organization that supports (sponsors) something through some kind of
 
   <div class="property-description">Schema.org/genre
 Genre of the creative work, broadcast channel or group.</div>
+
+</div>
+<div class="property item">
+  <div id="props_globalJurisdiction" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_JurisdictionProfile.java.html#l42"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;JurisdictionProfile.java:42</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      globalJurisdiction: Boolean
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/globalJurisdiction">http://purl.org/ctdl/terms/globalJurisdiction</a>
+Whether or not the credential is useful, applicable or recognized everywhere.
+Exceptions indicated by the ceterms:jurisdictionException property apply.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -3355,6 +3429,24 @@ Indicates a CreativeWork that this CreativeWork is (in some sense) part of.</div
 
 </div>
 <div class="property item">
+  <div id="props_jurisdictionException" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_JurisdictionProfile.java.html#l51"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;JurisdictionProfile.java:51</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      jurisdictionException: <a href="../classes/Place.html" class="crosslink">Place</a>
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/jurisdictionException">http://purl.org/ctdl/terms/jurisdictionException</a>
+Geographic or political region in which the credential is not formally recognized or an organization has no authority to act .
+The ceterms:jurisdictionalException property is used in conjunction with the ceterms:jurisdiction property and expresses any exceptions to a more general statement; e.g., the United states except for Colorado.</p>
+</div>
+
+</div>
+<div class="property item">
   <div id="props_keywords" class="title">
     <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_CreativeWork.java.html#l29"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;CreativeWork.java:29</code></a></span>
     <h3 class="">
@@ -3448,6 +3540,23 @@ Indicates the primary entity described in some page or other CreativeWork.</div>
 
   <div class="property-description">Schema.org/mainEntityOfPage
 Indicates a page (or other CreativeWork) for which this thing is the main entity being described. See [background notes](/docs/datamodel.html#mainEntityBackground) for details.</div>
+
+</div>
+<div class="property item">
+  <div id="props_mainJurisdiction" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_JurisdictionProfile.java.html#l60"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;JurisdictionProfile.java:60</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      mainJurisdiction: <a href="../classes/Place.html" class="crosslink">Place</a>
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/mainJurisdiction">http://purl.org/ctdl/terms/mainJurisdiction</a>
+Primary geographic or political region in which the credential is recognized as applicable or in which an organization has recognized authority to act.</p>
+</div>
 
 </div>
 <div class="property item">

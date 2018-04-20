@@ -5,7 +5,7 @@
     <title>EarningsProfile - EC Library</title>
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.0/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -37,6 +37,8 @@
                             <li><a href="../modules/org.json.ld.html">org.json.ld</a>
                             </li>
                             <li><a href="../modules/org.schema.html">org.schema</a>
+                            </li>
+                            <li><a href="../modules/org.w3.skos.html">org.w3.skos</a>
                             </li>
                     </ul>
                 </div>
@@ -178,6 +180,7 @@
                             <li><a href="../classes/Clip.html">Clip</a></li>
                             <li><a href="../classes/ClothingStore.html">ClothingStore</a></li>
                             <li><a href="../classes/Code.html">Code</a></li>
+                            <li><a href="../classes/Collection.html">Collection</a></li>
                             <li><a href="../classes/CollectionPage.html">CollectionPage</a></li>
                             <li><a href="../classes/CollegeOrUniversity.html">CollegeOrUniversity</a></li>
                             <li><a href="../classes/ComedyClub.html">ComedyClub</a></li>
@@ -190,6 +193,8 @@
                             <li><a href="../classes/CompoundPriceSpecification.html">CompoundPriceSpecification</a></li>
                             <li><a href="../classes/ComputerLanguage.html">ComputerLanguage</a></li>
                             <li><a href="../classes/ComputerStore.html">ComputerStore</a></li>
+                            <li><a href="../classes/Concept.html">Concept</a></li>
+                            <li><a href="../classes/ConceptScheme.html">ConceptScheme</a></li>
                             <li><a href="../classes/ConditionManifest.html">ConditionManifest</a></li>
                             <li><a href="../classes/ConditionProfile.html">ConditionProfile</a></li>
                             <li><a href="../classes/ConfirmAction.html">ConfirmAction</a></li>
@@ -203,6 +208,7 @@
                             <li><a href="../classes/Conversation.html">Conversation</a></li>
                             <li><a href="../classes/CookAction.html">CookAction</a></li>
                             <li><a href="../classes/Corporation.html">Corporation</a></li>
+                            <li><a href="../classes/CostManifest.html">CostManifest</a></li>
                             <li><a href="../classes/CostProfile.html">CostProfile</a></li>
                             <li><a href="../classes/Country.html">Country</a></li>
                             <li><a href="../classes/Course.html">Course</a></li>
@@ -524,6 +530,7 @@
                             <li><a href="../classes/OpeningHoursSpecification.html">OpeningHoursSpecification</a></li>
                             <li><a href="../classes/Order.html">Order</a></li>
                             <li><a href="../classes/OrderAction.html">OrderAction</a></li>
+                            <li><a href="../classes/OrderedCollection.html">OrderedCollection</a></li>
                             <li><a href="../classes/OrderItem.html">OrderItem</a></li>
                             <li><a href="../classes/OrderStatus.html">OrderStatus</a></li>
                             <li><a href="../classes/Organization.html">Organization</a></li>
@@ -578,6 +585,7 @@
                             <li><a href="../classes/ProductModel.html">ProductModel</a></li>
                             <li><a href="../classes/ProfessionalDoctorate.html">ProfessionalDoctorate</a></li>
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
+                            <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
@@ -835,7 +843,6 @@
                       <li><a href="#props_copyrightHolder">copyrightHolder</a></li>
                       <li><a href="#props_copyrightYear">copyrightYear</a></li>
                       <li><a href="#props_creator">creator</a></li>
-                      <li><a href="#props_credentialProfiled">credentialProfiled</a></li>
                       <li><a href="#props_dateCreated">dateCreated</a></li>
                       <li><a href="#props_dateEffective">dateEffective</a></li>
                       <li><a href="#props_dateModified">dateModified</a></li>
@@ -854,6 +861,7 @@
                       <li><a href="#props_genre">genre</a></li>
                       <li><a href="#props_hasPart">hasPart</a></li>
                       <li><a href="#props_headline">headline</a></li>
+                      <li><a href="#props_highEarnings">highEarnings</a></li>
                       <li><a href="#props_identifier">identifier</a></li>
                       <li><a href="#props_image">image</a></li>
                       <li><a href="#props_inLanguage">inLanguage</a></li>
@@ -869,13 +877,16 @@
                       <li><a href="#props_learningResourceType">learningResourceType</a></li>
                       <li><a href="#props_license">license</a></li>
                       <li><a href="#props_locationCreated">locationCreated</a></li>
+                      <li><a href="#props_lowEarnings">lowEarnings</a></li>
                       <li><a href="#props_mainEntity">mainEntity</a></li>
                       <li><a href="#props_mainEntityOfPage">mainEntityOfPage</a></li>
                       <li><a href="#props_material">material</a></li>
+                      <li><a href="#props_medianEarnings">medianEarnings</a></li>
                       <li><a href="#props_mentions">mentions</a></li>
                       <li><a href="#props_name">name</a></li>
                       <li><a href="#props_offers">offers</a></li>
                       <li><a href="#props_position">position</a></li>
+                      <li><a href="#props_postReceiptMonths">postReceiptMonths</a></li>
                       <li><a href="#props_potentialAction">potentialAction</a></li>
                       <li><a href="#props_producer">producer</a></li>
                       <li><a href="#props_provider">provider</a></li>
@@ -929,7 +940,7 @@
 
         <div id="main" class="yui3-u">
             <div class="content"><div class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_EarningsProfile.java.html#l3"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;EarningsProfile.java:3</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_EarningsProfile.java.html#l6"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;EarningsProfile.java:6</code></a></span>
     <h1 class="class-name">EarningsProfile</h1>
 </div>
 
@@ -941,7 +952,7 @@
     </div>
 
 <div class="class-description"><p><a href="http://credentialengine.org/EarningsProfile">credentialengine.org/EarningsProfile</a>
-A resource that describes earning and related statistical information for a given credential.</p>
+Entity that describes earning and related statistical information for a given credential.</p>
 </div>
 
 
@@ -1402,21 +1413,6 @@ A resource that describes earning and related statistical information for a give
           </td>
           <td>
             <div class="property-name ">
-              <a href="#props_credentialProfiled">credentialProfiled</a>: <a href="../classes/ApprenticeshipCertificate.html" class="crosslink">ApprenticeshipCertificate</a> | <a href="../classes/AssociateDegree.html" class="crosslink">AssociateDegree</a> | <a href="../classes/BachelorDegree.html" class="crosslink">BachelorDegree</a> | <a href="../classes/Badge.html" class="crosslink">Badge</a> | <a href="../classes/Certificate.html" class="crosslink">Certificate</a> | <a href="../classes/Certification.html" class="crosslink">Certification</a> | <a href="../classes/Credential.html" class="crosslink">Credential</a> | <a href="../classes/Degree.html" class="crosslink">Degree</a> | <a href="../classes/DigitalBadge.html" class="crosslink">DigitalBadge</a> | <a href="../classes/Diploma.html" class="crosslink">Diploma</a> | <a href="../classes/DoctoralDegree.html" class="crosslink">DoctoralDegree</a> | <a href="../classes/GeneralEducationDevelopment.html" class="crosslink">GeneralEducationDevelopment</a> | <a href="../classes/JourneymanCertificate.html" class="crosslink">JourneymanCertificate</a> | <a href="../classes/License.html" class="crosslink">License</a> | <a href="../classes/MasterCertificate.html" class="crosslink">MasterCertificate</a> | <a href="../classes/MasterDegree.html" class="crosslink">MasterDegree</a> | <a href="../classes/MicroCredential.html" class="crosslink">MicroCredential</a> | <a href="../classes/OpenBadge.html" class="crosslink">OpenBadge</a> | <a href="../classes/ProfessionalDoctorate.html" class="crosslink">ProfessionalDoctorate</a> | <a href="../classes/QualityAssuranceCredential.html" class="crosslink">QualityAssuranceCredential</a> | <a href="../classes/ResearchDoctorate.html" class="crosslink">ResearchDoctorate</a> | <a href="../classes/SecondarySchoolDiploma.html" class="crosslink">SecondarySchoolDiploma</a>
-            </div>
-            <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/credentialProfiled">http://purl.org/ctdl/terms/credentialProfiled</a> The resource being described is a profile of the credential being referenced.</p>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            public
-            
-            
-          </td>
-          <td>
-            <div class="property-name ">
               <a href="#props_dateCreated">dateCreated</a>: Schema, DateTime | schema,Date
             </div>
             <div class="short-description">
@@ -1435,7 +1431,7 @@ A resource that describes earning and related statistical information for a give
               <a href="#props_dateEffective">dateEffective</a>: Date
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/dateEffective">http://purl.org/ctdl/terms/dateEffective</a> The effective date of the described resource content.</p>
+              <p><a href="http://purl.org/ctdl/terms/dateEffective">http://purl.org/ctdl/terms/dateEffective</a> Effective date of the content of a credential, assessment or learning opportunity.</p>
             </div>
           </td>
         </tr>
@@ -1687,6 +1683,21 @@ A resource that describes earning and related statistical information for a give
           </td>
           <td>
             <div class="property-name ">
+              <a href="#props_highEarnings">highEarnings</a>: Integer
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/highEarnings">http://purl.org/ctdl/terms/highEarnings</a> Upper interquartile earnings.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
               <a href="#props_identifier">identifier</a>: Schema, URL | schema,Text | schema,PropertyValue
             </div>
             <div class="short-description">
@@ -1840,7 +1851,7 @@ A resource that describes earning and related statistical information for a give
               <a href="#props_jurisdiction">jurisdiction</a>: <a href="../classes/JurisdictionProfile.html" class="crosslink">JurisdictionProfile</a>
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/jurisdiction">http://purl.org/ctdl/terms/jurisdiction</a> The geo-political region in which the described resource is applicable.</p>
+              <p><a href="http://purl.org/ctdl/terms/jurisdiction">http://purl.org/ctdl/terms/jurisdiction</a> Geographic or political region in which the credential is formally applicable or an organization has authority to act.</p>
             </div>
           </td>
         </tr>
@@ -1912,6 +1923,21 @@ A resource that describes earning and related statistical information for a give
           </td>
           <td>
             <div class="property-name ">
+              <a href="#props_lowEarnings">lowEarnings</a>: Integer
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/lowEarnings">http://purl.org/ctdl/terms/lowEarnings</a> Lower interquartile earnings.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
               <a href="#props_mainEntity">mainEntity</a>: <a href="../classes/Thing.html" class="crosslink">Thing</a>
             </div>
             <div class="short-description">
@@ -1946,6 +1972,21 @@ A resource that describes earning and related statistical information for a give
             </div>
             <div class="short-description">
               
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_medianEarnings">medianEarnings</a>: Integer
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/medianEarnings">http://purl.org/ctdl/terms/medianEarnings</a> Median earnings.</p>
             </div>
           </td>
         </tr>
@@ -2006,6 +2047,21 @@ A resource that describes earning and related statistical information for a give
             </div>
             <div class="short-description">
               
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_postReceiptMonths">postReceiptMonths</a>: Integer
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/postReceiptMonths">http://purl.org/ctdl/terms/postReceiptMonths</a> Number of months after earning a credential when employment and earnings data is collected. Number of months usually range between 3 months (one quarter) to ten years.</p>
             </div>
           </td>
         </tr>
@@ -2122,10 +2178,10 @@ A resource that describes earning and related statistical information for a give
           </td>
           <td>
             <div class="property-name ">
-              <a href="#props_region">region</a>: <a href="../classes/GeoCoordinates.html" class="crosslink">GeoCoordinates</a>
+              <a href="#props_region">region</a>: <a href="../classes/Place.html" class="crosslink">Place</a>
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/region">http://purl.org/ctdl/terms/region</a> A geo-political area of the described resource.</p>
+              <p><a href="http://purl.org/ctdl/terms/region">http://purl.org/ctdl/terms/region</a> Entity that describes the longitude, latitude and other location details of an area.</p>
             </div>
           </td>
         </tr>
@@ -2215,7 +2271,7 @@ A resource that describes earning and related statistical information for a give
               <a href="#props_source">source</a>: AnyURI
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/source">http://purl.org/ctdl/terms/source</a> The source of this resource's information.</p>
+              <p><a href="http://purl.org/ctdl/terms/source">http://purl.org/ctdl/terms/source</a> Authoritative source of an entity's information. Citation or description of an authoritative souce from which information or description has been derived.</p>
             </div>
           </td>
         </tr>
@@ -2969,23 +3025,6 @@ The creator/author of this CreativeWork. This is the same as the Author property
 
 </div>
 <div class="property item">
-  <div id="props_credentialProfiled" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_EarningsProfile.java.html#l13"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;EarningsProfile.java:13</code></a></span>
-    <h3 class="">
-      public
-      
-      
-      credentialProfiled: <a href="../classes/ApprenticeshipCertificate.html" class="crosslink">ApprenticeshipCertificate</a> | <a href="../classes/AssociateDegree.html" class="crosslink">AssociateDegree</a> | <a href="../classes/BachelorDegree.html" class="crosslink">BachelorDegree</a> | <a href="../classes/Badge.html" class="crosslink">Badge</a> | <a href="../classes/Certificate.html" class="crosslink">Certificate</a> | <a href="../classes/Certification.html" class="crosslink">Certification</a> | <a href="../classes/Credential.html" class="crosslink">Credential</a> | <a href="../classes/Degree.html" class="crosslink">Degree</a> | <a href="../classes/DigitalBadge.html" class="crosslink">DigitalBadge</a> | <a href="../classes/Diploma.html" class="crosslink">Diploma</a> | <a href="../classes/DoctoralDegree.html" class="crosslink">DoctoralDegree</a> | <a href="../classes/GeneralEducationDevelopment.html" class="crosslink">GeneralEducationDevelopment</a> | <a href="../classes/JourneymanCertificate.html" class="crosslink">JourneymanCertificate</a> | <a href="../classes/License.html" class="crosslink">License</a> | <a href="../classes/MasterCertificate.html" class="crosslink">MasterCertificate</a> | <a href="../classes/MasterDegree.html" class="crosslink">MasterDegree</a> | <a href="../classes/MicroCredential.html" class="crosslink">MicroCredential</a> | <a href="../classes/OpenBadge.html" class="crosslink">OpenBadge</a> | <a href="../classes/ProfessionalDoctorate.html" class="crosslink">ProfessionalDoctorate</a> | <a href="../classes/QualityAssuranceCredential.html" class="crosslink">QualityAssuranceCredential</a> | <a href="../classes/ResearchDoctorate.html" class="crosslink">ResearchDoctorate</a> | <a href="../classes/SecondarySchoolDiploma.html" class="crosslink">SecondarySchoolDiploma</a>
-    </h3>
-  </div>
-
-
-  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/credentialProfiled">http://purl.org/ctdl/terms/credentialProfiled</a>
-The resource being described is a profile of the credential being referenced.</p>
-</div>
-
-</div>
-<div class="property item">
   <div id="props_dateCreated" class="title">
     <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_CreativeWork.java.html#l159"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;CreativeWork.java:159</code></a></span>
     <h3 class="">
@@ -3003,7 +3042,7 @@ The date on which the CreativeWork was created or the item was added to a DataFe
 </div>
 <div class="property item">
   <div id="props_dateEffective" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_EarningsProfile.java.html#l21"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;EarningsProfile.java:21</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_EarningsProfile.java.html#l26"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;EarningsProfile.java:26</code></a></span>
     <h3 class="">
       public
       
@@ -3014,7 +3053,7 @@ The date on which the CreativeWork was created or the item was added to a DataFe
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/dateEffective">http://purl.org/ctdl/terms/dateEffective</a>
-The effective date of the described resource content.</p>
+Effective date of the content of a credential, assessment or learning opportunity.</p>
 </div>
 
 </div>
@@ -3275,6 +3314,23 @@ Headline of the article.</div>
 
 </div>
 <div class="property item">
+  <div id="props_highEarnings" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_EarningsProfile.java.html#l34"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;EarningsProfile.java:34</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      highEarnings: Integer
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/highEarnings">http://purl.org/ctdl/terms/highEarnings</a>
+Upper interquartile earnings.</p>
+</div>
+
+</div>
+<div class="property item">
   <div id="props_identifier" class="title">
     <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l24"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:24</code></a></span>
     <h3 class="">
@@ -3436,7 +3492,7 @@ Indicates a CreativeWork that this CreativeWork is (in some sense) part of.</div
 </div>
 <div class="property item">
   <div id="props_jurisdiction" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_EarningsProfile.java.html#l29"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;EarningsProfile.java:29</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_EarningsProfile.java.html#l42"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;EarningsProfile.java:42</code></a></span>
     <h3 class="">
       public
       
@@ -3447,7 +3503,7 @@ Indicates a CreativeWork that this CreativeWork is (in some sense) part of.</div
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/jurisdiction">http://purl.org/ctdl/terms/jurisdiction</a>
-The geo-political region in which the described resource is applicable.</p>
+Geographic or political region in which the credential is formally applicable or an organization has authority to act.</p>
 </div>
 
 </div>
@@ -3516,6 +3572,23 @@ The location where the CreativeWork was created, which may not be the same as th
 
 </div>
 <div class="property item">
+  <div id="props_lowEarnings" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_EarningsProfile.java.html#l50"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;EarningsProfile.java:50</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      lowEarnings: Integer
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/lowEarnings">http://purl.org/ctdl/terms/lowEarnings</a>
+Lower interquartile earnings.</p>
+</div>
+
+</div>
+<div class="property item">
   <div id="props_mainEntity" class="title">
     <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_CreativeWork.java.html#l577"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;CreativeWork.java:577</code></a></span>
     <h3 class="">
@@ -3561,6 +3634,23 @@ Indicates a page (or other CreativeWork) for which this thing is the main entity
 
   <div class="property-description">Schema.org/material
 A material that something is made from, e.g. leather, wool, cotton, paper.</div>
+
+</div>
+<div class="property item">
+  <div id="props_medianEarnings" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_EarningsProfile.java.html#l58"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;EarningsProfile.java:58</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      medianEarnings: Integer
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/medianEarnings">http://purl.org/ctdl/terms/medianEarnings</a>
+Median earnings.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -3625,6 +3715,24 @@ An offer to provide this item&#x2014;for example, an offer to sell a product, re
 
   <div class="property-description">Schema.org/position
 The position of an item in a series or sequence of items.</div>
+
+</div>
+<div class="property item">
+  <div id="props_postReceiptMonths" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_EarningsProfile.java.html#l66"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;EarningsProfile.java:66</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      postReceiptMonths: Integer
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/postReceiptMonths">http://purl.org/ctdl/terms/postReceiptMonths</a>
+Number of months after earning a credential when employment and earnings data is collected.
+Number of months usually range between 3 months (one quarter) to ten years.</p>
+</div>
 
 </div>
 <div class="property item">
@@ -3741,18 +3849,18 @@ The Event where the CreativeWork was recorded. The CreativeWork may capture all 
 </div>
 <div class="property item">
   <div id="props_region" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_EarningsProfile.java.html#l37"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;EarningsProfile.java:37</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_EarningsProfile.java.html#l75"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;EarningsProfile.java:75</code></a></span>
     <h3 class="">
       public
       
       
-      region: <a href="../classes/GeoCoordinates.html" class="crosslink">GeoCoordinates</a>
+      region: <a href="../classes/Place.html" class="crosslink">Place</a>
     </h3>
   </div>
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/region">http://purl.org/ctdl/terms/region</a>
-A geo-political area of the described resource.</p>
+Entity that describes the longitude, latitude and other location details of an area.</p>
 </div>
 
 </div>
@@ -3838,7 +3946,7 @@ Indicates (by URL or string) a particular version of a schema used in some Creat
 </div>
 <div class="property item">
   <div id="props_source" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_EarningsProfile.java.html#l45"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;EarningsProfile.java:45</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_EarningsProfile.java.html#l83"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;EarningsProfile.java:83</code></a></span>
     <h3 class="">
       public
       
@@ -3849,7 +3957,8 @@ Indicates (by URL or string) a particular version of a schema used in some Creat
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/source">http://purl.org/ctdl/terms/source</a>
-The source of this resource's information.</p>
+Authoritative source of an entity's information.
+Citation or description of an authoritative souce from which information or description has been derived.</p>
 </div>
 
 </div>

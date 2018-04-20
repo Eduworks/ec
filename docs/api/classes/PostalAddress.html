@@ -5,7 +5,7 @@
     <title>PostalAddress - EC Library</title>
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.0/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -37,6 +37,8 @@
                             <li><a href="../modules/org.json.ld.html">org.json.ld</a>
                             </li>
                             <li><a href="../modules/org.schema.html">org.schema</a>
+                            </li>
+                            <li><a href="../modules/org.w3.skos.html">org.w3.skos</a>
                             </li>
                     </ul>
                 </div>
@@ -178,6 +180,7 @@
                             <li><a href="../classes/Clip.html">Clip</a></li>
                             <li><a href="../classes/ClothingStore.html">ClothingStore</a></li>
                             <li><a href="../classes/Code.html">Code</a></li>
+                            <li><a href="../classes/Collection.html">Collection</a></li>
                             <li><a href="../classes/CollectionPage.html">CollectionPage</a></li>
                             <li><a href="../classes/CollegeOrUniversity.html">CollegeOrUniversity</a></li>
                             <li><a href="../classes/ComedyClub.html">ComedyClub</a></li>
@@ -190,6 +193,8 @@
                             <li><a href="../classes/CompoundPriceSpecification.html">CompoundPriceSpecification</a></li>
                             <li><a href="../classes/ComputerLanguage.html">ComputerLanguage</a></li>
                             <li><a href="../classes/ComputerStore.html">ComputerStore</a></li>
+                            <li><a href="../classes/Concept.html">Concept</a></li>
+                            <li><a href="../classes/ConceptScheme.html">ConceptScheme</a></li>
                             <li><a href="../classes/ConditionManifest.html">ConditionManifest</a></li>
                             <li><a href="../classes/ConditionProfile.html">ConditionProfile</a></li>
                             <li><a href="../classes/ConfirmAction.html">ConfirmAction</a></li>
@@ -203,6 +208,7 @@
                             <li><a href="../classes/Conversation.html">Conversation</a></li>
                             <li><a href="../classes/CookAction.html">CookAction</a></li>
                             <li><a href="../classes/Corporation.html">Corporation</a></li>
+                            <li><a href="../classes/CostManifest.html">CostManifest</a></li>
                             <li><a href="../classes/CostProfile.html">CostProfile</a></li>
                             <li><a href="../classes/Country.html">Country</a></li>
                             <li><a href="../classes/Course.html">Course</a></li>
@@ -524,6 +530,7 @@
                             <li><a href="../classes/OpeningHoursSpecification.html">OpeningHoursSpecification</a></li>
                             <li><a href="../classes/Order.html">Order</a></li>
                             <li><a href="../classes/OrderAction.html">OrderAction</a></li>
+                            <li><a href="../classes/OrderedCollection.html">OrderedCollection</a></li>
                             <li><a href="../classes/OrderItem.html">OrderItem</a></li>
                             <li><a href="../classes/OrderStatus.html">OrderStatus</a></li>
                             <li><a href="../classes/Organization.html">Organization</a></li>
@@ -578,6 +585,7 @@
                             <li><a href="../classes/ProductModel.html">ProductModel</a></li>
                             <li><a href="../classes/ProfessionalDoctorate.html">ProfessionalDoctorate</a></li>
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
+                            <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
@@ -808,7 +816,10 @@
                   <ul>
                       <li><a href="#props_additionalType">additionalType</a></li>
                       <li><a href="#props_addressCountry">addressCountry</a></li>
+                      <li><a href="#props_addressCountry">addressCountry</a></li>
                       <li><a href="#props_addressLocality">addressLocality</a></li>
+                      <li><a href="#props_addressLocality">addressLocality</a></li>
+                      <li><a href="#props_addressRegion">addressRegion</a></li>
                       <li><a href="#props_addressRegion">addressRegion</a></li>
                       <li><a href="#props_alternateName">alternateName</a></li>
                       <li><a href="#props_areaServed">areaServed</a></li>
@@ -825,6 +836,8 @@
                       <li><a href="#props_mainEntityOfPage">mainEntityOfPage</a></li>
                       <li><a href="#props_name">name</a></li>
                       <li><a href="#props_postalCode">postalCode</a></li>
+                      <li><a href="#props_postalCode">postalCode</a></li>
+                      <li><a href="#props_postOfficeBoxNumber">postOfficeBoxNumber</a></li>
                       <li><a href="#props_postOfficeBoxNumber">postOfficeBoxNumber</a></li>
                       <li><a href="#props_potentialAction">potentialAction</a></li>
                       <li><a href="#props_productSupported">productSupported</a></li>
@@ -832,7 +845,7 @@
                       <li><a href="#props_serviceArea">serviceArea</a></li>
                       <li><a href="#props_socialMedia">socialMedia</a></li>
                       <li><a href="#props_streetAddress">streetAddress</a></li>
-                      <li><a href="#props_targetContactPoint">targetContactPoint</a></li>
+                      <li><a href="#props_streetAddress">streetAddress</a></li>
                       <li><a href="#props_telephone">telephone</a></li>
                       <li><a href="#props_url">url</a></li>
                   </ul>
@@ -929,6 +942,36 @@ The mailing address.</p>
           </td>
           <td>
             <div class="property-name ">
+              <a href="#props_addressCountry">addressCountry</a>: LangString
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/addressCountry">http://purl.org/ctdl/terms/addressCountry</a> Nation with its own government and occupying a particular territory identified by the two-letter ISO 3166-1 alpha-2 country code.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_addressLocality">addressLocality</a>: LangString
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/addressLocality">http://purl.org/ctdl/terms/addressLocality</a> Town, city, or village in which a particular location is situtated.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
               <a href="#props_addressLocality">addressLocality</a>: Text
             </div>
             <div class="short-description">
@@ -948,6 +991,21 @@ The mailing address.</p>
             </div>
             <div class="short-description">
               <p><a href="http://Schema.org/addressRegion">Schema.org/addressRegion</a> The region. For example, CA.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_addressRegion">addressRegion</a>: LangString
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/addressRegion">http://purl.org/ctdl/terms/addressRegion</a> State or province in which a particular location is situtated.</p>
             </div>
           </td>
         </tr>
@@ -1004,10 +1062,10 @@ The mailing address.</p>
           </td>
           <td>
             <div class="property-name ">
-              <a href="#props_contactOption">contactOption</a>: <a href="../classes/ContactPointOption.html" class="crosslink">ContactPointOption</a>
+              <a href="#props_contactOption">contactOption</a>: LangString
             </div>
             <div class="short-description">
-              <p><a href="http://Schema.org/contactOption">Schema.org/contactOption</a> An option available on this contact point (e.g. a toll-free number or support for hearing-impaired callers).</p>
+              <p><a href="http://purl.org/ctdl/terms/contactOption">http://purl.org/ctdl/terms/contactOption</a> Option for a toll-free number or support for hearing-impaired callers.</p>
             </div>
           </td>
         </tr>
@@ -1019,10 +1077,10 @@ The mailing address.</p>
           </td>
           <td>
             <div class="property-name ">
-              <a href="#props_contactType">contactType</a>: Text
+              <a href="#props_contactType">contactType</a>: LangString
             </div>
             <div class="short-description">
-              <p><a href="http://Schema.org/contactType">Schema.org/contactType</a> A person or organization can have different contact points, for different purposes. For example, a sales contact point, a PR contact point and so on. This property is used to specify the kind of contact point.</p>
+              <p><a href="http://purl.org/ctdl/terms/contactType">http://purl.org/ctdl/terms/contactType</a> Text identifying the type of service provided by an organizational contact. A person or organization may have different contact points for different services. The contact type property provides for adding text to identity the service; e.g., "toll-free number" or "support for hearing-impaired callers".</p>
             </div>
           </td>
         </tr>
@@ -1064,10 +1122,10 @@ The mailing address.</p>
           </td>
           <td>
             <div class="property-name ">
-              <a href="#props_email">email</a>: Literal
+              <a href="#props_email">email</a>: String
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/email">http://purl.org/ctdl/terms/email</a> Email address of the agent being described.</p>
+              <p><a href="http://purl.org/ctdl/terms/email">http://purl.org/ctdl/terms/email</a> Email address of the organization or person.</p>
             </div>
           </td>
         </tr>
@@ -1079,10 +1137,10 @@ The mailing address.</p>
           </td>
           <td>
             <div class="property-name ">
-              <a href="#props_faxNumber">faxNumber</a>: Text
+              <a href="#props_faxNumber">faxNumber</a>: String
             </div>
             <div class="short-description">
-              <p><a href="http://Schema.org/faxNumber">Schema.org/faxNumber</a> The fax number.</p>
+              <p><a href="http://purl.org/ctdl/terms/faxNumber">http://purl.org/ctdl/terms/faxNumber</a> Fax number.</p>
             </div>
           </td>
         </tr>
@@ -1154,10 +1212,10 @@ The mailing address.</p>
           </td>
           <td>
             <div class="property-name ">
-              <a href="#props_name">name</a>: Literal
+              <a href="#props_name">name</a>: LangString
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/name">http://purl.org/ctdl/terms/name</a> The name of the resource being described.</p>
+              <p><a href="http://purl.org/ctdl/terms/name">http://purl.org/ctdl/terms/name</a> Name or title of the entity.</p>
             </div>
           </td>
         </tr>
@@ -1184,10 +1242,40 @@ The mailing address.</p>
           </td>
           <td>
             <div class="property-name ">
+              <a href="#props_postalCode">postalCode</a>: String
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/postalCode">http://purl.org/ctdl/terms/postalCode</a> The postal code. For example, 94043.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
               <a href="#props_postOfficeBoxNumber">postOfficeBoxNumber</a>: Text
             </div>
             <div class="short-description">
               <p><a href="http://Schema.org/postOfficeBoxNumber">Schema.org/postOfficeBoxNumber</a> The post office box number for PO box addresses.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_postOfficeBoxNumber">postOfficeBoxNumber</a>: String
+            </div>
+            <div class="short-description">
+              <p><a href="http://purl.org/ctdl/terms/postOfficeBoxNumber">http://purl.org/ctdl/terms/postOfficeBoxNumber</a> Post office box number for post office addresses.</p>
             </div>
           </td>
         </tr>
@@ -1262,7 +1350,7 @@ The mailing address.</p>
               <a href="#props_socialMedia">socialMedia</a>: AnyURI
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/socialMedia">http://purl.org/ctdl/terms/socialMedia</a> A social media resource for the resource being described.</p>
+              <p><a href="http://purl.org/ctdl/terms/socialMedia">http://purl.org/ctdl/terms/socialMedia</a> Social media access point for an agent or an agent's contact point.</p>
             </div>
           </td>
         </tr>
@@ -1289,10 +1377,10 @@ The mailing address.</p>
           </td>
           <td>
             <div class="property-name ">
-              <a href="#props_targetContactPoint">targetContactPoint</a>: <a href="../classes/ContactPoint.html" class="crosslink">ContactPoint</a>
+              <a href="#props_streetAddress">streetAddress</a>: LangString
             </div>
             <div class="short-description">
-              <p><a href="http://purl.org/ctdl/terms/targetContactPoint">http://purl.org/ctdl/terms/targetContactPoint</a> Options for contacting the resource being described.</p>
+              <p><a href="http://purl.org/ctdl/terms/streetAddress">http://purl.org/ctdl/terms/streetAddress</a> Street address. e.g. "1600 Amphitheatre Pkwy".</p>
             </div>
           </td>
         </tr>
@@ -1304,10 +1392,10 @@ The mailing address.</p>
           </td>
           <td>
             <div class="property-name ">
-              <a href="#props_telephone">telephone</a>: Text
+              <a href="#props_telephone">telephone</a>: String
             </div>
             <div class="short-description">
-              <p><a href="http://Schema.org/telephone">Schema.org/telephone</a> The telephone number.</p>
+              <p><a href="http://purl.org/ctdl/terms/telephone">http://purl.org/ctdl/terms/telephone</a> Telephone number.</p>
             </div>
           </td>
         </tr>
@@ -1450,6 +1538,40 @@ The country. For example, USA. You can also provide the two-letter <a href="http
 
 </div>
 <div class="property item">
+  <div id="props_addressCountry" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_PostalAddress.java.html#l26"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;PostalAddress.java:26</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      addressCountry: LangString
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/addressCountry">http://purl.org/ctdl/terms/addressCountry</a>
+Nation with its own government and occupying a particular territory identified by the two-letter ISO 3166-1 alpha-2 country code.</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_addressLocality" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_PostalAddress.java.html#l34"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;PostalAddress.java:34</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      addressLocality: LangString
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/addressLocality">http://purl.org/ctdl/terms/addressLocality</a>
+Town, city, or village in which a particular location is situtated.</p>
+</div>
+
+</div>
+<div class="property item">
   <div id="props_addressLocality" class="title">
     <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_PostalAddress.java.html#l29"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;PostalAddress.java:29</code></a></span>
     <h3 class="">
@@ -1480,6 +1602,23 @@ The locality. For example, Mountain View.</p>
 
   <div class="property-description"><p><a href="http://Schema.org/addressRegion">Schema.org/addressRegion</a>
 The region. For example, CA.</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_addressRegion" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_PostalAddress.java.html#l42"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;PostalAddress.java:42</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      addressRegion: LangString
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/addressRegion">http://purl.org/ctdl/terms/addressRegion</a>
+State or province in which a particular location is situtated.</p>
 </div>
 
 </div>
@@ -1535,35 +1674,36 @@ A language someone may use with the item. Please use one of the language codes f
 </div>
 <div class="property item">
   <div id="props_contactOption" class="title">
-    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_ContactPoint.java.html#l85"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;ContactPoint.java:85</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_ContactPoint.java.html#l25"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;ContactPoint.java:25</code></a></span>
     <h3 class="">
       public
       
       
-      contactOption: <a href="../classes/ContactPointOption.html" class="crosslink">ContactPointOption</a>
+      contactOption: LangString
     </h3>
   </div>
 
 
-  <div class="property-description"><p><a href="http://Schema.org/contactOption">Schema.org/contactOption</a>
-An option available on this contact point (e.g. a toll-free number or support for hearing-impaired callers).</p>
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/contactOption">http://purl.org/ctdl/terms/contactOption</a>
+Option for a toll-free number or support for hearing-impaired callers.</p>
 </div>
 
 </div>
 <div class="property item">
   <div id="props_contactType" class="title">
-    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_ContactPoint.java.html#l13"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;ContactPoint.java:13</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_ContactPoint.java.html#l33"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;ContactPoint.java:33</code></a></span>
     <h3 class="">
       public
       
       
-      contactType: Text
+      contactType: LangString
     </h3>
   </div>
 
 
-  <div class="property-description"><p><a href="http://Schema.org/contactType">Schema.org/contactType</a>
-A person or organization can have different contact points, for different purposes. For example, a sales contact point, a PR contact point and so on. This property is used to specify the kind of contact point.</p>
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/contactType">http://purl.org/ctdl/terms/contactType</a>
+Text identifying the type of service provided by an organizational contact.
+A person or organization may have different contact points for different services. The contact type property provides for adding text to identity the service; e.g., "toll-free number" or "support for hearing-impaired callers".</p>
 </div>
 
 </div>
@@ -1601,35 +1741,35 @@ A sub property of description. A short description of the item used to disambigu
 </div>
 <div class="property item">
   <div id="props_email" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_ContactPoint.java.html#l14"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;ContactPoint.java:14</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_ContactPoint.java.html#l42"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;ContactPoint.java:42</code></a></span>
     <h3 class="">
       public
       
       
-      email: Literal
+      email: String
     </h3>
   </div>
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/email">http://purl.org/ctdl/terms/email</a>
-Email address of the agent being described.</p>
+Email address of the organization or person.</p>
 </div>
 
 </div>
 <div class="property item">
   <div id="props_faxNumber" class="title">
-    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_ContactPoint.java.html#l21"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;ContactPoint.java:21</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_ContactPoint.java.html#l50"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;ContactPoint.java:50</code></a></span>
     <h3 class="">
       public
       
       
-      faxNumber: Text
+      faxNumber: String
     </h3>
   </div>
 
 
-  <div class="property-description"><p><a href="http://Schema.org/faxNumber">Schema.org/faxNumber</a>
-The fax number.</p>
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/faxNumber">http://purl.org/ctdl/terms/faxNumber</a>
+Fax number.</p>
 </div>
 
 </div>
@@ -1700,18 +1840,18 @@ Indicates a page (or other CreativeWork) for which this thing is the main entity
 </div>
 <div class="property item">
   <div id="props_name" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_PostalAddress.java.html#l13"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;PostalAddress.java:13</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_PostalAddress.java.html#l50"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;PostalAddress.java:50</code></a></span>
     <h3 class="">
       public
       
       
-      name: Literal
+      name: LangString
     </h3>
   </div>
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/name">http://purl.org/ctdl/terms/name</a>
-The name of the resource being described.</p>
+Name or title of the entity.</p>
 </div>
 
 </div>
@@ -1733,6 +1873,23 @@ The postal code. For example, 94043.</p>
 
 </div>
 <div class="property item">
+  <div id="props_postalCode" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_PostalAddress.java.html#l58"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;PostalAddress.java:58</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      postalCode: String
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/postalCode">http://purl.org/ctdl/terms/postalCode</a>
+The postal code. For example, 94043.</p>
+</div>
+
+</div>
+<div class="property item">
   <div id="props_postOfficeBoxNumber" class="title">
     <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_PostalAddress.java.html#l21"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;PostalAddress.java:21</code></a></span>
     <h3 class="">
@@ -1746,6 +1903,23 @@ The postal code. For example, 94043.</p>
 
   <div class="property-description"><p><a href="http://Schema.org/postOfficeBoxNumber">Schema.org/postOfficeBoxNumber</a>
 The post office box number for PO box addresses.</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_postOfficeBoxNumber" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_PostalAddress.java.html#l66"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;PostalAddress.java:66</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      postOfficeBoxNumber: String
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/postOfficeBoxNumber">http://purl.org/ctdl/terms/postOfficeBoxNumber</a>
+Post office box number for post office addresses.</p>
 </div>
 
 </div>
@@ -1817,7 +1991,7 @@ The geographic area where the service is provided.</p>
 </div>
 <div class="property item">
   <div id="props_socialMedia" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_ContactPoint.java.html#l30"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;ContactPoint.java:30</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_ContactPoint.java.html#l66"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;ContactPoint.java:66</code></a></span>
     <h3 class="">
       public
       
@@ -1828,7 +2002,7 @@ The geographic area where the service is provided.</p>
 
 
   <div class="property-description"><p><a href="http://purl.org/ctdl/terms/socialMedia">http://purl.org/ctdl/terms/socialMedia</a>
-A social media resource for the resource being described.</p>
+Social media access point for an agent or an agent's contact point.</p>
 </div>
 
 </div>
@@ -1850,36 +2024,36 @@ The street address. For example, 1600 Amphitheatre Pkwy.</p>
 
 </div>
 <div class="property item">
-  <div id="props_targetContactPoint" class="title">
-    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_PostalAddress.java.html#l21"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;PostalAddress.java:21</code></a></span>
+  <div id="props_streetAddress" class="title">
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_PostalAddress.java.html#l74"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;PostalAddress.java:74</code></a></span>
     <h3 class="">
       public
       
       
-      targetContactPoint: <a href="../classes/ContactPoint.html" class="crosslink">ContactPoint</a>
+      streetAddress: LangString
     </h3>
   </div>
 
 
-  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/targetContactPoint">http://purl.org/ctdl/terms/targetContactPoint</a>
-Options for contacting the resource being described.</p>
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/streetAddress">http://purl.org/ctdl/terms/streetAddress</a>
+Street address. e.g. "1600 Amphitheatre Pkwy".</p>
 </div>
 
 </div>
 <div class="property item">
   <div id="props_telephone" class="title">
-    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_ContactPoint.java.html#l77"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;ContactPoint.java:77</code></a></span>
+    <span class="source-link"><a href="../files/org.credentialengine_src_main_java_org_credentialengine_ContactPoint.java.html#l74"><code>org.credentialengine&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;credentialengine&#x2F;ContactPoint.java:74</code></a></span>
     <h3 class="">
       public
       
       
-      telephone: Text
+      telephone: String
     </h3>
   </div>
 
 
-  <div class="property-description"><p><a href="http://Schema.org/telephone">Schema.org/telephone</a>
-The telephone number.</p>
+  <div class="property-description"><p><a href="http://purl.org/ctdl/terms/telephone">http://purl.org/ctdl/terms/telephone</a>
+Telephone number.</p>
 </div>
 
 </div>

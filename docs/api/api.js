@@ -133,6 +133,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Clip",
         "ClothingStore",
         "Code",
+        "Collection",
         "CollectionPage",
         "CollegeOrUniversity",
         "ComedyClub",
@@ -145,6 +146,8 @@ YUI.add("yuidoc-meta", function(Y) {
         "CompoundPriceSpecification",
         "ComputerLanguage",
         "ComputerStore",
+        "Concept",
+        "ConceptScheme",
         "ConditionManifest",
         "ConditionProfile",
         "ConfirmAction",
@@ -158,6 +161,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Conversation",
         "CookAction",
         "Corporation",
+        "CostManifest",
         "CostProfile",
         "Country",
         "Course",
@@ -479,6 +483,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "OrderAction",
         "OrderItem",
         "OrderStatus",
+        "OrderedCollection",
         "Organization",
         "OrganizationRole",
         "OrganizeAction",
@@ -531,6 +536,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "ProductModel",
         "ProfessionalDoctorate",
         "ProfessionalService",
+        "ProficiencyScale",
         "ProfilePage",
         "ProgramMembership",
         "PropertyValue",
@@ -739,7 +745,8 @@ YUI.add("yuidoc-meta", function(Y) {
         "org.cassproject",
         "org.credentialengine",
         "org.json.ld",
-        "org.schema"
+        "org.schema",
+        "org.w3.skos"
     ],
     "allModules": [
         {
@@ -765,7 +772,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "org.credentialengine",
             "name": "org.credentialengine",
-            "description": "credentialengine.org/AccreditAction\nAn action by an independent, neutral, and authoritative agent that certifies a resource as meeting a prescribed set of standards."
+            "description": "credentialengine.org/AccreditAction\nAction by an independent, neutral, and authoritative agent that certifies an entity as meeting a prescribed set of standards.\nSince an instance of ceterms:CredentialingAction is a claim that a certain agent has taken the action being described, creation of such a ceterms:CredentialingAction should be reserved to the agent of that action."
         },
         {
             "displayName": "org.json.ld",
@@ -776,6 +783,11 @@ YUI.add("yuidoc-meta", function(Y) {
             "displayName": "org.schema",
             "name": "org.schema",
             "description": "Schema.org/APIReference\nReference documentation for application programming interfaces (APIs)."
+        },
+        {
+            "displayName": "org.w3.skos",
+            "name": "org.w3.skos",
+            "description": "www.w3.org/2004/02/skos/core/Collection\nA meaningful collection of concepts.\nLabelled collections can be used where you would like a set of concepts to be displayed under a 'node label' in the hierarchy."
         }
     ],
     "elements": []

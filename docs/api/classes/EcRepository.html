@@ -5,7 +5,7 @@
     <title>EcRepository - EC Library</title>
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <script src="http://yui.yahooapis.com/combo?3.8.0pr2/build/yui/yui-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.0/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -37,6 +37,8 @@
                             <li><a href="../modules/org.json.ld.html">org.json.ld</a>
                             </li>
                             <li><a href="../modules/org.schema.html">org.schema</a>
+                            </li>
+                            <li><a href="../modules/org.w3.skos.html">org.w3.skos</a>
                             </li>
                     </ul>
                 </div>
@@ -178,6 +180,7 @@
                             <li><a href="../classes/Clip.html">Clip</a></li>
                             <li><a href="../classes/ClothingStore.html">ClothingStore</a></li>
                             <li><a href="../classes/Code.html">Code</a></li>
+                            <li><a href="../classes/Collection.html">Collection</a></li>
                             <li><a href="../classes/CollectionPage.html">CollectionPage</a></li>
                             <li><a href="../classes/CollegeOrUniversity.html">CollegeOrUniversity</a></li>
                             <li><a href="../classes/ComedyClub.html">ComedyClub</a></li>
@@ -190,6 +193,8 @@
                             <li><a href="../classes/CompoundPriceSpecification.html">CompoundPriceSpecification</a></li>
                             <li><a href="../classes/ComputerLanguage.html">ComputerLanguage</a></li>
                             <li><a href="../classes/ComputerStore.html">ComputerStore</a></li>
+                            <li><a href="../classes/Concept.html">Concept</a></li>
+                            <li><a href="../classes/ConceptScheme.html">ConceptScheme</a></li>
                             <li><a href="../classes/ConditionManifest.html">ConditionManifest</a></li>
                             <li><a href="../classes/ConditionProfile.html">ConditionProfile</a></li>
                             <li><a href="../classes/ConfirmAction.html">ConfirmAction</a></li>
@@ -203,6 +208,7 @@
                             <li><a href="../classes/Conversation.html">Conversation</a></li>
                             <li><a href="../classes/CookAction.html">CookAction</a></li>
                             <li><a href="../classes/Corporation.html">Corporation</a></li>
+                            <li><a href="../classes/CostManifest.html">CostManifest</a></li>
                             <li><a href="../classes/CostProfile.html">CostProfile</a></li>
                             <li><a href="../classes/Country.html">Country</a></li>
                             <li><a href="../classes/Course.html">Course</a></li>
@@ -524,6 +530,7 @@
                             <li><a href="../classes/OpeningHoursSpecification.html">OpeningHoursSpecification</a></li>
                             <li><a href="../classes/Order.html">Order</a></li>
                             <li><a href="../classes/OrderAction.html">OrderAction</a></li>
+                            <li><a href="../classes/OrderedCollection.html">OrderedCollection</a></li>
                             <li><a href="../classes/OrderItem.html">OrderItem</a></li>
                             <li><a href="../classes/OrderStatus.html">OrderStatus</a></li>
                             <li><a href="../classes/Organization.html">Organization</a></li>
@@ -578,6 +585,7 @@
                             <li><a href="../classes/ProductModel.html">ProductModel</a></li>
                             <li><a href="../classes/ProfessionalDoctorate.html">ProfessionalDoctorate</a></li>
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
+                            <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
@@ -804,10 +812,12 @@
                       <li><a href="#method__save">_save</a></li>
                       <li><a href="#method__saveWithoutSigning">_saveWithoutSigning</a></li>
                       <li><a href="#method_DELETE">DELETE</a></li>
+                      <li><a href="#method_DELETE">DELETE</a></li>
                       <li><a href="#method_escapeSearch">escapeSearch</a></li>
                       <li><a href="#method_get">get</a></li>
                       <li><a href="#method_get">get</a></li>
                       <li><a href="#method_getBlocking">getBlocking</a></li>
+                      <li><a href="#method_save">save</a></li>
                       <li><a href="#method_save">save</a></li>
                   </ul>
             
@@ -855,7 +865,7 @@
 
         <div id="main" class="yui3-u">
             <div class="content"><div class="title">
-    <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l15"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:15</code></a></span>
+    <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l19"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:19</code></a></span>
     <h1 class="class-name">EcRepository</h1>
 </div>
 
@@ -917,6 +927,21 @@ Should be used for all CRUD and search operations</p>
             </div>
             <div class="short-description">
               <p>Attempts to save a piece of data without signing it.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            static
+            
+          </td>
+          <td>
+            <div class="method-name ">
+              <a href="#method_DELETE">DELETE</a>(data, success, failure)
+            </div>
+            <div class="short-description">
+              <p>Attempts to delete a piece of data.</p>
             </div>
           </td>
         </tr>
@@ -1006,7 +1031,22 @@ Should be used for all CRUD and search operations</p>
               <a href="#method_save">save</a>(data, success, failure)
             </div>
             <div class="short-description">
-              <p>Attempts to save a piece of data. Does some checks before saving to ensure the data is valid. Warns the developer that they are using the repository save function rather than an object specific version, this can be avoided by calling _save</p>
+              <p>Attempts to save a piece of data. If the @id of the data is not of this server, will register the data to the server.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            static
+            
+          </td>
+          <td>
+            <div class="method-name ">
+              <a href="#method_save">save</a>(data, success, failure)
+            </div>
+            <div class="short-description">
+              <p>Attempts to save a piece of data.</p>
             </div>
           </td>
         </tr>
@@ -1143,21 +1183,6 @@ Should be used for all CRUD and search operations</p>
           </td>
           <td>
             <div class="method-name ">
-              <a href="#method_search">search</a>(query): 
-            </div>
-            <div class="short-description">
-              <p>Search a repository for JSON-LD compatible data synchronously.</p>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            public
-            
-            
-          </td>
-          <td>
-            <div class="method-name ">
               <a href="#method_search">search</a>(query, eachSuccess, success, failure)
             </div>
             <div class="short-description">
@@ -1173,7 +1198,7 @@ Should be used for all CRUD and search operations</p>
           </td>
           <td>
             <div class="method-name ">
-              <a href="#method_searchWithParams">searchWithParams</a>(query, paramObj, size, start): 
+              <a href="#method_search">search</a>(query): 
             </div>
             <div class="short-description">
               <p>Search a repository for JSON-LD compatible data synchronously.</p>
@@ -1188,7 +1213,22 @@ Should be used for all CRUD and search operations</p>
           </td>
           <td>
             <div class="method-name ">
-              <a href="#method_searchWithParams">searchWithParams</a>(query, paramObj, size, start, eachSuccess, success, failure)
+              <a href="#method_searchWithParams">searchWithParams</a>(query, paramObj): 
+            </div>
+            <div class="short-description">
+              <p>Search a repository for JSON-LD compatible data synchronously.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="method-name ">
+              <a href="#method_searchWithParams">searchWithParams</a>(query, paramObj, eachSuccess, success, failure)
             </div>
             <div class="short-description">
               <p>Search a repository for JSON-LD compatible data.</p>
@@ -1259,7 +1299,7 @@ Should be used for all CRUD and search operations</p>
           </td>
           <td>
             <div class="method-name ">
-              <a href="#method_handleSearchResults">handleSearchResults</a>(results, eachSuccess, success)
+              <a href="#method_handleSearchResults">handleSearchResults</a>(results, eachSuccess, success, failure)
             </div>
             <div class="short-description">
               <p>Handles the search results in search by params, before returning them with the callback passed into search method</p>
@@ -1276,7 +1316,7 @@ Should be used for all CRUD and search operations</p>
         <h2 id="static-public-methods">Static Public Methods</h2>
 <div class="method item">
     <div id="method__delete" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l450"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:450</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l493"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:493</code></a></span>
         <h3 class="">
             public
             static
@@ -1357,7 +1397,7 @@ delete</p>
 </div>
 <div class="method item">
     <div id="method__save" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l347"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:347</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l389"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:389</code></a></span>
         <h3 class="">
             public
             static
@@ -1438,7 +1478,7 @@ save</p>
 </div>
 <div class="method item">
     <div id="method__saveWithoutSigning" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l391"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:391</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l433"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:433</code></a></span>
         <h3 class="">
             public
             static
@@ -1518,7 +1558,88 @@ save</p>
 </div>
 <div class="method item">
     <div id="method_DELETE" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l469"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:469</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l512"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:512</code></a></span>
+        <h3 class="">
+            public
+            static
+            
+            DELETE(data, success, failure)
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Attempts to delete a piece of data.</p>
+<p>
+Uses a signature sheet informed by the owner field of the data.</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>data</td>
+              <td><a href="../classes/EcRemoteLinkedData.html" class="crosslink">EcRemoteLinkedData</a></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Data to save to the location designated
+by its id.</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>success</td>
+              <td>Callback1<String></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Callback triggered on successful
+delete</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>failure</td>
+              <td>Callback1<String></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Callback triggered if error during
+delete</p>
+</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+
+
+</div>
+<div class="method item">
+    <div id="method_DELETE" class="title">
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l574"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:574</code></a></span>
         <h3 class="">
             public
             static
@@ -1599,7 +1720,7 @@ delete</p>
 </div>
 <div class="method item">
     <div id="method_escapeSearch" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l288"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:288</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l313"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:313</code></a></span>
         <h3 class="">
             public
             static
@@ -1656,7 +1777,7 @@ delete</p>
 </div>
 <div class="method item">
     <div id="method_get" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l578"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:578</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l44"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:44</code></a></span>
         <h3 class="">
             public
             static
@@ -1736,7 +1857,7 @@ failure.</p>
 </div>
 <div class="method item">
     <div id="method_get" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l39"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:39</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l736"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:736</code></a></span>
         <h3 class="">
             public
             static
@@ -1816,7 +1937,7 @@ failure.</p>
 </div>
 <div class="method item">
     <div id="method_getBlocking" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l233"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:233</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l258"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:258</code></a></span>
         <h3 class="">
             public
             static
@@ -1874,7 +1995,7 @@ it is returned</p>
 </div>
 <div class="method item">
     <div id="method_save" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l324"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:324</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l369"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:369</code></a></span>
         <h3 class="">
             public
             static
@@ -1885,10 +2006,87 @@ it is returned</p>
 
 
 
-    <div class="method-description"><p>Attempts to save a piece of data. Does some checks before saving to
-ensure the data is valid. Warns the developer that they are using the
-repository save function rather than an object specific version, this can
-be avoided by calling _save</p>
+    <div class="method-description"><p>Attempts to save a piece of data. If the @id of the data is not of this server, will register the data to the server.</p>
+<p>
+Uses a signature sheet informed by the owner field of the data.</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>data</td>
+              <td><a href="../classes/EcRemoteLinkedData.html" class="crosslink">EcRemoteLinkedData</a></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Data to save to the location designated
+by its id.</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>success</td>
+              <td>Callback1<String></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Callback triggered on successful save</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>failure</td>
+              <td>Callback1<String></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Callback triggered if error during
+save</p>
+</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+
+
+</div>
+<div class="method item">
+    <div id="method_save" class="title">
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l349"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:349</code></a></span>
+        <h3 class="">
+            public
+            static
+            
+            save(data, success, failure)
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Attempts to save a piece of data.</p>
 <p>
 Uses a signature sheet informed by the owner field of the data.</div>
 
@@ -1969,7 +2167,7 @@ save</p>
     <h2 id="public-methods">Public Methods</h2>
 <div class="method item">
     <div id="method_autoDetectRepository" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l968"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:968</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l1143"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:1143</code></a></span>
         <h3 class="">
             public
             
@@ -1990,7 +2188,7 @@ this repositories instance</p>
 </div>
 <div class="method item">
     <div id="method_autoDetectRepository" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l1037"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:1037</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l1233"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:1233</code></a></span>
         <h3 class="">
             public
             
@@ -2011,7 +2209,7 @@ this repositories instance</p>
 </div>
 <div class="method item">
     <div id="method_backup" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l1222"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:1222</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l1428"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:1428</code></a></span>
         <h3 class="">
             public
             
@@ -2088,7 +2286,7 @@ this repositories instance</p>
 </div>
 <div class="method item">
     <div id="method_fetchServerAdminKeys" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l1295"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:1295</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l1507"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:1507</code></a></span>
         <h3 class="">
             public
             
@@ -2153,7 +2351,7 @@ returns an array of the admin public keys</p>
 </div>
 <div class="method item">
     <div id="method_listTypes" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l1197"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:1197</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l1403"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:1403</code></a></span>
         <h3 class="">
             public
             
@@ -2217,7 +2415,7 @@ Uses a signature sheet gathered from {@link EcIdentityManager}.</div>
 </div>
 <div class="method item">
     <div id="method_precache" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l497"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:497</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l632"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:632</code></a></span>
         <h3 class="">
             public
             
@@ -2283,7 +2481,7 @@ been retrieved</p>
 </div>
 <div class="method item">
     <div id="method_restoreBackup" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l1235"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:1235</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l1441"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:1441</code></a></span>
         <h3 class="">
             public
             
@@ -2360,66 +2558,7 @@ been retrieved</p>
 </div>
 <div class="method item">
     <div id="method_search" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l690"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:690</code></a></span>
-        <h3 class="">
-            public
-            
-            
-            search(query): 
-        </h3>
-    </div>
-
-
-
-    <div class="method-description"><p>Search a repository for JSON-LD compatible data synchronously.</p>
-<p>
-Uses a signature sheet gathered from {@link EcIdentityManager}.</div>
-
-      <div class="params">
-        <h4>Parameters:</h4>
-        <table>
-          <thead>
-          <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Attribute</th>
-            <th>Description</th>
-          </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>query</td>
-              <td>String</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>ElasticSearch compatible query string, similar to
-Google query strings.</p>
-</td>
-            </tr>
-
-          </tbody>
-        </table>
-      </div>
-
-      <div class="return">
-        <h4>Return:</h4>
-        <div>
-          
-          <span class="return-description"><p>EcRemoteLinkedData[]</p>
-</span>
-        </div>
-      </div>
-
-
-</div>
-<div class="method item">
-    <div id="method_search" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l670"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:670</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l828"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:828</code></a></span>
         <h3 class="">
             public
             
@@ -2513,13 +2652,72 @@ after eachSuccess.</p>
 
 </div>
 <div class="method item">
-    <div id="method_searchWithParams" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l831"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:831</code></a></span>
+    <div id="method_search" class="title">
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l848"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:848</code></a></span>
         <h3 class="">
             public
             
             
-            searchWithParams(query, paramObj, size, start): 
+            search(query): 
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Search a repository for JSON-LD compatible data synchronously.</p>
+<p>
+Uses a signature sheet gathered from {@link EcIdentityManager}.</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>query</td>
+              <td>String</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>ElasticSearch compatible query string, similar to
+Google query strings.</p>
+</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+      <div class="return">
+        <h4>Return:</h4>
+        <div>
+          
+          <span class="return-description"><p>EcRemoteLinkedData[]</p>
+</span>
+        </div>
+      </div>
+
+
+</div>
+<div class="method item">
+    <div id="method_searchWithParams" class="title">
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l1002"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:1002</code></a></span>
+        <h3 class="">
+            public
+            
+            
+            searchWithParams(query, paramObj): 
         </h3>
     </div>
 
@@ -2571,32 +2769,6 @@ the search.</p>
 </td>
             </tr>
 
-            <tr>
-              <td>size</td>
-              <td>Object</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td> </td>
-            </tr>
-
-            <tr>
-              <td>start</td>
-              <td>Object</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td> </td>
-            </tr>
-
           </tbody>
         </table>
       </div>
@@ -2614,12 +2786,12 @@ the search.</p>
 </div>
 <div class="method item">
     <div id="method_searchWithParams" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l705"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:705</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l863"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:863</code></a></span>
         <h3 class="">
             public
             
             
-            searchWithParams(query, paramObj, size, start, eachSuccess, success, failure)
+            searchWithParams(query, paramObj, eachSuccess, success, failure)
         </h3>
     </div>
 
@@ -2669,32 +2841,6 @@ Google query strings.</p>
               <td><p>Additional parameters that can be used to tailor
 the search.</p>
 </td>
-            </tr>
-
-            <tr>
-              <td>size</td>
-              <td>Object</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td> </td>
-            </tr>
-
-            <tr>
-              <td>start</td>
-              <td>Object</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td> </td>
             </tr>
 
             <tr>
@@ -2750,7 +2896,7 @@ after eachSuccess.</p>
 </div>
 <div class="method item">
     <div id="method_wipe" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l1248"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:1248</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l1454"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:1454</code></a></span>
         <h3 class="">
             public
             
@@ -2832,7 +2978,7 @@ after eachSuccess.</p>
         <h2 id="private-methods">Private Methods</h2>
 <div class="method item private">
     <div id="method_autoDetectRepositoryActual" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l1149"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:1149</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l1352"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:1352</code></a></span>
         <h3 class="">
             private
             
@@ -2889,7 +3035,7 @@ after eachSuccess.</p>
 </div>
 <div class="method item private">
     <div id="method_autoDetectRepositoryAsync" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l1102"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:1102</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l1298"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:1298</code></a></span>
         <h3 class="">
             private
             
@@ -2946,12 +3092,12 @@ after eachSuccess.</p>
 </div>
 <div class="method item private">
     <div id="method_handleSearchResults" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l1261"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:1261</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcRepository.java.html#l1467"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcRepository.java:1467</code></a></span>
         <h3 class="">
             private
             
             
-            handleSearchResults(results, eachSuccess, success)
+            handleSearchResults(results, eachSuccess, success, failure)
         </h3>
     </div>
 
@@ -3015,6 +3161,19 @@ trigger for each search result</p>
               <td><p>Callback function to
 trigger with all search results</p>
 </td>
+            </tr>
+
+            <tr>
+              <td>failure</td>
+              <td>Object</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td> </td>
             </tr>
 
           </tbody>
