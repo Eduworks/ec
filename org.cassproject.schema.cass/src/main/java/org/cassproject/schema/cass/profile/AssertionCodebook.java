@@ -11,4 +11,5 @@ public class AssertionCodebook {
 	public EbacEncryptedSecret decayFunction;
 	public EbacEncryptedSecret negative;
 	public Array<EbacEncryptedSecret> evidence;
+	public String assertionShortId;
 }

@@ -49,6 +49,30 @@ public class AssertionEnvelope extends CreativeWork {
 		return 0;
 	}
 
+    /***
+     * Removes an assertion from the envelope
+     * @param assertionShortIdToRemove
+     * @method removeAssertionByShortId
+     */
+	public void removeAssertionByShortId(String assertionShortIdToRemove) {
+        if (assertion != null) {
+            for (int i=0;i<assertion.$length();i++) {
+                if (getAssertion(i).shortId().equals(assertionShortIdToRemove)) {
+                    assertion.splice(i, 1);
+                    break;
+                }
+            }
+        }
+        if (codebook != null) {
+            for (int i=0;i<codebook.$length();i++) {
+                if (codebook.$get(i).assertionShortId.equals(assertionShortIdToRemove)) {
+                    codebook.splice(i, 1);
+                    break;
+                }
+            }
+        }
+    }
+
 	/***
 	 * Returns the assertion indexed at position @index.
 	 * @param index
@@ -83,7 +107,8 @@ public class AssertionEnvelope extends CreativeWork {
 		if (codebook == null)
 			codebook = new Array<>();
 		codebook.push(ac);
-
+		if (a.shortId() != null)
+			ac.assertionShortId = a.shortId();
 
 		if (a.agent != null)
 			ac.agent = a.agent.decryptSecret();
