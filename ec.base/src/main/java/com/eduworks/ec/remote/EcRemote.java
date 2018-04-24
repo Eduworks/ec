@@ -174,7 +174,6 @@ public class EcRemote {
 
 		final XMLHttpRequest xhr = new XMLHttpRequest();
 		xhr.open("GET", url, async);
-		xhr.setRequestHeader("Cache-Control", "no-cache");
 		xhr.onreadystatechange = new Callback0() {
 			@Override
 			public void $invoke() {
