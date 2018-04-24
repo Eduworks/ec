@@ -18,6 +18,9 @@ if (vname != null) cru.build('name',com.eduworks.resolver.lang.LevrJsParser.jsTo
 if (vauthToken != null) cru.build('authToken',com.eduworks.resolver.lang.LevrJsParser.jsToJava(vauthToken));
 return cru.resolve(context,parameters,dataStreams);
 }*/
+
+	public static Object httpStatus;
+
 	public static Object httpPost(Object obj, String url, String contentType, String multipart, String name) {
 		return null;
 	}

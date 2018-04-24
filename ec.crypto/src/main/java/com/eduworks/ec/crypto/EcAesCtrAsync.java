@@ -3,18 +3,15 @@ package com.eduworks.ec.crypto;
 import com.eduworks.ec.blob.ArrayBuffer;
 import com.eduworks.ec.blob.BlobHelper;
 import org.stjs.javascript.Array;
+import org.stjs.javascript.Global;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.jquery.Promise;
-import window.AlgorithmIdentifier;
-import window.CryptoKey;
-import window.base64;
-import window.crypto;
-import window.window;
+import window.*;
 
 public class EcAesCtrAsync {
 	public static void encrypt(String text, String secret, String iv, final Callback1<String> success, final Callback1<String> failure) {
-		if (window.crypto == null || crypto.subtle == null) {
+		if (Global.window == null || window.crypto == null || crypto.subtle == null) {
 			EcAesCtrAsyncWorker.encrypt(text, secret, iv, success, failure);
 			return;
 		}

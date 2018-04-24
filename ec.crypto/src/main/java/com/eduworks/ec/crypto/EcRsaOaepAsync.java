@@ -4,6 +4,7 @@ import com.eduworks.ec.blob.ArrayBuffer;
 import com.eduworks.ec.blob.BlobHelper;
 import com.eduworks.ec.remote.EcRemote;
 import org.stjs.javascript.Array;
+import org.stjs.javascript.Global;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
 import window.*;
@@ -14,7 +15,7 @@ public class EcRsaOaepAsync {
 			success.$invoke(EcRsaOaep.encrypt(pk, text));
 			return;
 		}
-		if (window.crypto == null || crypto.subtle == null) {
+		if (Global.window == null || window.crypto == null || crypto.subtle == null) {
 			EcRsaOaepAsyncWorker.encrypt(pk, text, success, failure);
 			return;
 		}

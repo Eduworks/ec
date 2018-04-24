@@ -1,12 +1,12 @@
 package com.eduworks.ec.crypto;
 
+import com.eduworks.ec.remote.EcLevrHttp;
 import forge.sha1;
 import forge.sha256;
 import forge.util;
+import org.stjs.javascript.Global;
 import org.stjs.javascript.JSObjectAdapter;
 import window.EcLevrCrypto;
-
-import static org.stjs.javascript.jquery.GlobalJQuery.$;
 
 /**
  * Helper methods for performing RSA Encryption methods. Uses Optimal Asymmetric
@@ -29,7 +29,7 @@ public class EcRsaOaep {
 	 * @static
 	 */
 	public static String encrypt(EcPk pk, String plaintext) {
-		if ($ == null) {
+		if (Global.typeof(EcLevrHttp.httpStatus) != "undefined") {
 			return EcLevrCrypto.rsaEncrypt(plaintext, pk.toPem());
 		}
 		return forge.util.encode64(pk.pk.encrypt(plaintext, "RSA-OAEP"));
@@ -54,7 +54,7 @@ public class EcRsaOaep {
 			}
 		}
 		final String result;
-		if ($ == null) {
+		if (Global.typeof(EcLevrHttp.httpStatus) != "undefined") {
 			result = EcLevrCrypto.rsaDecrypt(ciphertext, ppk.toPem());
 		} else {
 			result = ppk.ppk.decrypt(forge.util.decode64(ciphertext), "RSA-OAEP");
@@ -77,7 +77,7 @@ public class EcRsaOaep {
 	 * @static
 	 */
 	public static String sign(EcPpk ppk, String text) {
-		if ($ == null) {
+		if (Global.typeof(EcLevrHttp.httpStatus) != "undefined") {
 			return EcLevrCrypto.rsaSign(text, ppk.toPem());
 		}
 		sha1 s = sha1.create();
@@ -114,7 +114,7 @@ public class EcRsaOaep {
 	 * @method verify
 	 */
 	public static Boolean verify(EcPk pk, String text, String signature) {
-		if ($ == null) {
+		if (Global.typeof(EcLevrHttp.httpStatus) != "undefined") {
 			return EcLevrCrypto.rsaVerify(signature, pk.toPem(), text);
 		}
 		sha1 s = sha1.create();
