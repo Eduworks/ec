@@ -271,9 +271,11 @@ public class EcRemote {
 					success.$invoke(o);
 					return;
 				} catch (Exception ex) {
-					failure.$invoke((String) (Object) ex);
+					if (ex == null)
+						failure.$invoke("An unspecified error occurred during a network request.");
+					else
+						failure.$invoke((String) (Object) ex);
 				}
-				failure.$invoke("An unspecified error occurred during a network request.");
 			}
 		};
 	}
