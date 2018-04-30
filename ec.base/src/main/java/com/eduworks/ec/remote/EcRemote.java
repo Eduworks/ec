@@ -266,16 +266,17 @@ public class EcRemote {
 		return new Callback1<String>() {
 			@Override
 			public void $invoke(String s) {
+				final Object o;
 				try {
-					final Object o = JSON.parse(s);
-					success.$invoke(o);
-					return;
+					o = JSON.parse(s);
 				} catch (Exception ex) {
 					if (ex == null)
 						failure.$invoke("An unspecified error occurred during a network request.");
 					else
 						failure.$invoke((String) (Object) ex);
+					return;
 				}
+				success.$invoke(o);
 			}
 		};
 	}
