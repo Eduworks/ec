@@ -55,7 +55,8 @@ public class EcRepository {
 	 * @method get
 	 * @static
 	 */
-	public static void get(final String url, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure) {
+	public static void get(String url, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure) {
+		final String originalUrl = url;
 		if (EcRemote.async == false) {
 			EcRemoteLinkedData result = getBlocking(url);
 			if (result == null)
@@ -71,7 +72,7 @@ public class EcRepository {
 					Task.immediate(new Callback0() {
 						@Override
 						public void $invoke() {
-							success.$invoke((EcRemoteLinkedData) JSObjectAdapter.$get(cache, url));
+							success.$invoke((EcRemoteLinkedData) JSObjectAdapter.$get(cache, originalUrl));
 						}
 					});
 				} else {
@@ -85,7 +86,7 @@ public class EcRepository {
 						Global.setTimeout(new Callback0() {
 							@Override
 							public void $invoke() {
-								get(url, success, failure);
+								get(originalUrl, success, failure);
 							}
 						}, 100);
 						return;
@@ -95,19 +96,24 @@ public class EcRepository {
 			}
 		}
 		if (!shouldTryUrl(url)) {
-			EcRepository.find(url, "Could not locate object. May be due to EcRepository.alwaysTryUrl flag.", new Object(), 0, success, failure);
-			return;
+			if (repos.$length() == 1)
+				url = EcRemoteLinkedData.veryShortId(repos.$get(0).selectedServer,EcCrypto.md5(url));
+			else {
+				EcRepository.find(url, "Could not locate object. May be due to EcRepository.alwaysTryUrl flag.", new Object(), 0, success, failure);
+				return;
+			}
 		}
 		final FormData fd = new FormData();
+		final String finalUrl = url;
 		if (unsigned) {
-			EcRemote.getExpectingObject(url, null, new Callback1<Object>() {
+			EcRemote.getExpectingObject(finalUrl, null, new Callback1<Object>() {
 				@Override
 				public void $invoke(Object p1) {
-					JSObjectAdapter.$properties(fetching).$delete(url);
+					JSObjectAdapter.$properties(fetching).$delete(originalUrl);
 					EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
 					d.copyFrom(p1);
 					if (d.getFullType() == null) {
-						EcRepository.find(url, Global.JSON.stringify(p1), new Object(), 0, success, failure);
+						EcRepository.find(originalUrl, Global.JSON.stringify(p1), new Object(), 0, success, failure);
 						return;
 					}
 					if (caching) {
@@ -120,27 +126,27 @@ public class EcRepository {
 
 				@Override
 				public void $invoke(String p1) {
-					EcRepository.find(url, p1, new Object(), 0, success, failure);
+					EcRepository.find(originalUrl, p1, new Object(), 0, success, failure);
 				}
 			});
 		} else
 			EcIdentityManager.signatureSheetAsync(60000, url, new Callback1<String>() {
 				@Override
 				public void $invoke(String p1) {
-					if (JSObjectAdapter.$get(cache, url) != null) {
-						JSObjectAdapter.$properties(fetching).$delete(url);
-						success.$invoke((EcRemoteLinkedData) JSObjectAdapter.$get(cache, url));
+					if (JSObjectAdapter.$get(cache, originalUrl) != null) {
+						JSObjectAdapter.$properties(fetching).$delete(originalUrl);
+						success.$invoke((EcRemoteLinkedData) JSObjectAdapter.$get(cache, originalUrl));
 						return;
 					}
 					fd.append("signatureSheet", p1);
-					EcRemote.postExpectingObject(url, null, fd, new Callback1<Object>() {
+					EcRemote.postExpectingObject(finalUrl, null, fd, new Callback1<Object>() {
 						@Override
 						public void $invoke(Object p1) {
-							JSObjectAdapter.$properties(fetching).$delete(url);
+							JSObjectAdapter.$properties(fetching).$delete(originalUrl);
 							EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
 							d.copyFrom(p1);
 							if (d.getFullType() == null) {
-								EcRepository.find(url, Global.JSON.stringify(p1), new Object(), 0, success, failure);
+								EcRepository.find(originalUrl, Global.JSON.stringify(p1), new Object(), 0, success, failure);
 								return;
 							}
 							if (caching) {
@@ -153,7 +159,7 @@ public class EcRepository {
 
 						@Override
 						public void $invoke(String p1) {
-							EcRepository.find(url, p1, new Object(), 0, success, failure);
+							EcRepository.find(originalUrl, p1, new Object(), 0, success, failure);
 						}
 					});
 				}
@@ -265,47 +271,53 @@ public class EcRepository {
 	 * @method getBlocking
 	 * @static
 	 */
-	public static EcRemoteLinkedData getBlocking(final String url) {
-		if (url == null)
+	public static EcRemoteLinkedData getBlocking(String url) {
+		final String originalUrl = url;
+		if (originalUrl == null)
 			return null;
 		if (caching) {
-			if (JSObjectAdapter.$get(cache, url) != null) {
-				return (EcRemoteLinkedData) JSObjectAdapter.$get(cache, url);
+			if (JSObjectAdapter.$get(cache, originalUrl) != null) {
+				return (EcRemoteLinkedData) JSObjectAdapter.$get(cache, originalUrl);
 			}
 		}
-		if (!shouldTryUrl(url)) {
-			return EcRepository.findBlocking(url, "Could not locate object. May be due to EcRepository.alwaysTryUrl flag.", new Object(), 0);
+		if (!shouldTryUrl(originalUrl)) {
+			if (repos.$length() == 1)
+				url = EcRemoteLinkedData.veryShortId(repos.$get(0).selectedServer,EcCrypto.md5(url));
+			else {
+				return EcRepository.findBlocking(originalUrl, "Could not locate object. May be due to EcRepository.alwaysTryUrl flag.", new Object(), 0);
+			}
 		}
 		final FormData fd = new FormData();
 		String p1 = null;
 
 		if (unsigned == false) {
-			p1 = EcIdentityManager.signatureSheet(60000, url);
+			p1 = EcIdentityManager.signatureSheet(60000, originalUrl);
 			fd.append("signatureSheet", p1);
 		}
 		boolean oldAsync = EcRemote.async;
 		EcRemote.async = false;
-		EcRemote.postExpectingObject(url, null, fd, new Callback1<Object>() {
+		final String finalUrl = url;
+		EcRemote.postExpectingObject(finalUrl, null, fd, new Callback1<Object>() {
 			@Override
 			public void $invoke(Object p1) {
 				EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
 				d.copyFrom(p1);
 				if (d.getFullType() == null) {
-					EcRepository.findBlocking(url, Global.JSON.stringify(p1), new Object(), 0);
+					EcRepository.findBlocking(originalUrl, Global.JSON.stringify(p1), new Object(), 0);
 					return;
 				}
-				JSObjectAdapter.$put(cache, url, d);
+				JSObjectAdapter.$put(cache, originalUrl, d);
 			}
 		}, new Callback1<String>() {
 			@Override
 			public void $invoke(String s) {
-				JSObjectAdapter.$put(cache, url, EcRepository.findBlocking(url, s, new Object(), 0));
+				JSObjectAdapter.$put(cache, originalUrl, EcRepository.findBlocking(originalUrl, s, new Object(), 0));
 			}
 		});
 		EcRemote.async = oldAsync;
-		EcRemoteLinkedData result = (EcRemoteLinkedData) JSObjectAdapter.$get(cache, url);
+		EcRemoteLinkedData result = (EcRemoteLinkedData) JSObjectAdapter.$get(cache, originalUrl);
 		if (!caching) {
-			JSObjectAdapter.$put(cache, url, null);
+			JSObjectAdapter.$put(cache, originalUrl, null);
 		}
 		return result;
 	}
