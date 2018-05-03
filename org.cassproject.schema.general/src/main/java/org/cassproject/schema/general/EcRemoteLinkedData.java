@@ -161,6 +161,24 @@ public class EcRemoteLinkedData extends EcLinkedData {
      * @param {string} uniqueIdentifier Canonical identifier. Must contain a letter or symbol.
      * @method assignId
      */
+    public static String veryShortId(String server, String uniqueIdentifier) {
+        String id;
+        id = server;
+        if (!id.endsWith("/"))
+            id += "/";
+        id += "data/"; //endpoint to CRUD data
+        id += uniqueIdentifier; //local identifier
+        return id;
+    }
+
+    /**
+     * Will generate an identifier using the server URL provided (usually from
+     * an EcRepository) and unique identifier.
+     *
+     * @param {string} server Base URL of the server's repository functionality.
+     * @param {string} uniqueIdentifier Canonical identifier. Must contain a letter or symbol.
+     * @method assignId
+     */
     public void assignIdAndVersion(String server, String uniqueIdentifier, String version) {
         id = server;
         if (!id.endsWith("/"))
