@@ -86,11 +86,18 @@ public class CSVImport {
 	 * @private
 	 * @static
 	 */
-	private static void transformId(String oldId, EcRemoteLinkedData newObject, String selectedServer) {
+	private static void transformId(String oldId, EcRemoteLinkedData newObject, String selectedServer,EcRepository repo) {
 		if (oldId == null || oldId == "")
 			newObject.assignId(selectedServer, oldId);
 		else if (oldId.indexOf("http") != -1) {
-			newObject.id = oldId;
+			if (EcCompetency.getBlocking(oldId) == null)
+				newObject.id = oldId;
+			else {
+				if (repo == null || repo.selectedServer.indexOf(selectedServer) != -1)
+					newObject.generateId(selectedServer);
+				else
+					newObject.generateShortId(selectedServer);
+			}
 		}
 	}
 
@@ -179,7 +186,7 @@ public class CSVImport {
 							// If not unique and IdIndex set, copy GUID from CSV but prepend our serverUrl
 							if ((uniquify == JSGlobal.undefined || uniquify == null || uniquify == false) && idIndex != null && idIndex >= 0) {
 								competency.id = tabularData.$get(i).$get(idIndex);
-								transformId(tabularData.$get(i).$get(idIndex), competency, serverUrl);
+								transformId(tabularData.$get(i).$get(idIndex), competency, serverUrl,repo);
 								// otherwise (unique or no idIndex), generate new ID
 							} else {
 								if (repo == null || repo.selectedServer.indexOf(serverUrl) != -1)
@@ -557,7 +564,7 @@ public class CSVImport {
 							String fileId = data.id;
 							if (idIndex != JSGlobal.undefined && idIndex != null && idIndex >= 0) {
 								data.id = tabularData.$get(i).$get(idIndex);
-								transformId(tabularData.$get(i).$get(idIndex), data, serverUrl);
+								transformId(tabularData.$get(i).$get(idIndex), data, serverUrl,repo);
 							} else {
 								if (repo == null || repo.selectedServer.indexOf(serverUrl) != -1)
 									data.generateId(serverUrl);
