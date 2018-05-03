@@ -105,7 +105,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
      */
     public void generateId(String server) {
         id = server;
-        if (!id.endsWith("/"))
+        if (!id.endsWith("/") && !id.endsWith("ce-"))
             id += "/";
         id += "data/";
         id += getDottedType();
@@ -124,7 +124,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
      */
     public void generateShortId(String server) {
         id = server;
-        if (!id.endsWith("/"))
+        if (!id.endsWith("/") && !id.endsWith("ce-"))
             id += "/";
         id += EcRandom.generateUUID();
     }
