@@ -66,7 +66,7 @@ public class Relation extends CreativeWork {
 	 * Equivalent relations define two objects that are effectively equivalent.
 	 * Equivalent relations are bidirectional.
 	 *
-	 * @property IS_RELATED_TO
+	 * @property IS_EQUIVALENT_TO
 	 * @static
 	 * @type string
 	 */
