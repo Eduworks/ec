@@ -83,10 +83,18 @@ public class FrameworkCollapser {
     private void addRelationshipsToFrameworkNodeGraph() throws Exception {
         EcAlignment rel;
         RelationType.RELATION_TYPE type;
+        Node sourceNode;
+        Node targetNode;
         for (int i=0;i<relationArray.$length();i++) {
             rel = relationArray.$get(i);
             type = getRelationType(rel.relationType);
-            if (type != null) frameworkNodeGraph.addRelation(competencyNodeMap.$get(rel.source),competencyNodeMap.$get(rel.target),type);
+            if (type != null) {
+                sourceNode = competencyNodeMap.$get(rel.source);
+                targetNode = competencyNodeMap.$get(rel.target);
+                if (sourceNode != null && targetNode != null) {
+                    frameworkNodeGraph.addRelation(sourceNode,targetNode,type);
+                }
+            }
         }
     }
 
