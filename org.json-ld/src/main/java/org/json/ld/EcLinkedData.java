@@ -17,7 +17,7 @@ import org.stjs.javascript.functions.Callback3;
  * @class EcLinkedData
  */
 public class EcLinkedData {
-	public static Array<String> atProperties = JSCollections.$array("id", "type", "schema", "context", "signature", "owner", "reader", "encryptedType");
+	public static Array<String> atProperties = JSCollections.$array("id", "type", "schema", "context", "signature", "graph", "owner", "reader", "encryptedType");
 	/**
 	 * JSON-LD @type field.
 	 *
