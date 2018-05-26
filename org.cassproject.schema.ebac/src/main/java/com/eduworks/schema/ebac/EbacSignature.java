@@ -32,7 +32,7 @@ public class EbacSignature extends EcLinkedData {
 	 * @property expiry
 	 * @type long
 	 */
-	public double expiry;
+	public Double expiry;
 	/**
 	 * The signature of this object, having signed the object, having been
 	 * encoded in JSON with no space or tabs in ASCII sort order, having no
