@@ -379,6 +379,7 @@
         <module>cass.competency</module>
         <module>cass.rollup</module>
         <module>cass.rollup.ctdl</module>
+        <module>kbac.skyrepo</module>
         <module>ec.ui.framework</module>
         <module>cass.import</module>
         <module>cass.adapter</module>
