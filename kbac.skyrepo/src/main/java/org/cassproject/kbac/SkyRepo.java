@@ -19,6 +19,8 @@ import static org.cassproject.kbac.levr.urlBase;
 
 @GlobalScope
 public class SkyRepo {
+    public static boolean skyrepoDebug = false;
+
     public static String elasticEndpoint = "http://localhost:9200/";
 
     public static String owner() {
@@ -152,13 +154,17 @@ public class SkyRepo {
                     Array<EbacSignature> signatures = JSFunctionAdapter.call(signatureSheet, this);
                     boolean foundSignature = false;
                     for (int i = 0; i < signatures.$length(); i++)
-                        if (rld.hasOwner(EcPk.fromPem(signatures.$get(i).owner))) {
-                            foundSignature = true;
-                            break;
-                        } else if (rld.hasReader(EcPk.fromPem(signatures.$get(i).owner))) {
+                        if (rld.toJson().indexOf(signatures.$get(i).owner) != -1) {
                             foundSignature = true;
                             break;
                         }
+//                        if (rld.hasOwner(EcPk.fromPem(signatures.$get(i).owner))) {
+//                            foundSignature = true;
+//                            break;
+//                        } else if (rld.hasReader(EcPk.fromPem(signatures.$get(i).owner))) {
+//                            foundSignature = true;
+//                            break;
+//                        }
                     if (!foundSignature)
                         return null;
                 }
@@ -167,8 +173,7 @@ public class SkyRepo {
                     String key = keys.$get(i);
                     JSObjectAdapter.$put(o, key, JSFunctionAdapter.call(filterResults, this, JSObjectAdapter.$get(o, key), null));
                 }
-                rld.atIfy();
-                return rld;
+                return rld.atIfy();
             } else
                 return o;
         }
@@ -224,13 +229,13 @@ public class SkyRepo {
         if (version == null || version == "")
             versionPart = "?refresh=wait_for";
         else
-            versionPart = "?version=" + version + "&version_type=external&refresh=wait_for";
+            versionPart = "?version=" + version + "&version_type=external&refresh=true";
 
         String url = urlBase();
         url += "/" + typeFromObj.toLowerCase();
         url += "/" + typeFromObj;
         url += "/" + levr.urlEncode(id) + versionPart;
-        Global.console.log("Put:" + url);
+        if (skyrepoDebug) Global.console.log("Put:" + url);
         return url;
     }
 
@@ -241,14 +246,14 @@ public class SkyRepo {
         if (version == null || version == "")
             versionPart = "?refresh=wait_for";
         else
-            versionPart = "?version=" + version + "&version_type=external&refresh=wait_for";
+            versionPart = "?version=" + version + "&version_type=external&refresh=true";
 
         String url = urlBase();
         url += "/permanent";
         url += "/permanent";
         url += "/" + levr.urlEncode(id) + "." + version + versionPart;
 
-        Global.console.log("PutPermanent:" + url);
+        if (skyrepoDebug) Global.console.log("PutPermanent:" + url);
         return url;
     }
 
@@ -268,11 +273,11 @@ public class SkyRepo {
         else
             url += "/" + typeFromObj;
         if (index == "permanent")
-            url += "/" + levr.urlEncode(id) + "." + version + versionPart;
+            url += "/" + levr.urlEncode(id) + "." + version;
         else
-            url += "/" + levr.urlEncode(id) + versionPart;
+            url += "/" + levr.urlEncode(id);
 
-        Global.console.log("Get:" + url);
+        if (skyrepoDebug) Global.console.log("Get:" + url);
         return url;
     }
 
@@ -285,7 +290,7 @@ public class SkyRepo {
         url += "/" + levr.urlEncode(id);
         url += "?refresh=true";
 
-        Global.console.log("Delete:" + url);
+        if (skyrepoDebug) Global.console.log("Delete:" + url);
         return url;
     }
 
@@ -306,7 +311,7 @@ public class SkyRepo {
         //TODO: Normalize data that should be normalized.
         //ex: Public keys (@owner, @reader)
         String url = putUrl(o, id, version, type);
-        Global.console.log(Global.JSON.stringify(o));
+        if (skyrepoDebug) Global.console.log(Global.JSON.stringify(o));
         return levr.httpPost(o, url, "application/json", false);
     }
 
@@ -322,7 +327,7 @@ public class SkyRepo {
             JSObjectAdapter.$put(doc, "enabled", false);
 
             Object result = levr.httpPut(mappings, urlBase() + "/permanent", "application/json");
-            Global.console.log(Global.JSON.stringify(result));
+            if (skyrepoDebug) Global.console.log(Global.JSON.stringify(result));
             //if ((Boolean) JSObjectAdapter.$get(result, "acknowledged") == true)
 //            JSObjectAdapter.$put(permanentCreated, type, true);
             permanentCreated = true;
@@ -331,7 +336,7 @@ public class SkyRepo {
         JSObjectAdapter.$put(data, "data", Global.JSON.stringify(o));
         String url = putPermanentUrl(o, id, version, type);
         Object out = levr.httpPost(data, url, "application/json", false);
-        Global.console.log(Global.JSON.stringify(out));
+        if (skyrepoDebug) Global.console.log(Global.JSON.stringify(out));
         return Global.JSON.stringify(out);
     }
 
@@ -345,7 +350,7 @@ public class SkyRepo {
     }
 
     public static Object skyrepoGetIndexInternal(String index, String id, String version, String type) {
-        Global.console.log("Fetching from " + index + " : " + type + " / " + id + " / " + version);
+        if (skyrepoDebug) Global.console.log("Fetching from " + index + " : " + type + " / " + id + " / " + version);
         Object result = levr.httpGet(getUrl(index, id, version, type));
         return result;
     }
@@ -380,30 +385,39 @@ public class SkyRepo {
     public static Function3<String, String, String, Object> skyrepoGetInternal = new Function3<String, String, String, Object>() {
         @Override
         public Object $invoke(String id, String version, String type) {
-            Object versionRetrievalObject = null;
-            if (version == null) {
-                versionRetrievalObject =
-                        JSFunctionAdapter.call(skyrepoGetIndex, this, id, version, type, null);
-                version = (String) JSObjectAdapter.$get(versionRetrievalObject, "_version");
+            while(true) {
+                Object versionRetrievalObject = null;
+                if (version == null) {
+                    versionRetrievalObject =
+                            JSFunctionAdapter.call(skyrepoGetIndex, this, id, version, type, null);
+                    if (versionRetrievalObject == null)
+                        continue;
+                    version = (String) JSObjectAdapter.$get(versionRetrievalObject, "_version");
+                }
+                //TODO: Validate inputs
+                Object result = skyrepoGetPermanent(id, version, type);
+                if (result == null)
+                    continue;
+                if (JSObjectAdapter.$get(result, "error") != null)
+                    return null;
+                if ((Boolean) JSObjectAdapter.$get(result, "found") == true)
+                    return Global.JSON.parse((String) JSObjectAdapter.$get(JSObjectAdapter.$get(result, "_source"), "data"));
+
+                if (skyrepoDebug)
+                    Global.console.log("Failed to find " + type + "/" + id + "/" + version + " -- trying degraded form from search index.");
+                if (versionRetrievalObject != null)
+                    result = versionRetrievalObject;
+                else
+                    result = JSFunctionAdapter.call(skyrepoGetIndex, this, id, version, type, null);
+
+                if (result == null)
+                    continue;
+                if (JSObjectAdapter.$get(result, "error") != null)
+                    return null;
+                if ((Boolean) JSObjectAdapter.$get(result, "found") == true)
+                    return JSObjectAdapter.$get(result, "_source");
+                return null;
             }
-            //TODO: Validate inputs
-            Object result = skyrepoGetPermanent(id, version, type);
-            if (JSObjectAdapter.$get(result, "error") != null)
-                return null;
-            if ((Boolean) JSObjectAdapter.$get(result, "found") == true)
-                return Global.JSON.parse((String) JSObjectAdapter.$get(JSObjectAdapter.$get(result, "_source"), "data"));
-
-            Global.console.log("Failed to find " + type + "/" + id + "/" + version + " -- trying degraded form from search index.");
-            if (versionRetrievalObject != null)
-                result = versionRetrievalObject;
-            else
-                result = JSFunctionAdapter.call(skyrepoGetIndex, this, id, version, type, null);
-
-            if (JSObjectAdapter.$get(result, "error") != null)
-                return null;
-            if ((Boolean) JSObjectAdapter.$get(result, "found") == true)
-                return JSObjectAdapter.$get(result, "_source");
-            return null;
         }
     };
 
@@ -513,16 +527,17 @@ public class SkyRepo {
                 for (int i = 0; i < signatures.$length(); i++) {
                     if (i > 0)
                         q2 += " OR ";
-                    q2 += signatures.$get(i).owner;
+                    q2 += "\""+signatures.$get(i).owner+"\"";
                 }
 
                 Object should = new Object();
                 JSObjectAdapter.$put(bool, "should", should);
                 Object query_string2 = new Object();
                 JSObjectAdapter.$put(should, "query_string", query_string2);
-                JSObjectAdapter.$put(query_string2, "query", q);
+                JSObjectAdapter.$put(query_string2, "query", q2);
             }
-
+            if (signatures.$length() == 0 && q.indexOf("@reader") != -1)
+                levr.error("Readers only exist in encrypted data. Please provide signatures to allow access to resources.",null);
             return s;
         }
     };
@@ -534,7 +549,7 @@ public class SkyRepo {
         else
             url += "/*,-permanent";
         url += "/_search";
-        Global.console.log(url);
+        if (skyrepoDebug)  Global.console.log(url);
         return url;
     }
 
@@ -543,13 +558,13 @@ public class SkyRepo {
         public Array $invoke(String q, String urlRemainder, Integer start, Integer size, String sort, String track_scores) {
             Object searchParameters =
                     JSFunctionAdapter.call(searchObj, this, q, start, size, sort, track_scores);
-            Global.console.log(Global.JSON.stringify(searchParameters));
+            if (skyrepoDebug) Global.console.log(Global.JSON.stringify(searchParameters));
             Object results = levr.httpPost(searchParameters,
                     searchUrl(urlRemainder),
                     "application/json",
                     false
             );
-            Global.console.log(Global.JSON.stringify(results));
+            if (skyrepoDebug) Global.console.log(Global.JSON.stringify(results));
             if (JSObjectAdapter.$get(results, "error") != null) {
                 Array root_cause = (Array) JSObjectAdapter.$get(JSObjectAdapter.$get(results, "error"), "root_cause");
                 if (root_cause.$length() > 0) {

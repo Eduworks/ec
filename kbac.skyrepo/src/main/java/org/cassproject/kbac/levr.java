@@ -17,7 +17,7 @@ public class levr {
 		return null;
 	}
 
-	public static void error(String message, int httpCode) {
+	public static void error(String message, Integer httpCode) {
 	}
 
 	public static Integer date(String input, String dateFormat, Boolean raw) {
