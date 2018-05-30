@@ -43,7 +43,8 @@ public class levr {
 		return null;
 	}
 
-	public static Object httpPut(Object o, String url) {
+	public static Object httpPut(Object o, String url,String contentType) {
+		return null;
 	}
 
 	public static Object jsonLdToNQuads(Object o) {
