@@ -21,6 +21,7 @@ public class SkyId {
 	private static String secretSalt = null;
 	public static String skyIdSalt = null;
 	public static String skyIdSecret = null;
+	public static String skyIdSecretKey = null;
 	private static EcPpk skyIdPem = null;
 
 	private static Object cachedSalts = new Object();
@@ -56,21 +57,22 @@ public class SkyId {
 			String saltedPassword = util.encode64(pkcs5.pbkdf2(password, skyIdSalt, 10000, 64));
 			JSObjectAdapter.$put(payload, "password", saltedPassword);
 
-			String saltedId = util.encode64(pkcs5.pbkdf2(password, skyIdSalt, 10000, 16));
+			String saltedId = util.encode64(pkcs5.pbkdf2(id, skyIdSalt, 10000, 16));
 
 			Array<EbacSignature> signatureSheet = new Array<EbacSignature>();
 			signatureSheet.push(EcIdentityManager.createSignature(60000, null, skyIdPem));
 			JSObjectAdapter.$put(this, "signatureSheet", signatureSheet);
 
 			Object get = JSFunctionAdapter.call(SkyRepo.skyrepoGet, this, saltedId,null,"schema.cassproject.org.kbac.0.2.EncryptedValue",null);
-			get = Global.JSON.parse(EcAesCtr.decrypt((String) JSObjectAdapter.$get(get, "payload"), skyIdSecret, saltedId));
+			if (get != null)
+			get = Global.JSON.parse(EcAesCtr.decrypt((String) JSObjectAdapter.$get(get, "payload"), skyIdSecretKey, saltedId));
 
 			EcEncryptedValue encryptedPayload = new EcEncryptedValue();
 			encryptedPayload.addOwner(skyIdPem.toPk());
-			encryptedPayload.payload = EcAesCtr.encrypt(Global.JSON.stringify(payload), skyIdSecret, saltedId);
+			encryptedPayload.payload = EcAesCtr.encrypt(Global.JSON.stringify(payload), skyIdSecretKey, saltedId);
 
 			if (get == null)
-				JSFunctionAdapter.call(SkyRepo.skyrepoPut, this, encryptedPayload, saltedId, null, "schema.cassproject.org.kbac.0.2.EncryptedValue");
+				JSFunctionAdapter.call(SkyRepo.skyrepoPut, this, encryptedPayload.toJson(), saltedId, null, "schema.cassproject.org.kbac.0.2.EncryptedValue");
 			else
 				levr.error("Cannot create, account already exists.", 422);
 			return null;
@@ -107,23 +109,23 @@ public class SkyId {
 			String saltedPassword = util.encode64(pkcs5.pbkdf2(password, skyIdSalt, 10000, 64));
 			JSObjectAdapter.$put(payload, "password", saltedPassword);
 
-			String saltedId = util.encode64(pkcs5.pbkdf2(password, skyIdSalt, 10000, 16));
+			String saltedId = util.encode64(pkcs5.pbkdf2(id, skyIdSalt, 10000, 16));
 
 			EcEncryptedValue encryptedPayload = new EcEncryptedValue();
 			encryptedPayload.addOwner(skyIdPem.toPk());
-			encryptedPayload.payload = EcAesCtr.encrypt(Global.JSON.stringify(payload), skyIdSecret, saltedId);
+			encryptedPayload.payload = EcAesCtr.encrypt(Global.JSON.stringify(payload), skyIdSecretKey, saltedId);
 
 			Array<EbacSignature> signatureSheet = new Array<EbacSignature>();
 			signatureSheet.push(EcIdentityManager.createSignature(60000, null, skyIdPem));
 			JSObjectAdapter.$put(this, "signatureSheet", signatureSheet);
 
 			Object get = JSFunctionAdapter.call(SkyRepo.skyrepoGet, this, saltedId,null,"schema.cassproject.org.kbac.0.2.EncryptedValue",null);
-			get = Global.JSON.parse(EcAesCtr.decrypt((String) JSObjectAdapter.$get(get, "payload"), skyIdSecret, saltedId));
+			get = Global.JSON.parse(EcAesCtr.decrypt((String) JSObjectAdapter.$get(get, "payload"), skyIdSecretKey, saltedId));
 
 			if (JSObjectAdapter.$get(get, "token") != token)
 				levr.error("An error in synchronization has occurred. Please re-login and try again.", 403);
 
-			JSFunctionAdapter.call(SkyRepo.skyrepoPut, this, encryptedPayload, saltedId, null, "schema.cassproject.org.kbac.0.2.EncryptedValue");
+			JSFunctionAdapter.call(SkyRepo.skyrepoPut, this, encryptedPayload.toJson(), saltedId, null, "schema.cassproject.org.kbac.0.2.EncryptedValue");
 
 			return null;
 		}
@@ -150,22 +152,23 @@ public class SkyId {
 				levr.error("Missing password.", 422);
 
 			String saltedPassword = util.encode64(pkcs5.pbkdf2(password, skyIdSalt, 10000, 64));
-			String saltedId = util.encode64(pkcs5.pbkdf2(password, skyIdSalt, 10000, 16));
+			String saltedId = util.encode64(pkcs5.pbkdf2(id, skyIdSalt, 10000, 16));
 
 			Array<EbacSignature> signatureSheet = new Array<EbacSignature>();
 			signatureSheet.push(EcIdentityManager.createSignature(60000, null, skyIdPem));
 			JSObjectAdapter.$put(this, "signatureSheet", signatureSheet);
 
 			Object get = JSFunctionAdapter.call(SkyRepo.skyrepoGet, this, saltedId,null,"schema.cassproject.org.kbac.0.2.EncryptedValue",null);
-			get = Global.JSON.parse(EcAesCtr.decrypt((String) JSObjectAdapter.$get(get, "payload"), skyIdSecret, saltedId));
+			get = Global.JSON.parse(EcAesCtr.decrypt((String) JSObjectAdapter.$get(get, "payload"), skyIdSecretKey, saltedId));
 
 			JSObjectAdapter.$put(get, "token", levr.randomString(20));
+			JSObjectAdapter.$properties(get).$delete("password");
 
 			EcEncryptedValue encryptedPayload = new EcEncryptedValue();
 			encryptedPayload.addOwner(skyIdPem.toPk());
-			encryptedPayload.payload = EcAesCtr.encrypt(Global.JSON.stringify(get), skyIdSecret, saltedId);
+			encryptedPayload.payload = EcAesCtr.encrypt(Global.JSON.stringify(get), skyIdSecretKey, saltedId);
 
-			JSFunctionAdapter.call(SkyRepo.skyrepoPut, this, encryptedPayload, saltedId, null, "schema.cassproject.org.kbac.0.2.EncryptedValue");
+			JSFunctionAdapter.call(SkyRepo.skyrepoPut, this, encryptedPayload.toJson(), saltedId, null, "schema.cassproject.org.kbac.0.2.EncryptedValue");
 
 			return Global.JSON.stringify(get);
 		}
@@ -201,6 +204,8 @@ public class SkyId {
 		if (!levr.fileExists("skyId.secret"))
 			levr.fileSave(levr.randomString(2048), "skyId.secret");
 		skyIdSecret = levr.fileToString(levr.fileLoad("skyId.secret"));
+
+		skyIdSecretKey = util.encode64(pkcs5.pbkdf2(skyIdSecret,skyIdSalt,10000,16));
 
 		if (!levr.fileExists("skyId.pem"))
 			levr.fileSave(EcPpk.fromPem(levr.rsaGenerate()).toPem(), "skyId.pem");
