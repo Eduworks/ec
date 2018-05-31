@@ -4,16 +4,16 @@ skyrepoMigrate = function(){
 	var settings = elasticMapping();
 	var indices = EcObject.keys(settings);
 	var types = idxIndices(".","skyrepo");
-	var counter = 0;
 	for (var i = 0;i < indices.length;i++)
 		types = types.concat(EcObject.keys(settings[indices[i]].mappings));
 	for (var i = 0;i < types.length;i++)
 	{
+	    var counter = 0;
 		var keys = idxKeys(".","skyrepo",types[i]);
 		for (var j = 0;j < keys.length;j++)
 		{
-		    if (++counter % 10 == 0)
-		        console.log(types[i]+": Migrated " + counter + "/" + keys.length + " permanent records out of local database and into ElasticSearch.");
+		    if (++counter % 100 == 0)
+		        console.log(types[i]+": Migrated " + counter + "/" + keys.length + " versions of records out of local database and into ElasticSearch.");
 		    var data = JSON.parse(idxGet(".","skyrepo",types[i],keys[j]));
 		    var split = keys[j].split("/");
             skyrepoPutInternalPermanent(data,split[0],split[1],types[i]);
