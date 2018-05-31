@@ -189,7 +189,7 @@ public class SkyRepo {
         @Override
         public Object $invoke() {
             if (JSObjectAdapter.$get(this, "elasticMapping") == null)
-                JSObjectAdapter.$put(this, "elasticMapping", Global.JSON.parse(levr.httpGet(levr.urlBase() + "/_mapping")));
+                JSObjectAdapter.$put(this, "elasticMapping", levr.httpGet(levr.urlBase() + "/_mapping"));
             return JSObjectAdapter.$get(this, "elasticMapping");
         }
     };
@@ -197,7 +197,7 @@ public class SkyRepo {
         @Override
         public Object $invoke() {
             if (JSObjectAdapter.$get(this, "elasticSettings") == null)
-                JSObjectAdapter.$put(this, "elasticSettings", Global.JSON.parse(levr.httpGet(levr.urlBase() + "/_settings")));
+                JSObjectAdapter.$put(this, "elasticSettings", levr.httpGet(levr.urlBase() + "/_settings"));
             return JSObjectAdapter.$get(this, "elasticSettings");
         }
     };
@@ -367,9 +367,8 @@ public class SkyRepo {
                 for (int i = 0; i < keys.$length(); i++) {
                     if (keys.$get(i) == "permanent") continue;
                     Object result = skyrepoGetIndexInternal(keys.$get(i), id, version, type);
-                    if (JSObjectAdapter.$get(result, "error") == null)
                         if ((Boolean) JSObjectAdapter.$get(result, "found") == true)
-                            return JSObjectAdapter.$get(result, "_source");
+                            return result;
                 }
             }
             return null;
@@ -385,7 +384,8 @@ public class SkyRepo {
     public static Function3<String, String, String, Object> skyrepoGetInternal = new Function3<String, String, String, Object>() {
         @Override
         public Object $invoke(String id, String version, String type) {
-            while(true) {
+        	int i = 0;
+            while(i++ < 50) {
                 Object versionRetrievalObject = null;
                 if (version == null) {
                     versionRetrievalObject =
@@ -418,6 +418,7 @@ public class SkyRepo {
                     return JSObjectAdapter.$get(result, "_source");
                 return null;
             }
+            return null;
         }
     };
 

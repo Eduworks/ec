@@ -88,4 +88,7 @@ public class levr {
 	public static void bindWebService(String endpoint, Function0 callback0) {
 	}
 
+	public static String randomString(int length) {
+		return null;
+	}
 }

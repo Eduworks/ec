@@ -526,7 +526,7 @@ public class EcIdentityManager {
 	 * @method createSignature
 	 * @static
 	 */
-	private static EbacSignature createSignature(long duration, String server, EcPpk ppk) {
+	public static EbacSignature createSignature(long duration, String server, EcPpk ppk) {
 		EbacSignature s = new EbacSignature();
 		s.owner = ppk.toPk().toPem();
 		s.expiry = new Date().getTime() + duration;
