@@ -24,9 +24,6 @@ public class levr {
 		return null;
 	}
 
-	public static String urlBase() {
-		return null;
-	}
 	public static String urlEncode(String toEncode) {
 		return null;
 	}
@@ -67,8 +64,9 @@ public class levr {
 		return null;
 	}
 
-	public static void afterSave() {
-	}
+	public static Function0 beforeGet;
+
+	public static Function0 afterSave;
 
 	public static String rsaGenerate() {
 		return null;
