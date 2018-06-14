@@ -91,17 +91,23 @@ public class EcRemote {
 
 		url = upgradeHttpToHttps(url);
 
-		final XMLHttpRequest xhr = new XMLHttpRequest();
-		xhr.open("POST", url, async);
-		xhr.onreadystatechange = new Callback0() {
-			@Override
-			public void $invoke() {
-				if (xhr.readyState == 4 && xhr.status == 200)
-					successCallback.$invoke(xhr.responseText);
-				else if (xhr.readyState == 4)
-					failureCallback.$invoke(xhr.responseText);
-			}
-		};
+		XMLHttpRequest xhr = null;
+
+		if (Global.typeof(EcLevrHttp.httpStatus) == "undefined") {
+			xhr = new XMLHttpRequest();
+			xhr.open("POST", url, async);
+
+			final XMLHttpRequest xhrx = xhr;
+			xhr.onreadystatechange = new Callback0() {
+				@Override
+				public void $invoke() {
+					if (xhrx.readyState == 4 && xhrx.status == 200)
+						successCallback.$invoke(xhrx.responseText);
+					else if (xhrx.readyState == 4)
+						failureCallback.$invoke(xhrx.responseText);
+				}
+			};
+		}
 
 		// Node JS serialization check.
 		if (JSObjectAdapter.$get(fd, "_streams") != null) {
@@ -116,7 +122,8 @@ public class EcRemote {
 				}
 			}
 			all = all + "\r\n" + "\r\n" + "--" + JSObjectAdapter.$get(fd, "_boundary") + "--";
-			xhr.setRequestHeader("Content-Type", "multipart/form-data; boundary=" + JSObjectAdapter.$get(fd, "_boundary"));
+			if (Global.typeof(EcLevrHttp.httpStatus) == "undefined")
+				xhr.setRequestHeader("Content-Type", "multipart/form-data; boundary=" + JSObjectAdapter.$get(fd, "_boundary"));
 			fd = (FormData) (Object) all;
 		} else {
 			// We're in a browser.rhin
