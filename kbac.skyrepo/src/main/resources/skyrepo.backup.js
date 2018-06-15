@@ -26,9 +26,9 @@ skyrepoMigrate = function(){
 	}
 	if (counter > 0)
 	{
-        fileSave("skyrepoOld",fileLoad("skyrepo"));
-        fileSave("skyrepoOld.p",fileLoad("skyrepo.p"));
-        fileSave("skyrepoOld.t",fileLoad("skyrepo.t"));
+        fileSave(fileLoad("skyrepo"),"skyrepoOld");
+        fileSave(fileLoad("skyrepo.p"),"skyrepoOld.p");
+        fileSave(fileLoad("skyrepo.t"),"skyrepoOld.t");
     }
 };
 var skyrepoMigrateAutoExecute = skyrepoMigrate;
