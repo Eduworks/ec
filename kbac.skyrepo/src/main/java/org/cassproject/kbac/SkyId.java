@@ -165,7 +165,7 @@ public class SkyId {
 				levr.error("User does not exist.",404);
 			get = Global.JSON.parse(EcAesCtr.decrypt((String) JSObjectAdapter.$get(get, "payload"), skyIdSecretKey, saltedId));
 			if (JSObjectAdapter.$get(get,"password") != saltedPassword)
-				levr.error("Invalid password.",404);
+				levr.error("Invalid password.",403);
 
 			JSObjectAdapter.$put(get, "token", levr.randomString(20));
 			JSObjectAdapter.$properties(get).$delete("password");
