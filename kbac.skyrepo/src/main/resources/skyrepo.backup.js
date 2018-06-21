@@ -27,8 +27,11 @@ skyrepoMigrate = function(){
 	if (counter > 0)
 	{
         fileSave(fileLoad("skyrepo"),"skyrepoOld");
+        fileDelete("skyrepo");
         fileSave(fileLoad("skyrepo.p"),"skyrepoOld.p");
+        fileDelete("skyrepo.p");
         fileSave(fileLoad("skyrepo.t"),"skyrepoOld.t");
+        fileDelete("skyrepo.t");
     }
 };
 var skyrepoMigrateAutoExecute = skyrepoMigrate;
