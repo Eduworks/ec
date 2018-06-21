@@ -120,6 +120,8 @@ public class SkyId {
 			JSObjectAdapter.$put(this, "signatureSheet", signatureSheet);
 
 			Object get = JSFunctionAdapter.call(SkyRepo.skyrepoGet, this, saltedId,null,"schema.cassproject.org.kbac.0.2.EncryptedValue",null);
+			if (get == null)
+				levr.error("User does not exist.",404);
 			get = Global.JSON.parse(EcAesCtr.decrypt((String) JSObjectAdapter.$get(get, "payload"), skyIdSecretKey, saltedId));
 
 			if (JSObjectAdapter.$get(get, "token") != token)
@@ -159,7 +161,11 @@ public class SkyId {
 			JSObjectAdapter.$put(this, "signatureSheet", signatureSheet);
 
 			Object get = JSFunctionAdapter.call(SkyRepo.skyrepoGet, this, saltedId,null,"schema.cassproject.org.kbac.0.2.EncryptedValue",null);
+			if (get == null)
+				levr.error("User does not exist.",404);
 			get = Global.JSON.parse(EcAesCtr.decrypt((String) JSObjectAdapter.$get(get, "payload"), skyIdSecretKey, saltedId));
+			if (JSObjectAdapter.$get(get,"password") != saltedPassword)
+				levr.error("Invalid password.",404);
 
 			JSObjectAdapter.$put(get, "token", levr.randomString(20));
 			JSObjectAdapter.$properties(get).$delete("password");
