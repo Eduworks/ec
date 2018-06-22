@@ -17,4 +17,5 @@ public class params {
 	public static String version;
 	public static String expand;
 	public static String methodType;
+	public static Object obj;
 }

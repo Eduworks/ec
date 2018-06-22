@@ -97,7 +97,7 @@ public class EcRepository {
 		}
 		if (!shouldTryUrl(url)) {
 			if (repos.$length() == 1)
-				url = EcRemoteLinkedData.veryShortId(repos.$get(0).selectedServer,EcCrypto.md5(url));
+				url = EcRemoteLinkedData.veryShortId(repos.$get(0).selectedServer, EcCrypto.md5(url));
 			else {
 				EcRepository.find(url, "Could not locate object. May be due to EcRepository.alwaysTryUrl flag.", new Object(), 0, success, failure);
 				return;
@@ -282,7 +282,7 @@ public class EcRepository {
 		}
 		if (!shouldTryUrl(originalUrl)) {
 			if (repos.$length() == 1)
-				url = EcRemoteLinkedData.veryShortId(repos.$get(0).selectedServer,EcCrypto.md5(url));
+				url = EcRemoteLinkedData.veryShortId(repos.$get(0).selectedServer, EcCrypto.md5(url));
 			else {
 				return EcRepository.findBlocking(originalUrl, "Could not locate object. May be due to EcRepository.alwaysTryUrl flag.", new Object(), 0);
 			}
@@ -317,7 +317,7 @@ public class EcRepository {
 		EcRemote.async = oldAsync;
 		EcRemoteLinkedData result = (EcRemoteLinkedData) JSObjectAdapter.$get(cache, originalUrl);
 		if (!caching) {
-			JSObjectAdapter.$put(cache, originalUrl, null);
+			JSObjectAdapter.$properties(cache).$delete(originalUrl);
 		}
 		return result;
 	}
@@ -562,10 +562,8 @@ public class EcRepository {
 							EcRemote._delete(targetUrl, signatureSheet, success, failure);
 					}
 				}, failure);
-			}
-			else
-			{
-				String signatureSheet = EcIdentityManager.signatureSheetFor(data.owner,60000,data.id);
+			} else {
+				String signatureSheet = EcIdentityManager.signatureSheetFor(data.owner, 60000, data.id);
 				if (signatureSheet.length() == 2) {
 					for (int i = 0; i < repos.$length(); i++) {
 						if (data.id.indexOf(repos.$get(i).selectedServer) != -1) {
@@ -627,8 +625,7 @@ public class EcRepository {
 							EcRemote._delete(targetUrl, signatureSheet, success, failure);
 					}
 				}, failure);
-			}
-			else {
+			} else {
 				String signatureSheet = EcIdentityManager.signatureSheetFor(data.owner, 60000, data.id);
 				if (signatureSheet.length() == 2 && me.adminKeys != null) {
 					signatureSheet = EcIdentityManager.signatureSheetFor(me.adminKeys, 60000, data.id);
@@ -666,7 +663,7 @@ public class EcRepository {
 			if (JSObjectAdapter.$get(cache, url) != null) {
 			} else if (url.startsWith(selectedServer)) {
 				cacheUrls.push(url.replace(selectedServer, "").replace("custom/", ""));
-			} else if (!shouldTryUrl(url)) {
+			} else {
 				cacheUrls.push("data/" + EcCrypto.md5(url));
 			}
 		}
