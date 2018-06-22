@@ -19,7 +19,7 @@ import org.stjs.javascript.functions.*;
 public class SkyRepo {
 	public static boolean skyrepoDebug = false;
 
-	public static String elasticEndpoint = "http://localhost:9200/";
+	public static String elasticEndpoint = "http://localhost:9200";
 
 	public static String owner() {
 		return "@owner";
@@ -360,16 +360,16 @@ public class SkyRepo {
 				Object result = skyrepoGetIndexInternal(type.toLowerCase(), id, version, type);
 				return result;
 			} else {
-				Object settings = JSFunctionAdapter.call(elasticSettings, this);
-				Array<String> keys = EcObject.keys(settings);
-				for (int i = 0; i < keys.$length(); i++) {
-					if (keys.$get(i) == "permanent") continue;
-					Object result = skyrepoGetIndexInternal(keys.$get(i), id, version, type);
-					if ((Boolean) JSObjectAdapter.$get(result, "found") == true)
-						return result;
-				}
+				String microSearchUrl = elasticEndpoint + "/_search?version&q=_id:" + id + "";
+				Object microSearch = levr.httpGet(microSearchUrl);
+				if (skyrepoDebug) Global.console.log(microSearchUrl);
+				Object hitshits = JSObjectAdapter.$get(microSearch, "hits");
+				Array<Object> hits = (Array<Object>) (Object) JSObjectAdapter.$get(hitshits, "hits");
+				if (hits.$length() == 0)
+					return null;
+				Object hit = hits.$get(0);
+				return hit;
 			}
-			return null;
 		}
 	};
 
@@ -382,40 +382,42 @@ public class SkyRepo {
 	public static Function3<String, String, String, Object> skyrepoGetInternal = new Function3<String, String, String, Object>() {
 		@Override
 		public Object $invoke(String id, String version, String type) {
-			int i = 0;
-			while (i++ < 50) {
-				Object versionRetrievalObject = null;
-				if (version == null) {
-					versionRetrievalObject =
-							JSFunctionAdapter.call(skyrepoGetIndex, this, id, version, type, null);
-					if (versionRetrievalObject == null)
-						continue;
-					version = (String) JSObjectAdapter.$get(versionRetrievalObject, "_version");
-				}
-				//TODO: Validate inputs
-				Object result = skyrepoGetPermanent(id, version, type);
-				if (result == null)
-					continue;
-				if (JSObjectAdapter.$get(result, "error") != null)
-					return null;
-				if ((Boolean) JSObjectAdapter.$get(result, "found") == true)
-					return Global.JSON.parse((String) JSObjectAdapter.$get(JSObjectAdapter.$get(result, "_source"), "data"));
-
-				if (skyrepoDebug)
-					Global.console.log("Failed to find " + type + "/" + id + "/" + version + " -- trying degraded form from search index.");
+			Object versionRetrievalObject = null;
+			if (version == null) {
+				versionRetrievalObject =
+						JSFunctionAdapter.call(skyrepoGetIndex, this, id, version, type, null);
 				if (versionRetrievalObject != null)
-					result = versionRetrievalObject;
-				else
-					result = JSFunctionAdapter.call(skyrepoGetIndex, this, id, version, type, null);
-
-				if (result == null)
-					continue;
-				if (JSObjectAdapter.$get(result, "error") != null)
-					return null;
-				if ((Boolean) JSObjectAdapter.$get(result, "found") == true)
-					return JSObjectAdapter.$get(result, "_source");
-				return null;
+					version = (String) JSObjectAdapter.$get(versionRetrievalObject, "_version");
+				if (versionRetrievalObject != null)
+					type = (String) JSObjectAdapter.$get(versionRetrievalObject, "_type");
 			}
+
+			if (version == null)
+				return null;
+
+			//TODO: Validate inputs
+			Object result = skyrepoGetPermanent(id, version, type);
+			if (result == null)
+				return null;
+			if (JSObjectAdapter.$get(result, "error") != null)
+				return null;
+			if ((Boolean) JSObjectAdapter.$get(result, "found") == true)
+				return Global.JSON.parse((String) JSObjectAdapter.$get(JSObjectAdapter.$get(result, "_source"), "data"));
+
+			if (skyrepoDebug)
+				Global.console.log("Failed to find " + type + "/" + id + "/" + version + " -- trying degraded form from search index.");
+
+			if (versionRetrievalObject != null)
+				result = versionRetrievalObject;
+			else
+				result = JSFunctionAdapter.call(skyrepoGetIndex, this, id, version, type, null);
+
+			if (result == null)
+				return null;
+			if (JSObjectAdapter.$get(result, "error") != null)
+				return null;
+			if ((Boolean) JSObjectAdapter.$get(result, "found") == true || JSObjectAdapter.$get(result, "_source") != null)
+				return JSObjectAdapter.$get(result, "_source");
 			return null;
 		}
 	};
@@ -428,7 +430,7 @@ public class SkyRepo {
 			String id = (String) JSObjectAdapter.$get(parseParams, "id");
 			String type = (String) JSObjectAdapter.$get(parseParams, "type");
 			String version = (String) JSObjectAdapter.$get(parseParams, "version");
-			return JSFunctionAdapter.call(skyrepoGetParsed,this,id,type,version,null);
+			return JSFunctionAdapter.call(skyrepoGetParsed, this, id, version, type, null);
 		}
 	};
 
@@ -682,7 +684,7 @@ public class SkyRepo {
 			}
 
 			String methodType = params.methodType;
-			Object parseParams = JSFunctionAdapter.call(queryParse,this,urlRemainder,null);
+			Object parseParams = JSFunctionAdapter.call(queryParse, this, urlRemainder, null);
 			String id = (String) JSObjectAdapter.$get(parseParams, "id");
 			String type = (String) JSObjectAdapter.$get(parseParams, "type");
 			String version = (String) JSObjectAdapter.$get(parseParams, "version");
@@ -722,18 +724,19 @@ public class SkyRepo {
 		public Object $invoke() {
 			Array ary = (Array) Global.JSON.parse(levr.fileToString(JSFunctionAdapter.call(levr.fileFromDatastream, this, "data", null)));
 			Array results = new Array();
-			for (int i = 0; i < ary.$length(); i++) {
-				String urlRemainder = (String) ary.$get(i);
-                Object parseParams = queryParse(urlRemainder);
-				String id = (String) JSObjectAdapter.$get(parseParams, "id");
-				String type = (String) JSObjectAdapter.$get(parseParams, "type");
-				String version = (String) JSObjectAdapter.$get(parseParams, "version");
-
-				try {
-                    Object o = JSFunctionAdapter.call(skyrepoGet, this, id, version, type, null);
-					Boolean expand = params.expand != null;
-                    results.push(JSFunctionAdapter.call(tryFormatOutput, this, o, expand, null));
-				} catch (Exception ex) {
+			if (ary != null) {
+				for (int i = 0; i < ary.$length(); i++) {
+					String urlRemainder = (String) ary.$get(i);
+					Object parseParams = JSFunctionAdapter.call(queryParse, this, urlRemainder, null);
+					String id = (String) JSObjectAdapter.$get(parseParams, "id");
+					String type = (String) JSObjectAdapter.$get(parseParams, "type");
+					String version = (String) JSObjectAdapter.$get(parseParams, "version");
+					try {
+						Object o = JSFunctionAdapter.call(skyrepoGetParsed, this, id, version, type, null);
+						if (o != null)
+							results.push(o);
+					} catch (Exception ex) {
+					}
 				}
 			}
 			return Global.JSON.stringify(results);

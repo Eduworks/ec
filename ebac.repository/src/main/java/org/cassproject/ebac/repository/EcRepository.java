@@ -677,69 +677,58 @@ public class EcRepository {
 		fd.append("data", Global.JSON.stringify(cacheUrls));
 		final EcRepository me = this;
 		if (unsigned) {
-			EcRemote.postExpectingObject(me.selectedServer, "sky/repo/multiGet", fd, new Callback1<Object>() {
-				@Override
-				public void $invoke(Object p1) {
-					Array<EcRemoteLinkedData> results = (Array<EcRemoteLinkedData>) p1;
-					for (int i = 0; i < results.$length(); i++) {
-						EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
-						d.copyFrom(results.$get(i));
-						results.$set(i, d);
-						if (caching) {
-							if (!shouldTryUrl(d.id)) {
-								String md5 = EcCrypto.md5(d.id);
-								for (int j = 0; j < urls.$length(); j++) {
-									String url = urls.$get(j);
-									if (url.indexOf(md5) != -1) {
-										JSObjectAdapter.$put(cache, url, d);
-										break;
-									}
-								}
-							}
-							JSObjectAdapter.$put(cache, d.shortId(), d);
-							JSObjectAdapter.$put(cache, d.id, d);
-						}
-					}
-					if (success != null) {
-						success.$invoke();
-					}
-				}
-			}, null);
-		} else
+			precachePost(success, cacheUrls, fd, me);
+		} else {
 			EcIdentityManager.signatureSheetAsync(60000, selectedServer, new Callback1<String>() {
 				@Override
 				public void $invoke(String p1) {
 					fd.append("signatureSheet", p1);
-					EcRemote.postExpectingObject(me.selectedServer, "sky/repo/multiGet", fd, new Callback1<Object>() {
-						@Override
-						public void $invoke(Object p1) {
-							Array<EcRemoteLinkedData> results = (Array<EcRemoteLinkedData>) p1;
-							for (int i = 0; i < results.$length(); i++) {
-								EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
-								d.copyFrom(results.$get(i));
-								results.$set(i, d);
-								if (caching) {
-									if (!shouldTryUrl(d.id)) {
-										String md5 = EcCrypto.md5(d.id);
-										for (int j = 0; j < urls.$length(); j++) {
-											String url = urls.$get(j);
-											if (url.indexOf(md5) != -1) {
-												JSObjectAdapter.$put(cache, url, d);
-												break;
-											}
-										}
-									}
-									JSObjectAdapter.$put(cache, d.shortId(), d);
-									JSObjectAdapter.$put(cache, d.id, d);
-								}
-							}
-							if (success != null) {
-								success.$invoke();
-							}
-						}
-					}, null);
+					me.precachePost(success, cacheUrls, fd, me);
 				}
 			}, null);
+		}
+	}
+
+	/**
+	 * Retrieves data from the server and caches it for use later during the
+	 * application. This should be called before the data is needed if possible,
+	 * so loading displays can be faster.
+	 *
+	 * @param {String[]}  urls List of Data ID Urls that should be precached
+	 * @param {Callback0} success Callback triggered once all of the data has
+	 *                    been retrieved
+	 * @memberOf EcRepository
+	 * @method precachePost
+	 */
+	private void precachePost(final Callback0 success, final Array<String> cacheUrls, FormData fd, EcRepository me) {
+		EcRemote.postExpectingObject(me.selectedServer, "sky/repo/multiGet", fd, new Callback1<Object>() {
+			@Override
+			public void $invoke(Object p1) {
+				Array<EcRemoteLinkedData> results = (Array<EcRemoteLinkedData>) p1;
+				for (int i = 0; i < results.$length(); i++) {
+					EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
+					d.copyFrom(results.$get(i));
+					results.$set(i, d);
+					if (caching) {
+						if (!shouldTryUrl(d.id)) {
+							String md5 = EcCrypto.md5(d.id);
+							for (int j = 0; j < cacheUrls.$length(); j++) {
+								String url = cacheUrls.$get(j);
+								if (url.indexOf(md5) != -1) {
+									JSObjectAdapter.$put(cache, url, d);
+									break;
+								}
+							}
+						}
+						JSObjectAdapter.$put(cache, d.shortId(), d);
+						JSObjectAdapter.$put(cache, d.id, d);
+					}
+				}
+				if (success != null) {
+					success.$invoke();
+				}
+			}
+		}, null);
 	}
 
 	/**
