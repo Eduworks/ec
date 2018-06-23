@@ -186,17 +186,13 @@ public class SkyRepo {
 	public static Function0<Object> elasticMapping = new Function0<Object>() {
 		@Override
 		public Object $invoke() {
-			if (JSObjectAdapter.$get(this, "elasticMapping") == null)
-				JSObjectAdapter.$put(this, "elasticMapping", levr.httpGet(elasticEndpoint + "/_mapping"));
-			return JSObjectAdapter.$get(this, "elasticMapping");
+			return levr.httpGet(elasticEndpoint + "/_mapping");
 		}
 	};
 	public static Function0<Object> elasticSettings = new Function0<Object>() {
 		@Override
 		public Object $invoke() {
-			if (JSObjectAdapter.$get(this, "elasticSettings") == null)
-				JSObjectAdapter.$put(this, "elasticSettings", levr.httpGet(elasticEndpoint + "/_settings"));
-			return JSObjectAdapter.$get(this, "elasticSettings");
+			return levr.httpGet(elasticEndpoint + "/_settings");
 		}
 	};
 
@@ -339,7 +335,9 @@ public class SkyRepo {
 	}
 
 	public static void skyrepoPutInternal(Object o, String id, String version, String type) {
-		skyrepoPutInternalIndex(o, id, version, type);
+		Object obj = skyrepoPutInternalIndex(o, id, version, type);
+		if (skyrepoDebug) Global.console.log(Global.JSON.stringify(obj));
+		version = (String) JSObjectAdapter.$get(obj, "_version");
 		skyrepoPutInternalPermanent(o, id, version, type);
 	}
 
@@ -449,7 +447,22 @@ public class SkyRepo {
 		}
 	};
 
-	public static Callback4<Object, String, String, String> skyrepoPut = new Callback4<Object, String, String, String>() {
+	public static Function1<Object, Object> skyrepoPut = new Function1<Object, Object>() {
+		@Override
+		public Object $invoke(Object parseParams) {
+			if (parseParams == null && EcObject.isObject(params.obj))
+				parseParams = params.obj;
+			Object obj = (String) JSObjectAdapter.$get(parseParams, "obj");
+			if (!EcObject.isObject(obj))
+				obj = Global.JSON.parse((String) obj);
+			String id = (String) JSObjectAdapter.$get(parseParams, "id");
+			String type = (String) JSObjectAdapter.$get(parseParams, "type");
+			String version = (String) JSObjectAdapter.$get(parseParams, "version");
+			return JSFunctionAdapter.call(skyrepoPutParsed, this, obj, id, version, type, null);
+		}
+	};
+
+	public static Callback4<Object, String, String, String> skyrepoPutParsed = new Callback4<Object, String, String, String>() {
 		@Override
 		public void $invoke(Object o, String id, String version, String type) {
 			if (o == null)
@@ -703,7 +716,7 @@ public class SkyRepo {
 					o = JSFunctionAdapter.call(tryFormatOutput, this, o, expand, null);
 					return o;
 				}
-				JSFunctionAdapter.call(skyrepoPut, this, o, id, version, type);
+				JSFunctionAdapter.call(skyrepoPutParsed, this, o, id, version, type);
 				JSFunctionAdapter.call(levr.afterSave, this);
 				return null;
 			} else if (methodType == "GET") {
@@ -756,7 +769,7 @@ public class SkyRepo {
 				size = Global.parseInt(params.size);
 			String sort = params.sort;
 			String track_scores = params.track_scores;
-			Object searchParams = levr.fileToString(JSFunctionAdapter.call(levr.fileFromDatastream, this, "searchParams", null));
+			Object searchParams = Global.JSON.parse(levr.fileToString(JSFunctionAdapter.call(levr.fileFromDatastream, this, "searchParams", null)));
 			if (searchParams != null) {
 				if (JSObjectAdapter.$get(searchParams, "q") != null)
 					q = (String) JSObjectAdapter.$get(searchParams, "q");
