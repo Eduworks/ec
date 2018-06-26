@@ -356,25 +356,15 @@ public class EcEncryptedValueTest {
 			EcIdentityManager.ids = new Array<EcIdentity>();
 			EcIdentityManager.addIdentity(newId3);
 			console.log("ID Search.");
-			r.searchWithParams("@id:\"" + f.shortId() + "\"", o,eachCallback, success, failure);
+			r.searchWithParams("@id:\"" + f.shortId() + "\"", o,eachCallback, successInvert, failure);
 			console.log("_all Search, searching for signature 1.");
-			r.searchWithParams("\"" + ppk.toPk().toPem() + "\"", o,eachCallback, success, failure);
+			r.searchWithParams("\"" + ppk.toPk().toPem() + "\"", o,eachCallback, successInvert, failure);
 			console.log("Owner Search, searching for signature 1");
-			r.searchWithParams("@owner:\"" + ppk.toPk().toPem() + "\"", o,eachCallback, success, failure);
+			r.searchWithParams("@owner:\"" + ppk.toPk().toPem() + "\"", o,eachCallback, successInvert, failure);
 			console.log("(SHOULD NOT FIND) Reader Search, searching for signature 2.");
-			r.searchWithParams("@reader:\"" + ppk2.toPk().toPem() + "\" OR \\*@reader:\"" + ppk2.toPk().toPem() + "\"", o,eachCallback, successInvert, new Callback1<String>() {
-				@Override
-				public void $invoke(String p1) {
-					console.log("\""+p1+"\"");
-					Assert.assertTrue(
-							p1.trim()=="Readers only exist in encrypted data. Please provide signatures to allow access to resources."
-									||
-									p1.trim()=="error!"||
-									p1.trim()=="Search failed.");
-				}
-			});
+			r.searchWithParams("@reader:\"" + ppk2.toPk().toPem() + "\" OR \\*@reader:\"" + ppk2.toPk().toPem() + "\"", o,eachCallback, successInvert, failure);
 			console.log("_all Search, searching for signature 1.");
-			r.searchWithParams("\"" + ppk.toPk().toPem() + "\"", o,eachCallback, success, failure);
+			r.searchWithParams("\"" + ppk.toPk().toPem() + "\"", o,eachCallback, successInvert, failure);
 			console.log("(SHOULD NOT FIND) _all Search, searching for signature 2.");
 			r.searchWithParams("\"" + ppk2.toPk().toPem() + "\"", o,eachCallback, successInvert, failure);
 		} finally {

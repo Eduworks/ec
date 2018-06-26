@@ -169,7 +169,7 @@ public class SkyRepo {
 				Array<String> keys = EcObject.keys(o);
 				for (int i = 0; i < keys.$length(); i++) {
 					String key = keys.$get(i);
-					JSObjectAdapter.$put(o, key, JSFunctionAdapter.call(filterResults, this, JSObjectAdapter.$get(o, key), null));
+					JSObjectAdapter.$put(rld, key, JSFunctionAdapter.call(filterResults, this, JSObjectAdapter.$get(o, key), null));
 				}
 				return rld.atIfy();
 			} else
@@ -425,12 +425,11 @@ public class SkyRepo {
 		public Object $invoke(Object parseParams) {
 			if (parseParams == null && EcObject.isObject(params.obj))
 				parseParams = params.obj;
-			if (parseParams == null)
-			{
+			if (parseParams == null) {
 				parseParams = new Object();
-				JSObjectAdapter.$put(parseParams,"id",params.id);
-				JSObjectAdapter.$put(parseParams,"type",params.type);
-				JSObjectAdapter.$put(parseParams,"version",params.version);
+				JSObjectAdapter.$put(parseParams, "id", params.id);
+				JSObjectAdapter.$put(parseParams, "type", params.type);
+				JSObjectAdapter.$put(parseParams, "version", params.version);
 			}
 			if (skyrepoDebug) Global.console.log(Global.JSON.stringify(parseParams));
 			if (skyrepoDebug) Global.console.log(Global.JSON.stringify(params.obj));
@@ -459,16 +458,15 @@ public class SkyRepo {
 	public static Function1<Object, Object> skyrepoPut = new Function1<Object, Object>() {
 		@Override
 		public Object $invoke(Object parseParams) {
-			if (parseParams == null && params.id != null && params.id != "")
-			{
+			if (parseParams == null && params.id != null && params.id != "") {
 				parseParams = new Object();
-				JSObjectAdapter.$put(parseParams,"id",params.id);
-				JSObjectAdapter.$put(parseParams,"type",params.type);
-				JSObjectAdapter.$put(parseParams,"version",params.version);
-				JSObjectAdapter.$put(parseParams,"obj",params.obj);
+				JSObjectAdapter.$put(parseParams, "id", params.id);
+				JSObjectAdapter.$put(parseParams, "type", params.type);
+				JSObjectAdapter.$put(parseParams, "version", params.version);
+				JSObjectAdapter.$put(parseParams, "obj", params.obj);
 			}
-			if (skyrepoDebug) Global.console.log("put pp:"+Global.JSON.stringify(parseParams));
-			if (skyrepoDebug) Global.console.log("put obj:"+Global.JSON.stringify(params.obj));
+			if (skyrepoDebug) Global.console.log("put pp:" + Global.JSON.stringify(parseParams));
+			if (skyrepoDebug) Global.console.log("put obj:" + Global.JSON.stringify(params.obj));
 			if (parseParams == null && EcObject.isObject(params.obj))
 				parseParams = params.obj;
 			Object obj = (String) JSObjectAdapter.$get(parseParams, "obj");
@@ -567,21 +565,11 @@ public class SkyRepo {
 
 			Array<EbacSignature> signatures = JSFunctionAdapter.call(signatureSheet, this);
 
-			if (signatures.$length() == 0 && q.indexOf("@reader") != -1)
-				levr.error("Readers only exist in encrypted data. Please provide signatures to allow access to resources.", null);
-			else if (q.indexOf("@reader") != -1)
-			{
-				if (signatures != null && signatures.$length() > 0) {
-					String q2 = "";
-					for (int i = 0; i < signatures.$length(); i++) {
-						if (i > 0)
-							q2 += " OR ";
-						q2 += "\"" + signatures.$get(i).owner + "\"";
-					}
-
-					q = "("+q+") AND ("+q2+")";
-				}
-			}
+			boolean concern = false;
+			if (q.indexOf("*") != -1 && q.trim() != "*")
+				concern = true;
+			if (q.indexOf("@reader") != -1)
+				concern = true;
 
 			JSObjectAdapter.$put(query_string, "query", q);
 
@@ -635,17 +623,33 @@ public class SkyRepo {
 						levr.error((String) reason, (Integer) JSObjectAdapter.$get(results, "status"));
 				}
 			}
-			Object hits = JSObjectAdapter.$get(results, "hits");
-			hits = JSObjectAdapter.$get(hits, "hits");
-			Array<Object> searchResults = (Array<Object>) hits;
-			for (int i = 0; i < searchResults.$length(); i++) {
-				Object searchResult = searchResults.$get(i);
+			Array<Object> hits = (Array<Object>) JSObjectAdapter.$get(JSObjectAdapter.$get(results, "hits"),"hits");
+			Array<Object> searchResults = new Array<Object>();
+			for (int i = 0; i < hits.$length(); i++) {
+				Object searchResult = hits.$get(i);
 				String type = inferTypeFromObj(JSObjectAdapter.$get(searchResult, "_source"), null);
 				String id = (String) JSObjectAdapter.$get(searchResult, "_id");
 				String version = (String) JSObjectAdapter.$get(searchResult, "_version");
-				searchResults.$set(i, JSFunctionAdapter.call(skyrepoGetInternal, this, id, version, type, null));
+				searchResult = JSFunctionAdapter.call(skyrepoGetInternal, this, id, version, type, null);
+				if (searchResult == null) continue;
+				int preLength = Global.JSON.stringify(searchResult).length();
+				if (skyrepoDebug) Global.console.log("pre filter length:" + preLength);
+				searchResult = JSFunctionAdapter.call(filterResults, this, searchResult, null);
+				if (searchResult == null) continue;
+				if (skyrepoDebug) Global.console.log("post filter length:" + Global.JSON.stringify(searchResult).length());
+				if (preLength != Global.JSON.stringify(searchResult).length()) {
+					Array<EbacSignature> signatures = JSFunctionAdapter.call(signatureSheet, this);
+					for (int j = 0; j < signatures.$length(); j++) {
+						if (Global.JSON.stringify(searchResult).indexOf(signatures.$get(j).owner) != -1) {
+							if (skyrepoDebug) Global.console.log("Matched signature:" + signatures.$get(j).owner);
+							searchResults.push(searchResult);
+							break;
+						}
+					}
+				} else
+					searchResults.push(searchResult);
 			}
-			return (Array) JSFunctionAdapter.call(filterResults, this, searchResults, null);
+			return searchResults;
 		}
 	};
 
