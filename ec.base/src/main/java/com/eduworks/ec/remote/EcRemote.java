@@ -109,6 +109,7 @@ public class EcRemote {
 			};
 		}
 
+		String theBoundary = null;
 		// Node JS serialization check.
 		if (JSObjectAdapter.$get(fd, "_streams") != null) {
 			// We're in node. Serialize the 'form-data' object by hand.
@@ -122,6 +123,7 @@ public class EcRemote {
 				}
 			}
 			all = all + "\r\n" + "\r\n" + "--" + JSObjectAdapter.$get(fd, "_boundary") + "--";
+			theBoundary = (String)JSObjectAdapter.$get(fd, "_boundary");
 			if (Global.typeof(EcLevrHttp.httpStatus) == "undefined")
 				xhr.setRequestHeader("Content-Type", "multipart/form-data; boundary=" + JSObjectAdapter.$get(fd, "_boundary"));
 			fd = (FormData) (Object) all;
@@ -137,7 +139,7 @@ public class EcRemote {
 //		JSObjectAdapter.$put(xhr, "withCredentials", true);
 
 		if (Global.typeof(EcLevrHttp.httpStatus) != "undefined") {
-			String result = JSON.stringify(EcLevrHttp.httpPost(fd, url, "multipart/form-data; boundary=" + JSObjectAdapter.$get(fd, "_boundary"), "false", (String) JSObjectAdapter.$get(fd, "_boundary")));
+			String result = JSON.stringify(EcLevrHttp.httpPost(fd, url, "multipart/form-data; boundary=" + theBoundary, "false", theBoundary));
 			successCallback.$invoke(result);
 		} else {
 			xhr.send((String) (Object) fd);

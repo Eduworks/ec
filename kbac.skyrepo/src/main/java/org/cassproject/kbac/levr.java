@@ -44,19 +44,19 @@ public class levr {
 		return null;
 	}
 
-	public static Object jsonLdToNQuads(Object o) {
+	public static String jsonLdToNQuads(Object o) {
 		return null;
 	}
 
-	public static Object jsonLdToRdfJson(Object o) {
+	public static String jsonLdToRdfJson(Object o) {
 		return null;
 	}
 
-	public static Object jsonLdToRdfXml(Object o) {
+	public static String jsonLdToRdfXml(Object o) {
 		return null;
 	}
 
-	public static Object jsonLdToTurtle(Object o) {
+	public static String jsonLdToTurtle(Object o) {
 		return null;
 	}
 

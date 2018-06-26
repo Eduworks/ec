@@ -20,7 +20,8 @@ public class SkyId {
 	private static String passwordSalt = null;
 	private static String secretSalt = null;
 	public static String skyIdSalt = null;
-	public static String skyIdSecret = null;
+	public static String skyIdSecretStr = null;
+	public static String skyIdSecret(){return skyIdSecretStr;};
 	public static String skyIdSecretKey = null;
 	private static EcPpk skyIdPem = null;
 
@@ -63,7 +64,7 @@ public class SkyId {
 			signatureSheet.push(EcIdentityManager.createSignature(60000, null, skyIdPem));
 			JSObjectAdapter.$put(this, "signatureSheet", signatureSheet);
 
-			Object get = JSFunctionAdapter.call(SkyRepo.skyrepoGet, this, saltedId,null,"schema.cassproject.org.kbac.0.2.EncryptedValue",null);
+			Object get = JSFunctionAdapter.call(SkyRepo.skyrepoGetParsed, this, saltedId,null,"schema.cassproject.org.kbac.0.2.EncryptedValue",null);
 			if (get != null)
 			get = Global.JSON.parse(EcAesCtr.decrypt((String) JSObjectAdapter.$get(get, "payload"), skyIdSecretKey, saltedId));
 
@@ -72,7 +73,7 @@ public class SkyId {
 			encryptedPayload.payload = EcAesCtr.encrypt(Global.JSON.stringify(payload), skyIdSecretKey, saltedId);
 
 			if (get == null)
-				JSFunctionAdapter.call(SkyRepo.skyrepoPut, this, encryptedPayload.toJson(), saltedId, null, "schema.cassproject.org.kbac.0.2.EncryptedValue");
+				JSFunctionAdapter.call(SkyRepo.skyrepoPutParsed, this, encryptedPayload.toJson(), saltedId, null, "schema.cassproject.org.kbac.0.2.EncryptedValue");
 			else
 				levr.error("Cannot create, account already exists.", 422);
 			return null;
@@ -119,7 +120,7 @@ public class SkyId {
 			signatureSheet.push(EcIdentityManager.createSignature(60000, null, skyIdPem));
 			JSObjectAdapter.$put(this, "signatureSheet", signatureSheet);
 
-			Object get = JSFunctionAdapter.call(SkyRepo.skyrepoGet, this, saltedId,null,"schema.cassproject.org.kbac.0.2.EncryptedValue",null);
+			Object get = JSFunctionAdapter.call(SkyRepo.skyrepoGetParsed, this, saltedId,null,"schema.cassproject.org.kbac.0.2.EncryptedValue",null);
 			if (get == null)
 				levr.error("User does not exist.",404);
 			get = Global.JSON.parse(EcAesCtr.decrypt((String) JSObjectAdapter.$get(get, "payload"), skyIdSecretKey, saltedId));
@@ -127,7 +128,7 @@ public class SkyId {
 			if (JSObjectAdapter.$get(get, "token") != token)
 				levr.error("An error in synchronization has occurred. Please re-login and try again.", 403);
 
-			JSFunctionAdapter.call(SkyRepo.skyrepoPut, this, encryptedPayload.toJson(), saltedId, null, "schema.cassproject.org.kbac.0.2.EncryptedValue");
+			JSFunctionAdapter.call(SkyRepo.skyrepoPutParsed, this, encryptedPayload.toJson(), saltedId, null, "schema.cassproject.org.kbac.0.2.EncryptedValue");
 
 			return null;
 		}
@@ -160,7 +161,7 @@ public class SkyId {
 			signatureSheet.push(EcIdentityManager.createSignature(60000, null, skyIdPem));
 			JSObjectAdapter.$put(this, "signatureSheet", signatureSheet);
 
-			Object get = JSFunctionAdapter.call(SkyRepo.skyrepoGet, this, saltedId,null,"schema.cassproject.org.kbac.0.2.EncryptedValue",null);
+			Object get = JSFunctionAdapter.call(SkyRepo.skyrepoGetParsed, this, saltedId,null,"schema.cassproject.org.kbac.0.2.EncryptedValue",null);
 			if (get == null)
 				levr.error("User does not exist.",404);
 			get = Global.JSON.parse(EcAesCtr.decrypt((String) JSObjectAdapter.$get(get, "payload"), skyIdSecretKey, saltedId));
@@ -168,14 +169,14 @@ public class SkyId {
 				levr.error("Invalid password.",403);
 
 			JSObjectAdapter.$put(get, "token", levr.randomString(20));
-			JSObjectAdapter.$properties(get).$delete("password");
 
 			EcEncryptedValue encryptedPayload = new EcEncryptedValue();
 			encryptedPayload.addOwner(skyIdPem.toPk());
 			encryptedPayload.payload = EcAesCtr.encrypt(Global.JSON.stringify(get), skyIdSecretKey, saltedId);
 
-			JSFunctionAdapter.call(SkyRepo.skyrepoPut, this, encryptedPayload.toJson(), saltedId, null, "schema.cassproject.org.kbac.0.2.EncryptedValue");
+			JSFunctionAdapter.call(SkyRepo.skyrepoPutParsed, this, encryptedPayload.toJson(), saltedId, null, "schema.cassproject.org.kbac.0.2.EncryptedValue");
 
+			JSObjectAdapter.$properties(get).$delete("password");
 			return Global.JSON.stringify(get);
 		}
 	};
@@ -209,9 +210,9 @@ public class SkyId {
 
 		if (!levr.fileExists("skyId.secret"))
 			levr.fileSave(levr.randomString(2048), "skyId.secret");
-		skyIdSecret = levr.fileToString(levr.fileLoad("skyId.secret"));
+		skyIdSecretStr = levr.fileToString(levr.fileLoad("skyId.secret"));
 
-		skyIdSecretKey = util.encode64(pkcs5.pbkdf2(skyIdSecret,skyIdSalt,10000,16));
+		skyIdSecretKey = util.encode64(pkcs5.pbkdf2(skyIdSecretStr,skyIdSalt,10000,16));
 
 		if (!levr.fileExists("skyId.pem"))
 			levr.fileSave(EcPpk.fromPem(levr.rsaGenerate()).toPem(), "skyId.pem");

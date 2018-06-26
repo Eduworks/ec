@@ -329,6 +329,9 @@ public class EcLinkedData {
 		if (context != null && type != null) {
 			if (!EcObject.isObject(context)) {
 				String context = (!this.context.endsWith("/") ? this.context + "/" : this.context);
+				if (type.indexOf(context) == 0)
+					a.push(type);
+				else
 				a.push(context + type);
 			}
 		}
