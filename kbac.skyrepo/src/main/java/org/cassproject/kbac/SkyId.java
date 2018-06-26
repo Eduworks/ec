@@ -73,7 +73,7 @@ public class SkyId {
 			encryptedPayload.payload = EcAesCtr.encrypt(Global.JSON.stringify(payload), skyIdSecretKey, saltedId);
 
 			if (get == null)
-				JSFunctionAdapter.call(SkyRepo.skyrepoPutParsed, this, encryptedPayload.toJson(), saltedId, null, "schema.cassproject.org.kbac.0.2.EncryptedValue");
+				JSFunctionAdapter.call(SkyRepo.skyrepoPutParsed, this, Global.JSON.parse(encryptedPayload.toJson()), saltedId, null, "schema.cassproject.org.kbac.0.2.EncryptedValue");
 			else
 				levr.error("Cannot create, account already exists.", 422);
 			return null;
@@ -128,7 +128,7 @@ public class SkyId {
 			if (JSObjectAdapter.$get(get, "token") != token)
 				levr.error("An error in synchronization has occurred. Please re-login and try again.", 403);
 
-			JSFunctionAdapter.call(SkyRepo.skyrepoPutParsed, this, encryptedPayload.toJson(), saltedId, null, "schema.cassproject.org.kbac.0.2.EncryptedValue");
+			JSFunctionAdapter.call(SkyRepo.skyrepoPutParsed, this, Global.JSON.parse(encryptedPayload.toJson()), saltedId, null, "schema.cassproject.org.kbac.0.2.EncryptedValue");
 
 			return null;
 		}
@@ -174,7 +174,7 @@ public class SkyId {
 			encryptedPayload.addOwner(skyIdPem.toPk());
 			encryptedPayload.payload = EcAesCtr.encrypt(Global.JSON.stringify(get), skyIdSecretKey, saltedId);
 
-			JSFunctionAdapter.call(SkyRepo.skyrepoPutParsed, this, encryptedPayload.toJson(), saltedId, null, "schema.cassproject.org.kbac.0.2.EncryptedValue");
+			JSFunctionAdapter.call(SkyRepo.skyrepoPutParsed, this, Global.JSON.parse(encryptedPayload.toJson()), saltedId, null, "schema.cassproject.org.kbac.0.2.EncryptedValue");
 
 			JSObjectAdapter.$properties(get).$delete("password");
 			return Global.JSON.stringify(get);
