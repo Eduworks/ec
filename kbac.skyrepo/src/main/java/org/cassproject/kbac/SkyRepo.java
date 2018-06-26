@@ -425,6 +425,15 @@ public class SkyRepo {
 		public Object $invoke(Object parseParams) {
 			if (parseParams == null && EcObject.isObject(params.obj))
 				parseParams = params.obj;
+			if (parseParams == null)
+			{
+				parseParams = new Object();
+				JSObjectAdapter.$put(parseParams,"id",params.id);
+				JSObjectAdapter.$put(parseParams,"type",params.type);
+				JSObjectAdapter.$put(parseParams,"version",params.version);
+			}
+			if (skyrepoDebug) Global.console.log(Global.JSON.stringify(parseParams));
+			if (skyrepoDebug) Global.console.log(Global.JSON.stringify(params.obj));
 			String id = (String) JSObjectAdapter.$get(parseParams, "id");
 			String type = (String) JSObjectAdapter.$get(parseParams, "type");
 			String version = (String) JSObjectAdapter.$get(parseParams, "version");
@@ -450,6 +459,16 @@ public class SkyRepo {
 	public static Function1<Object, Object> skyrepoPut = new Function1<Object, Object>() {
 		@Override
 		public Object $invoke(Object parseParams) {
+			if (parseParams == null && params.id != null && params.id != "")
+			{
+				parseParams = new Object();
+				JSObjectAdapter.$put(parseParams,"id",params.id);
+				JSObjectAdapter.$put(parseParams,"type",params.type);
+				JSObjectAdapter.$put(parseParams,"version",params.version);
+				JSObjectAdapter.$put(parseParams,"obj",params.obj);
+			}
+			if (skyrepoDebug) Global.console.log("put pp:"+Global.JSON.stringify(parseParams));
+			if (skyrepoDebug) Global.console.log("put obj:"+Global.JSON.stringify(params.obj));
 			if (parseParams == null && EcObject.isObject(params.obj))
 				parseParams = params.obj;
 			Object obj = (String) JSObjectAdapter.$get(parseParams, "obj");
@@ -545,9 +564,27 @@ public class SkyRepo {
 			JSObjectAdapter.$put(bool, "must", must);
 			Object query_string = new Object();
 			JSObjectAdapter.$put(must, "query_string", query_string);
-			JSObjectAdapter.$put(query_string, "query", q);
 
 			Array<EbacSignature> signatures = JSFunctionAdapter.call(signatureSheet, this);
+
+			if (signatures.$length() == 0 && q.indexOf("@reader") != -1)
+				levr.error("Readers only exist in encrypted data. Please provide signatures to allow access to resources.", null);
+			else if (q.indexOf("@reader") != -1)
+			{
+				if (signatures != null && signatures.$length() > 0) {
+					String q2 = "";
+					for (int i = 0; i < signatures.$length(); i++) {
+						if (i > 0)
+							q2 += " OR ";
+						q2 += "\"" + signatures.$get(i).owner + "\"";
+					}
+
+					q = "("+q+") AND ("+q2+")";
+				}
+			}
+
+			JSObjectAdapter.$put(query_string, "query", q);
+
 			if (signatures != null && signatures.$length() > 0) {
 				String q2 = "";
 				for (int i = 0; i < signatures.$length(); i++) {
@@ -562,8 +599,6 @@ public class SkyRepo {
 				JSObjectAdapter.$put(should, "query_string", query_string2);
 				JSObjectAdapter.$put(query_string2, "query", q2);
 			}
-			if (signatures.$length() == 0 && q.indexOf("@reader") != -1)
-				levr.error("Readers only exist in encrypted data. Please provide signatures to allow access to resources.", null);
 			return s;
 		}
 	};
