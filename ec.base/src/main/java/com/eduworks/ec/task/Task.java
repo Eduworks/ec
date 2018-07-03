@@ -1,6 +1,7 @@
 package com.eduworks.ec.task;
 
 import com.eduworks.ec.date.Date;
+import com.eduworks.ec.remote.EcRemote;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.TimeoutHandler;
@@ -23,7 +24,7 @@ public class Task {
 	public static TimeoutHandler immediate(final Callback0 c) {
 		final Long currentMs = Date.now();
 		int nextFrameMs = 1000 / desiredFps;
-		if (lastFrame == null || currentMs > lastFrame + nextFrameMs)
+		if (EcRemote.async == true && (lastFrame == null || currentMs > lastFrame + nextFrameMs))
 			return Global.setTimeout(new Callback0() {
 				@Override
 				public void $invoke() {
