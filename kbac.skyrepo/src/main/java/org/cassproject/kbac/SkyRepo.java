@@ -137,6 +137,8 @@ public class SkyRepo {
 			if (EcArray.isArray(o)) {
 				Array ary = (Array) o;
 				for (int i = 0; i < ary.$length(); i++) {
+					if (ary.$get(i) == null)
+						continue;
 					Object result = JSFunctionAdapter.call(filterResults, this, ary.$get(i), null);
 					if (result == null) {
 						ary.splice(i, 1);
@@ -593,11 +595,13 @@ public class SkyRepo {
 
 	public static String searchUrl(String urlRemainder) {
 		String url = elasticEndpoint;
-		if (urlRemainder != null && urlRemainder != "")
-			url += urlRemainder;
+		if (urlRemainder != null && urlRemainder != "" && urlRemainder != "/")
+			url += urlRemainder.toLowerCase();
 		else
 			url += "/*,-permanent";
-		url += "/_search";
+		if (!url.endsWith("/"))
+			url += "/";
+		url += "_search";
 		if (skyrepoDebug) Global.console.log(url);
 		return url;
 	}

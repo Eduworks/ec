@@ -413,6 +413,7 @@ public class EcRepository {
 	 * @method _save
 	 * @static
 	 */
+
 	public static void _save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure, EcRepository repo) {
 		if (data.invalid()) {
 			String msg = "Cannot save data. It is missing a vital component.";
