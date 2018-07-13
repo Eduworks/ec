@@ -20,6 +20,8 @@ public class EcObject {
 	 * @method isArray
 	 */
 	public static boolean isObject(Object o) {
+		if (o == null)
+			return false;
 		return JSGlobal.typeof(o) == "object";
 	}
 
