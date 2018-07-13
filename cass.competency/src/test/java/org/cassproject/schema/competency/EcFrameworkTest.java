@@ -706,7 +706,7 @@ public class EcFrameworkTest {
 			}
 		});
 
-		EcRepository.get(toDelete.id, new Callback1<EcRemoteLinkedData>() {
+		EcRepository.get(toDelete.shortId(), new Callback1<EcRemoteLinkedData>() {
 			@Override
 			public void $invoke(EcRemoteLinkedData p1) {
 				if ((p1.context != "" && p1.context != null) || (p1.type != "" && p1.type != null))
