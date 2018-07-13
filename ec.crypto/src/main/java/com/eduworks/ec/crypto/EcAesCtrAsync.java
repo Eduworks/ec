@@ -2,6 +2,7 @@ package com.eduworks.ec.crypto;
 
 import com.eduworks.ec.blob.ArrayBuffer;
 import com.eduworks.ec.blob.BlobHelper;
+import com.eduworks.ec.remote.EcRemote;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSObjectAdapter;
@@ -10,9 +11,14 @@ import org.stjs.javascript.jquery.Promise;
 import window.*;
 
 public class EcAesCtrAsync {
-	public static void encrypt(String text, String secret, String iv, final Callback1<String> success, final Callback1<String> failure) {
+	public static void encrypt(String plaintext, String secret, String iv, final Callback1<String> success, final Callback1<String> failure) {
 		if (Global.window == null || window.crypto == null || crypto.subtle == null) {
-			EcAesCtrAsyncWorker.encrypt(text, secret, iv, success, failure);
+			EcAesCtrAsyncWorker.encrypt(plaintext, secret, iv, success, failure);
+			return;
+		}
+		if (EcRemote.async == false)
+		{
+			success.$invoke(EcAesCtr.encrypt(plaintext, secret, iv));
 			return;
 		}
 		Array<String> keyUsages = new Array<>();
@@ -22,7 +28,7 @@ public class EcAesCtrAsync {
 		algorithm.counter = base64.decode(iv);
 		algorithm.length = 128;
 		final ArrayBuffer data;
-		data = BlobHelper.str2ab(text);
+		data = BlobHelper.str2ab(plaintext);
 		crypto.subtle.importKey("raw", base64.decode(secret), algorithm, false, keyUsages).then(new Callback1<CryptoKey>() {
 			@Override
 			public void $invoke(CryptoKey key) {
@@ -38,17 +44,21 @@ public class EcAesCtrAsync {
 		}, failure);
 	}
 
-	public static void decrypt(String text, String secret, String iv, final Callback1<String> success, final Callback1<String> failure) {
+	public static void decrypt(String ciphertext, String secret, String iv, final Callback1<String> success, final Callback1<String> failure) {
 		if (EcCrypto.caching) {
-			final Object cacheGet = JSObjectAdapter.$get(EcCrypto.decryptionCache, secret + iv + text);
+			final Object cacheGet = JSObjectAdapter.$get(EcCrypto.decryptionCache, secret + iv + ciphertext);
 			if (cacheGet != null) {
 				success.$invoke((String) cacheGet);
 				return;
 			}
 		}
 		if (window.crypto == null || crypto.subtle == null) {
-			EcAesCtrAsyncWorker.decrypt(text, secret, iv, success, failure);
+			EcAesCtrAsyncWorker.decrypt(ciphertext, secret, iv, success, failure);
 			return;
+		}
+		if (EcRemote.async == false)
+		{
+			success.$invoke(EcAesCtr.decrypt(ciphertext, secret, iv));
 		}
 		Array<String> keyUsages = new Array<>();
 		keyUsages.push("encrypt", "decrypt");
@@ -57,7 +67,7 @@ public class EcAesCtrAsync {
 		algorithm.counter = base64.decode(iv);
 		algorithm.length = 128;
 		final ArrayBuffer data;
-		data = base64.decode(text);
+		data = base64.decode(ciphertext);
 		crypto.subtle.importKey("raw", base64.decode(secret), algorithm, false, keyUsages).then(new Callback1<CryptoKey>() {
 			@Override
 			public void $invoke(CryptoKey key) {

@@ -101,10 +101,13 @@ public class EcRemote {
 			xhr.onreadystatechange = new Callback0() {
 				@Override
 				public void $invoke() {
-					if (xhrx.readyState == 4 && xhrx.status == 200)
-						successCallback.$invoke(xhrx.responseText);
-					else if (xhrx.readyState == 4)
-						failureCallback.$invoke(xhrx.responseText);
+					if (xhrx.readyState == 4 && xhrx.status == 200) {
+						if (successCallback != null)
+							successCallback.$invoke(xhrx.responseText);
+					} else if (xhrx.readyState == 4) {
+						if (failureCallback != null)
+							failureCallback.$invoke(xhrx.responseText);
+					}
 				}
 			};
 		}
@@ -123,7 +126,7 @@ public class EcRemote {
 				}
 			}
 			all = all + "\r\n" + "\r\n" + "--" + JSObjectAdapter.$get(fd, "_boundary") + "--";
-			theBoundary = (String)JSObjectAdapter.$get(fd, "_boundary");
+			theBoundary = (String) JSObjectAdapter.$get(fd, "_boundary");
 			if (Global.typeof(EcLevrHttp.httpStatus) == "undefined")
 				xhr.setRequestHeader("Content-Type", "multipart/form-data; boundary=" + JSObjectAdapter.$get(fd, "_boundary"));
 			fd = (FormData) (Object) all;
@@ -140,7 +143,8 @@ public class EcRemote {
 
 		if (Global.typeof(EcLevrHttp.httpStatus) != "undefined") {
 			String result = JSON.stringify(EcLevrHttp.httpPost(fd, url, "multipart/form-data; boundary=" + theBoundary, "false", theBoundary));
-			successCallback.$invoke(result);
+			if (successCallback != null)
+				successCallback.$invoke(result);
 		} else {
 			xhr.send((String) (Object) fd);
 		}
@@ -237,10 +241,13 @@ public class EcRemote {
 		xhr.onreadystatechange = new Callback0() {
 			@Override
 			public void $invoke() {
-				if (xhr.readyState == 4 && xhr.status == 200)
-					success.$invoke(xhr.responseText);
-				else if (xhr.readyState == 4)
-					failure.$invoke(xhr.responseText);
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					if (success != null)
+						success.$invoke(xhr.responseText);
+				} else if (xhr.readyState == 4) {
+					if (failure != null)
+						failure.$invoke(xhr.responseText);
+				}
 			}
 		};
 
@@ -249,7 +256,8 @@ public class EcRemote {
 		xhr.setRequestHeader("signatureSheet", signatureSheet);
 
 		if (Global.typeof(EcLevrHttp.httpStatus) != "undefined") {
-			success.$invoke(EcLevrHttp.httpDelete(url));
+			if (success != null)
+				success.$invoke(EcLevrHttp.httpDelete(url));
 		} else {
 			xhr.send();
 		}

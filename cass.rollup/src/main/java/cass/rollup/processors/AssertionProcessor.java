@@ -307,12 +307,16 @@ public abstract class AssertionProcessor {
 
 	protected String buildAssertionSearchQuery(InquiryPacket ip, EcCompetency competency) {
 		String result = null;
-		if (IPType.ROLLUPRULE.equals(ip.type))
+		if (IPType.ROLLUPRULE.equals(ip.type)) {
+			if (ip.rule.indexOf("AND ") == 0)
+				ip.rule = ip.rule.replace("AND ","");
 			result = "(" + new EcAssertion().getSearchStringByType() + ") AND (" + ip.rule + ")";
+		}
 		else if (IPType.COMPETENCY.equals(ip.type))
 			result = new EcAssertion().getSearchStringByTypeAndCompetency(competency);
 		for (int i = 0; i < ip.subject.$length(); i++)
 			result += " AND (\\*@reader:\"" + ip.subject.$get(i).toPem() + "\")";
+		log(ip, "Search Query: " + result);
 		if (result != null)
 			return result;
 		throw new RuntimeException("Trying to build an assertion search query on an unsupported type: " + ip.type);

@@ -47,7 +47,7 @@ public class RollupRuleInterfaceTest extends EvidenceProcessingTestBase {
 		input = input.replace("<C3>", c3.shortId());
 		input = input.replace("<C4>", c4.shortId());
 
-		EcRollupRule rr = newRollupRule(c, input);
+		EcRollupRule rr = newRollupRule(cx, input);
 
 		c.save(null, failure,repo);
 		c2.save(null, failure,repo);
@@ -64,10 +64,12 @@ public class RollupRuleInterfaceTest extends EvidenceProcessingTestBase {
 		EcAssertion a = newAssertion(c);
 		EcAssertion a2 = newAssertion(c2);
 		EcAssertion a3 = newAssertion(c3);
+		EcAssertion a4 = newAssertion(c4);
 
 		a.save(null, failure,repo);
 		a2.save(null, failure,repo);
 		a3.save(null, failure,repo);
+		a4.save(null, failure,repo);
 
 		performTest(f, cx, new Callback1<InquiryPacket>() {
 			@Override
