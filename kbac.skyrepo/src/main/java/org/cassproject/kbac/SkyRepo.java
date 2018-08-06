@@ -721,6 +721,9 @@ public class SkyRepo {
 			String track_scores = params.track_scores;
 			Object searchParams = JSFunctionAdapter.call(levr.fileFromDatastream, this, "searchParams", null);
 			if (searchParams != null) {
+				searchParams = levr.fileToString(searchParams);
+				if (searchParams != null)
+					searchParams = Global.JSON.parse((String)searchParams);
 				if (JSObjectAdapter.$get(searchParams, "q") != null)
 					q = (String) JSObjectAdapter.$get(searchParams, "q");
 				if (JSObjectAdapter.$get(searchParams, "start") != null)
