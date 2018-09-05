@@ -137,6 +137,7 @@ public class EcLinkedData {
 		Array<String> keys = new Array<String>();
 		Map<String, Object> me = JSObjectAdapter.$properties(o);
 		for (String key : me) {
+			if (me.$get("type") != null)
 			if (isAtProperty(key))
 				key = "@" + key;
 			keys.push(key);
