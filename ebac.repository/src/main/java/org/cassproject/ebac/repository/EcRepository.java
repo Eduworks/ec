@@ -1261,13 +1261,14 @@ public class EcRepository {
 		Array<String> hostnames = new Array<String>();
 		Array<String> servicePrefixes = new Array<String>();
 
-		if (selectedServer != null) {
+		if (selectedServer != null && Global.window != null && Global.window.document != null) {
 			Element e = Global.window.document.createElement("a");
-			JSObjectAdapter.$put(e, "href", selectedServer);
-			hostnames.push((String) JSObjectAdapter.$get(e, "host"));
-			servicePrefixes.push((String) JSObjectAdapter.$get(e, "pathname"));
-		} else {
-
+			if (e != null) {
+				JSObjectAdapter.$put(e, "href", selectedServer);
+				hostnames.push((String) JSObjectAdapter.$get(e, "host"));
+				servicePrefixes.push((String) JSObjectAdapter.$get(e, "pathname"));
+			}
+		} else if (Global.window != null && Global.window.location != null) {
 			if (Global.window.location.host != null) {
 				hostnames.push(Global.window.location.host, Global.window.location.host.replace(".", ".service."), Global.window.location.host + ":8080",
 						Global.window.location.host.replace(".", ".service.") + ":8080");
@@ -1279,8 +1280,22 @@ public class EcRepository {
 			}
 		}
 
-		servicePrefixes.push("/" + Global.window.location.pathname.split("/")[1] + "/api/", "/" + Global.window.location.pathname.split("/")[1] + "/api/custom/", "/", "/service/",
-				"/api/", "/api/custom/");
+		if (Global.window != null) {
+			if (Global.window.location != null) {
+				servicePrefixes.push("/" + Global.window.location.pathname.split("/")[1] + "/api/");
+				servicePrefixes.push( "/" + Global.window.location.pathname.split("/")[1] + "/api/custom/");
+			}
+		}
+
+		if (hostnames.$length() == 0)
+		{
+			hostnames.push("localhost","localhost:8080");
+		}
+
+		servicePrefixes.push("/");
+		servicePrefixes.push("/service/");
+		servicePrefixes.push("/api/");
+		servicePrefixes.push("/api/custom/");
 		for (int j = 0; j < hostnames.$length(); j++) {
 			for (int k = 0; k < servicePrefixes.$length(); k++) {
 				for (int i = 0; i < protocols.$length(); i++) {
