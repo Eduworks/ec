@@ -186,21 +186,28 @@ public class EcRemote {
 
         url = upgradeHttpToHttps(url);
 
-        final XMLHttpRequest xhr = new XMLHttpRequest();
-        xhr.open("GET", url, async);
-        xhr.onreadystatechange = new Callback0() {
-            @Override
-            public void $invoke() {
-                if (xhr.readyState == 4 && xhr.status == 200)
-                    success.$invoke(xhr.responseText);
-                else if (xhr.readyState == 4)
-                    failure.$invoke(xhr.responseText);
-            }
-        };
+        XMLHttpRequest xhr = null;
 
-        if (xhr != null)
+        if (Global.typeof(EcLevrHttp.httpStatus) == "undefined") {
+            xhr = new XMLHttpRequest();
+
+            xhr.open("GET", url, async);
+            final XMLHttpRequest xhrx = xhr;
+            xhr.onreadystatechange = new Callback0() {
+                @Override
+                public void $invoke() {
+                    if (xhrx.readyState == 4 && xhrx.status == 200)
+                        success.$invoke(xhrx.responseText);
+                    else if (xhrx.readyState == 4)
+                        failure.$invoke(xhrx.responseText);
+                }
+            };
+        }
+
+        if (xhr != null) {
             if (async)
                 JSObjectAdapter.$put(xhr, "timeout", timeout);
+        }
 //		JSObjectAdapter.$put(xhr, "withCredentials", true);
 
         if (Global.typeof(EcLevrHttp.httpStatus) != "undefined") {
@@ -237,30 +244,39 @@ public class EcRemote {
     public static void _delete(String url, String signatureSheet, final Callback1<String> success, final Callback1<String> failure) {
         url = upgradeHttpToHttps(url);
 
-        final XMLHttpRequest xhr = new XMLHttpRequest();
-//		JSObjectAdapter.$put(xhr, "withCredentials", true);
-        xhr.open("DELETE", url, async);
-        xhr.onreadystatechange = new Callback0() {
-            @Override
-            public void $invoke() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    if (success != null)
-                        success.$invoke(xhr.responseText);
-                } else if (xhr.readyState == 4) {
-                    if (failure != null)
-                        failure.$invoke(xhr.responseText);
-                }
-            }
-        };
+        XMLHttpRequest xhr = null;
 
-        if (xhr != null)
+        if (Global.typeof(EcLevrHttp.httpStatus) == "undefined") {
+            xhr = new XMLHttpRequest();
+
+            //		JSObjectAdapter.$put(xhr, "withCredentials", true);
+            xhr.open("DELETE", url, async);
+            final XMLHttpRequest xhrx = xhr;
+            xhr.onreadystatechange = new Callback0() {
+                @Override
+                public void $invoke() {
+                    if (xhrx.readyState == 4 && xhrx.status == 200) {
+                        if (success != null)
+                            success.$invoke(xhrx.responseText);
+                    } else if (xhrx.readyState == 4) {
+                        if (failure != null)
+                            failure.$invoke(xhrx.responseText);
+                    }
+                }
+            };
+        }
+
+        if (xhr != null){
             if (async)
                 JSObjectAdapter.$put(xhr, "timeout", timeout);
-        xhr.setRequestHeader("signatureSheet", signatureSheet);
-
+            xhr.setRequestHeader("signatureSheet", signatureSheet);
+        }
         if (Global.typeof(EcLevrHttp.httpStatus) != "undefined") {
-            if (success != null)
-                success.$invoke(EcLevrHttp.httpDelete(url));
+            if (success != null){
+                Object sso = new Object();
+                JSObjectAdapter.$put(sso,"signatureSheet",signatureSheet);
+                success.$invoke(EcLevrHttp.httpDelete(url,null,null,null,sso));
+            }
         } else {
             xhr.send();
         }

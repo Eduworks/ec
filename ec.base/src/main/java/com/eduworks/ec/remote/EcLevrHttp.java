@@ -29,7 +29,7 @@ return cru.resolve(context,parameters,dataStreams);
 		return null;
 	}
 
-	public static String httpDelete(String url) {
+	public static String httpDelete(String url, String contentType, String name, String authToken, Object headers) {
 		return null;
 	}
 }
