@@ -6,5 +6,6 @@ import org.stjs.javascript.functions.Callback1;
 @SyntheticType
 public class PapaParseParams {
 	public Callback1<Object> complete;
+	public Boolean header;
 	public Callback1<Object> error;
 }
