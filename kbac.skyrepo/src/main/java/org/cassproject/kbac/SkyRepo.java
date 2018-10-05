@@ -363,7 +363,11 @@ public class SkyRepo {
 				String microSearchUrl = elasticEndpoint + "/_search?version&q=_id:" + id + "";
 				Object microSearch = levr.httpGet(microSearchUrl);
 				if (skyrepoDebug) Global.console.log(microSearchUrl);
+				if (microSearch == null)
+					return null;
 				Object hitshits = JSObjectAdapter.$get(microSearch, "hits");
+				if (hitshits == null)
+					return null;
 				Array<Object> hits = (Array<Object>) (Object) JSObjectAdapter.$get(hitshits, "hits");
 				if (hits.$length() == 0)
 					return null;
