@@ -18,7 +18,7 @@ import org.stjs.javascript.functions.Callback3;
 
 public class CTDLASNCSVImport {
 
-	public static void analyzeFile(Object file, final Callback2<Integer,Integer> success, final Callback1<Object> failure) {
+	public static void analyzeFile(Object file, final Callback2<Integer, Integer> success, final Callback1<Object> failure) {
 
 		if (file == null) {
 			failure.$invoke("No file to analyze");
@@ -41,34 +41,31 @@ public class CTDLASNCSVImport {
 						Array<String> colNames = tabularData.$get(0);
 
 						Object nameToCol = new Object();
-						for (int i = 0;i < colNames.$length();i++)
-							JSObjectAdapter.$put(nameToCol,colNames.$get(i),i);
+						for (int i = 0; i < colNames.$length(); i++)
+							JSObjectAdapter.$put(nameToCol, colNames.$get(i), i);
 
 						int frameworkCounter = 0;
 						int competencyCounter = 0;
-						Integer typeCol = (Integer)JSObjectAdapter.$get(nameToCol,"@type");
-						if (typeCol == null)
-						{
+						Integer typeCol = (Integer) JSObjectAdapter.$get(nameToCol, "@type");
+						if (typeCol == null) {
 							error.$invoke("No @type in CSV.");
 							return;
 						}
-						for (int i = 0;i < tabularData.$length();i++)
-						{
+						for (int i = 0; i < tabularData.$length(); i++) {
 							if (i == 0) continue;
 							Array<String> col = tabularData.$get(i);
-							if (col.$get(typeCol)=="ceasn:CompetencyFramework")
+							if (col.$get(typeCol) == "ceasn:CompetencyFramework")
 								frameworkCounter++;
-							else if (col.$get(typeCol)=="ceasn:Competency")
+							else if (col.$get(typeCol) == "ceasn:Competency")
 								competencyCounter++;
 							else if (col.$get(typeCol) == null || col.$get(typeCol) == "")
 								continue;
-							else
-							{
-								error.$invoke("Found unknown type:"+col.$get(typeCol));
+							else {
+								error.$invoke("Found unknown type:" + col.$get(typeCol));
 								return;
 							}
 						}
-						success.$invoke(frameworkCounter,competencyCounter);
+						success.$invoke(frameworkCounter, competencyCounter);
 					}
 				};
 				error = failure;
@@ -76,7 +73,7 @@ public class CTDLASNCSVImport {
 		});
 	}
 
-	public static void importFrameworksAndCompetencies(final EcRepository repo, Object file, final Callback3<Array<EcFramework>,Array<EcCompetency>,Array<EcAlignment>> success, final Callback1<Object> failure, final EcIdentity ceo) {
+	public static void importFrameworksAndCompetencies(final EcRepository repo, Object file, final Callback3<Array<EcFramework>, Array<EcCompetency>, Array<EcAlignment>> success, final Callback1<Object> failure, final EcIdentity ceo) {
 
 		if (file == null) {
 			failure.$invoke("No file to analyze");
@@ -113,7 +110,7 @@ public class CTDLASNCSVImport {
 									EcIdentity id = new EcIdentity();
 									id.ppk = EcPpk.fromPem((String) JSObjectAdapter.$get(e, "@owner"));
 									if (ceo != null)
-									f.addOwner(ceo.ppk.toPk());
+										f.addOwner(ceo.ppk.toPk());
 									f.addOwner(id.ppk.toPk());
 									EcIdentityManager.addIdentityQuietly(id);
 								}
@@ -136,38 +133,30 @@ public class CTDLASNCSVImport {
 								f.id = (String) JSObjectAdapter.$get(e, "@id");
 								if (JSObjectAdapter.$get(e, "ceasn:isPartOf") != null) {
 									((EcFramework) JSObjectAdapter.$get(frameworks, (String) JSObjectAdapter.$get(e, "ceasn:isPartOf"))).competency.push(f.shortId());
-								}
-								else
-								{
+								} else {
 									Object parent = e;
 									boolean done = false;
 									while (!done && parent != null) {
-											if (JSObjectAdapter.$get(parent, "ceasn:isChildOf") != null && JSObjectAdapter.$get(parent, "ceasn:isChildOf") !="") {
-												parent = JSObjectAdapter.$get(competencyRows, (String) JSObjectAdapter.$get(parent, "ceasn:isChildOf"));
-											}else
-											if (JSObjectAdapter.$get(parent, "ceasn:isTopChildOf") != null && JSObjectAdapter.$get(parent, "ceasn:isTopChildOf") != "") {
-												parent = JSObjectAdapter.$get(frameworkRows, (String) JSObjectAdapter.$get(parent, "ceasn:isTopChildOf"));
-												done = true;
-											}
+										if (JSObjectAdapter.$get(parent, "ceasn:isChildOf") != null && JSObjectAdapter.$get(parent, "ceasn:isChildOf") != "") {
+											parent = JSObjectAdapter.$get(competencyRows, (String) JSObjectAdapter.$get(parent, "ceasn:isChildOf"));
+										} else if (JSObjectAdapter.$get(parent, "ceasn:isTopChildOf") != null && JSObjectAdapter.$get(parent, "ceasn:isTopChildOf") != "") {
+											parent = JSObjectAdapter.$get(frameworkRows, (String) JSObjectAdapter.$get(parent, "ceasn:isTopChildOf"));
+											done = true;
+										}
 									}
-									if (!done)
-									{
+									if (!done) {
 										error.$invoke("Could not find framework:" + JSObjectAdapter.$get(e, "@type"));
 										return;
 									}
 									if (parent != null) {
 										if (JSObjectAdapter.$get(parent, "@type") == "ceasn:CompetencyFramework") {
-											JSObjectAdapter.$put(e, "ceasn:isPartOf",(String)JSObjectAdapter.$get(parent,"@id"));
-											((EcFramework) JSObjectAdapter.$get(frameworks, (String)JSObjectAdapter.$get(parent,"@id"))).competency.push(f.shortId());
-										}
-										else
-										{
+											JSObjectAdapter.$put(e, "ceasn:isPartOf", (String) JSObjectAdapter.$get(parent, "@id"));
+											((EcFramework) JSObjectAdapter.$get(frameworks, (String) JSObjectAdapter.$get(parent, "@id"))).competency.push(f.shortId());
+										} else {
 											error.$invoke("Object cannot trace to framework:" + JSObjectAdapter.$get(e, "@type"));
 											return;
 										}
-									}
-									else
-									{
+									} else {
 										error.$invoke("Object has no framework:" + JSObjectAdapter.$get(e, "@type"));
 										return;
 									}
@@ -181,9 +170,9 @@ public class CTDLASNCSVImport {
 								if (JSObjectAdapter.$get(e, "@owner") != null) {
 									id.ppk = EcPpk.fromPem((String) JSObjectAdapter.$get(e, "@owner"));
 									if (ceo != null)
-									f.addOwner(ceo.ppk.toPk());
+										f.addOwner(ceo.ppk.toPk());
 									if (id.ppk != null)
-									f.addOwner(id.ppk.toPk());
+										f.addOwner(id.ppk.toPk());
 									EcIdentityManager.addIdentityQuietly(id);
 								}
 
@@ -200,9 +189,9 @@ public class CTDLASNCSVImport {
 									EcAlignment r = new EcAlignment();
 									r.generateId(repo.selectedServer);
 									if (ceo != null)
-									r.addOwner(ceo.ppk.toPk());
+										r.addOwner(ceo.ppk.toPk());
 									if (id.ppk != null)
-									r.addOwner(id.ppk.toPk());
+										r.addOwner(id.ppk.toPk());
 									r.source = (String) JSObjectAdapter.$get(e, "@id");
 									r.relationType = Relation.NARROWS;
 									r.target = (String) JSObjectAdapter.$get(e, "ceasn:isChildOf");
@@ -233,10 +222,11 @@ public class CTDLASNCSVImport {
 								return;
 							}
 						}
-						success.$invoke(frameworkArray,competencies,relations);
+						success.$invoke(frameworkArray, competencies, relations);
 					}
 				};
 				error = failure;
 			}
 		});
-	}}
+	}
+}
