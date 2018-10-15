@@ -138,8 +138,8 @@ public class EcLinkedData {
 		Map<String, Object> me = JSObjectAdapter.$properties(o);
 		for (String key : me) {
 			if (me.$get("type") != null)
-			if (isAtProperty(key))
-				key = "@" + key;
+				if (isAtProperty(key))
+					key = "@" + key;
 			keys.push(key);
 		}
 		keys.sort(new SortFunction<String>() {
@@ -248,8 +248,12 @@ public class EcLinkedData {
 		}
 		Map<String, Object> you = JSObjectAdapter.$properties(that);
 		for (String key : you) {
-			if (JSGlobal.typeof(you.$get(key)) != "function")
-				me.$put(key.replace("@", ""), you.$get(key));
+			if (JSGlobal.typeof(you.$get(key)) != "function") {
+				if (you.$get("@type") != null)
+					me.$put(key.replace("@", ""), you.$get(key));
+				else
+					me.$put(key, you.$get(key));
+			}
 		}
 
 		String stripNamespace = null;
@@ -307,13 +311,26 @@ public class EcLinkedData {
 	 */
 	public EcLinkedData deAtify() {
 		Map<String, Object> me = JSObjectAdapter.$properties(this);
+     boolean typeFound = false;
+     if (me.$get("@type") != null)
+         typeFound = true;
 		for (String key : me) {
-			if (me.$get(key) == null) {
-				Object value = me.$get(key);
-				if (value != null)
-					if (value instanceof EcLinkedData)
-						value = ((EcLinkedData) value).deAtify();
-				me.$put(key.replace("@", ""), value);
+			if (me.$get(key) == null){
+				if (typeFound) {
+					Object value = me.$get(key);
+					if (value != null)
+						if (value instanceof EcLinkedData)
+							value = ((EcLinkedData) value).deAtify();
+					me.$put(key.replace("@", ""), value);
+				}
+				else
+				{
+					Object value = me.$get(key);
+					if (value != null)
+						if (value instanceof EcLinkedData)
+							value = ((EcLinkedData) value).deAtify();
+					me.$put(key, value);
+				}
 			}
 		}
 		return this;

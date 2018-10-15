@@ -298,6 +298,27 @@ public class SkyRepo {
 		return inferTypeFromObj(o, type);
 	}
 
+	public static Object flattenLangstrings(Object o) {
+		if (EcObject.isObject(o)) {
+			Array<String> keys = EcObject.keys(o);
+			for (int i = 0; i < keys.$length(); i++) {
+				String key = keys.$get(i);
+				if (key == "@value")
+					return JSObjectAdapter.$get(o,"key");
+				JSObjectAdapter.$put(o,key,flattenLangstrings(JSObjectAdapter.$get(o,key)));
+			}
+		}
+		else if (EcArray.isArray(o))
+		{
+			Array a = (Array) o;
+			for (int i = 0;i < a.$length();i++)
+			{
+				a.$set(i,flattenLangstrings(a.$get(i)));
+			}
+		}
+		return o;
+	}
+
 	public static String skyrepoPutInternalIndex(Object o, String id, String version, String type) {
 		//skyrepoPutInternalTypeCheck(false,o,type);
 
@@ -307,6 +328,7 @@ public class SkyRepo {
 		//TODO: Normalize data that should be normalized.
 		//ex: Public keys (@owner, @reader)
 		String url = putUrl(o, id, version, type);
+		o = flattenLangstrings(o);
 		if (skyrepoDebug) Global.console.log(Global.JSON.stringify(o));
 		return levr.httpPost(o, url, "application/json", false);
 	}
@@ -631,7 +653,7 @@ public class SkyRepo {
 						levr.error((String) reason, (Integer) JSObjectAdapter.$get(results, "status"));
 				}
 			}
-			Array<Object> hits = (Array<Object>) JSObjectAdapter.$get(JSObjectAdapter.$get(results, "hits"),"hits");
+			Array<Object> hits = (Array<Object>) JSObjectAdapter.$get(JSObjectAdapter.$get(results, "hits"), "hits");
 			Array<Object> searchResults = new Array<Object>();
 			for (int i = 0; i < hits.$length(); i++) {
 				Object searchResult = hits.$get(i);
@@ -644,7 +666,8 @@ public class SkyRepo {
 				if (skyrepoDebug) Global.console.log("pre filter length:" + preLength);
 				searchResult = JSFunctionAdapter.call(filterResults, this, searchResult, null);
 				if (searchResult == null) continue;
-				if (skyrepoDebug) Global.console.log("post filter length:" + Global.JSON.stringify(searchResult).length());
+				if (skyrepoDebug)
+					Global.console.log("post filter length:" + Global.JSON.stringify(searchResult).length());
 				if (preLength != Global.JSON.stringify(searchResult).length()) {
 					Array<EbacSignature> signatures = JSFunctionAdapter.call(signatureSheet, this);
 					for (int j = 0; j < signatures.$length(); j++) {
@@ -727,7 +750,7 @@ public class SkyRepo {
 			if (searchParams != null) {
 				searchParams = levr.fileToString(searchParams);
 				if (searchParams != null)
-					searchParams = Global.JSON.parse((String)searchParams);
+					searchParams = Global.JSON.parse((String) searchParams);
 				if (JSObjectAdapter.$get(searchParams, "q") != null)
 					q = (String) JSObjectAdapter.$get(searchParams, "q");
 				if (JSObjectAdapter.$get(searchParams, "start") != null)
