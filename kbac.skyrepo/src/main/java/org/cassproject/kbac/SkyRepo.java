@@ -304,7 +304,7 @@ public class SkyRepo {
 			for (int i = 0; i < keys.$length(); i++) {
 				String key = keys.$get(i);
 				if (key == "@value")
-					return JSObjectAdapter.$get(o,"key");
+					return JSObjectAdapter.$get(o,key);
 				JSObjectAdapter.$put(o,key,flattenLangstrings(JSObjectAdapter.$get(o,key)));
 			}
 		}
