@@ -1,6 +1,7 @@
 package org.cassproject.ebac.repository;
 
 import com.eduworks.ec.array.EcArray;
+import com.eduworks.ec.array.EcAsyncHelper;
 import com.eduworks.ec.crypto.EcCrypto;
 import com.eduworks.ec.log.Logger;
 import com.eduworks.ec.remote.EcRemote;
@@ -13,6 +14,7 @@ import org.stjs.javascript.*;
 import org.stjs.javascript.dom.Element;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 
 import static com.eduworks.ec.remote.EcRemote.urlAppend;
 
@@ -754,73 +756,61 @@ public class EcRepository {
 			return;
 		}
 
-		if (caching) {
-			Array<EcRemoteLinkedData> cachedVals = JSCollections.$array();
-
-			for (int i = 0; i < urls.$length(); i++) {
-				if (JSObjectAdapter.$get(cache, urls.$get(i)) != null) {
-					cachedVals.push((EcRemoteLinkedData) JSObjectAdapter.$get(cache, urls.$get(i)));
-				}
-			}
-			if (cachedValues != null)
-				cachedValues.$invoke(cachedVals);
-		}
-
-		Array<String> onServer = new Array<String>();
-		for (int i = 0; i < urls.$length(); i++) {
-			String url = urls.$get(i);
-			if (url.startsWith(selectedServer)) {
-				onServer.push(url.replace(selectedServer, "").replace("custom/", ""));
-			}
-		}
-
-		final FormData fd = new FormData();
-		fd.append("data", Global.JSON.stringify(onServer));
-		final EcRepository me = this;
-		if (unsigned == true)
-			EcRemote.postExpectingObject(me.selectedServer, "sky/repo/multiGet", fd, new Callback1<Object>() {
+		final Array<EcRemoteLinkedData> results = new Array<>();
+		if (EcRepository.caching)
+			precache(urls, new Callback0() {
 				@Override
-				public void $invoke(Object p1) {
-					Array<EcRemoteLinkedData> results = (Array<EcRemoteLinkedData>) p1;
-					for (int i = 0; i < results.$length(); i++) {
-						EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
-						d.copyFrom(results.$get(i));
-						results.$set(i, d);
-						if (caching) {
-							JSObjectAdapter.$put(cache, d.shortId(), d);
-							JSObjectAdapter.$put(cache, d.id, d);
-						}
-					}
-					if (success != null) {
-						success.$invoke(results);
-					}
-				}
-			}, failure);
-		else
-			EcIdentityManager.signatureSheetAsync(60000, selectedServer, new Callback1<String>() {
-				@Override
-				public void $invoke(String p1) {
-					fd.append("signatureSheet", p1);
-					EcRemote.postExpectingObject(me.selectedServer, "sky/repo/multiGet", fd, new Callback1<Object>() {
+				public void $invoke() {
+					EcAsyncHelper<String> eah = new EcAsyncHelper();
+					eah.each(urls, new Callback2<String, Callback0>() {
 						@Override
-						public void $invoke(Object p1) {
-							Array<EcRemoteLinkedData> results = (Array<EcRemoteLinkedData>) p1;
-							for (int i = 0; i < results.$length(); i++) {
-								EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
-								d.copyFrom(results.$get(i));
-								results.$set(i, d);
-								if (caching) {
-									JSObjectAdapter.$put(cache, d.shortId(), d);
-									JSObjectAdapter.$put(cache, d.id, d);
+						public void $invoke(String url, final Callback0 done) {
+							EcRepository.get(url, new Callback1<EcRemoteLinkedData>() {
+								@Override
+								public void $invoke(EcRemoteLinkedData result) {
+									results.push(result);
+									done.$invoke();
 								}
-							}
-							if (success != null) {
-								success.$invoke(results);
-							}
+							}, new Callback1<String>() {
+								@Override
+								public void $invoke(String s) {
+									done.$invoke();
+								}
+							});
 						}
-					}, failure);
+					}, new Callback1<Array<String>>() {
+						@Override
+						public void $invoke(Array<String> urls) {
+							success.$invoke(results);
+						}
+					});
 				}
-			}, failure);
+			});
+		else {
+			EcAsyncHelper<String> eah = new EcAsyncHelper();
+			eah.each(urls, new Callback2<String, Callback0>() {
+				@Override
+				public void $invoke(String url, final Callback0 done) {
+					EcRepository.get(url, new Callback1<EcRemoteLinkedData>() {
+						@Override
+						public void $invoke(EcRemoteLinkedData result) {
+							results.push(result);
+							done.$invoke();
+						}
+					}, new Callback1<String>() {
+						@Override
+						public void $invoke(String s) {
+							done.$invoke();
+						}
+					});
+				}
+			}, new Callback1<Array<String>>() {
+				@Override
+				public void $invoke(Array<String> urls) {
+					success.$invoke(results);
+				}
+			});
+		}
 
 	}
 
