@@ -100,17 +100,23 @@ public class EcAssertion extends Assertion {
 	 */
 	public void setSubject(EcPk pk) {
 		Array<String> owners = new Array<String>();
-		Array<String> readers = reader;
-		if (readers == null)
+		Array<String> readers = null;
+
+		if (reader == null)
 			readers = new Array<String>();
+		else
+			readers = (Array)Global.JSON.parse(Global.JSON.stringify(reader));
+
 		if (subject != null) {
 			if (subject.owner != null)
 				owners.concat(subject.owner);
 			if (subject.reader != null)
 				readers.concat(subject.reader);
 		}
+
 		if (owner != null)
 			owners = owners.concat(owner);
+
 		readers.push(pk.toPem());
 		subject = EcEncryptedValue.encryptValue(pk.toPem(), id, owners, readers);
 	}
