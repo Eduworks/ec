@@ -139,19 +139,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 					new EcAsyncHelper<String>().each(d.owner, new Callback2<String, Callback0>() {
 						@Override
 						public void $invoke(String pk, final Callback0 arg1) {
-							EbacEncryptedSecret eSecret = new EbacEncryptedSecret();
-							eSecret.iv = newIv;
-							eSecret.secret = newSecret;
-							if (v.secret == null) {
-								v.secret = new Array<String>();
-							}
-							EcRsaOaepAsync.encrypt(EcPk.fromPem(pk), eSecret.toEncryptableJson(), new Callback1<String>() {
-								@Override
-								public void $invoke(String encryptedSecret) {
-									v.secret.push(encryptedSecret);
-									arg1.$invoke();
-								}
-							}, failure);
+							insertSecret(pk, arg1, newIv, newSecret, v, failure);
 						}
 					}, new Callback1<Array<String>>() {
 						@Override
@@ -160,19 +148,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 								new EcAsyncHelper<String>().each(d.reader, new Callback2<String, Callback0>() {
 									@Override
 									public void $invoke(String pk, final Callback0 arg1) {
-										EbacEncryptedSecret eSecret = new EbacEncryptedSecret();
-										eSecret.iv = newIv;
-										eSecret.secret = newSecret;
-										if (v.secret == null) {
-											v.secret = new Array<String>();
-										}
-										EcRsaOaepAsync.encrypt(EcPk.fromPem(pk), eSecret.toEncryptableJson(), new Callback1<String>() {
-											@Override
-											public void $invoke(String encryptedSecret) {
-												v.secret.push(encryptedSecret);
-												arg1.$invoke();
-											}
-										}, failure);
+										insertSecret(pk, arg1, newIv, newSecret, v, failure);
 									}
 								}, new Callback1<Array<String>>() {
 									@Override
@@ -181,9 +157,27 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 									}
 								});
 							}
+							else
+								success.$invoke(v);
 						}
 					});
 				}
+			}
+		}, failure);
+	}
+
+	private static void insertSecret(String pk, final Callback0 success, String newIv, String newSecret, final EcEncryptedValue v, Callback1<String> failure) {
+		EbacEncryptedSecret eSecret = new EbacEncryptedSecret();
+		eSecret.iv = newIv;
+		eSecret.secret = newSecret;
+		if (v.secret == null) {
+			v.secret = new Array<String>();
+		}
+		EcRsaOaepAsync.encrypt(EcPk.fromPem(pk), eSecret.toEncryptableJson(), new Callback1<String>() {
+			@Override
+			public void $invoke(String encryptedSecret) {
+				v.secret.push(encryptedSecret);
+				success.$invoke();
 			}
 		}, failure);
 	}
