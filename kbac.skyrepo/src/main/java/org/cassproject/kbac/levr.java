@@ -44,6 +44,8 @@ public class levr {
 		return null;
 	}
 
+	public static Function0 forEach;//(Object obj, String paramName, String valueName, Object resolvable, Boolean outputAsArray, Boolean threaded, Boolean saveMemory, Boolean soft, Boolean rethrow){return null;}
+
 	public static String jsonLdToNQuads(Object o) {
 		return null;
 	}
