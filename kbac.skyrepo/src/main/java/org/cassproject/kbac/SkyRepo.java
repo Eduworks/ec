@@ -142,9 +142,7 @@ public class SkyRepo {
 					Object result = null;
 					try {
 						result = JSFunctionAdapter.call(filterResults, this, ary.$get(i), null);
-					}
-					catch(RuntimeException ex)
-					{
+					} catch (RuntimeException ex) {
 						if (ex.getMessage() != "Signature Violation")
 							throw ex;
 					}
@@ -177,7 +175,7 @@ public class SkyRepo {
 					if (result != null)
 						JSObjectAdapter.$put(rld, key, result);
 					else
-						JSObjectAdapter.$put(rld,key,null);
+						JSObjectAdapter.$put(rld, key, null);
 				}
 				return rld.atIfy();
 			} else
@@ -228,16 +226,18 @@ public class SkyRepo {
 		String typeFromObj = inferTypeFromObj(o, type);
 
 		String versionPart = null;
-		if (version == null || version == "")
+		if (version == null || version == "") {
 			versionPart = "?refresh=true";
-		else
+			version = "";
+		} else
 			versionPart = "?version=" + version + "&version_type=external&refresh=true";
 
 		String url = elasticEndpoint;
 		url += "/" + typeFromObj.toLowerCase();
 		url += "/" + typeFromObj;
 		url += "/" + levr.urlEncode(id) + versionPart;
-		if (skyrepoDebug) Global.console.log("Put:" + url);
+		if (skyrepoDebug)
+			Global.console.log("Put:" + url);
 		return url;
 	}
 
@@ -245,9 +245,10 @@ public class SkyRepo {
 		String typeFromObj = inferTypeFromObj(o, type);
 
 		String versionPart = null;
-		if (version == null || version == "")
+		if (version == null || version == "") {
 			versionPart = "?refresh=true";
-		else
+			version = "";
+		} else
 			versionPart = "?version=" + version + "&version_type=external&refresh=true";
 
 		String url = elasticEndpoint;
@@ -255,7 +256,29 @@ public class SkyRepo {
 		url += "/permanent";
 		url += "/" + levr.urlEncode(id) + "." + version + versionPart;
 
-		if (skyrepoDebug) Global.console.log("PutPermanent:" + url);
+		if (skyrepoDebug)
+			Global.console.log("PutPermanent:" + url);
+		return url;
+	}
+
+
+	private static String putPermanentBaseUrl(Object o, String id, String version, String type) {
+		String typeFromObj = inferTypeFromObj(o, type);
+
+		String versionPart = null;
+		if (version == null || version == "") {
+			versionPart = "?refresh=true";
+			version = "";
+		} else
+			versionPart = "?version=" + version + "&version_type=external&refresh=true";
+
+		String url = elasticEndpoint;
+		url += "/permanent";
+		url += "/permanent";
+		url += "/" + levr.urlEncode(id) + "." + versionPart;
+
+		if (skyrepoDebug)
+			Global.console.log("PutPermanentBase:" + url);
 		return url;
 	}
 
@@ -263,9 +286,10 @@ public class SkyRepo {
 		String typeFromObj = inferTypeWithoutObj(type);
 
 		String versionPart = null;
-		if (version == null || version == "")
+		if (version == null || version == "") {
 			versionPart = "";
-		else
+			version = "";
+		} else
 			versionPart = "?version=" + version + "&version_type=external";
 
 		String url = elasticEndpoint;
@@ -279,7 +303,8 @@ public class SkyRepo {
 		else
 			url += "/" + levr.urlEncode(id);
 
-		if (skyrepoDebug) Global.console.log("Get:" + url);
+		if (skyrepoDebug)
+			Global.console.log("Get:" + url);
 		return url;
 	}
 
@@ -292,7 +317,8 @@ public class SkyRepo {
 		url += "/" + levr.urlEncode(id);
 		url += "?refresh=true";
 
-		if (skyrepoDebug) Global.console.log("Delete:" + url);
+		if (skyrepoDebug)
+			Global.console.log("Delete:" + url);
 		return url;
 	}
 
@@ -332,7 +358,8 @@ public class SkyRepo {
 		//ex: Public keys (@owner, @reader)
 		String url = putUrl(o, id, version, type);
 		o = flattenLangstrings(o);
-		if (skyrepoDebug) Global.console.log(Global.JSON.stringify(o));
+		if (skyrepoDebug)
+			Global.console.log(Global.JSON.stringify(o));
 		return levr.httpPost(o, url, "application/json", false);
 	}
 
@@ -348,16 +375,22 @@ public class SkyRepo {
 			JSObjectAdapter.$put(doc, "enabled", false);
 
 			Object result = levr.httpPut(mappings, elasticEndpoint + "/permanent", "application/json");
-			if (skyrepoDebug) Global.console.log(Global.JSON.stringify(result));
+			if (skyrepoDebug)
+				Global.console.log(Global.JSON.stringify(result));
 			//if ((Boolean) JSObjectAdapter.$get(result, "acknowledged") == true)
 //            JSObjectAdapter.$put(permanentCreated, type, true);
 			permanentCreated = true;
 		}
 		Object data = new Object();
 		JSObjectAdapter.$put(data, "data", Global.JSON.stringify(o));
-		String url = putPermanentUrl(o, id, version, type);
+		String url = putPermanentBaseUrl(o, id, version, type);
 		Object out = levr.httpPost(data, url, "application/json", false);
-		if (skyrepoDebug) Global.console.log(Global.JSON.stringify(out));
+		if (version != null && version != "") {
+			url = putPermanentUrl(o, id, version, type);
+			out = levr.httpPost(data, url, "application/json", false);
+		}
+		if (skyrepoDebug)
+			Global.console.log(Global.JSON.stringify(out));
 		return Global.JSON.stringify(out);
 	}
 
@@ -412,17 +445,6 @@ public class SkyRepo {
 		@Override
 		public Object $invoke(String id, String version, String type) {
 			Object versionRetrievalObject = null;
-			if (version == null) {
-				versionRetrievalObject =
-						JSFunctionAdapter.call(skyrepoGetIndex, this, id, version, type, null);
-				if (versionRetrievalObject != null)
-					version = (String) JSObjectAdapter.$get(versionRetrievalObject, "_version");
-				if (versionRetrievalObject != null)
-					type = (String) JSObjectAdapter.$get(versionRetrievalObject, "_type");
-			}
-
-			if (version == null)
-				return null;
 
 			//TODO: Validate inputs
 			Object result = skyrepoGetPermanent(id, version, type);
@@ -480,7 +502,7 @@ public class SkyRepo {
 			Object filtered = null;
 			try {
 				filtered = JSFunctionAdapter.call(filterResults, this, result, null);
-			}catch (RuntimeException ex){
+			} catch (RuntimeException ex) {
 				if (ex.getMessage() != "Signature Violation")
 					throw ex;
 			}
@@ -673,9 +695,9 @@ public class SkyRepo {
 				if (type != null)
 					hit += type + "/";
 				hit += id + "/" + version;
-				hits.$set(i,hit);
+				hits.$set(i, hit);
 			}
-			searchResults = JSFunctionAdapter.call((Array) levr.forEach,this,hits, "obj", null, LevrResolverServlet.resolvableFunctions.get("endpointSingleGet"), true, true, false, true, false);
+			searchResults = JSFunctionAdapter.call((Array) levr.forEach, this, hits, "obj", null, LevrResolverServlet.resolvableFunctions.get("endpointSingleGet"), true, true, false, true, false);
 
 			return searchResults;
 		}
@@ -806,9 +828,43 @@ public class SkyRepo {
 		@Override
 		public Object $invoke() {
 			Array ary = (Array) Global.JSON.parse(levr.fileToString(JSFunctionAdapter.call(levr.fileFromDatastream, this, "data", null)));
+			Object lookup = new Object();
+			Object mget = new Object();
+			Array docs = new Array();
+			JSObjectAdapter.$put(mget,"docs",docs);
+			for (int i = 0;i < ary.$length();i++)
+			{
+				String urlRemainder = (String) ary.$get(i);
+				Object parseParams = JSFunctionAdapter.call(queryParse, this, urlRemainder, null);
+				String id = (String) JSObjectAdapter.$get(parseParams, "id");
+				JSObjectAdapter.$put(lookup,id,urlRemainder);
+				String type = (String) JSObjectAdapter.$get(parseParams, "type");
+				String version = (String) JSObjectAdapter.$get(parseParams, "version");
+				Object p = new Object();
+				JSObjectAdapter.$put(p,"_index","permanent");
+				JSObjectAdapter.$put(p,"_type","permanent");
+				JSObjectAdapter.$put(p,"_id",id+"."+(version == null ? "" : version));
+				docs.push(p);
+			}
+			Object response = levr.httpPost(mget, elasticEndpoint + "/_mget", "application/json", false);
 			Array results = new Array();
+			Array resultDocs = (Array)JSObjectAdapter.$get(results,"docs");
+			for (int i = 0;i < docs.$length();i++)
+			{
+				Object doc = resultDocs.$get(i);
+				if ((Boolean)JSObjectAdapter.$get(doc,"found"))
+				{
+					JSObjectAdapter.$properties(lookup).$delete(((String)JSObjectAdapter.$get(doc,"_id")).substring(0,((String)JSObjectAdapter.$get(doc,"_id")).length()-1));
+					results.push(JSObjectAdapter.$get(JSObjectAdapter.$get(doc,"_source"),"data"));
+				}
+			}
+			ary = EcObject.keys(lookup);
+			for (int i = 0;i < ary.$length();i++)
+				ary.$set(i,JSObjectAdapter.$get(lookup,(String)ary.$get(i)));
 			if (ary != null) {
-				results = JSFunctionAdapter.call((Array) levr.forEach,this,ary, "obj", null, LevrResolverServlet.resolvableFunctions.get("endpointSingleGet"), true, true, false, true, false);
+				Array forEachResults = JSFunctionAdapter.call((Array) levr.forEach, this, ary, "obj", null, LevrResolverServlet.resolvableFunctions.get("endpointSingleGet"), true, true, false, true, false);
+				for (int i = 0;i < forEachResults.$length();i++)
+					results.push(Global.JSON.parse((String)forEachResults.$get(i)));
 			}
 			return Global.JSON.stringify(results);
 		}
