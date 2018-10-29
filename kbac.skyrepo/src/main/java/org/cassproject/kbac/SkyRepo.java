@@ -229,7 +229,7 @@ public class SkyRepo {
 
 		String versionPart = null;
 		if (version == null || version == "")
-			versionPart = "?refresh=wait_for";
+			versionPart = "?refresh=true";
 		else
 			versionPart = "?version=" + version + "&version_type=external&refresh=true";
 
