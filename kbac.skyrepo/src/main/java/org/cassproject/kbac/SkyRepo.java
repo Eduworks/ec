@@ -259,7 +259,6 @@ public class SkyRepo {
 		return url;
 	}
 
-
 	private static String putPermanentBaseUrl(Object o, String id, String version, String type) {
 		String versionPart = null;
 		if (version == null || version == "") {
@@ -315,6 +314,18 @@ public class SkyRepo {
 
 		if (skyrepoDebug)
 			Global.console.log("Delete:" + url);
+		return url;
+	}
+
+	private static String deletePermanentBaseUrl(String id, String version, String type) {
+
+		String url = elasticEndpoint;
+		url += "/permanent";
+		url += "/permanent";
+		url += "/" + levr.urlEncode(id) + ".";
+
+		if (skyrepoDebug)
+			Global.console.log("DeletePermanentBase:" + url);
 		return url;
 	}
 
@@ -583,8 +594,8 @@ public class SkyRepo {
 	}
 
 	public static String skyrepoDeleteInternalPermanent(String id, String version, String type) {
-		//TODO: Delete the data IFF it has no version (isRegistered).
-		return null;
+		String url = deletePermanentBaseUrl(id, version, type);
+		return levr.httpDelete(url);
 	}
 
 	public static Callback3<String, String, String> skyrepoDelete = new Callback3<String, String, String>() {
