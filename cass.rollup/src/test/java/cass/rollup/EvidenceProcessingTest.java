@@ -287,6 +287,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase {
 		deleteById(f.shortId());
 		deleteById(c.shortId());
 		deleteById(c2.shortId());
+		deleteById(c3.shortId());
 		deleteById(a.shortId());
 		deleteById(r.shortId());
 		deleteById(r2.shortId());
@@ -326,6 +327,7 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase {
 		deleteById(f.shortId());
 		deleteById(c.shortId());
 		deleteById(c2.shortId());
+		deleteById(c3.shortId());
 		deleteById(a.shortId());
 		deleteById(r.shortId());
 	}

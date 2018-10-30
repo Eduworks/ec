@@ -871,7 +871,7 @@ public class SkyRepo {
 			if (ary != null) {
 				Array forEachResults = JSFunctionAdapter.call((Array) levr.forEach, this, ary, "obj", null, LevrResolverServlet.resolvableFunctions.get("endpointSingleGet"), true, true, false, true, false);
 				for (int i = 0;i < forEachResults.$length();i++)
-					results.push(Global.JSON.parse((String)forEachResults.$get(i)));
+					results.push(forEachResults.$get(i));
 			}
 			return Global.JSON.stringify(results);
 		}
