@@ -242,8 +242,6 @@ public class SkyRepo {
 	}
 
 	private static String putPermanentUrl(Object o, String id, String version, String type) {
-		String typeFromObj = inferTypeFromObj(o, type);
-
 		String versionPart = null;
 		if (version == null || version == "") {
 			versionPart = "?refresh=true";
@@ -263,8 +261,6 @@ public class SkyRepo {
 
 
 	private static String putPermanentBaseUrl(Object o, String id, String version, String type) {
-		String typeFromObj = inferTypeFromObj(o, type);
-
 		String versionPart = null;
 		if (version == null || version == "") {
 			versionPart = "?refresh=true";
@@ -847,15 +843,15 @@ public class SkyRepo {
 				docs.push(p);
 			}
 			Object response = levr.httpPost(mget, elasticEndpoint + "/_mget", "application/json", false);
+			Array resultDocs = (Array)JSObjectAdapter.$get(response,"docs");
 			Array results = new Array();
-			Array resultDocs = (Array)JSObjectAdapter.$get(results,"docs");
-			for (int i = 0;i < docs.$length();i++)
+			for (int i = 0;i < resultDocs.$length();i++)
 			{
 				Object doc = resultDocs.$get(i);
 				if ((Boolean)JSObjectAdapter.$get(doc,"found"))
 				{
 					JSObjectAdapter.$properties(lookup).$delete(((String)JSObjectAdapter.$get(doc,"_id")).substring(0,((String)JSObjectAdapter.$get(doc,"_id")).length()-1));
-					results.push(JSObjectAdapter.$get(JSObjectAdapter.$get(doc,"_source"),"data"));
+					results.push(Global.JSON.parse((String)JSObjectAdapter.$get(JSObjectAdapter.$get(doc,"_source"),"data")));
 				}
 			}
 			ary = EcObject.keys(lookup);
