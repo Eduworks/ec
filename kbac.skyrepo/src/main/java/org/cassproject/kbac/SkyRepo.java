@@ -586,9 +586,6 @@ public class SkyRepo {
 	};
 
 	public static String skyrepoDeleteInternalIndex(String id, String version, String type) {
-		//TODO: Validate inputs.
-		//skyrepoPutInternalTypeCheck(false,o,type);
-
 		String url = deleteUrl(id, version, type);
 		return levr.httpDelete(url);
 	}
@@ -865,6 +862,7 @@ public class SkyRepo {
 					results.push(Global.JSON.parse((String)JSObjectAdapter.$get(JSObjectAdapter.$get(doc,"_source"),"data")));
 				}
 			}
+			JSFunctionAdapter.call(filterResults, this, results, null);
 			ary = EcObject.keys(lookup);
 			for (int i = 0;i < ary.$length();i++)
 				ary.$set(i,JSObjectAdapter.$get(lookup,(String)ary.$get(i)));
