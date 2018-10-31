@@ -885,7 +885,7 @@ public class SkyRepo {
 			String version = (String) JSObjectAdapter.$get(parseParams, "version");
 			Object o = JSFunctionAdapter.call(skyrepoGetParsed, this, id, version, type, null);
 			if (o != null)
-				return Global.JSON.parse(((EcRemoteLinkedData) o).toJson());
+				return o;
 			return null;
 		}
 	};
