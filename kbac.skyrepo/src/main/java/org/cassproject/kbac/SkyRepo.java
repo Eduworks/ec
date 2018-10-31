@@ -154,13 +154,13 @@ public class SkyRepo {
 				}
 				return ary;
 			} else if (EcObject.isObject(o)) {
-				EcRemoteLinkedData rld = new EcRemoteLinkedData(null, null);
-				rld.copyFrom(o);
+				EcRemoteLinkedData rld = new EcRemoteLinkedData((String)JSObjectAdapter.$get(o,"@context"), (String)JSObjectAdapter.$get(o,"@type"));
+				rld.reader = (Array<String>)JSObjectAdapter.$get(o,"@reader");
 				if ((rld.reader != null && rld.reader.$length() != 0) || isEncryptedType(rld)) {
 					Array<EbacSignature> signatures = JSFunctionAdapter.call(signatureSheet, this);
 					boolean foundSignature = false;
 					for (int i = 0; i < signatures.$length(); i++)
-						if (rld.toJson().indexOf(signatures.$get(i).owner) != -1) {
+						if (Global.JSON.stringify(o).indexOf(signatures.$get(i).owner) != -1) {
 							foundSignature = true;
 							break;
 						}
@@ -173,11 +173,11 @@ public class SkyRepo {
 					Object result = null;
 					result = JSFunctionAdapter.call(filterResults, this, JSObjectAdapter.$get(o, key), null);
 					if (result != null)
-						JSObjectAdapter.$put(rld, key, result);
+						JSObjectAdapter.$put(o, key, result);
 					else
-						JSObjectAdapter.$put(rld, key, null);
+						JSObjectAdapter.$properties(o).$delete(key);
 				}
-				return rld.atIfy();
+				return o;
 			} else
 				return o;
 		}
