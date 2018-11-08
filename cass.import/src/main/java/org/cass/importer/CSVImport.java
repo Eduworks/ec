@@ -87,9 +87,9 @@ public class CSVImport {
 	 * @static
 	 */
 	private static void transformId(String oldId, EcRemoteLinkedData newObject, String selectedServer,EcRepository repo) {
-		if (oldId == null || oldId == "")
+		if (oldId == null || oldId == "" || oldId.indexOf("http") == -1)
 			newObject.assignId(selectedServer, oldId);
-		else if (oldId.indexOf("http") != -1) {
+		else {
 			if (EcCompetency.getBlocking(oldId) == null)
 				newObject.id = oldId;
 			else {
