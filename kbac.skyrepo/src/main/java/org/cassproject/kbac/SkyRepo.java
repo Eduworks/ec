@@ -853,13 +853,13 @@ public class SkyRepo {
 			Object response = levr.httpPost(mget, elasticEndpoint + "/_mget", "application/json", false);
 			Array resultDocs = (Array)JSObjectAdapter.$get(response,"docs");
 			Array results = new Array();
-			for (int i = 0;i < resultDocs.$length();i++)
-			{
-				Object doc = resultDocs.$get(i);
-				if ((Boolean)JSObjectAdapter.$get(doc,"found"))
-				{
-					JSObjectAdapter.$properties(lookup).$delete(((String)JSObjectAdapter.$get(doc,"_id")).substring(0,((String)JSObjectAdapter.$get(doc,"_id")).length()-1));
-					results.push(Global.JSON.parse((String)JSObjectAdapter.$get(JSObjectAdapter.$get(doc,"_source"),"data")));
+			if (resultDocs != null) {
+				for (int i = 0; i < resultDocs.$length(); i++) {
+					Object doc = resultDocs.$get(i);
+					if ((Boolean) JSObjectAdapter.$get(doc, "found")) {
+						JSObjectAdapter.$properties(lookup).$delete(((String) JSObjectAdapter.$get(doc, "_id")).substring(0, ((String) JSObjectAdapter.$get(doc, "_id")).length() - 1));
+						results.push(Global.JSON.parse((String) JSObjectAdapter.$get(JSObjectAdapter.$get(doc, "_source"), "data")));
+					}
 				}
 			}
 			JSFunctionAdapter.call(filterResults, this, results, null);
