@@ -66,7 +66,7 @@ public class SkyId {
 
 			Object get = JSFunctionAdapter.call(SkyRepo.skyrepoGetParsed, this, saltedId,null,"schema.cassproject.org.kbac.0.2.EncryptedValue",null);
 			if (get != null)
-			get = Global.JSON.parse(EcAesCtr.decrypt((String) JSObjectAdapter.$get(get, "payload"), skyIdSecretKey, saltedId));
+				get = Global.JSON.parse(EcAesCtr.decrypt((String) JSObjectAdapter.$get(get, "payload"), skyIdSecretKey, saltedId));
 
 			EcEncryptedValue encryptedPayload = new EcEncryptedValue();
 			encryptedPayload.addOwner(skyIdPem.toPk());
@@ -181,18 +181,37 @@ public class SkyId {
 		}
 	};
 
+	static String loadConfigurationFile(String path,Function0 dflt)
+	{
+		if (levr.fileExists(path))
+			return levr.fileToString(levr.fileLoad(path));
+		if (levr.fileExists("etc/"+path))
+			return levr.fileToString(levr.fileLoad("etc/"+path));
+		levr.fileSave(dflt.$invoke(),"etc/"+path);
+		return levr.fileToString(levr.fileLoad("etc/"+path));
+	}
+
 	static {
-		if (!levr.fileExists("skyId.username.public.salt"))
-			levr.fileSave(levr.randomString(2048), "skyId.username.public.salt");
-		usernameSalt = levr.fileToString(levr.fileLoad("skyId.username.public.salt"));
+		usernameSalt = loadConfigurationFile("skyId.username.public.salt",new Function0(){
+			@Override
+			public Object $invoke() {
+				return levr.randomString(2048);
+			}
+		});
 
-		if (!levr.fileExists("skyId.password.public.salt"))
-			levr.fileSave(levr.randomString(2048), "skyId.password.public.salt");
-		passwordSalt = levr.fileToString(levr.fileLoad("skyId.password.public.salt"));
+		passwordSalt = loadConfigurationFile("skyId.password.public.salt",new Function0(){
+			@Override
+			public Object $invoke() {
+				return levr.randomString(2048);
+			}
+		});
 
-		if (!levr.fileExists("skyId.secret.public.salt"))
-			levr.fileSave(levr.randomString(2048), "skyId.secret.public.salt");
-		secretSalt = levr.fileToString(levr.fileLoad("skyId.secret.public.salt"));
+		secretSalt = loadConfigurationFile("skyId.secret.public.salt",new Function0(){
+			@Override
+			public Object $invoke() {
+				return levr.randomString(2048);
+			}
+		});
 
 		JSObjectAdapter.$put(cachedSalts, "usernameSalt", usernameSalt);
 		JSObjectAdapter.$put(cachedSalts, "usernameIterations", 5000);
@@ -204,19 +223,28 @@ public class SkyId {
 		JSObjectAdapter.$put(cachedSalts, "secretIterations", 5000);
 		JSObjectAdapter.$put(cachedSalts, "secretLength", 64);
 
-		if (!levr.fileExists("skyId.salt"))
-			levr.fileSave(levr.randomString(2048), "skyId.salt");
-		skyIdSalt = levr.fileToString(levr.fileLoad("skyId.salt"));
+		skyIdSalt = loadConfigurationFile("skyId.salt",new Function0(){
+			@Override
+			public Object $invoke() {
+				return levr.randomString(2048);
+			}
+		});
 
-		if (!levr.fileExists("skyId.secret"))
-			levr.fileSave(levr.randomString(2048), "skyId.secret");
-		skyIdSecretStr = levr.fileToString(levr.fileLoad("skyId.secret"));
+		skyIdSecretStr = loadConfigurationFile("skyId.secret",new Function0(){
+			@Override
+			public Object $invoke() {
+				return levr.randomString(2048);
+			}
+		});
 
 		skyIdSecretKey = util.encode64(pkcs5.pbkdf2(skyIdSecretStr,skyIdSalt,10000,16));
 
-		if (!levr.fileExists("skyId.pem"))
-			levr.fileSave(EcPpk.fromPem(levr.rsaGenerate()).toPem(), "skyId.pem");
-		skyIdPem = EcPpk.fromPem(levr.fileToString(levr.fileLoad("skyId.pem")));
+		skyIdPem = EcPpk.fromPem(loadConfigurationFile("skyId.pem",new Function0(){
+			@Override
+			public Object $invoke() {
+				return EcPpk.fromPem(levr.rsaGenerate()).toPem();
+			}
+		}));
 
 		levr.bindWebService("/sky/id/salts", salts);
 		levr.bindWebService("/sky/id/create", skyIdCreate);
