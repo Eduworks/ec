@@ -364,7 +364,7 @@ public class SkyRepo {
 		//TODO: Normalize data that should be normalized.
 		//ex: Public keys (@owner, @reader)
 		String url = putUrl(o, id, version, type);
-		o = flattenLangstrings(o);
+		o = flattenLangstrings(Global.JSON.parse(Global.JSON.stringify(o)));
 		if (skyrepoDebug)
 			Global.console.log(Global.JSON.stringify(o));
 		return levr.httpPost(o, url, "application/json", false);
