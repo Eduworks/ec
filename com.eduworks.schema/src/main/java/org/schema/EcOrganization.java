@@ -92,4 +92,24 @@ public class EcOrganization extends Organization {
         }
     }
 
+    /**
+     * Attempts to find and return the organization's fingerprint from the id.
+     *
+     * @return {String}
+     * @method getFingerprintFromId
+     */
+    public String getFingerprintFromId() {
+        return getGuid();
+    }
+
+    /**
+     * Attempts to find and return the organization's fingerprint from the id.
+     *
+     * @return {String}
+     * @method getFingerprintFromId
+     */
+    public String getFingerprint() {
+        return getGuid();
+    }
+
 }

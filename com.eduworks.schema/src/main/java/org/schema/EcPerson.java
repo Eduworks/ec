@@ -63,11 +63,17 @@ public class EcPerson extends Person {
      * @method getFingerprintFromId
      */
     public String getFingerprintFromId() {
-        String fp = null;
-        String sid = shortId();
-        int n = sid.lastIndexOf("/");
-        if (n > -1) fp = sid.substring(n + 1);
-        return fp;
+        return getGuid();
+    }
+
+    /**
+     * Attempts to find and return the person's fingerprint from the id.
+     *
+     * @return {String}
+     * @method getFingerprintFromId
+     */
+    public String getFingerprint() {
+        return getGuid();
     }
 
 }
