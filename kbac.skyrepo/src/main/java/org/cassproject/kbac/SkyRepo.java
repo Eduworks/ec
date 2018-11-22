@@ -944,7 +944,7 @@ public class SkyRepo {
 	public static String skyrepoAdminPpk() {
 		if (!levr.fileExists("skyAdmin.pem"))
 			levr.fileSave(EcPpk.fromPem(levr.rsaGenerate()).toPem(), "skyAdmin.pem");
-		return levr.fileToString(levr.fileLoad("skyAdmin.pem"));
+		return EcPpk.fromPem(levr.fileToString(levr.fileLoad("skyAdmin.pem"))).toPk().toPem();
 	}
 
 	public static Array<String> skyrepoAdminList() {
@@ -957,6 +957,6 @@ public class SkyRepo {
 		levr.bindWebService("/data", endpointData);
 		levr.bindWebService("/sky/repo/search", skyRepoSearch);
 		levr.bindWebService("/sky/repo/multiGet", endpointMultiGet);
-		levr.bindWebService("/sky/repo/admin", endpointAdmin);
+		levr.bindWebService("/sky/admin", endpointAdmin);
 	}
 }
