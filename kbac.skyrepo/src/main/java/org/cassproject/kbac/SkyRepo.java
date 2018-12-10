@@ -942,9 +942,9 @@ public class SkyRepo {
 	//skyrepo.rs2 done
 	//skyrepo.admin.rs2 start
 	public static String skyrepoAdminPpk() {
-		if (!levr.fileExists("skyAdmin.pem"))
-			levr.fileSave(EcPpk.fromPem(levr.rsaGenerate()).toPem(), "skyAdmin.pem");
-		return EcPpk.fromPem(levr.fileToString(levr.fileLoad("skyAdmin.pem"))).toPk().toPem();
+		if (!levr.fileExists("etc/skyAdmin.pem"))
+			levr.fileSave(EcPpk.fromPem(levr.rsaGenerate()).toPem(), "etc/skyAdmin.pem");
+		return levr.fileToString(levr.fileLoad("etc/skyAdmin.pem"));
 	}
 
 	public static Array<String> skyrepoAdminList() {
