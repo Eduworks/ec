@@ -1,7 +1,9 @@
 package org.schema;
 
+import com.eduworks.ec.array.EcArray;
 import com.eduworks.ec.array.EcObject;
 import org.cassproject.schema.general.EcRemoteLinkedData;
+import org.stjs.javascript.Array;
 import org.stjs.javascript.JSObjectAdapter;
 
 /**
@@ -119,11 +121,8 @@ public class Thing extends EcRemoteLinkedData {
 	 * @method getName
 	 */
 	public String getName() {
-		if (this.name != null && EcObject.isObject(this.name) && JSObjectAdapter.hasOwnProperty(this.name, "@value")) {
-			return (String) JSObjectAdapter.$get(this.name, "@value");
-		} else {
-			return this.name;
-		}
+		Object n = this.name;
+		return getDisplayStringFrom(n);
 	}
 
 	/**
@@ -153,11 +152,19 @@ public class Thing extends EcRemoteLinkedData {
 	 * @method getDescription
 	 */
 	public String getDescription() {
-		if (this.description != null && EcObject.isObject(this.description) && JSObjectAdapter.hasOwnProperty(this.description, "@value")) {
-			return (String) JSObjectAdapter.$get(this.description, "@value");
-		} else {
-			return this.description;
+		Object n = this.description;
+		return getDisplayStringFrom(n);
+	}
+
+	public static String getDisplayStringFrom(Object n) {
+		if (n != null && EcArray.isArray(n)) {
+			if (((Array) n).$length() > 0)
+				n = ((Array) n).$get(0);
 		}
+		if (n != null && EcObject.isObject(n) && JSObjectAdapter.hasOwnProperty(n, "@value")) {
+			return (String) JSObjectAdapter.$get(n, "@value");
+		}
+		return (String) n;
 	}
 
 	/**
