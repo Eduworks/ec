@@ -6,7 +6,6 @@ import org.cass.competency.EcFramework;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
-import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback1;
@@ -66,8 +65,8 @@ public class FrameworkCollapser {
         for (int i=0;i<competencyArray.$length();i++) {
             cmp = competencyArray.$get(i);
             n = new Node(cmp.shortId());
-            n.setName(cmp.name);
-            n.setDescription(cmp.description);
+            n.setName(cmp.getName());
+            n.setDescription(cmp.getDescription());
             frameworkNodeGraph.addNode(n);
             competencyNodeMap.$put(cmp.shortId(),n);
         }
