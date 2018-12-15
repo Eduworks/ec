@@ -479,7 +479,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
      * @method updateTimestamp
      */
     public Integer getTimestamp() {
-        return Integer.parseInt(id.substring(id.lastIndexOf("/")));
+        return Integer.parseInt(id.substring(id.lastIndexOf("/")+1));
     }
 
     /**
