@@ -13,9 +13,6 @@ public class sha256 {
 	public void update(String text, String encoding) {
 	}
 
-	public static String hex(String text) {
-	}
-
 	public payload digest() {
 		return null;
 	}

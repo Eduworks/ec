@@ -3,9 +3,11 @@ package cass.rollup.coprocessor.ims;
 import cass.rollup.InquiryPacket;
 import cass.rollup.coprocessor.AssertionCoprocessor;
 import com.eduworks.ec.array.EcAsyncHelper;
-import forge.sha256;
+import com.eduworks.ec.crypto.EcCrypto;
+import com.eduworks.ec.crypto.EcPk;
 import org.cass.profile.EcAssertion;
 import org.cassproject.ebac.repository.EcRepository;
+import org.cassproject.schema.cass.profile.Assertion;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Date;
@@ -17,6 +19,7 @@ import org.stjs.javascript.functions.Callback2;
 public class OpenBadgeCoprocessor extends AssertionCoprocessor {
 
     public String email = null;
+    public EcPk badgePluginIdentifier = null;
     public Double confidenceOfBadges = 1.0;
 
     @Override
@@ -56,9 +59,13 @@ public class OpenBadgeCoprocessor extends AssertionCoprocessor {
                                     @Override
                                     public void $invoke(Array<EcRemoteLinkedData> badgeAssertions) {
                                         for (int j = 0; j < badgeAssertions.$length(); j++) {
-                                            String hash = sha256.hex(email + JSObjectAdapter.$get(JSObjectAdapter.$get(badgeAssertions.$get(j), "recipient"), "salt"));
-                                            if ("sha256$" + hash.toLowerCase() != JSObjectAdapter.$get(JSObjectAdapter.$get(badgeAssertions.$get(j), "recipient"), "identity"))
+                                            String hash = EcCrypto.sha256(me.email + JSObjectAdapter.$get(JSObjectAdapter.$get(badgeAssertions.$get(j), "recipient"), "salt"));
+                                            if ("sha256$" + hash.toLowerCase() != JSObjectAdapter.$get(JSObjectAdapter.$get(badgeAssertions.$get(j), "recipient"), "identity")) {
+                                                me.assertionProcessor.log(ip,me.email + " hashed with salt != " + JSObjectAdapter.$get(JSObjectAdapter.$get(badgeAssertions.$get(j), "recipient"), "identity"));
                                                 badgeAssertions.splice(j--, 1);
+                                            }
+                                            else
+                                                me.assertionProcessor.log(ip,me.email + " hashed with salt == " + JSObjectAdapter.$get(JSObjectAdapter.$get(badgeAssertions.$get(j), "recipient"), "identity"));
                                         }
                                         for (int j = 0;j < badgeAssertions.$length();j++)
                                         {
@@ -67,11 +74,14 @@ public class OpenBadgeCoprocessor extends AssertionCoprocessor {
                                                 for (int k = 0;k < alignments.$length();k++)
                                                 {
                                                     Object alignment = alignments.$get(k);
-                                                    EcAssertion a = new EcAssertion();
+                                                    EcAssertion a = (EcAssertion)new Assertion();
+                                                    a.addOwner(ip.subject.$get(0));
                                                     a.setSubject(ip.subject.$get(0));
+                                                    a.setAgent(me.badgePluginIdentifier);
                                                     a.competency = (String) JSObjectAdapter.$get(alignment,"targetUrl");
+                                                    me.assertionProcessor.log(ip,"Generating Assertion for competency: " + (String) JSObjectAdapter.$get(alignment,"targetUrl"));
                                                     a.framework = (String) JSObjectAdapter.$get(alignment,"targetFramework");
-                                                    a.confidence = confidenceOfBadges;
+                                                    a.confidence = me.confidenceOfBadges;
                                                     Array<String> evidence = new Array<>();
                                                     evidence.push(badgeAssertions.$get(j).id);
                                                     a.setEvidence(evidence);

@@ -157,7 +157,19 @@ public abstract class AssertionProcessor {
 				}, new Callback1<Array<AssertionCoprocessor>>() {
 					@Override
 					public void $invoke(Array<AssertionCoprocessor> strings) {
-						success.$invoke(ip);
+						EcAsyncHelper<AssertionCoprocessor> eah3 = new EcAsyncHelper<>();
+						eah3.each(me.coprocessors, new Callback2<AssertionCoprocessor, Callback0>() {
+							@Override
+							public void $invoke(AssertionCoprocessor ac, final Callback0 callback000) {
+								ac.assertionProcessor = me;
+								ac.mutateAssertions(ip, listOfActivatedCompetencies,callback000);
+							}
+						}, new Callback1<Array<AssertionCoprocessor>>() {
+							@Override
+							public void $invoke(Array<AssertionCoprocessor> strings) {
+								success.$invoke(ip);
+							}
+						});
 					}
 				});
 			}

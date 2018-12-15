@@ -23,5 +23,8 @@ public class util {
 		return null;
 	}
 
+	public static String bytesToHex(String text) {
+		return null;
+	}
 
 }
