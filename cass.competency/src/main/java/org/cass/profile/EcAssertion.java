@@ -257,20 +257,44 @@ public class EcAssertion extends Assertion {
 							EcRepository.get(url, new Callback1<EcRemoteLinkedData>() {
 								@Override
 								public void $invoke(EcRemoteLinkedData personOrOrganization) {
-									if (personOrOrganization == null) {
-										callback0.$invoke();
-										return;
-									}
-									String name = Thing.getDisplayStringFrom(JSObjectAdapter.$get(personOrOrganization, "name"));
-									if (name != null && repoHelper.counter != -1) {
-										success.$invoke(name);
-										repoHelper.stop();
+									EcEncryptedValue e = new EcEncryptedValue();
+									if (personOrOrganization.isAny(e.getTypes())) {
+										e.copyFrom(personOrOrganization);
+										e.decryptIntoObjectAsync(new Callback1<EcRemoteLinkedData>() {
+											@Override
+											public void $invoke(EcRemoteLinkedData decryptedPersonOrOrganization) {
+												String name = Thing.getDisplayStringFrom(JSObjectAdapter.$get(decryptedPersonOrOrganization, "name"));
+												if (name != null && repoHelper.counter != -1) {
+													success.$invoke(name);
+													repoHelper.stop();
+												} else {
+													callback0.$invoke();
+													return;
+												}
+											}
+										}, new Callback1<String>() {
+											@Override
+											public void $invoke(String s) {
+												callback0.$invoke();
+											}
+										});
 									} else {
-										callback0.$invoke();
-										return;
+										String name = Thing.getDisplayStringFrom(JSObjectAdapter.$get(personOrOrganization, "name"));
+										if (name != null && repoHelper.counter != -1) {
+											success.$invoke(name);
+											repoHelper.stop();
+										} else {
+											callback0.$invoke();
+											return;
+										}
 									}
 								}
-							}, failure);
+							}, new Callback1<String>() {
+								@Override
+								public void $invoke(String s) {
+									callback0.$invoke();
+								}
+							});
 						}
 					}, new Callback1<Array<EcRepository>>() {
 						@Override
@@ -298,6 +322,13 @@ public class EcAssertion extends Assertion {
 			url += "data/" + agentPk.fingerprint();
 			EcRemoteLinkedData personOrOrganization = EcRepository.getBlocking(url);
 			if (personOrOrganization == null) continue;
+			EcEncryptedValue e = new EcEncryptedValue();
+			if (personOrOrganization.isAny(e.getTypes())) {
+				e.copyFrom(personOrOrganization);
+				EcRemoteLinkedData decryptedPersonOrOrganization = e.decryptIntoObject();
+				if (decryptedPersonOrOrganization != null)
+					personOrOrganization = decryptedPersonOrOrganization;
+			}
 			String name = Thing.getDisplayStringFrom(JSObjectAdapter.$get(personOrOrganization, "name"));
 			if (name != null)
 				return name;
