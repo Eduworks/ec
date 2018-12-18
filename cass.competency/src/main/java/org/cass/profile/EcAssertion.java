@@ -234,75 +234,77 @@ public class EcAssertion extends Assertion {
 			@Override
 			public void $invoke(final EcPk pk) {
 				EcIdentity identity = EcIdentityManager.getIdentity(pk);
-				if (identity != null && identity.displayName != null) {
-					success.$invoke(identity.displayName + " (You)");
-					return;
-				}
+				if (identity != null && identity.displayName != null)
+					if (identity.displayName != "You" && identity.displayName.indexOf("Alias") != -1) {
+						success.$invoke(identity.displayName + " (You)");
+						return;
+					}
 				EcContact contact = EcIdentityManager.getContact(pk);
 				if (contact != null && contact.displayName != null)
-					success.$invoke(contact.displayName);
-				else {
-					final EcAsyncHelper<EcRepository> repoHelper = new EcAsyncHelper<>();
-					repoHelper.each(EcRepository.repos, new Callback2<EcRepository, Callback0>() {
-						@Override
-						public void $invoke(EcRepository ecRepository, final Callback0 callback0) {
-							String url = ecRepository.selectedServer;
-							if (url == null) {
-								callback0.$invoke();
-								return;
-							}
-							if (url.endsWith("/") == false)
-								url += "/";
-							url += "data/" + pk.fingerprint();
-							EcRepository.get(url, new Callback1<EcRemoteLinkedData>() {
-								@Override
-								public void $invoke(EcRemoteLinkedData personOrOrganization) {
-									EcEncryptedValue e = new EcEncryptedValue();
-									if (personOrOrganization.isAny(e.getTypes())) {
-										e.copyFrom(personOrOrganization);
-										e.decryptIntoObjectAsync(new Callback1<EcRemoteLinkedData>() {
-											@Override
-											public void $invoke(EcRemoteLinkedData decryptedPersonOrOrganization) {
-												String name = Thing.getDisplayStringFrom(JSObjectAdapter.$get(decryptedPersonOrOrganization, "name"));
-												if (name != null && repoHelper.counter != -1) {
-													success.$invoke(name);
-													repoHelper.stop();
-												} else {
-													callback0.$invoke();
-													return;
-												}
-											}
-										}, new Callback1<String>() {
-											@Override
-											public void $invoke(String s) {
+					if (contact.displayName != "You" && contact.displayName.indexOf("Alias") != -1) {
+						success.$invoke(contact.displayName);
+						return;
+					}
+				final EcAsyncHelper<EcRepository> repoHelper = new EcAsyncHelper<>();
+				repoHelper.each(EcRepository.repos, new Callback2<EcRepository, Callback0>() {
+					@Override
+					public void $invoke(EcRepository ecRepository, final Callback0 callback0) {
+						String url = ecRepository.selectedServer;
+						if (url == null) {
+							callback0.$invoke();
+							return;
+						}
+						if (url.endsWith("/") == false)
+							url += "/";
+						url += "data/" + pk.fingerprint();
+						EcRepository.get(url, new Callback1<EcRemoteLinkedData>() {
+							@Override
+							public void $invoke(EcRemoteLinkedData personOrOrganization) {
+								EcEncryptedValue e = new EcEncryptedValue();
+								if (personOrOrganization.isAny(e.getTypes())) {
+									e.copyFrom(personOrOrganization);
+									e.decryptIntoObjectAsync(new Callback1<EcRemoteLinkedData>() {
+										@Override
+										public void $invoke(EcRemoteLinkedData decryptedPersonOrOrganization) {
+											String name = Thing.getDisplayStringFrom(JSObjectAdapter.$get(decryptedPersonOrOrganization, "name"));
+											if (name != null && repoHelper.counter != -1) {
+												success.$invoke(name);
+												repoHelper.stop();
+											} else {
 												callback0.$invoke();
+												return;
 											}
-										});
-									} else {
-										String name = Thing.getDisplayStringFrom(JSObjectAdapter.$get(personOrOrganization, "name"));
-										if (name != null && repoHelper.counter != -1) {
-											success.$invoke(name);
-											repoHelper.stop();
-										} else {
-											callback0.$invoke();
-											return;
 										}
+									}, new Callback1<String>() {
+										@Override
+										public void $invoke(String s) {
+											callback0.$invoke();
+										}
+									});
+								} else {
+									String name = Thing.getDisplayStringFrom(JSObjectAdapter.$get(personOrOrganization, "name"));
+									if (name != null && repoHelper.counter != -1) {
+										success.$invoke(name);
+										repoHelper.stop();
+									} else {
+										callback0.$invoke();
+										return;
 									}
 								}
-							}, new Callback1<String>() {
-								@Override
-								public void $invoke(String s) {
-									callback0.$invoke();
-								}
-							});
-						}
-					}, new Callback1<Array<EcRepository>>() {
-						@Override
-						public void $invoke(Array<EcRepository> strings) {
-							success.$invoke(dflt);
-						}
-					});
-				}
+							}
+						}, new Callback1<String>() {
+							@Override
+							public void $invoke(String s) {
+								callback0.$invoke();
+							}
+						});
+					}
+				}, new Callback1<Array<EcRepository>>() {
+					@Override
+					public void $invoke(Array<EcRepository> strings) {
+						success.$invoke(dflt);
+					}
+				});
 			}
 		};
 	}
@@ -310,10 +312,12 @@ public class EcAssertion extends Assertion {
 	public static String getNameByPkBlocking(EcPk agentPk) {
 		EcIdentity identity = EcIdentityManager.getIdentity(agentPk);
 		if (identity != null && identity.displayName != null)
-			return identity.displayName + " (You)";
+			if (identity.displayName != "You" && identity.displayName.indexOf("Alias") != -1)
+				return identity.displayName + " (You)";
 		EcContact contact = EcIdentityManager.getContact(agentPk);
 		if (contact != null && contact.displayName != null)
-			return contact.displayName;
+			if (contact.displayName != "You" && contact.displayName.indexOf("Alias") != -1)
+				return contact.displayName;
 		for (int i = 0; i < EcRepository.repos.$length(); i++) {
 			String url = EcRepository.repos.$get(i).selectedServer;
 			if (url == null) continue;
