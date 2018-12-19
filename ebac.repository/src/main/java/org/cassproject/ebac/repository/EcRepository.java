@@ -119,6 +119,7 @@ public class EcRepository {
 						return;
 					}
 					if (caching) {
+						JSObjectAdapter.$put(cache, finalUrl, d);
 						JSObjectAdapter.$put(cache, d.id, d);
 						JSObjectAdapter.$put(cache, d.shortId(), d);
 					}
@@ -152,6 +153,7 @@ public class EcRepository {
 								return;
 							}
 							if (caching) {
+								JSObjectAdapter.$put(cache, finalUrl, d);
 								JSObjectAdapter.$put(cache, d.id, d);
 								JSObjectAdapter.$put(cache, d.shortId(), d);
 							}
