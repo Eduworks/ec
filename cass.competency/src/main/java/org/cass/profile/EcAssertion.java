@@ -233,18 +233,6 @@ public class EcAssertion extends Assertion {
 		return new Callback1<EcPk>() {
 			@Override
 			public void $invoke(final EcPk pk) {
-				EcIdentity identity = EcIdentityManager.getIdentity(pk);
-				if (identity != null && identity.displayName != null)
-					if (identity.displayName != "You" && identity.displayName.indexOf("Alias") != -1) {
-						success.$invoke(identity.displayName + " (You)");
-						return;
-					}
-				EcContact contact = EcIdentityManager.getContact(pk);
-				if (contact != null && contact.displayName != null)
-					if (contact.displayName != "You" && contact.displayName.indexOf("Alias") != -1) {
-						success.$invoke(contact.displayName);
-						return;
-					}
 				final EcAsyncHelper<EcRepository> repoHelper = new EcAsyncHelper<>();
 				repoHelper.each(EcRepository.repos, new Callback2<EcRepository, Callback0>() {
 					@Override
@@ -302,6 +290,16 @@ public class EcAssertion extends Assertion {
 				}, new Callback1<Array<EcRepository>>() {
 					@Override
 					public void $invoke(Array<EcRepository> strings) {
+						EcIdentity identity = EcIdentityManager.getIdentity(pk);
+						if (identity != null && identity.displayName != null) {
+							success.$invoke(identity.displayName + " (You)");
+							return;
+						}
+						EcContact contact = EcIdentityManager.getContact(pk);
+						if (contact != null && contact.displayName != null) {
+							success.$invoke(contact.displayName);
+							return;
+						}
 						success.$invoke(dflt);
 					}
 				});
@@ -310,14 +308,6 @@ public class EcAssertion extends Assertion {
 	}
 
 	public static String getNameByPkBlocking(EcPk agentPk) {
-		EcIdentity identity = EcIdentityManager.getIdentity(agentPk);
-		if (identity != null && identity.displayName != null)
-			if (identity.displayName != "You" && identity.displayName.indexOf("Alias") != -1)
-				return identity.displayName + " (You)";
-		EcContact contact = EcIdentityManager.getContact(agentPk);
-		if (contact != null && contact.displayName != null)
-			if (contact.displayName != "You" && contact.displayName.indexOf("Alias") != -1)
-				return contact.displayName;
 		for (int i = 0; i < EcRepository.repos.$length(); i++) {
 			String url = EcRepository.repos.$get(i).selectedServer;
 			if (url == null) continue;
@@ -337,6 +327,12 @@ public class EcAssertion extends Assertion {
 			if (name != null)
 				return name;
 		}
+		EcIdentity identity = EcIdentityManager.getIdentity(agentPk);
+		if (identity != null && identity.displayName != null)
+			return identity.displayName + " (You)";
+		EcContact contact = EcIdentityManager.getContact(agentPk);
+		if (contact != null && contact.displayName != null)
+			return contact.displayName;
 		return null;
 	}
 
