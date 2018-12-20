@@ -920,6 +920,7 @@
                       <li><a href="#method_getAssertion">getAssertion</a></li>
                       <li><a href="#method_getDescription">getDescription</a></li>
                       <li><a href="#method_getName">getName</a></li>
+                      <li><a href="#method_removeAssertionByShortId">removeAssertionByShortId</a></li>
                       <li><a href="#method_setDescription">setDescription</a></li>
                       <li><a href="#method_setName">setName</a></li>
                       <li><a href="#method_validate">validate</a></li>
@@ -2475,6 +2476,21 @@
           </td>
           <td>
             <div class="method-name ">
+              <a href="#method_removeAssertionByShortId">removeAssertionByShortId</a>(assertionShortIdToRemove)
+            </div>
+            <div class="short-description">
+              <p>Removes an assertion from the envelope</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="method-name ">
               <a href="#method_setDescription">setDescription</a>(description)
             </div>
             <div class="short-description">
@@ -2674,7 +2690,7 @@ Specifies the Person that is legally accountable for the CreativeWork.</div>
 </div>
 <div class="property item">
   <div id="props_additionalType" class="title">
-    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l80"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:80</code></a></span>
+    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l82"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:82</code></a></span>
     <h3 class="">
       public
       
@@ -2706,7 +2722,7 @@ The overall rating, based on a collection of reviews or ratings, of the item.</d
 </div>
 <div class="property item">
   <div id="props_alternateName" class="title">
-    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l64"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:64</code></a></span>
+    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l66"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:66</code></a></span>
     <h3 class="">
       public
       
@@ -3074,7 +3090,7 @@ Date of first broadcast/publication.</div>
 </div>
 <div class="property item">
   <div id="props_description" class="title">
-    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l48"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:48</code></a></span>
+    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l50"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:50</code></a></span>
     <h3 class="">
       public
       
@@ -3090,7 +3106,7 @@ A description of the item.</div>
 </div>
 <div class="property item">
   <div id="props_disambiguatingDescription" class="title">
-    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l56"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:56</code></a></span>
+    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l58"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:58</code></a></span>
     <h3 class="">
       public
       
@@ -3298,7 +3314,7 @@ Headline of the article.</div>
 </div>
 <div class="property item">
   <div id="props_identifier" class="title">
-    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l24"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:24</code></a></span>
+    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l26"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:26</code></a></span>
     <h3 class="">
       public
       
@@ -3314,7 +3330,7 @@ The identifier property represents any kind of identifier for any kind of [[Thin
 </div>
 <div class="property item">
   <div id="props_image" class="title">
-    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l40"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:40</code></a></span>
+    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l42"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:42</code></a></span>
     <h3 class="">
       public
       
@@ -3538,7 +3554,7 @@ Indicates the primary entity described in some page or other CreativeWork.</div>
 </div>
 <div class="property item">
   <div id="props_mainEntityOfPage" class="title">
-    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l96"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:96</code></a></span>
+    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l98"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:98</code></a></span>
     <h3 class="">
       public
       
@@ -3586,7 +3602,7 @@ Indicates that the CreativeWork contains a reference to, but is not necessarily 
 </div>
 <div class="property item">
   <div id="props_name" class="title">
-    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l16"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:16</code></a></span>
+    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l18"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:18</code></a></span>
     <h3 class="">
       public
       
@@ -3634,7 +3650,7 @@ The position of an item in a series or sequence of items.</div>
 </div>
 <div class="property item">
   <div id="props_potentialAction" class="title">
-    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l88"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:88</code></a></span>
+    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l90"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:90</code></a></span>
     <h3 class="">
       public
       
@@ -3794,7 +3810,7 @@ Review of the item.</div>
 </div>
 <div class="property item">
   <div id="props_sameAs" class="title">
-    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l72"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:72</code></a></span>
+    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l74"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:74</code></a></span>
     <h3 class="">
       public
       
@@ -3974,7 +3990,7 @@ The typical expected age range, e.g. '7-9', '11-'.</div>
 </div>
 <div class="property item">
   <div id="props_url" class="title">
-    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l32"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:32</code></a></span>
+    <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l34"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:34</code></a></span>
     <h3 class="">
       public
       
@@ -4044,7 +4060,7 @@ Example/instance/realization/derivation of the concept of this creative work. eg
     <h2 id="public-methods">Public Methods</h2>
 <div class="method item">
     <div id="method_addAssertion" class="title">
-        <span class="source-link"><a href="../files/org.cassproject.schema.cass_src_main_java_org_cassproject_schema_cass_profile_AssertionEnvelope.java.html#l71"><code>org.cassproject.schema.cass&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;cass&#x2F;profile&#x2F;AssertionEnvelope.java:71</code></a></span>
+        <span class="source-link"><a href="../files/org.cassproject.schema.cass_src_main_java_org_cassproject_schema_cass_profile_AssertionEnvelope.java.html#l95"><code>org.cassproject.schema.cass&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;cass&#x2F;profile&#x2F;AssertionEnvelope.java:95</code></a></span>
         <h3 class="">
             public
             
@@ -4093,7 +4109,7 @@ Example/instance/realization/derivation of the concept of this creative work. eg
 </div>
 <div class="method item">
     <div id="method_addAssertionAsync" class="title">
-        <span class="source-link"><a href="../files/org.cassproject.schema.cass_src_main_java_org_cassproject_schema_cass_profile_AssertionEnvelope.java.html#l109"><code>org.cassproject.schema.cass&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;cass&#x2F;profile&#x2F;AssertionEnvelope.java:109</code></a></span>
+        <span class="source-link"><a href="../files/org.cassproject.schema.cass_src_main_java_org_cassproject_schema_cass_profile_AssertionEnvelope.java.html#l134"><code>org.cassproject.schema.cass&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;cass&#x2F;profile&#x2F;AssertionEnvelope.java:134</code></a></span>
         <h3 class="">
             public
             
@@ -4170,7 +4186,7 @@ Example/instance/realization/derivation of the concept of this creative work. eg
 </div>
 <div class="method item">
     <div id="method_getAssertion" class="title">
-        <span class="source-link"><a href="../files/org.cassproject.schema.cass_src_main_java_org_cassproject_schema_cass_profile_AssertionEnvelope.java.html#l52"><code>org.cassproject.schema.cass&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;cass&#x2F;profile&#x2F;AssertionEnvelope.java:52</code></a></span>
+        <span class="source-link"><a href="../files/org.cassproject.schema.cass_src_main_java_org_cassproject_schema_cass_profile_AssertionEnvelope.java.html#l76"><code>org.cassproject.schema.cass&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;cass&#x2F;profile&#x2F;AssertionEnvelope.java:76</code></a></span>
         <h3 class="">
             public
             
@@ -4225,7 +4241,7 @@ Example/instance/realization/derivation of the concept of this creative work. eg
 </div>
 <div class="method item">
     <div id="method_getDescription" class="title">
-        <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l148"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:148</code></a></span>
+        <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l147"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:147</code></a></span>
         <h3 class="">
             public
             
@@ -4254,7 +4270,7 @@ Example/instance/realization/derivation of the concept of this creative work. eg
 </div>
 <div class="method item">
     <div id="method_getName" class="title">
-        <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l114"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:114</code></a></span>
+        <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l116"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:116</code></a></span>
         <h3 class="">
             public
             
@@ -4282,8 +4298,56 @@ Example/instance/realization/derivation of the concept of this creative work. eg
 
 </div>
 <div class="method item">
+    <div id="method_removeAssertionByShortId" class="title">
+        <span class="source-link"><a href="../files/org.cassproject.schema.cass_src_main_java_org_cassproject_schema_cass_profile_AssertionEnvelope.java.html#l52"><code>org.cassproject.schema.cass&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;cass&#x2F;profile&#x2F;AssertionEnvelope.java:52</code></a></span>
+        <h3 class="">
+            public
+            
+            
+            removeAssertionByShortId(assertionShortIdToRemove)
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Removes an assertion from the envelope</p>
+</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>assertionShortIdToRemove</td>
+              <td>Object</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td> </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+
+
+</div>
+<div class="method item">
     <div id="method_setDescription" class="title">
-        <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l163"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:163</code></a></span>
+        <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l170"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:170</code></a></span>
         <h3 class="">
             public
             
@@ -4333,7 +4397,7 @@ Example/instance/realization/derivation of the concept of this creative work. eg
 </div>
 <div class="method item">
     <div id="method_setName" class="title">
-        <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l129"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:129</code></a></span>
+        <span class="source-link"><a href="../files/org.schema_src_main_java_org_schema_Thing.java.html#l128"><code>org.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;Thing.java:128</code></a></span>
         <h3 class="">
             public
             
@@ -4383,7 +4447,7 @@ Example/instance/realization/derivation of the concept of this creative work. eg
 </div>
 <div class="method item">
     <div id="method_validate" class="title">
-        <span class="source-link"><a href="../files/org.cassproject.schema.cass_src_main_java_org_cassproject_schema_cass_profile_AssertionEnvelope.java.html#l252"><code>org.cassproject.schema.cass&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;cass&#x2F;profile&#x2F;AssertionEnvelope.java:252</code></a></span>
+        <span class="source-link"><a href="../files/org.cassproject.schema.cass_src_main_java_org_cassproject_schema_cass_profile_AssertionEnvelope.java.html#l277"><code>org.cassproject.schema.cass&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;schema&#x2F;cass&#x2F;profile&#x2F;AssertionEnvelope.java:277</code></a></span>
         <h3 class="">
             public
             
