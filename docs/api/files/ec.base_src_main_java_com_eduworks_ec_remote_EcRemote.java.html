@@ -809,16 +809,11 @@
 <pre class="code prettyprint linenums">
 package com.eduworks.ec.remote;
 
-import com.eduworks.ec.array.EcArray;
-import com.eduworks.ec.array.EcObject;
 import org.stjs.javascript.*;
+import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
-import org.stjs.javascript.functions.Callback3;
-import org.stjs.javascript.jquery.AjaxParams;
-import org.stjs.javascript.jquery.JQueryXHR;
 
 import static org.stjs.javascript.JSGlobal.JSON;
-import static org.stjs.javascript.jquery.GlobalJQuery.$;
 
 /**
  * Wrapper to handle all remote web service invocations.
@@ -830,333 +825,306 @@ import static org.stjs.javascript.jquery.GlobalJQuery.$;
  */
 public class EcRemote {
 
-	/**
-	 * Turn this property off to cause all remote web service calls to be
-	 * synchronous. Can be useful for test scripts, blocking calls, etc.
-	 *
-	 * @property async
-	 * @static
-	 * @type boolean
-	 */
-	public static boolean async = true;
+    /**
+     * Turn this property off to cause all remote web service calls to be
+     * synchronous. Can be useful for test scripts, blocking calls, etc.
+     *
+     * @property async
+     * @static
+     * @type boolean
+     */
+    public static boolean async = true;
 
-	/**
-	 * Timeout for AJAX requests
-	 *
-	 * @property async
-	 * @static
-	 * @type boolean
-	 */
-	public static int timeout = 60 * 1000 * 5;
+    /**
+     * Timeout for AJAX requests
+     *
+     * @property async
+     * @static
+     * @type boolean
+     */
+    public static int timeout = 60 * 1000 * 5;
 
-	/**
-	 * POSTs a request to a remote endpoint. Composed of a server endpoint (root
-	 * URL) and a service (service path). Sends form data as a multi-part mime
-	 * request.
-	 *
-	 * @param {string}           server Protocol, hostname and path to the remote handler.
-	 * @param {string}           service Path to service to invoke.
-	 * @param {FormData}         fd Form data to send as multi-part mime.
-	 * @param {function(object)} success Method that is invoked if the server
-	 *                           responds with a success (per jQuery ajax)
-	 * @param {function(string)} failure Method that is invoked if the server
-	 *                           responds with an error (per jQuery ajax) or a non-200/300.
-	 * @method postExpectingObject
-	 * @static
-	 */
-	public static void postExpectingObject(String server, String service, FormData fd, final Callback1&lt;Object&gt; success, final Callback1&lt;String&gt; failure) {
-		postInner(server, service, fd, null, getSuccessJSONCallback(success, failure), getFailureCallback(failure));
-	}
+    /**
+     * POSTs a request to a remote endpoint. Composed of a server endpoint (root
+     * URL) and a service (service path). Sends form data as a multi-part mime
+     * request.
+     *
+     * @param {string}           server Protocol, hostname and path to the remote handler.
+     * @param {string}           service Path to service to invoke.
+     * @param {FormData}         fd Form data to send as multi-part mime.
+     * @param {function(object)} success Method that is invoked if the server
+     *                           responds with a success (per jQuery ajax)
+     * @param {function(string)} failure Method that is invoked if the server
+     *                           responds with an error (per jQuery ajax) or a non-200/300.
+     * @method postExpectingObject
+     * @static
+     */
+    public static void postExpectingObject(String server, String service, FormData fd, final Callback1&lt;Object&gt; success, final Callback1&lt;String&gt; failure) {
+        postInner(server, service, fd, null, getSuccessJSONCallback(success, failure), failure);
+    }
 
-	/**
-	 * POSTs a request to a remote endpoint. Composed of a server endpoint (root
-	 * URL) and a service (service path). Sends form data as a multi-part mime
-	 * request.
-	 *
-	 * @param {string}           server Protocol, hostname and path to the remote handler.
-	 * @param {string}           service Path to service to invoke.
-	 * @param {FormData}         fd Form data to send as multi-part mime.
-	 * @param {function(string)} success Method that is invoked if the server
-	 *                           responds with a success (per jQuery ajax)
-	 * @param {function(string)} failure Method that is invoked if the server
-	 *                           responds with an error (per jQuery ajax) or a non-200/300.
-	 * @method postExpectingString
-	 * @static
-	 */
-	public static void postExpectingString(String server, String service, FormData fd, final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure) {
-		postInner(server, service, fd, null, getSuccessCallback(success, failure), getFailureCallback(failure));
-	}
+    /**
+     * POSTs a request to a remote endpoint. Composed of a server endpoint (root
+     * URL) and a service (service path). Sends form data as a multi-part mime
+     * request.
+     *
+     * @param {string}           server Protocol, hostname and path to the remote handler.
+     * @param {string}           service Path to service to invoke.
+     * @param {FormData}         fd Form data to send as multi-part mime.
+     * @param {function(string)} success Method that is invoked if the server
+     *                           responds with a success (per jQuery ajax)
+     * @param {function(string)} failure Method that is invoked if the server
+     *                           responds with an error (per jQuery ajax) or a non-200/300.
+     * @method postExpectingString
+     * @static
+     */
+    public static void postExpectingString(String server, String service, FormData fd, final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure) {
+        postInner(server, service, fd, null, success, failure);
+    }
 
-	public static void postWithHeadersExpectingString(String server, String service, FormData fd, Map&lt;String, String&gt; headers,
-	                                                  final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure) {
-		postInner(server, service, fd, headers, getSuccessCallback(success, failure), getFailureCallback(failure));
-	}
+    public static void postWithHeadersExpectingString(String server, String service, FormData fd, Map&lt;String, String&gt; headers,
+                                                      final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure) {
+        postInner(server, service, fd, headers, success, failure);
+    }
 
 
-	private static void postInner(String server, String service, FormData fd, Map&lt;String, String&gt; headers,
-	                              Callback3&lt;Object, String, JQueryXHR&gt; successCallback, Callback3&lt;JQueryXHR, String, String&gt; failureCallback) {
+    private static void postInner(String server, String service, FormData fd, Map&lt;String, String&gt; headers,
+                                  final Callback1&lt;String&gt; successCallback, final Callback1&lt;String&gt; failureCallback) {
+        String url = server;
+        if (!url.endsWith(&quot;/&quot;) &amp;&amp; service != null &amp;&amp; !&quot;&quot;.equals(service)) {
+            url += &quot;/&quot;;
+        }
+        if (service != null) {
+            url += service;
+        }
 
-		String url = server;
-		if (!url.endsWith(&quot;/&quot;) &amp;&amp; service != null &amp;&amp; !&quot;&quot;.equals(service)) {
-			url += &quot;/&quot;;
-		}
-		if (service != null) {
-			url += service;
-		}
+        url = upgradeHttpToHttps(url);
 
-		AjaxParams p = new AjaxParams();
-		p.method = &quot;POST&quot;;
-		p.url = url;
+        XMLHttpRequest xhr = null;
 
-		// Node JS serialization check.
-		if (JSObjectAdapter.$get(fd, &quot;_streams&quot;) != null) {
-			// We&#x27;re in node. Serialize the &#x27;form-data&#x27; object by hand.
-			Array&lt;String&gt; chunks = (Array&lt;String&gt;) JSObjectAdapter.$get(fd, &quot;_streams&quot;);
-			String all = &quot;&quot;;
-			for (int i = 0; i &lt; chunks.$length(); i++) {
-				if (JSGlobal.typeof(chunks.$get(i)) == &quot;function&quot;) {
-					all = all + &quot;\r\n&quot;;
-				} else {
-					all = all + chunks.$get(i);
-				}
-			}
-			all = all + &quot;\r\n&quot; + &quot;\r\n&quot; + &quot;--&quot; + JSObjectAdapter.$get(fd, &quot;_boundary&quot;) + &quot;--&quot;;
-			if (headers == null || headers == JSGlobal.undefined)
-				headers = (Map&lt;String, String&gt;) new Object();
-			p.headers = headers;
-			p.headers.$put(&quot;Content-Type&quot;, &quot;multipart/form-data; boundary=&quot; + JSObjectAdapter.$get(fd, &quot;_boundary&quot;));
-			p.data = all;
-		} else {
-			// We&#x27;re in a browser.
-			p.mimeType = &quot;multipart/form-data&quot;;
-			p.data = fd;
-			if (headers != null &amp;&amp; headers != JSGlobal.undefined)
-				p.headers = headers;
-		}
-		JSObjectAdapter.$properties(p).$put(&quot;contentType&quot;, false);
+        if (Global.typeof(EcLevrHttp.httpStatus) == &quot;undefined&quot;) {
+            xhr = new XMLHttpRequest();
+            xhr.open(&quot;POST&quot;, url, async);
 
-		p.cache = false;
-		p.async = async;
-		p.timeout = timeout;
-		p.processData = false;
+            final XMLHttpRequest xhrx = xhr;
+            xhr.onreadystatechange = new Callback0() {
+                @Override
+                public void $invoke() {
+                    if (xhrx.readyState == 4 &amp;&amp; xhrx.status == 200) {
+                        if (successCallback != null)
+                            successCallback.$invoke(xhrx.responseText);
+                    } else if (xhrx.readyState == 4) {
+                        if (failureCallback != null)
+                            failureCallback.$invoke(xhrx.responseText);
+                    }
+                }
+            };
+        }
 
-		p.success = successCallback;
-		p.error = failureCallback;
+        String theBoundary = null;
+        // Node JS serialization check.
+        if (JSObjectAdapter.$get(fd, &quot;_streams&quot;) != null) {
+            // We&#x27;re in node. Serialize the &#x27;form-data&#x27; object by hand.
+            Array&lt;String&gt; chunks = (Array&lt;String&gt;) JSObjectAdapter.$get(fd, &quot;_streams&quot;);
+            String all = &quot;&quot;;
+            for (int i = 0; i &lt; chunks.$length(); i++) {
+                if (JSGlobal.typeof(chunks.$get(i)) == &quot;function&quot;) {
+                    all = all + &quot;\r\n&quot;;
+                } else {
+                    all = all + chunks.$get(i);
+                }
+            }
+            all = all + &quot;\r\n&quot; + &quot;\r\n&quot; + &quot;--&quot; + JSObjectAdapter.$get(fd, &quot;_boundary&quot;) + &quot;--&quot;;
+            theBoundary = (String) JSObjectAdapter.$get(fd, &quot;_boundary&quot;);
+            if (Global.typeof(EcLevrHttp.httpStatus) == &quot;undefined&quot;)
+                xhr.setRequestHeader(&quot;Content-Type&quot;, &quot;multipart/form-data; boundary=&quot; + JSObjectAdapter.$get(fd, &quot;_boundary&quot;));
+            fd = (FormData) (Object) all;
+        } else {
+            // We&#x27;re in a browser.rhin
+//			p.mimeType = &quot;multipart/form-data&quot;;
+//			p.data = fd;
+//			if (headers != null &amp;&amp; headers != JSGlobal.undefined)
+//				p.headers = headers;
+        }
+        if (xhr != null)
+            if (async)
+                JSObjectAdapter.$put(xhr, &quot;timeout&quot;, timeout);
+//		JSObjectAdapter.$put(xhr, &quot;withCredentials&quot;, true);
 
-		upgradeHttpToHttps(p);
+        if (Global.typeof(EcLevrHttp.httpStatus) != &quot;undefined&quot;) {
+            String result = JSON.stringify(EcLevrHttp.httpPost(fd, url, &quot;multipart/form-data; boundary=&quot; + theBoundary, &quot;false&quot;, theBoundary));
+            if (successCallback != null)
+                successCallback.$invoke(result);
+        } else {
+            xhr.send((String) (Object) fd);
+        }
+    }
 
-		if ($ == null) {
-			Object o = new Object();
-			JSObjectAdapter.$put(o, &quot;status&quot;, 200);
-			JSObjectAdapter.$put(o, &quot;responseText&quot;, JSON.stringify(EcLevrHttp.httpPost(p.data, p.url, &quot;multipart/form-data; boundary=&quot; + JSObjectAdapter.$get(fd, &quot;_boundary&quot;), &quot;false&quot;, (String) JSObjectAdapter.$get(fd, &quot;_boundary&quot;))));
-			successCallback.$invoke(null, null, (JQueryXHR) o);
-		} else {
-			$.ajax(p);
-		}
-	}
+    /**
+     * GETs something from a remote endpoint. Composed of a server endpoint
+     * (root URL) and a service (service path).
+     *
+     * @param {string}           server Protocol, hostname and path to the remote handler.
+     * @param {string}           service Path to service to invoke.
+     * @param {function(object)} success Method that is invoked if the server
+     *                           responds with a success (per jQuery ajax)
+     * @param {function(string)} failure Method that is invoked if the server
+     *                           responds with an error (per jQuery ajax) or a non-200/300.
+     * @method getExpectingObject
+     * @static
+     */
+    public static void getExpectingObject(String server, String service, final Callback1&lt;Object&gt; success, final Callback1&lt;String&gt; failure) {
+        getExpectingString(server, service, getSuccessJSONCallback(success, failure), failure);
+    }
 
-	/**
-	 * GETs something from a remote endpoint. Composed of a server endpoint
-	 * (root URL) and a service (service path).
-	 *
-	 * @param {string}           server Protocol, hostname and path to the remote handler.
-	 * @param {string}           service Path to service to invoke.
-	 * @param {function(object)} success Method that is invoked if the server
-	 *                           responds with a success (per jQuery ajax)
-	 * @param {function(string)} failure Method that is invoked if the server
-	 *                           responds with an error (per jQuery ajax) or a non-200/300.
-	 * @method getExpectingObject
-	 * @static
-	 */
-	public static void getExpectingObject(String server, String service, final Callback1&lt;Object&gt; success, final Callback1&lt;String&gt; failure) {
-		String url = urlAppend(server, service);
+    /**
+     * GETs something from a remote endpoint. Composed of a server endpoint
+     * (root URL) and a service (service path).
+     *
+     * @param {string}           server Protocol, hostname and path to the remote handler.
+     * @param {string}           service Path to service to invoke.
+     * @param {function(object)} success Method that is invoked if the server
+     *                           responds with a success (per jQuery ajax)
+     * @param {function(string)} failure Method that is invoked if the server
+     *                           responds with an error (per jQuery ajax) or a non-200/300.
+     * @method getExpectingString
+     * @static
+     */
+    public static void getExpectingString(String server, String service, final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure) {
+        String url = urlAppend(server, service);
 
-		AjaxParams p = new AjaxParams();
-		p.method = &quot;GET&quot;;
-		p.url = url;
-		p.cache = false;
-		p.async = async;
-		p.timeout = timeout;
-		p.processData = false;
+        url = upgradeHttpToHttps(url);
 
-		p.dataType = &quot;json&quot;;
+        XMLHttpRequest xhr = null;
 
-		p.success = getSuccessJSONCallback(success, failure);
-		p.error = getFailureCallback(failure);
+        if (Global.typeof(EcLevrHttp.httpStatus) == &quot;undefined&quot;) {
+            xhr = new XMLHttpRequest();
 
-		upgradeHttpToHttps(p);
-		if ($ == null) {
-			success.$invoke(EcLevrHttp.httpGet(p.url));
-		} else {
-			$.ajax(p);
-		}
-	}
+            xhr.open(&quot;GET&quot;, url, async);
+            final XMLHttpRequest xhrx = xhr;
+            xhr.onreadystatechange = new Callback0() {
+                @Override
+                public void $invoke() {
+                    if (xhrx.readyState == 4 &amp;&amp; xhrx.status == 200)
+                        success.$invoke(xhrx.responseText);
+                    else if (xhrx.readyState == 4)
+                        failure.$invoke(xhrx.responseText);
+                }
+            };
+        }
 
-	/**
-	 * GETs something from a remote endpoint. Composed of a server endpoint
-	 * (root URL) and a service (service path).
-	 *
-	 * @param {string}           server Protocol, hostname and path to the remote handler.
-	 * @param {string}           service Path to service to invoke.
-	 * @param {function(object)} success Method that is invoked if the server
-	 *                           responds with a success (per jQuery ajax)
-	 * @param {function(string)} failure Method that is invoked if the server
-	 *                           responds with an error (per jQuery ajax) or a non-200/300.
-	 * @method getExpectingString
-	 * @static
-	 */
-	public static void getExpectingString(String server, String service, final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure) {
-		String url = urlAppend(server, service);
+        if (xhr != null) {
+            if (async)
+                JSObjectAdapter.$put(xhr, &quot;timeout&quot;, timeout);
+        }
+//		JSObjectAdapter.$put(xhr, &quot;withCredentials&quot;, true);
 
-		AjaxParams p = new AjaxParams();
-		p.method = &quot;GET&quot;;
-		p.url = url;
-		p.async = async;
-		p.timeout = timeout;
-		p.processData = false;
+        if (Global.typeof(EcLevrHttp.httpStatus) != &quot;undefined&quot;) {
+            success.$invoke(JSON.stringify(EcLevrHttp.httpGet(url)));
+        } else {
+            xhr.send();
+        }
+    }
 
-		p.success = getSuccessCallback(success, failure);
-		p.error = getFailureCallback(failure);
+    public static String urlAppend(String server, String service) {
+        String url = server;
+        if (!url.endsWith(&quot;/&quot;) &amp;&amp; service != null &amp;&amp; service.equals(&quot;&quot;)) {
+            url += &quot;/&quot;;
+        }
+        if (service != null) {
+            url += service;
+        }
+        return url;
+    }
 
-		upgradeHttpToHttps(p);
-		if ($ == null) {
-			success.$invoke((String) EcLevrHttp.httpGet(p.url));
-		} else {
-			$.ajax(p);
-		}
-	}
+    /**
+     * DELETEs something at a remote endpoint. Composed of a server endpoint
+     * (root URL) and a service (service path).
+     *
+     * @param {string}           server Protocol, hostname and path to the remote handler.
+     * @param {string}           service Path to service to invoke.
+     * @param {function(object)} success Method that is invoked if the server
+     *                           responds with a success (per jQuery ajax)
+     * @param {function(string)} failure Method that is invoked if the server
+     *                           responds with an error (per jQuery ajax) or a non-200/300.
+     * @method _delete
+     * @static
+     */
+    public static void _delete(String url, String signatureSheet, final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure) {
+        url = upgradeHttpToHttps(url);
 
-	public static String urlAppend(String server, String service) {
-		String url = server;
-		if (!url.endsWith(&quot;/&quot;) &amp;&amp; service != null &amp;&amp; service.equals(&quot;&quot;)) {
-			url += &quot;/&quot;;
-		}
-		if (service != null) {
-			url += service;
-		}
-		return url;
-	}
+        XMLHttpRequest xhr = null;
 
-	/**
-	 * DELETEs something at a remote endpoint. Composed of a server endpoint
-	 * (root URL) and a service (service path).
-	 *
-	 * @param {string}           server Protocol, hostname and path to the remote handler.
-	 * @param {string}           service Path to service to invoke.
-	 * @param {function(object)} success Method that is invoked if the server
-	 *                           responds with a success (per jQuery ajax)
-	 * @param {function(string)} failure Method that is invoked if the server
-	 *                           responds with an error (per jQuery ajax) or a non-200/300.
-	 * @method _delete
-	 * @static
-	 */
-	public static void _delete(String url, String signatureSheet, final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure) {
-		AjaxParams p = new AjaxParams();
-		p.method = &quot;DELETE&quot;;
-		p.url = url;
-		p.async = async;
-		p.timeout = timeout;
-		p.headers = (Map&lt;String, String&gt;) new Object();
-		p.headers.$put(&quot;signatureSheet&quot;, signatureSheet);
+        if (Global.typeof(EcLevrHttp.httpStatus) == &quot;undefined&quot;) {
+            xhr = new XMLHttpRequest();
 
-		p.success = getSuccessCallback(success, failure);
-		p.error = getFailureCallback(failure);
+            //		JSObjectAdapter.$put(xhr, &quot;withCredentials&quot;, true);
+            xhr.open(&quot;DELETE&quot;, url, async);
+            final XMLHttpRequest xhrx = xhr;
+            xhr.onreadystatechange = new Callback0() {
+                @Override
+                public void $invoke() {
+                    if (xhrx.readyState == 4 &amp;&amp; xhrx.status == 200) {
+                        if (success != null)
+                            success.$invoke(xhrx.responseText);
+                    } else if (xhrx.readyState == 4) {
+                        if (failure != null)
+                            failure.$invoke(xhrx.responseText);
+                    }
+                }
+            };
+        }
 
-		upgradeHttpToHttps(p);
-		if ($ == null) {
-			success.$invoke(EcLevrHttp.httpDelete(p.url));
-		} else {
-			$.ajax(p);
-		}
-	}
+        if (xhr != null){
+            if (async)
+                JSObjectAdapter.$put(xhr, &quot;timeout&quot;, timeout);
+            xhr.setRequestHeader(&quot;signatureSheet&quot;, signatureSheet);
+        }
+        if (Global.typeof(EcLevrHttp.httpStatus) != &quot;undefined&quot;) {
+            if (success != null){
+                Object sso = new Object();
+                JSObjectAdapter.$put(sso,&quot;signatureSheet&quot;,signatureSheet);
+                success.$invoke(EcLevrHttp.httpDelete(url,null,null,null,sso));
+            }
+        } else {
+            xhr.send();
+        }
+    }
 
-	protected static void upgradeHttpToHttps(AjaxParams p) {
-		// Upgrade protocol to avoid mixed active content
-		if (Global.window != null) {
-			if (Global.window.location != null) {
-				if (p.url.indexOf(Global.window.location.protocol) == -1) {
-					if (Global.window.location.protocol.startsWith(&quot;https&quot;)) {
-						if (!p.url.startsWith(&quot;https:&quot;)) {
-							p.url = p.url.replace(&quot;http:&quot;, &quot;https:&quot;);
-						}
-					}
-				}
-			}
-		}
-	}
+    protected static String upgradeHttpToHttps(String url) {
+        // Upgrade protocol to avoid mixed active content
+        if (Global.window != null) {
+            if (Global.window.location != null) {
+                if (url.indexOf(Global.window.location.protocol) == -1) {
+                    if (Global.window.location.protocol.startsWith(&quot;https&quot;)) {
+                        if (!url.startsWith(&quot;https:&quot;)) {
+                            url = url.replace(&quot;http:&quot;, &quot;https:&quot;);
+                        }
+                    }
+                }
+            }
+        }
+        return url;
+    }
 
-	protected static void handleFailure(final Callback1&lt;String&gt; failure, JQueryXHR paramP1, String paramP2, String paramP3) {
-		if (failure != null) {
-			if (paramP1 != null) {
-				if (paramP1.responseText != null) {
-					failure.$invoke(paramP1.responseText);
-				} else if (paramP1.statusText != null) {
-					failure.$invoke(paramP1.statusText.toString());
-				} else {
-					failure.$invoke(&quot;General error in AJAX request.&quot;);
-				}
-			} else if (paramP2 != null) {
-				failure.$invoke(paramP2);
-			} else if (paramP3 != null) {
-				failure.$invoke(paramP3);
-			} else {
-				failure.$invoke(&quot;General error in AJAX request.&quot;);
-			}
-		}
-	}
-
-	protected static Callback3&lt;Object, String, JQueryXHR&gt; getSuccessCallback(final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure) {
-		return new Callback3&lt;Object, String, JQueryXHR&gt;() {
-			@Override
-			public void $invoke(Object arg0, String arg1, JQueryXHR arg2) {
-				if (arg2.status &gt; 300 || arg2.status &lt; 200) {
-					if (failure != null)
-						failure.$invoke(&quot;Error with code: &quot; + arg2.status);
-				} else if (success != null) {
-					success.$invoke(arg2.responseText);
-				}
-			}
-		};
-	}
-
-	protected static Callback3&lt;Object, String, JQueryXHR&gt; getSuccessJSONCallback(final Callback1&lt;Object&gt; success, final Callback1&lt;String&gt; failure) {
-		return new Callback3&lt;Object, String, JQueryXHR&gt;() {
-			@Override
-			public void $invoke(Object arg0, String arg1, JQueryXHR arg2) {
-				if (arg2.status &gt; 300 || arg2.status &lt; 200) {
-					if (failure != null)
-						failure.$invoke(&quot;Error with code: &quot; + arg2.status);
-				} else if (success != null) {
-					try {
-						if (EcObject.isObject(arg2.responseText))
-							success.$invoke(arg2.responseText);
-						else if (EcArray.isArray(arg2.responseText))
-							success.$invoke(arg2.responseText);
-						else
-							success.$invoke(JSON.parse(arg2.responseText));
-					} catch (Exception ex) {
-						if (ex != null) {
-							if (failure != null)
-								if (JSObjectAdapter.$get(ex, &quot;getMessage&quot;) != null) {
-									failure.$invoke(ex.getMessage());
-								} else {
-									failure.$invoke((String) (Object) ex);
-								}
-						}
-					}
-				}
-			}
-		};
-	}
-
-	protected static Callback3&lt;JQueryXHR, String, String&gt; getFailureCallback(final Callback1&lt;String&gt; failure) {
-		return new Callback3&lt;JQueryXHR, String, String&gt;() {
-			@Override
-			public void $invoke(JQueryXHR paramP1, String paramP2, String paramP3) {
-				handleFailure(failure, paramP1, paramP2, paramP3);
-			}
-		};
-	}
+    protected static Callback1&lt;String&gt; getSuccessJSONCallback(final Callback1&lt;Object&gt; success, final Callback1&lt;String&gt; failure) {
+        return new Callback1&lt;String&gt;() {
+            @Override
+            public void $invoke(String s) {
+                final Object o;
+                try {
+                    o = JSON.parse(s);
+                } catch (Exception ex) {
+                    if (ex == null)
+                        failure.$invoke(&quot;An unspecified error occurred during a network request.&quot;);
+                    else
+                        failure.$invoke((String) (Object) ex);
+                    return;
+                }
+                success.$invoke(o);
+            }
+        };
+    }
 
 }
 

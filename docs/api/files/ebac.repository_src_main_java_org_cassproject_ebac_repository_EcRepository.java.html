@@ -810,6 +810,7 @@
 package org.cassproject.ebac.repository;
 
 import com.eduworks.ec.array.EcArray;
+import com.eduworks.ec.array.EcAsyncHelper;
 import com.eduworks.ec.crypto.EcCrypto;
 import com.eduworks.ec.log.Logger;
 import com.eduworks.ec.remote.EcRemote;
@@ -822,6 +823,7 @@ import org.stjs.javascript.*;
 import org.stjs.javascript.dom.Element;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 
 import static com.eduworks.ec.remote.EcRemote.urlAppend;
 
@@ -864,14 +866,15 @@ public class EcRepository {
 	 * @method get
 	 * @static
 	 */
-	public static void get(final String url, final Callback1&lt;EcRemoteLinkedData&gt; success, final Callback1&lt;String&gt; failure) {
+	public static void get(String url, final Callback1&lt;EcRemoteLinkedData&gt; success, final Callback1&lt;String&gt; failure) {
+		final String originalUrl = url;
 		if (EcRemote.async == false) {
 			EcRemoteLinkedData result = getBlocking(url);
-			if (result == null)
+			if (result == null) {
 				if (failure != null)
 					failure.$invoke(&quot;Could not locate object. May be due to EcRepository.alwaysTryUrl flag.&quot;);
-				else if (success != null)
-					success.$invoke(result);
+			} else if (success != null)
+				success.$invoke(result);
 			return;
 		}
 		if (caching) {
@@ -880,7 +883,7 @@ public class EcRepository {
 					Task.immediate(new Callback0() {
 						@Override
 						public void $invoke() {
-							success.$invoke((EcRemoteLinkedData) JSObjectAdapter.$get(cache, url));
+							success.$invoke((EcRemoteLinkedData) JSObjectAdapter.$get(cache, originalUrl));
 						}
 					});
 				} else {
@@ -894,7 +897,7 @@ public class EcRepository {
 						Global.setTimeout(new Callback0() {
 							@Override
 							public void $invoke() {
-								get(url, success, failure);
+								get(originalUrl, success, failure);
 							}
 						}, 100);
 						return;
@@ -904,22 +907,28 @@ public class EcRepository {
 			}
 		}
 		if (!shouldTryUrl(url)) {
-			EcRepository.find(url, &quot;Could not locate object. May be due to EcRepository.alwaysTryUrl flag.&quot;, new Object(), 0, success, failure);
-			return;
+			if (repos.$length() == 1)
+				url = EcRemoteLinkedData.veryShortId(repos.$get(0).selectedServer, EcCrypto.md5(url));
+			else {
+				EcRepository.find(url, &quot;Could not locate object. May be due to EcRepository.alwaysTryUrl flag.&quot;, new Object(), 0, success, failure);
+				return;
+			}
 		}
 		final FormData fd = new FormData();
+		final String finalUrl = url;
 		if (unsigned) {
-			EcRemote.getExpectingObject(url, null, new Callback1&lt;Object&gt;() {
+			EcRemote.getExpectingObject(finalUrl, null, new Callback1&lt;Object&gt;() {
 				@Override
 				public void $invoke(Object p1) {
-					JSObjectAdapter.$properties(fetching).$delete(url);
+					JSObjectAdapter.$properties(fetching).$delete(originalUrl);
 					EcRemoteLinkedData d = new EcRemoteLinkedData(&quot;&quot;, &quot;&quot;);
 					d.copyFrom(p1);
 					if (d.getFullType() == null) {
-						EcRepository.find(url, Global.JSON.stringify(p1), new Object(), 0, success, failure);
+						EcRepository.find(originalUrl, Global.JSON.stringify(p1), new Object(), 0, success, failure);
 						return;
 					}
 					if (caching) {
+						JSObjectAdapter.$put(cache, finalUrl, d);
 						JSObjectAdapter.$put(cache, d.id, d);
 						JSObjectAdapter.$put(cache, d.shortId(), d);
 					}
@@ -929,30 +938,31 @@ public class EcRepository {
 
 				@Override
 				public void $invoke(String p1) {
-					EcRepository.find(url, p1, new Object(), 0, success, failure);
+					EcRepository.find(originalUrl, p1, new Object(), 0, success, failure);
 				}
 			});
 		} else
 			EcIdentityManager.signatureSheetAsync(60000, url, new Callback1&lt;String&gt;() {
 				@Override
 				public void $invoke(String p1) {
-					if (JSObjectAdapter.$get(cache, url) != null) {
-						JSObjectAdapter.$properties(fetching).$delete(url);
-						success.$invoke((EcRemoteLinkedData) JSObjectAdapter.$get(cache, url));
+					if (JSObjectAdapter.$get(cache, originalUrl) != null) {
+						JSObjectAdapter.$properties(fetching).$delete(originalUrl);
+						success.$invoke((EcRemoteLinkedData) JSObjectAdapter.$get(cache, originalUrl));
 						return;
 					}
 					fd.append(&quot;signatureSheet&quot;, p1);
-					EcRemote.postExpectingObject(url, null, fd, new Callback1&lt;Object&gt;() {
+					EcRemote.postExpectingObject(finalUrl, null, fd, new Callback1&lt;Object&gt;() {
 						@Override
 						public void $invoke(Object p1) {
-							JSObjectAdapter.$properties(fetching).$delete(url);
+							JSObjectAdapter.$properties(fetching).$delete(originalUrl);
 							EcRemoteLinkedData d = new EcRemoteLinkedData(&quot;&quot;, &quot;&quot;);
 							d.copyFrom(p1);
 							if (d.getFullType() == null) {
-								EcRepository.find(url, Global.JSON.stringify(p1), new Object(), 0, success, failure);
+								EcRepository.find(originalUrl, Global.JSON.stringify(p1), new Object(), 0, success, failure);
 								return;
 							}
 							if (caching) {
+								JSObjectAdapter.$put(cache, finalUrl, d);
 								JSObjectAdapter.$put(cache, d.id, d);
 								JSObjectAdapter.$put(cache, d.shortId(), d);
 							}
@@ -962,7 +972,7 @@ public class EcRepository {
 
 						@Override
 						public void $invoke(String p1) {
-							EcRepository.find(url, p1, new Object(), 0, success, failure);
+							EcRepository.find(originalUrl, p1, new Object(), 0, success, failure);
 						}
 					});
 				}
@@ -1074,47 +1084,53 @@ public class EcRepository {
 	 * @method getBlocking
 	 * @static
 	 */
-	public static EcRemoteLinkedData getBlocking(final String url) {
-		if (url == null)
+	public static EcRemoteLinkedData getBlocking(String url) {
+		final String originalUrl = url;
+		if (originalUrl == null)
 			return null;
 		if (caching) {
-			if (JSObjectAdapter.$get(cache, url) != null) {
-				return (EcRemoteLinkedData) JSObjectAdapter.$get(cache, url);
+			if (JSObjectAdapter.$get(cache, originalUrl) != null) {
+				return (EcRemoteLinkedData) JSObjectAdapter.$get(cache, originalUrl);
 			}
 		}
-		if (!shouldTryUrl(url)) {
-			return EcRepository.findBlocking(url, &quot;Could not locate object. May be due to EcRepository.alwaysTryUrl flag.&quot;, new Object(), 0);
+		if (!shouldTryUrl(originalUrl)) {
+			if (repos.$length() == 1)
+				url = EcRemoteLinkedData.veryShortId(repos.$get(0).selectedServer, EcCrypto.md5(url));
+			else {
+				return EcRepository.findBlocking(originalUrl, &quot;Could not locate object. May be due to EcRepository.alwaysTryUrl flag.&quot;, new Object(), 0);
+			}
 		}
 		final FormData fd = new FormData();
 		String p1 = null;
 
 		if (unsigned == false) {
-			p1 = EcIdentityManager.signatureSheet(60000, url);
+			p1 = EcIdentityManager.signatureSheet(60000, originalUrl);
 			fd.append(&quot;signatureSheet&quot;, p1);
 		}
 		boolean oldAsync = EcRemote.async;
 		EcRemote.async = false;
-		EcRemote.postExpectingObject(url, null, fd, new Callback1&lt;Object&gt;() {
+		final String finalUrl = url;
+		EcRemote.postExpectingObject(finalUrl, null, fd, new Callback1&lt;Object&gt;() {
 			@Override
 			public void $invoke(Object p1) {
 				EcRemoteLinkedData d = new EcRemoteLinkedData(&quot;&quot;, &quot;&quot;);
 				d.copyFrom(p1);
 				if (d.getFullType() == null) {
-					EcRepository.findBlocking(url, Global.JSON.stringify(p1), new Object(), 0);
+					EcRepository.findBlocking(originalUrl, Global.JSON.stringify(p1), new Object(), 0);
 					return;
 				}
-				JSObjectAdapter.$put(cache, url, d);
+				JSObjectAdapter.$put(cache, originalUrl, d);
 			}
 		}, new Callback1&lt;String&gt;() {
 			@Override
 			public void $invoke(String s) {
-				JSObjectAdapter.$put(cache, url, EcRepository.findBlocking(url, s, new Object(), 0));
+				JSObjectAdapter.$put(cache, originalUrl, EcRepository.findBlocking(originalUrl, s, new Object(), 0));
 			}
 		});
 		EcRemote.async = oldAsync;
-		EcRemoteLinkedData result = (EcRemoteLinkedData) JSObjectAdapter.$get(cache, url);
+		EcRemoteLinkedData result = (EcRemoteLinkedData) JSObjectAdapter.$get(cache, originalUrl);
 		if (!caching) {
-			JSObjectAdapter.$put(cache, url, null);
+			JSObjectAdapter.$properties(cache).$delete(originalUrl);
 		}
 		return result;
 	}
@@ -1210,6 +1226,7 @@ public class EcRepository {
 	 * @method _save
 	 * @static
 	 */
+
 	public static void _save(EcRemoteLinkedData data, final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure, EcRepository repo) {
 		if (data.invalid()) {
 			String msg = &quot;Cannot save data. It is missing a vital component.&quot;;
@@ -1359,10 +1376,8 @@ public class EcRepository {
 							EcRemote._delete(targetUrl, signatureSheet, success, failure);
 					}
 				}, failure);
-			}
-			else
-			{
-				String signatureSheet = EcIdentityManager.signatureSheetFor(data.owner,60000,data.id);
+			} else {
+				String signatureSheet = EcIdentityManager.signatureSheetFor(data.owner, 60000, data.id);
 				if (signatureSheet.length() == 2) {
 					for (int i = 0; i &lt; repos.$length(); i++) {
 						if (data.id.indexOf(repos.$get(i).selectedServer) != -1) {
@@ -1424,8 +1439,7 @@ public class EcRepository {
 							EcRemote._delete(targetUrl, signatureSheet, success, failure);
 					}
 				}, failure);
-			}
-			else {
+			} else {
 				String signatureSheet = EcIdentityManager.signatureSheetFor(data.owner, 60000, data.id);
 				if (signatureSheet.length() == 2 &amp;&amp; me.adminKeys != null) {
 					signatureSheet = EcIdentityManager.signatureSheetFor(me.adminKeys, 60000, data.id);
@@ -1463,7 +1477,7 @@ public class EcRepository {
 			if (JSObjectAdapter.$get(cache, url) != null) {
 			} else if (url.startsWith(selectedServer)) {
 				cacheUrls.push(url.replace(selectedServer, &quot;&quot;).replace(&quot;custom/&quot;, &quot;&quot;));
-			} else if (!shouldTryUrl(url)) {
+			} else {
 				cacheUrls.push(&quot;data/&quot; + EcCrypto.md5(url));
 			}
 		}
@@ -1477,69 +1491,58 @@ public class EcRepository {
 		fd.append(&quot;data&quot;, Global.JSON.stringify(cacheUrls));
 		final EcRepository me = this;
 		if (unsigned) {
-			EcRemote.postExpectingObject(me.selectedServer, &quot;sky/repo/multiGet&quot;, fd, new Callback1&lt;Object&gt;() {
-				@Override
-				public void $invoke(Object p1) {
-					Array&lt;EcRemoteLinkedData&gt; results = (Array&lt;EcRemoteLinkedData&gt;) p1;
-					for (int i = 0; i &lt; results.$length(); i++) {
-						EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
-						d.copyFrom(results.$get(i));
-						results.$set(i, d);
-						if (caching) {
-							if (!shouldTryUrl(d.id)) {
-								String md5 = EcCrypto.md5(d.id);
-								for (int j = 0; j &lt; urls.$length(); j++) {
-									String url = urls.$get(j);
-									if (url.indexOf(md5) != -1) {
-										JSObjectAdapter.$put(cache, url, d);
-										break;
-									}
-								}
-							}
-							JSObjectAdapter.$put(cache, d.shortId(), d);
-							JSObjectAdapter.$put(cache, d.id, d);
-						}
-					}
-					if (success != null) {
-						success.$invoke();
-					}
-				}
-			}, null);
-		} else
+			precachePost(success, cacheUrls, fd, me);
+		} else {
 			EcIdentityManager.signatureSheetAsync(60000, selectedServer, new Callback1&lt;String&gt;() {
 				@Override
 				public void $invoke(String p1) {
 					fd.append(&quot;signatureSheet&quot;, p1);
-					EcRemote.postExpectingObject(me.selectedServer, &quot;sky/repo/multiGet&quot;, fd, new Callback1&lt;Object&gt;() {
-						@Override
-						public void $invoke(Object p1) {
-							Array&lt;EcRemoteLinkedData&gt; results = (Array&lt;EcRemoteLinkedData&gt;) p1;
-							for (int i = 0; i &lt; results.$length(); i++) {
-								EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
-								d.copyFrom(results.$get(i));
-								results.$set(i, d);
-								if (caching) {
-									if (!shouldTryUrl(d.id)) {
-										String md5 = EcCrypto.md5(d.id);
-										for (int j = 0; j &lt; urls.$length(); j++) {
-											String url = urls.$get(j);
-											if (url.indexOf(md5) != -1) {
-												JSObjectAdapter.$put(cache, url, d);
-												break;
-											}
-										}
-									}
-									JSObjectAdapter.$put(cache, d.shortId(), d);
-									JSObjectAdapter.$put(cache, d.id, d);
-								}
-							}
-							if (success != null) {
-								success.$invoke();
-							}
-						}
-					}, null);
+					me.precachePost(success, cacheUrls, fd, me);
 				}
 			}, null);
+		}
+	}
+
+	/**
+	 * Retrieves data from the server and caches it for use later during the
+	 * application. This should be called before the data is needed if possible,
+	 * so loading displays can be faster.
+	 *
+	 * @param {String[]}  urls List of Data ID Urls that should be precached
+	 * @param {Callback0} success Callback triggered once all of the data has
+	 *                    been retrieved
+	 * @memberOf EcRepository
+	 * @method precachePost
+	 */
+	private void precachePost(final Callback0 success, final Array&lt;String&gt; cacheUrls, FormData fd, EcRepository me) {
+		EcRemote.postExpectingObject(me.selectedServer, &quot;sky/repo/multiGet&quot;, fd, new Callback1&lt;Object&gt;() {
+			@Override
+			public void $invoke(Object p1) {
+				Array&lt;EcRemoteLinkedData&gt; results = (Array&lt;EcRemoteLinkedData&gt;) p1;
+				for (int i = 0; i &lt; results.$length(); i++) {
+					EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
+					d.copyFrom(results.$get(i));
+					results.$set(i, d);
+					if (caching) {
+						if (!shouldTryUrl(d.id)) {
+							String md5 = EcCrypto.md5(d.id);
+							for (int j = 0; j &lt; cacheUrls.$length(); j++) {
+								String url = cacheUrls.$get(j);
+								if (url.indexOf(md5) != -1) {
+									JSObjectAdapter.$put(cache, url, d);
+									break;
+								}
+							}
+						}
+						JSObjectAdapter.$put(cache, d.shortId(), d);
+						JSObjectAdapter.$put(cache, d.id, d);
+					}
+				}
+				if (success != null) {
+					success.$invoke();
+				}
+			}
+		}, null);
 	}
 
 	/**
@@ -1564,73 +1567,61 @@ public class EcRepository {
 			return;
 		}
 
-		if (caching) {
-			Array&lt;EcRemoteLinkedData&gt; cachedVals = JSCollections.$array();
-
-			for (int i = 0; i &lt; urls.$length(); i++) {
-				if (JSObjectAdapter.$get(cache, urls.$get(i)) != null) {
-					cachedVals.push((EcRemoteLinkedData) JSObjectAdapter.$get(cache, urls.$get(i)));
-				}
-			}
-			if (cachedValues != null)
-				cachedValues.$invoke(cachedVals);
-		}
-
-		Array&lt;String&gt; onServer = new Array&lt;String&gt;();
-		for (int i = 0; i &lt; urls.$length(); i++) {
-			String url = urls.$get(i);
-			if (url.startsWith(selectedServer)) {
-				onServer.push(url.replace(selectedServer, &quot;&quot;).replace(&quot;custom/&quot;, &quot;&quot;));
-			}
-		}
-
-		final FormData fd = new FormData();
-		fd.append(&quot;data&quot;, Global.JSON.stringify(onServer));
-		final EcRepository me = this;
-		if (unsigned == true)
-			EcRemote.postExpectingObject(me.selectedServer, &quot;sky/repo/multiGet&quot;, fd, new Callback1&lt;Object&gt;() {
+		final Array&lt;EcRemoteLinkedData&gt; results = new Array&lt;&gt;();
+		if (EcRepository.caching)
+			precache(urls, new Callback0() {
 				@Override
-				public void $invoke(Object p1) {
-					Array&lt;EcRemoteLinkedData&gt; results = (Array&lt;EcRemoteLinkedData&gt;) p1;
-					for (int i = 0; i &lt; results.$length(); i++) {
-						EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
-						d.copyFrom(results.$get(i));
-						results.$set(i, d);
-						if (caching) {
-							JSObjectAdapter.$put(cache, d.shortId(), d);
-							JSObjectAdapter.$put(cache, d.id, d);
-						}
-					}
-					if (success != null) {
-						success.$invoke(results);
-					}
-				}
-			}, failure);
-		else
-			EcIdentityManager.signatureSheetAsync(60000, selectedServer, new Callback1&lt;String&gt;() {
-				@Override
-				public void $invoke(String p1) {
-					fd.append(&quot;signatureSheet&quot;, p1);
-					EcRemote.postExpectingObject(me.selectedServer, &quot;sky/repo/multiGet&quot;, fd, new Callback1&lt;Object&gt;() {
+				public void $invoke() {
+					EcAsyncHelper&lt;String&gt; eah = new EcAsyncHelper();
+					eah.each(urls, new Callback2&lt;String, Callback0&gt;() {
 						@Override
-						public void $invoke(Object p1) {
-							Array&lt;EcRemoteLinkedData&gt; results = (Array&lt;EcRemoteLinkedData&gt;) p1;
-							for (int i = 0; i &lt; results.$length(); i++) {
-								EcRemoteLinkedData d = new EcRemoteLinkedData(null, null);
-								d.copyFrom(results.$get(i));
-								results.$set(i, d);
-								if (caching) {
-									JSObjectAdapter.$put(cache, d.shortId(), d);
-									JSObjectAdapter.$put(cache, d.id, d);
+						public void $invoke(String url, final Callback0 done) {
+							EcRepository.get(url, new Callback1&lt;EcRemoteLinkedData&gt;() {
+								@Override
+								public void $invoke(EcRemoteLinkedData result) {
+									results.push(result);
+									done.$invoke();
 								}
-							}
-							if (success != null) {
-								success.$invoke(results);
-							}
+							}, new Callback1&lt;String&gt;() {
+								@Override
+								public void $invoke(String s) {
+									done.$invoke();
+								}
+							});
 						}
-					}, failure);
+					}, new Callback1&lt;Array&lt;String&gt;&gt;() {
+						@Override
+						public void $invoke(Array&lt;String&gt; urls) {
+							success.$invoke(results);
+						}
+					});
 				}
-			}, failure);
+			});
+		else {
+			EcAsyncHelper&lt;String&gt; eah = new EcAsyncHelper();
+			eah.each(urls, new Callback2&lt;String, Callback0&gt;() {
+				@Override
+				public void $invoke(String url, final Callback0 done) {
+					EcRepository.get(url, new Callback1&lt;EcRemoteLinkedData&gt;() {
+						@Override
+						public void $invoke(EcRemoteLinkedData result) {
+							results.push(result);
+							done.$invoke();
+						}
+					}, new Callback1&lt;String&gt;() {
+						@Override
+						public void $invoke(String s) {
+							done.$invoke();
+						}
+					});
+				}
+			}, new Callback1&lt;Array&lt;String&gt;&gt;() {
+				@Override
+				public void $invoke(Array&lt;String&gt; urls) {
+					success.$invoke(results);
+				}
+			});
+		}
 
 	}
 
@@ -2071,13 +2062,14 @@ public class EcRepository {
 		Array&lt;String&gt; hostnames = new Array&lt;String&gt;();
 		Array&lt;String&gt; servicePrefixes = new Array&lt;String&gt;();
 
-		if (selectedServer != null) {
+		if (selectedServer != null &amp;&amp; Global.window != null &amp;&amp; Global.window.document != null) {
 			Element e = Global.window.document.createElement(&quot;a&quot;);
-			JSObjectAdapter.$put(e, &quot;href&quot;, selectedServer);
-			hostnames.push((String) JSObjectAdapter.$get(e, &quot;host&quot;));
-			servicePrefixes.push((String) JSObjectAdapter.$get(e, &quot;pathname&quot;));
-		} else {
-
+			if (e != null) {
+				JSObjectAdapter.$put(e, &quot;href&quot;, selectedServer);
+				hostnames.push((String) JSObjectAdapter.$get(e, &quot;host&quot;));
+				servicePrefixes.push((String) JSObjectAdapter.$get(e, &quot;pathname&quot;));
+			}
+		} else if (Global.window != null &amp;&amp; Global.window.location != null) {
 			if (Global.window.location.host != null) {
 				hostnames.push(Global.window.location.host, Global.window.location.host.replace(&quot;.&quot;, &quot;.service.&quot;), Global.window.location.host + &quot;:8080&quot;,
 						Global.window.location.host.replace(&quot;.&quot;, &quot;.service.&quot;) + &quot;:8080&quot;);
@@ -2089,8 +2081,22 @@ public class EcRepository {
 			}
 		}
 
-		servicePrefixes.push(&quot;/&quot; + Global.window.location.pathname.split(&quot;/&quot;)[1] + &quot;/api/&quot;, &quot;/&quot; + Global.window.location.pathname.split(&quot;/&quot;)[1] + &quot;/api/custom/&quot;, &quot;/&quot;, &quot;/service/&quot;,
-				&quot;/api/&quot;, &quot;/api/custom/&quot;);
+		if (Global.window != null) {
+			if (Global.window.location != null) {
+				servicePrefixes.push(&quot;/&quot; + Global.window.location.pathname.split(&quot;/&quot;)[1] + &quot;/api/&quot;);
+				servicePrefixes.push( &quot;/&quot; + Global.window.location.pathname.split(&quot;/&quot;)[1] + &quot;/api/custom/&quot;);
+			}
+		}
+
+		if (hostnames.$length() == 0)
+		{
+			hostnames.push(&quot;localhost&quot;,&quot;localhost:8080&quot;);
+		}
+
+		servicePrefixes.push(&quot;/&quot;);
+		servicePrefixes.push(&quot;/service/&quot;);
+		servicePrefixes.push(&quot;/api/&quot;);
+		servicePrefixes.push(&quot;/api/custom/&quot;);
 		for (int j = 0; j &lt; hostnames.$length(); j++) {
 			for (int k = 0; k &lt; servicePrefixes.$length(); k++) {
 				for (int i = 0; i &lt; protocols.$length(); i++) {

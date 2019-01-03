@@ -826,7 +826,7 @@ import org.stjs.javascript.functions.Callback3;
  * @class EcLinkedData
  */
 public class EcLinkedData {
-	public static Array&lt;String&gt; atProperties = JSCollections.$array(&quot;id&quot;, &quot;type&quot;, &quot;schema&quot;, &quot;context&quot;, &quot;signature&quot;, &quot;owner&quot;, &quot;reader&quot;, &quot;encryptedType&quot;);
+	public static Array&lt;String&gt; atProperties = JSCollections.$array(&quot;id&quot;, &quot;type&quot;, &quot;schema&quot;, &quot;context&quot;, &quot;signature&quot;, &quot;graph&quot;, &quot;owner&quot;, &quot;reader&quot;, &quot;encryptedType&quot;);
 	/**
 	 * JSON-LD @type field.
 	 *
@@ -946,8 +946,9 @@ public class EcLinkedData {
 		Array&lt;String&gt; keys = new Array&lt;String&gt;();
 		Map&lt;String, Object&gt; me = JSObjectAdapter.$properties(o);
 		for (String key : me) {
-			if (isAtProperty(key))
-				key = &quot;@&quot; + key;
+			if (me.$get(&quot;type&quot;) != null)
+				if (isAtProperty(key))
+					key = &quot;@&quot; + key;
 			keys.push(key);
 		}
 		keys.sort(new SortFunction&lt;String&gt;() {
@@ -1056,8 +1057,12 @@ public class EcLinkedData {
 		}
 		Map&lt;String, Object&gt; you = JSObjectAdapter.$properties(that);
 		for (String key : you) {
-			if (JSGlobal.typeof(you.$get(key)) != &quot;function&quot;)
-				me.$put(key.replace(&quot;@&quot;, &quot;&quot;), you.$get(key));
+			if (JSGlobal.typeof(you.$get(key)) != &quot;function&quot;) {
+				if (you.$get(&quot;@type&quot;) != null)
+					me.$put(key.replace(&quot;@&quot;, &quot;&quot;), you.$get(key));
+				else
+					me.$put(key, you.$get(key));
+			}
 		}
 
 		String stripNamespace = null;
@@ -1115,13 +1120,26 @@ public class EcLinkedData {
 	 */
 	public EcLinkedData deAtify() {
 		Map&lt;String, Object&gt; me = JSObjectAdapter.$properties(this);
+     boolean typeFound = false;
+     if (me.$get(&quot;@type&quot;) != null)
+         typeFound = true;
 		for (String key : me) {
-			if (me.$get(key) == null) {
-				Object value = me.$get(key);
-				if (value != null)
-					if (value instanceof EcLinkedData)
-						value = ((EcLinkedData) value).deAtify();
-				me.$put(key.replace(&quot;@&quot;, &quot;&quot;), value);
+			if (me.$get(key) == null){
+				if (typeFound) {
+					Object value = me.$get(key);
+					if (value != null)
+						if (value instanceof EcLinkedData)
+							value = ((EcLinkedData) value).deAtify();
+					me.$put(key.replace(&quot;@&quot;, &quot;&quot;), value);
+				}
+				else
+				{
+					Object value = me.$get(key);
+					if (value != null)
+						if (value instanceof EcLinkedData)
+							value = ((EcLinkedData) value).deAtify();
+					me.$put(key, value);
+				}
 			}
 		}
 		return this;
@@ -1138,6 +1156,9 @@ public class EcLinkedData {
 		if (context != null &amp;&amp; type != null) {
 			if (!EcObject.isObject(context)) {
 				String context = (!this.context.endsWith(&quot;/&quot;) ? this.context + &quot;/&quot; : this.context);
+				if (type.indexOf(context) == 0)
+					a.push(type);
+				else
 				a.push(context + type);
 			}
 		}

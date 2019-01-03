@@ -809,8 +809,10 @@
 <pre class="code prettyprint linenums">
 package org.schema;
 
+import com.eduworks.ec.array.EcArray;
 import com.eduworks.ec.array.EcObject;
 import org.cassproject.schema.general.EcRemoteLinkedData;
+import org.stjs.javascript.Array;
 import org.stjs.javascript.JSObjectAdapter;
 
 /**
@@ -928,11 +930,8 @@ public class Thing extends EcRemoteLinkedData {
 	 * @method getName
 	 */
 	public String getName() {
-		if (this.name != null &amp;&amp; EcObject.isObject(this.name) &amp;&amp; JSObjectAdapter.hasOwnProperty(this.name, &quot;@value&quot;)) {
-			return (String) JSObjectAdapter.$get(this.name, &quot;@value&quot;);
-		} else {
-			return this.name;
-		}
+		Object n = this.name;
+		return getDisplayStringFrom(n);
 	}
 
 	/**
@@ -962,11 +961,19 @@ public class Thing extends EcRemoteLinkedData {
 	 * @method getDescription
 	 */
 	public String getDescription() {
-		if (this.description != null &amp;&amp; EcObject.isObject(this.description) &amp;&amp; JSObjectAdapter.hasOwnProperty(this.description, &quot;@value&quot;)) {
-			return (String) JSObjectAdapter.$get(this.description, &quot;@value&quot;);
-		} else {
-			return this.description;
+		Object n = this.description;
+		return getDisplayStringFrom(n);
+	}
+
+	public static String getDisplayStringFrom(Object n) {
+		if (n != null &amp;&amp; EcArray.isArray(n)) {
+			if (((Array) n).$length() &gt; 0)
+				n = ((Array) n).$get(0);
 		}
+		if (n != null &amp;&amp; EcObject.isObject(n) &amp;&amp; JSObjectAdapter.hasOwnProperty(n, &quot;@value&quot;)) {
+			return (String) JSObjectAdapter.$get(n, &quot;@value&quot;);
+		}
+		return (String) n;
 	}
 
 	/**

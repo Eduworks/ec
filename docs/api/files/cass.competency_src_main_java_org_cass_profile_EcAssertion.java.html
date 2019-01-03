@@ -809,6 +809,7 @@
 <pre class="code prettyprint linenums">
 package org.cass.profile;
 
+import com.eduworks.ec.array.EcAsyncHelper;
 import com.eduworks.ec.crypto.EcPk;
 import org.cass.competency.EcCompetency;
 import org.cassproject.ebac.identity.EcContact;
@@ -819,10 +820,14 @@ import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.cass.profile.Assertion;
 import org.cassproject.schema.cass.profile.AssertionCodebook;
 import org.cassproject.schema.general.EcRemoteLinkedData;
+import org.schema.Thing;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
+import org.stjs.javascript.JSObjectAdapter;
+import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 
 /**
  * The sequence that assertions should be built as such: 1. Generate the ID. 2.
@@ -909,17 +914,23 @@ public class EcAssertion extends Assertion {
 	 */
 	public void setSubject(EcPk pk) {
 		Array&lt;String&gt; owners = new Array&lt;String&gt;();
-		Array&lt;String&gt; readers = reader;
-		if (readers == null)
+		Array&lt;String&gt; readers = null;
+
+		if (reader == null)
 			readers = new Array&lt;String&gt;();
+		else
+			readers = (Array) Global.JSON.parse(Global.JSON.stringify(reader));
+
 		if (subject != null) {
 			if (subject.owner != null)
 				owners.concat(subject.owner);
 			if (subject.reader != null)
 				readers.concat(subject.reader);
 		}
+
 		if (owner != null)
 			owners = owners.concat(owner);
+
 		readers.push(pk.toPem());
 		subject = EcEncryptedValue.encryptValue(pk.toPem(), id, owners, readers);
 	}
@@ -942,7 +953,7 @@ public class EcAssertion extends Assertion {
 		};
 		AssertionCodebook codebook = Assertion.getCodebook(this);
 		if (codebook != null)
-			v.decryptIntoStringUsingSecretAsync(codebook.subject,decrypted,failure);
+			v.decryptIntoStringUsingSecretAsync(codebook.subject, decrypted, failure);
 		else
 			v.decryptIntoStringAsync(decrypted, failure);
 	}
@@ -986,7 +997,7 @@ public class EcAssertion extends Assertion {
 		};
 		AssertionCodebook codebook = Assertion.getCodebook(this);
 		if (codebook != null)
-			v.decryptIntoStringUsingSecretAsync(codebook.agent,decrypted,failure);
+			v.decryptIntoStringUsingSecretAsync(codebook.agent, decrypted, failure);
 		else
 			v.decryptIntoStringAsync(decrypted, failure);
 	}
@@ -995,13 +1006,10 @@ public class EcAssertion extends Assertion {
 		if (subject == null)
 			return &quot;Nobody&quot;;
 		EcPk subjectPk = getSubject();
-		EcIdentity identity = EcIdentityManager.getIdentity(subjectPk);
-		if (identity != null &amp;&amp; identity.displayName != null)
-			return identity.displayName + &quot; (You)&quot;;
-		EcContact contact = EcIdentityManager.getContact(subjectPk);
-		if (contact == null || contact.displayName == null)
-			return &quot;Unknown Subject&quot;;
-		return contact.displayName;
+		String name = getNameByPkBlocking(subjectPk);
+		if (name != null)
+			return name;
+		return &quot;Unknown Subject&quot;;
 	}
 
 	public void getSubjectNameAsync(final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure) {
@@ -1009,35 +1017,17 @@ public class EcAssertion extends Assertion {
 			success.$invoke(&quot;Nobody&quot;);
 			return;
 		}
-		getSubjectAsync(new Callback1&lt;EcPk&gt;() {
-			@Override
-			public void $invoke(EcPk subjectPk) {
-				EcIdentity identity = EcIdentityManager.getIdentity(subjectPk);
-				if (identity != null &amp;&amp; identity.displayName != null) {
-					success.$invoke(identity.displayName + &quot; (You)&quot;);
-					return;
-				}
-				EcContact contact = EcIdentityManager.getContact(subjectPk);
-				if (contact == null || contact.displayName == null) {
-					success.$invoke(&quot;Unknown Subject&quot;);
-					return;
-				}
-				success.$invoke(contact.displayName);
-			}
-		}, failure);
+		getSubjectAsync(getNameByPk(success, failure, &quot;Unknown Subject&quot;), failure);
 	}
 
 	public String getAgentName() {
 		if (agent == null)
 			return &quot;Nobody&quot;;
 		EcPk agentPk = getAgent();
-		EcIdentity identity = EcIdentityManager.getIdentity(agentPk);
-		if (identity != null &amp;&amp; identity.displayName != null)
-			return identity.displayName + &quot; (You)&quot;;
-		EcContact contact = EcIdentityManager.getContact(agentPk);
-		if (contact == null || contact.displayName == null)
-			return &quot;Unknown Agent&quot;;
-		return contact.displayName;
+		String name = getNameByPkBlocking(agentPk);
+		if (name != null)
+			return name;
+		return &quot;Unknown Agent&quot;;
 	}
 
 	public void getAgentNameAsync(final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure) {
@@ -1045,22 +1035,114 @@ public class EcAssertion extends Assertion {
 			success.$invoke(&quot;Nobody&quot;);
 			return;
 		}
-		getAgentAsync(new Callback1&lt;EcPk&gt;() {
+		getAgentAsync(getNameByPk(success, failure, &quot;Unknown Agent&quot;), failure);
+	}
+
+	public static Callback1&lt;EcPk&gt; getNameByPk(final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure, final String dflt) {
+		return new Callback1&lt;EcPk&gt;() {
 			@Override
-			public void $invoke(EcPk subjectPk) {
-				EcIdentity identity = EcIdentityManager.getIdentity(subjectPk);
-				if (identity != null &amp;&amp; identity.displayName != null) {
-					success.$invoke(identity.displayName + &quot; (You)&quot;);
-					return;
-				}
-				EcContact contact = EcIdentityManager.getContact(subjectPk);
-				if (contact == null || contact.displayName == null) {
-					success.$invoke(&quot;Unknown Agent&quot;);
-					return;
-				}
-				success.$invoke(contact.displayName);
+			public void $invoke(final EcPk pk) {
+				final EcAsyncHelper&lt;EcRepository&gt; repoHelper = new EcAsyncHelper&lt;&gt;();
+				repoHelper.each(EcRepository.repos, new Callback2&lt;EcRepository, Callback0&gt;() {
+					@Override
+					public void $invoke(EcRepository ecRepository, final Callback0 callback0) {
+						String url = ecRepository.selectedServer;
+						if (url == null) {
+							callback0.$invoke();
+							return;
+						}
+						if (url.endsWith(&quot;/&quot;) == false)
+							url += &quot;/&quot;;
+						url += &quot;data/&quot; + pk.fingerprint();
+						EcRepository.get(url, new Callback1&lt;EcRemoteLinkedData&gt;() {
+							@Override
+							public void $invoke(EcRemoteLinkedData personOrOrganization) {
+								EcEncryptedValue e = new EcEncryptedValue();
+								if (personOrOrganization.isAny(e.getTypes())) {
+									e.copyFrom(personOrOrganization);
+									e.decryptIntoObjectAsync(new Callback1&lt;EcRemoteLinkedData&gt;() {
+										@Override
+										public void $invoke(EcRemoteLinkedData decryptedPersonOrOrganization) {
+											String name = Thing.getDisplayStringFrom(JSObjectAdapter.$get(decryptedPersonOrOrganization, &quot;name&quot;));
+											if (name != null &amp;&amp; repoHelper.counter != -1) {
+												success.$invoke(name);
+												repoHelper.stop();
+											} else {
+												callback0.$invoke();
+												return;
+											}
+										}
+									}, new Callback1&lt;String&gt;() {
+										@Override
+										public void $invoke(String s) {
+											callback0.$invoke();
+										}
+									});
+								} else {
+									String name = Thing.getDisplayStringFrom(JSObjectAdapter.$get(personOrOrganization, &quot;name&quot;));
+									if (name != null &amp;&amp; repoHelper.counter != -1) {
+										success.$invoke(name);
+										repoHelper.stop();
+									} else {
+										callback0.$invoke();
+										return;
+									}
+								}
+							}
+						}, new Callback1&lt;String&gt;() {
+							@Override
+							public void $invoke(String s) {
+								callback0.$invoke();
+							}
+						});
+					}
+				}, new Callback1&lt;Array&lt;EcRepository&gt;&gt;() {
+					@Override
+					public void $invoke(Array&lt;EcRepository&gt; strings) {
+						EcIdentity identity = EcIdentityManager.getIdentity(pk);
+						if (identity != null &amp;&amp; identity.displayName != null) {
+							success.$invoke(identity.displayName + &quot; (You)&quot;);
+							return;
+						}
+						EcContact contact = EcIdentityManager.getContact(pk);
+						if (contact != null &amp;&amp; contact.displayName != null) {
+							success.$invoke(contact.displayName);
+							return;
+						}
+						success.$invoke(dflt);
+					}
+				});
 			}
-		}, failure);
+		};
+	}
+
+	public static String getNameByPkBlocking(EcPk agentPk) {
+		for (int i = 0; i &lt; EcRepository.repos.$length(); i++) {
+			String url = EcRepository.repos.$get(i).selectedServer;
+			if (url == null) continue;
+			if (url.endsWith(&quot;/&quot;) == false)
+				url += &quot;/&quot;;
+			url += &quot;data/&quot; + agentPk.fingerprint();
+			EcRemoteLinkedData personOrOrganization = EcRepository.getBlocking(url);
+			if (personOrOrganization == null) continue;
+			EcEncryptedValue e = new EcEncryptedValue();
+			if (personOrOrganization.isAny(e.getTypes())) {
+				e.copyFrom(personOrOrganization);
+				EcRemoteLinkedData decryptedPersonOrOrganization = e.decryptIntoObject();
+				if (decryptedPersonOrOrganization != null)
+					personOrOrganization = decryptedPersonOrOrganization;
+			}
+			String name = Thing.getDisplayStringFrom(JSObjectAdapter.$get(personOrOrganization, &quot;name&quot;));
+			if (name != null)
+				return name;
+		}
+		EcIdentity identity = EcIdentityManager.getIdentity(agentPk);
+		if (identity != null &amp;&amp; identity.displayName != null)
+			return identity.displayName + &quot; (You)&quot;;
+		EcContact contact = EcIdentityManager.getContact(agentPk);
+		if (contact != null &amp;&amp; contact.displayName != null)
+			return contact.displayName;
+		return null;
 	}
 
 	public Long getAssertionDate() {
@@ -1102,7 +1184,7 @@ public class EcAssertion extends Assertion {
 		};
 		AssertionCodebook codebook = Assertion.getCodebook(this);
 		if (codebook != null)
-			v.decryptIntoStringUsingSecretAsync(codebook.assertionDate,decrypted,failure);
+			v.decryptIntoStringUsingSecretAsync(codebook.assertionDate, decrypted, failure);
 		else
 			v.decryptIntoStringAsync(decrypted, failure);
 	}
@@ -1146,7 +1228,7 @@ public class EcAssertion extends Assertion {
 		};
 		AssertionCodebook codebook = Assertion.getCodebook(this);
 		if (codebook != null)
-			v.decryptIntoStringUsingSecretAsync(codebook.expirationDate,decrypted,failure);
+			v.decryptIntoStringUsingSecretAsync(codebook.expirationDate, decrypted, failure);
 		else
 			v.decryptIntoStringAsync(decrypted, failure);
 	}
@@ -1191,7 +1273,7 @@ public class EcAssertion extends Assertion {
 		};
 		AssertionCodebook codebook = Assertion.getCodebook(this);
 		if (codebook != null)
-			v.decryptIntoStringUsingSecretAsync(codebook.evidence.$get(index),decrypted,failure);
+			v.decryptIntoStringUsingSecretAsync(codebook.evidence.$get(index), decrypted, failure);
 		else
 			v.decryptIntoStringAsync(decrypted, failure);
 	}
@@ -1235,7 +1317,7 @@ public class EcAssertion extends Assertion {
 		};
 		AssertionCodebook codebook = Assertion.getCodebook(this);
 		if (codebook != null)
-			v.decryptIntoStringUsingSecretAsync(codebook.decayFunction,decrypted,failure);
+			v.decryptIntoStringUsingSecretAsync(codebook.decayFunction, decrypted, failure);
 		else
 			v.decryptIntoStringAsync(decrypted, failure);
 	}
@@ -1283,7 +1365,7 @@ public class EcAssertion extends Assertion {
 		};
 		AssertionCodebook codebook = Assertion.getCodebook(this);
 		if (codebook != null)
-			v.decryptIntoStringUsingSecretAsync(codebook.negative,decrypted,failure);
+			v.decryptIntoStringUsingSecretAsync(codebook.negative, decrypted, failure);
 		else
 			v.decryptIntoStringAsync(decrypted, failure);
 	}

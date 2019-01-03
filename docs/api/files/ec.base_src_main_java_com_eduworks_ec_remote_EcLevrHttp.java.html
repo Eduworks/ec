@@ -827,6 +827,9 @@ if (vname != null) cru.build(&#x27;name&#x27;,com.eduworks.resolver.lang.LevrJsP
 if (vauthToken != null) cru.build(&#x27;authToken&#x27;,com.eduworks.resolver.lang.LevrJsParser.jsToJava(vauthToken));
 return cru.resolve(context,parameters,dataStreams);
 }*/
+
+	public static Object httpStatus;
+
 	public static Object httpPost(Object obj, String url, String contentType, String multipart, String name) {
 		return null;
 	}
@@ -835,7 +838,7 @@ return cru.resolve(context,parameters,dataStreams);
 		return null;
 	}
 
-	public static String httpDelete(String url) {
+	public static String httpDelete(String url, String contentType, String name, String authToken, Object headers) {
 		return null;
 	}
 }
