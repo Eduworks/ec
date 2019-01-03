@@ -62,7 +62,7 @@ public class SkyId {
 
 			Array<EbacSignature> signatureSheet = new Array<EbacSignature>();
 			signatureSheet.push(EcIdentityManager.createSignature(60000, null, skyIdPem));
-			JSObjectAdapter.$put(this, "signatureSheet", signatureSheet);
+			ctx.put("signatureSheet", signatureSheet);
 
 			Object get = JSFunctionAdapter.call(SkyRepo.skyrepoGetParsed, this, saltedId,null,"schema.cassproject.org.kbac.0.2.EncryptedValue",null);
 			if (get != null)
@@ -118,7 +118,7 @@ public class SkyId {
 
 			Array<EbacSignature> signatureSheet = new Array<EbacSignature>();
 			signatureSheet.push(EcIdentityManager.createSignature(60000, null, skyIdPem));
-			JSObjectAdapter.$put(this, "signatureSheet", signatureSheet);
+			ctx.put( "signatureSheet", signatureSheet);
 
 			Object get = JSFunctionAdapter.call(SkyRepo.skyrepoGetParsed, this, saltedId,null,"schema.cassproject.org.kbac.0.2.EncryptedValue",null);
 			if (get == null)
@@ -159,7 +159,7 @@ public class SkyId {
 
 			Array<EbacSignature> signatureSheet = new Array<EbacSignature>();
 			signatureSheet.push(EcIdentityManager.createSignature(60000, null, skyIdPem));
-			JSObjectAdapter.$put(this, "signatureSheet", signatureSheet);
+			ctx.put("signatureSheet", signatureSheet);
 
 			Object get = JSFunctionAdapter.call(SkyRepo.skyrepoGetParsed, this, saltedId,null,"schema.cassproject.org.kbac.0.2.EncryptedValue",null);
 			if (get == null)
