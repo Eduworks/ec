@@ -71,7 +71,7 @@ public class SkyRepo {
 			Array sigSheet = null;
 
 			//Check cache.
-			sigSheet = (Array) JSObjectAdapter.$get(this, "signatureSheet");
+			sigSheet = (Array)ctx.get("signatureSheet");
 			if (sigSheet != null) return sigSheet;
 			sigSheet = new Array();
 
@@ -118,7 +118,8 @@ public class SkyRepo {
 					levr.error("Invalid Signature Detected: " + signature.toJson(), 451);
 				sigSheet.$set(i, signature);
 			}
-			JSObjectAdapter.$put(this, "signatureSheet", sigSheet);
+
+			ctx.put( "signatureSheet", sigSheet);
 			return sigSheet;
 		}
 	};

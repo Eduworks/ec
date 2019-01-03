@@ -966,7 +966,19 @@ public abstract class AssertionProcessor {
 				}, new Callback1&lt;Array&lt;AssertionCoprocessor&gt;&gt;() {
 					@Override
 					public void $invoke(Array&lt;AssertionCoprocessor&gt; strings) {
-						success.$invoke(ip);
+						EcAsyncHelper&lt;AssertionCoprocessor&gt; eah3 = new EcAsyncHelper&lt;&gt;();
+						eah3.each(me.coprocessors, new Callback2&lt;AssertionCoprocessor, Callback0&gt;() {
+							@Override
+							public void $invoke(AssertionCoprocessor ac, final Callback0 callback000) {
+								ac.assertionProcessor = me;
+								ac.mutateAssertions(ip, listOfActivatedCompetencies,callback000);
+							}
+						}, new Callback1&lt;Array&lt;AssertionCoprocessor&gt;&gt;() {
+							@Override
+							public void $invoke(Array&lt;AssertionCoprocessor&gt; strings) {
+								success.$invoke(ip);
+							}
+						});
 					}
 				});
 			}
@@ -1116,12 +1128,16 @@ public abstract class AssertionProcessor {
 
 	protected String buildAssertionSearchQuery(InquiryPacket ip, EcCompetency competency) {
 		String result = null;
-		if (IPType.ROLLUPRULE.equals(ip.type))
+		if (IPType.ROLLUPRULE.equals(ip.type)) {
+			if (ip.rule.indexOf(&quot;AND &quot;) == 0)
+				ip.rule = ip.rule.replace(&quot;AND &quot;,&quot;&quot;);
 			result = &quot;(&quot; + new EcAssertion().getSearchStringByType() + &quot;) AND (&quot; + ip.rule + &quot;)&quot;;
+		}
 		else if (IPType.COMPETENCY.equals(ip.type))
 			result = new EcAssertion().getSearchStringByTypeAndCompetency(competency);
 		for (int i = 0; i &lt; ip.subject.$length(); i++)
 			result += &quot; AND (\\*@reader:\&quot;&quot; + ip.subject.$get(i).toPem() + &quot;\&quot;)&quot;;
+		log(ip, &quot;Search Query: &quot; + result);
 		if (result != null)
 			return result;
 		throw new RuntimeException(&quot;Trying to build an assertion search query on an unsupported type: &quot; + ip.type);

@@ -332,6 +332,20 @@
             "fors": {},
             "namespaces": {}
         },
+        "com.eduworks.schema/src/main/java/org/schema/EcOrganization.java": {
+            "name": "com.eduworks.schema/src/main/java/org/schema/EcOrganization.java",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "com.eduworks.schema/src/main/java/org/schema/EcPerson.java": {
+            "name": "com.eduworks.schema/src/main/java/org/schema/EcPerson.java",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "com.eduworks.schema/src/main/java/org/schema/EcQuestion.java": {
             "name": "com.eduworks.schema/src/main/java/org/schema/EcQuestion.java",
             "modules": {},
@@ -750,6 +764,13 @@
         },
         "ec.ui.framework/src/main/java/com/eduworks/foundation/jquery/plugin/Foundation.java": {
             "name": "ec.ui.framework/src/main/java/com/eduworks/foundation/jquery/plugin/Foundation.java",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "kbac.skyrepo/src/main/java/org/cassproject/kbac/SkyRepo.java": {
+            "name": "kbac.skyrepo/src/main/java/org/cassproject/kbac/SkyRepo.java",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -8297,7 +8318,7 @@
             "module": "com.eduworks.ec",
             "namespace": "",
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 19,
+            "line": 21,
             "description": "Repository object used to interact with the CASS Repository web services.\nShould be used for all CRUD and search operations",
             "author": "fritz.ray@eduworks.com"
         },
@@ -8459,7 +8480,7 @@
             "module": "com.eduworks.ec",
             "namespace": "",
             "file": "ec.base/src/main/java/com/eduworks/ec/remote/EcRemote.java",
-            "line": 14,
+            "line": 9,
             "description": "Wrapper to handle all remote web service invocations.",
             "author": "devlin.junker@eduworks.com"
         },
@@ -18531,7 +18552,7 @@
             "module": "org.schema",
             "namespace": "",
             "file": "org.schema/src/main/java/org/schema/Thing.java",
-            "line": 7,
+            "line": 9,
             "description": "Schema.org/Thing\nThe most generic type of item.",
             "author": "schema.org"
         },
@@ -21170,7 +21191,7 @@
         },
         {
             "file": "cass.competency/src/main/java/org/cass/profile/EcAssertion.java",
-            "line": 18,
+            "line": 23,
             "description": "The sequence that assertions should be built as such: 1. Generate the ID. 2.\nAdd the owner. 3. Set the subject. 4. Set the agent. Further functions may be\ncalled afterwards in any order. WARNING: The modifications of ownership and\nreadership do not \"just work\".",
             "author": "fritz.ray@eduworks.com",
             "class": "CSVExport",
@@ -21178,7 +21199,7 @@
         },
         {
             "file": "cass.competency/src/main/java/org/cass/profile/EcAssertion.java",
-            "line": 94,
+            "line": 99,
             "description": "Sets the subject of an assertion. Makes a few assumptions: Owners of the\nobject should be able to see and change the encrypted value. Owners and\nreaders of the object should be persisted.",
             "params": [
                 {
@@ -21716,7 +21737,7 @@
         },
         {
             "file": "cass.import/src/main/java/org/cass/importer/CSVImport.java",
-            "line": 97,
+            "line": 104,
             "description": "Method to create competencies (and relationships if the parameters are passed in)\nbased on a CSV file and references to which columns correspond to which pieces\nof data.",
             "params": [
                 {
@@ -21805,7 +21826,7 @@
         },
         {
             "file": "cass.import/src/main/java/org/cass/importer/CSVImport.java",
-            "line": 277,
+            "line": 284,
             "description": "Handles actually importing the relationships from the relationship CSV file",
             "params": [
                 {
@@ -22028,7 +22049,7 @@
         },
         {
             "file": "cass.rollup/src/main/java/cass/rollup/coprocessor/AssertionCoprocessor.java",
-            "line": 9,
+            "line": 10,
             "description": "Created by fray on 5/30/17.",
             "class": "AssertionProcessor",
             "module": "org.cassproject"
@@ -22326,7 +22347,7 @@
         {
             "file": "cass.rollup/src/main/java/cass/rollup/InquiryPacket.java",
             "line": 175,
-            "description": "Result as a ResultType.",
+            "description": "Result as a ResultType. ResultType is an autogenerated Enum object, and result._name may match \"TRUE\", \"FALSE\", \"UNKNOWN\", \"INDETERMINANT\"",
             "itemtype": "property",
             "name": "result",
             "type": "ResultType",
@@ -22686,7 +22707,7 @@
         },
         {
             "file": "cass.rollup/src/main/java/cass/rollup/RelationshipPacketGenerator.java",
-            "line": 311,
+            "line": 317,
             "description": "Method to invoke to begin relation processing.",
             "itemtype": "method",
             "name": "go",
@@ -23700,6 +23721,164 @@
             "itemtype": "method",
             "name": "search",
             "static": 1,
+            "class": "EcRemoteIdentityManager",
+            "module": "com.eduworks"
+        },
+        {
+            "file": "com.eduworks.schema/src/main/java/org/schema/EcOrganization.java",
+            "line": 14,
+            "description": "Searches a repository for organizations that match the search query",
+            "params": [
+                {
+                    "name": "repo",
+                    "description": "Repository to search using the query",
+                    "type": "EcRepository"
+                },
+                {
+                    "name": "query",
+                    "description": "Query string to pass to the search web service",
+                    "type": "String"
+                },
+                {
+                    "name": "{Callback1<Array<Quiz>>",
+                    "description": "success Callback triggered after\n                               completing the search, returns the results"
+                },
+                {
+                    "name": "failure",
+                    "description": "Callback triggered if error searching",
+                    "type": "Callback1<String>"
+                },
+                {
+                    "name": "paramObj",
+                    "description": "Parameter object for search",
+                    "type": "Object"
+                }
+            ],
+            "memberof": "EcOrganization",
+            "itemtype": "method",
+            "name": "search",
+            "static": 1,
+            "class": "EcRemoteIdentityManager",
+            "module": "com.eduworks"
+        },
+        {
+            "file": "com.eduworks.schema/src/main/java/org/schema/EcOrganization.java",
+            "line": 61,
+            "description": "Adds the given person's id to the member list",
+            "params": [
+                {
+                    "name": "person",
+                    "description": "Person to add to the Organization's member list",
+                    "type": "EcPerson"
+                }
+            ],
+            "itemtype": "method",
+            "name": "addMember",
+            "class": "EcRemoteIdentityManager",
+            "module": "com.eduworks"
+        },
+        {
+            "file": "com.eduworks.schema/src/main/java/org/schema/EcOrganization.java",
+            "line": 78,
+            "description": "Removes the person id from the member list",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "Person id to be removed from Organization's member list",
+                    "type": "String"
+                }
+            ],
+            "itemtype": "method",
+            "name": "removeMemberById",
+            "class": "EcRemoteIdentityManager",
+            "module": "com.eduworks"
+        },
+        {
+            "file": "com.eduworks.schema/src/main/java/org/schema/EcOrganization.java",
+            "line": 95,
+            "description": "Attempts to find and return the organization's fingerprint from the id.",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "itemtype": "method",
+            "name": "getFingerprintFromId",
+            "class": "EcRemoteIdentityManager",
+            "module": "com.eduworks"
+        },
+        {
+            "file": "com.eduworks.schema/src/main/java/org/schema/EcOrganization.java",
+            "line": 105,
+            "description": "Attempts to find and return the organization's fingerprint from the id.",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "itemtype": "method",
+            "name": "getFingerprintFromId",
+            "class": "EcRemoteIdentityManager",
+            "module": "com.eduworks"
+        },
+        {
+            "file": "com.eduworks.schema/src/main/java/org/schema/EcPerson.java",
+            "line": 12,
+            "description": "Searches a repository for persons that match the search query",
+            "params": [
+                {
+                    "name": "repo",
+                    "description": "Repository to search using the query",
+                    "type": "EcRepository"
+                },
+                {
+                    "name": "query",
+                    "description": "Query string to pass to the search web service",
+                    "type": "String"
+                },
+                {
+                    "name": "{Callback1<Array<Quiz>>",
+                    "description": "success Callback triggered after\n                               completing the search, returns the results"
+                },
+                {
+                    "name": "failure",
+                    "description": "Callback triggered if error searching",
+                    "type": "Callback1<String>"
+                },
+                {
+                    "name": "paramObj",
+                    "description": "Parameter object for search",
+                    "type": "Object"
+                }
+            ],
+            "memberof": "EcPerson",
+            "itemtype": "method",
+            "name": "search",
+            "static": 1,
+            "class": "EcRemoteIdentityManager",
+            "module": "com.eduworks"
+        },
+        {
+            "file": "com.eduworks.schema/src/main/java/org/schema/EcPerson.java",
+            "line": 59,
+            "description": "Attempts to find and return the person's fingerprint from the id.",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "itemtype": "method",
+            "name": "getFingerprintFromId",
+            "class": "EcRemoteIdentityManager",
+            "module": "com.eduworks"
+        },
+        {
+            "file": "com.eduworks.schema/src/main/java/org/schema/EcPerson.java",
+            "line": 69,
+            "description": "Attempts to find and return the person's fingerprint from the id.",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "itemtype": "method",
+            "name": "getFingerprintFromId",
             "class": "EcRemoteIdentityManager",
             "module": "com.eduworks"
         },
@@ -24918,7 +25097,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java",
-            "line": 191,
+            "line": 185,
             "description": "Encrypts a text value with the key provided",
             "params": [
                 {
@@ -24951,7 +25130,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java",
-            "line": 230,
+            "line": 224,
             "description": "Encrypts a text value with the owners and readers provided",
             "params": [
                 {
@@ -24988,7 +25167,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java",
-            "line": 289,
+            "line": 283,
             "description": "Encrypt a value with a specific IV and secret",
             "params": [
                 {
@@ -25035,7 +25214,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java",
-            "line": 334,
+            "line": 328,
             "description": "Setter and getter function for encryptOnSave of an identifier,\nencryptOnSave is used by the static save functions of a class to\ndetermine whether or not to encrypt something when it is saved. This\nvalue is usually set when an object is decrypted using one of the decrypt\nfunctions above.",
             "params": [
                 {
@@ -25063,7 +25242,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java",
-            "line": 368,
+            "line": 362,
             "description": "Decrypts this encrypted value into an object",
             "return": {
                 "description": "The Decrypted Object"
@@ -25076,7 +25255,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java",
-            "line": 390,
+            "line": 384,
             "description": "Asynchronously decrypts this encrypted value into an object",
             "params": [
                 {
@@ -25098,7 +25277,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java",
-            "line": 420,
+            "line": 414,
             "description": "Asynchronously decrypts this encrypted value into an object with a IV and\nsecret provided",
             "params": [
                 {
@@ -25130,7 +25309,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java",
-            "line": 451,
+            "line": 445,
             "description": "Decrypts an encrypted value into a string",
             "return": {
                 "description": "Decrypted string value",
@@ -25144,7 +25323,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java",
-            "line": 466,
+            "line": 460,
             "description": "Decrypts an encrypted value into a string using an alternative secret.",
             "return": {
                 "description": "Decrypted string value",
@@ -25158,7 +25337,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java",
-            "line": 480,
+            "line": 474,
             "description": "Asynchronously decrypts an encrypted value into a string",
             "params": [
                 {
@@ -25180,7 +25359,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java",
-            "line": 506,
+            "line": 500,
             "description": "Asynchronously decrypts an encrypted value into a string",
             "params": [
                 {
@@ -25202,7 +25381,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java",
-            "line": 527,
+            "line": 521,
             "description": "Asynchronously decrypts an encrypted value into a string with an IV and\nsecrete provided",
             "params": [
                 {
@@ -25234,7 +25413,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java",
-            "line": 548,
+            "line": 542,
             "description": "Attempts to decrypt the secret by using all Identities in the Identity\nManager",
             "return": {
                 "description": "Secret after decrypted",
@@ -25248,7 +25427,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java",
-            "line": 597,
+            "line": 591,
             "description": "Attempts to decrypt secret with a specific key",
             "params": [
                 {
@@ -25269,7 +25448,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java",
-            "line": 628,
+            "line": 622,
             "description": "Asynchronously attempts to decrypt secret using all identities in\nIdentity Manager",
             "params": [
                 {
@@ -25291,7 +25470,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java",
-            "line": 721,
+            "line": 715,
             "description": "Asynchronously attempts to decrypt secret with a specific key",
             "params": [
                 {
@@ -25318,7 +25497,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java",
-            "line": 794,
+            "line": 788,
             "description": "Checks if this encrypted value is an encrypted version of a specific\ntype, only works if the type wasn't hidden during encryption",
             "params": [
                 {
@@ -25339,7 +25518,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java",
-            "line": 814,
+            "line": 808,
             "description": "Adds a reader to the object, if the reader does not exist.",
             "params": [
                 {
@@ -25356,7 +25535,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java",
-            "line": 843,
+            "line": 837,
             "description": "Removes a reader from the object, if the reader does exist.",
             "params": [
                 {
@@ -25373,7 +25552,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 44,
+            "line": 46,
             "description": "Gets a JSON-LD object from the place designated by the URI.\n<p>\nUses a signature sheet gathered from {@link EcIdentityManager}.",
             "params": [
                 {
@@ -25401,7 +25580,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 258,
+            "line": 268,
             "description": "Retrieves a piece of data synchronously from the server, blocking until\nit is returned",
             "params": [
                 {
@@ -25423,7 +25602,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 313,
+            "line": 329,
             "description": "Escapes a search query",
             "params": [
                 {
@@ -25445,7 +25624,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 349,
+            "line": 365,
             "description": "Attempts to save a piece of data.\n<p>\nUses a signature sheet informed by the owner field of the data.",
             "params": [
                 {
@@ -25473,7 +25652,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 369,
+            "line": 385,
             "description": "Attempts to save a piece of data. If the @id of the data is not of this server, will register the data to the server.\n<p>\nUses a signature sheet informed by the owner field of the data.",
             "params": [
                 {
@@ -25501,7 +25680,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 389,
+            "line": 405,
             "description": "Attempts to save a piece of data. Does some checks before saving to\nensure the data is valid. This version does not send a console warning,\n<p>\nUses a signature sheet informed by the owner field of the data.",
             "params": [
                 {
@@ -25529,7 +25708,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 433,
+            "line": 450,
             "description": "Attempts to save a piece of data without signing it.\n<p>\nUses a signature sheet informed by the owner field of the data.",
             "params": [
                 {
@@ -25557,7 +25736,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 493,
+            "line": 510,
             "description": "Attempts to delete a piece of data.\n<p>\nUses a signature sheet informed by the owner field of the data.",
             "params": [
                 {
@@ -25585,7 +25764,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 512,
+            "line": 529,
             "description": "Attempts to delete a piece of data.\n<p>\nUses a signature sheet informed by the owner field of the data.",
             "params": [
                 {
@@ -25613,7 +25792,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 574,
+            "line": 589,
             "description": "Attempts to delete a piece of data.\n<p>\nUses a signature sheet informed by the owner field of the data.",
             "params": [
                 {
@@ -25641,7 +25820,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 632,
+            "line": 646,
             "description": "Retrieves data from the server and caches it for use later during the\napplication. This should be called before the data is needed if possible,\nso loading displays can be faster.",
             "params": [
                 {
@@ -25663,7 +25842,29 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 736,
+            "line": 697,
+            "description": "Retrieves data from the server and caches it for use later during the\napplication. This should be called before the data is needed if possible,\nso loading displays can be faster.",
+            "params": [
+                {
+                    "name": "urls",
+                    "description": "List of Data ID Urls that should be precached",
+                    "type": "String[]"
+                },
+                {
+                    "name": "success",
+                    "description": "Callback triggered once all of the data has\n                   been retrieved",
+                    "type": "Callback0"
+                }
+            ],
+            "memberof": "EcRepository",
+            "itemtype": "method",
+            "name": "precachePost",
+            "class": "EcRepository",
+            "module": "com.eduworks.ec"
+        },
+        {
+            "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
+            "line": 739,
             "description": "Gets a JSON-LD object from the place designated by the URI.\n<p>\nUses a signature sheet gathered from {@link EcIdentityManager}.",
             "params": [
                 {
@@ -25691,7 +25892,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 828,
+            "line": 819,
             "description": "Search a repository for JSON-LD compatible data.\n<p>\nUses a signature sheet gathered from {@link EcIdentityManager}.",
             "params": [
                 {
@@ -25723,7 +25924,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 848,
+            "line": 839,
             "description": "Search a repository for JSON-LD compatible data synchronously.\n<p>\nUses a signature sheet gathered from {@link EcIdentityManager}.",
             "params": [
                 {
@@ -25743,7 +25944,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 863,
+            "line": 854,
             "description": "Search a repository for JSON-LD compatible data.\n<p>\nUses a signature sheet gathered from {@link EcIdentityManager}.",
             "params": [
                 {
@@ -25780,7 +25981,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 1002,
+            "line": 993,
             "description": "Search a repository for JSON-LD compatible data synchronously.\n<p>\nUses a signature sheet gathered from {@link EcIdentityManager}.",
             "params": [
                 {
@@ -25805,7 +26006,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 1143,
+            "line": 1134,
             "description": "Searches known repository endpoints to set the server configuration for\nthis repositories instance",
             "memberof": "EcRepository",
             "itemtype": "method",
@@ -25815,7 +26016,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 1233,
+            "line": 1224,
             "description": "Searches known repository endpoints to set the server configuration for\nthis repositories instance",
             "memberof": "EcRepository",
             "itemtype": "method",
@@ -25825,7 +26026,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 1298,
+            "line": 1304,
             "description": "Handles the actual detection of repository endpoint /ping service",
             "params": [
                 {
@@ -25848,7 +26049,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 1352,
+            "line": 1358,
             "description": "Handles the actual detection of repository endpoint /ping service",
             "params": [
                 {
@@ -25871,7 +26072,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 1403,
+            "line": 1409,
             "description": "Lists all types visible to the current user in the repository\n<p>\nUses a signature sheet gathered from {@link EcIdentityManager}.",
             "params": [
                 {
@@ -25893,7 +26094,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 1428,
+            "line": 1434,
             "description": "Backs up the skyrepo elasticsearch database to the server backup directory",
             "params": [
                 {
@@ -25920,7 +26121,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 1441,
+            "line": 1447,
             "description": "Restores the skyrepo elasticsearch backup from the server backup directory",
             "params": [
                 {
@@ -25947,7 +26148,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 1454,
+            "line": 1460,
             "description": "Wipes all data from the the skyrepo elasticsearch, can only be restored by using backup restore",
             "params": [
                 {
@@ -25974,7 +26175,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 1467,
+            "line": 1473,
             "description": "Handles the search results in search by params, before returning them\nwith the callback passed into search method",
             "params": [
                 {
@@ -26007,7 +26208,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 1507,
+            "line": 1513,
             "description": "Fetches the admin keys from the server to compare for check if current\nuser is an admin user",
             "params": [
                 {
@@ -26396,7 +26597,7 @@
         },
         {
             "file": "ec.base/src/main/java/com/eduworks/ec/array/EcObject.java",
-            "line": 26,
+            "line": 28,
             "description": "Returns keys on the object",
             "params": [
                 {
@@ -27395,7 +27596,7 @@
         },
         {
             "file": "ec.base/src/main/java/com/eduworks/ec/remote/EcRemote.java",
-            "line": 24,
+            "line": 19,
             "description": "Turn this property off to cause all remote web service calls to be\nsynchronous. Can be useful for test scripts, blocking calls, etc.",
             "itemtype": "property",
             "name": "async",
@@ -27406,7 +27607,7 @@
         },
         {
             "file": "ec.base/src/main/java/com/eduworks/ec/remote/EcRemote.java",
-            "line": 34,
+            "line": 29,
             "description": "Timeout for AJAX requests",
             "itemtype": "property",
             "name": "async",
@@ -27417,7 +27618,7 @@
         },
         {
             "file": "ec.base/src/main/java/com/eduworks/ec/remote/EcRemote.java",
-            "line": 43,
+            "line": 38,
             "description": "POSTs a request to a remote endpoint. Composed of a server endpoint (root\nURL) and a service (service path). Sends form data as a multi-part mime\nrequest.",
             "params": [
                 {
@@ -27454,7 +27655,7 @@
         },
         {
             "file": "ec.base/src/main/java/com/eduworks/ec/remote/EcRemote.java",
-            "line": 62,
+            "line": 57,
             "description": "POSTs a request to a remote endpoint. Composed of a server endpoint (root\nURL) and a service (service path). Sends form data as a multi-part mime\nrequest.",
             "params": [
                 {
@@ -27491,7 +27692,7 @@
         },
         {
             "file": "ec.base/src/main/java/com/eduworks/ec/remote/EcRemote.java",
-            "line": 149,
+            "line": 154,
             "description": "GETs something from a remote endpoint. Composed of a server endpoint\n(root URL) and a service (service path).",
             "params": [
                 {
@@ -27523,7 +27724,7 @@
         },
         {
             "file": "ec.base/src/main/java/com/eduworks/ec/remote/EcRemote.java",
-            "line": 186,
+            "line": 171,
             "description": "GETs something from a remote endpoint. Composed of a server endpoint\n(root URL) and a service (service path).",
             "params": [
                 {
@@ -27587,7 +27788,7 @@
         },
         {
             "file": "ec.base/src/main/java/com/eduworks/ec/task/Task.java",
-            "line": 11,
+            "line": 12,
             "description": "Created by fray on 7/5/17.",
             "class": "EcAes",
             "module": "com.eduworks.ec"
@@ -27772,7 +27973,7 @@
         },
         {
             "file": "ec.crypto/src/main/java/com/eduworks/ec/crypto/EcCrypto.java",
-            "line": 10,
+            "line": 11,
             "author": "Fritz",
             "class": "EcPk",
             "module": "com.eduworks.ec"
@@ -29498,6 +29699,16 @@
             "module": "com.eduworks.ec.ui"
         },
         {
+            "file": "kbac.skyrepo/src/main/java/org/cassproject/kbac/SkyRepo.java",
+            "line": 63,
+            "description": "Validate the signature sheet. Blow up if it is incorrect.",
+            "return": {
+                "description": ""
+            },
+            "class": "Competency",
+            "module": "com.eduworks.ec.ui"
+        },
+        {
             "file": "org.angles.schema.angles/src/main/java/org/angles/schema/angles/VideoStory.java",
             "line": 6,
             "description": "Created by fray on 5/9/17.",
@@ -29659,7 +29870,7 @@
             "line": 64,
             "description": "Relation type when one object is equivalent to another.\nEquivalent relations define two objects that are effectively equivalent.\nEquivalent relations are bidirectional.",
             "itemtype": "property",
-            "name": "IS_RELATED_TO",
+            "name": "IS_EQUIVALENT_TO",
             "static": 1,
             "type": "string",
             "class": "Relation",
@@ -29881,6 +30092,21 @@
         {
             "file": "org.cassproject.schema.cass/src/main/java/org/cassproject/schema/cass/profile/AssertionEnvelope.java",
             "line": 52,
+            "description": "Removes an assertion from the envelope",
+            "params": [
+                {
+                    "name": "assertionShortIdToRemove",
+                    "description": ""
+                }
+            ],
+            "itemtype": "method",
+            "name": "removeAssertionByShortId",
+            "class": "AssertionEnvelope",
+            "module": "org.cassproject"
+        },
+        {
+            "file": "org.cassproject.schema.cass/src/main/java/org/cassproject/schema/cass/profile/AssertionEnvelope.java",
+            "line": 76,
             "description": "Returns the assertion indexed at position @index.",
             "params": [
                 {
@@ -29898,7 +30124,7 @@
         },
         {
             "file": "org.cassproject.schema.cass/src/main/java/org/cassproject/schema/cass/profile/AssertionEnvelope.java",
-            "line": 71,
+            "line": 95,
             "description": "Adds the assertion to the envelope and adds the keys necessary to decode the assertion to the envelope.",
             "params": [
                 {
@@ -29913,7 +30139,7 @@
         },
         {
             "file": "org.cassproject.schema.cass/src/main/java/org/cassproject/schema/cass/profile/AssertionEnvelope.java",
-            "line": 109,
+            "line": 134,
             "description": "Adds the assertion to the envelope and adds the keys necessary to decode the assertion to the envelope.",
             "params": [
                 {
@@ -29936,7 +30162,7 @@
         },
         {
             "file": "org.cassproject.schema.cass/src/main/java/org/cassproject/schema/cass/profile/AssertionEnvelope.java",
-            "line": 252,
+            "line": 277,
             "description": "Validates that all assertions have not been tampered with (are authentic).\nDoes not validate the sources of assertions.",
             "return": {
                 "description": "True IFF assertions are authentic."
@@ -30517,7 +30743,28 @@
         },
         {
             "file": "org.cassproject.schema.general/src/main/java/org/cassproject/schema/general/EcRemoteLinkedData.java",
-            "line": 176,
+            "line": 174,
+            "description": "Will generate an identifier using the server URL provided (usually from\nan EcRepository) and unique identifier.",
+            "params": [
+                {
+                    "name": "server",
+                    "description": "Base URL of the server's repository functionality.",
+                    "type": "String"
+                },
+                {
+                    "name": "uniqueIdentifier",
+                    "description": "Canonical identifier. Must contain a letter or symbol.",
+                    "type": "String"
+                }
+            ],
+            "itemtype": "method",
+            "name": "assignId",
+            "class": "EcRemoteLinkedData",
+            "module": "org.cassproject"
+        },
+        {
+            "file": "org.cassproject.schema.general/src/main/java/org/cassproject/schema/general/EcRemoteLinkedData.java",
+            "line": 194,
             "description": "Determines if the object has an owner identified by pk.\nHomogenizes the PEM strings for comparison.\nHomogenization is necessary for comparing PKCS#1 and PKCS#8 or PKs with Certificates, etc.",
             "params": [
                 {
@@ -30537,7 +30784,7 @@
         },
         {
             "file": "org.cassproject.schema.general/src/main/java/org/cassproject/schema/general/EcRemoteLinkedData.java",
-            "line": 196,
+            "line": 214,
             "description": "Determines if the object has a reader identified by pk.\nHomogenizes the PEM strings for comparison.\nHomogenization is necessary for comparing PKCS#1 and PKCS#8 or PKs with Certificates, etc.",
             "params": [
                 {
@@ -30557,7 +30804,7 @@
         },
         {
             "file": "org.cassproject.schema.general/src/main/java/org/cassproject/schema/general/EcRemoteLinkedData.java",
-            "line": 216,
+            "line": 234,
             "description": "Determines if the PK matches an owner or if the object is public.\nHomogenizes the PEM strings for comparison.\nHomogenization is necessary for comparing PKCS#1 and PKCS#8 or PKs with Certificates, etc.",
             "params": [
                 {
@@ -30577,7 +30824,7 @@
         },
         {
             "file": "org.cassproject.schema.general/src/main/java/org/cassproject/schema/general/EcRemoteLinkedData.java",
-            "line": 231,
+            "line": 249,
             "description": "Determines if the PK matches an owner or if the object is public.\nHomogenizes the PEM strings for comparison.\nHomogenization is necessary for comparing PKCS#1 and PKCS#8 or PKs with Certificates, etc.",
             "params": [
                 {
@@ -30597,7 +30844,7 @@
         },
         {
             "file": "org.cassproject.schema.general/src/main/java/org/cassproject/schema/general/EcRemoteLinkedData.java",
-            "line": 251,
+            "line": 269,
             "description": "Encodes the object in a form where it is ready to be signed.\nThis method is under long term review, and may change from version to version.",
             "return": {
                 "description": "ASCII-sort order encoded space-free and tab-free JSON-LD."
@@ -30609,7 +30856,7 @@
         },
         {
             "file": "org.cassproject.schema.general/src/main/java/org/cassproject/schema/general/EcRemoteLinkedData.java",
-            "line": 284,
+            "line": 302,
             "description": "Sign this object using a private key.\nDoes not check for ownership, objects signed with keys absent from @owner or @reader may be removed.",
             "params": [
                 {
@@ -30625,7 +30872,7 @@
         },
         {
             "file": "org.cassproject.schema.general/src/main/java/org/cassproject/schema/general/EcRemoteLinkedData.java",
-            "line": 304,
+            "line": 322,
             "description": "Verifies the object's signatures.",
             "return": {
                 "description": "true if all of the signatures could be verified, false if they could not",
@@ -30638,7 +30885,7 @@
         },
         {
             "file": "org.cassproject.schema.general/src/main/java/org/cassproject/schema/general/EcRemoteLinkedData.java",
-            "line": 345,
+            "line": 363,
             "description": "Adds an owner to the object, if the owner does not exist.\nNote that this method invalidates all signatures.",
             "params": [
                 {
@@ -30654,7 +30901,7 @@
         },
         {
             "file": "org.cassproject.schema.general/src/main/java/org/cassproject/schema/general/EcRemoteLinkedData.java",
-            "line": 365,
+            "line": 383,
             "description": "Removes an owner from the object, if the owner does exist.\nNote that this method invalidates all signatures.",
             "params": [
                 {
@@ -30670,7 +30917,7 @@
         },
         {
             "file": "org.cassproject.schema.general/src/main/java/org/cassproject/schema/general/EcRemoteLinkedData.java",
-            "line": 384,
+            "line": 402,
             "description": "Adds a reader to the object, if the reader does not exist.\nNote that this method invalidates all signatures.",
             "params": [
                 {
@@ -30686,7 +30933,7 @@
         },
         {
             "file": "org.cassproject.schema.general/src/main/java/org/cassproject/schema/general/EcRemoteLinkedData.java",
-            "line": 404,
+            "line": 422,
             "description": "Removes a reader from the object, if the reader does exist.\nNote that this method invalidates all signatures.",
             "params": [
                 {
@@ -30702,7 +30949,7 @@
         },
         {
             "file": "org.cassproject.schema.general/src/main/java/org/cassproject/schema/general/EcRemoteLinkedData.java",
-            "line": 423,
+            "line": 441,
             "description": "Determines if the object is not retrievable from a repository should it be written.",
             "return": {
                 "description": "True if the object is NOT VALID for storage, false otherwise.",
@@ -30715,7 +30962,7 @@
         },
         {
             "file": "org.cassproject.schema.general/src/main/java/org/cassproject/schema/general/EcRemoteLinkedData.java",
-            "line": 445,
+            "line": 463,
             "description": "Updates the ID timestamp of the object, for versioning purposes.",
             "itemtype": "method",
             "name": "updateTimestamp",
@@ -30724,7 +30971,7 @@
         },
         {
             "file": "org.cassproject.schema.general/src/main/java/org/cassproject/schema/general/EcRemoteLinkedData.java",
-            "line": 458,
+            "line": 476,
             "description": "Updates the ID timestamp of the object, for versioning purposes.",
             "itemtype": "method",
             "name": "updateTimestamp",
@@ -30733,7 +30980,7 @@
         },
         {
             "file": "org.cassproject.schema.general/src/main/java/org/cassproject/schema/general/EcRemoteLinkedData.java",
-            "line": 467,
+            "line": 485,
             "description": "Returns true if the provided ID represents this object.\nUse this, as version information can make direct comparison difficult.",
             "params": [
                 {
@@ -30753,7 +31000,7 @@
         },
         {
             "file": "org.cassproject.schema.general/src/main/java/org/cassproject/schema/general/EcRemoteLinkedData.java",
-            "line": 479,
+            "line": 497,
             "description": "Return the ID of this object without the version information.\nUsed to reference the latest version of an object.",
             "return": {
                 "description": "ID of the latest version of this object.",
@@ -30766,7 +31013,7 @@
         },
         {
             "file": "org.cassproject.schema.general/src/main/java/org/cassproject/schema/general/EcRemoteLinkedData.java",
-            "line": 490,
+            "line": 508,
             "description": "Return the GUID portion of the short ID.",
             "return": {
                 "description": "Guid of the linked data object.",
@@ -30779,7 +31026,7 @@
         },
         {
             "file": "org.cassproject.schema.general/src/main/java/org/cassproject/schema/general/EcRemoteLinkedData.java",
-            "line": 502,
+            "line": 520,
             "description": "Return the URL Base portion of the short ID.",
             "return": {
                 "description": "Server Base URL of the linked data object.",
@@ -30792,7 +31039,7 @@
         },
         {
             "file": "org.cassproject.schema.general/src/main/java/org/cassproject/schema/general/EcRemoteLinkedData.java",
-            "line": 515,
+            "line": 533,
             "description": "Return a valid ElasticSearch search string that will retrieve all objects with this type.",
             "return": {
                 "description": "ElasticSearch compatible search string.",
@@ -55248,7 +55495,7 @@
         },
         {
             "file": "org.json-ld/src/main/java/org/json/ld/EcLinkedData.java",
-            "line": 170,
+            "line": 171,
             "description": "Uses the object's fully qualified type name and compares it to the\nprovided type.",
             "params": [
                 {
@@ -55268,7 +55515,7 @@
         },
         {
             "file": "org.json-ld/src/main/java/org/json/ld/EcLinkedData.java",
-            "line": 183,
+            "line": 184,
             "description": "Uses the object's fully qualified type name and compares it to the\nprovided type.",
             "params": [
                 {
@@ -55288,7 +55535,7 @@
         },
         {
             "file": "org.json-ld/src/main/java/org/json/ld/EcLinkedData.java",
-            "line": 201,
+            "line": 202,
             "description": "Gets the fully qualified type name, as JSON-LD allows the \"namespace\" of\nthe type to be defined in @context.",
             "return": {
                 "description": "Fully qualified type name.",
@@ -55301,7 +55548,7 @@
         },
         {
             "file": "org.json-ld/src/main/java/org/json/ld/EcLinkedData.java",
-            "line": 232,
+            "line": 233,
             "description": "Also could be called \"upcast\", for those in the know.\n<p>\nGhetto method of copying properties from some other object. As freshly\ndeserialized javascript objects do not inherently attach the functions of\ntheir type, it is this or factory hell.",
             "params": [
                 {
@@ -55316,7 +55563,7 @@
         },
         {
             "file": "org.json-ld/src/main/java/org/json/ld/EcLinkedData.java",
-            "line": 291,
+            "line": 296,
             "description": "Upgrades the object to the latest version, performing transforms and the like.",
             "itemtype": "method",
             "name": "upgrade",
@@ -55325,7 +55572,7 @@
         },
         {
             "file": "org.json-ld/src/main/java/org/json/ld/EcLinkedData.java",
-            "line": 299,
+            "line": 304,
             "description": "Removes the @ symbol from properties in order to make them more\naccessible in Javascript.",
             "return": {
                 "description": "This object, with @ properties converted to @-less properties.",
@@ -55339,7 +55586,7 @@
         },
         {
             "file": "org.json-ld/src/main/java/org/json/ld/EcLinkedData.java",
-            "line": 321,
+            "line": 339,
             "description": "Gets all versions of JSON-LD type strings for this type of object.",
             "return": {
                 "description": "Array of URIs.",
@@ -71026,7 +71273,7 @@
         },
         {
             "file": "org.schema/src/main/java/org/schema/Thing.java",
-            "line": 16,
+            "line": 18,
             "description": "Schema.org/name\nThe name of the item.",
             "itemtype": "property",
             "name": "name",
@@ -71036,7 +71283,7 @@
         },
         {
             "file": "org.schema/src/main/java/org/schema/Thing.java",
-            "line": 24,
+            "line": 26,
             "description": "Schema.org/identifier\nThe identifier property represents any kind of identifier for any kind of [[Thing]], such as ISBNs, GTIN codes, UUIDs etc. Schema.org provides dedicated properties for representing many of these, either as textual strings or as URL (URI) links. See [background notes](/docs/datamodel.html#identifierBg) for more details.",
             "itemtype": "property",
             "name": "identifier",
@@ -71046,7 +71293,7 @@
         },
         {
             "file": "org.schema/src/main/java/org/schema/Thing.java",
-            "line": 32,
+            "line": 34,
             "description": "Schema.org/url\nURL of the item.",
             "itemtype": "property",
             "name": "url",
@@ -71056,7 +71303,7 @@
         },
         {
             "file": "org.schema/src/main/java/org/schema/Thing.java",
-            "line": 40,
+            "line": 42,
             "description": "Schema.org/image\nAn image of the item. This can be a [[URL]] or a fully described [[ImageObject]].",
             "itemtype": "property",
             "name": "image",
@@ -71066,7 +71313,7 @@
         },
         {
             "file": "org.schema/src/main/java/org/schema/Thing.java",
-            "line": 48,
+            "line": 50,
             "description": "Schema.org/description\nA description of the item.",
             "itemtype": "property",
             "name": "description",
@@ -71076,7 +71323,7 @@
         },
         {
             "file": "org.schema/src/main/java/org/schema/Thing.java",
-            "line": 56,
+            "line": 58,
             "description": "Schema.org/disambiguatingDescription\nA sub property of description. A short description of the item used to disambiguate from other, similar items. Information from other properties (in particular, name) may be necessary for the description to be useful for disambiguation.",
             "itemtype": "property",
             "name": "disambiguatingDescription",
@@ -71086,7 +71333,7 @@
         },
         {
             "file": "org.schema/src/main/java/org/schema/Thing.java",
-            "line": 64,
+            "line": 66,
             "description": "Schema.org/alternateName\nAn alias for the item.",
             "itemtype": "property",
             "name": "alternateName",
@@ -71096,7 +71343,7 @@
         },
         {
             "file": "org.schema/src/main/java/org/schema/Thing.java",
-            "line": 72,
+            "line": 74,
             "description": "Schema.org/sameAs\nURL of a reference Web page that unambiguously indicates the item's identity. E.g. the URL of the item's Wikipedia page, Wikidata entry, or official website.",
             "itemtype": "property",
             "name": "sameAs",
@@ -71106,7 +71353,7 @@
         },
         {
             "file": "org.schema/src/main/java/org/schema/Thing.java",
-            "line": 80,
+            "line": 82,
             "description": "Schema.org/additionalType\nAn additional type for the item, typically used for adding more specific types from external vocabularies in microdata syntax. This is a relationship between something and a class that the thing is in. In RDFa syntax, it is better to use the native RDFa syntax - the 'typeof' attribute - for multiple types. Schema.org tools may have only weaker understanding of extra types, in particular those defined externally.",
             "itemtype": "property",
             "name": "additionalType",
@@ -71116,7 +71363,7 @@
         },
         {
             "file": "org.schema/src/main/java/org/schema/Thing.java",
-            "line": 88,
+            "line": 90,
             "description": "Schema.org/potentialAction\nIndicates a potential Action, which describes an idealized action in which this thing would play an 'object' role.",
             "itemtype": "property",
             "name": "potentialAction",
@@ -71126,7 +71373,7 @@
         },
         {
             "file": "org.schema/src/main/java/org/schema/Thing.java",
-            "line": 96,
+            "line": 98,
             "description": "Schema.org/mainEntityOfPage\nIndicates a page (or other CreativeWork) for which this thing is the main entity being described. See [background notes](/docs/datamodel.html#mainEntityBackground) for details.",
             "itemtype": "property",
             "name": "mainEntityOfPage",
@@ -71136,7 +71383,7 @@
         },
         {
             "file": "org.schema/src/main/java/org/schema/Thing.java",
-            "line": 105,
+            "line": 107,
             "description": "Constructor, automatically sets @context and @type.",
             "is_constructor": 1,
             "class": "Thing",
@@ -71144,7 +71391,7 @@
         },
         {
             "file": "org.schema/src/main/java/org/schema/Thing.java",
-            "line": 114,
+            "line": 116,
             "description": "Returns the name of the thing",
             "return": {
                 "description": "name of Thing",
@@ -71158,7 +71405,7 @@
         },
         {
             "file": "org.schema/src/main/java/org/schema/Thing.java",
-            "line": 129,
+            "line": 128,
             "description": "Method to set Thing name",
             "params": [
                 {
@@ -71175,7 +71422,7 @@
         },
         {
             "file": "org.schema/src/main/java/org/schema/Thing.java",
-            "line": 148,
+            "line": 147,
             "description": "Returns the description of the thing",
             "return": {
                 "description": "description of Thing",
@@ -71189,7 +71436,7 @@
         },
         {
             "file": "org.schema/src/main/java/org/schema/Thing.java",
-            "line": 163,
+            "line": 170,
             "description": "Method to set Thing description",
             "params": [
                 {
@@ -75708,11 +75955,11 @@
         },
         {
             "message": "unknown tag: memberof",
-            "line": " cass.import/src/main/java/org/cass/importer/CSVImport.java:97"
+            "line": " cass.import/src/main/java/org/cass/importer/CSVImport.java:104"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " cass.import/src/main/java/org/cass/importer/CSVImport.java:277"
+            "line": " cass.import/src/main/java/org/cass/importer/CSVImport.java:284"
         },
         {
             "message": "unknown tag: memberof",
@@ -75825,6 +76072,14 @@
         {
             "message": "unknown tag: memberof",
             "line": " com.eduworks.schema/src/main/java/org/schema/EcCreativeWork.java:11"
+        },
+        {
+            "message": "unknown tag: memberof",
+            "line": " com.eduworks.schema/src/main/java/org/schema/EcOrganization.java:14"
+        },
+        {
+            "message": "unknown tag: memberof",
+            "line": " com.eduworks.schema/src/main/java/org/schema/EcPerson.java:12"
         },
         {
             "message": "unknown tag: memberof",
@@ -76028,191 +76283,195 @@
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:191"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:185"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:230"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:224"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:289"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:283"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:334"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:328"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:368"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:362"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:390"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:384"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:420"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:414"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:451"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:445"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:466"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:460"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:480"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:474"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:506"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:500"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:527"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:521"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:548"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:542"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:597"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:591"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:628"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:622"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:721"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:715"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:794"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:788"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:814"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:808"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:843"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcEncryptedValue.java:837"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:44"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:46"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:258"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:268"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:313"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:329"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:349"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:365"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:369"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:385"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:389"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:405"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:433"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:450"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:493"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:510"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:512"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:529"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:574"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:589"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:632"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:646"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:736"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:697"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:828"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:739"
+        },
+        {
+            "message": "unknown tag: memberof",
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:819"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:848"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:839"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:848"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:839"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:863"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:854"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1002"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:993"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1002"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:993"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1143"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1134"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1233"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1224"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1298"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1304"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1352"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1358"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1403"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1409"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1428"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1434"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1441"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1447"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1454"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1460"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1467"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1473"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1507"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1513"
         },
         {
             "message": "unknown tag: memberof",
@@ -76396,23 +76655,23 @@
         },
         {
             "message": "unknown tag: internal",
-            "line": " org.json-ld/src/main/java/org/json/ld/EcLinkedData.java:299"
+            "line": " org.json-ld/src/main/java/org/json/ld/EcLinkedData.java:304"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " org.schema/src/main/java/org/schema/Thing.java:114"
+            "line": " org.schema/src/main/java/org/schema/Thing.java:116"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " org.schema/src/main/java/org/schema/Thing.java:129"
+            "line": " org.schema/src/main/java/org/schema/Thing.java:128"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " org.schema/src/main/java/org/schema/Thing.java:148"
+            "line": " org.schema/src/main/java/org/schema/Thing.java:147"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " org.schema/src/main/java/org/schema/Thing.java:163"
+            "line": " org.schema/src/main/java/org/schema/Thing.java:170"
         },
         {
             "message": "unknown tag: memberof",
@@ -76496,11 +76755,11 @@
         },
         {
             "message": "Missing item type\nThe sequence that assertions should be built as such: 1. Generate the ID. 2.\nAdd the owner. 3. Set the subject. 4. Set the agent. Further functions may be\ncalled afterwards in any order. WARNING: The modifications of ownership and\nreadership do not \"just work\".",
-            "line": " cass.competency/src/main/java/org/cass/profile/EcAssertion.java:18"
+            "line": " cass.competency/src/main/java/org/cass/profile/EcAssertion.java:23"
         },
         {
             "message": "Missing item type\nSets the subject of an assertion. Makes a few assumptions: Owners of the\nobject should be able to see and change the encrypted value. Owners and\nreaders of the object should be persisted.",
-            "line": " cass.competency/src/main/java/org/cass/profile/EcAssertion.java:94"
+            "line": " cass.competency/src/main/java/org/cass/profile/EcAssertion.java:99"
         },
         {
             "message": "Missing item type\nCreated by fray on 11/29/17.",
@@ -76512,7 +76771,7 @@
         },
         {
             "message": "Missing item type\nCreated by fray on 5/30/17.",
-            "line": " cass.rollup/src/main/java/cass/rollup/coprocessor/AssertionCoprocessor.java:9"
+            "line": " cass.rollup/src/main/java/cass/rollup/coprocessor/AssertionCoprocessor.java:10"
         },
         {
             "message": "Missing item type\nPulled default values from CruncherAssertionProcessor\n    dependencyDefs = new JSONObject();\n\n    JSONObject narrows = new JSONObject();\n    narrows.put(\"class\",\"broadens\");\n    narrows.put(\"reverse\",true);\n    narrows.put(\"weight\",0.9);\n    dependencyDefs.put(\"narrows\",narrows);\n\n    JSONObject enables = new JSONObject();\n    enables.put(\"class\",\"isSufficientFor\");\n    enables.put(\"weight\",0.9);\n    enables.put(\"reverse\",true);\n    dependencyDefs.put(\"enables\",enables);\n\n    JSONObject requires = new JSONObject();\n    requires.put(\"class\",\"isRequiredBy\");\n    requires.put(\"weight\",0.9);\n    dependencyDefs.put(\"requires\",requires);",
@@ -76664,11 +76923,11 @@
         },
         {
             "message": "Missing item type\nCreated by fray on 7/5/17.",
-            "line": " ec.base/src/main/java/com/eduworks/ec/task/Task.java:11"
+            "line": " ec.base/src/main/java/com/eduworks/ec/task/Task.java:12"
         },
         {
             "message": "Missing item type",
-            "line": " ec.crypto/src/main/java/com/eduworks/ec/crypto/EcCrypto.java:10"
+            "line": " ec.crypto/src/main/java/com/eduworks/ec/crypto/EcCrypto.java:11"
         },
         {
             "message": "Missing item type\nCreated by fray on 6/30/17.",
@@ -76757,6 +77016,10 @@
         {
             "message": "Missing item type\nInvokes a specific foundation method with a type on the JqueryCore Instance",
             "line": " ec.ui.framework/src/main/java/com/eduworks/foundation/jquery/plugin/Foundation.java:31"
+        },
+        {
+            "message": "Missing item type\nValidate the signature sheet. Blow up if it is incorrect.",
+            "line": " kbac.skyrepo/src/main/java/org/cassproject/kbac/SkyRepo.java:63"
         },
         {
             "message": "Missing item type\nCreated by fray on 5/9/17.",
@@ -79188,7 +79451,7 @@
         },
         {
             "message": "Missing item type\nConstructor, automatically sets @context and @type.",
-            "line": " org.schema/src/main/java/org/schema/Thing.java:105"
+            "line": " org.schema/src/main/java/org/schema/Thing.java:107"
         },
         {
             "message": "Missing item type\nConstructor, automatically sets @context and @type.",
