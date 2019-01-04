@@ -25865,34 +25865,38 @@
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
             "line": 739,
-            "description": "Gets a JSON-LD object from the place designated by the URI.\n<p>\nUses a signature sheet gathered from {@link EcIdentityManager}.",
+            "description": "Returns an array of JSON-LD objects from the places designated by the given URIs.\n<p>\nUses a signature sheet gathered from {@link EcIdentityManager}.",
             "params": [
                 {
-                    "name": "url",
-                    "description": "URL of the remote object.",
-                    "type": "String"
+                    "name": "urls",
+                    "description": "URLs of the remote objects.",
+                    "type": "Array<String>"
                 },
                 {
                     "name": "success",
                     "description": "Event to call upon\n                                              successful retrieval.",
-                    "type": "Callback1<EcRemoteLinkedData>"
+                    "type": "Callback1<Array<EcRemoteLinkedData>>"
                 },
                 {
                     "name": "failure",
                     "description": "Event to call upon spectacular\n                                              failure.",
                     "type": "Callback1<String>"
+                },
+                {
+                    "name": "cachedValues",
+                    "description": "Event to call upon\n                                              successful retrieval from cache.",
+                    "type": "Callback1<Array<EcRemoteLinkedData>>"
                 }
             ],
             "memberof": "EcRepository",
             "itemtype": "method",
-            "name": "get",
-            "static": 1,
+            "name": "multiget",
             "class": "EcRepository",
             "module": "com.eduworks.ec"
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 819,
+            "line": 820,
             "description": "Search a repository for JSON-LD compatible data.\n<p>\nUses a signature sheet gathered from {@link EcIdentityManager}.",
             "params": [
                 {
@@ -25924,7 +25928,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 839,
+            "line": 840,
             "description": "Search a repository for JSON-LD compatible data synchronously.\n<p>\nUses a signature sheet gathered from {@link EcIdentityManager}.",
             "params": [
                 {
@@ -25944,7 +25948,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 854,
+            "line": 855,
             "description": "Search a repository for JSON-LD compatible data.\n<p>\nUses a signature sheet gathered from {@link EcIdentityManager}.",
             "params": [
                 {
@@ -25981,7 +25985,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 993,
+            "line": 994,
             "description": "Search a repository for JSON-LD compatible data synchronously.\n<p>\nUses a signature sheet gathered from {@link EcIdentityManager}.",
             "params": [
                 {
@@ -26006,7 +26010,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 1134,
+            "line": 1135,
             "description": "Searches known repository endpoints to set the server configuration for\nthis repositories instance",
             "memberof": "EcRepository",
             "itemtype": "method",
@@ -26016,7 +26020,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 1224,
+            "line": 1225,
             "description": "Searches known repository endpoints to set the server configuration for\nthis repositories instance",
             "memberof": "EcRepository",
             "itemtype": "method",
@@ -26026,7 +26030,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 1304,
+            "line": 1305,
             "description": "Handles the actual detection of repository endpoint /ping service",
             "params": [
                 {
@@ -26049,7 +26053,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 1358,
+            "line": 1359,
             "description": "Handles the actual detection of repository endpoint /ping service",
             "params": [
                 {
@@ -26072,7 +26076,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 1409,
+            "line": 1410,
             "description": "Lists all types visible to the current user in the repository\n<p>\nUses a signature sheet gathered from {@link EcIdentityManager}.",
             "params": [
                 {
@@ -26094,7 +26098,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 1434,
+            "line": 1435,
             "description": "Backs up the skyrepo elasticsearch database to the server backup directory",
             "params": [
                 {
@@ -26121,7 +26125,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 1447,
+            "line": 1448,
             "description": "Restores the skyrepo elasticsearch backup from the server backup directory",
             "params": [
                 {
@@ -26148,7 +26152,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 1460,
+            "line": 1461,
             "description": "Wipes all data from the the skyrepo elasticsearch, can only be restored by using backup restore",
             "params": [
                 {
@@ -26175,7 +26179,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 1473,
+            "line": 1474,
             "description": "Handles the search results in search by params, before returning them\nwith the callback passed into search method",
             "params": [
                 {
@@ -26208,7 +26212,7 @@
         },
         {
             "file": "ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java",
-            "line": 1513,
+            "line": 1514,
             "description": "Fetches the admin keys from the server to compare for check if current\nuser is an admin user",
             "params": [
                 {
@@ -76411,67 +76415,67 @@
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:819"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:820"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:839"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:840"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:839"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:840"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:854"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:855"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:993"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:994"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:993"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:994"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1134"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1135"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1224"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1225"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1304"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1305"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1358"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1359"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1409"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1410"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1434"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1435"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1447"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1448"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1460"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1461"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1473"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1474"
         },
         {
             "message": "unknown tag: memberof",
-            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1513"
+            "line": " ebac.repository/src/main/java/org/cassproject/ebac/repository/EcRepository.java:1514"
         },
         {
             "message": "unknown tag: memberof",
