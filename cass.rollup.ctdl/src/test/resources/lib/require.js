@@ -1,4 +1,4 @@
-mvn c//
+//
 // This file is part of Honey Require
 //
 // Copyright (c) 2015 Torben Haase
