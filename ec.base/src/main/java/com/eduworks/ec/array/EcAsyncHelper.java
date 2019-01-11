@@ -69,4 +69,13 @@ public class EcAsyncHelper<T> {
 	public void stop() {
 		counter = -1;
 	}
+	/**
+	 * Is preventing 'after' from being called?
+	 *
+	 * @method isStopped
+	 * @return whether it is stopped.
+	 */
+	public boolean isStopped() {
+		return counter <= -1;
+	}
 }

@@ -695,6 +695,102 @@ public class EcAssertion extends Assertion {
 		super.removeReader(newReader);
 	}
 
+	public void addReaderAsync(final EcPk newReader, final Callback0 success, final Callback1<String> failure) {
+		Array<EcEncryptedValue> ary = new Array<>();
+
+		if (agent != null) {
+			ary.push(agent);
+		}
+		if (assertionDate != null) {
+			ary.push(assertionDate);
+		}
+		if (decayFunction != null) {
+			ary.push(decayFunction);
+		}
+		if (evidence != null)
+			for (int i = 0; i < evidence.$length(); i++) {
+				ary.push(evidence.$get(i));
+			}
+		if (expirationDate != null) {
+			ary.push(expirationDate);
+		}
+		if (negative != null) {
+			ary.push(negative);
+		}
+		if (subject != null) {
+			ary.push(subject);
+		}
+		super.addReader(newReader);
+		final EcAsyncHelper<EcEncryptedValue> eah = new EcAsyncHelper<>();
+		eah.each(ary, new Callback2<EcEncryptedValue, Callback0>() {
+			@Override
+			public void $invoke(EcEncryptedValue ecEncryptedValue, Callback0 callback0) {
+				ecEncryptedValue.addReaderAsync(newReader, callback0, new Callback1<String>() {
+					@Override
+					public void $invoke(String s) {
+						if (!eah.isStopped()) {
+							eah.stop();
+							failure.$invoke("Failed to add reader to an assertion.");
+						}
+					}
+				});
+			}
+		}, new Callback1<Array<EcEncryptedValue>>() {
+			@Override
+			public void $invoke(Array<EcEncryptedValue> strings) {
+				success.$invoke();
+			}
+		});
+	}
+
+	public void removeReaderAsync(final EcPk oldReader, final Callback0 success, final Callback1<String> failure) {
+		Array<EcEncryptedValue> ary = new Array<>();
+
+		if (agent != null) {
+			ary.push(agent);
+		}
+		if (assertionDate != null) {
+			ary.push(assertionDate);
+		}
+		if (decayFunction != null) {
+			ary.push(decayFunction);
+		}
+		if (evidence != null)
+			for (int i = 0; i < evidence.$length(); i++) {
+				ary.push(evidence.$get(i));
+			}
+		if (expirationDate != null) {
+			ary.push(expirationDate);
+		}
+		if (negative != null) {
+			ary.push(negative);
+		}
+		if (subject != null) {
+			ary.push(subject);
+		}
+		super.removeReader(oldReader);
+		final EcAsyncHelper<EcEncryptedValue> eah = new EcAsyncHelper<>();
+		eah.each(ary, new Callback2<EcEncryptedValue, Callback0>() {
+			@Override
+			public void $invoke(EcEncryptedValue ecEncryptedValue, Callback0 callback0) {
+				ecEncryptedValue.removeReaderAsync(oldReader, callback0, new Callback1<String>() {
+					@Override
+					public void $invoke(String s) {
+						if (!eah.isStopped()) {
+							eah.stop();
+							failure.$invoke("Failed to remove reader to an assertion.");
+						}
+					}
+				});
+			}
+		}, new Callback1<Array<EcEncryptedValue>>() {
+			@Override
+			public void $invoke(Array<EcEncryptedValue> strings) {
+				success.$invoke();
+			}
+		});
+	}
+
 	public String getSearchStringByTypeAndCompetency(EcCompetency competency) {
 		return "(" + getSearchStringByType() + " AND competency:\"" + competency.shortId() + "\")";
 	}
