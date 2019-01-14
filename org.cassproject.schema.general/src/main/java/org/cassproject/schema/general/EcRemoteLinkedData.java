@@ -1,5 +1,6 @@
 package org.cassproject.schema.general;
 
+import com.eduworks.ec.array.EcArray;
 import com.eduworks.ec.crypto.EcPk;
 import com.eduworks.ec.crypto.EcPpk;
 import com.eduworks.ec.crypto.EcRsaOaep;
@@ -410,10 +411,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
         String pem = newReader.toPem();
         if (reader == null)
             reader = new Array<String>();
-        for (int i = 0; i < reader.$length(); i++)
-            if (reader.$get(i) == pem)
-                return;
-        reader.push(pem);
+        EcArray.setAdd(reader,pem);
         // Changing an owner invalidates the signatures in order to prevent
         // server admins from injecting owners or readers into the object.
         signature = null;
@@ -430,9 +428,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
         String pem = oldReader.toPem();
         if (reader == null)
             reader = new Array<String>();
-        for (int i = 0; i < reader.$length(); i++)
-            if (reader.$get(i) == pem)
-                reader.splice(i, 1);
+        EcArray.setRemove(reader,pem);
         // Changing an owner invalidates the signatures in order to prevent
         // server admins from injecting owners or readers into the object.
         signature = null;

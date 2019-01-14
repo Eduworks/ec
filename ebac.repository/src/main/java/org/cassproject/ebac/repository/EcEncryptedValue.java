@@ -822,7 +822,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 				return;
 			}
 		}
-		reader.push(pem);
+		EcArray.setAdd(reader,pem);
 
 		EbacEncryptedSecret payloadSecret = decryptSecret();
 
@@ -842,15 +842,108 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 	 * @method removeReader
 	 */
 	public void removeReader(EcPk oldReader) {
+		EbacEncryptedSecret payloadSecret = decryptSecret();
 
 		String pem = oldReader.toPem();
-		if (reader == null) {
-			reader = new Array<String>();
+		if (reader != null) {
+			EcArray.setRemove(reader, pem);
 		}
-		for (int i = 0; i < reader.$length(); i++) {
-			if (reader.$get(i) == pem) {
-				reader.splice(i, 1);
+
+		if (payloadSecret == null) {
+			Global.console.error("Cannot remove a Reader if you don't know the secret");
+			return;
+		}
+
+		secret = new Array<>();
+		if (owner != null)
+			for (int i = 0;i < owner.$length();i++)
+				EcArray.setAdd(secret, EcRsaOaep.encrypt(EcPk.fromPem(owner.$get(i)), payloadSecret.toEncryptableJson()));
+		if (reader != null)
+			for (int i = 0;i < reader.$length();i++)
+				EcArray.setAdd(secret, EcRsaOaep.encrypt(EcPk.fromPem(reader.$get(i)), payloadSecret.toEncryptableJson()));
+	}
+
+	/**
+	 * Adds a reader to the object, if the reader does not exist.
+	 *
+	 * @param {EcPk} newReader PK of the new reader.
+	 * @param {Callback0} success   Callback triggered after successful encryption
+	 * @param {Callback1<String>}   failure Callback triggered if error during secret decryption
+	 * @memberOf EcEncryptedValue
+	 * @method addReaderAsync
+	 */
+	public void addReaderAsync(final EcPk newReader, final Callback0 success, final Callback1<String> failure) {
+		decryptSecretAsync(new Callback1<EbacEncryptedSecret>() {
+			@Override
+			public void $invoke(EbacEncryptedSecret payloadSecret) {
+				EcRsaOaepAsync.encrypt(newReader, payloadSecret.toEncryptableJson(), new Callback1<String>() {
+					@Override
+					public void $invoke(String s) {
+						String pem = newReader.toPem();
+						if (reader == null) {
+							reader = new Array<String>();
+						}
+						for (int i = 0; i < reader.$length(); i++) {
+							if (reader.$get(i) == pem) {
+								return;
+							}
+						}
+						EcArray.setAdd(reader, pem);
+
+						EcArray.setAdd(secret, s);
+						success.$invoke();
+					}
+				},failure);
 			}
-		}
+		},failure);
+	}
+
+	/**
+	 * Removes a reader from the object, if the reader does exist.
+	 *
+	 * @param {EcPk} oldReader PK of the old reader.
+	 * @param {Callback0} success   Callback triggered after successful encryption
+	 * @param {Callback1<String>}   failure Callback triggered if error during secret decryption
+	 * @memberOf EcEncryptedValue
+	 * @method removeReaderAsync
+	 */
+	public void removeReaderAsync(final EcPk oldReader, final Callback0 success, final Callback1<String> failure) {
+		final EcEncryptedValue me = this;
+		decryptSecretAsync(new Callback1<EbacEncryptedSecret>() {
+			@Override
+			public void $invoke(final EbacEncryptedSecret payloadSecret) {
+				String pem = oldReader.toPem();
+				if (me.reader != null) {
+					EcArray.setRemove(me.reader, pem);
+				}
+				Array<EcPk> ary = new Array<>();
+				if (owner != null)
+					for (int i = 0;i < owner.$length();i++)
+						EcArray.setAdd(ary, EcPk.fromPem(owner.$get(i)));
+				if (reader != null)
+					for (int i = 0;i < reader.$length();i++)
+						EcArray.setAdd(ary, EcPk.fromPem(reader.$get(i)));
+				me.secret = new Array<>();
+				EcAsyncHelper<EcPk> eah = new EcAsyncHelper<>();
+				eah.each(ary, new Callback2<EcPk, Callback0>() {
+					@Override
+					public void $invoke(EcPk ecPk, final Callback0 callback0) {
+						EcRsaOaepAsync.encrypt(oldReader, payloadSecret.toEncryptableJson(), new Callback1<String>() {
+							@Override
+							public void $invoke(String secret) {
+								EcArray.setRemove(me.secret, secret);
+								callback0.$invoke();
+							}
+						},failure);
+					}
+				}, new Callback1<Array<EcPk>>() {
+					@Override
+					public void $invoke(Array<EcPk> strings) {
+						success.$invoke();
+
+					}
+				});
+			}
+		},failure);
 	}
 }
