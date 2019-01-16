@@ -64,7 +64,7 @@ public class SkyId {
 			signatureSheet.push(EcIdentityManager.createSignature(60000, null, skyIdPem));
 			ctx.put("signatureSheet", signatureSheet);
 
-			Object get = JSFunctionAdapter.call(SkyRepo.skyrepoGetParsed, this, saltedId,null,"schema.cassproject.org.kbac.0.2.EncryptedValue",null);
+			Object get = JSFunctionAdapter.call(SkyRepo.skyrepoGetInternal, this, saltedId,null,"schema.cassproject.org.kbac.0.2.EncryptedValue",null);
 			if (get != null)
 				get = Global.JSON.parse(EcAesCtr.decrypt((String) JSObjectAdapter.$get(get, "payload"), skyIdSecretKey, saltedId));
 
@@ -120,7 +120,7 @@ public class SkyId {
 			signatureSheet.push(EcIdentityManager.createSignature(60000, null, skyIdPem));
 			ctx.put( "signatureSheet", signatureSheet);
 
-			Object get = JSFunctionAdapter.call(SkyRepo.skyrepoGetParsed, this, saltedId,null,"schema.cassproject.org.kbac.0.2.EncryptedValue",null);
+			Object get = JSFunctionAdapter.call(SkyRepo.skyrepoGetInternal, this, saltedId,null,"schema.cassproject.org.kbac.0.2.EncryptedValue",null);
 			if (get == null)
 				levr.error("User does not exist.",404);
 			get = Global.JSON.parse(EcAesCtr.decrypt((String) JSObjectAdapter.$get(get, "payload"), skyIdSecretKey, saltedId));
@@ -161,7 +161,7 @@ public class SkyId {
 			signatureSheet.push(EcIdentityManager.createSignature(60000, null, skyIdPem));
 			ctx.put("signatureSheet", signatureSheet);
 
-			Object get = JSFunctionAdapter.call(SkyRepo.skyrepoGetParsed, this, saltedId,null,"schema.cassproject.org.kbac.0.2.EncryptedValue",null);
+			Object get = JSFunctionAdapter.call(SkyRepo.skyrepoGetInternal, this, saltedId,null,"schema.cassproject.org.kbac.0.2.EncryptedValue",null);
 			if (get == null)
 				levr.error("User does not exist.",404);
 			get = Global.JSON.parse(EcAesCtr.decrypt((String) JSObjectAdapter.$get(get, "payload"), skyIdSecretKey, saltedId));
