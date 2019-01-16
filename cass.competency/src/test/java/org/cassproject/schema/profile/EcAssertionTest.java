@@ -147,12 +147,12 @@ public class EcAssertionTest {
 		EcIdentityManager.ids = new Array<EcIdentity>();
 		EcIdentityManager.addIdentity(newId3);
 
-		Assert.assertEquals("Subject readable by third party.", null, assn.getSubject().toPem());
-		Assert.assertEquals("Agent readable by third party.", null, assn.getAgent().toPem());
+		Assert.assertEquals("Subject readable by third party.", null, assn.getSubject());
+		Assert.assertEquals("Agent readable by third party.", null, assn.getAgent());
 		Assert.assertEquals("Assertion Date readable by third party.", null, assn.getAssertionDate());
 		Assert.assertEquals("Expiration Date readable by third party.", null, assn.getExpirationDate());
 		Assert.assertEquals("Evidence readable by third party.", null, assn.getEvidence(0));
-		Assert.assertEquals("Negative readable by third party.", null, assn.getNegative());
+		Assert.assertEquals("Negative readable by third party.", false, assn.getNegative());
 		Assert.assertEquals("Decay Function readable by third party.", null, assn.getDecayFunction());
 	}
 }
