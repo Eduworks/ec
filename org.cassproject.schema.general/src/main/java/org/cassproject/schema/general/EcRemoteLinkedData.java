@@ -470,12 +470,18 @@ public class EcRemoteLinkedData extends EcLinkedData {
     }
 
     /**
-     * Updates the ID timestamp of the object, for versioning purposes.
+     * Returns the ID timestamp of the object, for versioning purposes.
      *
-     * @method updateTimestamp
+     * @method getTimestamp
      */
     public Integer getTimestamp() {
-        return Integer.parseInt(id.substring(id.lastIndexOf("/")+1));
+        String timestamp = id.substring(id.lastIndexOf("/")+1);
+        if (timestamp.matches("\\/[0-9]+")) {
+            return Integer.parseInt(timestamp);
+        }
+        else {
+            return null;
+        }
     }
 
     /**
