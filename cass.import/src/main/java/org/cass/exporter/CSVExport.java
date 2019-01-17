@@ -4,6 +4,7 @@ import js.Papa;
 import org.cass.competency.EcFramework;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
+import org.schema.Thing;
 import org.stjs.javascript.*;
 import org.stjs.javascript.dom.DOMEvent;
 import org.stjs.javascript.dom.Element;
@@ -155,7 +156,8 @@ public class CSVExport extends Exporter {
 				if (props.$get(prop) != null && props.$get(prop) != "" && props.$get(prop) instanceof Object) {
 					flattenObject(flattenedObject, props.$get(prop), id);
 				} else {
-					JSObjectAdapter.$put(flattenedObject, id, props.$get(prop));
+					String display = Thing.getDisplayStringFrom(props.$get(prop));
+					JSObjectAdapter.$put(flattenedObject, id, display);
 				}
 			}
 		}
