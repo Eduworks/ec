@@ -44,7 +44,8 @@ public class FrameworkCollapser {
 		competencyArray = new Array<EcCompetency>();
 		EcCompetency c;
 		for (int i = 0; i < rlda.$length(); i++) {
-			if ("competency".equalsIgnoreCase(rlda.$get(i).type)) {
+			//if ("competency".equalsIgnoreCase(rlda.$get(i).type)) {
+			if (rlda.$get(i).isAny(new EcCompetency().getTypes())) {
 				c = new EcCompetency();
 				c.copyFrom(rlda.$get(i));
 				competencyArray.push(c);
@@ -56,7 +57,8 @@ public class FrameworkCollapser {
 		relationArray = new Array<EcAlignment>();
 		EcAlignment r;
 		for (int i = 0; i < rlda.$length(); i++) {
-			if ("relation".equalsIgnoreCase(rlda.$get(i).type)) {
+			//if ("relation".equalsIgnoreCase(rlda.$get(i).type)) {
+			if (rlda.$get(i).isAny(new EcAlignment().getTypes())) {
 				r = new EcAlignment();
 				r.copyFrom(rlda.$get(i));
 				relationArray.push(r);
