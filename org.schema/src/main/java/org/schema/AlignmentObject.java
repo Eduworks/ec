@@ -11,21 +11,13 @@ package org.schema;
  */
 public class AlignmentObject extends Intangible {
 	/**
-	 * Schema.org/educationalFramework
-	 * The framework to which the resource being described is aligned.
+	 * Schema.org/targetDescription
+	 * The description of a node in an established educational framework.
 	 *
-	 * @property educationalFramework
+	 * @property targetDescription
 	 * @type Text
 	 */
-	public String educationalFramework;
-	/**
-	 * Schema.org/targetName
-	 * The name of a node in an established educational framework.
-	 *
-	 * @property targetName
-	 * @type Text
-	 */
-	public String targetName;
+	public String targetDescription;
 	/**
 	 * Schema.org/alignmentType
 	 * A category of alignment between the learning resource and the framework node. Recommended values include: 'assesses', 'teaches', 'requires', 'textComplexity', 'readingLevel', 'educationalSubject', and 'educationalLevel'.
@@ -35,14 +27,6 @@ public class AlignmentObject extends Intangible {
 	 */
 	public String alignmentType;
 	/**
-	 * Schema.org/targetDescription
-	 * The description of a node in an established educational framework.
-	 *
-	 * @property targetDescription
-	 * @type Text
-	 */
-	public String targetDescription;
-	/**
 	 * Schema.org/targetUrl
 	 * The URL of a node in an established educational framework.
 	 *
@@ -50,6 +34,22 @@ public class AlignmentObject extends Intangible {
 	 * @type URL
 	 */
 	public String targetUrl;
+	/**
+	 * Schema.org/targetName
+	 * The name of a node in an established educational framework.
+	 *
+	 * @property targetName
+	 * @type Text
+	 */
+	public String targetName;
+	/**
+	 * Schema.org/educationalFramework
+	 * The framework to which the resource being described is aligned.
+	 *
+	 * @property educationalFramework
+	 * @type Text
+	 */
+	public String educationalFramework;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

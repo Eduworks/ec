@@ -7,9 +7,9 @@ package org.schema;
  * @author schema.org
  * @class DepositAccount
  * @module org.schema
- * @extends InvestmentOrDeposit
+ * @extends BankAccount
  */
-public class DepositAccount extends InvestmentOrDeposit {
+public class DepositAccount extends BankAccount {
 	/**
 	 * Constructor, automatically sets @context and @type.
 	 *

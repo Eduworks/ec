@@ -11,14 +11,6 @@ package org.schema;
  */
 public class ReplaceAction extends UpdateAction {
 	/**
-	 * Schema.org/replacer
-	 * A sub property of object. The object that replaces.
-	 *
-	 * @property replacer
-	 * @type Thing
-	 */
-	public Thing replacer;
-	/**
 	 * Schema.org/replacee
 	 * A sub property of object. The object that is being replaced.
 	 *
@@ -26,6 +18,14 @@ public class ReplaceAction extends UpdateAction {
 	 * @type Thing
 	 */
 	public Thing replacee;
+	/**
+	 * Schema.org/replacer
+	 * A sub property of object. The object that replaces.
+	 *
+	 * @property replacer
+	 * @type Thing
+	 */
+	public Thing replacer;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

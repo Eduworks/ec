@@ -19,14 +19,6 @@ public class GameServer extends Intangible {
 	 */
 	public VideoGame game;
 	/**
-	 * Schema.org/serverStatus
-	 * Status of a game server.
-	 *
-	 * @property serverStatus
-	 * @type GameServerStatus
-	 */
-	public GameServerStatus serverStatus;
-	/**
 	 * Schema.org/playersOnline
 	 * Number of players on the server.
 	 *
@@ -34,6 +26,14 @@ public class GameServer extends Intangible {
 	 * @type Integer
 	 */
 	public Integer playersOnline;
+	/**
+	 * Schema.org/serverStatus
+	 * Status of a game server.
+	 *
+	 * @property serverStatus
+	 * @type GameServerStatus
+	 */
+	public GameServerStatus serverStatus;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

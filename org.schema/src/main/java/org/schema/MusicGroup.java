@@ -19,21 +19,21 @@ public class MusicGroup extends PerformingGroup {
 	 */
 	public MusicAlbum albums;
 	/**
+	 * Schema.org/track
+	 * A music recording (track)&#x2014;usually a single song. If an ItemList is given, the list should contain items of type MusicRecording.
+	 *
+	 * @property track
+	 * @type MusicRecording
+	 */
+	public MusicRecording track;
+	/**
 	 * Schema.org/genre
 	 * Genre of the creative work, broadcast channel or group.
 	 *
 	 * @property genre
-	 * @type schema, URL | schema,Text
+	 * @type URL
 	 */
-	public Object genre;
-	/**
-	 * Schema.org/musicGroupMember
-	 * A member of a music group&#x2014;for example, John, Paul, George, or Ringo.
-	 *
-	 * @property musicGroupMember
-	 * @type Person
-	 */
-	public Person musicGroupMember;
+	public String genre;
 	/**
 	 * Schema.org/tracks
 	 * A music recording (track)&#x2014;usually a single song.
@@ -43,13 +43,13 @@ public class MusicGroup extends PerformingGroup {
 	 */
 	public MusicRecording tracks;
 	/**
-	 * Schema.org/track
-	 * A music recording (track)&#x2014;usually a single song. If an ItemList is given, the list should contain items of type MusicRecording.
+	 * Schema.org/musicGroupMember
+	 * A member of a music group&#x2014;for example, John, Paul, George, or Ringo.
 	 *
-	 * @property track
-	 * @type schema, MusicRecording | schema,ItemList
+	 * @property musicGroupMember
+	 * @type Person
 	 */
-	public Object track;
+	public Person musicGroupMember;
 	/**
 	 * Schema.org/album
 	 * A music album.

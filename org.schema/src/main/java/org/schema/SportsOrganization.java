@@ -15,9 +15,9 @@ public class SportsOrganization extends Organization {
 	 * A type of sport (e.g. Baseball).
 	 *
 	 * @property sport
-	 * @type schema, URL | schema,Text
+	 * @type Text
 	 */
-	public Object sport;
+	public String sport;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

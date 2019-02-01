@@ -11,6 +11,14 @@ package org.schema;
  */
 public class ProductModel extends Product {
 	/**
+	 * Schema.org/predecessorOf
+	 * A pointer from a previous, often discontinued variant of the product to its newer variant.
+	 *
+	 * @property predecessorOf
+	 * @type ProductModel
+	 */
+	public ProductModel predecessorOf;
+	/**
 	 * Schema.org/successorOf
 	 * A pointer from a newer variant of a product  to its previous, often discontinued predecessor.
 	 *
@@ -26,14 +34,6 @@ public class ProductModel extends Product {
 	 * @type ProductModel
 	 */
 	public ProductModel isVariantOf;
-	/**
-	 * Schema.org/predecessorOf
-	 * A pointer from a previous, often discontinued variant of the product to its newer variant.
-	 *
-	 * @property predecessorOf
-	 * @type ProductModel
-	 */
-	public ProductModel predecessorOf;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

@@ -11,53 +11,13 @@ package org.schema;
  */
 public class MediaObject extends CreativeWork {
 	/**
-	 * Schema.org/expires
-	 * Date the content expires and is no longer useful or available. Useful for videos.
+	 * Schema.org/uploadDate
+	 * Date when this media object was uploaded to this site.
 	 *
-	 * @property expires
+	 * @property uploadDate
 	 * @type Date
 	 */
-	public String expires;
-	/**
-	 * Schema.org/regionsAllowed
-	 * The regions where the media is allowed. If not specified, then it's assumed to be allowed everywhere. Specify the countries in [ISO 3166 format](http://en.wikipedia.org/wiki/ISO_3166).
-	 *
-	 * @property regionsAllowed
-	 * @type Place
-	 */
-	public Place regionsAllowed;
-	/**
-	 * Schema.org/encodingFormat
-	 * mp3, mpeg4, etc.
-	 *
-	 * @property encodingFormat
-	 * @type Text
-	 */
-	public String encodingFormat;
-	/**
-	 * Schema.org/embedUrl
-	 * A URL pointing to a player for a specific video. In general, this is the information in the ```src``` element of an ```embed``` tag and should not be the same as the content of the ```loc``` tag.
-	 *
-	 * @property embedUrl
-	 * @type URL
-	 */
-	public String embedUrl;
-	/**
-	 * Schema.org/height
-	 * The height of the item.
-	 *
-	 * @property height
-	 * @type schema, Distance | schema,QuantitativeValue
-	 */
-	public Object height;
-	/**
-	 * Schema.org/requiresSubscription
-	 * Indicates if use of the media require a subscription  (either paid or free). Allowed values are ```true``` or ```false``` (note that an earlier version had 'yes', 'no').
-	 *
-	 * @property requiresSubscription
-	 * @type Boolean
-	 */
-	public Boolean requiresSubscription;
+	public String uploadDate;
 	/**
 	 * Schema.org/playerType
 	 * Player type required&#x2014;for example, Flash or Silverlight.
@@ -67,13 +27,69 @@ public class MediaObject extends CreativeWork {
 	 */
 	public String playerType;
 	/**
-	 * Schema.org/duration
-	 * The duration of the item (movie, audio recording, event, etc.) in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601).
+	 * Schema.org/height
+	 * The height of the item.
 	 *
-	 * @property duration
-	 * @type Duration
+	 * @property height
+	 * @type Distance
 	 */
-	public Duration duration;
+	public Distance height;
+	/**
+	 * Schema.org/bitrate
+	 * The bitrate of the media object.
+	 *
+	 * @property bitrate
+	 * @type Text
+	 */
+	public String bitrate;
+	/**
+	 * Schema.org/requiresSubscription
+	 * Indicates if use of the media require a subscription  (either paid or free). Allowed values are ```true``` or ```false``` (note that an earlier version had 'yes', 'no').
+	 *
+	 * @property requiresSubscription
+	 * @type Boolean
+	 */
+	public Boolean requiresSubscription;
+	/**
+	 * Schema.org/regionsAllowed
+	 * The regions where the media is allowed. If not specified, then it's assumed to be allowed everywhere. Specify the countries in [ISO 3166 format](http://en.wikipedia.org/wiki/ISO_3166).
+	 *
+	 * @property regionsAllowed
+	 * @type Place
+	 */
+	public Place regionsAllowed;
+	/**
+	 * Schema.org/expires
+	 * Date the content expires and is no longer useful or available. Useful for videos.
+	 *
+	 * @property expires
+	 * @type Date
+	 */
+	public String expires;
+	/**
+	 * Schema.org/contentSize
+	 * File size in (mega/kilo) bytes.
+	 *
+	 * @property contentSize
+	 * @type Text
+	 */
+	public String contentSize;
+	/**
+	 * Schema.org/embedUrl
+	 * A URL pointing to a player for a specific video. In general, this is the information in the ```src``` element of an ```embed``` tag and should not be the same as the content of the ```loc``` tag.
+	 *
+	 * @property embedUrl
+	 * @type URL
+	 */
+	public String embedUrl;
+	/**
+	 * Schema.org/width
+	 * The width of the item.
+	 *
+	 * @property width
+	 * @type Distance
+	 */
+	public Distance width;
 	/**
 	 * Schema.org/contentUrl
 	 * Actual bytes of the media object, for example the image file or video file.
@@ -82,14 +98,6 @@ public class MediaObject extends CreativeWork {
 	 * @type URL
 	 */
 	public String contentUrl;
-	/**
-	 * Schema.org/width
-	 * The width of the item.
-	 *
-	 * @property width
-	 * @type schema, Distance | schema,QuantitativeValue
-	 */
-	public Object width;
 	/**
 	 * Schema.org/associatedArticle
 	 * A NewsArticle associated with the Media Object.
@@ -107,21 +115,13 @@ public class MediaObject extends CreativeWork {
 	 */
 	public Organization productionCompany;
 	/**
-	 * Schema.org/uploadDate
-	 * Date when this media object was uploaded to this site.
+	 * Schema.org/duration
+	 * The duration of the item (movie, audio recording, event, etc.) in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601).
 	 *
-	 * @property uploadDate
-	 * @type Date
+	 * @property duration
+	 * @type Duration
 	 */
-	public String uploadDate;
-	/**
-	 * Schema.org/bitrate
-	 * The bitrate of the media object.
-	 *
-	 * @property bitrate
-	 * @type Text
-	 */
-	public String bitrate;
+	public Duration duration;
 	/**
 	 * Schema.org/encodesCreativeWork
 	 * The CreativeWork encoded by this media object.
@@ -131,13 +131,13 @@ public class MediaObject extends CreativeWork {
 	 */
 	public CreativeWork encodesCreativeWork;
 	/**
-	 * Schema.org/contentSize
-	 * File size in (mega/kilo) bytes.
+	 * Schema.org/encodingFormat
+	 * mp3, mpeg4, etc.
 	 *
-	 * @property contentSize
+	 * @property encodingFormat
 	 * @type Text
 	 */
-	public String contentSize;
+	public String encodingFormat;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

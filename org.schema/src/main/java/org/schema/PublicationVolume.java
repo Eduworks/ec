@@ -13,30 +13,6 @@ package org.schema;
  */
 public class PublicationVolume extends CreativeWork {
 	/**
-	 * Schema.org/pageStart
-	 * The page on which the work starts; for example "135" or "xiii".
-	 *
-	 * @property pageStart
-	 * @type schema, Integer | schema,Text
-	 */
-	public Object pageStart;
-	/**
-	 * Schema.org/pageEnd
-	 * The page on which the work ends; for example "138" or "xvi".
-	 *
-	 * @property pageEnd
-	 * @type schema, Integer | schema,Text
-	 */
-	public Object pageEnd;
-	/**
-	 * Schema.org/volumeNumber
-	 * Identifies the volume of publication or multi-part work; for example, "iii" or "2".
-	 *
-	 * @property volumeNumber
-	 * @type schema, Integer | schema,Text
-	 */
-	public Object volumeNumber;
-	/**
 	 * Schema.org/pagination
 	 * Any description of pages that is not separated into pageStart and pageEnd; for example, "1-6, 9, 55" or "10-12, 46-49".
 	 *
@@ -44,6 +20,30 @@ public class PublicationVolume extends CreativeWork {
 	 * @type Text
 	 */
 	public String pagination;
+	/**
+	 * Schema.org/pageEnd
+	 * The page on which the work ends; for example "138" or "xvi".
+	 *
+	 * @property pageEnd
+	 * @type Integer
+	 */
+	public Integer pageEnd;
+	/**
+	 * Schema.org/volumeNumber
+	 * Identifies the volume of publication or multi-part work; for example, "iii" or "2".
+	 *
+	 * @property volumeNumber
+	 * @type Integer
+	 */
+	public Integer volumeNumber;
+	/**
+	 * Schema.org/pageStart
+	 * The page on which the work starts; for example "135" or "xiii".
+	 *
+	 * @property pageStart
+	 * @type Integer
+	 */
+	public Integer pageStart;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

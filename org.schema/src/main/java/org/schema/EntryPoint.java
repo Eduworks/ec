@@ -11,13 +11,13 @@ package org.schema;
  */
 public class EntryPoint extends Intangible {
 	/**
-	 * Schema.org/contentType
-	 * The supported content type(s) for an EntryPoint response.
+	 * Schema.org/urlTemplate
+	 * An url template (RFC6570) that will be used to construct the target of the execution of the action.
 	 *
-	 * @property contentType
+	 * @property urlTemplate
 	 * @type Text
 	 */
-	public String contentType;
+	public String urlTemplate;
 	/**
 	 * Schema.org/actionApplication
 	 * An application that can complete the request.
@@ -27,21 +27,21 @@ public class EntryPoint extends Intangible {
 	 */
 	public SoftwareApplication actionApplication;
 	/**
-	 * Schema.org/urlTemplate
-	 * An url template (RFC6570) that will be used to construct the target of the execution of the action.
+	 * Schema.org/application
+	 * An application that can complete the request.
 	 *
-	 * @property urlTemplate
-	 * @type Text
+	 * @property application
+	 * @type SoftwareApplication
 	 */
-	public String urlTemplate;
+	public SoftwareApplication application;
 	/**
 	 * Schema.org/actionPlatform
 	 * The high level platform(s) where the Action can be performed for the given URL. To specify a specific application or operating system instance, use actionApplication.
 	 *
 	 * @property actionPlatform
-	 * @type schema, URL | schema,Text
+	 * @type Text
 	 */
-	public Object actionPlatform;
+	public String actionPlatform;
 	/**
 	 * Schema.org/httpMethod
 	 * An HTTP method that specifies the appropriate HTTP method for a request to an HTTP EntryPoint. Values are capitalized strings as used in HTTP.
@@ -59,13 +59,13 @@ public class EntryPoint extends Intangible {
 	 */
 	public String encodingType;
 	/**
-	 * Schema.org/application
-	 * An application that can complete the request.
+	 * Schema.org/contentType
+	 * The supported content type(s) for an EntryPoint response.
 	 *
-	 * @property application
-	 * @type SoftwareApplication
+	 * @property contentType
+	 * @type Text
 	 */
-	public SoftwareApplication application;
+	public String contentType;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

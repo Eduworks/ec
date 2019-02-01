@@ -19,14 +19,6 @@ public class RsvpAction extends InformAction {
 	 */
 	public Double additionalNumberOfGuests;
 	/**
-	 * Schema.org/rsvpResponse
-	 * The response (yes, no, maybe) to the RSVP.
-	 *
-	 * @property rsvpResponse
-	 * @type RsvpResponseType
-	 */
-	public RsvpResponseType rsvpResponse;
-	/**
 	 * Schema.org/comment
 	 * Comments, typically from users.
 	 *
@@ -34,6 +26,14 @@ public class RsvpAction extends InformAction {
 	 * @type Comment
 	 */
 	public Comment comment;
+	/**
+	 * Schema.org/rsvpResponse
+	 * The response (yes, no, maybe) to the RSVP.
+	 *
+	 * @property rsvpResponse
+	 * @type RsvpResponseType
+	 */
+	public RsvpResponseType rsvpResponse;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

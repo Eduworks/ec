@@ -11,13 +11,13 @@ package org.schema;
  */
 public class FlightReservation extends Reservation {
 	/**
-	 * Schema.org/boardingGroup
-	 * The airline-specific indicator of boarding order / preference.
+	 * Schema.org/passengerSequenceNumber
+	 * The passenger's sequence number as assigned by the airline.
 	 *
-	 * @property boardingGroup
+	 * @property passengerSequenceNumber
 	 * @type Text
 	 */
-	public String boardingGroup;
+	public String passengerSequenceNumber;
 	/**
 	 * Schema.org/securityScreening
 	 * The type of security screening the passenger is subject to.
@@ -31,17 +31,17 @@ public class FlightReservation extends Reservation {
 	 * The priority status assigned to a passenger for security or boarding (e.g. FastTrack or Priority).
 	 *
 	 * @property passengerPriorityStatus
-	 * @type schema, Text | schema,QualitativeValue
+	 * @type QualitativeValue
 	 */
-	public Object passengerPriorityStatus;
+	public QualitativeValue passengerPriorityStatus;
 	/**
-	 * Schema.org/passengerSequenceNumber
-	 * The passenger's sequence number as assigned by the airline.
+	 * Schema.org/boardingGroup
+	 * The airline-specific indicator of boarding order / preference.
 	 *
-	 * @property passengerSequenceNumber
+	 * @property boardingGroup
 	 * @type Text
 	 */
-	public String passengerSequenceNumber;
+	public String boardingGroup;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

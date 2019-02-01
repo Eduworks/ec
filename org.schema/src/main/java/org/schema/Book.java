@@ -11,13 +11,13 @@ package org.schema;
  */
 public class Book extends CreativeWork {
 	/**
-	 * Schema.org/illustrator
-	 * The illustrator of the book.
+	 * Schema.org/isbn
+	 * The ISBN of the book.
 	 *
-	 * @property illustrator
-	 * @type Person
+	 * @property isbn
+	 * @type Text
 	 */
-	public Person illustrator;
+	public String isbn;
 	/**
 	 * Schema.org/bookEdition
 	 * The edition of the book.
@@ -35,14 +35,6 @@ public class Book extends CreativeWork {
 	 */
 	public BookFormatType bookFormat;
 	/**
-	 * Schema.org/isbn
-	 * The ISBN of the book.
-	 *
-	 * @property isbn
-	 * @type Text
-	 */
-	public String isbn;
-	/**
 	 * Schema.org/numberOfPages
 	 * The number of pages in the book.
 	 *
@@ -50,6 +42,14 @@ public class Book extends CreativeWork {
 	 * @type Integer
 	 */
 	public Integer numberOfPages;
+	/**
+	 * Schema.org/illustrator
+	 * The illustrator of the book.
+	 *
+	 * @property illustrator
+	 * @type Person
+	 */
+	public Person illustrator;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

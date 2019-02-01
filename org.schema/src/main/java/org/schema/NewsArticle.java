@@ -11,21 +11,13 @@ package org.schema;
  */
 public class NewsArticle extends Article {
 	/**
-	 * Schema.org/printPage
-	 * If this NewsArticle appears in print, this field indicates the name of the page on which the article is found. Please note that this field is intended for the exact page name (e.g. A5, B18).
+	 * Schema.org/printColumn
+	 * The number of the column in which the NewsArticle appears in the print edition.
 	 *
-	 * @property printPage
+	 * @property printColumn
 	 * @type Text
 	 */
-	public String printPage;
-	/**
-	 * Schema.org/dateline
-	 * The location where the NewsArticle was produced.
-	 *
-	 * @property dateline
-	 * @type Text
-	 */
-	public String dateline;
+	public String printColumn;
 	/**
 	 * Schema.org/printEdition
 	 * The edition of the print product in which the NewsArticle appears.
@@ -43,13 +35,21 @@ public class NewsArticle extends Article {
 	 */
 	public String printSection;
 	/**
-	 * Schema.org/printColumn
-	 * The number of the column in which the NewsArticle appears in the print edition.
+	 * Schema.org/printPage
+	 * If this NewsArticle appears in print, this field indicates the name of the page on which the article is found. Please note that this field is intended for the exact page name (e.g. A5, B18).
 	 *
-	 * @property printColumn
+	 * @property printPage
 	 * @type Text
 	 */
-	public String printColumn;
+	public String printPage;
+	/**
+	 * Schema.org/dateline
+	 * The location where the NewsArticle was produced.
+	 *
+	 * @property dateline
+	 * @type Text
+	 */
+	public String dateline;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

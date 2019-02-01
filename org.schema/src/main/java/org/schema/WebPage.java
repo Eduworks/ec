@@ -11,37 +11,21 @@ package org.schema;
  */
 public class WebPage extends CreativeWork {
 	/**
-	 * Schema.org/specialty
-	 * One of the domain specialities to which this web page's content applies.
+	 * Schema.org/lastReviewed
+	 * Date on which the content on this web page was last reviewed for accuracy and/or completeness.
 	 *
-	 * @property specialty
-	 * @type Specialty
+	 * @property lastReviewed
+	 * @type Date
 	 */
-	public Specialty specialty;
+	public String lastReviewed;
 	/**
 	 * Schema.org/breadcrumb
 	 * A set of links that can help a user understand and navigate a website hierarchy.
 	 *
 	 * @property breadcrumb
-	 * @type schema, Text | schema,BreadcrumbList
+	 * @type Text
 	 */
-	public Object breadcrumb;
-	/**
-	 * Schema.org/relatedLink
-	 * A link related to this web page, for example to other related web pages.
-	 *
-	 * @property relatedLink
-	 * @type URL
-	 */
-	public String relatedLink;
-	/**
-	 * Schema.org/primaryImageOfPage
-	 * Indicates the main image on the page.
-	 *
-	 * @property primaryImageOfPage
-	 * @type ImageObject
-	 */
-	public ImageObject primaryImageOfPage;
+	public String breadcrumb;
 	/**
 	 * Schema.org/significantLink
 	 * One of the more significant URLs on the page. Typically, these are the non-navigation links that are clicked on the most.
@@ -51,6 +35,14 @@ public class WebPage extends CreativeWork {
 	 */
 	public String significantLink;
 	/**
+	 * Schema.org/relatedLink
+	 * A link related to this web page, for example to other related web pages.
+	 *
+	 * @property relatedLink
+	 * @type URL
+	 */
+	public String relatedLink;
+	/**
 	 * Schema.org/mainContentOfPage
 	 * Indicates if this web page element is the main subject of the page.
 	 *
@@ -58,6 +50,22 @@ public class WebPage extends CreativeWork {
 	 * @type WebPageElement
 	 */
 	public WebPageElement mainContentOfPage;
+	/**
+	 * Schema.org/reviewedBy
+	 * People or organizations that have reviewed the content on this web page for accuracy and/or completeness.
+	 *
+	 * @property reviewedBy
+	 * @type Organization
+	 */
+	public Organization reviewedBy;
+	/**
+	 * Schema.org/primaryImageOfPage
+	 * Indicates the main image on the page.
+	 *
+	 * @property primaryImageOfPage
+	 * @type ImageObject
+	 */
+	public ImageObject primaryImageOfPage;
 	/**
 	 * Schema.org/significantLinks
 	 * The most significant URLs on the page. Typically, these are the non-navigation links that are clicked on the most.
@@ -67,21 +75,13 @@ public class WebPage extends CreativeWork {
 	 */
 	public String significantLinks;
 	/**
-	 * Schema.org/lastReviewed
-	 * Date on which the content on this web page was last reviewed for accuracy and/or completeness.
+	 * Schema.org/specialty
+	 * One of the domain specialities to which this web page's content applies.
 	 *
-	 * @property lastReviewed
-	 * @type Date
+	 * @property specialty
+	 * @type Specialty
 	 */
-	public String lastReviewed;
-	/**
-	 * Schema.org/reviewedBy
-	 * People or organizations that have reviewed the content on this web page for accuracy and/or completeness.
-	 *
-	 * @property reviewedBy
-	 * @type schema, Organization | schema,Person
-	 */
-	public Object reviewedBy;
+	public Specialty specialty;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

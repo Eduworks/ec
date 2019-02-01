@@ -11,6 +11,14 @@ package org.schema;
  */
 public class BusinessAudience extends Audience {
 	/**
+	 * Schema.org/yearsInOperation
+	 * The age of the business.
+	 *
+	 * @property yearsInOperation
+	 * @type QuantitativeValue
+	 */
+	public QuantitativeValue yearsInOperation;
+	/**
 	 * Schema.org/yearlyRevenue
 	 * The size of the business in annual revenue.
 	 *
@@ -26,14 +34,6 @@ public class BusinessAudience extends Audience {
 	 * @type QuantitativeValue
 	 */
 	public QuantitativeValue numberOfEmployees;
-	/**
-	 * Schema.org/yearsInOperation
-	 * The age of the business.
-	 *
-	 * @property yearsInOperation
-	 * @type QuantitativeValue
-	 */
-	public QuantitativeValue yearsInOperation;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

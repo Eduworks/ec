@@ -11,22 +11,6 @@ package org.schema;
  */
 public class LoanOrCredit extends FinancialProduct {
 	/**
-	 * Schema.org/requiredCollateral
-	 * Assets required to secure loan or credit repayments. It may take form of third party pledge, goods, financial instruments (cash, securities, etc.)
-	 *
-	 * @property requiredCollateral
-	 * @type schema, Text | schema,Thing
-	 */
-	public Object requiredCollateral;
-	/**
-	 * Schema.org/amount
-	 * The amount of money.
-	 *
-	 * @property amount
-	 * @type schema, Number | schema,MonetaryAmount
-	 */
-	public Object amount;
-	/**
 	 * Schema.org/loanTerm
 	 * The duration of the loan or credit agreement.
 	 *
@@ -34,6 +18,22 @@ public class LoanOrCredit extends FinancialProduct {
 	 * @type QuantitativeValue
 	 */
 	public QuantitativeValue loanTerm;
+	/**
+	 * Schema.org/amount
+	 * The amount of money.
+	 *
+	 * @property amount
+	 * @type Number
+	 */
+	public Double amount;
+	/**
+	 * Schema.org/requiredCollateral
+	 * Assets required to secure loan or credit repayments. It may take form of third party pledge, goods, financial instruments (cash, securities, etc.)
+	 *
+	 * @property requiredCollateral
+	 * @type Thing
+	 */
+	public Thing requiredCollateral;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

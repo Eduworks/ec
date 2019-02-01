@@ -15,17 +15,9 @@ public class ImageObject extends MediaObject {
 	 * exif data for this object.
 	 *
 	 * @property exifData
-	 * @type schema, Text | schema,PropertyValue
+	 * @type Text
 	 */
-	public Object exifData;
-	/**
-	 * Schema.org/thumbnail
-	 * Thumbnail image for an image or video.
-	 *
-	 * @property thumbnail
-	 * @type ImageObject
-	 */
-	public ImageObject thumbnail;
+	public String exifData;
 	/**
 	 * Schema.org/representativeOfPage
 	 * Indicates whether this image is representative of the content of the page.
@@ -34,6 +26,14 @@ public class ImageObject extends MediaObject {
 	 * @type Boolean
 	 */
 	public Boolean representativeOfPage;
+	/**
+	 * Schema.org/thumbnail
+	 * Thumbnail image for an image or video.
+	 *
+	 * @property thumbnail
+	 * @type ImageObject
+	 */
+	public ImageObject thumbnail;
 	/**
 	 * Schema.org/caption
 	 * The caption for this object.

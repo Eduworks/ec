@@ -13,15 +13,6 @@ package org.schema;
  */
 public class HotelRoom extends Room {
 	/**
-	 * Schema.org/bed
-	 * The type of bed or beds included in the accommodation. For the single case of just one bed of a certain type, you use bed directly with a text.
-	 * If you want to indicate the quantity of a certain kind of bed, use an instance of BedDetails. For more detailed information, use the amenityFeature property.
-	 *
-	 * @property bed
-	 * @type schema, Text | schema,BedDetails
-	 */
-	public Object bed;
-	/**
 	 * Schema.org/occupancy
 	 * The allowed total occupancy for the accommodation in persons (including infants etc). For individual accommodations, this is not necessarily the legal maximum but defines the permitted usage as per the contractual agreement (e.g. a double room used by a single person).
 	 * Typical unit code(s): C62 for person
@@ -30,6 +21,15 @@ public class HotelRoom extends Room {
 	 * @type QuantitativeValue
 	 */
 	public QuantitativeValue occupancy;
+	/**
+	 * Schema.org/bed
+	 * The type of bed or beds included in the accommodation. For the single case of just one bed of a certain type, you use bed directly with a text.
+	 * If you want to indicate the quantity of a certain kind of bed, use an instance of BedDetails. For more detailed information, use the amenityFeature property.
+	 *
+	 * @property bed
+	 * @type BedDetails
+	 */
+	public BedDetails bed;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

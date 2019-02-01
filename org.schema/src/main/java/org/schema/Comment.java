@@ -11,6 +11,14 @@ package org.schema;
  */
 public class Comment extends CreativeWork {
 	/**
+	 * Schema.org/parentItem
+	 * The parent of a question, answer or item in general.
+	 *
+	 * @property parentItem
+	 * @type Question
+	 */
+	public Question parentItem;
+	/**
 	 * Schema.org/upvoteCount
 	 * The number of upvotes this question, answer or comment has received from the community.
 	 *
@@ -26,14 +34,6 @@ public class Comment extends CreativeWork {
 	 * @type Integer
 	 */
 	public Integer downvoteCount;
-	/**
-	 * Schema.org/parentItem
-	 * The parent of a question, answer or item in general.
-	 *
-	 * @property parentItem
-	 * @type Question
-	 */
-	public Question parentItem;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

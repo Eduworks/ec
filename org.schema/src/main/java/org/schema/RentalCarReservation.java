@@ -11,22 +11,6 @@ package org.schema;
  */
 public class RentalCarReservation extends Reservation {
 	/**
-	 * Schema.org/dropoffLocation
-	 * Where a rental car can be dropped off.
-	 *
-	 * @property dropoffLocation
-	 * @type Place
-	 */
-	public Place dropoffLocation;
-	/**
-	 * Schema.org/pickupLocation
-	 * Where a taxi will pick up a passenger or a rental car can be picked up.
-	 *
-	 * @property pickupLocation
-	 * @type Place
-	 */
-	public Place pickupLocation;
-	/**
 	 * Schema.org/pickupTime
 	 * When a taxi will pickup a passenger or a rental car can be picked up.
 	 *
@@ -42,6 +26,22 @@ public class RentalCarReservation extends Reservation {
 	 * @type DateTime
 	 */
 	public String dropoffTime;
+	/**
+	 * Schema.org/dropoffLocation
+	 * Where a rental car can be dropped off.
+	 *
+	 * @property dropoffLocation
+	 * @type Place
+	 */
+	public Place dropoffLocation;
+	/**
+	 * Schema.org/pickupLocation
+	 * Where a taxi will pick up a passenger or a rental car can be picked up.
+	 *
+	 * @property pickupLocation
+	 * @type Place
+	 */
+	public Place pickupLocation;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

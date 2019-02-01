@@ -11,21 +11,29 @@ package org.schema;
  */
 public class NutritionInformation extends StructuredValue {
 	/**
-	 * Schema.org/calories
-	 * The number of calories.
+	 * Schema.org/saturatedFatContent
+	 * The number of grams of saturated fat.
 	 *
-	 * @property calories
-	 * @type Energy
-	 */
-	public Energy calories;
-	/**
-	 * Schema.org/fiberContent
-	 * The number of grams of fiber.
-	 *
-	 * @property fiberContent
+	 * @property saturatedFatContent
 	 * @type Mass
 	 */
-	public Mass fiberContent;
+	public Mass saturatedFatContent;
+	/**
+	 * Schema.org/fatContent
+	 * The number of grams of fat.
+	 *
+	 * @property fatContent
+	 * @type Mass
+	 */
+	public Mass fatContent;
+	/**
+	 * Schema.org/unsaturatedFatContent
+	 * The number of grams of unsaturated fat.
+	 *
+	 * @property unsaturatedFatContent
+	 * @type Mass
+	 */
+	public Mass unsaturatedFatContent;
 	/**
 	 * Schema.org/sugarContent
 	 * The number of grams of sugar.
@@ -43,6 +51,14 @@ public class NutritionInformation extends StructuredValue {
 	 */
 	public Mass cholesterolContent;
 	/**
+	 * Schema.org/carbohydrateContent
+	 * The number of grams of carbohydrates.
+	 *
+	 * @property carbohydrateContent
+	 * @type Mass
+	 */
+	public Mass carbohydrateContent;
+	/**
 	 * Schema.org/proteinContent
 	 * The number of grams of protein.
 	 *
@@ -51,13 +67,13 @@ public class NutritionInformation extends StructuredValue {
 	 */
 	public Mass proteinContent;
 	/**
-	 * Schema.org/fatContent
-	 * The number of grams of fat.
+	 * Schema.org/sodiumContent
+	 * The number of milligrams of sodium.
 	 *
-	 * @property fatContent
+	 * @property sodiumContent
 	 * @type Mass
 	 */
-	public Mass fatContent;
+	public Mass sodiumContent;
 	/**
 	 * Schema.org/transFatContent
 	 * The number of grams of trans fat.
@@ -67,37 +83,21 @@ public class NutritionInformation extends StructuredValue {
 	 */
 	public Mass transFatContent;
 	/**
-	 * Schema.org/carbohydrateContent
-	 * The number of grams of carbohydrates.
+	 * Schema.org/fiberContent
+	 * The number of grams of fiber.
 	 *
-	 * @property carbohydrateContent
+	 * @property fiberContent
 	 * @type Mass
 	 */
-	public Mass carbohydrateContent;
+	public Mass fiberContent;
 	/**
-	 * Schema.org/unsaturatedFatContent
-	 * The number of grams of unsaturated fat.
+	 * Schema.org/calories
+	 * The number of calories.
 	 *
-	 * @property unsaturatedFatContent
-	 * @type Mass
+	 * @property calories
+	 * @type Energy
 	 */
-	public Mass unsaturatedFatContent;
-	/**
-	 * Schema.org/saturatedFatContent
-	 * The number of grams of saturated fat.
-	 *
-	 * @property saturatedFatContent
-	 * @type Mass
-	 */
-	public Mass saturatedFatContent;
-	/**
-	 * Schema.org/sodiumContent
-	 * The number of milligrams of sodium.
-	 *
-	 * @property sodiumContent
-	 * @type Mass
-	 */
-	public Mass sodiumContent;
+	public Energy calories;
 	/**
 	 * Schema.org/servingSize
 	 * The serving size, in terms of the number of volume or mass.

@@ -11,6 +11,14 @@ package org.schema;
  */
 public class MusicPlaylist extends CreativeWork {
 	/**
+	 * Schema.org/track
+	 * A music recording (track)&#x2014;usually a single song. If an ItemList is given, the list should contain items of type MusicRecording.
+	 *
+	 * @property track
+	 * @type MusicRecording
+	 */
+	public MusicRecording track;
+	/**
 	 * Schema.org/numTracks
 	 * The number of tracks in this album or playlist.
 	 *
@@ -26,14 +34,6 @@ public class MusicPlaylist extends CreativeWork {
 	 * @type MusicRecording
 	 */
 	public MusicRecording tracks;
-	/**
-	 * Schema.org/track
-	 * A music recording (track)&#x2014;usually a single song. If an ItemList is given, the list should contain items of type MusicRecording.
-	 *
-	 * @property track
-	 * @type schema, MusicRecording | schema,ItemList
-	 */
-	public Object track;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

@@ -11,37 +11,37 @@ package org.schema;
  */
 public class Rating extends Intangible {
 	/**
-	 * Schema.org/bestRating
-	 * The highest value allowed in this rating system. If bestRating is omitted, 5 is assumed.
-	 *
-	 * @property bestRating
-	 * @type schema, Number | schema,Text
-	 */
-	public Object bestRating;
-	/**
 	 * Schema.org/ratingValue
 	 * The rating for the content.
 	 *
 	 * @property ratingValue
-	 * @type schema, Number | schema,Text
+	 * @type Number
 	 */
-	public Object ratingValue;
+	public Double ratingValue;
 	/**
-	 * Schema.org/worstRating
-	 * The lowest value allowed in this rating system. If worstRating is omitted, 1 is assumed.
+	 * Schema.org/bestRating
+	 * The highest value allowed in this rating system. If bestRating is omitted, 5 is assumed.
 	 *
-	 * @property worstRating
-	 * @type schema, Number | schema,Text
+	 * @property bestRating
+	 * @type Number
 	 */
-	public Object worstRating;
+	public Double bestRating;
 	/**
 	 * Schema.org/author
 	 * The author of this content or rating. Please note that author is special in that HTML 5 provides a special mechanism for indicating authorship via the rel tag. That is equivalent to this and may be used interchangeably.
 	 *
 	 * @property author
-	 * @type schema, Organization | schema,Person
+	 * @type Person
 	 */
-	public Object author;
+	public Person author;
+	/**
+	 * Schema.org/worstRating
+	 * The lowest value allowed in this rating system. If worstRating is omitted, 1 is assumed.
+	 *
+	 * @property worstRating
+	 * @type Text
+	 */
+	public String worstRating;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

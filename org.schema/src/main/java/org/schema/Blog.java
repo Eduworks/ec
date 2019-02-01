@@ -11,14 +11,6 @@ package org.schema;
  */
 public class Blog extends CreativeWork {
 	/**
-	 * Schema.org/blogPost
-	 * A posting that is part of this blog.
-	 *
-	 * @property blogPost
-	 * @type BlogPosting
-	 */
-	public BlogPosting blogPost;
-	/**
 	 * Schema.org/blogPosts
 	 * The postings that are part of this blog.
 	 *
@@ -26,6 +18,14 @@ public class Blog extends CreativeWork {
 	 * @type BlogPosting
 	 */
 	public BlogPosting blogPosts;
+	/**
+	 * Schema.org/blogPost
+	 * A posting that is part of this blog.
+	 *
+	 * @property blogPost
+	 * @type BlogPosting
+	 */
+	public BlogPosting blogPost;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

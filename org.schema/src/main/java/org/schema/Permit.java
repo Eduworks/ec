@@ -11,13 +11,13 @@ package org.schema;
  */
 public class Permit extends Intangible {
 	/**
-	 * Schema.org/validFrom
-	 * The date when the item becomes valid.
+	 * Schema.org/validFor
+	 * The time validity of the permit.
 	 *
-	 * @property validFrom
-	 * @type DateTime
+	 * @property validFor
+	 * @type Duration
 	 */
-	public String validFrom;
+	public Duration validFor;
 	/**
 	 * Schema.org/validUntil
 	 * The date when the item is no longer valid.
@@ -27,13 +27,13 @@ public class Permit extends Intangible {
 	 */
 	public String validUntil;
 	/**
-	 * Schema.org/validIn
-	 * The geographic area where the permit is valid.
+	 * Schema.org/validFrom
+	 * The date when the item becomes valid.
 	 *
-	 * @property validIn
-	 * @type AdministrativeArea
+	 * @property validFrom
+	 * @type DateTime
 	 */
-	public AdministrativeArea validIn;
+	public String validFrom;
 	/**
 	 * Schema.org/issuedBy
 	 * The organization issuing the ticket or permit.
@@ -59,13 +59,13 @@ public class Permit extends Intangible {
 	 */
 	public Audience permitAudience;
 	/**
-	 * Schema.org/validFor
-	 * The time validity of the permit.
+	 * Schema.org/validIn
+	 * The geographic area where the permit is valid.
 	 *
-	 * @property validFor
-	 * @type Duration
+	 * @property validIn
+	 * @type AdministrativeArea
 	 */
-	public Duration validFor;
+	public AdministrativeArea validIn;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

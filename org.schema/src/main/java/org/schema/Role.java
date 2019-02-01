@@ -11,37 +11,37 @@ package org.schema;
  */
 public class Role extends Intangible {
 	/**
-	 * Schema.org/roleName
-	 * A role played, performed or filled by a person or organization. For example, the team of creators for a comic book might fill the roles named 'inker', 'penciller', and 'letterer'; or an athlete in a SportsTeam might play in the position named 'Quarterback'.
+	 * Schema.org/endDate
+	 * The end date and time of the item (in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601)).
 	 *
-	 * @property roleName
-	 * @type schema, URL | schema,Text
+	 * @property endDate
+	 * @type DateTime
 	 */
-	public Object roleName;
-	/**
-	 * Schema.org/namedPosition
-	 * A position played, performed or filled by a person or organization, as part of an organization. For example, an athlete in a SportsTeam might play in the position named 'Quarterback'.
-	 *
-	 * @property namedPosition
-	 * @type schema, URL | schema,Text
-	 */
-	public Object namedPosition;
+	public String endDate;
 	/**
 	 * Schema.org/startDate
 	 * The start date and time of the item (in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601)).
 	 *
 	 * @property startDate
-	 * @type schema, DateTime | schema,Date
+	 * @type Date
 	 */
-	public Object startDate;
+	public String startDate;
 	/**
-	 * Schema.org/endDate
-	 * The end date and time of the item (in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601)).
+	 * Schema.org/namedPosition
+	 * A position played, performed or filled by a person or organization, as part of an organization. For example, an athlete in a SportsTeam might play in the position named 'Quarterback'.
 	 *
-	 * @property endDate
-	 * @type schema, DateTime | schema,Date
+	 * @property namedPosition
+	 * @type Text
 	 */
-	public Object endDate;
+	public String namedPosition;
+	/**
+	 * Schema.org/roleName
+	 * A role played, performed or filled by a person or organization. For example, the team of creators for a comic book might fill the roles named 'inker', 'penciller', and 'letterer'; or an athlete in a SportsTeam might play in the position named 'Quarterback'.
+	 *
+	 * @property roleName
+	 * @type Text
+	 */
+	public String roleName;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

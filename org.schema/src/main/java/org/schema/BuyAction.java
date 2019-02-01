@@ -11,6 +11,22 @@ package org.schema;
  */
 public class BuyAction extends TradeAction {
 	/**
+	 * Schema.org/vendor
+	 * 'vendor' is an earlier term for 'seller'.
+	 *
+	 * @property vendor
+	 * @type Organization
+	 */
+	public Organization vendor;
+	/**
+	 * Schema.org/seller
+	 * An entity which offers (sells / leases / lends / loans) the services / goods.  A seller may also be a provider.
+	 *
+	 * @property seller
+	 * @type Person
+	 */
+	public Person seller;
+	/**
 	 * Schema.org/warrantyPromise
 	 * The warranty promise(s) included in the offer.
 	 *
@@ -18,22 +34,6 @@ public class BuyAction extends TradeAction {
 	 * @type WarrantyPromise
 	 */
 	public WarrantyPromise warrantyPromise;
-	/**
-	 * Schema.org/vendor
-	 * 'vendor' is an earlier term for 'seller'.
-	 *
-	 * @property vendor
-	 * @type schema, Organization | schema,Person
-	 */
-	public Object vendor;
-	/**
-	 * Schema.org/seller
-	 * An entity which offers (sells / leases / lends / loans) the services / goods.  A seller may also be a provider.
-	 *
-	 * @property seller
-	 * @type schema, Organization | schema,Person
-	 */
-	public Object seller;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

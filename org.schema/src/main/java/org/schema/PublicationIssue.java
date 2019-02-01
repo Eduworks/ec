@@ -11,22 +11,6 @@ package org.schema;
  */
 public class PublicationIssue extends CreativeWork {
 	/**
-	 * Schema.org/pageStart
-	 * The page on which the work starts; for example "135" or "xiii".
-	 *
-	 * @property pageStart
-	 * @type schema, Integer | schema,Text
-	 */
-	public Object pageStart;
-	/**
-	 * Schema.org/pageEnd
-	 * The page on which the work ends; for example "138" or "xvi".
-	 *
-	 * @property pageEnd
-	 * @type schema, Integer | schema,Text
-	 */
-	public Object pageEnd;
-	/**
 	 * Schema.org/pagination
 	 * Any description of pages that is not separated into pageStart and pageEnd; for example, "1-6, 9, 55" or "10-12, 46-49".
 	 *
@@ -39,9 +23,25 @@ public class PublicationIssue extends CreativeWork {
 	 * Identifies the issue of publication; for example, "iii" or "2".
 	 *
 	 * @property issueNumber
-	 * @type schema, Integer | schema,Text
+	 * @type Text
 	 */
-	public Object issueNumber;
+	public String issueNumber;
+	/**
+	 * Schema.org/pageEnd
+	 * The page on which the work ends; for example "138" or "xvi".
+	 *
+	 * @property pageEnd
+	 * @type Integer
+	 */
+	public Integer pageEnd;
+	/**
+	 * Schema.org/pageStart
+	 * The page on which the work starts; for example "135" or "xiii".
+	 *
+	 * @property pageStart
+	 * @type Integer
+	 */
+	public Integer pageStart;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

@@ -11,14 +11,6 @@ package org.schema;
  */
 public class EmployeeRole extends OrganizationRole {
 	/**
-	 * Schema.org/baseSalary
-	 * The base salary of the job or of an employee in an EmployeeRole.
-	 *
-	 * @property baseSalary
-	 * @type schema, Number | schema,PriceSpecification | schema,MonetaryAmount
-	 */
-	public Object baseSalary;
-	/**
 	 * Schema.org/salaryCurrency
 	 * The currency (coded using [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) ) used for the main salary information in this job posting or for this employee.
 	 *
@@ -26,6 +18,14 @@ public class EmployeeRole extends OrganizationRole {
 	 * @type Text
 	 */
 	public String salaryCurrency;
+	/**
+	 * Schema.org/baseSalary
+	 * The base salary of the job or of an employee in an EmployeeRole.
+	 *
+	 * @property baseSalary
+	 * @type MonetaryAmount
+	 */
+	public MonetaryAmount baseSalary;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

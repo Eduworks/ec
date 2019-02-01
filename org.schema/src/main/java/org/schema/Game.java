@@ -11,13 +11,29 @@ package org.schema;
  */
 public class Game extends CreativeWork {
 	/**
+	 * Schema.org/gameItem
+	 * An item is an object within the game world that can be collected by a player or, occasionally, a non-player character.
+	 *
+	 * @property gameItem
+	 * @type Thing
+	 */
+	public Thing gameItem;
+	/**
+	 * Schema.org/characterAttribute
+	 * A piece of data that represents a particular aspect of a fictional character (skill, power, character points, advantage, disadvantage).
+	 *
+	 * @property characterAttribute
+	 * @type Thing
+	 */
+	public Thing characterAttribute;
+	/**
 	 * Schema.org/gameLocation
 	 * Real or fictional location of the game (or part of game).
 	 *
 	 * @property gameLocation
-	 * @type schema, PostalAddress | schema,Place | schema,URL
+	 * @type URL
 	 */
-	public Object gameLocation;
+	public String gameLocation;
 	/**
 	 * Schema.org/quest
 	 * The task that a player-controlled character, or group of characters may complete in order to gain a reward.
@@ -27,14 +43,6 @@ public class Game extends CreativeWork {
 	 */
 	public Thing quest;
 	/**
-	 * Schema.org/gameItem
-	 * An item is an object within the game world that can be collected by a player or, occasionally, a non-player character.
-	 *
-	 * @property gameItem
-	 * @type Thing
-	 */
-	public Thing gameItem;
-	/**
 	 * Schema.org/numberOfPlayers
 	 * Indicate how many people can play this game (minimum, maximum, or range).
 	 *
@@ -42,14 +50,6 @@ public class Game extends CreativeWork {
 	 * @type QuantitativeValue
 	 */
 	public QuantitativeValue numberOfPlayers;
-	/**
-	 * Schema.org/characterAttribute
-	 * A piece of data that represents a particular aspect of a fictional character (skill, power, character points, advantage, disadvantage).
-	 *
-	 * @property characterAttribute
-	 * @type Thing
-	 */
-	public Thing characterAttribute;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

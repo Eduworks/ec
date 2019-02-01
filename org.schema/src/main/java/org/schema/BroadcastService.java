@@ -19,14 +19,6 @@ public class BroadcastService extends Service {
 	 */
 	public String broadcastTimezone;
 	/**
-	 * Schema.org/area
-	 * The area within which users can expect to reach the broadcast service.
-	 *
-	 * @property area
-	 * @type Place
-	 */
-	public Place area;
-	/**
 	 * Schema.org/videoFormat
 	 * The type of screening or video broadcast used (e.g. IMAX, 3D, SD, HD, etc.).
 	 *
@@ -34,14 +26,6 @@ public class BroadcastService extends Service {
 	 * @type Text
 	 */
 	public String videoFormat;
-	/**
-	 * Schema.org/broadcastDisplayName
-	 * The name displayed in the channel guide. For many US affiliates, it is the network name.
-	 *
-	 * @property broadcastDisplayName
-	 * @type Text
-	 */
-	public String broadcastDisplayName;
 	/**
 	 * Schema.org/broadcastAffiliateOf
 	 * The media network(s) whose content is broadcast on this station.
@@ -58,6 +42,22 @@ public class BroadcastService extends Service {
 	 * @type BroadcastService
 	 */
 	public BroadcastService parentService;
+	/**
+	 * Schema.org/broadcastDisplayName
+	 * The name displayed in the channel guide. For many US affiliates, it is the network name.
+	 *
+	 * @property broadcastDisplayName
+	 * @type Text
+	 */
+	public String broadcastDisplayName;
+	/**
+	 * Schema.org/area
+	 * The area within which users can expect to reach the broadcast service.
+	 *
+	 * @property area
+	 * @type Place
+	 */
+	public Place area;
 	/**
 	 * Schema.org/broadcaster
 	 * The organization owning or operating the broadcast service.

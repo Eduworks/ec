@@ -11,30 +11,6 @@ package org.schema;
  */
 public class ExerciseAction extends PlayAction {
 	/**
-	 * Schema.org/opponent
-	 * A sub property of participant. The opponent on this action.
-	 *
-	 * @property opponent
-	 * @type Person
-	 */
-	public Person opponent;
-	/**
-	 * Schema.org/exerciseCourse
-	 * A sub property of location. The course where this action was taken.
-	 *
-	 * @property exerciseCourse
-	 * @type Place
-	 */
-	public Place exerciseCourse;
-	/**
-	 * Schema.org/fromLocation
-	 * A sub property of location. The original location of the object or the agent before the action.
-	 *
-	 * @property fromLocation
-	 * @type Place
-	 */
-	public Place fromLocation;
-	/**
 	 * Schema.org/course
 	 * A sub property of location. The course where this action was taken.
 	 *
@@ -43,29 +19,13 @@ public class ExerciseAction extends PlayAction {
 	 */
 	public Place course;
 	/**
-	 * Schema.org/toLocation
-	 * A sub property of location. The final location of the object or the agent after the action.
+	 * Schema.org/sportsTeam
+	 * A sub property of participant. The sports team that participated on this action.
 	 *
-	 * @property toLocation
-	 * @type Place
+	 * @property sportsTeam
+	 * @type SportsTeam
 	 */
-	public Place toLocation;
-	/**
-	 * Schema.org/distance
-	 * The distance travelled, e.g. exercising or travelling.
-	 *
-	 * @property distance
-	 * @type Distance
-	 */
-	public Distance distance;
-	/**
-	 * Schema.org/sportsActivityLocation
-	 * A sub property of location. The sports activity location where this action occurred.
-	 *
-	 * @property sportsActivityLocation
-	 * @type SportsActivityLocation
-	 */
-	public SportsActivityLocation sportsActivityLocation;
+	public SportsTeam sportsTeam;
 	/**
 	 * Schema.org/sportsEvent
 	 * A sub property of location. The sports event where this action occurred.
@@ -75,13 +35,53 @@ public class ExerciseAction extends PlayAction {
 	 */
 	public SportsEvent sportsEvent;
 	/**
-	 * Schema.org/sportsTeam
-	 * A sub property of participant. The sports team that participated on this action.
+	 * Schema.org/distance
+	 * The distance travelled, e.g. exercising or travelling.
 	 *
-	 * @property sportsTeam
-	 * @type SportsTeam
+	 * @property distance
+	 * @type Distance
 	 */
-	public SportsTeam sportsTeam;
+	public Distance distance;
+	/**
+	 * Schema.org/opponent
+	 * A sub property of participant. The opponent on this action.
+	 *
+	 * @property opponent
+	 * @type Person
+	 */
+	public Person opponent;
+	/**
+	 * Schema.org/sportsActivityLocation
+	 * A sub property of location. The sports activity location where this action occurred.
+	 *
+	 * @property sportsActivityLocation
+	 * @type SportsActivityLocation
+	 */
+	public SportsActivityLocation sportsActivityLocation;
+	/**
+	 * Schema.org/toLocation
+	 * A sub property of location. The final location of the object or the agent after the action.
+	 *
+	 * @property toLocation
+	 * @type Place
+	 */
+	public Place toLocation;
+	/**
+	 * Schema.org/fromLocation
+	 * A sub property of location. The original location of the object or the agent before the action.
+	 *
+	 * @property fromLocation
+	 * @type Place
+	 */
+	public Place fromLocation;
+	/**
+	 * Schema.org/exerciseCourse
+	 * A sub property of location. The course where this action was taken.
+	 *
+	 * @property exerciseCourse
+	 * @type Place
+	 */
+	public Place exerciseCourse;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

@@ -7,17 +7,9 @@ package org.schema;
  * @author schema.org
  * @class TVSeason
  * @module org.schema
- * @extends CreativeWorkSeason
+ * @extends CreativeWork
  */
-public class TVSeason extends CreativeWorkSeason {
-	/**
-	 * Schema.org/countryOfOrigin
-	 * The country of the principal offices of the production company or individual responsible for the movie or program.
-	 *
-	 * @property countryOfOrigin
-	 * @type Country
-	 */
-	public Country countryOfOrigin;
+public class TVSeason extends CreativeWork {
 	/**
 	 * Schema.org/partOfTVSeries
 	 * The TV series to which this episode or season belongs.
@@ -26,6 +18,14 @@ public class TVSeason extends CreativeWorkSeason {
 	 * @type TVSeries
 	 */
 	public TVSeries partOfTVSeries;
+	/**
+	 * Schema.org/countryOfOrigin
+	 * The country of the principal offices of the production company or individual responsible for the movie or program.
+	 *
+	 * @property countryOfOrigin
+	 * @type Country
+	 */
+	public Country countryOfOrigin;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

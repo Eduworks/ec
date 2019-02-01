@@ -11,13 +11,21 @@ package org.schema;
  */
 public class ListItem extends Intangible {
 	/**
+	 * Schema.org/nextItem
+	 * A link to the ListItem that follows the current one.
+	 *
+	 * @property nextItem
+	 * @type ListItem
+	 */
+	public ListItem nextItem;
+	/**
 	 * Schema.org/position
 	 * The position of an item in a series or sequence of items.
 	 *
 	 * @property position
-	 * @type schema, Integer | schema,Text
+	 * @type Integer
 	 */
-	public Object position;
+	public Integer position;
 	/**
 	 * Schema.org/previousItem
 	 * A link to the ListItem that preceeds the current one.
@@ -26,14 +34,6 @@ public class ListItem extends Intangible {
 	 * @type ListItem
 	 */
 	public ListItem previousItem;
-	/**
-	 * Schema.org/nextItem
-	 * A link to the ListItem that follows the current one.
-	 *
-	 * @property nextItem
-	 * @type ListItem
-	 */
-	public ListItem nextItem;
 	/**
 	 * Schema.org/item
 	 * An entity represented by an entry in a list or data feed (e.g. an 'artist' in a list of 'artists')’.

@@ -11,13 +11,13 @@ package org.schema;
  */
 public class OrderItem extends Intangible {
 	/**
-	 * Schema.org/orderDelivery
-	 * The delivery of the parcel related to this order or order item.
+	 * Schema.org/orderItemStatus
+	 * The current status of the order item.
 	 *
-	 * @property orderDelivery
-	 * @type ParcelDelivery
+	 * @property orderItemStatus
+	 * @type OrderStatus
 	 */
-	public ParcelDelivery orderDelivery;
+	public OrderStatus orderItemStatus;
 	/**
 	 * Schema.org/orderQuantity
 	 * The number of the item ordered. If the property is not set, assume the quantity is one.
@@ -27,21 +27,21 @@ public class OrderItem extends Intangible {
 	 */
 	public Double orderQuantity;
 	/**
-	 * Schema.org/orderItemStatus
-	 * The current status of the order item.
-	 *
-	 * @property orderItemStatus
-	 * @type OrderStatus
-	 */
-	public OrderStatus orderItemStatus;
-	/**
 	 * Schema.org/orderedItem
 	 * The item ordered.
 	 *
 	 * @property orderedItem
-	 * @type schema, OrderItem | schema,Product
+	 * @type Product
 	 */
-	public Object orderedItem;
+	public Product orderedItem;
+	/**
+	 * Schema.org/orderDelivery
+	 * The delivery of the parcel related to this order or order item.
+	 *
+	 * @property orderDelivery
+	 * @type ParcelDelivery
+	 */
+	public ParcelDelivery orderDelivery;
 	/**
 	 * Schema.org/orderItemNumber
 	 * The identifier of the order item.

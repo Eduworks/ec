@@ -7,17 +7,17 @@ package org.schema;
  * @author schema.org
  * @class VideoGame
  * @module org.schema
- * @extends Game
+ * @extends SoftwareApplication
  */
-public class VideoGame extends Game {
+public class VideoGame extends SoftwareApplication {
 	/**
-	 * Schema.org/director
-	 * A director of e.g. tv, radio, movie, video gaming etc. content, or of an event. Directors can be associated with individual items or with a series, episode, clip.
+	 * Schema.org/gamePlatform
+	 * The electronic systems used to play <a href="http://en.wikipedia.org/wiki/Category:Video_game_platforms">video games</a>.
 	 *
-	 * @property director
-	 * @type Person
+	 * @property gamePlatform
+	 * @type Text
 	 */
-	public Person director;
+	public String gamePlatform;
 	/**
 	 * Schema.org/gameServer
 	 * The server on which  it is possible to play the game.
@@ -27,22 +27,6 @@ public class VideoGame extends Game {
 	 */
 	public GameServer gameServer;
 	/**
-	 * Schema.org/cheatCode
-	 * Cheat codes to the game.
-	 *
-	 * @property cheatCode
-	 * @type CreativeWork
-	 */
-	public CreativeWork cheatCode;
-	/**
-	 * Schema.org/gamePlatform
-	 * The electronic systems used to play <a href="http://en.wikipedia.org/wiki/Category:Video_game_platforms">video games</a>.
-	 *
-	 * @property gamePlatform
-	 * @type schema, URL | schema,Text | schema,Thing
-	 */
-	public Object gamePlatform;
-	/**
 	 * Schema.org/actor
 	 * An actor, e.g. in tv, radio, movie, video games etc., or in an event. Actors can be associated with individual items or with a series, episode, clip.
 	 *
@@ -50,6 +34,22 @@ public class VideoGame extends Game {
 	 * @type Person
 	 */
 	public Person actor;
+	/**
+	 * Schema.org/trailer
+	 * The trailer of a movie or tv/radio series, season, episode, etc.
+	 *
+	 * @property trailer
+	 * @type VideoObject
+	 */
+	public VideoObject trailer;
+	/**
+	 * Schema.org/cheatCode
+	 * Cheat codes to the game.
+	 *
+	 * @property cheatCode
+	 * @type CreativeWork
+	 */
+	public CreativeWork cheatCode;
 	/**
 	 * Schema.org/gameTip
 	 * Links to tips, tactics, etc.
@@ -63,25 +63,17 @@ public class VideoGame extends Game {
 	 * The composer of the soundtrack.
 	 *
 	 * @property musicBy
-	 * @type schema, Person | schema,MusicGroup
-	 */
-	public Object musicBy;
-	/**
-	 * Schema.org/actors
-	 * An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.
-	 *
-	 * @property actors
 	 * @type Person
 	 */
-	public Person actors;
+	public Person musicBy;
 	/**
-	 * Schema.org/trailer
-	 * The trailer of a movie or tv/radio series, season, episode, etc.
+	 * Schema.org/directors
+	 * A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.
 	 *
-	 * @property trailer
-	 * @type VideoObject
+	 * @property directors
+	 * @type Person
 	 */
-	public VideoObject trailer;
+	public Person directors;
 	/**
 	 * Schema.org/playMode
 	 * Indicates whether this game is multi-player, co-op or single-player.  The game can be marked as multi-player, co-op and single-player at the same time.
@@ -91,13 +83,21 @@ public class VideoGame extends Game {
 	 */
 	public GamePlayMode playMode;
 	/**
-	 * Schema.org/directors
-	 * A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.
+	 * Schema.org/director
+	 * A director of e.g. tv, radio, movie, video gaming etc. content, or of an event. Directors can be associated with individual items or with a series, episode, clip.
 	 *
-	 * @property directors
+	 * @property director
 	 * @type Person
 	 */
-	public Person directors;
+	public Person director;
+	/**
+	 * Schema.org/actors
+	 * An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.
+	 *
+	 * @property actors
+	 * @type Person
+	 */
+	public Person actors;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

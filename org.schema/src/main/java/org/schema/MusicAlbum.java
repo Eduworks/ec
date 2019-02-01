@@ -11,14 +11,6 @@ package org.schema;
  */
 public class MusicAlbum extends MusicPlaylist {
 	/**
-	 * Schema.org/albumReleaseType
-	 * The kind of release which this album is: single, EP or album.
-	 *
-	 * @property albumReleaseType
-	 * @type MusicAlbumReleaseType
-	 */
-	public MusicAlbumReleaseType albumReleaseType;
-	/**
 	 * Schema.org/albumProductionType
 	 * Classification of the album by it's type of content: soundtrack, live album, studio album, etc.
 	 *
@@ -27,13 +19,13 @@ public class MusicAlbum extends MusicPlaylist {
 	 */
 	public MusicAlbumProductionType albumProductionType;
 	/**
-	 * Schema.org/albumRelease
-	 * A release of this album.
+	 * Schema.org/albumReleaseType
+	 * The kind of release which this album is: single, EP or album.
 	 *
-	 * @property albumRelease
-	 * @type MusicRelease
+	 * @property albumReleaseType
+	 * @type MusicAlbumReleaseType
 	 */
-	public MusicRelease albumRelease;
+	public MusicAlbumReleaseType albumReleaseType;
 	/**
 	 * Schema.org/byArtist
 	 * The artist that performed this album or recording.
@@ -42,6 +34,14 @@ public class MusicAlbum extends MusicPlaylist {
 	 * @type MusicGroup
 	 */
 	public MusicGroup byArtist;
+	/**
+	 * Schema.org/albumRelease
+	 * A release of this album.
+	 *
+	 * @property albumRelease
+	 * @type MusicRelease
+	 */
+	public MusicRelease albumRelease;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

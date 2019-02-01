@@ -15,9 +15,9 @@ public class Seat extends Intangible {
 	 * The type/class of the seat.
 	 *
 	 * @property seatingType
-	 * @type schema, Text | schema,QualitativeValue
+	 * @type Text
 	 */
-	public Object seatingType;
+	public String seatingType;
 	/**
 	 * Schema.org/seatSection
 	 * The section location of the reserved seat (e.g. Orchestra).
@@ -27,14 +27,6 @@ public class Seat extends Intangible {
 	 */
 	public String seatSection;
 	/**
-	 * Schema.org/seatNumber
-	 * The location of the reserved seat (e.g., 27).
-	 *
-	 * @property seatNumber
-	 * @type Text
-	 */
-	public String seatNumber;
-	/**
 	 * Schema.org/seatRow
 	 * The row location of the reserved seat (e.g., B).
 	 *
@@ -42,6 +34,14 @@ public class Seat extends Intangible {
 	 * @type Text
 	 */
 	public String seatRow;
+	/**
+	 * Schema.org/seatNumber
+	 * The location of the reserved seat (e.g., 27).
+	 *
+	 * @property seatNumber
+	 * @type Text
+	 */
+	public String seatNumber;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

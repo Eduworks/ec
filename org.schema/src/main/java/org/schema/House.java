@@ -16,9 +16,9 @@ public class House extends Accommodation {
 	 * Typical unit code(s): ROM for room or C62 for no unit. The type of room can be put in the unitText property of the QuantitativeValue.
 	 *
 	 * @property numberOfRooms
-	 * @type schema, Number | schema,QuantitativeValue
+	 * @type Number
 	 */
-	public Object numberOfRooms;
+	public Double numberOfRooms;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

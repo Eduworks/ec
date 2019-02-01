@@ -11,22 +11,6 @@ package org.schema;
  */
 public class Message extends CreativeWork {
 	/**
-	 * Schema.org/sender
-	 * A sub property of participant. The participant who is at the sending end of the action.
-	 *
-	 * @property sender
-	 * @type schema, Organization | schema,Person | schema,Audience
-	 */
-	public Object sender;
-	/**
-	 * Schema.org/dateReceived
-	 * The date/time the message was received if a single recipient exists.
-	 *
-	 * @property dateReceived
-	 * @type DateTime
-	 */
-	public String dateReceived;
-	/**
 	 * Schema.org/dateRead
 	 * The date/time at which the message has been read by the recipient if a single recipient exists.
 	 *
@@ -43,6 +27,14 @@ public class Message extends CreativeWork {
 	 */
 	public String dateSent;
 	/**
+	 * Schema.org/recipient
+	 * A sub property of participant. The participant who is at the receiving end of the action.
+	 *
+	 * @property recipient
+	 * @type Organization
+	 */
+	public Organization recipient;
+	/**
 	 * Schema.org/messageAttachment
 	 * A CreativeWork attached to the message.
 	 *
@@ -51,13 +43,21 @@ public class Message extends CreativeWork {
 	 */
 	public CreativeWork messageAttachment;
 	/**
-	 * Schema.org/recipient
-	 * A sub property of participant. The participant who is at the receiving end of the action.
+	 * Schema.org/dateReceived
+	 * The date/time the message was received if a single recipient exists.
 	 *
-	 * @property recipient
-	 * @type schema, Organization | schema,Person | schema,Audience
+	 * @property dateReceived
+	 * @type DateTime
 	 */
-	public Object recipient;
+	public String dateReceived;
+	/**
+	 * Schema.org/sender
+	 * A sub property of participant. The participant who is at the sending end of the action.
+	 *
+	 * @property sender
+	 * @type Audience
+	 */
+	public Audience sender;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

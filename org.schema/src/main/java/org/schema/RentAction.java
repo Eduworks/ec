@@ -11,6 +11,14 @@ package org.schema;
  */
 public class RentAction extends TradeAction {
 	/**
+	 * Schema.org/landlord
+	 * A sub property of participant. The owner of the real estate property.
+	 *
+	 * @property landlord
+	 * @type Organization
+	 */
+	public Organization landlord;
+	/**
 	 * Schema.org/realEstateAgent
 	 * A sub property of participant. The real estate agent involved in the action.
 	 *
@@ -18,14 +26,6 @@ public class RentAction extends TradeAction {
 	 * @type RealEstateAgent
 	 */
 	public RealEstateAgent realEstateAgent;
-	/**
-	 * Schema.org/landlord
-	 * A sub property of participant. The owner of the real estate property.
-	 *
-	 * @property landlord
-	 * @type schema, Organization | schema,Person
-	 */
-	public Object landlord;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

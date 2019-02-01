@@ -11,14 +11,6 @@ package org.schema;
  */
 public class MonetaryAmount extends StructuredValue {
 	/**
-	 * Schema.org/validFrom
-	 * The date when the item becomes valid.
-	 *
-	 * @property validFrom
-	 * @type DateTime
-	 */
-	public String validFrom;
-	/**
 	 * Schema.org/minValue
 	 * The lower value of some characteristic or property.
 	 *
@@ -26,6 +18,22 @@ public class MonetaryAmount extends StructuredValue {
 	 * @type Number
 	 */
 	public Double minValue;
+	/**
+	 * Schema.org/value
+	 * The value of the quantitative value or property value node.\n\n* For [[QuantitativeValue]] and [[MonetaryAmount]], the recommended type for values is 'Number'.\n* For [[PropertyValue]], it can be 'Text;', 'Number', 'Boolean', or 'StructuredValue'.
+	 *
+	 * @property value
+	 * @type StructuredValue
+	 */
+	public StructuredValue value;
+	/**
+	 * Schema.org/validFrom
+	 * The date when the item becomes valid.
+	 *
+	 * @property validFrom
+	 * @type DateTime
+	 */
+	public String validFrom;
 	/**
 	 * Schema.org/validThrough
 	 * The date after when the item is not valid. For example the end of an offer, salary period, or a period of opening hours.
@@ -35,22 +43,6 @@ public class MonetaryAmount extends StructuredValue {
 	 */
 	public String validThrough;
 	/**
-	 * Schema.org/currency
-	 * The currency in which the monetary amount is expressed (in 3-letter [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) format).
-	 *
-	 * @property currency
-	 * @type Text
-	 */
-	public String currency;
-	/**
-	 * Schema.org/value
-	 * The value of the quantitative value or property value node.\n\n* For [[QuantitativeValue]] and [[MonetaryAmount]], the recommended type for values is 'Number'.\n* For [[PropertyValue]], it can be 'Text;', 'Number', 'Boolean', or 'StructuredValue'.
-	 *
-	 * @property value
-	 * @type schema, Number | schema,Boolean | schema,Text | schema,StructuredValue
-	 */
-	public Object value;
-	/**
 	 * Schema.org/maxValue
 	 * The upper value of some characteristic or property.
 	 *
@@ -58,6 +50,14 @@ public class MonetaryAmount extends StructuredValue {
 	 * @type Number
 	 */
 	public Double maxValue;
+	/**
+	 * Schema.org/currency
+	 * The currency in which the monetary amount is expressed (in 3-letter [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) format).
+	 *
+	 * @property currency
+	 * @type Text
+	 */
+	public String currency;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

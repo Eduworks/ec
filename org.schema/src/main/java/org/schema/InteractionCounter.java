@@ -15,9 +15,9 @@ public class InteractionCounter extends StructuredValue {
 	 * The WebSite or SoftwareApplication where the interactions took place.
 	 *
 	 * @property interactionService
-	 * @type schema, SoftwareApplication | schema,WebSite
+	 * @type SoftwareApplication
 	 */
-	public Object interactionService;
+	public SoftwareApplication interactionService;
 	/**
 	 * Schema.org/userInteractionCount
 	 * The number of interactions for the CreativeWork using the WebSite or SoftwareApplication.

@@ -11,6 +11,14 @@ package org.schema;
  */
 public class MusicRecording extends CreativeWork {
 	/**
+	 * Schema.org/recordingOf
+	 * The composition this track is a recording of.
+	 *
+	 * @property recordingOf
+	 * @type MusicComposition
+	 */
+	public MusicComposition recordingOf;
+	/**
 	 * Schema.org/isrcCode
 	 * The International Standard Recording Code for the recording.
 	 *
@@ -27,14 +35,6 @@ public class MusicRecording extends CreativeWork {
 	 */
 	public MusicAlbum inAlbum;
 	/**
-	 * Schema.org/recordingOf
-	 * The composition this track is a recording of.
-	 *
-	 * @property recordingOf
-	 * @type MusicComposition
-	 */
-	public MusicComposition recordingOf;
-	/**
 	 * Schema.org/inPlaylist
 	 * The playlist to which this recording belongs.
 	 *
@@ -43,14 +43,6 @@ public class MusicRecording extends CreativeWork {
 	 */
 	public MusicPlaylist inPlaylist;
 	/**
-	 * Schema.org/duration
-	 * The duration of the item (movie, audio recording, event, etc.) in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601).
-	 *
-	 * @property duration
-	 * @type Duration
-	 */
-	public Duration duration;
-	/**
 	 * Schema.org/byArtist
 	 * The artist that performed this album or recording.
 	 *
@@ -58,6 +50,14 @@ public class MusicRecording extends CreativeWork {
 	 * @type MusicGroup
 	 */
 	public MusicGroup byArtist;
+	/**
+	 * Schema.org/duration
+	 * The duration of the item (movie, audio recording, event, etc.) in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601).
+	 *
+	 * @property duration
+	 * @type Duration
+	 */
+	public Duration duration;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

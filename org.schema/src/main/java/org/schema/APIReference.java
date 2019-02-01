@@ -11,14 +11,6 @@ package org.schema;
  */
 public class APIReference extends TechArticle {
 	/**
-	 * Schema.org/assembly
-	 * Library file name e.g., mscorlib.dll, system.web.dll.
-	 *
-	 * @property assembly
-	 * @type Text
-	 */
-	public String assembly;
-	/**
 	 * Schema.org/executableLibraryName
 	 * Library file name e.g., mscorlib.dll, system.web.dll.
 	 *
@@ -35,14 +27,6 @@ public class APIReference extends TechArticle {
 	 */
 	public String assemblyVersion;
 	/**
-	 * Schema.org/targetPlatform
-	 * Type of app development: phone, Metro style, desktop, XBox, etc.
-	 *
-	 * @property targetPlatform
-	 * @type Text
-	 */
-	public String targetPlatform;
-	/**
 	 * Schema.org/programmingModel
 	 * Indicates whether API is managed or unmanaged.
 	 *
@@ -50,6 +34,22 @@ public class APIReference extends TechArticle {
 	 * @type Text
 	 */
 	public String programmingModel;
+	/**
+	 * Schema.org/assembly
+	 * Library file name e.g., mscorlib.dll, system.web.dll.
+	 *
+	 * @property assembly
+	 * @type Text
+	 */
+	public String assembly;
+	/**
+	 * Schema.org/targetPlatform
+	 * Type of app development: phone, Metro style, desktop, XBox, etc.
+	 *
+	 * @property targetPlatform
+	 * @type Text
+	 */
+	public String targetPlatform;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

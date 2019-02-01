@@ -15,9 +15,9 @@ public class DataFeed extends Dataset {
 	 * An item within in a data feed. Data feeds may have many elements.
 	 *
 	 * @property dataFeedElement
-	 * @type schema, Text | schema,DataFeedItem | schema,Thing
+	 * @type Text
 	 */
-	public Object dataFeedElement;
+	public String dataFeedElement;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

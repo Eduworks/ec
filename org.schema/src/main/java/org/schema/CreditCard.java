@@ -7,9 +7,9 @@ package org.schema;
  * @author schema.org
  * @class CreditCard
  * @module org.schema
- * @extends PaymentCard
+ * @extends LoanOrCredit
  */
-public class CreditCard extends PaymentCard {
+public class CreditCard extends LoanOrCredit {
 	/**
 	 * Constructor, automatically sets @context and @type.
 	 *

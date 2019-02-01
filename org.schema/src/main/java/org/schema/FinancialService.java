@@ -15,9 +15,9 @@ public class FinancialService extends LocalBusiness {
 	 * Description of fees, commissions, and other terms applied either to a class of financial product, or by a financial service organization.
 	 *
 	 * @property feesAndCommissionsSpecification
-	 * @type schema, URL | schema,Text
+	 * @type Text
 	 */
-	public Object feesAndCommissionsSpecification;
+	public String feesAndCommissionsSpecification;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

@@ -11,21 +11,13 @@ package org.schema;
  */
 public class DeliveryEvent extends Event {
 	/**
-	 * Schema.org/accessCode
-	 * Password, PIN, or access code needed for delivery (e.g. from a locker).
+	 * Schema.org/hasDeliveryMethod
+	 * Method used for delivery or shipping.
 	 *
-	 * @property accessCode
-	 * @type Text
+	 * @property hasDeliveryMethod
+	 * @type DeliveryMethod
 	 */
-	public String accessCode;
-	/**
-	 * Schema.org/availableFrom
-	 * When the item is available for pickup from the store, locker, etc.
-	 *
-	 * @property availableFrom
-	 * @type DateTime
-	 */
-	public String availableFrom;
+	public DeliveryMethod hasDeliveryMethod;
 	/**
 	 * Schema.org/availableThrough
 	 * After this date, the item will no longer be available for pickup.
@@ -35,13 +27,21 @@ public class DeliveryEvent extends Event {
 	 */
 	public String availableThrough;
 	/**
-	 * Schema.org/hasDeliveryMethod
-	 * Method used for delivery or shipping.
+	 * Schema.org/availableFrom
+	 * When the item is available for pickup from the store, locker, etc.
 	 *
-	 * @property hasDeliveryMethod
-	 * @type DeliveryMethod
+	 * @property availableFrom
+	 * @type DateTime
 	 */
-	public DeliveryMethod hasDeliveryMethod;
+	public String availableFrom;
+	/**
+	 * Schema.org/accessCode
+	 * Password, PIN, or access code needed for delivery (e.g. from a locker).
+	 *
+	 * @property accessCode
+	 * @type Text
+	 */
+	public String accessCode;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

@@ -19,14 +19,6 @@ public class FoodEstablishmentReservation extends Reservation {
 	 */
 	public String startTime;
 	/**
-	 * Schema.org/partySize
-	 * Number of people the reservation should accommodate.
-	 *
-	 * @property partySize
-	 * @type schema, Integer | schema,QuantitativeValue
-	 */
-	public Object partySize;
-	/**
 	 * Schema.org/endTime
 	 * The endTime of something. For a reserved event or service (e.g. FoodEstablishmentReservation), the time that it is expected to end. For actions that span a period of time, when the action was performed. e.g. John wrote a book from January to *December*.\n\nNote that Event uses startDate/endDate instead of startTime/endTime, even when describing dates with times. This situation may be clarified in future revisions.
 	 *
@@ -34,6 +26,14 @@ public class FoodEstablishmentReservation extends Reservation {
 	 * @type DateTime
 	 */
 	public String endTime;
+	/**
+	 * Schema.org/partySize
+	 * Number of people the reservation should accommodate.
+	 *
+	 * @property partySize
+	 * @type Integer
+	 */
+	public Integer partySize;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

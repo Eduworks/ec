@@ -13,6 +13,14 @@ package org.schema;
  */
 public class GeoCircle extends GeoShape {
 	/**
+	 * Schema.org/geoRadius
+	 * Indicates the approximate radius of a GeoCircle (metres unless indicated otherwise via Distance notation).
+	 *
+	 * @property geoRadius
+	 * @type Number
+	 */
+	public Double geoRadius;
+	/**
 	 * Schema.org/geoMidpoint
 	 * Indicates the GeoCoordinates at the centre of a GeoShape e.g. GeoCircle.
 	 *
@@ -20,14 +28,6 @@ public class GeoCircle extends GeoShape {
 	 * @type GeoCoordinates
 	 */
 	public GeoCoordinates geoMidpoint;
-	/**
-	 * Schema.org/geoRadius
-	 * Indicates the approximate radius of a GeoCircle (metres unless indicated otherwise via Distance notation).
-	 *
-	 * @property geoRadius
-	 * @type schema, Number | schema,Text | schema,Distance
-	 */
-	public Object geoRadius;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

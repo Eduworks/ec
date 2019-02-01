@@ -11,22 +11,6 @@ package org.schema;
  */
 public class Episode extends CreativeWork {
 	/**
-	 * Schema.org/director
-	 * A director of e.g. tv, radio, movie, video gaming etc. content, or of an event. Directors can be associated with individual items or with a series, episode, clip.
-	 *
-	 * @property director
-	 * @type Person
-	 */
-	public Person director;
-	/**
-	 * Schema.org/partOfSeason
-	 * The season to which this episode belongs.
-	 *
-	 * @property partOfSeason
-	 * @type CreativeWorkSeason
-	 */
-	public CreativeWorkSeason partOfSeason;
-	/**
 	 * Schema.org/actor
 	 * An actor, e.g. in tv, radio, movie, video games etc., or in an event. Actors can be associated with individual items or with a series, episode, clip.
 	 *
@@ -35,29 +19,13 @@ public class Episode extends CreativeWork {
 	 */
 	public Person actor;
 	/**
-	 * Schema.org/episodeNumber
-	 * Position of the episode within an ordered group of episodes.
+	 * Schema.org/partOfSeries
+	 * The series to which this episode or season belongs.
 	 *
-	 * @property episodeNumber
-	 * @type schema, Integer | schema,Text
+	 * @property partOfSeries
+	 * @type CreativeWorkSeries
 	 */
-	public Object episodeNumber;
-	/**
-	 * Schema.org/musicBy
-	 * The composer of the soundtrack.
-	 *
-	 * @property musicBy
-	 * @type schema, Person | schema,MusicGroup
-	 */
-	public Object musicBy;
-	/**
-	 * Schema.org/actors
-	 * An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.
-	 *
-	 * @property actors
-	 * @type Person
-	 */
-	public Person actors;
+	public CreativeWorkSeries partOfSeries;
 	/**
 	 * Schema.org/trailer
 	 * The trailer of a movie or tv/radio series, season, episode, etc.
@@ -67,13 +35,21 @@ public class Episode extends CreativeWork {
 	 */
 	public VideoObject trailer;
 	/**
-	 * Schema.org/productionCompany
-	 * The production company or studio responsible for the item e.g. series, video game, episode etc.
+	 * Schema.org/partOfSeason
+	 * The season to which this episode belongs.
 	 *
-	 * @property productionCompany
-	 * @type Organization
+	 * @property partOfSeason
+	 * @type CreativeWorkSeason
 	 */
-	public Organization productionCompany;
+	public CreativeWorkSeason partOfSeason;
+	/**
+	 * Schema.org/musicBy
+	 * The composer of the soundtrack.
+	 *
+	 * @property musicBy
+	 * @type Person
+	 */
+	public Person musicBy;
 	/**
 	 * Schema.org/directors
 	 * A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.
@@ -83,13 +59,37 @@ public class Episode extends CreativeWork {
 	 */
 	public Person directors;
 	/**
-	 * Schema.org/partOfSeries
-	 * The series to which this episode or season belongs.
+	 * Schema.org/episodeNumber
+	 * Position of the episode within an ordered group of episodes.
 	 *
-	 * @property partOfSeries
-	 * @type CreativeWorkSeries
+	 * @property episodeNumber
+	 * @type Integer
 	 */
-	public CreativeWorkSeries partOfSeries;
+	public Integer episodeNumber;
+	/**
+	 * Schema.org/director
+	 * A director of e.g. tv, radio, movie, video gaming etc. content, or of an event. Directors can be associated with individual items or with a series, episode, clip.
+	 *
+	 * @property director
+	 * @type Person
+	 */
+	public Person director;
+	/**
+	 * Schema.org/productionCompany
+	 * The production company or studio responsible for the item e.g. series, video game, episode etc.
+	 *
+	 * @property productionCompany
+	 * @type Organization
+	 */
+	public Organization productionCompany;
+	/**
+	 * Schema.org/actors
+	 * An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.
+	 *
+	 * @property actors
+	 * @type Person
+	 */
+	public Person actors;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

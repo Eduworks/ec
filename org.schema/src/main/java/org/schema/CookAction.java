@@ -11,14 +11,6 @@ package org.schema;
  */
 public class CookAction extends CreateAction {
 	/**
-	 * Schema.org/foodEstablishment
-	 * A sub property of location. The specific food establishment where the action occurred.
-	 *
-	 * @property foodEstablishment
-	 * @type schema, FoodEstablishment | schema,Place
-	 */
-	public Object foodEstablishment;
-	/**
 	 * Schema.org/recipe
 	 * A sub property of instrument. The recipe/instructions used to perform the action.
 	 *
@@ -34,6 +26,14 @@ public class CookAction extends CreateAction {
 	 * @type FoodEvent
 	 */
 	public FoodEvent foodEvent;
+	/**
+	 * Schema.org/foodEstablishment
+	 * A sub property of location. The specific food establishment where the action occurred.
+	 *
+	 * @property foodEstablishment
+	 * @type FoodEstablishment
+	 */
+	public FoodEstablishment foodEstablishment;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

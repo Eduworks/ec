@@ -15,9 +15,9 @@ public class EndorseAction extends ReactAction {
 	 * A sub property of participant. The person/organization being supported.
 	 *
 	 * @property endorsee
-	 * @type schema, Organization | schema,Person
+	 * @type Organization
 	 */
-	public Object endorsee;
+	public Organization endorsee;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

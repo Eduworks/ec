@@ -11,14 +11,6 @@ package org.schema;
  */
 public class MenuSection extends CreativeWork {
 	/**
-	 * Schema.org/hasMenuSection
-	 * A subgrouping of the menu (by dishes, course, serving time period, etc.).
-	 *
-	 * @property hasMenuSection
-	 * @type MenuSection
-	 */
-	public MenuSection hasMenuSection;
-	/**
 	 * Schema.org/hasMenuItem
 	 * A food or drink item contained in a menu or menu section.
 	 *
@@ -26,6 +18,14 @@ public class MenuSection extends CreativeWork {
 	 * @type MenuItem
 	 */
 	public MenuItem hasMenuItem;
+	/**
+	 * Schema.org/hasMenuSection
+	 * A subgrouping of the menu (by dishes, course, serving time period, etc.).
+	 *
+	 * @property hasMenuSection
+	 * @type MenuSection
+	 */
+	public MenuSection hasMenuSection;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

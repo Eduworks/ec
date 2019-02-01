@@ -11,14 +11,6 @@ package org.schema;
  */
 public class SellAction extends TradeAction {
 	/**
-	 * Schema.org/warrantyPromise
-	 * The warranty promise(s) included in the offer.
-	 *
-	 * @property warrantyPromise
-	 * @type WarrantyPromise
-	 */
-	public WarrantyPromise warrantyPromise;
-	/**
 	 * Schema.org/buyer
 	 * A sub property of participant. The participant/person/organization that bought the object.
 	 *
@@ -26,6 +18,14 @@ public class SellAction extends TradeAction {
 	 * @type Person
 	 */
 	public Person buyer;
+	/**
+	 * Schema.org/warrantyPromise
+	 * The warranty promise(s) included in the offer.
+	 *
+	 * @property warrantyPromise
+	 * @type WarrantyPromise
+	 */
+	public WarrantyPromise warrantyPromise;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

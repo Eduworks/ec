@@ -11,14 +11,6 @@ package org.schema;
  */
 public class Brand extends Intangible {
 	/**
-	 * Schema.org/review
-	 * A review of the item.
-	 *
-	 * @property review
-	 * @type Review
-	 */
-	public Review review;
-	/**
 	 * Schema.org/aggregateRating
 	 * The overall rating, based on a collection of reviews or ratings, of the item.
 	 *
@@ -31,9 +23,17 @@ public class Brand extends Intangible {
 	 * An associated logo.
 	 *
 	 * @property logo
-	 * @type schema, URL | schema,ImageObject
+	 * @type ImageObject
 	 */
-	public Object logo;
+	public ImageObject logo;
+	/**
+	 * Schema.org/review
+	 * A review of the item.
+	 *
+	 * @property review
+	 * @type Review
+	 */
+	public Review review;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

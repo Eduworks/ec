@@ -15,9 +15,9 @@ public class InvestmentOrDeposit extends FinancialProduct {
 	 * The amount of money.
 	 *
 	 * @property amount
-	 * @type schema, Number | schema,MonetaryAmount
+	 * @type Number
 	 */
-	public Object amount;
+	public Double amount;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

@@ -11,77 +11,13 @@ package org.schema;
  */
 public class Invoice extends Intangible {
 	/**
-	 * Schema.org/referencesOrder
-	 * The Order(s) related to this Invoice. One or more Orders may be combined into a single Invoice.
+	 * Schema.org/provider
+	 * The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.
 	 *
-	 * @property referencesOrder
-	 * @type Order
+	 * @property provider
+	 * @type Person
 	 */
-	public Order referencesOrder;
-	/**
-	 * Schema.org/broker
-	 * An entity that arranges for an exchange between a buyer and a seller.  In most cases a broker never acquires or releases ownership of a product or service involved in an exchange.  If it is not clear whether an entity is a broker, seller, or buyer, the latter two terms are preferred.
-	 *
-	 * @property broker
-	 * @type schema, Organization | schema,Person
-	 */
-	public Object broker;
-	/**
-	 * Schema.org/minimumPaymentDue
-	 * The minimum payment required at this time.
-	 *
-	 * @property minimumPaymentDue
-	 * @type schema, PriceSpecification | schema,MonetaryAmount
-	 */
-	public Object minimumPaymentDue;
-	/**
-	 * Schema.org/scheduledPaymentDate
-	 * The date the invoice is scheduled to be paid.
-	 *
-	 * @property scheduledPaymentDate
-	 * @type Date
-	 */
-	public String scheduledPaymentDate;
-	/**
-	 * Schema.org/paymentMethod
-	 * The name of the credit card or other method of payment for the order.
-	 *
-	 * @property paymentMethod
-	 * @type PaymentMethod
-	 */
-	public PaymentMethod paymentMethod;
-	/**
-	 * Schema.org/paymentDueDate
-	 * The date that payment is due.
-	 *
-	 * @property paymentDueDate
-	 * @type DateTime
-	 */
-	public String paymentDueDate;
-	/**
-	 * Schema.org/paymentMethodId
-	 * An identifier for the method of payment used (e.g. the last 4 digits of the credit card).
-	 *
-	 * @property paymentMethodId
-	 * @type Text
-	 */
-	public String paymentMethodId;
-	/**
-	 * Schema.org/totalPaymentDue
-	 * The total amount due.
-	 *
-	 * @property totalPaymentDue
-	 * @type schema, PriceSpecification | schema,MonetaryAmount
-	 */
-	public Object totalPaymentDue;
-	/**
-	 * Schema.org/customer
-	 * Party placing the order or paying the invoice.
-	 *
-	 * @property customer
-	 * @type schema, Organization | schema,Person
-	 */
-	public Object customer;
+	public Person provider;
 	/**
 	 * Schema.org/paymentDue
 	 * The date that payment is due.
@@ -91,29 +27,13 @@ public class Invoice extends Intangible {
 	 */
 	public String paymentDue;
 	/**
-	 * Schema.org/paymentStatus
-	 * The status of payment; whether the invoice has been paid or not.
+	 * Schema.org/billingPeriod
+	 * The time interval used to compute the invoice.
 	 *
-	 * @property paymentStatus
-	 * @type schema, Text | schema,PaymentStatusType
+	 * @property billingPeriod
+	 * @type Duration
 	 */
-	public Object paymentStatus;
-	/**
-	 * Schema.org/accountId
-	 * The identifier for the account the payment will be applied to.
-	 *
-	 * @property accountId
-	 * @type Text
-	 */
-	public String accountId;
-	/**
-	 * Schema.org/provider
-	 * The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.
-	 *
-	 * @property provider
-	 * @type schema, Organization | schema,Person
-	 */
-	public Object provider;
+	public Duration billingPeriod;
 	/**
 	 * Schema.org/confirmationNumber
 	 * A number that confirms the given order or payment has been received.
@@ -123,21 +43,101 @@ public class Invoice extends Intangible {
 	 */
 	public String confirmationNumber;
 	/**
-	 * Schema.org/billingPeriod
-	 * The time interval used to compute the invoice.
+	 * Schema.org/scheduledPaymentDate
+	 * The date the invoice is scheduled to be paid.
 	 *
-	 * @property billingPeriod
-	 * @type Duration
+	 * @property scheduledPaymentDate
+	 * @type Date
 	 */
-	public Duration billingPeriod;
+	public String scheduledPaymentDate;
+	/**
+	 * Schema.org/customer
+	 * Party placing the order or paying the invoice.
+	 *
+	 * @property customer
+	 * @type Organization
+	 */
+	public Organization customer;
 	/**
 	 * Schema.org/category
 	 * A category for the item. Greater signs or slashes can be used to informally indicate a category hierarchy.
 	 *
 	 * @property category
-	 * @type schema, Text | schema,Thing
+	 * @type Text
 	 */
-	public Object category;
+	public String category;
+	/**
+	 * Schema.org/paymentStatus
+	 * The status of payment; whether the invoice has been paid or not.
+	 *
+	 * @property paymentStatus
+	 * @type PaymentStatusType
+	 */
+	public PaymentStatusType paymentStatus;
+	/**
+	 * Schema.org/broker
+	 * An entity that arranges for an exchange between a buyer and a seller.  In most cases a broker never acquires or releases ownership of a product or service involved in an exchange.  If it is not clear whether an entity is a broker, seller, or buyer, the latter two terms are preferred.
+	 *
+	 * @property broker
+	 * @type Person
+	 */
+	public Person broker;
+	/**
+	 * Schema.org/paymentMethod
+	 * The name of the credit card or other method of payment for the order.
+	 *
+	 * @property paymentMethod
+	 * @type PaymentMethod
+	 */
+	public PaymentMethod paymentMethod;
+	/**
+	 * Schema.org/paymentMethodId
+	 * An identifier for the method of payment used (e.g. the last 4 digits of the credit card).
+	 *
+	 * @property paymentMethodId
+	 * @type Text
+	 */
+	public String paymentMethodId;
+	/**
+	 * Schema.org/minimumPaymentDue
+	 * The minimum payment required at this time.
+	 *
+	 * @property minimumPaymentDue
+	 * @type MonetaryAmount
+	 */
+	public MonetaryAmount minimumPaymentDue;
+	/**
+	 * Schema.org/totalPaymentDue
+	 * The total amount due.
+	 *
+	 * @property totalPaymentDue
+	 * @type MonetaryAmount
+	 */
+	public MonetaryAmount totalPaymentDue;
+	/**
+	 * Schema.org/accountId
+	 * The identifier for the account the payment will be applied to.
+	 *
+	 * @property accountId
+	 * @type Text
+	 */
+	public String accountId;
+	/**
+	 * Schema.org/referencesOrder
+	 * The Order(s) related to this Invoice. One or more Orders may be combined into a single Invoice.
+	 *
+	 * @property referencesOrder
+	 * @type Order
+	 */
+	public Order referencesOrder;
+	/**
+	 * Schema.org/paymentDueDate
+	 * The date that payment is due.
+	 *
+	 * @property paymentDueDate
+	 * @type DateTime
+	 */
+	public String paymentDueDate;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

@@ -14,14 +14,6 @@ package org.schema;
  */
 public class Accommodation extends Place {
 	/**
-	 * Schema.org/amenityFeature
-	 * An amenity feature (e.g. a characteristic or service) of the Accommodation. This generic property does not make a statement about whether the feature is included in an offer for the main accommodation or available at extra costs.
-	 *
-	 * @property amenityFeature
-	 * @type LocationFeatureSpecification
-	 */
-	public LocationFeatureSpecification amenityFeature;
-	/**
 	 * Schema.org/floorSize
 	 * The size of the accommodation, e.g. in square meter or squarefoot.
 	 * Typical unit code(s): MTK for square meter, FTK for square foot, or YDK for square yard
@@ -31,6 +23,31 @@ public class Accommodation extends Place {
 	 */
 	public QuantitativeValue floorSize;
 	/**
+	 * Schema.org/petsAllowed
+	 * Indicates whether pets are allowed to enter the accommodation or lodging business. More detailed information can be put in a text value.
+	 *
+	 * @property petsAllowed
+	 * @type Boolean
+	 */
+	public Boolean petsAllowed;
+	/**
+	 * Schema.org/amenityFeature
+	 * An amenity feature (e.g. a characteristic or service) of the Accommodation. This generic property does not make a statement about whether the feature is included in an offer for the main accommodation or available at extra costs.
+	 *
+	 * @property amenityFeature
+	 * @type LocationFeatureSpecification
+	 */
+	public LocationFeatureSpecification amenityFeature;
+	/**
+	 * Schema.org/numberOfRooms
+	 * The number of rooms (excluding bathrooms and closets) of the acccommodation or lodging business.
+	 * Typical unit code(s): ROM for room or C62 for no unit. The type of room can be put in the unitText property of the QuantitativeValue.
+	 *
+	 * @property numberOfRooms
+	 * @type Number
+	 */
+	public Double numberOfRooms;
+	/**
 	 * Schema.org/permittedUsage
 	 * Indications regarding the permitted usage of the accommodation.
 	 *
@@ -38,23 +55,6 @@ public class Accommodation extends Place {
 	 * @type Text
 	 */
 	public String permittedUsage;
-	/**
-	 * Schema.org/petsAllowed
-	 * Indicates whether pets are allowed to enter the accommodation or lodging business. More detailed information can be put in a text value.
-	 *
-	 * @property petsAllowed
-	 * @type schema, Boolean | schema,Text
-	 */
-	public Object petsAllowed;
-	/**
-	 * Schema.org/numberOfRooms
-	 * The number of rooms (excluding bathrooms and closets) of the acccommodation or lodging business.
-	 * Typical unit code(s): ROM for room or C62 for no unit. The type of room can be put in the unitText property of the QuantitativeValue.
-	 *
-	 * @property numberOfRooms
-	 * @type schema, Number | schema,QuantitativeValue
-	 */
-	public Object numberOfRooms;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

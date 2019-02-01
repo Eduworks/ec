@@ -7,9 +7,9 @@ package org.schema;
  * @author schema.org
  * @class MovieTheater
  * @module org.schema
- * @extends EntertainmentBusiness
+ * @extends CivicStructure
  */
-public class MovieTheater extends EntertainmentBusiness {
+public class MovieTheater extends CivicStructure {
 	/**
 	 * Schema.org/screenCount
 	 * The number of screens in the movie theater.

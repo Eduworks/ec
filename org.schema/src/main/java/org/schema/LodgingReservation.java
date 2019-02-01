@@ -11,29 +11,21 @@ package org.schema;
  */
 public class LodgingReservation extends Reservation {
 	/**
+	 * Schema.org/checkinTime
+	 * The earliest someone may check into a lodging establishment.
+	 *
+	 * @property checkinTime
+	 * @type DateTime
+	 */
+	public String checkinTime;
+	/**
 	 * Schema.org/numChildren
 	 * The number of children staying in the unit.
 	 *
 	 * @property numChildren
-	 * @type schema, Integer | schema,QuantitativeValue
+	 * @type Integer
 	 */
-	public Object numChildren;
-	/**
-	 * Schema.org/lodgingUnitType
-	 * Textual description of the unit type (including suite vs. room, size of bed, etc.).
-	 *
-	 * @property lodgingUnitType
-	 * @type schema, Text | schema,QualitativeValue
-	 */
-	public Object lodgingUnitType;
-	/**
-	 * Schema.org/numAdults
-	 * The number of adults staying in the unit.
-	 *
-	 * @property numAdults
-	 * @type schema, Integer | schema,QuantitativeValue
-	 */
-	public Object numAdults;
+	public Integer numChildren;
 	/**
 	 * Schema.org/lodgingUnitDescription
 	 * A full description of the lodging unit.
@@ -51,13 +43,21 @@ public class LodgingReservation extends Reservation {
 	 */
 	public String checkoutTime;
 	/**
-	 * Schema.org/checkinTime
-	 * The earliest someone may check into a lodging establishment.
+	 * Schema.org/lodgingUnitType
+	 * Textual description of the unit type (including suite vs. room, size of bed, etc.).
 	 *
-	 * @property checkinTime
-	 * @type DateTime
+	 * @property lodgingUnitType
+	 * @type Text
 	 */
-	public String checkinTime;
+	public String lodgingUnitType;
+	/**
+	 * Schema.org/numAdults
+	 * The number of adults staying in the unit.
+	 *
+	 * @property numAdults
+	 * @type Integer
+	 */
+	public Integer numAdults;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

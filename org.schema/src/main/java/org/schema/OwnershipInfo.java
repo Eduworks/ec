@@ -11,6 +11,22 @@ package org.schema;
  */
 public class OwnershipInfo extends StructuredValue {
 	/**
+	 * Schema.org/typeOfGood
+	 * The product that this structured value is referring to.
+	 *
+	 * @property typeOfGood
+	 * @type Service
+	 */
+	public Service typeOfGood;
+	/**
+	 * Schema.org/ownedFrom
+	 * The date and time of obtaining the product.
+	 *
+	 * @property ownedFrom
+	 * @type DateTime
+	 */
+	public String ownedFrom;
+	/**
 	 * Schema.org/ownedThrough
 	 * The date and time of giving up ownership on the product.
 	 *
@@ -23,25 +39,9 @@ public class OwnershipInfo extends StructuredValue {
 	 * The organization or person from which the product was acquired.
 	 *
 	 * @property acquiredFrom
-	 * @type schema, Organization | schema,Person
+	 * @type Person
 	 */
-	public Object acquiredFrom;
-	/**
-	 * Schema.org/typeOfGood
-	 * The product that this structured value is referring to.
-	 *
-	 * @property typeOfGood
-	 * @type schema, Service | schema,Product
-	 */
-	public Object typeOfGood;
-	/**
-	 * Schema.org/ownedFrom
-	 * The date and time of obtaining the product.
-	 *
-	 * @property ownedFrom
-	 * @type DateTime
-	 */
-	public String ownedFrom;
+	public Person acquiredFrom;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

@@ -15,9 +15,9 @@ public class FollowAction extends InteractAction {
 	 * A sub property of object. The person or organization being followed.
 	 *
 	 * @property followee
-	 * @type schema, Organization | schema,Person
+	 * @type Person
 	 */
-	public Object followee;
+	public Person followee;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

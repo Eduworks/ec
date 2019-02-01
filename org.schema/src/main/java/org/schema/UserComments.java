@@ -11,13 +11,13 @@ package org.schema;
  */
 public class UserComments extends UserInteraction {
 	/**
-	 * Schema.org/replyToUrl
-	 * The URL at which a reply may be posted to the specified UserComment.
+	 * Schema.org/discusses
+	 * Specifies the CreativeWork associated with the UserComment.
 	 *
-	 * @property replyToUrl
-	 * @type URL
+	 * @property discusses
+	 * @type CreativeWork
 	 */
-	public String replyToUrl;
+	public CreativeWork discusses;
 	/**
 	 * Schema.org/commentText
 	 * The text of the UserComment.
@@ -27,29 +27,29 @@ public class UserComments extends UserInteraction {
 	 */
 	public String commentText;
 	/**
-	 * Schema.org/discusses
-	 * Specifies the CreativeWork associated with the UserComment.
+	 * Schema.org/commentTime
+	 * The time at which the UserComment was made.
 	 *
-	 * @property discusses
-	 * @type CreativeWork
+	 * @property commentTime
+	 * @type Date
 	 */
-	public CreativeWork discusses;
+	public String commentTime;
 	/**
 	 * Schema.org/creator
 	 * The creator/author of this CreativeWork. This is the same as the Author property for CreativeWork.
 	 *
 	 * @property creator
-	 * @type schema, Organization | schema,Person
+	 * @type Person
 	 */
-	public Object creator;
+	public Person creator;
 	/**
-	 * Schema.org/commentTime
-	 * The time at which the UserComment was made.
+	 * Schema.org/replyToUrl
+	 * The URL at which a reply may be posted to the specified UserComment.
 	 *
-	 * @property commentTime
-	 * @type schema, DateTime | schema,Date
+	 * @property replyToUrl
+	 * @type URL
 	 */
-	public Object commentTime;
+	public String replyToUrl;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

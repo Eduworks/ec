@@ -11,6 +11,38 @@ package org.schema;
  */
 public class GeoCoordinates extends StructuredValue {
 	/**
+	 * Schema.org/address
+	 * Physical address of the item.
+	 *
+	 * @property address
+	 * @type PostalAddress
+	 */
+	public PostalAddress address;
+	/**
+	 * Schema.org/latitude
+	 * The latitude of a location. For example ```37.42242``` ([WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)).
+	 *
+	 * @property latitude
+	 * @type Text
+	 */
+	public String latitude;
+	/**
+	 * Schema.org/longitude
+	 * The longitude of a location. For example ```-122.08585``` ([WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)).
+	 *
+	 * @property longitude
+	 * @type Text
+	 */
+	public String longitude;
+	/**
+	 * Schema.org/addressCountry
+	 * The country. For example, USA. You can also provide the two-letter [ISO 3166-1 alpha-2 country code](http://en.wikipedia.org/wiki/ISO_3166-1).
+	 *
+	 * @property addressCountry
+	 * @type Text
+	 */
+	public String addressCountry;
+	/**
 	 * Schema.org/postalCode
 	 * The postal code. For example, 94043.
 	 *
@@ -19,45 +51,13 @@ public class GeoCoordinates extends StructuredValue {
 	 */
 	public String postalCode;
 	/**
-	 * Schema.org/latitude
-	 * The latitude of a location. For example ```37.42242``` ([WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)).
-	 *
-	 * @property latitude
-	 * @type schema, Number | schema,Text
-	 */
-	public Object latitude;
-	/**
 	 * Schema.org/elevation
 	 * The elevation of a location ([WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)).
 	 *
 	 * @property elevation
-	 * @type schema, Number | schema,Text
+	 * @type Text
 	 */
-	public Object elevation;
-	/**
-	 * Schema.org/longitude
-	 * The longitude of a location. For example ```-122.08585``` ([WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)).
-	 *
-	 * @property longitude
-	 * @type schema, Number | schema,Text
-	 */
-	public Object longitude;
-	/**
-	 * Schema.org/addressCountry
-	 * The country. For example, USA. You can also provide the two-letter [ISO 3166-1 alpha-2 country code](http://en.wikipedia.org/wiki/ISO_3166-1).
-	 *
-	 * @property addressCountry
-	 * @type schema, Text | schema,Country
-	 */
-	public Object addressCountry;
-	/**
-	 * Schema.org/address
-	 * Physical address of the item.
-	 *
-	 * @property address
-	 * @type schema, PostalAddress | schema,Text
-	 */
-	public Object address;
+	public String elevation;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

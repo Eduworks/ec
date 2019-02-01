@@ -15,9 +15,9 @@ public class BorrowAction extends TransferAction {
 	 * A sub property of participant. The person that lends the object being borrowed.
 	 *
 	 * @property lender
-	 * @type schema, Organization | schema,Person
+	 * @type Organization
 	 */
-	public Object lender;
+	public Organization lender;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

@@ -11,6 +11,14 @@ package org.schema;
  */
 public class UnitPriceSpecification extends PriceSpecification {
 	/**
+	 * Schema.org/unitCode
+	 * The unit of measurement given using the UN/CEFACT Common Code (3 characters) or a URL. Other codes than the UN/CEFACT Common Code may be used with a prefix followed by a colon.
+	 *
+	 * @property unitCode
+	 * @type Text
+	 */
+	public String unitCode;
+	/**
 	 * Schema.org/billingIncrement
 	 * This property specifies the minimal quantity and rounding increment that will be the basis for the billing. The unit of measurement is specified by the unitCode property.
 	 *
@@ -18,22 +26,6 @@ public class UnitPriceSpecification extends PriceSpecification {
 	 * @type Number
 	 */
 	public Double billingIncrement;
-	/**
-	 * Schema.org/priceType
-	 * A short text or acronym indicating multiple price specifications for the same offer, e.g. SRP for the suggested retail price or INVOICE for the invoice price, mostly used in the car industry.
-	 *
-	 * @property priceType
-	 * @type Text
-	 */
-	public String priceType;
-	/**
-	 * Schema.org/unitCode
-	 * The unit of measurement given using the UN/CEFACT Common Code (3 characters) or a URL. Other codes than the UN/CEFACT Common Code may be used with a prefix followed by a colon.
-	 *
-	 * @property unitCode
-	 * @type schema, URL | schema,Text
-	 */
-	public Object unitCode;
 	/**
 	 * Schema.org/referenceQuantity
 	 * The reference quantity for which a certain price applies, e.g. 1 EUR per 4 kWh of electricity. This property is a replacement for unitOfMeasurement for the advanced cases where the price does not relate to a standard unit.
@@ -51,6 +43,14 @@ public class UnitPriceSpecification extends PriceSpecification {
 	 * @type Text
 	 */
 	public String unitText;
+	/**
+	 * Schema.org/priceType
+	 * A short text or acronym indicating multiple price specifications for the same offer, e.g. SRP for the suggested retail price or INVOICE for the invoice price, mostly used in the car industry.
+	 *
+	 * @property priceType
+	 * @type Text
+	 */
+	public String priceType;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

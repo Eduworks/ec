@@ -27,21 +27,13 @@ public class PeopleAudience extends Audience {
 	 */
 	public Integer requiredMinAge;
 	/**
-	 * Schema.org/suggestedMinAge
-	 * Minimal age recommended for viewing content.
+	 * Schema.org/requiredGender
+	 * Audiences defined by a person's gender.
 	 *
-	 * @property suggestedMinAge
-	 * @type Number
+	 * @property requiredGender
+	 * @type Text
 	 */
-	public Double suggestedMinAge;
-	/**
-	 * Schema.org/requiredMaxAge
-	 * Audiences defined by a person's maximum age.
-	 *
-	 * @property requiredMaxAge
-	 * @type Integer
-	 */
-	public Integer requiredMaxAge;
+	public String requiredGender;
 	/**
 	 * Schema.org/suggestedGender
 	 * The gender of the person or audience.
@@ -51,13 +43,21 @@ public class PeopleAudience extends Audience {
 	 */
 	public String suggestedGender;
 	/**
-	 * Schema.org/requiredGender
-	 * Audiences defined by a person's gender.
+	 * Schema.org/requiredMaxAge
+	 * Audiences defined by a person's maximum age.
 	 *
-	 * @property requiredGender
-	 * @type Text
+	 * @property requiredMaxAge
+	 * @type Integer
 	 */
-	public String requiredGender;
+	public Integer requiredMaxAge;
+	/**
+	 * Schema.org/suggestedMinAge
+	 * Minimal age recommended for viewing content.
+	 *
+	 * @property suggestedMinAge
+	 * @type Number
+	 */
+	public Double suggestedMinAge;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

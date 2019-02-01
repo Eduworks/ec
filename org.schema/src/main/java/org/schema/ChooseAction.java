@@ -15,17 +15,17 @@ public class ChooseAction extends AssessAction {
 	 * A sub property of object. The options subject to this action.
 	 *
 	 * @property actionOption
-	 * @type schema, Text | schema,Thing
+	 * @type Text
 	 */
-	public Object actionOption;
+	public String actionOption;
 	/**
 	 * Schema.org/option
 	 * A sub property of object. The options subject to this action.
 	 *
 	 * @property option
-	 * @type schema, Text | schema,Thing
+	 * @type Text
 	 */
-	public Object option;
+	public String option;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

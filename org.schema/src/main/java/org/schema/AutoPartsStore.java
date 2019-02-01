@@ -7,9 +7,9 @@ package org.schema;
  * @author schema.org
  * @class AutoPartsStore
  * @module org.schema
- * @extends AutomotiveBusiness
+ * @extends Store
  */
-public class AutoPartsStore extends AutomotiveBusiness {
+public class AutoPartsStore extends Store {
 	/**
 	 * Constructor, automatically sets @context and @type.
 	 *

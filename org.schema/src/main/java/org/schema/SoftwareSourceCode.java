@@ -11,6 +11,38 @@ package org.schema;
  */
 public class SoftwareSourceCode extends CreativeWork {
 	/**
+	 * Schema.org/targetProduct
+	 * Target Operating System / Product to which the code applies.  If applies to several versions, just the product name can be used.
+	 *
+	 * @property targetProduct
+	 * @type SoftwareApplication
+	 */
+	public SoftwareApplication targetProduct;
+	/**
+	 * Schema.org/codeRepository
+	 * Link to the repository where the un-compiled, human readable code and related code is located (SVN, github, CodePlex).
+	 *
+	 * @property codeRepository
+	 * @type URL
+	 */
+	public String codeRepository;
+	/**
+	 * Schema.org/programmingLanguage
+	 * The computer programming language.
+	 *
+	 * @property programmingLanguage
+	 * @type Text
+	 */
+	public String programmingLanguage;
+	/**
+	 * Schema.org/codeSampleType
+	 * What type of code sample: full (compile ready) solution, code snippet, inline code, scripts, template.
+	 *
+	 * @property codeSampleType
+	 * @type Text
+	 */
+	public String codeSampleType;
+	/**
 	 * Schema.org/runtimePlatform
 	 * Runtime platform or script interpreter dependencies (Example - Java v1, Python2.3, .Net Framework 3.0).
 	 *
@@ -27,30 +59,6 @@ public class SoftwareSourceCode extends CreativeWork {
 	 */
 	public String sampleType;
 	/**
-	 * Schema.org/codeRepository
-	 * Link to the repository where the un-compiled, human readable code and related code is located (SVN, github, CodePlex).
-	 *
-	 * @property codeRepository
-	 * @type URL
-	 */
-	public String codeRepository;
-	/**
-	 * Schema.org/targetProduct
-	 * Target Operating System / Product to which the code applies.  If applies to several versions, just the product name can be used.
-	 *
-	 * @property targetProduct
-	 * @type SoftwareApplication
-	 */
-	public SoftwareApplication targetProduct;
-	/**
-	 * Schema.org/codeSampleType
-	 * What type of code sample: full (compile ready) solution, code snippet, inline code, scripts, template.
-	 *
-	 * @property codeSampleType
-	 * @type Text
-	 */
-	public String codeSampleType;
-	/**
 	 * Schema.org/runtime
 	 * Runtime platform or script interpreter dependencies (Example - Java v1, Python2.3, .Net Framework 3.0).
 	 *
@@ -58,14 +66,6 @@ public class SoftwareSourceCode extends CreativeWork {
 	 * @type Text
 	 */
 	public String runtime;
-	/**
-	 * Schema.org/programmingLanguage
-	 * The computer programming language.
-	 *
-	 * @property programmingLanguage
-	 * @type schema, Text | schema,ComputerLanguage
-	 */
-	public Object programmingLanguage;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

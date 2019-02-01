@@ -11,14 +11,6 @@ package org.schema;
  */
 public class MoveAction extends Action {
 	/**
-	 * Schema.org/fromLocation
-	 * A sub property of location. The original location of the object or the agent before the action.
-	 *
-	 * @property fromLocation
-	 * @type Place
-	 */
-	public Place fromLocation;
-	/**
 	 * Schema.org/toLocation
 	 * A sub property of location. The final location of the object or the agent after the action.
 	 *
@@ -26,6 +18,14 @@ public class MoveAction extends Action {
 	 * @type Place
 	 */
 	public Place toLocation;
+	/**
+	 * Schema.org/fromLocation
+	 * A sub property of location. The original location of the object or the agent before the action.
+	 *
+	 * @property fromLocation
+	 * @type Place
+	 */
+	public Place fromLocation;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

@@ -11,21 +11,21 @@ package org.schema;
  */
 public class Article extends CreativeWork {
 	/**
-	 * Schema.org/pageStart
-	 * The page on which the work starts; for example "135" or "xiii".
+	 * Schema.org/pagination
+	 * Any description of pages that is not separated into pageStart and pageEnd; for example, "1-6, 9, 55" or "10-12, 46-49".
 	 *
-	 * @property pageStart
-	 * @type schema, Integer | schema,Text
+	 * @property pagination
+	 * @type Text
 	 */
-	public Object pageStart;
+	public String pagination;
 	/**
 	 * Schema.org/pageEnd
 	 * The page on which the work ends; for example "138" or "xvi".
 	 *
 	 * @property pageEnd
-	 * @type schema, Integer | schema,Text
+	 * @type Integer
 	 */
-	public Object pageEnd;
+	public Integer pageEnd;
 	/**
 	 * Schema.org/articleSection
 	 * Articles may belong to one or more 'sections' in a magazine or newspaper, such as Sports, Lifestyle, etc.
@@ -43,6 +43,14 @@ public class Article extends CreativeWork {
 	 */
 	public String articleBody;
 	/**
+	 * Schema.org/pageStart
+	 * The page on which the work starts; for example "135" or "xiii".
+	 *
+	 * @property pageStart
+	 * @type Integer
+	 */
+	public Integer pageStart;
+	/**
 	 * Schema.org/wordCount
 	 * The number of words in the text of the Article.
 	 *
@@ -50,14 +58,6 @@ public class Article extends CreativeWork {
 	 * @type Integer
 	 */
 	public Integer wordCount;
-	/**
-	 * Schema.org/pagination
-	 * Any description of pages that is not separated into pageStart and pageEnd; for example, "1-6, 9, 55" or "10-12, 46-49".
-	 *
-	 * @property pagination
-	 * @type Text
-	 */
-	public String pagination;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

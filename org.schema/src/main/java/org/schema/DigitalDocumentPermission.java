@@ -11,6 +11,14 @@ package org.schema;
  */
 public class DigitalDocumentPermission extends Intangible {
 	/**
+	 * Schema.org/grantee
+	 * The person, organization, contact point, or audience that has been granted this permission.
+	 *
+	 * @property grantee
+	 * @type ContactPoint
+	 */
+	public ContactPoint grantee;
+	/**
 	 * Schema.org/permissionType
 	 * The type of permission granted the person, organization, or audience.
 	 *
@@ -18,14 +26,6 @@ public class DigitalDocumentPermission extends Intangible {
 	 * @type DigitalDocumentPermissionType
 	 */
 	public DigitalDocumentPermissionType permissionType;
-	/**
-	 * Schema.org/grantee
-	 * The person, organization, contact point, or audience that has been granted this permission.
-	 *
-	 * @property grantee
-	 * @type schema, ContactPoint | schema,Organization | schema,Person | schema,Audience
-	 */
-	public Object grantee;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

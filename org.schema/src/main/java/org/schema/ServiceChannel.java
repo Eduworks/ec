@@ -19,13 +19,37 @@ public class ServiceChannel extends Intangible {
 	 */
 	public Service providesService;
 	/**
+	 * Schema.org/serviceLocation
+	 * The location (e.g. civic structure, local business, etc.) where a person can go to access the service.
+	 *
+	 * @property serviceLocation
+	 * @type Place
+	 */
+	public Place serviceLocation;
+	/**
+	 * Schema.org/servicePostalAddress
+	 * The address for accessing the service by mail.
+	 *
+	 * @property servicePostalAddress
+	 * @type PostalAddress
+	 */
+	public PostalAddress servicePostalAddress;
+	/**
 	 * Schema.org/availableLanguage
 	 * A language someone may use with the item. Please use one of the language codes from the [IETF BCP 47 standard](http://tools.ietf.org/html/bcp47). See also [[inLanguage]]
 	 *
 	 * @property availableLanguage
-	 * @type schema, Text | schema,Language
+	 * @type Language
 	 */
-	public Object availableLanguage;
+	public Language availableLanguage;
+	/**
+	 * Schema.org/serviceSmsNumber
+	 * The number to access the service by text message.
+	 *
+	 * @property serviceSmsNumber
+	 * @type ContactPoint
+	 */
+	public ContactPoint serviceSmsNumber;
 	/**
 	 * Schema.org/serviceUrl
 	 * The website to access the service.
@@ -50,30 +74,6 @@ public class ServiceChannel extends Intangible {
 	 * @type Duration
 	 */
 	public Duration processingTime;
-	/**
-	 * Schema.org/servicePostalAddress
-	 * The address for accessing the service by mail.
-	 *
-	 * @property servicePostalAddress
-	 * @type PostalAddress
-	 */
-	public PostalAddress servicePostalAddress;
-	/**
-	 * Schema.org/serviceSmsNumber
-	 * The number to access the service by text message.
-	 *
-	 * @property serviceSmsNumber
-	 * @type ContactPoint
-	 */
-	public ContactPoint serviceSmsNumber;
-	/**
-	 * Schema.org/serviceLocation
-	 * The location (e.g. civic structure, local business, etc.) where a person can go to access the service.
-	 *
-	 * @property serviceLocation
-	 * @type Place
-	 */
-	public Place serviceLocation;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

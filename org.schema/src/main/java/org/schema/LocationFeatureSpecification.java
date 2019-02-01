@@ -11,14 +11,6 @@ package org.schema;
  */
 public class LocationFeatureSpecification extends PropertyValue {
 	/**
-	 * Schema.org/validFrom
-	 * The date when the item becomes valid.
-	 *
-	 * @property validFrom
-	 * @type DateTime
-	 */
-	public String validFrom;
-	/**
 	 * Schema.org/hoursAvailable
 	 * The hours during which this service or contact is available.
 	 *
@@ -26,6 +18,14 @@ public class LocationFeatureSpecification extends PropertyValue {
 	 * @type OpeningHoursSpecification
 	 */
 	public OpeningHoursSpecification hoursAvailable;
+	/**
+	 * Schema.org/validFrom
+	 * The date when the item becomes valid.
+	 *
+	 * @property validFrom
+	 * @type DateTime
+	 */
+	public String validFrom;
 	/**
 	 * Schema.org/validThrough
 	 * The date after when the item is not valid. For example the end of an offer, salary period, or a period of opening hours.

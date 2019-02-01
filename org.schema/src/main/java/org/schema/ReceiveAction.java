@@ -11,14 +11,6 @@ package org.schema;
  */
 public class ReceiveAction extends TransferAction {
 	/**
-	 * Schema.org/sender
-	 * A sub property of participant. The participant who is at the sending end of the action.
-	 *
-	 * @property sender
-	 * @type schema, Organization | schema,Person | schema,Audience
-	 */
-	public Object sender;
-	/**
 	 * Schema.org/deliveryMethod
 	 * A sub property of instrument. The method of delivery.
 	 *
@@ -26,6 +18,14 @@ public class ReceiveAction extends TransferAction {
 	 * @type DeliveryMethod
 	 */
 	public DeliveryMethod deliveryMethod;
+	/**
+	 * Schema.org/sender
+	 * A sub property of participant. The participant who is at the sending end of the action.
+	 *
+	 * @property sender
+	 * @type Audience
+	 */
+	public Audience sender;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

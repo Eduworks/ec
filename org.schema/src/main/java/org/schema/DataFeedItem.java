@@ -11,6 +11,14 @@ package org.schema;
  */
 public class DataFeedItem extends Intangible {
 	/**
+	 * Schema.org/dateModified
+	 * The date on which the CreativeWork was most recently modified or when the item's entry was modified within a DataFeed.
+	 *
+	 * @property dateModified
+	 * @type DateTime
+	 */
+	public String dateModified;
+	/**
 	 * Schema.org/dateDeleted
 	 * The datetime the item was removed from the DataFeed.
 	 *
@@ -23,9 +31,9 @@ public class DataFeedItem extends Intangible {
 	 * The date on which the CreativeWork was created or the item was added to a DataFeed.
 	 *
 	 * @property dateCreated
-	 * @type schema, DateTime | schema,Date
+	 * @type Date
 	 */
-	public Object dateCreated;
+	public String dateCreated;
 	/**
 	 * Schema.org/item
 	 * An entity represented by an entry in a list or data feed (e.g. an 'artist' in a list of 'artists')’.
@@ -34,14 +42,6 @@ public class DataFeedItem extends Intangible {
 	 * @type Thing
 	 */
 	public Thing item;
-	/**
-	 * Schema.org/dateModified
-	 * The date on which the CreativeWork was most recently modified or when the item's entry was modified within a DataFeed.
-	 *
-	 * @property dateModified
-	 * @type schema, DateTime | schema,Date
-	 */
-	public Object dateModified;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

@@ -11,6 +11,14 @@ package org.schema;
  */
 public class WriteAction extends CreateAction {
 	/**
+	 * Schema.org/inLanguage
+	 * The language of the content or performance or used in an action. Please use one of the language codes from the [IETF BCP 47 standard](http://tools.ietf.org/html/bcp47). See also [[availableLanguage]].
+	 *
+	 * @property inLanguage
+	 * @type Language
+	 */
+	public Language inLanguage;
+	/**
 	 * Schema.org/language
 	 * A sub property of instrument. The language used on this action.
 	 *
@@ -18,14 +26,6 @@ public class WriteAction extends CreateAction {
 	 * @type Language
 	 */
 	public Language language;
-	/**
-	 * Schema.org/inLanguage
-	 * The language of the content or performance or used in an action. Please use one of the language codes from the [IETF BCP 47 standard](http://tools.ietf.org/html/bcp47). See also [[availableLanguage]].
-	 *
-	 * @property inLanguage
-	 * @type schema, Text | schema,Language
-	 */
-	public Object inLanguage;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

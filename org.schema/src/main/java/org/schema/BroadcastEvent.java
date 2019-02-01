@@ -19,14 +19,6 @@ public class BroadcastEvent extends PublicationEvent {
 	 */
 	public String videoFormat;
 	/**
-	 * Schema.org/broadcastOfEvent
-	 * The event being broadcast such as a sporting event or awards ceremony.
-	 *
-	 * @property broadcastOfEvent
-	 * @type Event
-	 */
-	public Event broadcastOfEvent;
-	/**
 	 * Schema.org/isLiveBroadcast
 	 * True is the broadcast is of a live event.
 	 *
@@ -34,6 +26,14 @@ public class BroadcastEvent extends PublicationEvent {
 	 * @type Boolean
 	 */
 	public Boolean isLiveBroadcast;
+	/**
+	 * Schema.org/broadcastOfEvent
+	 * The event being broadcast such as a sporting event or awards ceremony.
+	 *
+	 * @property broadcastOfEvent
+	 * @type Event
+	 */
+	public Event broadcastOfEvent;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

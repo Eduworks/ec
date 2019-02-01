@@ -11,14 +11,6 @@ package org.schema;
  */
 public class AggregateRating extends Rating {
 	/**
-	 * Schema.org/reviewCount
-	 * The count of total number of reviews.
-	 *
-	 * @property reviewCount
-	 * @type Integer
-	 */
-	public Integer reviewCount;
-	/**
 	 * Schema.org/itemReviewed
 	 * The item that is being reviewed/rated.
 	 *
@@ -26,6 +18,14 @@ public class AggregateRating extends Rating {
 	 * @type Thing
 	 */
 	public Thing itemReviewed;
+	/**
+	 * Schema.org/reviewCount
+	 * The count of total number of reviews.
+	 *
+	 * @property reviewCount
+	 * @type Integer
+	 */
+	public Integer reviewCount;
 	/**
 	 * Schema.org/ratingCount
 	 * The count of total number of ratings.

@@ -11,14 +11,6 @@ package org.schema;
  */
 public class ParentAudience extends PeopleAudience {
 	/**
-	 * Schema.org/childMinAge
-	 * Minimal age of the child.
-	 *
-	 * @property childMinAge
-	 * @type Number
-	 */
-	public Double childMinAge;
-	/**
 	 * Schema.org/childMaxAge
 	 * Maximal age of the child.
 	 *
@@ -26,6 +18,14 @@ public class ParentAudience extends PeopleAudience {
 	 * @type Number
 	 */
 	public Double childMaxAge;
+	/**
+	 * Schema.org/childMinAge
+	 * Minimal age of the child.
+	 *
+	 * @property childMinAge
+	 * @type Number
+	 */
+	public Double childMinAge;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

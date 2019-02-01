@@ -12,22 +12,6 @@ package org.schema;
  */
 public class OpeningHoursSpecification extends StructuredValue {
 	/**
-	 * Schema.org/opens
-	 * The opening hour of the place or service on the given day(s) of the week.
-	 *
-	 * @property opens
-	 * @type Time
-	 */
-	public String opens;
-	/**
-	 * Schema.org/dayOfWeek
-	 * The day of the week for which these opening hours are valid.
-	 *
-	 * @property dayOfWeek
-	 * @type DayOfWeek
-	 */
-	public DayOfWeek dayOfWeek;
-	/**
 	 * Schema.org/validFrom
 	 * The date when the item becomes valid.
 	 *
@@ -35,6 +19,22 @@ public class OpeningHoursSpecification extends StructuredValue {
 	 * @type DateTime
 	 */
 	public String validFrom;
+	/**
+	 * Schema.org/validThrough
+	 * The date after when the item is not valid. For example the end of an offer, salary period, or a period of opening hours.
+	 *
+	 * @property validThrough
+	 * @type DateTime
+	 */
+	public String validThrough;
+	/**
+	 * Schema.org/opens
+	 * The opening hour of the place or service on the given day(s) of the week.
+	 *
+	 * @property opens
+	 * @type Time
+	 */
+	public String opens;
 	/**
 	 * Schema.org/closes
 	 * The closing hour of the place or service on the given day(s) of the week.
@@ -44,13 +44,13 @@ public class OpeningHoursSpecification extends StructuredValue {
 	 */
 	public String closes;
 	/**
-	 * Schema.org/validThrough
-	 * The date after when the item is not valid. For example the end of an offer, salary period, or a period of opening hours.
+	 * Schema.org/dayOfWeek
+	 * The day of the week for which these opening hours are valid.
 	 *
-	 * @property validThrough
-	 * @type DateTime
+	 * @property dayOfWeek
+	 * @type DayOfWeek
 	 */
-	public String validThrough;
+	public DayOfWeek dayOfWeek;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

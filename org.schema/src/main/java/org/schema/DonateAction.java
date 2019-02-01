@@ -15,9 +15,9 @@ public class DonateAction extends TradeAction {
 	 * A sub property of participant. The participant who is at the receiving end of the action.
 	 *
 	 * @property recipient
-	 * @type schema, Organization | schema,Person | schema,Audience
+	 * @type Organization
 	 */
-	public Object recipient;
+	public Organization recipient;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

@@ -11,14 +11,6 @@ package org.schema;
  */
 public class MusicRelease extends MusicPlaylist {
 	/**
-	 * Schema.org/creditedTo
-	 * The group the release is credited to if different than the byArtist. For example, Red and Blue is credited to "Stefani Germanotta Band", but by Lady Gaga.
-	 *
-	 * @property creditedTo
-	 * @type schema, Organization | schema,Person
-	 */
-	public Object creditedTo;
-	/**
 	 * Schema.org/recordLabel
 	 * The label that issued the release.
 	 *
@@ -26,14 +18,6 @@ public class MusicRelease extends MusicPlaylist {
 	 * @type Organization
 	 */
 	public Organization recordLabel;
-	/**
-	 * Schema.org/musicReleaseFormat
-	 * Format of this release (the type of recording media used, ie. compact disc, digital media, LP, etc.).
-	 *
-	 * @property musicReleaseFormat
-	 * @type MusicReleaseFormatType
-	 */
-	public MusicReleaseFormatType musicReleaseFormat;
 	/**
 	 * Schema.org/catalogNumber
 	 * The catalog number for the release.
@@ -43,13 +27,13 @@ public class MusicRelease extends MusicPlaylist {
 	 */
 	public String catalogNumber;
 	/**
-	 * Schema.org/duration
-	 * The duration of the item (movie, audio recording, event, etc.) in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601).
+	 * Schema.org/creditedTo
+	 * The group the release is credited to if different than the byArtist. For example, Red and Blue is credited to "Stefani Germanotta Band", but by Lady Gaga.
 	 *
-	 * @property duration
-	 * @type Duration
+	 * @property creditedTo
+	 * @type Organization
 	 */
-	public Duration duration;
+	public Organization creditedTo;
 	/**
 	 * Schema.org/releaseOf
 	 * The album this is a release of.
@@ -58,6 +42,22 @@ public class MusicRelease extends MusicPlaylist {
 	 * @type MusicAlbum
 	 */
 	public MusicAlbum releaseOf;
+	/**
+	 * Schema.org/duration
+	 * The duration of the item (movie, audio recording, event, etc.) in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601).
+	 *
+	 * @property duration
+	 * @type Duration
+	 */
+	public Duration duration;
+	/**
+	 * Schema.org/musicReleaseFormat
+	 * Format of this release (the type of recording media used, ie. compact disc, digital media, LP, etc.).
+	 *
+	 * @property musicReleaseFormat
+	 * @type MusicReleaseFormatType
+	 */
+	public MusicReleaseFormatType musicReleaseFormat;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

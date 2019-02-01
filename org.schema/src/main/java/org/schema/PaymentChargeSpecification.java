@@ -11,14 +11,6 @@ package org.schema;
  */
 public class PaymentChargeSpecification extends PriceSpecification {
 	/**
-	 * Schema.org/appliesToDeliveryMethod
-	 * The delivery method(s) to which the delivery charge or payment charge specification applies.
-	 *
-	 * @property appliesToDeliveryMethod
-	 * @type DeliveryMethod
-	 */
-	public DeliveryMethod appliesToDeliveryMethod;
-	/**
 	 * Schema.org/appliesToPaymentMethod
 	 * The payment method(s) to which the payment charge specification applies.
 	 *
@@ -26,6 +18,14 @@ public class PaymentChargeSpecification extends PriceSpecification {
 	 * @type PaymentMethod
 	 */
 	public PaymentMethod appliesToPaymentMethod;
+	/**
+	 * Schema.org/appliesToDeliveryMethod
+	 * The delivery method(s) to which the delivery charge or payment charge specification applies.
+	 *
+	 * @property appliesToDeliveryMethod
+	 * @type DeliveryMethod
+	 */
+	public DeliveryMethod appliesToDeliveryMethod;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

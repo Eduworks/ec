@@ -19,22 +19,6 @@ public class AggregateOffer extends Offer {
 	 */
 	public Offer offers;
 	/**
-	 * Schema.org/highPrice
-	 * The highest price of all offers available.
-	 *
-	 * @property highPrice
-	 * @type schema, Number | schema,Text
-	 */
-	public Object highPrice;
-	/**
-	 * Schema.org/lowPrice
-	 * The lowest price of all offers available.
-	 *
-	 * @property lowPrice
-	 * @type schema, Number | schema,Text
-	 */
-	public Object lowPrice;
-	/**
 	 * Schema.org/offerCount
 	 * The number of offers for the product.
 	 *
@@ -42,6 +26,22 @@ public class AggregateOffer extends Offer {
 	 * @type Integer
 	 */
 	public Integer offerCount;
+	/**
+	 * Schema.org/lowPrice
+	 * The lowest price of all offers available.
+	 *
+	 * @property lowPrice
+	 * @type Text
+	 */
+	public String lowPrice;
+	/**
+	 * Schema.org/highPrice
+	 * The highest price of all offers available.
+	 *
+	 * @property highPrice
+	 * @type Number
+	 */
+	public Double highPrice;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

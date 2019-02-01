@@ -11,22 +11,6 @@ package org.schema;
  */
 public class Course extends CreativeWork {
 	/**
-	 * Schema.org/hasCourseInstance
-	 * An offering of the course at a specific time and place or through specific media or mode of study or to a specific section of students.
-	 *
-	 * @property hasCourseInstance
-	 * @type CourseInstance
-	 */
-	public CourseInstance hasCourseInstance;
-	/**
-	 * Schema.org/coursePrerequisites
-	 * Requirements for taking the Course. May be completion of another [[Course]] or a textual description like "permission of instructor". Requirements may be a pre-requisite competency, referenced using [[AlignmentObject]].
-	 *
-	 * @property coursePrerequisites
-	 * @type schema, AlignmentObject | schema,Text | schema,Course
-	 */
-	public Object coursePrerequisites;
-	/**
 	 * Schema.org/courseCode
 	 * The identifier for the [[Course]] used by the course [[provider]] (e.g. CS101 or 6.001).
 	 *
@@ -34,6 +18,22 @@ public class Course extends CreativeWork {
 	 * @type Text
 	 */
 	public String courseCode;
+	/**
+	 * Schema.org/coursePrerequisites
+	 * Requirements for taking the Course. May be completion of another [[Course]] or a textual description like "permission of instructor". Requirements may be a pre-requisite competency, referenced using [[AlignmentObject]].
+	 *
+	 * @property coursePrerequisites
+	 * @type Text
+	 */
+	public String coursePrerequisites;
+	/**
+	 * Schema.org/hasCourseInstance
+	 * An offering of the course at a specific time and place or through specific media or mode of study or to a specific section of students.
+	 *
+	 * @property hasCourseInstance
+	 * @type CourseInstance
+	 */
+	public CourseInstance hasCourseInstance;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

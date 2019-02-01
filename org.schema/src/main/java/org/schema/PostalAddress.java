@@ -11,14 +11,6 @@ package org.schema;
  */
 public class PostalAddress extends ContactPoint {
 	/**
-	 * Schema.org/postalCode
-	 * The postal code. For example, 94043.
-	 *
-	 * @property postalCode
-	 * @type Text
-	 */
-	public String postalCode;
-	/**
 	 * Schema.org/postOfficeBoxNumber
 	 * The post office box number for PO box addresses.
 	 *
@@ -26,22 +18,6 @@ public class PostalAddress extends ContactPoint {
 	 * @type Text
 	 */
 	public String postOfficeBoxNumber;
-	/**
-	 * Schema.org/addressLocality
-	 * The locality. For example, Mountain View.
-	 *
-	 * @property addressLocality
-	 * @type Text
-	 */
-	public String addressLocality;
-	/**
-	 * Schema.org/addressCountry
-	 * The country. For example, USA. You can also provide the two-letter [ISO 3166-1 alpha-2 country code](http://en.wikipedia.org/wiki/ISO_3166-1).
-	 *
-	 * @property addressCountry
-	 * @type schema, Text | schema,Country
-	 */
-	public Object addressCountry;
 	/**
 	 * Schema.org/streetAddress
 	 * The street address. For example, 1600 Amphitheatre Pkwy.
@@ -51,6 +27,14 @@ public class PostalAddress extends ContactPoint {
 	 */
 	public String streetAddress;
 	/**
+	 * Schema.org/addressCountry
+	 * The country. For example, USA. You can also provide the two-letter [ISO 3166-1 alpha-2 country code](http://en.wikipedia.org/wiki/ISO_3166-1).
+	 *
+	 * @property addressCountry
+	 * @type Text
+	 */
+	public String addressCountry;
+	/**
 	 * Schema.org/addressRegion
 	 * The region. For example, CA.
 	 *
@@ -58,6 +42,22 @@ public class PostalAddress extends ContactPoint {
 	 * @type Text
 	 */
 	public String addressRegion;
+	/**
+	 * Schema.org/postalCode
+	 * The postal code. For example, 94043.
+	 *
+	 * @property postalCode
+	 * @type Text
+	 */
+	public String postalCode;
+	/**
+	 * Schema.org/addressLocality
+	 * The locality. For example, Mountain View.
+	 *
+	 * @property addressLocality
+	 * @type Text
+	 */
+	public String addressLocality;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

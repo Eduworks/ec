@@ -11,14 +11,6 @@ package org.schema;
  */
 public class PublicationEvent extends Event {
 	/**
-	 * Schema.org/isAccessibleForFree
-	 * A flag to signal that the publication is accessible for free.
-	 *
-	 * @property isAccessibleForFree
-	 * @type Boolean
-	 */
-	public Boolean isAccessibleForFree;
-	/**
 	 * Schema.org/publishedOn
 	 * A broadcast service associated with the publication event.
 	 *
@@ -34,6 +26,14 @@ public class PublicationEvent extends Event {
 	 * @type Boolean
 	 */
 	public Boolean free;
+	/**
+	 * Schema.org/isAccessibleForFree
+	 * A flag to signal that the publication is accessible for free.
+	 *
+	 * @property isAccessibleForFree
+	 * @type Boolean
+	 */
+	public Boolean isAccessibleForFree;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

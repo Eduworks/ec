@@ -11,6 +11,22 @@ package org.schema;
  */
 public class Ticket extends Intangible {
 	/**
+	 * Schema.org/underName
+	 * The person or organization the reservation or ticket is for.
+	 *
+	 * @property underName
+	 * @type Organization
+	 */
+	public Organization underName;
+	/**
+	 * Schema.org/totalPrice
+	 * The total price for the reservation or ticket, including applicable taxes, shipping, etc.
+	 *
+	 * @property totalPrice
+	 * @type Number
+	 */
+	public Double totalPrice;
+	/**
 	 * Schema.org/priceCurrency
 	 * The currency (in 3-letter ISO 4217 format) of the price or a price component, when attached to [[PriceSpecification]] and its subtypes.
 	 *
@@ -18,30 +34,6 @@ public class Ticket extends Intangible {
 	 * @type Text
 	 */
 	public String priceCurrency;
-	/**
-	 * Schema.org/totalPrice
-	 * The total price for the reservation or ticket, including applicable taxes, shipping, etc.
-	 *
-	 * @property totalPrice
-	 * @type schema, Number | schema,PriceSpecification | schema,Text
-	 */
-	public Object totalPrice;
-	/**
-	 * Schema.org/dateIssued
-	 * The date the ticket was issued.
-	 *
-	 * @property dateIssued
-	 * @type DateTime
-	 */
-	public String dateIssued;
-	/**
-	 * Schema.org/ticketToken
-	 * Reference to an asset (e.g., Barcode, QR code image or PDF) usable for entrance.
-	 *
-	 * @property ticketToken
-	 * @type schema, URL | schema,Text
-	 */
-	public Object ticketToken;
 	/**
 	 * Schema.org/ticketNumber
 	 * The unique identifier for the ticket.
@@ -59,6 +51,14 @@ public class Ticket extends Intangible {
 	 */
 	public Organization issuedBy;
 	/**
+	 * Schema.org/ticketToken
+	 * Reference to an asset (e.g., Barcode, QR code image or PDF) usable for entrance.
+	 *
+	 * @property ticketToken
+	 * @type URL
+	 */
+	public String ticketToken;
+	/**
 	 * Schema.org/ticketedSeat
 	 * The seat associated with the ticket.
 	 *
@@ -67,13 +67,13 @@ public class Ticket extends Intangible {
 	 */
 	public Seat ticketedSeat;
 	/**
-	 * Schema.org/underName
-	 * The person or organization the reservation or ticket is for.
+	 * Schema.org/dateIssued
+	 * The date the ticket was issued.
 	 *
-	 * @property underName
-	 * @type schema, Organization | schema,Person
+	 * @property dateIssued
+	 * @type DateTime
 	 */
-	public Object underName;
+	public String dateIssued;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

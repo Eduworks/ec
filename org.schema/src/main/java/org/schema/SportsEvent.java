@@ -15,25 +15,25 @@ public class SportsEvent extends Event {
 	 * The away team in a sports event.
 	 *
 	 * @property awayTeam
-	 * @type schema, Person | schema,SportsTeam
+	 * @type Person
 	 */
-	public Object awayTeam;
-	/**
-	 * Schema.org/competitor
-	 * A competitor in a sports event.
-	 *
-	 * @property competitor
-	 * @type schema, Person | schema,SportsTeam
-	 */
-	public Object competitor;
+	public Person awayTeam;
 	/**
 	 * Schema.org/homeTeam
 	 * The home team in a sports event.
 	 *
 	 * @property homeTeam
-	 * @type schema, Person | schema,SportsTeam
+	 * @type SportsTeam
 	 */
-	public Object homeTeam;
+	public SportsTeam homeTeam;
+	/**
+	 * Schema.org/competitor
+	 * A competitor in a sports event.
+	 *
+	 * @property competitor
+	 * @type Person
+	 */
+	public Person competitor;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

@@ -11,21 +11,21 @@ package org.schema;
  */
 public class CreativeWorkSeries extends CreativeWork {
 	/**
-	 * Schema.org/startDate
-	 * The start date and time of the item (in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601)).
-	 *
-	 * @property startDate
-	 * @type schema, DateTime | schema,Date
-	 */
-	public Object startDate;
-	/**
 	 * Schema.org/endDate
 	 * The end date and time of the item (in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601)).
 	 *
 	 * @property endDate
-	 * @type schema, DateTime | schema,Date
+	 * @type DateTime
 	 */
-	public Object endDate;
+	public String endDate;
+	/**
+	 * Schema.org/startDate
+	 * The start date and time of the item (in [ISO 8601 date format](http://en.wikipedia.org/wiki/ISO_8601)).
+	 *
+	 * @property startDate
+	 * @type Date
+	 */
+	public String startDate;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

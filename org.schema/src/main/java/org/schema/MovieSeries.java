@@ -11,14 +11,6 @@ package org.schema;
  */
 public class MovieSeries extends CreativeWorkSeries {
 	/**
-	 * Schema.org/director
-	 * A director of e.g. tv, radio, movie, video gaming etc. content, or of an event. Directors can be associated with individual items or with a series, episode, clip.
-	 *
-	 * @property director
-	 * @type Person
-	 */
-	public Person director;
-	/**
 	 * Schema.org/actor
 	 * An actor, e.g. in tv, radio, movie, video games etc., or in an event. Actors can be associated with individual items or with a series, episode, clip.
 	 *
@@ -26,22 +18,6 @@ public class MovieSeries extends CreativeWorkSeries {
 	 * @type Person
 	 */
 	public Person actor;
-	/**
-	 * Schema.org/musicBy
-	 * The composer of the soundtrack.
-	 *
-	 * @property musicBy
-	 * @type schema, Person | schema,MusicGroup
-	 */
-	public Object musicBy;
-	/**
-	 * Schema.org/actors
-	 * An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.
-	 *
-	 * @property actors
-	 * @type Person
-	 */
-	public Person actors;
 	/**
 	 * Schema.org/trailer
 	 * The trailer of a movie or tv/radio series, season, episode, etc.
@@ -51,13 +27,13 @@ public class MovieSeries extends CreativeWorkSeries {
 	 */
 	public VideoObject trailer;
 	/**
-	 * Schema.org/productionCompany
-	 * The production company or studio responsible for the item e.g. series, video game, episode etc.
+	 * Schema.org/musicBy
+	 * The composer of the soundtrack.
 	 *
-	 * @property productionCompany
-	 * @type Organization
+	 * @property musicBy
+	 * @type Person
 	 */
-	public Organization productionCompany;
+	public Person musicBy;
 	/**
 	 * Schema.org/directors
 	 * A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.
@@ -66,6 +42,30 @@ public class MovieSeries extends CreativeWorkSeries {
 	 * @type Person
 	 */
 	public Person directors;
+	/**
+	 * Schema.org/director
+	 * A director of e.g. tv, radio, movie, video gaming etc. content, or of an event. Directors can be associated with individual items or with a series, episode, clip.
+	 *
+	 * @property director
+	 * @type Person
+	 */
+	public Person director;
+	/**
+	 * Schema.org/productionCompany
+	 * The production company or studio responsible for the item e.g. series, video game, episode etc.
+	 *
+	 * @property productionCompany
+	 * @type Organization
+	 */
+	public Organization productionCompany;
+	/**
+	 * Schema.org/actors
+	 * An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.
+	 *
+	 * @property actors
+	 * @type Person
+	 */
+	public Person actors;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

@@ -7,9 +7,9 @@ package org.schema;
  * @author schema.org
  * @class Dentist
  * @module org.schema
- * @extends LocalBusiness
+ * @extends MedicalOrganization
  */
-public class Dentist extends LocalBusiness {
+public class Dentist extends MedicalOrganization {
 	/**
 	 * Constructor, automatically sets @context and @type.
 	 *

@@ -11,13 +11,21 @@ package org.schema;
  */
 public class TVEpisode extends Episode {
 	/**
+	 * Schema.org/partOfTVSeries
+	 * The TV series to which this episode or season belongs.
+	 *
+	 * @property partOfTVSeries
+	 * @type TVSeries
+	 */
+	public TVSeries partOfTVSeries;
+	/**
 	 * Schema.org/subtitleLanguage
 	 * Languages in which subtitles/captions are available, in [IETF BCP 47 standard format](http://tools.ietf.org/html/bcp47).
 	 *
 	 * @property subtitleLanguage
-	 * @type schema, Text | schema,Language
+	 * @type Text
 	 */
-	public Object subtitleLanguage;
+	public String subtitleLanguage;
 	/**
 	 * Schema.org/countryOfOrigin
 	 * The country of the principal offices of the production company or individual responsible for the movie or program.
@@ -26,14 +34,6 @@ public class TVEpisode extends Episode {
 	 * @type Country
 	 */
 	public Country countryOfOrigin;
-	/**
-	 * Schema.org/partOfTVSeries
-	 * The TV series to which this episode or season belongs.
-	 *
-	 * @property partOfTVSeries
-	 * @type TVSeries
-	 */
-	public TVSeries partOfTVSeries;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

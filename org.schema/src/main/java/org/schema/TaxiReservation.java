@@ -11,14 +11,6 @@ package org.schema;
  */
 public class TaxiReservation extends Reservation {
 	/**
-	 * Schema.org/pickupLocation
-	 * Where a taxi will pick up a passenger or a rental car can be picked up.
-	 *
-	 * @property pickupLocation
-	 * @type Place
-	 */
-	public Place pickupLocation;
-	/**
 	 * Schema.org/pickupTime
 	 * When a taxi will pickup a passenger or a rental car can be picked up.
 	 *
@@ -31,9 +23,17 @@ public class TaxiReservation extends Reservation {
 	 * Number of people the reservation should accommodate.
 	 *
 	 * @property partySize
-	 * @type schema, Integer | schema,QuantitativeValue
+	 * @type Integer
 	 */
-	public Object partySize;
+	public Integer partySize;
+	/**
+	 * Schema.org/pickupLocation
+	 * Where a taxi will pick up a passenger or a rental car can be picked up.
+	 *
+	 * @property pickupLocation
+	 * @type Place
+	 */
+	public Place pickupLocation;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

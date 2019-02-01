@@ -11,13 +11,21 @@ package org.schema;
  */
 public class Demand extends Intangible {
 	/**
-	 * Schema.org/advanceBookingRequirement
-	 * The amount of time that is required between accepting the offer and the actual usage of the resource or service.
+	 * Schema.org/sku
+	 * The Stock Keeping Unit (SKU), i.e. a merchant-specific identifier for a product or service, or the product to which the offer refers.
 	 *
-	 * @property advanceBookingRequirement
-	 * @type QuantitativeValue
+	 * @property sku
+	 * @type Text
 	 */
-	public QuantitativeValue advanceBookingRequirement;
+	public String sku;
+	/**
+	 * Schema.org/availabilityStarts
+	 * The beginning of the availability of the product or service included in the offer.
+	 *
+	 * @property availabilityStarts
+	 * @type DateTime
+	 */
+	public String availabilityStarts;
 	/**
 	 * Schema.org/availableDeliveryMethod
 	 * The delivery method(s) available for this offer.
@@ -27,6 +35,46 @@ public class Demand extends Intangible {
 	 */
 	public DeliveryMethod availableDeliveryMethod;
 	/**
+	 * Schema.org/mpn
+	 * The Manufacturer Part Number (MPN) of the product, or the product to which the offer refers.
+	 *
+	 * @property mpn
+	 * @type Text
+	 */
+	public String mpn;
+	/**
+	 * Schema.org/serialNumber
+	 * The serial number or any alphanumeric identifier of a particular product. When attached to an offer, it is a shortcut for the serial number of the product included in the offer.
+	 *
+	 * @property serialNumber
+	 * @type Text
+	 */
+	public String serialNumber;
+	/**
+	 * Schema.org/ineligibleRegion
+	 * The ISO 3166-1 (ISO 3166-1 alpha-2) or ISO 3166-2 code, the place, or the GeoShape for the geo-political region(s) for which the offer or delivery charge specification is not valid, e.g. a region where the transaction is not allowed.\n\nSee also [[eligibleRegion]].
+	 *
+	 * @property ineligibleRegion
+	 * @type GeoShape
+	 */
+	public GeoShape ineligibleRegion;
+	/**
+	 * Schema.org/gtin8
+	 * The [GTIN-8](http://apps.gs1.org/GDD/glossary/Pages/GTIN-8.aspx) code of the product, or the product to which the offer refers. This code is also known as EAN/UCC-8 or 8-digit EAN. See [GS1 GTIN Summary](http://www.gs1.org/barcodes/technical/idkeys/gtin) for more details.
+	 *
+	 * @property gtin8
+	 * @type Text
+	 */
+	public String gtin8;
+	/**
+	 * Schema.org/availability
+	 * The availability of this item&#x2014;for example In stock, Out of stock, Pre-order, etc.
+	 *
+	 * @property availability
+	 * @type ItemAvailability
+	 */
+	public ItemAvailability availability;
+	/**
 	 * Schema.org/priceSpecification
 	 * One or more detailed price specifications, indicating the unit price and delivery or payment charges.
 	 *
@@ -34,6 +82,54 @@ public class Demand extends Intangible {
 	 * @type PriceSpecification
 	 */
 	public PriceSpecification priceSpecification;
+	/**
+	 * Schema.org/inventoryLevel
+	 * The current approximate inventory level for the item or items.
+	 *
+	 * @property inventoryLevel
+	 * @type QuantitativeValue
+	 */
+	public QuantitativeValue inventoryLevel;
+	/**
+	 * Schema.org/eligibleTransactionVolume
+	 * The transaction volume, in a monetary unit, for which the offer or price specification is valid, e.g. for indicating a minimal purchasing volume, to express free shipping above a certain order volume, or to limit the acceptance of credit cards to purchases to a certain minimal amount.
+	 *
+	 * @property eligibleTransactionVolume
+	 * @type PriceSpecification
+	 */
+	public PriceSpecification eligibleTransactionVolume;
+	/**
+	 * Schema.org/availableAtOrFrom
+	 * The place(s) from which the offer can be obtained (e.g. store locations).
+	 *
+	 * @property availableAtOrFrom
+	 * @type Place
+	 */
+	public Place availableAtOrFrom;
+	/**
+	 * Schema.org/warranty
+	 * The warranty promise(s) included in the offer.
+	 *
+	 * @property warranty
+	 * @type WarrantyPromise
+	 */
+	public WarrantyPromise warranty;
+	/**
+	 * Schema.org/includesObject
+	 * This links to a node or nodes indicating the exact quantity of the products included in the offer.
+	 *
+	 * @property includesObject
+	 * @type TypeAndQuantityNode
+	 */
+	public TypeAndQuantityNode includesObject;
+	/**
+	 * Schema.org/eligibleQuantity
+	 * The interval and unit of measurement of ordering quantities for which the offer or price specification is valid. This allows e.g. specifying that a certain freight charge is valid only for a certain quantity.
+	 *
+	 * @property eligibleQuantity
+	 * @type QuantitativeValue
+	 */
+	public QuantitativeValue eligibleQuantity;
 	/**
 	 * Schema.org/validFrom
 	 * The date when the item becomes valid.
@@ -43,29 +139,13 @@ public class Demand extends Intangible {
 	 */
 	public String validFrom;
 	/**
-	 * Schema.org/businessFunction
-	 * The business function (e.g. sell, lease, repair, dispose) of the offer or component of a bundle (TypeAndQuantityNode). The default is http://purl.org/goodrelations/v1#Sell.
+	 * Schema.org/validThrough
+	 * The date after when the item is not valid. For example the end of an offer, salary period, or a period of opening hours.
 	 *
-	 * @property businessFunction
-	 * @type BusinessFunction
+	 * @property validThrough
+	 * @type DateTime
 	 */
-	public BusinessFunction businessFunction;
-	/**
-	 * Schema.org/itemOffered
-	 * The item being offered.
-	 *
-	 * @property itemOffered
-	 * @type schema, Service | schema,Product
-	 */
-	public Object itemOffered;
-	/**
-	 * Schema.org/includesObject
-	 * This links to a node or nodes indicating the exact quantity of the products included in the offer.
-	 *
-	 * @property includesObject
-	 * @type TypeAndQuantityNode
-	 */
-	public TypeAndQuantityNode includesObject;
+	public String validThrough;
 	/**
 	 * Schema.org/gtin14
 	 * The [GTIN-14](http://apps.gs1.org/GDD/glossary/Pages/GTIN-14.aspx) code of the product, or the product to which the offer refers. See [GS1 GTIN Summary](http://www.gs1.org/barcodes/technical/idkeys/gtin) for more details.
@@ -91,133 +171,13 @@ public class Demand extends Intangible {
 	 */
 	public String gtin12;
 	/**
-	 * Schema.org/availableAtOrFrom
-	 * The place(s) from which the offer can be obtained (e.g. store locations).
-	 *
-	 * @property availableAtOrFrom
-	 * @type Place
-	 */
-	public Place availableAtOrFrom;
-	/**
-	 * Schema.org/warranty
-	 * The warranty promise(s) included in the offer.
-	 *
-	 * @property warranty
-	 * @type WarrantyPromise
-	 */
-	public WarrantyPromise warranty;
-	/**
-	 * Schema.org/serialNumber
-	 * The serial number or any alphanumeric identifier of a particular product. When attached to an offer, it is a shortcut for the serial number of the product included in the offer.
-	 *
-	 * @property serialNumber
-	 * @type Text
-	 */
-	public String serialNumber;
-	/**
-	 * Schema.org/inventoryLevel
-	 * The current approximate inventory level for the item or items.
-	 *
-	 * @property inventoryLevel
-	 * @type QuantitativeValue
-	 */
-	public QuantitativeValue inventoryLevel;
-	/**
-	 * Schema.org/availabilityStarts
-	 * The beginning of the availability of the product or service included in the offer.
-	 *
-	 * @property availabilityStarts
-	 * @type DateTime
-	 */
-	public String availabilityStarts;
-	/**
-	 * Schema.org/eligibleDuration
-	 * The duration for which the given offer is valid.
-	 *
-	 * @property eligibleDuration
-	 * @type QuantitativeValue
-	 */
-	public QuantitativeValue eligibleDuration;
-	/**
-	 * Schema.org/eligibleTransactionVolume
-	 * The transaction volume, in a monetary unit, for which the offer or price specification is valid, e.g. for indicating a minimal purchasing volume, to express free shipping above a certain order volume, or to limit the acceptance of credit cards to purchases to a certain minimal amount.
-	 *
-	 * @property eligibleTransactionVolume
-	 * @type PriceSpecification
-	 */
-	public PriceSpecification eligibleTransactionVolume;
-	/**
-	 * Schema.org/mpn
-	 * The Manufacturer Part Number (MPN) of the product, or the product to which the offer refers.
-	 *
-	 * @property mpn
-	 * @type Text
-	 */
-	public String mpn;
-	/**
-	 * Schema.org/areaServed
-	 * The geographic area where a service or offered item is provided.
-	 *
-	 * @property areaServed
-	 * @type schema, GeoShape | schema,Text | schema,Place | schema,AdministrativeArea
-	 */
-	public Object areaServed;
-	/**
 	 * Schema.org/seller
 	 * An entity which offers (sells / leases / lends / loans) the services / goods.  A seller may also be a provider.
 	 *
 	 * @property seller
-	 * @type schema, Organization | schema,Person
+	 * @type Person
 	 */
-	public Object seller;
-	/**
-	 * Schema.org/acceptedPaymentMethod
-	 * The payment method(s) accepted by seller for this offer.
-	 *
-	 * @property acceptedPaymentMethod
-	 * @type schema, LoanOrCredit | schema,PaymentMethod
-	 */
-	public Object acceptedPaymentMethod;
-	/**
-	 * Schema.org/validThrough
-	 * The date after when the item is not valid. For example the end of an offer, salary period, or a period of opening hours.
-	 *
-	 * @property validThrough
-	 * @type DateTime
-	 */
-	public String validThrough;
-	/**
-	 * Schema.org/availability
-	 * The availability of this item&#x2014;for example In stock, Out of stock, Pre-order, etc.
-	 *
-	 * @property availability
-	 * @type ItemAvailability
-	 */
-	public ItemAvailability availability;
-	/**
-	 * Schema.org/sku
-	 * The Stock Keeping Unit (SKU), i.e. a merchant-specific identifier for a product or service, or the product to which the offer refers.
-	 *
-	 * @property sku
-	 * @type Text
-	 */
-	public String sku;
-	/**
-	 * Schema.org/ineligibleRegion
-	 * The ISO 3166-1 (ISO 3166-1 alpha-2) or ISO 3166-2 code, the place, or the GeoShape for the geo-political region(s) for which the offer or delivery charge specification is not valid, e.g. a region where the transaction is not allowed.\n\nSee also [[eligibleRegion]].
-	 *
-	 * @property ineligibleRegion
-	 * @type schema, GeoShape | schema,Text | schema,Place
-	 */
-	public Object ineligibleRegion;
-	/**
-	 * Schema.org/gtin8
-	 * The [GTIN-8](http://apps.gs1.org/GDD/glossary/Pages/GTIN-8.aspx) code of the product, or the product to which the offer refers. This code is also known as EAN/UCC-8 or 8-digit EAN. See [GS1 GTIN Summary](http://www.gs1.org/barcodes/technical/idkeys/gtin) for more details.
-	 *
-	 * @property gtin8
-	 * @type Text
-	 */
-	public String gtin8;
+	public Person seller;
 	/**
 	 * Schema.org/deliveryLeadTime
 	 * The typical delay between the receipt of the order and the goods either leaving the warehouse or being prepared for pickup, in case the delivery method is on site pickup.
@@ -227,29 +187,13 @@ public class Demand extends Intangible {
 	 */
 	public QuantitativeValue deliveryLeadTime;
 	/**
-	 * Schema.org/eligibleQuantity
-	 * The interval and unit of measurement of ordering quantities for which the offer or price specification is valid. This allows e.g. specifying that a certain freight charge is valid only for a certain quantity.
+	 * Schema.org/availabilityEnds
+	 * The end of the availability of the product or service included in the offer.
 	 *
-	 * @property eligibleQuantity
-	 * @type QuantitativeValue
+	 * @property availabilityEnds
+	 * @type DateTime
 	 */
-	public QuantitativeValue eligibleQuantity;
-	/**
-	 * Schema.org/itemCondition
-	 * A predefined value from OfferItemCondition or a textual description of the condition of the product or service, or the products or services included in the offer.
-	 *
-	 * @property itemCondition
-	 * @type OfferItemCondition
-	 */
-	public OfferItemCondition itemCondition;
-	/**
-	 * Schema.org/eligibleRegion
-	 * The ISO 3166-1 (ISO 3166-1 alpha-2) or ISO 3166-2 code, the place, or the GeoShape for the geo-political region(s) for which the offer or delivery charge specification is valid.\n\nSee also [[ineligibleRegion]].
-	 *
-	 * @property eligibleRegion
-	 * @type schema, GeoShape | schema,Text | schema,Place
-	 */
-	public Object eligibleRegion;
+	public String availabilityEnds;
 	/**
 	 * Schema.org/eligibleCustomerType
 	 * The type(s) of customers for which the given offer is valid.
@@ -259,13 +203,69 @@ public class Demand extends Intangible {
 	 */
 	public BusinessEntityType eligibleCustomerType;
 	/**
-	 * Schema.org/availabilityEnds
-	 * The end of the availability of the product or service included in the offer.
+	 * Schema.org/itemCondition
+	 * A predefined value from OfferItemCondition or a textual description of the condition of the product or service, or the products or services included in the offer.
 	 *
-	 * @property availabilityEnds
-	 * @type DateTime
+	 * @property itemCondition
+	 * @type OfferItemCondition
 	 */
-	public String availabilityEnds;
+	public OfferItemCondition itemCondition;
+	/**
+	 * Schema.org/itemOffered
+	 * The item being offered.
+	 *
+	 * @property itemOffered
+	 * @type Service
+	 */
+	public Service itemOffered;
+	/**
+	 * Schema.org/eligibleDuration
+	 * The duration for which the given offer is valid.
+	 *
+	 * @property eligibleDuration
+	 * @type QuantitativeValue
+	 */
+	public QuantitativeValue eligibleDuration;
+	/**
+	 * Schema.org/acceptedPaymentMethod
+	 * The payment method(s) accepted by seller for this offer.
+	 *
+	 * @property acceptedPaymentMethod
+	 * @type LoanOrCredit
+	 */
+	public LoanOrCredit acceptedPaymentMethod;
+	/**
+	 * Schema.org/areaServed
+	 * The geographic area where a service or offered item is provided.
+	 *
+	 * @property areaServed
+	 * @type Place
+	 */
+	public Place areaServed;
+	/**
+	 * Schema.org/businessFunction
+	 * The business function (e.g. sell, lease, repair, dispose) of the offer or component of a bundle (TypeAndQuantityNode). The default is http://purl.org/goodrelations/v1#Sell.
+	 *
+	 * @property businessFunction
+	 * @type BusinessFunction
+	 */
+	public BusinessFunction businessFunction;
+	/**
+	 * Schema.org/eligibleRegion
+	 * The ISO 3166-1 (ISO 3166-1 alpha-2) or ISO 3166-2 code, the place, or the GeoShape for the geo-political region(s) for which the offer or delivery charge specification is valid.\n\nSee also [[ineligibleRegion]].
+	 *
+	 * @property eligibleRegion
+	 * @type Text
+	 */
+	public String eligibleRegion;
+	/**
+	 * Schema.org/advanceBookingRequirement
+	 * The amount of time that is required between accepting the offer and the actual usage of the resource or service.
+	 *
+	 * @property advanceBookingRequirement
+	 * @type QuantitativeValue
+	 */
+	public QuantitativeValue advanceBookingRequirement;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

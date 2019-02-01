@@ -15,9 +15,9 @@ public class EngineSpecification extends StructuredValue {
 	 * The type of fuel suitable for the engine or engines of the vehicle. If the vehicle has only one engine, this property can be attached directly to the vehicle.
 	 *
 	 * @property fuelType
-	 * @type schema, URL | schema,Text | schema,QualitativeValue
+	 * @type Text
 	 */
-	public Object fuelType;
+	public String fuelType;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

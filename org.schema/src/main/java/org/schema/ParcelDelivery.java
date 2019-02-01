@@ -11,21 +11,13 @@ package org.schema;
  */
 public class ParcelDelivery extends Intangible {
 	/**
-	 * Schema.org/partOfOrder
-	 * The overall order the items in this delivery were included in.
+	 * Schema.org/provider
+	 * The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.
 	 *
-	 * @property partOfOrder
-	 * @type Order
+	 * @property provider
+	 * @type Person
 	 */
-	public Order partOfOrder;
-	/**
-	 * Schema.org/expectedArrivalFrom
-	 * The earliest date the package may arrive.
-	 *
-	 * @property expectedArrivalFrom
-	 * @type DateTime
-	 */
-	public String expectedArrivalFrom;
+	public Person provider;
 	/**
 	 * Schema.org/trackingUrl
 	 * Tracking url for the parcel delivery.
@@ -35,22 +27,6 @@ public class ParcelDelivery extends Intangible {
 	 */
 	public String trackingUrl;
 	/**
-	 * Schema.org/originAddress
-	 * Shipper's address.
-	 *
-	 * @property originAddress
-	 * @type PostalAddress
-	 */
-	public PostalAddress originAddress;
-	/**
-	 * Schema.org/itemShipped
-	 * Item(s) being shipped.
-	 *
-	 * @property itemShipped
-	 * @type Product
-	 */
-	public Product itemShipped;
-	/**
 	 * Schema.org/deliveryAddress
 	 * Destination address.
 	 *
@@ -58,30 +34,6 @@ public class ParcelDelivery extends Intangible {
 	 * @type PostalAddress
 	 */
 	public PostalAddress deliveryAddress;
-	/**
-	 * Schema.org/deliveryStatus
-	 * New entry added as the package passes through each leg of its journey (from shipment to final delivery).
-	 *
-	 * @property deliveryStatus
-	 * @type DeliveryEvent
-	 */
-	public DeliveryEvent deliveryStatus;
-	/**
-	 * Schema.org/expectedArrivalUntil
-	 * The latest date the package may arrive.
-	 *
-	 * @property expectedArrivalUntil
-	 * @type DateTime
-	 */
-	public String expectedArrivalUntil;
-	/**
-	 * Schema.org/provider
-	 * The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.
-	 *
-	 * @property provider
-	 * @type schema, Organization | schema,Person
-	 */
-	public Object provider;
 	/**
 	 * Schema.org/trackingNumber
 	 * Shipper tracking number.
@@ -99,6 +51,14 @@ public class ParcelDelivery extends Intangible {
 	 */
 	public DeliveryMethod hasDeliveryMethod;
 	/**
+	 * Schema.org/deliveryStatus
+	 * New entry added as the package passes through each leg of its journey (from shipment to final delivery).
+	 *
+	 * @property deliveryStatus
+	 * @type DeliveryEvent
+	 */
+	public DeliveryEvent deliveryStatus;
+	/**
 	 * Schema.org/carrier
 	 * 'carrier' is an out-dated term indicating the 'provider' for parcel delivery and flights.
 	 *
@@ -106,6 +66,46 @@ public class ParcelDelivery extends Intangible {
 	 * @type Organization
 	 */
 	public Organization carrier;
+	/**
+	 * Schema.org/originAddress
+	 * Shipper's address.
+	 *
+	 * @property originAddress
+	 * @type PostalAddress
+	 */
+	public PostalAddress originAddress;
+	/**
+	 * Schema.org/itemShipped
+	 * Item(s) being shipped.
+	 *
+	 * @property itemShipped
+	 * @type Product
+	 */
+	public Product itemShipped;
+	/**
+	 * Schema.org/partOfOrder
+	 * The overall order the items in this delivery were included in.
+	 *
+	 * @property partOfOrder
+	 * @type Order
+	 */
+	public Order partOfOrder;
+	/**
+	 * Schema.org/expectedArrivalFrom
+	 * The earliest date the package may arrive.
+	 *
+	 * @property expectedArrivalFrom
+	 * @type DateTime
+	 */
+	public String expectedArrivalFrom;
+	/**
+	 * Schema.org/expectedArrivalUntil
+	 * The latest date the package may arrive.
+	 *
+	 * @property expectedArrivalUntil
+	 * @type DateTime
+	 */
+	public String expectedArrivalUntil;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

@@ -11,6 +11,22 @@ package org.schema;
  */
 public class ItemList extends Intangible {
 	/**
+	 * Schema.org/itemListElement
+	 * For itemListElement values, you can use simple strings (e.g. "Peter", "Paul", "Mary"), existing entities, or use ListItem.\n\nText values are best if the elements in the list are plain strings. Existing entities are best for a simple, unordered list of existing things in your data. ListItem is used with ordered lists when you want to provide additional context about the element in that list or when the same item might be in different places in different lists.\n\nNote: The order of elements in your mark-up is not sufficient for indicating the order or elements.  Use ListItem with a 'position' property in such cases.
+	 *
+	 * @property itemListElement
+	 * @type ListItem
+	 */
+	public ListItem itemListElement;
+	/**
+	 * Schema.org/itemListOrder
+	 * Type of ordering (e.g. Ascending, Descending, Unordered).
+	 *
+	 * @property itemListOrder
+	 * @type Text
+	 */
+	public String itemListOrder;
+	/**
 	 * Schema.org/numberOfItems
 	 * The number of items in an ItemList. Note that some descriptions might not fully describe all items in a list (e.g., multi-page pagination); in such cases, the numberOfItems would be for the entire list.
 	 *
@@ -18,22 +34,6 @@ public class ItemList extends Intangible {
 	 * @type Integer
 	 */
 	public Integer numberOfItems;
-	/**
-	 * Schema.org/itemListOrder
-	 * Type of ordering (e.g. Ascending, Descending, Unordered).
-	 *
-	 * @property itemListOrder
-	 * @type schema, ItemListOrderType | schema,Text
-	 */
-	public Object itemListOrder;
-	/**
-	 * Schema.org/itemListElement
-	 * For itemListElement values, you can use simple strings (e.g. "Peter", "Paul", "Mary"), existing entities, or use ListItem.\n\nText values are best if the elements in the list are plain strings. Existing entities are best for a simple, unordered list of existing things in your data. ListItem is used with ordered lists when you want to provide additional context about the element in that list or when the same item might be in different places in different lists.\n\nNote: The order of elements in your mark-up is not sufficient for indicating the order or elements.  Use ListItem with a 'position' property in such cases.
-	 *
-	 * @property itemListElement
-	 * @type schema, Text | schema,Thing | schema,ListItem
-	 */
-	public Object itemListElement;
 
 	/**
 	 * Constructor, automatically sets @context and @type.
