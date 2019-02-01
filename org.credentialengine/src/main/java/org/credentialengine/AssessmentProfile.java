@@ -122,6 +122,14 @@ public class AssessmentProfile extends org.schema.CreativeWork
 	public CredentialAlignmentObject assessmentUseType;
 
 	/**
+	 * http://purl.org/ctdl/terms/audienceType
+	 * The type of credential seeker for whom the entity is applicable; select from an existing enumeration of such types.
+	 * @property audienceType
+	 * @type CredentialAlignmentObject
+	 */
+	public CredentialAlignmentObject audienceType;
+
+	/**
 	 * http://purl.org/ctdl/terms/availabilityListing
 	 * Listing of online and/or physical locations where a credential can be pursued.
 	 * @property availabilityListing
@@ -254,7 +262,7 @@ public class AssessmentProfile extends org.schema.CreativeWork
 
 	/**
 	 * http://purl.org/ctdl/terms/description
-	 * Statememnt, characterization or account of the entity.
+	 * Statement, characterization or account of the entity.
 	 * @property description
 	 * @type langString
 	 */
@@ -305,9 +313,9 @@ public class AssessmentProfile extends org.schema.CreativeWork
 	 * Entity that describes financial assistance for which this credential, assessment, or learning opportunity qualifies.
 	 * Whether the financial aid in question is associated with a credential, an assessment, or a learning opportunity is dependent on context.
 	 * @property financialAssistance
-	 * @type FinancialAlignmentObject
+	 * @type FinancialAssistanceProfile
 	 */
-	public FinancialAlignmentObject financialAssistance;
+	public FinancialAssistanceProfile financialAssistance;
 
 	/**
 	 * http://purl.org/ctdl/terms/hasGroupEvaluation
@@ -327,8 +335,7 @@ public class AssessmentProfile extends org.schema.CreativeWork
 
 	/**
 	 * http://purl.org/ctdl/terms/inLanguage
-	 * Primary language of the credential, learning opportunity or assessment.
-	 * This is the primary language the entity, even if the it makes use of other languages. For example, a course that teaches Spanish to English-speaking students may primarily be in English, because that is the language used to convey the material.
+	 * The primary language or languages of the entity, even if it makes use of other languages; e.g., a course offered in English to teach Spanish would have an inLanguage of English, while a credential in Quebec could have an inLanguage of both French and English.
 	 * @property inLanguage
 	 * @type language
 	 */
@@ -577,6 +584,15 @@ public class AssessmentProfile extends org.schema.CreativeWork
 	 * @type Assessment | AssessmentProfile
 	 */
 	public Object targetAssessment;
+
+	/**
+	 * http://purl.org/ctdl/terms/targetLearningResource
+	 * Learning object or resource that is used as part of an learning activity.
+	 * Examples include a textbook or lesson plan that describes or records the educational activity (e.g. an audio- or video-recording of a lesson).
+	 * @property targetLearningResource
+	 * @type LearningResource
+	 */
+	public LearningResource targetLearningResource;
 
 	/**
 	 * http://purl.org/ctdl/terms/verificationMethodDescription

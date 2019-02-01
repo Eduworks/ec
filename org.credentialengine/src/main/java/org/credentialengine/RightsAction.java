@@ -42,7 +42,7 @@ public class RightsAction extends CredentialingAction
 
 	/**
 	 * http://purl.org/ctdl/terms/description
-	 * Statememnt, characterization or account of the entity.
+	 * Statement, characterization or account of the entity.
 	 * @property description
 	 * @type langString
 	 */

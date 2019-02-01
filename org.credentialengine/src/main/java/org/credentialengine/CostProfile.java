@@ -25,7 +25,7 @@ public class CostProfile extends org.schema.CreativeWork
 
 	/**
 	 * http://purl.org/ctdl/terms/audienceType
-	 * Type of credential seeker for whom the particular condition or cost is applicable; select from an existing enumeration of such types.
+	 * The type of credential seeker for whom the entity is applicable; select from an existing enumeration of such types.
 	 * @property audienceType
 	 * @type CredentialAlignmentObject
 	 */
@@ -57,7 +57,7 @@ public class CostProfile extends org.schema.CreativeWork
 
 	/**
 	 * http://purl.org/ctdl/terms/description
-	 * Statememnt, characterization or account of the entity.
+	 * Statement, characterization or account of the entity.
 	 * @property description
 	 * @type langString
 	 */

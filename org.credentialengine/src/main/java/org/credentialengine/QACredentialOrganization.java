@@ -98,7 +98,7 @@ public class QACredentialOrganization extends Agent
 
 	/**
 	 * http://purl.org/ctdl/terms/alternateName
-	 * Alias for a credential including acronyms, alpha-numeric notations, and other forms of name abbreviations in common use such as PhD, MA, and BA.
+	 * Alias for the entity including acronyms, alpha-numeric notations, and other forms of name abbreviations in common use such as PhD, MA, and BA.
 	 * @property alternateName
 	 * @type langString
 	 */
@@ -188,7 +188,7 @@ public class QACredentialOrganization extends Agent
 
 	/**
 	 * http://purl.org/ctdl/terms/description
-	 * Statememnt, characterization or account of the entity.
+	 * Statement, characterization or account of the entity.
 	 * @property description
 	 * @type langString
 	 */
@@ -308,6 +308,14 @@ public class QACredentialOrganization extends Agent
 	public String keyword;
 
 	/**
+	 * http://purl.org/ctdl/terms/leiCode
+	 * A 20-digit, alpha-numeric code, based on the ISO 17442 standard, for identifying legal entities participating in financial transactions.
+	 * @property leiCode
+	 * @type string
+	 */
+	public String leiCode;
+
+	/**
 	 * http://purl.org/ctdl/terms/maintenanceProcess
 	 * Entity describing the process by which the credential is maintained including review and updating.
 	 * Such maintenance does not include renewal of a credential by an individual holder.
@@ -367,7 +375,7 @@ public class QACredentialOrganization extends Agent
 
 	/**
 	 * http://purl.org/ctdl/terms/owns
-	 * Credential, learning opportunity or assesment over which the organization or person claims legal title.
+	 * Credential, learning opportunity or assessment over which the organization or person claims legal title.
 	 * Generally, the value of the property should be one of the subclasses of ceterms:Credential.
 	 * @property owns
 	 * @type ApprenticeshipCertificate | AssessmentProfile | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | LearningOpportunityProfile | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma

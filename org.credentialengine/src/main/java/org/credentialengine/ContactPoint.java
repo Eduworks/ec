@@ -23,14 +23,6 @@ public class ContactPoint extends EcRemoteLinkedData
 	}
 
 	/**
-	 * http://purl.org/ctdl/terms/contactOption
-	 * Option for a toll-free number or support for hearing-impaired callers.
-	 * @property contactOption
-	 * @type langString
-	 */
-	public String contactOption;
-
-	/**
 	 * http://purl.org/ctdl/terms/contactType
 	 * Text identifying the type of service provided by an organizational contact.
 	 * A person or organization may have different contact points for different services. The contact type property provides for adding text to identity the service; e.g., "toll-free number" or "support for hearing-impaired callers".

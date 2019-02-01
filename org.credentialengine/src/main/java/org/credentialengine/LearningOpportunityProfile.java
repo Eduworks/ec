@@ -5,8 +5,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
 
 /**
  * credentialengine.org/LearningOpportunityProfile
- * Entity describing a learning opportunity.
- * Educational opportunities include required and optional programs, courses of study, and other structured experiences intended to serve as educational or training events.
+ * Entity describing an educational or training opportunity.
+ * Opportunities include formal and informal educational training programs and classes, apprenticeship or work experience programs, or other structured or unstructured experiences that serve as educational or training activities.
  * @author credentialengine.org
  * @class LearningOpportunityProfile
  * @module org.credentialengine
@@ -63,6 +63,14 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	 * @type JurisdictionProfile
 	 */
 	public JurisdictionProfile approvedIn;
+
+	/**
+	 * http://purl.org/ctdl/terms/audienceType
+	 * The type of credential seeker for whom the entity is applicable; select from an existing enumeration of such types.
+	 * @property audienceType
+	 * @type CredentialAlignmentObject
+	 */
+	public CredentialAlignmentObject audienceType;
 
 	/**
 	 * http://purl.org/ctdl/terms/availabilityListing
@@ -197,7 +205,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 
 	/**
 	 * http://purl.org/ctdl/terms/description
-	 * Statememnt, characterization or account of the entity.
+	 * Statement, characterization or account of the entity.
 	 * @property description
 	 * @type langString
 	 */
@@ -232,9 +240,9 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 	 * Entity that describes financial assistance for which this credential, assessment, or learning opportunity qualifies.
 	 * Whether the financial aid in question is associated with a credential, an assessment, or a learning opportunity is dependent on context.
 	 * @property financialAssistance
-	 * @type FinancialAlignmentObject
+	 * @type FinancialAssistanceProfile
 	 */
-	public FinancialAlignmentObject financialAssistance;
+	public FinancialAssistanceProfile financialAssistance;
 
 	/**
 	 * http://purl.org/ctdl/terms/hasPart
@@ -247,8 +255,7 @@ public class LearningOpportunityProfile extends org.schema.CreativeWork
 
 	/**
 	 * http://purl.org/ctdl/terms/inLanguage
-	 * Primary language of the credential, learning opportunity or assessment.
-	 * This is the primary language the entity, even if the it makes use of other languages. For example, a course that teaches Spanish to English-speaking students may primarily be in English, because that is the language used to convey the material.
+	 * The primary language or languages of the entity, even if it makes use of other languages; e.g., a course offered in English to teach Spanish would have an inLanguage of English, while a credential in Quebec could have an inLanguage of both French and English.
 	 * @property inLanguage
 	 * @type language
 	 */

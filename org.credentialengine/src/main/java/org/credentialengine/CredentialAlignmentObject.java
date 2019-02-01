@@ -69,6 +69,7 @@ public class CredentialAlignmentObject extends org.schema.AlignmentObject
 	/**
 	 * http://purl.org/ctdl/terms/targetNode
 	 * Individual entry in a formally defined framework such as a competency or an industry, instructional program, or occupation code.
+	 * The target node returned must be the exact competency or concept being described and no other competency or concept. References to data or a document that returns all of the competencies or concepts in the framework to which the target node belongs should use the ceterms:framework property.
 	 * @property targetNode
 	 * @type anyURI
 	 */

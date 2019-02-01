@@ -1,5 +1,6 @@
 package org.credentialengine;
 
+import org.stjs.javascript.Date;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 
 /**
@@ -23,7 +24,7 @@ public class IdentifierValue extends EcRemoteLinkedData
 
 	/**
 	 * http://purl.org/ctdl/terms/description
-	 * Statememnt, characterization or account of the entity.
+	 * Statement, characterization or account of the entity.
 	 * @property description
 	 * @type langString
 	 */

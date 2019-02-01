@@ -59,7 +59,7 @@ public class Credential extends org.schema.CreativeWork
 
 	/**
 	 * http://purl.org/ctdl/terms/alternateName
-	 * Alias for a credential including acronyms, alpha-numeric notations, and other forms of name abbreviations in common use such as PhD, MA, and BA.
+	 * Alias for the entity including acronyms, alpha-numeric notations, and other forms of name abbreviations in common use such as PhD, MA, and BA.
 	 * @property alternateName
 	 * @type langString
 	 */
@@ -90,12 +90,29 @@ public class Credential extends org.schema.CreativeWork
 	public JurisdictionProfile approvedIn;
 
 	/**
+	 * http://purl.org/ctdl/terms/assessmentDeliveryType
+	 * Delivery type for the assessment for the credential.
+	 * Indicates the delivery type for the assessment for the credential.
+	 * @property assessmentDeliveryType
+	 * @type CredentialAlignmentObject
+	 */
+	public CredentialAlignmentObject assessmentDeliveryType;
+
+	/**
 	 * http://purl.org/ctdl/terms/audienceLevelType
 	 * Type of level indicating a point in a progression through an educational or training context, for which the credential is intended; select from an existing enumeration of such types.
 	 * @property audienceLevelType
 	 * @type CredentialAlignmentObject
 	 */
 	public CredentialAlignmentObject audienceLevelType;
+
+	/**
+	 * http://purl.org/ctdl/terms/audienceType
+	 * The type of credential seeker for whom the entity is applicable; select from an existing enumeration of such types.
+	 * @property audienceType
+	 * @type CredentialAlignmentObject
+	 */
+	public CredentialAlignmentObject audienceType;
 
 	/**
 	 * http://purl.org/ctdl/terms/availabilityListing
@@ -215,7 +232,7 @@ public class Credential extends org.schema.CreativeWork
 
 	/**
 	 * http://purl.org/ctdl/terms/description
-	 * Statememnt, characterization or account of the entity.
+	 * Statement, characterization or account of the entity.
 	 * @property description
 	 * @type langString
 	 */
@@ -274,9 +291,9 @@ public class Credential extends org.schema.CreativeWork
 	 * Entity that describes financial assistance for which this credential, assessment, or learning opportunity qualifies.
 	 * Whether the financial aid in question is associated with a credential, an assessment, or a learning opportunity is dependent on context.
 	 * @property financialAssistance
-	 * @type FinancialAlignmentObject
+	 * @type FinancialAssistanceProfile
 	 */
-	public FinancialAlignmentObject financialAssistance;
+	public FinancialAssistanceProfile financialAssistance;
 
 	/**
 	 * http://purl.org/ctdl/terms/hasPart
@@ -313,12 +330,19 @@ public class Credential extends org.schema.CreativeWork
 
 	/**
 	 * http://purl.org/ctdl/terms/inLanguage
-	 * Primary language of the credential, learning opportunity or assessment.
-	 * This is the primary language the entity, even if the it makes use of other languages. For example, a course that teaches Spanish to English-speaking students may primarily be in English, because that is the language used to convey the material.
+	 * The primary language or languages of the entity, even if it makes use of other languages; e.g., a course offered in English to teach Spanish would have an inLanguage of English, while a credential in Quebec could have an inLanguage of both French and English.
 	 * @property inLanguage
 	 * @type language
 	 */
 	public String inLanguage;
+
+	/**
+	 * http://purl.org/ctdl/terms/instructionalProgramType
+	 * Type of instructional program; select from an existing enumeration of such types.
+	 * @property instructionalProgramType
+	 * @type CredentialAlignmentObject
+	 */
+	public CredentialAlignmentObject instructionalProgramType;
 
 	/**
 	 * http://purl.org/ctdl/terms/isAdvancedStandingFor
@@ -384,6 +408,15 @@ public class Credential extends org.schema.CreativeWork
 	 * @type ApprenticeshipCertificate | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma
 	 */
 	public Object latestVersion;
+
+	/**
+	 * http://purl.org/ctdl/terms/learningDeliveryType
+	 * Delivery type for the learning opportunity for the credential.
+	 * Indicates the delivery type for the learning opportunity for the credential.
+	 * @property learningDeliveryType
+	 * @type CredentialAlignmentObject
+	 */
+	public CredentialAlignmentObject learningDeliveryType;
 
 	/**
 	 * http://purl.org/ctdl/terms/maintenanceProcess

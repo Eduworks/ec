@@ -58,7 +58,7 @@ public class CredentialPerson extends Agent
 
 	/**
 	 * http://purl.org/ctdl/terms/description
-	 * Statememnt, characterization or account of the entity.
+	 * Statement, characterization or account of the entity.
 	 * @property description
 	 * @type langString
 	 */
@@ -123,7 +123,7 @@ public class CredentialPerson extends Agent
 
 	/**
 	 * http://purl.org/ctdl/terms/owns
-	 * Credential, learning opportunity or assesment over which the organization or person claims legal title.
+	 * Credential, learning opportunity or assessment over which the organization or person claims legal title.
 	 * Generally, the value of the property should be one of the subclasses of ceterms:Credential.
 	 * @property owns
 	 * @type ApprenticeshipCertificate | AssessmentProfile | AssociateDegree | BachelorDegree | Badge | Certificate | Certification | Credential | Degree | DigitalBadge | Diploma | DoctoralDegree | GeneralEducationDevelopment | JourneymanCertificate | LearningOpportunityProfile | License | MasterCertificate | MasterDegree | MicroCredential | OpenBadge | ProfessionalDoctorate | QualityAssuranceCredential | ResearchDoctorate | SecondarySchoolDiploma

@@ -22,4 +22,12 @@ public class Agent extends EcRemoteLinkedData
 		super("http://schema.eduworks.com/simpleCtdl","Agent");
 	}
 
+	/**
+	 * http://purl.org/ctdl/terms/hasAlignmentMap
+	 * Alignment map owned by the agent.
+	 * @property hasAlignmentMap
+	 * @type AlignmentMap
+	 */
+	public AlignmentMap hasAlignmentMap;
+
 }

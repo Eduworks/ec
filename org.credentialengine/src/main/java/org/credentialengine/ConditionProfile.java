@@ -25,14 +25,6 @@ public class ConditionProfile extends org.schema.CreativeWork
 	}
 
 	/**
-	 * http://purl.org/ctdl/terms/additionalCondition
-	 * Additional state of affairs that must exist or be brought about before something else is permitted.
-	 * @property additionalCondition
-	 * @type ConditionProfile
-	 */
-	public ConditionProfile additionalCondition;
-
-	/**
 	 * http://purl.org/ctdl/terms/alternativeCondition
 	 * Constraints, prerequisites, entry conditions, or requirementst in a context where more than one alternative condition or path has been defined and from which any one path fulfills the parent condition.
 	 * A set of alternative conditions are not necessarily mutually exclusive paths; for example, a set of alternative concentrations for a degree may allow a person to optionally complete more than one concentration even though only one is required to earn the degree.
@@ -59,7 +51,7 @@ public class ConditionProfile extends org.schema.CreativeWork
 
 	/**
 	 * http://purl.org/ctdl/terms/audienceType
-	 * Type of credential seeker for whom the particular condition or cost is applicable; select from an existing enumeration of such types.
+	 * The type of credential seeker for whom the entity is applicable; select from an existing enumeration of such types.
 	 * @property audienceType
 	 * @type CredentialAlignmentObject
 	 */
@@ -131,7 +123,7 @@ public class ConditionProfile extends org.schema.CreativeWork
 
 	/**
 	 * http://purl.org/ctdl/terms/description
-	 * Statememnt, characterization or account of the entity.
+	 * Statement, characterization or account of the entity.
 	 * @property description
 	 * @type langString
 	 */
