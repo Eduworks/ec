@@ -12,7 +12,7 @@ public class FileReader {
 
 	}
 
-	public void readAsText(Object file) {
+	public void readAsText(Object file, String encoding) {
 
 	}
 }
