@@ -217,8 +217,7 @@ public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 	@Override
 	public void startLogin(String username, String password) {
 		if (!configured) {
-			Global.alert("Remote Identity not configured.");
-			return;
+			throw new RuntimeException("Remote Identity not configured.");
 		}
 
 		usernameWithSalt = util.encode64(pkcs5.pbkdf2(username, usernameSalt, usernameIterations, usernameWidth));
@@ -250,14 +249,12 @@ public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 	public boolean changePassword(String username, String oldPassword, String newPassword) {
 		String usernameHash = util.encode64(pkcs5.pbkdf2(username, usernameSalt, usernameIterations, usernameWidth));
 		if (usernameWithSalt != usernameHash) {
-			Global.alert("Username does not match. Aborting password change.");
-			return false;
+			throw new RuntimeException("Username does not match. Aborting password change.");
 		}
 
 		String oldPasswordHash = util.encode64(pkcs5.pbkdf2(oldPassword, passwordSalt, passwordIterations, passwordWidth));
 		if (passwordWithSalt != oldPasswordHash) {
-			Global.alert("Old password does not match. Aborting password change.");
-			return false;
+			throw new RuntimeException("Old password does not match. Aborting password change.");
 		}
 
 		passwordWithSalt = util.encode64(pkcs5.pbkdf2(newPassword, passwordSalt, passwordIterations, passwordWidth));
@@ -382,10 +379,9 @@ public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 	private void sendCredentials(final Callback1<String> success, final Callback1<String> failure,
 	                             final String service) {
 		if (!configured)
-			Global.alert("Remote Identity not configured.");
+			throw new RuntimeException("Remote Identity not configured.");
 		if (usernameWithSalt == null || passwordWithSalt == null || secretWithSalt == null) {
-			Global.alert("Please log in before performing this operation.");
-			return;
+			throw new RuntimeException("Please log in before performing this operation.");
 		}
 
 		Array<EbacCredential> credentials = new Array<EbacCredential>();
