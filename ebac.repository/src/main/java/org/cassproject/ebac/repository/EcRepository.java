@@ -120,8 +120,10 @@ public class EcRepository {
 					}
 					if (caching) {
 						JSObjectAdapter.$put(cache, finalUrl, d);
-						JSObjectAdapter.$put(cache, d.id, d);
-						JSObjectAdapter.$put(cache, d.shortId(), d);
+						if (d.id != null)
+							JSObjectAdapter.$put(cache, d.id, d);
+						//See eduworks/ec#1 - fray.
+						//JSObjectAdapter.$put(cache, d.shortId(), d);
 					}
 					success.$invoke(d);
 				}
@@ -154,8 +156,10 @@ public class EcRepository {
 							}
 							if (caching) {
 								JSObjectAdapter.$put(cache, finalUrl, d);
-								JSObjectAdapter.$put(cache, d.id, d);
-								JSObjectAdapter.$put(cache, d.shortId(), d);
+								if (d.id != null)
+									JSObjectAdapter.$put(cache, d.id, d);
+								//See eduworks/ec#1 - fray.
+								//JSObjectAdapter.$put(cache, d.shortId(), d);
 							}
 							success.$invoke(d);
 						}
@@ -222,6 +226,8 @@ public class EcRepository {
 							JSObjectAdapter.$properties(fetching).$delete(url);
 							if (caching) {
 								JSObjectAdapter.$put(cache, url, strings.$get(i));
+								if (strings.$get(i).id != null)
+									JSObjectAdapter.$put(cache, url, strings.$get(i).id);
 							}
 							success.$invoke(strings.$get(i));
 						}
@@ -257,6 +263,8 @@ public class EcRepository {
 					JSObjectAdapter.$properties(fetching).$delete(url);
 					if (caching) {
 						JSObjectAdapter.$put(cache, url, strings.$get(j));
+						if (strings.$get(j).id != null)
+							JSObjectAdapter.$put(cache, url, strings.$get(j).id);
 					}
 					return strings.$get(j);
 				}
@@ -311,11 +319,16 @@ public class EcRepository {
 					return;
 				}
 				JSObjectAdapter.$put(cache, originalUrl, d);
+				if (d.id != null)
+					JSObjectAdapter.$put(cache, d.id, d);
 			}
 		}, new Callback1<String>() {
 			@Override
 			public void $invoke(String s) {
-				JSObjectAdapter.$put(cache, originalUrl, EcRepository.findBlocking(originalUrl, s, new Object(), 0));
+				EcRemoteLinkedData d = EcRepository.findBlocking(originalUrl, s, new Object(), 0);
+				JSObjectAdapter.$put(cache, originalUrl, d);
+				if (d.id != null)
+					JSObjectAdapter.$put(cache, d.id, d);
 			}
 		});
 		EcRemote.async = oldAsync;
@@ -765,56 +778,39 @@ public class EcRepository {
 				@Override
 				public void $invoke() {
 					EcAsyncHelper<String> eah = new EcAsyncHelper();
-					eah.each(urls, new Callback2<String, Callback0>() {
-						@Override
-						public void $invoke(String url, final Callback0 done) {
-							EcRepository.get(url, new Callback1<EcRemoteLinkedData>() {
-								@Override
-								public void $invoke(EcRemoteLinkedData result) {
-									results.push(result);
-									done.$invoke();
-								}
-							}, new Callback1<String>() {
-								@Override
-								public void $invoke(String s) {
-									done.$invoke();
-								}
-							});
-						}
-					}, new Callback1<Array<String>>() {
-						@Override
-						public void $invoke(Array<String> urls) {
-							success.$invoke(results);
-						}
-					});
+					multigetInner(urls, success, results, eah);
 				}
 			});
 		else {
 			EcAsyncHelper<String> eah = new EcAsyncHelper();
-			eah.each(urls, new Callback2<String, Callback0>() {
-				@Override
-				public void $invoke(String url, final Callback0 done) {
-					EcRepository.get(url, new Callback1<EcRemoteLinkedData>() {
-						@Override
-						public void $invoke(EcRemoteLinkedData result) {
-							results.push(result);
-							done.$invoke();
-						}
-					}, new Callback1<String>() {
-						@Override
-						public void $invoke(String s) {
-							done.$invoke();
-						}
-					});
-				}
-			}, new Callback1<Array<String>>() {
-				@Override
-				public void $invoke(Array<String> urls) {
-					success.$invoke(results);
-				}
-			});
+			multigetInner(urls, success, results, eah);
 		}
 
+	}
+
+	private void multigetInner(Array<String> urls, final Callback1<Array<EcRemoteLinkedData>> success, final Array<EcRemoteLinkedData> results, EcAsyncHelper<String> eah) {
+		eah.each(urls, new Callback2<String, Callback0>() {
+			@Override
+			public void $invoke(String url, final Callback0 done) {
+				EcRepository.get(url, new Callback1<EcRemoteLinkedData>() {
+					@Override
+					public void $invoke(EcRemoteLinkedData result) {
+						results.push(result);
+						done.$invoke();
+					}
+				}, new Callback1<String>() {
+					@Override
+					public void $invoke(String s) {
+						done.$invoke();
+					}
+				});
+			}
+		}, new Callback1<Array<String>>() {
+			@Override
+			public void $invoke(Array<String> urls) {
+				success.$invoke(results);
+			}
+		});
 	}
 
 	/**
@@ -1276,13 +1272,12 @@ public class EcRepository {
 		if (Global.window != null) {
 			if (Global.window.location != null) {
 				servicePrefixes.push("/" + Global.window.location.pathname.split("/")[1] + "/api/");
-				servicePrefixes.push( "/" + Global.window.location.pathname.split("/")[1] + "/api/custom/");
+				servicePrefixes.push("/" + Global.window.location.pathname.split("/")[1] + "/api/custom/");
 			}
 		}
 
-		if (hostnames.$length() == 0)
-		{
-			hostnames.push("localhost","localhost:8080");
+		if (hostnames.$length() == 0) {
+			hostnames.push("localhost", "localhost:8080");
 		}
 
 		servicePrefixes.push("/");
