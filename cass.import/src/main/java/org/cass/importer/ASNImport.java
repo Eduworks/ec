@@ -256,15 +256,16 @@ public class ASNImport extends Importer {
 			else
 				comp.name = (String) JSObjectAdapter.$get(JSObjectAdapter.$get(JSObjectAdapter.$get(jsonComp, "http://purl.org/dc/elements/1.1/title"), "0"), "value");
 
-			comp.sameAs = key;
-
 			if (JSObjectAdapter.$get(jsonComp, "http://purl.org/dc/terms/description") != null)
 				comp.description = (String) JSObjectAdapter.$get(JSObjectAdapter.$get(JSObjectAdapter.$get(jsonComp, "http://purl.org/dc/terms/description"), "0"), "value");
 
-			if (repo == null || repo.selectedServer.indexOf(serverUrl) != -1)
-				comp.generateId(serverUrl);
-			else
-				comp.generateShortId(serverUrl);
+			comp.id = key;
+			if (comp.id == null) {
+				if (repo == null || repo.selectedServer.indexOf(serverUrl) != -1)
+					comp.generateId(serverUrl);
+				else
+					comp.generateShortId(serverUrl);
+			}
 
 			if (owner != null)
 				comp.addOwner(owner.ppk.toPk());
@@ -355,8 +356,8 @@ public class ASNImport extends Importer {
 				if (nodeId != null) {
 					EcAlignment relation = new EcAlignment();
 
-					relation.target = competencies.$get(nodeId).shortId();
-					relation.source = competencies.$get((String) JSObjectAdapter.$get(children.$get(j), "value")).shortId();
+					relation.target = competencies.$get(nodeId).id;
+					relation.source = competencies.$get((String) JSObjectAdapter.$get(children.$get(j), "value")).id;
 
 					relation.relationType = "narrows";
 					relation.name = "";
@@ -440,11 +441,13 @@ public class ASNImport extends Importer {
 
 		importedFramework.description = (String) JSObjectAdapter.$get(JSObjectAdapter.$get(JSObjectAdapter.$get(jsonFramework, "http://purl.org/dc/terms/description"), "0"), "value");
 
-		if (repo == null || repo.selectedServer.indexOf(serverUrl) != -1)
-			importedFramework.generateId(serverUrl);
-		else
-			importedFramework.generateShortId(serverUrl);
-		importedFramework.sameAs = frameworkUrl;
+		importedFramework.id = frameworkUrl;
+		if (importedFramework.id == null) {
+			if (repo == null || repo.selectedServer.indexOf(serverUrl) != -1)
+				importedFramework.generateId(serverUrl);
+			else
+				importedFramework.generateShortId(serverUrl);
+		}
 
 		if (owner != null)
 			importedFramework.addOwner(owner.ppk.toPk());
