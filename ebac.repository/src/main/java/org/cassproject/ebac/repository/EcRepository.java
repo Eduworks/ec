@@ -111,21 +111,7 @@ public class EcRepository {
 			EcRemote.getExpectingObject(finalUrl, null, new Callback1<Object>() {
 				@Override
 				public void $invoke(Object p1) {
-					JSObjectAdapter.$properties(fetching).$delete(originalUrl);
-					EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
-					d.copyFrom(p1);
-					if (d.getFullType() == null) {
-						EcRepository.find(originalUrl, Global.JSON.stringify(p1), new Object(), 0, success, failure);
-						return;
-					}
-					if (caching) {
-						JSObjectAdapter.$put(cache, finalUrl, d);
-						if (d.id != null)
-							JSObjectAdapter.$put(cache, d.id, d);
-						//See eduworks/ec#1 - fray.
-						//JSObjectAdapter.$put(cache, d.shortId(), d);
-					}
-					success.$invoke(d);
+					getHandleData(p1, originalUrl, success, failure, finalUrl);
 				}
 			}, new Callback1<String>() {
 
@@ -147,21 +133,7 @@ public class EcRepository {
 					EcRemote.postExpectingObject(finalUrl, null, fd, new Callback1<Object>() {
 						@Override
 						public void $invoke(Object p1) {
-							JSObjectAdapter.$properties(fetching).$delete(originalUrl);
-							EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
-							d.copyFrom(p1);
-							if (d.getFullType() == null) {
-								EcRepository.find(originalUrl, Global.JSON.stringify(p1), new Object(), 0, success, failure);
-								return;
-							}
-							if (caching) {
-								JSObjectAdapter.$put(cache, finalUrl, d);
-								if (d.id != null)
-									JSObjectAdapter.$put(cache, d.id, d);
-								//See eduworks/ec#1 - fray.
-								//JSObjectAdapter.$put(cache, d.shortId(), d);
-							}
-							success.$invoke(d);
+							getHandleData(p1, originalUrl, success, failure, finalUrl);
 						}
 					}, new Callback1<String>() {
 
@@ -172,6 +144,24 @@ public class EcRepository {
 					});
 				}
 			}, failure);
+	}
+
+	private static void getHandleData(Object p1, String originalUrl, Callback1<EcRemoteLinkedData> success, Callback1<String> failure, String finalUrl) {
+		JSObjectAdapter.$properties(fetching).$delete(originalUrl);
+		EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
+		d.copyFrom(p1);
+		if (d.getFullType() == null) {
+			EcRepository.find(originalUrl, Global.JSON.stringify(p1), new Object(), 0, success, failure);
+			return;
+		}
+		if (caching) {
+			JSObjectAdapter.$put(cache, finalUrl, d);
+			if (d.id != null)
+				JSObjectAdapter.$put(cache, d.id, d);
+			//See eduworks/ec#1 - fray.
+			//JSObjectAdapter.$put(cache, d.shortId(), d);
+		}
+		success.$invoke(d);
 	}
 
 	private static boolean shouldTryUrl(String url) {
