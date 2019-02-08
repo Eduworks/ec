@@ -498,15 +498,15 @@ public class EcRepository {
 		if (EcRemote.async == false) {
 			String signatureSheet;
 			if (data.owner != null && data.owner.$length() > 0) {
-				signatureSheet = EcIdentityManager.signatureSheetFor(data.owner, 60000+repo.timeOffset, data.id);
+				signatureSheet = EcIdentityManager.signatureSheetFor(data.owner, 60000+(repo == null ? 0 : repo.timeOffset), data.id);
 			} else {
-				signatureSheet = EcIdentityManager.signatureSheet(60000+repo.timeOffset, data.id);
+				signatureSheet = EcIdentityManager.signatureSheet(60000+(repo == null ? 0 : repo.timeOffset), data.id);
 			}
 			afterSignatureSheet.$invoke(signatureSheet);
 		} else if (data.owner != null && data.owner.$length() > 0) {
-			EcIdentityManager.signatureSheetForAsync(data.owner, 60000+repo.timeOffset, data.id, afterSignatureSheet, failure);
+			EcIdentityManager.signatureSheetForAsync(data.owner, 60000+(repo == null ? 0 : repo.timeOffset), data.id, afterSignatureSheet, failure);
 		} else {
-			EcIdentityManager.signatureSheetAsync(60000+repo.timeOffset, data.id, afterSignatureSheet, failure);
+			EcIdentityManager.signatureSheetAsync(60000+(repo == null ? 0 : repo.timeOffset), data.id, afterSignatureSheet, failure);
 		}
 
 	}
