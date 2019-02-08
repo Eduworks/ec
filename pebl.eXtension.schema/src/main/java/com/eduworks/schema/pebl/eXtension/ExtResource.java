@@ -6,6 +6,7 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.schema.Organization;
 import org.schema.Person;
 import org.schema.CreativeWork;
+import org.schema.Product;
 import org.stjs.javascript.*;
 import org.stjs.javascript.functions.Callback1;
 
@@ -28,7 +29,7 @@ public class ExtResource extends CreativeWork {
 		context = "http://schema.eduworks.com/pebleXtension/0.1/";
 		type = "Resource";
 	}
- 
+
 	/**
 	 * Retrieves the resource specified with the ID from the server
 	 *
@@ -45,39 +46,39 @@ public class ExtResource extends CreativeWork {
 	 */
 	public static void get(String id, final Callback1<ExtResource> success, final Callback1<String> failure) {
 		EcRepository.get(id, new Callback1<EcRemoteLinkedData>() {
-			@Override
-			public void $invoke(EcRemoteLinkedData p1) {
-				if (p1 instanceof ExtResource)
-					if (success != null) {
-						success.$invoke((ExtResource) p1);
-						return;
-					}
+                                @Override
+                                public void $invoke(EcRemoteLinkedData p1) {
+                                        if (p1 instanceof ExtResource)
+                                                if (success != null) {
+                                                        success.$invoke((ExtResource) p1);
+                                                        return;
+                                                }
 
-				ExtResource resource = new ExtResource();
+                                        ExtResource resource = new ExtResource();
 
-				if (p1.isA(EcEncryptedValue.myType)) {
-					EcEncryptedValue encrypted = new EcEncryptedValue();
-					encrypted.copyFrom(p1);
-					p1 = encrypted.decryptIntoObject();
-				}
-				if (p1.isAny(resource.getTypes())) {
-					resource.copyFrom(p1);
-					if (EcRepository.caching) {
-						JSObjectAdapter.$put(EcRepository.cache, resource.shortId(), resource);
-						JSObjectAdapter.$put(EcRepository.cache, resource.id, resource);
-					}
-					if (success != null)
-						success.$invoke(resource);
-				} else {
-					String msg = "Resultant object is not a resource.";
-					if (failure != null)
-						failure.$invoke(msg);
-					else
-						Global.console.error(msg);
-				}
+                                        if (p1.isA(EcEncryptedValue.myType)) {
+                                                EcEncryptedValue encrypted = new EcEncryptedValue();
+                                                encrypted.copyFrom(p1);
+                                                p1 = encrypted.decryptIntoObject();
+                                        }
+                                        if (p1.isAny(resource.getTypes())) {
+                                                resource.copyFrom(p1);
+                                                if (EcRepository.caching) {
+                                                        JSObjectAdapter.$put(EcRepository.cache, resource.shortId(), resource);
+                                                        JSObjectAdapter.$put(EcRepository.cache, resource.id, resource);
+                                                }
+                                                if (success != null)
+                                                        success.$invoke(resource);
+                                        } else {
+                                                String msg = "Resultant object is not a resource.";
+                                                if (failure != null)
+                                                        failure.$invoke(msg);
+                                                else
+                                                        Global.console.error(msg);
+                                        }
 
-			}
-		}, failure);
+                                }
+                        }, failure);
 	}
 
 	/**
@@ -145,39 +146,39 @@ public class ExtResource extends CreativeWork {
 		if (query == null || query == "")
 			query = queryAdd;
 		else
-//			query = "(" + query + ") AND educationalUse:\""+edUse+"\" AND " + queryAdd;
+                        //			query = "(" + query + ") AND educationalUse:\""+edUse+"\" AND " + queryAdd;
 			query = "(" + query + ") AND " + queryAdd;
 
 		repo.searchWithParams(query, paramObj, null, new Callback1<Array<EcRemoteLinkedData>>() {
 
-			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1) {
-				if (success != null) {
-					Array<ExtResource> ret = JSCollections.$array();
-					for (int i = 0; i < p1.$length(); i++) {
-						ExtResource resource = new ExtResource();
-//						if(p1.$get(i).isAny(resource.getTypes())){
-						resource.copyFrom(p1.$get(i));
-//						}
-//						else if(p1.$get(i).isA(EcEncryptedValue.myType)){
-//							EcEncryptedValue val = new EcEncryptedValue();
-//							val.copyFrom(p1.$get(i));
-//							if(val.isAnEncrypted(ExtResource.myType)){
-//								EcRemoteLinkedData obj = val.decryptIntoObject();
-//								resource.copyFrom(obj);
-//							}
-//						}
+                                @Override
+                                public void $invoke(Array<EcRemoteLinkedData> p1) {
+                                        if (success != null) {
+                                                Array<ExtResource> ret = JSCollections.$array();
+                                                for (int i = 0; i < p1.$length(); i++) {
+                                                        ExtResource resource = new ExtResource();
+                                                        //						if(p1.$get(i).isAny(resource.getTypes())){
+                                                        resource.copyFrom(p1.$get(i));
+                                                        //						}
+                                                        //						else if(p1.$get(i).isA(EcEncryptedValue.myType)){
+                                                        //							EcEncryptedValue val = new EcEncryptedValue();
+                                                        //							val.copyFrom(p1.$get(i));
+                                                        //							if(val.isAnEncrypted(ExtResource.myType)){
+                                                        //								EcRemoteLinkedData obj = val.decryptIntoObject();
+                                                        //								resource.copyFrom(obj);
+                                                        //							}
+                                                        //						}
 
-						ret.$set(i, resource);
-					}
+                                                        ret.$set(i, resource);
+                                                }
 
-					success.$invoke(ret);
-				}
-			}
+                                                success.$invoke(ret);
+                                        }
+                                }
 
-		}, failure);
+                        }, failure);
 	}
-	
+
 	/**
 	 * Saves this resource on the server corresponding to its ID
 	 *
@@ -311,7 +312,7 @@ public class ExtResource extends CreativeWork {
 	public void setTitle(String title) {
 		this.name = title;
 	}
-	
+
 	/**
 	 * Returns the description of the resource
 	 *
@@ -331,7 +332,7 @@ public class ExtResource extends CreativeWork {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	/**
 	 * Returns the text of the resource
 	 *
@@ -391,7 +392,7 @@ public class ExtResource extends CreativeWork {
 	public void setAdditionalType(String name) {
 		this.additionalType = name;
 	}
-	
+
 	/**
 	 * Returns the keywords of the resource
 	 *
@@ -415,11 +416,11 @@ public class ExtResource extends CreativeWork {
 	/**
 	 * Returns the institution of the resource
 	 *
-	 * @return {Organization}
+	 * @return {Person}
 	 * publisher of resource
 	 */
-	public Organization getInstitution() {
-		return (Organization) publisher;
+	public Person getInstitution() {
+		return publisher;
 	}
 
 	/**
@@ -428,10 +429,10 @@ public class ExtResource extends CreativeWork {
 	 * @param {Organization} institution
 	 *                       institution of the resource
 	 */
-	public void setInstitution(Organization institution) {
+	public void setInstitution(Person institution) {
 		this.publisher = institution;
 	}
-	
+
 	/**
 	 * Returns the community of the resource
 	 *
@@ -473,25 +474,25 @@ public class ExtResource extends CreativeWork {
 	}
 
 	/**
-     *  Returns the resource's authoring URL
-     * 
-     *  @return {String}
-     *  authoring url of resource
-     */
-	public String getAuthoringURL() {
-        return (String) isBasedOn;
-    }
-	
-    /**
-     *  Sets the authoring URL of the resource
-     * 
-     *  @param {String} page
-     *                  Authoring url of the resource
-     */
-	public void setAuthoringURL(String page) {
-        this.isBasedOn = page;
-    }
-    
+         *  Returns the resource's authoring URL
+         *
+         *  @return {Product}
+         *  authoring url of resource
+         */
+	public Product getAuthoringURL() {
+                return isBasedOn;
+        }
+
+        /**
+         *  Sets the authoring URL of the resource
+         *
+         *  @param {String} page
+         *                  Authoring url of the resource
+         */
+	public void setAuthoringURL(Product page) {
+                this.isBasedOn = page;
+        }
+
 	/**
 	 * Returns the resource object URL
 	 *

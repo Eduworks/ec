@@ -873,6 +873,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 	 * @method addReaderAsync
 	 */
 	public void addReaderAsync(final EcPk newReader, final Callback0 success, final Callback1<String> failure) {
+		final EcEncryptedValue me = this;
 		decryptSecretAsync(new Callback1<EbacEncryptedSecret>() {
 			@Override
 			public void $invoke(EbacEncryptedSecret payloadSecret) {
@@ -880,17 +881,18 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 					@Override
 					public void $invoke(String s) {
 						String pem = newReader.toPem();
-						if (reader == null) {
-							reader = new Array<String>();
+						if (me.reader == null) {
+							me.reader = new Array<String>();
 						}
-						for (int i = 0; i < reader.$length(); i++) {
-							if (reader.$get(i) == pem) {
+						for (int i = 0; i < me.reader.$length(); i++) {
+							if (me.reader.$get(i) == pem) {
+								success.$invoke();
 								return;
 							}
 						}
-						EcArray.setAdd(reader, pem);
+						EcArray.setAdd(me.reader, pem);
 
-						EcArray.setAdd(secret, s);
+						EcArray.setAdd(me.secret, s);
 						success.$invoke();
 					}
 				},failure);
@@ -917,12 +919,12 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 					EcArray.setRemove(me.reader, pem);
 				}
 				Array<EcPk> ary = new Array<>();
-				if (owner != null)
-					for (int i = 0;i < owner.$length();i++)
-						EcArray.setAdd(ary, EcPk.fromPem(owner.$get(i)));
-				if (reader != null)
-					for (int i = 0;i < reader.$length();i++)
-						EcArray.setAdd(ary, EcPk.fromPem(reader.$get(i)));
+				if (me.owner != null)
+					for (int i = 0;i < me.owner.$length();i++)
+						EcArray.setAdd(ary, EcPk.fromPem(me.owner.$get(i)));
+				if (me.reader != null)
+					for (int i = 0;i < me.reader.$length();i++)
+						EcArray.setAdd(ary, EcPk.fromPem(me.reader.$get(i)));
 				me.secret = new Array<>();
 				EcAsyncHelper<EcPk> eah = new EcAsyncHelper<>();
 				eah.each(ary, new Callback2<EcPk, Callback0>() {

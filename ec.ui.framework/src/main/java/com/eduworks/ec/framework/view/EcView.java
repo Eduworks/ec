@@ -75,8 +75,6 @@ public abstract class EcView {
 		return true;
 	}
 
-	;
-
 	/***
 	 * Display this alert on the view.
 	 *

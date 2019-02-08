@@ -248,7 +248,7 @@ public class ExtContent extends CreativeWork {
 	public void _delete(Callback1<String> success, Callback1<String> failure) {
 		EcRepository.DELETE(this, success, failure);
 	}
-	
+
 	/**
 	 * Returns the ID of the content
 	 *
@@ -327,7 +327,7 @@ public class ExtContent extends CreativeWork {
 	public void setTitle(String title) {
 		this.name = title;
 	}
-	
+
 	/**
 	 * Returns the description of the content
 	 *
@@ -347,7 +347,7 @@ public class ExtContent extends CreativeWork {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	/**
 	 * Returns the genre/category of the content
 	 *
@@ -374,8 +374,8 @@ public class ExtContent extends CreativeWork {
 	 * @return {Organization}
 	 * publisher of content
 	 */
-	public Organization getInstitution() {
-		return (Organization) publisher;
+	public Person getInstitution() {
+		return publisher;
 	}
 
 	/**
@@ -384,7 +384,7 @@ public class ExtContent extends CreativeWork {
 	 * @param {Organization} institution
 	 *                       institution of the content
 	 */
-	public void setInstitution(Organization institution) {
+	public void setInstitution(Person institution) {
 		this.publisher = institution;
 	}
 

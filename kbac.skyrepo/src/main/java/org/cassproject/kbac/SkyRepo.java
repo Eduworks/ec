@@ -8,10 +8,7 @@ import com.eduworks.ec.crypto.EcRsaOaep;
 import com.eduworks.schema.ebac.EbacEncryptedValue;
 import com.eduworks.schema.ebac.EbacSignature;
 import org.cassproject.schema.general.EcRemoteLinkedData;
-import org.stjs.javascript.Array;
-import org.stjs.javascript.Global;
-import org.stjs.javascript.JSFunctionAdapter;
-import org.stjs.javascript.JSObjectAdapter;
+import org.stjs.javascript.*;
 import org.stjs.javascript.annotation.GlobalScope;
 import org.stjs.javascript.functions.*;
 
@@ -971,7 +968,18 @@ public class SkyRepo {
 		return array;
 	}
 
+	public static Function0 pingWithTime = new Function0(){
+		@Override
+		public Object $invoke() {
+			Object o = new Object();
+			JSObjectAdapter.$put(o,"ping","pong");
+			JSObjectAdapter.$put(o,"time",new Date().getTime());
+			return Global.JSON.stringify(o);
+		}
+	};
+
 	static {
+		levr.bindWebService("/ping", pingWithTime);
 		levr.bindWebService("/data", endpointData);
 		levr.bindWebService("/sky/repo/search", skyRepoSearch);
 		levr.bindWebService("/sky/repo/multiGet", endpointMultiGet);

@@ -138,7 +138,7 @@ public class MedbiqImport extends Importer {
 			}
 		};
 
-		reader.readAsText(file);
+		reader.readAsText(file, "UTF-8");
 	}
 
 	/**
