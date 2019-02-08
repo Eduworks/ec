@@ -624,7 +624,7 @@ public class EcRepository {
 					@Override
 					public void $invoke(String signatureSheet) {
 						if (signatureSheet.length() == 2 && me.adminKeys != null) {
-							EcIdentityManager.signatureSheetForAsync(me.adminKeys, 60000+timeOffset, data.id, new Callback1<String>() {
+							EcIdentityManager.signatureSheetForAsync(me.adminKeys, 60000+me.timeOffset, data.id, new Callback1<String>() {
 								@Override
 								public void $invoke(String signatureSheet) {
 									EcRemote._delete(targetUrl, signatureSheet, success, failure);
@@ -635,9 +635,9 @@ public class EcRepository {
 					}
 				}, failure);
 			} else {
-				String signatureSheet = EcIdentityManager.signatureSheetFor(data.owner, 60000+timeOffset, data.id);
+				String signatureSheet = EcIdentityManager.signatureSheetFor(data.owner, 60000+me.timeOffset, data.id);
 				if (signatureSheet.length() == 2 && me.adminKeys != null) {
-					signatureSheet = EcIdentityManager.signatureSheetFor(me.adminKeys, 60000+timeOffset, data.id);
+					signatureSheet = EcIdentityManager.signatureSheetFor(me.adminKeys, 60000+me.timeOffset, data.id);
 					EcRemote._delete(targetUrl, signatureSheet, success, failure);
 				} else
 					EcRemote._delete(targetUrl, signatureSheet, success, failure);
@@ -764,12 +764,13 @@ public class EcRepository {
 		}
 
 		final Array<EcRemoteLinkedData> results = new Array<>();
+		final EcRepository me = this;
 		if (EcRepository.caching)
 			precache(urls, new Callback0() {
 				@Override
 				public void $invoke() {
 					EcAsyncHelper<String> eah = new EcAsyncHelper();
-					multigetInner(urls, success, results, eah);
+					me.multigetInner(urls, success, results, eah);
 				}
 			});
 		else {
@@ -1305,7 +1306,7 @@ public class EcRepository {
 				if (p1 != null) {
 					if (JSObjectAdapter.$get(p1, "ping") == "pong") {
 						if (JSObjectAdapter.$get(p1, "time") != null)
-							timeOffset = ((Long)(Object)new Date().getTime())-((Long)(Object)JSObjectAdapter.$get(p1, "time"));
+							me.timeOffset = ((Long)(Object)new Date().getTime())-((Long)(Object)JSObjectAdapter.$get(p1, "time"));
 						if (me.autoDetectFound == false) {
 							me.selectedServer = guess;
 							me.autoDetectFound = true;
@@ -1363,7 +1364,7 @@ public class EcRepository {
 				if (p1 != null) {
 					if (JSObjectAdapter.$get(p1, "ping") == "pong") {
 						if (JSObjectAdapter.$get(p1, "time") != null)
-							timeOffset = ((Long)(Object)new Date().getTime())-((Long)(Object)JSObjectAdapter.$get(p1, "time"));
+							me.timeOffset = ((Long)(Object)new Date().getTime())-((Long)(Object)JSObjectAdapter.$get(p1, "time"));
 						me.selectedServer = guess;
 						me.autoDetectFound = true;
 					}
