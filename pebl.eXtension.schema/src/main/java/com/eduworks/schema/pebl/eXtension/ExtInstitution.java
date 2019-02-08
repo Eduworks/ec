@@ -257,7 +257,7 @@ public class ExtInstitution extends Organization {
 	public void _delete(Callback1<String> success, Callback1<String> failure) {
 		EcRepository.DELETE(this, success, failure);
 	}
-	
+
 	/**
 	 * Returns the ID of the Institution
 	 *
@@ -514,7 +514,7 @@ public class ExtInstitution extends Organization {
 	 * @param {String} region
 	 *                 region of the Institution
 	 */
-	public void setRegion(String region) {
+	public void setRegion(Place region) {
 		this.areaServed = region;
 	}
 
@@ -563,20 +563,20 @@ public class ExtInstitution extends Organization {
 	/**
 	 * Returns the administrative POC of the Institution
 	 *
-	 * @return {Person}
+	 * @return {Organization}
 	 * administrative poc of institution
 	 */
-	public Person getAdminPOC() {
-		return (Person) member;
+	public Organization getAdminPOC() {
+		return member;
 	}
 
 	/**
 	 * Sets administrative POC for the Institution
 	 *
-	 * @param {Person} poc
+	 * @param {Organization} poc
 	 *                 administrativePOC at the Institution
 	 */
-	public void setAdminPOC(Person poc) {
+	public void setAdminPOC(Organization poc) {
 		this.member = poc;
 	}
 
@@ -649,8 +649,11 @@ public class ExtInstitution extends Organization {
 					(addrCityState != null && addrCityState != "") || (addrZip != null && addrZip != ""))
 				poc.address = addr;
 			// Global.console.log(JSGlobal.JSON.stringify(poc));
-			if (type.equals(EMPLOYEE_TYPE_ADMINISTRATOR))
-				setAdminPOC(poc);
+			if (type.equals(EMPLOYEE_TYPE_ADMINISTRATOR)) {
+                                Organization o = new Organization();
+                                o.employee = poc;
+				setAdminPOC(o);
+                        }
 			else if (type.equals(EMPLOYEE_TYPE_ASSISTANT))
 				setAssistantPOC(poc);
 		} else if (type.equals(EMPLOYEE_TYPE_IT)) {
