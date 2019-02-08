@@ -60,6 +60,7 @@ public class CSVImport {
 
 		Papa.parse(file, new PapaParseParams() {
 			{
+				encoding = "UTF-8";
 				complete = new Callback1<Object>() {
 					@Override
 					public void $invoke(Object results) {
@@ -154,6 +155,7 @@ public class CSVImport {
 		final Array<EcCompetency> competencies = JSCollections.$array();
 		Papa.parse(file, new PapaParseParams() {
 			{
+				encoding = "UTF-8";
 				complete = new Callback1<Object>() {
 					@Override
 					public void $invoke(Object results) {
@@ -332,6 +334,7 @@ public class CSVImport {
 
 		Papa.parse(file, new PapaParseParams() {
 			{
+				encoding = "UTF-8";
 				complete = new Callback1<Object>() {
 					@Override
 					public void $invoke(Object results) {
@@ -485,6 +488,7 @@ public class CSVImport {
 
 		Papa.parse(file, new PapaParseParams() {
 			{
+				encoding = "UTF-8";
 				complete = new Callback1<Object>() {
 					@Override
 					public void $invoke(Object results) {

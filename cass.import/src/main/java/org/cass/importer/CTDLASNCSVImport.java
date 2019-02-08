@@ -33,6 +33,7 @@ public class CTDLASNCSVImport {
 
 		Papa.parse(file, new PapaParseParams() {
 			{
+				encoding = "UTF-8";
 				complete = new Callback1<Object>() {
 					@Override
 					public void $invoke(Object results) {
@@ -89,6 +90,7 @@ public class CTDLASNCSVImport {
 		Papa.parse(file, new PapaParseParams() {
 			{
 				header = true;
+				encoding = "UTF-8";
 				complete = new Callback1<Object>() {
 					@Override
 					public void $invoke(Object results) {

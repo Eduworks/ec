@@ -162,7 +162,7 @@ public class ASNImport extends Importer {
 			}
 		};
 
-		reader.readAsText(file);
+		reader.readAsText(file, "UTF-8");
 	}
 
 	/**
