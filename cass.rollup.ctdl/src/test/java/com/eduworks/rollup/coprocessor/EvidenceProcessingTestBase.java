@@ -17,10 +17,7 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.credentialengine.Credential;
 import org.junit.Assert;
 import org.junit.Before;
-import org.schema.AchieveAction;
-import org.schema.AlignmentObject;
-import org.schema.CreativeWork;
-import org.schema.Thing;
+import org.schema.*;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Date;
 import org.stjs.javascript.Global;
@@ -147,9 +144,8 @@ public class EvidenceProcessingTestBase {
 		AchieveAction action = new AchieveAction();
 		action.addOwner(EcIdentityManager.ids.$get(0).ppk.toPk());
 		action.object = (Thing) (Object) credential.shortId();
-		action.agent = (String) (Object) EcIdentityManager.ids.$get(0).ppk.toPk().toPem();
+		action.agent = (Person) (Object) EcIdentityManager.ids.$get(0).ppk.toPk().toPem();
 		action.generateId(repo.selectedServer);
-
 		repo.save(action, null, failure);
 		return action;
 	}
