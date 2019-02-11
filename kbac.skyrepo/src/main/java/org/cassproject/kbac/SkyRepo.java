@@ -68,7 +68,7 @@ public class SkyRepo {
 			Array sigSheet = null;
 
 			//Check cache.
-			sigSheet = (Array)ctx.get("signatureSheet");
+			sigSheet = (Array) ctx.get("signatureSheet");
 			if (sigSheet != null) return sigSheet;
 			sigSheet = new Array();
 
@@ -116,7 +116,7 @@ public class SkyRepo {
 				sigSheet.$set(i, signature);
 			}
 
-			ctx.put( "signatureSheet", sigSheet);
+			ctx.put("signatureSheet", sigSheet);
 			return sigSheet;
 		}
 	};
@@ -152,8 +152,8 @@ public class SkyRepo {
 				}
 				return ary;
 			} else if (EcObject.isObject(o)) {
-				EcRemoteLinkedData rld = new EcRemoteLinkedData((String)JSObjectAdapter.$get(o,"@context"), (String)JSObjectAdapter.$get(o,"@type"));
-				rld.reader = (Array<String>)JSObjectAdapter.$get(o,"@reader");
+				EcRemoteLinkedData rld = new EcRemoteLinkedData((String) JSObjectAdapter.$get(o, "@context"), (String) JSObjectAdapter.$get(o, "@type"));
+				rld.reader = (Array<String>) JSObjectAdapter.$get(o, "@reader");
 				if ((rld.reader != null && rld.reader.$length() != 0) || isEncryptedType(rld)) {
 					Array<EbacSignature> signatures = JSFunctionAdapter.call(signatureSheet, this);
 					boolean foundSignature = false;
@@ -574,12 +574,12 @@ public class SkyRepo {
 		}
 	};
 
-	private static Callback4<String, String, String, String> validateSignatures = new Callback4<String, String, String, String>() {
+	private static Function4<String, String, String, String, EcRemoteLinkedData> validateSignatures = new Function4<String, String, String, String, EcRemoteLinkedData>() {
 		@Override
-		public void $invoke(String id, String version, String type, String errorMessage) {
+		public EcRemoteLinkedData $invoke(String id, String version, String type, String errorMessage) {
 			Object oldGet = JSFunctionAdapter.call(skyrepoGetParsed, this, id, version, type, null);
 			if (oldGet == null)
-				return;
+				return null;
 
 			EcRemoteLinkedData oldObj = new EcRemoteLinkedData(null, null);
 			oldObj.copyFrom(oldGet);
@@ -597,6 +597,7 @@ public class SkyRepo {
 				if (!success)
 					levr.error(errorMessage, 401);
 			}
+			return oldObj;
 		}
 	};
 
@@ -610,12 +611,13 @@ public class SkyRepo {
 		return levr.httpDelete(url);
 	}
 
-	public static Callback3<String, String, String> skyrepoDelete = new Callback3<String, String, String>() {
+	public static Function3<String, String, String, EcRemoteLinkedData> skyrepoDelete = new Function3<String, String, String, EcRemoteLinkedData>() {
 		@Override
-		public void $invoke(String id, String version, String type) {
-			JSFunctionAdapter.call(validateSignatures, this, id, version, type, "Only an owner of an object may delete it.");
+		public EcRemoteLinkedData $invoke(String id, String version, String type) {
+			EcRemoteLinkedData oldObj = JSFunctionAdapter.call((Object) validateSignatures, this, id, version, type, "Only an owner of an object may delete it.");
 			skyrepoDeleteInternalIndex(id, version, type);
 			skyrepoDeleteInternalPermanent(id, version, type);
+			return oldObj;
 		}
 	};
 
@@ -813,8 +815,10 @@ public class SkyRepo {
 			String type = (String) JSObjectAdapter.$get(parseParams, "type");
 			String version = (String) JSObjectAdapter.$get(parseParams, "version");
 			if (methodType == "DELETE") {
-				JSFunctionAdapter.call(skyrepoDelete, this, id, version, type);
-				JSFunctionAdapter.call(levr.afterSave, this);
+				EcRemoteLinkedData oldObj = (EcRemoteLinkedData) JSFunctionAdapter.call((Object) skyrepoDelete, this, id, version, type);
+				Object cast = new Object();
+				JSObjectAdapter.$put(cast, "obj", oldObj.toJson());
+				JSFunctionAdapter.call(levr.afterSave, this, cast);
 				return null;
 			} else if (methodType == "POST") {
 				Object o = Global.JSON.parse(levr.fileToString(JSFunctionAdapter.call(levr.fileFromDatastream, this, "data", null)));
@@ -850,23 +854,22 @@ public class SkyRepo {
 			Object lookup = new Object();
 			Object mget = new Object();
 			Array docs = new Array();
-			JSObjectAdapter.$put(mget,"docs",docs);
-			for (int i = 0;i < ary.$length();i++)
-			{
+			JSObjectAdapter.$put(mget, "docs", docs);
+			for (int i = 0; i < ary.$length(); i++) {
 				String urlRemainder = (String) ary.$get(i);
 				Object parseParams = JSFunctionAdapter.call(queryParse, this, urlRemainder, null);
 				String id = (String) JSObjectAdapter.$get(parseParams, "id");
-				JSObjectAdapter.$put(lookup,id,urlRemainder);
+				JSObjectAdapter.$put(lookup, id, urlRemainder);
 				String type = (String) JSObjectAdapter.$get(parseParams, "type");
 				String version = (String) JSObjectAdapter.$get(parseParams, "version");
 				Object p = new Object();
-				JSObjectAdapter.$put(p,"_index","permanent");
-				JSObjectAdapter.$put(p,"_type","permanent");
-				JSObjectAdapter.$put(p,"_id",id+"."+(version == null ? "" : version));
+				JSObjectAdapter.$put(p, "_index", "permanent");
+				JSObjectAdapter.$put(p, "_type", "permanent");
+				JSObjectAdapter.$put(p, "_id", id + "." + (version == null ? "" : version));
 				docs.push(p);
 			}
 			Object response = levr.httpPost(mget, elasticEndpoint + "/_mget", "application/json", false);
-			Array resultDocs = (Array)JSObjectAdapter.$get(response,"docs");
+			Array resultDocs = (Array) JSObjectAdapter.$get(response, "docs");
 			Array results = new Array();
 			if (resultDocs != null) {
 				for (int i = 0; i < resultDocs.$length(); i++) {
@@ -879,11 +882,11 @@ public class SkyRepo {
 			}
 			JSFunctionAdapter.call(filterResults, this, results, null);
 			ary = EcObject.keys(lookup);
-			for (int i = 0;i < ary.$length();i++)
-				ary.$set(i,JSObjectAdapter.$get(lookup,(String)ary.$get(i)));
+			for (int i = 0; i < ary.$length(); i++)
+				ary.$set(i, JSObjectAdapter.$get(lookup, (String) ary.$get(i)));
 			if (ary != null) {
 				Array forEachResults = JSFunctionAdapter.call((Array) levr.forEach, this, ary, "obj", null, LevrResolverServlet.resolvableFunctions.get("endpointSingleGet"), true, true, false, true, false);
-				for (int i = 0;i < forEachResults.$length();i++)
+				for (int i = 0; i < forEachResults.$length(); i++)
 					results.push(forEachResults.$get(i));
 			}
 			return Global.JSON.stringify(results);
@@ -968,12 +971,12 @@ public class SkyRepo {
 		return array;
 	}
 
-	public static Function0 pingWithTime = new Function0(){
+	public static Function0 pingWithTime = new Function0() {
 		@Override
 		public Object $invoke() {
 			Object o = new Object();
-			JSObjectAdapter.$put(o,"ping","pong");
-			JSObjectAdapter.$put(o,"time",new Date().getTime());
+			JSObjectAdapter.$put(o, "ping", "pong");
+			JSObjectAdapter.$put(o, "time", new Date().getTime());
 			return Global.JSON.stringify(o);
 		}
 	};
