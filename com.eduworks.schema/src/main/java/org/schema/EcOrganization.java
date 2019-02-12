@@ -7,6 +7,7 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSObjectAdapter;
+import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback1;
 
 public class EcOrganization extends Organization {
@@ -90,6 +91,35 @@ public class EcOrganization extends Organization {
                 ary.splice(i, 1);
             }
         }
+    }
+
+    /**
+     * Moves all Person type Member to Employee
+     *
+     * @method movePersonMembersToEmployee
+     */
+    private void movePersonMembersToEmployee() {
+        if (member == null) return;
+        if (employee == null) JSObjectAdapter.$put(this, "employee", new Array<String>());
+        if (!EcArray.isArray(employee) || !EcArray.isArray(member)) return;
+        Array<String> membAry = (Array<String>) (Object) member;
+        Array<String> empAry = (Array<String>) (Object) member;
+        Map<String, Object> me = JSObjectAdapter.$properties(this);
+        for (int i = 0; i < membAry.$length(); i++) {
+            String id = membAry.$get(i);
+            if (id.toLowerCase().indexOf("person") > -1) {
+                if (empAry.indexOf(id) <= -1) {
+                    empAry.push(id);
+                }
+                membAry.splice(i, 1);
+            }
+        }
+    }
+
+    @Override
+    protected void upgrade() {
+        super.upgrade();
+        movePersonMembersToEmployee();
     }
 
     /**
