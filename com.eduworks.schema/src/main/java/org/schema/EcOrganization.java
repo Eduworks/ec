@@ -59,15 +59,15 @@ public class EcOrganization extends Organization {
     }
 
     /**
-     * Adds the given person's id to the member list
+     * Adds the given person's id to the employee list
      *
-     * @param {EcPerson}          person Person to add to the Organization's member list
-     * @method addMember
+     * @param {EcPerson}          person Person to add to the Organization's employee list
+     * @method addEmployee
      */
-    public void addMember(EcPerson person) {
-        if (member == null) JSObjectAdapter.$put(this, "member", new Array<String>());
-        if (!EcArray.isArray(member)) throw new RuntimeException("Member is not Array");
-        Array<String> ary = (Array<String>) (Object) member;
+    public void addEmployee(EcPerson person) {
+        if (employee == null) JSObjectAdapter.$put(this, "employee", new Array<String>());
+        if (!EcArray.isArray(employee)) throw new RuntimeException("Employee is not Array");
+        Array<String> ary = (Array<String>) (Object) employee;
         String psid = person.shortId();
         for (int i=0;i<ary.$length();i++) {
             if (ary.$get(i) == psid) return;
@@ -76,15 +76,15 @@ public class EcOrganization extends Organization {
     }
 
     /**
-     * Removes the person id from the member list
+     * Removes the person id from the employee list
      *
-     * @param {String}          id Person id to be removed from Organization's member list
-     * @method removeMemberById
+     * @param {String}          id Person id to be removed from Organization's employee list
+     * @method removeEmployeeById
      */
-    public void removeMemberById(String id) {
-        if (member == null) return;
-        if (!EcArray.isArray(member))throw new RuntimeException("Member is not Array");
-        Array<String> ary = (Array<String>) (Object) member;
+    public void removeEmployeeById(String id) {
+        if (employee == null) return;
+        if (!EcArray.isArray(employee))throw new RuntimeException("Employee is not Array");
+        Array<String> ary = (Array<String>) (Object) employee;
         for (int i = 0; i < ary.$length(); i++) {
             if (EcRemoteLinkedData.trimVersionFromUrl(ary.$get(i)) == EcRemoteLinkedData.trimVersionFromUrl(id)) {
                 ary.splice(i, 1);
