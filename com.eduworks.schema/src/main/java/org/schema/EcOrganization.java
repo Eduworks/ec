@@ -103,7 +103,7 @@ public class EcOrganization extends Organization {
         if (employee == null) JSObjectAdapter.$put(this, "employee", new Array<String>());
         if (!EcArray.isArray(employee) || !EcArray.isArray(member)) return;
         Array<String> membAry = (Array<String>) (Object) member;
-        Array<String> empAry = (Array<String>) (Object) member;
+        Array<String> empAry = (Array<String>) (Object) employee;
         Map<String, Object> me = JSObjectAdapter.$properties(this);
         for (int i = 0; i < membAry.$length(); i++) {
             String id = membAry.$get(i);
