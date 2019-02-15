@@ -5,7 +5,7 @@
 
     <groupId>com.eduworks</groupId>
     <artifactId>ec</artifactId>
-    <version>SNAPSHOT</version>
+    <version>2.7.0</version>
     <packaging>pom</packaging>
 
     <name>Eduworks Controller</name>
