@@ -711,7 +711,8 @@ public class SkyRepo {
 				Object searchResult = hits.$get(i);
 				String type = inferTypeFromObj(JSObjectAdapter.$get(searchResult, "_source"), null);
 				String id = (String) JSObjectAdapter.$get(searchResult, "_id");
-				String version = (String) JSObjectAdapter.$get(searchResult, "_version");
+				//Do not use version as stored in the database. We always want the latest version of the object. (String) JSObjectAdapter.$get(searchResult, "_version");
+				String version = "";
 				String hit = "data/";
 				if (type != null)
 					hit += type + "/";
