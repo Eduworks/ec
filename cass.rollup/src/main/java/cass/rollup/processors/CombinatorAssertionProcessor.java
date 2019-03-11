@@ -206,6 +206,7 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor {
 			if (ep.context != null && ep.context.relation != null)
 				for (int i = 0; i < ep.context.relation.$length(); i++) {
 					EcAlignment a = EcAlignment.getBlocking(ep.context.relation.$get(i));
+					if (a == null) continue;
 					if (JSObjectAdapter.$get(relationLookup, a.source) == null)
 						JSObjectAdapter.$put(relationLookup, a.source, new Array<EcAlignment>());
 					((Array<EcAlignment>) JSObjectAdapter.$get(relationLookup, a.source)).push(a);
