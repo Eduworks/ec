@@ -310,16 +310,20 @@ public class EcRepository {
 					return;
 				}
 				JSObjectAdapter.$put(cache, originalUrl, d);
-				if (d.id != null)
-					JSObjectAdapter.$put(cache, d.id, d);
+				if (d != null) {
+					if (d.id != null)
+						JSObjectAdapter.$put(cache, d.id, d);
+				}
 			}
 		}, new Callback1<String>() {
 			@Override
 			public void $invoke(String s) {
 				EcRemoteLinkedData d = EcRepository.findBlocking(originalUrl, s, new Object(), 0);
-				JSObjectAdapter.$put(cache, originalUrl, d);
-				if (d.id != null)
-					JSObjectAdapter.$put(cache, d.id, d);
+					JSObjectAdapter.$put(cache, originalUrl, d);
+				if (d != null) {
+					if (d.id != null)
+						JSObjectAdapter.$put(cache, d.id, d);
+				}
 			}
 		});
 		EcRemote.async = oldAsync;
