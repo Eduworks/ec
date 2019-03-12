@@ -3,15 +3,26 @@ package org.w3.skos;
 import org.cassproject.ebac.repository.EcEncryptedValue;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
-import org.stjs.javascript.Array;
-import org.stjs.javascript.Global;
-import org.stjs.javascript.JSCollections;
+import org.stjs.javascript.*;
 import org.stjs.javascript.functions.Callback1;
 
 /**
  * Created by fray on 11/29/17.
  */
 public class EcConceptScheme extends ConceptScheme {
+
+	public static Object template;
+
+	public EcConceptScheme() {
+		Map<String, Object> me = JSObjectAdapter.$properties(this);
+		if (template != null) {
+			Map<String, Object> you = JSObjectAdapter.$properties(template);
+			for (String key : you) {
+				if (JSGlobal.typeof(you.$get(key)) != "function")
+					me.$put(key.replace("@", ""), you.$get(key));
+			}
+		}
+	}
 	/**
 	 * Retrieves a concept scheme from the server, specified by the ID
 	 *
