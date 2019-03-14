@@ -19,7 +19,6 @@ import org.stjs.javascript.functions.Callback2;
 
 public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment> {
 
-	EcFramework framework;
 	private Map<String, Object> metaVerticies;
 	private Map<String, Object> metaEdges;
 
@@ -28,9 +27,8 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
 		metaEdges = (Map)new Object();
 	}
 
-	public void addFramework(EcFramework framework, EcRepository repo, final Callback0 success, Callback1<String> failure) {
+	public void addFramework(final EcFramework framework, EcRepository repo, final Callback0 success, Callback1<String> failure) {
 		final EcFrameworkGraph me = this;
-		this.framework = framework;
 		repo.multiget(framework.competency.concat(framework.relation), new Callback1<Array<EcRemoteLinkedData>>() {
 			@Override
 			public void $invoke(Array<EcRemoteLinkedData> data) {
@@ -38,10 +36,16 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
 				EcAlignment alignmentTemplate = new EcAlignment();
 				for (int i = 0; i < data.$length(); i++) {
 					EcRemoteLinkedData d = data.$get(i);
-					if (d.isAny(competencyTemplate.getTypes()))
-						me.addCompetency(EcCompetency.getBlocking(d.id));
-					else if (d.isAny(alignmentTemplate.getTypes()))
-						me.addRelation(EcAlignment.getBlocking(d.id));
+					if (d.isAny(competencyTemplate.getTypes())) {
+						EcCompetency c = EcCompetency.getBlocking(d.id);
+						me.addCompetency(c);
+						me.addToMetaStateArray(me.getMetaStateCompetency(c),"framework",framework);
+					}
+					else if (d.isAny(alignmentTemplate.getTypes())) {
+						EcAlignment alignment = EcAlignment.getBlocking(d.id);
+						me.addRelation(alignment);
+						me.addToMetaStateArray(me.getMetaStateAlignment(alignment),"framework",framework);
+					}
 				}
 				success.$invoke();
 			}
@@ -158,10 +162,10 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
 		}
 	}
 
-	private void addToMetaStateArray(Object metaState, String positiveAssertion, EcAssertion a) {
-		if (JSObjectAdapter.$get(metaState,positiveAssertion) == null)
-			JSObjectAdapter.$put(metaState,positiveAssertion,new Array());
-		((Array)JSObjectAdapter.$get(metaState,positiveAssertion)).push(a);
+	private void addToMetaStateArray(Object metaState, String key, Object value) {
+		if (JSObjectAdapter.$get(metaState,key) == null)
+			JSObjectAdapter.$put(metaState,key,new Array());
+		((Array)JSObjectAdapter.$get(metaState,key)).push(value);
 	}
 
 	public Object getMetaStateCompetency(EcCompetency c) {
@@ -171,7 +175,7 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
 		return metaVerticies.$get(c.shortId());
 	}
 
-	public Object getMetaStateEdge(EcAlignment a) {
+	public Object getMetaStateAlignment(EcAlignment a) {
 		if (containsEdge(a) == false) return null;
 		if (metaEdges.$get(a.shortId()) == null)
 			metaEdges.$put(a.shortId(), new Object());
