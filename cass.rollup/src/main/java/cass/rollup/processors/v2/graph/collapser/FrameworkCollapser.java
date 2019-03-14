@@ -152,14 +152,7 @@ public class FrameworkCollapser {
 							fc.continueFrameworkCollapse(rlda);
 						}
 					},
-					fc.failureCallback,
-					new Callback1<Array<EcRemoteLinkedData>>() {
-						@SuppressWarnings("unchecked")
-						@Override
-						public void $invoke(Array<EcRemoteLinkedData> rlda) {
-							fc.continueFrameworkCollapse(rlda);
-						}
-					}
+					fc.failureCallback
 			);
 		}
 	}

@@ -61,6 +61,16 @@ public class EcAsyncHelper<T> {
 		});
 	}
 
+	public Callback1<String> failWithCallback(final Callback1<String> failure, final Callback0 callback){
+		return new Callback1<String>() {
+			@Override
+			public void $invoke(String s) {
+				callback.$invoke();
+				failure.$invoke(s);
+			}
+		};
+	}
+
 	/**
 	 * Will prevent 'after' from being called.
 	 *
