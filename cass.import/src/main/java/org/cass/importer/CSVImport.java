@@ -88,17 +88,10 @@ public class CSVImport {
 	 * @static
 	 */
 	private static void transformId(String oldId, EcRemoteLinkedData newObject, String selectedServer,EcRepository repo) {
-		if (oldId == null || oldId == "" || oldId.indexOf("http") == -1)
+		if (oldId == null || oldId == "" || oldId.toLowerCase().indexOf("http") == -1)
 			newObject.assignId(selectedServer, oldId);
 		else {
-			if (EcCompetency.getBlocking(oldId) == null)
-				newObject.id = oldId;
-			else {
-				if (repo == null || repo.selectedServer.indexOf(selectedServer) != -1)
-					newObject.generateId(selectedServer);
-				else
-					newObject.generateShortId(selectedServer);
-			}
+			newObject.id = oldId;
 		}
 	}
 
@@ -213,6 +206,7 @@ public class CSVImport {
 								if (JSObjectAdapter.$get(importCsvLookup, tabularData.$get(i).$get(idIndex)) == null)
 									JSObjectAdapter.$put(importCsvLookup, tabularData.$get(i).$get(idIndex), competency.shortId());
 							}
+							JSObjectAdapter.$put(importCsvLookup, competency.getName(), competency.shortId());
 
 							// Copy extraneous fields in CSV 
 							for (int idx = 0; idx < tabularData.$get(i).$length(); idx++) {
