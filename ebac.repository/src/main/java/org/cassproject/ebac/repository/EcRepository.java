@@ -759,7 +759,7 @@ public class EcRepository {
 	 * @memberOf EcRepository
 	 * @method multiget
 	 */
-	public void multiget(final Array<String> urls, final Callback1<Array<EcRemoteLinkedData>> success, final Callback1<String> failure, final Callback1<Array<EcRemoteLinkedData>> cachedValues) {
+	public void multiget(final Array<String> urls, final Callback1<Array<EcRemoteLinkedData>> success, final Callback1<String> failure) {
 		if (urls == null || urls.$length() == 0) {
 			if (failure != null) {
 				failure.$invoke("");

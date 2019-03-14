@@ -14,8 +14,13 @@ import org.stjs.javascript.Array;
  * @extends Graph
  */
 public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
-	Array<Triple<V, V, E>> edges;
-	Array<V> verticies;
+	Array<Triple<V, V, E>> edges = null;
+	Array<V> verticies = null;
+
+	public EcDirectedGraph(){
+		edges = new Array<>();
+		verticies = new Array<>();
+	}
 
 	@Override
 	public Array<E> getEdges() {
@@ -36,7 +41,7 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 	@Override
 	public boolean containsVertex(V vertex) {
 		for (int i = 0; i < verticies.$length(); i++)
-			if (vertex == verticies.$get(i))
+			if (vertex.equals(verticies.$get(i)))
 				return true;
 		return false;
 	}
@@ -44,7 +49,7 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 	@Override
 	public boolean containsEdge(E edge) {
 		for (int i = 0; i < edges.$length(); i++)
-			if (edge == edges.$get(i).edge)
+			if (edge.equals(edges.$get(i).edge))
 				return true;
 		return false;
 	}
@@ -63,9 +68,9 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 	public Array<V> getNeighbors(V vertex) {
 		Array<V> results = new Array<>();
 		for (int i = 0; i < edges.$length(); i++) {
-			if (vertex == edges.$get(i).source)
+			if (vertex.equals(edges.$get(i).source))
 				results.push(edges.$get(i).destination);
-			else if (vertex == edges.$get(i).destination)
+			else if (vertex.equals(edges.$get(i).destination))
 				results.push(edges.$get(i).source);
 		}
 		EcArray.removeDuplicates(results);
@@ -76,9 +81,9 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 	public Array<E> getIncidentEdges(V vertex) {
 		Array<E> results = new Array<>();
 		for (int i = 0; i < edges.$length(); i++) {
-			if (vertex == edges.$get(i).source)
+			if (vertex.equals(edges.$get(i).source))
 				results.push(edges.$get(i).edge);
-			else if (vertex == edges.$get(i).destination)
+			else if (vertex.equals(edges.$get(i).destination))
 				results.push(edges.$get(i).edge);
 		}
 		EcArray.removeDuplicates(results);
@@ -89,7 +94,7 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 	public Array<V> getIncidentVertices(E edge) {
 		Array<V> results = new Array<>();
 		for (int i = 0; i < edges.$length(); i++) {
-			if (edge == edges.$get(i).edge) {
+			if (edge.equals(edges.$get(i).edge)) {
 				results.push(edges.$get(i).source);
 				results.push(edges.$get(i).destination);
 			}
@@ -101,9 +106,9 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 	@Override
 	public E findEdge(V v1, V v2) {
 		for (int i = 0; i < edges.$length(); i++) {
-			if (v1 == edges.$get(i).source && v2 == edges.$get(i).destination)
+			if (v1.equals(edges.$get(i).source) && v2.equals(edges.$get(i).destination))
 				return edges.$get(i).edge;
-			if (v1 == edges.$get(i).destination && v2 == edges.$get(i).source)
+			if (v1.equals(edges.$get(i).destination) && v2.equals(edges.$get(i).source))
 				return edges.$get(i).edge;
 		}
 		return null;
@@ -113,9 +118,9 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 	public Array<E> findEdgeSet(V v1, V v2) {
 		Array<E> results = new Array<>();
 		for (int i = 0; i < edges.$length(); i++) {
-			if (v1 == edges.$get(i).source && v2 == edges.$get(i).destination)
+			if (v1.equals(edges.$get(i).source) && v2.equals(edges.$get(i).destination))
 				results.push(edges.$get(i).edge);
-			if (v1 == edges.$get(i).destination && v2 == edges.$get(i).source)
+			if (v1.equals(edges.$get(i).destination) && v2.equals(edges.$get(i).source))
 				results.push(edges.$get(i).edge);
 		}
 		return results;
@@ -123,7 +128,7 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 
 	@Override
 	public boolean addVertex(V vertex) {
-		if (verticies.indexOf(vertex) != -1)
+		if (EcArray.has(verticies,vertex))
 			return false;
 		verticies.push(vertex);
 		return true;
@@ -131,10 +136,10 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 
 	@Override
 	public boolean removeVertex(V vertex) {
-		int indexOf = verticies.indexOf(vertex);
+		int indexOf = EcArray.indexOf(verticies,vertex);
 		if (indexOf != -1) {
 			for (int i = 0; i < edges.$length(); i++) {
-				if (edges.$get(i).source == vertex || edges.$get(i).destination == vertex) {
+				if (edges.$get(i).source.equals(vertex) || edges.$get(i).destination.equals(vertex)) {
 					edges.splice(i, 1);
 					i--;
 				}
@@ -149,7 +154,7 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 	public boolean removeEdge(E edge) {
 		boolean success = false;
 		for (int i = 0; i < edges.$length(); i++) {
-			if (edges.$get(i).edge==edge) {
+			if (edges.$get(i).edge.equals(edge)) {
 				edges.splice(i, 1);
 				i--;
 				success = true;
@@ -161,9 +166,9 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 	@Override
 	public boolean isNeighbor(V v1, V v2) {
 		for (int i = 0; i < edges.$length(); i++) {
-			if (v1==edges.$get(i).source && v2==edges.$get(i).destination)
+			if (v1.equals(edges.$get(i).source) && v2.equals(edges.$get(i).destination))
 				return true;
-			else if (v1==edges.$get(i).destination && v2==edges.$get(i).source)
+			else if (v1.equals(edges.$get(i).destination) && v2.equals(edges.$get(i).source))
 				return true;
 		}
 		return false;
@@ -172,7 +177,7 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 	@Override
 	public boolean isIncident(V vertex, E edge) {
 		for (int i = 0; i < edges.$length(); i++) {
-			if ((vertex==edges.$get(i).source || vertex==edges.$get(i).destination) && edge==edges.$get(i).edge)
+			if ((vertex.equals(edges.$get(i).source) || vertex.equals(edges.$get(i).destination)) && edge.equals(edges.$get(i).edge))
 				return true;
 		}
 		return false;
@@ -182,7 +187,7 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 	public int degree(V vertex) {
 		int count = 0;
 		for (int i = 0; i < edges.$length(); i++) {
-			if (vertex==edges.$get(i).source || vertex==edges.$get(i).destination)
+			if (vertex.equals(edges.$get(i).source) || vertex.equals(edges.$get(i).destination))
 				count++;
 		}
 		return count;
@@ -223,7 +228,7 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 	public Array<E> getInEdges(V vertex) {
 		Array<E> results = new Array<>();
 		for (int i = 0; i < edges.$length(); i++) {
-			if (vertex==edges.$get(i).destination)
+			if (vertex.equals(edges.$get(i).destination))
 				results.push(edges.$get(i).edge);
 		}
 		EcArray.removeDuplicates(results);
@@ -234,7 +239,7 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 	public Array<E> getOutEdges(V vertex) {
 		Array<E> results = new Array<>();
 		for (int i = 0; i < edges.$length(); i++) {
-			if (vertex==edges.$get(i).source)
+			if (vertex.equals(edges.$get(i).source))
 				results.push(edges.$get(i).edge);
 		}
 		EcArray.removeDuplicates(results);
@@ -254,7 +259,7 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 	@Override
 	public V getSource(E directed_edge) {
 		for (int i = 0; i < edges.$length(); i++) {
-			if (directed_edge==edges.$get(i).edge)
+			if (directed_edge.equals(edges.$get(i).edge))
 				return edges.$get(i).source;
 		}
 		return null;
@@ -263,7 +268,7 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 	@Override
 	public V getDest(E directed_edge) {
 		for (int i = 0; i < edges.$length(); i++) {
-			if (directed_edge==edges.$get(i).edge)
+			if (directed_edge.equals(edges.$get(i).edge))
 				return edges.$get(i).destination;
 		}
 		return null;
@@ -273,7 +278,7 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 	public Array<V> getPredecessors(V vertex) {
 		Array<V> results = new Array<>();
 		for (int i = 0; i < edges.$length(); i++) {
-			if (vertex==edges.$get(i).destination)
+			if (vertex.equals(edges.$get(i).destination))
 				results.push(edges.$get(i).source);
 		}
 		EcArray.removeDuplicates(results);
@@ -284,7 +289,7 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 	public Array<V> getSuccessors(V vertex) {
 		Array<V> results = new Array<>();
 		for (int i = 0; i < edges.$length(); i++) {
-			if (vertex==edges.$get(i).source)
+			if (vertex.equals(edges.$get(i).source))
 				results.push(edges.$get(i).destination);
 		}
 		EcArray.removeDuplicates(results);
@@ -294,8 +299,8 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 	@Override
 	public boolean isPredecessor(V v1, V v2) {
 		for (int i = 0; i < edges.$length(); i++) {
-			if (v1==edges.$get(i).destination)
-				if (v2==edges.$get(i).source)
+			if (v1.equals(edges.$get(i).destination))
+				if (v2.equals(edges.$get(i).source))
 					return true;
 		}
 		return false;
@@ -304,8 +309,8 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 	@Override
 	public boolean isSuccessor(V v1, V v2) {
 		for (int i = 0; i < edges.$length(); i++) {
-			if (v2==edges.$get(i).destination)
-				if (v1==edges.$get(i).source)
+			if (v2.equals(edges.$get(i).destination))
+				if (v1.equals(edges.$get(i).source))
 					return true;
 		}
 		return false;
@@ -324,8 +329,8 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 	@Override
 	public boolean isSource(V vertex, E edge) {
 		for (int i = 0; i < edges.$length(); i++) {
-			if (edge==edges.$get(i).edge)
-				if (vertex==edges.$get(i).source)
+			if (edge.equals(edges.$get(i).edge))
+				if (vertex.equals(edges.$get(i).source))
 					return true;
 		}
 		return false;
@@ -334,8 +339,8 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 	@Override
 	public boolean isDest(V vertex, E edge) {
 		for (int i = 0; i < edges.$length(); i++) {
-			if (edge==edges.$get(i).edge)
-				if (vertex==edges.$get(i).destination)
+			if (edge.equals(edges.$get(i).edge))
+				if (vertex.equals(edges.$get(i).destination))
 					return true;
 		}
 		return false;
@@ -351,7 +356,7 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 		t.destination = v2;
 		t.edge = e;
 
-		if (edges.indexOf(t) != -1)
+		if (EcArray.has(edges,t))
 			return false;
 
 		edges.push(t);
@@ -361,10 +366,10 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 	@Override
 	public V getOpposite(V vertex, E edge) {
 		for (int i = 0; i < edges.$length(); i++) {
-			if (edge==edges.$get(i).edge)
-				if (vertex==edges.$get(i).destination)
+			if (edge.equals(edges.$get(i).edge))
+				if (vertex.equals(edges.$get(i).destination))
 					return edges.$get(i).source;
-				else if (vertex==edges.$get(i).source)
+				else if (vertex.equals(edges.$get(i).source))
 					return edges.$get(i).destination;
 		}
 		return null;

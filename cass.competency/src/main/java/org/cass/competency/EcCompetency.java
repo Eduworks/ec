@@ -37,6 +37,11 @@ public class EcCompetency extends Competency {
 		}
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		return isId(((EcCompetency)obj).id);
+	}
+
 	/**
 	 * Retrieves a competency from it's server asynchronously
 	 *

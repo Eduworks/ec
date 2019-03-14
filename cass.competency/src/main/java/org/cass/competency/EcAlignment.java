@@ -26,6 +26,13 @@ import org.stjs.javascript.functions.Callback1;
  */
 public class EcAlignment extends Relation {
 
+	@Override
+	public boolean equals(Object obj) {
+		if (((EcAlignment)obj).id == null)
+			return (((EcAlignment)obj).source == source && ((EcAlignment)obj).target == target && ((EcAlignment)obj).relationType == relationType);
+		return isId(((EcAlignment)obj).id);
+	}
+
 	/**
 	 * Retrieves the alignment specified with the ID from the server
 	 *

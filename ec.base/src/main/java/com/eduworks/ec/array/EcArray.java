@@ -1,6 +1,7 @@
 package com.eduworks.ec.array;
 
 import org.stjs.javascript.Array;
+import org.stjs.javascript.JSGlobal;
 
 /**
  * Array Helper Functions
@@ -82,11 +83,56 @@ public class EcArray {
 	 * @method has
 	 */
 	public static boolean has(Array a, Object o) {
-		boolean inThere = false;
-		for (int i = 0; i < a.$length(); i++)
+		if (isObject(o))
+			for (int i = 0; i < a.$length(); i++) {
+				if (a.$get(i) == o)
+					return true;
+				try {
+					if (a.$get(i).equals(o))
+						return true;
+				} catch(Exception e) {
+				}
+			}
+		else for (int i = 0; i < a.$length(); i++) {
 			if (a.$get(i) == o) {
 				return true;
 			}
+		}
 		return false;
+	}
+
+	/**
+	 * Returns true if the result is an object.
+	 *
+	 * @param {any} o Object to test.
+	 * @return true iff the object is an object.
+	 * @static
+	 * @method isObject
+	 */
+	public static boolean isObject(Object o) {
+		if (isArray(o))
+			return false;
+		if (o == null)
+			return false;
+		return JSGlobal.typeof(o) == "object";
+	}
+
+	public static int indexOf(Array a, Object o) {
+		if (isObject(o))
+			for (int i = 0; i < a.$length(); i++) {
+				if (a.$get(i) == o)
+					return i;
+				try {
+					if (a.$get(i).equals(o))
+						return i;
+				} catch(Exception e) {
+				}
+			}
+		else for (int i = 0; i < a.$length(); i++) {
+			if (a.$get(i) == o) {
+				return i;
+			}
+		}
+		return -1;
 	}
 }

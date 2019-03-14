@@ -1,7 +1,7 @@
 package cass.rollup;
 
-import cass.rollup.processors.v2.graph.collapser.*;
-import com.eduworks.ec.crypto.EcPpk;
+import cass.rollup.processors.v2.graph.collapser.FrameworkCollapser;
+import cass.rollup.processors.v2.graph.collapser.NodePacketGraph;
 import com.eduworks.ec.remote.EcRemote;
 import org.cass.competency.EcAlignment;
 import org.cass.competency.EcCompetency;
@@ -14,7 +14,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
-import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback2;
 import org.stjs.testing.driver.STJSTestDriverRunner;
@@ -147,13 +146,6 @@ public class FrameworkCollapserTest {
                         @Override
                         public void $invoke(String err) {
                             Global.console.log("Failure: " + err);
-                        }
-                    },
-                    new Callback1<Array<EcRemoteLinkedData>>() {
-                        @SuppressWarnings("unchecked")
-                        @Override
-                        public void $invoke(Array<EcRemoteLinkedData> rlda) {
-                            Global.console.log("CACHED CALLBACK");
                         }
                     }
             );
