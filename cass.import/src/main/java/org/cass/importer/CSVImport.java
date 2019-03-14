@@ -91,14 +91,7 @@ public class CSVImport {
 		if (oldId == null || oldId == "" || oldId.toLowerCase().indexOf("http") == -1)
 			newObject.assignId(selectedServer, oldId);
 		else {
-			if (EcCompetency.getBlocking(oldId) == null)
-				newObject.id = oldId;
-			else {
-				if (repo == null || repo.selectedServer.indexOf(selectedServer) != -1)
-					newObject.generateId(selectedServer);
-				else
-					newObject.generateShortId(selectedServer);
-			}
+			newObject.id = oldId;
 		}
 	}
 
