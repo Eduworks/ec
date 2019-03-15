@@ -163,6 +163,7 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
 	}
 
 	private void addToMetaStateArray(Object metaState, String key, Object value) {
+		if (metaState == null) return;
 		if (JSObjectAdapter.$get(metaState,key) == null)
 			JSObjectAdapter.$put(metaState,key,new Array());
 		((Array)JSObjectAdapter.$get(metaState,key)).push(value);
@@ -183,11 +184,16 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
 	}
 
 	private boolean addCompetency(EcCompetency competency) {
+		if (competency == null) return false;
 		return addVertex(competency);
 	}
 
 	private boolean addRelation(EcAlignment alignment) {
-		return addEdge(alignment, EcCompetency.getBlocking(alignment.source), EcCompetency.getBlocking(alignment.target));
+		if (alignment == null) return false;
+		EcCompetency source = EcCompetency.getBlocking(alignment.source);
+		EcCompetency target = EcCompetency.getBlocking(alignment.target);
+		if (source == null || target == null) return false;
+		return addEdge(alignment, source, target);
 	}
 
 	@Override

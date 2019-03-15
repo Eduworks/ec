@@ -49,14 +49,7 @@ public class EcArray {
 	 * @method setAdd
 	 */
 	public static void setAdd(Array a, Object o) {
-		boolean inThere = false;
-		for (int i = 0; i < a.$length(); i++)
-			if (a.$get(i) == o) {
-				inThere = true;
-				break;
-
-			}
-		if (!inThere) a.push(o);
+		if (!has(a,o)) a.push(o);
 	}
 
 	/**
@@ -68,10 +61,8 @@ public class EcArray {
 	 * @method setAdd
 	 */
 	public static void setRemove(Array a, Object o) {
-		for (int i = 0; i < a.$length(); i++)
-			while (a.$get(i) == o) {
-				a.splice(i, 1);
-			}
+		while (has(a,o))
+			a.splice(indexOf(a,o),1);
 	}
 
 	/**
@@ -90,7 +81,7 @@ public class EcArray {
 				try {
 					if (a.$get(i).equals(o))
 						return true;
-				} catch(Exception e) {
+				} catch (Exception e) {
 				}
 			}
 		else for (int i = 0; i < a.$length(); i++) {
@@ -125,7 +116,7 @@ public class EcArray {
 				try {
 					if (a.$get(i).equals(o))
 						return i;
-				} catch(Exception e) {
+				} catch (Exception e) {
 				}
 			}
 		else for (int i = 0; i < a.$length(); i++) {
