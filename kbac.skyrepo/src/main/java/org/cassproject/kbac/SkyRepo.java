@@ -371,7 +371,11 @@ public class SkyRepo {
 		//ex: Public keys (@owner, @reader)
 		String url = putUrl(o, id, version, type);
 		o = flattenLangstrings(Global.JSON.parse(Global.JSON.stringify(o)));
-		JSObjectAdapter.$put(o,"@version",version);
+		try {
+			JSObjectAdapter.$put(o, "@version", Global.parseInt(version));
+		} catch (Exception ex) {
+			JSObjectAdapter.$put(o, "@version", new Date().getTime());
+		}
 		if (type != null && type.indexOf("EncryptedValue") != -1) {
 			JSObjectAdapter.$properties(o).$delete("payload");
 			JSObjectAdapter.$properties(o).$delete("secret");
