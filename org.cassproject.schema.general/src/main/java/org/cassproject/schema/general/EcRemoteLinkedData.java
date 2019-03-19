@@ -477,7 +477,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
      */
     public Integer getTimestamp() {
         String timestamp = id.substring(id.lastIndexOf("/")+1);
-        if (timestamp.matches("\\/[0-9]+")) {
+        if (timestamp.matches("[0-9]+")) {
             return Integer.parseInt(timestamp);
         }
         else {
