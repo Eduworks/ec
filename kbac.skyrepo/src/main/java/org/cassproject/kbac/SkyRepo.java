@@ -120,8 +120,6 @@ public class SkyRepo {
 			return sigSheet;
 		}
 	};
-	//skyrepo.crypto.rs2 done.
-	//skyrepo.security.rs2 start.
 
 	public static Boolean isEncryptedType(EcRemoteLinkedData obj) {
 		return obj.isAny(new EbacEncryptedValue().getTypes());
@@ -181,8 +179,6 @@ public class SkyRepo {
 		}
 	};
 
-	//skyrepo.security.rs2 done.
-	//going to try to skip skyrepo.type.rs2
 	public static String skyrepoUrlType(Object o) {
 		return getTypeFromObject(o);
 	}
@@ -200,8 +196,6 @@ public class SkyRepo {
 		}
 	};
 
-	//skyrepo.type.rs2 done.
-	//skyrepo.db.rs2 begin.
 	public static String inferTypeFromObj(Object o, String atType) {
 		if (atType != null)
 			return atType;
@@ -373,13 +367,15 @@ public class SkyRepo {
 	public static String skyrepoPutInternalIndex(Object o, String id, String version, String type) {
 		//skyrepoPutInternalTypeCheck(false,o,type);
 
-		//TODO: Trim data that isn't relevant before putting it in the index.
-		//ex: Fields that are too long (base64)
-		//ex: Crypto data
 		//TODO: Normalize data that should be normalized.
 		//ex: Public keys (@owner, @reader)
 		String url = putUrl(o, id, version, type);
 		o = flattenLangstrings(Global.JSON.parse(Global.JSON.stringify(o)));
+		JSObjectAdapter.$put(o,"@version",version);
+		if (type != null && type.indexOf("EncryptedValue") != -1) {
+			JSObjectAdapter.$properties(o).$delete("payload");
+			JSObjectAdapter.$properties(o).$delete("secret");
+		}
 		if (skyrepoDebug)
 			Global.console.log(Global.JSON.stringify(o));
 		return levr.httpPost(o, url, "application/json", false);
@@ -724,9 +720,6 @@ public class SkyRepo {
 			return searchResults;
 		}
 	};
-
-	//skyrepo.db.rs2 is done.
-	//skyrepo.rs2 start.
 
 	public static Function1<String, Object> queryParse = new Function1<String, Object>() {
 		@Override

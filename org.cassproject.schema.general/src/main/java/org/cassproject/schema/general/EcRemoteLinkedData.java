@@ -462,6 +462,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
      * @method updateTimestamp
      */
     public void updateTimestamp() {
+        if (getTimestamp() == null) return;
         String rawId = id.substring(0, id.lastIndexOf("/"));
         if (rawId.endsWith("/") == false)
             rawId += "/";
