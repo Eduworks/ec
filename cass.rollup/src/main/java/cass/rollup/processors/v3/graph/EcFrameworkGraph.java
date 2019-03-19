@@ -21,10 +21,16 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
 
 	private Map<String, Object> metaVerticies;
 	private Map<String, Object> metaEdges;
+	Object competencyMap = null;
+	Object edgeMap = null;
+	Object dontTryAnyMore = null;
 
 	public EcFrameworkGraph(){
 		metaVerticies = (Map)new Object();
 		metaEdges = (Map)new Object();
+		competencyMap = new Object();
+		edgeMap = new Object();
+		dontTryAnyMore = new Object();
 	}
 
 	public void addFramework(final EcFramework framework, EcRepository repo, final Callback0 success, Callback1<String> failure) {
@@ -170,30 +176,58 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
 	}
 
 	public Object getMetaStateCompetency(EcCompetency c) {
-		if (containsVertex(c) == false) return null;
-		if (metaVerticies.$get(c.shortId()) == null)
-			metaVerticies.$put(c.shortId(), new Object());
-		return metaVerticies.$get(c.shortId());
+		Object result = metaVerticies.$get(c.shortId());
+		if (result == null) {
+			if (containsVertex(c) == false) return null;
+			if (metaVerticies.$get(c.shortId()) == null)
+				metaVerticies.$put(c.shortId(), result = new Object());
+		}
+		return result;
 	}
 
 	public Object getMetaStateAlignment(EcAlignment a) {
-		if (containsEdge(a) == false) return null;
-		if (metaEdges.$get(a.shortId()) == null)
-			metaEdges.$put(a.shortId(), new Object());
-		return metaEdges.$get(a.shortId());
+		Object result = metaEdges.$get(a.shortId());
+		if (result == null) {
+			if (containsEdge(a) == false) return null;
+			if (metaEdges.$get(a.shortId()) == null)
+				metaEdges.$put(a.shortId(), result = new Object());
+		}
+		return result;
+	}
+
+	@Override
+	public boolean containsVertex(EcCompetency competency){
+		return JSObjectAdapter.$get(competencyMap,competency.shortId()) != null;
+	}
+
+	@Override
+	public boolean containsEdge(EcAlignment competency){
+		return JSObjectAdapter.$get(edgeMap,competency.shortId()) != null;
 	}
 
 	private boolean addCompetency(EcCompetency competency) {
 		if (competency == null) return false;
+		if (containsVertex(competency)) return false;
+		JSObjectAdapter.$put(competencyMap,competency.shortId(),competency);
+		JSObjectAdapter.$put(competencyMap,competency.id,competency);
 		return addVertex(competency);
 	}
 
 	private boolean addRelation(EcAlignment alignment) {
 		if (alignment == null) return false;
-		EcCompetency source = EcCompetency.getBlocking(alignment.source);
-		EcCompetency target = EcCompetency.getBlocking(alignment.target);
+		if (containsEdge(alignment)) return false;
+		EcCompetency source = (EcCompetency) JSObjectAdapter.$get(competencyMap,alignment.source);
+		if (source == null && JSObjectAdapter.$get(dontTryAnyMore,alignment.source) != null)
+			return false;
+		if (source == null) source = EcCompetency.getBlocking(alignment.source);
+		if (source == null) JSObjectAdapter.$put(dontTryAnyMore,alignment.source,"");
+		EcCompetency target = (EcCompetency) JSObjectAdapter.$get(competencyMap,alignment.target);
+		if (target == null && JSObjectAdapter.$get(dontTryAnyMore,alignment.target) != null)
+			return false;
+		if (target == null) target = EcCompetency.getBlocking(alignment.target);
+		if (target == null) JSObjectAdapter.$put(dontTryAnyMore,alignment.target,"");
 		if (source == null || target == null) return false;
-		return addEdge(alignment, source, target);
+		return addEdgeUnsafely(alignment, source, target);
 	}
 
 	@Override

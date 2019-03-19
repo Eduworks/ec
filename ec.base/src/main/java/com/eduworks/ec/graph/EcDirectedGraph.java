@@ -128,6 +128,11 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 
 	@Override
 	public boolean addVertex(V vertex) {
+		verticies.push(vertex);
+		return true;
+	}
+
+	public boolean addVertexSafely(V vertex) {
 		if (EcArray.has(verticies,vertex))
 			return false;
 		verticies.push(vertex);
@@ -348,8 +353,31 @@ public abstract class EcDirectedGraph<V, E> implements Graph<V, E> {
 
 	@Override
 	public boolean addEdge(E e, V v1, V v2) {
-		addVertex(v1);
-		addVertex(v2);
+		addVertexSafely(v1);
+		addVertexSafely(v2);
+
+		Triple<V, V, E> t = new Triple<>();
+		t.source = v1;
+		t.destination = v2;
+		t.edge = e;
+
+		edges.push(t);
+		return true;
+	}
+
+	public boolean addEdgeUnsafely(E e, V v1, V v2) {
+		Triple<V, V, E> t = new Triple<>();
+		t.source = v1;
+		t.destination = v2;
+		t.edge = e;
+
+		edges.push(t);
+		return true;
+	}
+
+	public boolean addEdgeSafely(E e, V v1, V v2) {
+		addVertexSafely(v1);
+		addVertexSafely(v2);
 
 		Triple<V, V, E> t = new Triple<>();
 		t.source = v1;
