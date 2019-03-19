@@ -156,8 +156,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 										success.$invoke(v);
 									}
 								});
-							}
-							else
+							} else
 								success.$invoke(v);
 						}
 					});
@@ -817,12 +816,12 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 		if (reader == null) {
 			reader = new Array<String>();
 		}
-		for (int i = 0; i < reader.$length(); i++) {
-			if (reader.$get(i) == pem) {
+		if (EcArray.has(reader, pem))
+			return;
+		if (owner != null)
+			if (EcArray.has(owner, pem))
 				return;
-			}
-		}
-		EcArray.setAdd(reader,pem);
+		EcArray.setAdd(reader, pem);
 
 		EbacEncryptedSecret payloadSecret = decryptSecret();
 
@@ -856,19 +855,19 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 
 		secret = new Array<>();
 		if (owner != null)
-			for (int i = 0;i < owner.$length();i++)
+			for (int i = 0; i < owner.$length(); i++)
 				EcArray.setAdd(secret, EcRsaOaep.encrypt(EcPk.fromPem(owner.$get(i)), payloadSecret.toEncryptableJson()));
 		if (reader != null)
-			for (int i = 0;i < reader.$length();i++)
+			for (int i = 0; i < reader.$length(); i++)
 				EcArray.setAdd(secret, EcRsaOaep.encrypt(EcPk.fromPem(reader.$get(i)), payloadSecret.toEncryptableJson()));
 	}
 
 	/**
 	 * Adds a reader to the object, if the reader does not exist.
 	 *
-	 * @param {EcPk} newReader PK of the new reader.
-	 * @param {Callback0} success   Callback triggered after successful encryption
-	 * @param {Callback1<String>}   failure Callback triggered if error during secret decryption
+	 * @param {EcPk}              newReader PK of the new reader.
+	 * @param {Callback0}         success   Callback triggered after successful encryption
+	 * @param {Callback1<String>} failure Callback triggered if error during secret decryption
 	 * @memberOf EcEncryptedValue
 	 * @method addReaderAsync
 	 */
@@ -895,17 +894,17 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 						EcArray.setAdd(me.secret, s);
 						success.$invoke();
 					}
-				},failure);
+				}, failure);
 			}
-		},failure);
+		}, failure);
 	}
 
 	/**
 	 * Removes a reader from the object, if the reader does exist.
 	 *
-	 * @param {EcPk} oldReader PK of the old reader.
-	 * @param {Callback0} success   Callback triggered after successful encryption
-	 * @param {Callback1<String>}   failure Callback triggered if error during secret decryption
+	 * @param {EcPk}              oldReader PK of the old reader.
+	 * @param {Callback0}         success   Callback triggered after successful encryption
+	 * @param {Callback1<String>} failure Callback triggered if error during secret decryption
 	 * @memberOf EcEncryptedValue
 	 * @method removeReaderAsync
 	 */
@@ -920,10 +919,10 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 				}
 				Array<EcPk> ary = new Array<>();
 				if (me.owner != null)
-					for (int i = 0;i < me.owner.$length();i++)
+					for (int i = 0; i < me.owner.$length(); i++)
 						EcArray.setAdd(ary, EcPk.fromPem(me.owner.$get(i)));
 				if (me.reader != null)
-					for (int i = 0;i < me.reader.$length();i++)
+					for (int i = 0; i < me.reader.$length(); i++)
 						EcArray.setAdd(ary, EcPk.fromPem(me.reader.$get(i)));
 				me.secret = new Array<>();
 				EcAsyncHelper<EcPk> eah = new EcAsyncHelper<>();
@@ -936,7 +935,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 								EcArray.setRemove(me.secret, secret);
 								callback0.$invoke();
 							}
-						},failure);
+						}, failure);
 					}
 				}, new Callback1<Array<EcPk>>() {
 					@Override
@@ -946,6 +945,6 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 					}
 				});
 			}
-		},failure);
+		}, failure);
 	}
 }
