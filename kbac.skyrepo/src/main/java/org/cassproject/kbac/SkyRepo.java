@@ -725,9 +725,6 @@ public class SkyRepo {
 		}
 	};
 
-	//skyrepo.db.rs2 is done.
-	//skyrepo.rs2 start.
-
 	public static Function1<String, Object> queryParse = new Function1<String, Object>() {
 		@Override
 		public Object $invoke(String urlRemainder) {
