@@ -380,6 +380,7 @@ public class SkyRepo {
 		//ex: Public keys (@owner, @reader)
 		String url = putUrl(o, id, version, type);
 		o = flattenLangstrings(Global.JSON.parse(Global.JSON.stringify(o)));
+		JSObjectAdapter.$put(o,"@version",version);
 		if (skyrepoDebug)
 			Global.console.log(Global.JSON.stringify(o));
 		return levr.httpPost(o, url, "application/json", false);
