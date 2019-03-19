@@ -59,6 +59,10 @@ public class EcRepository {
 	 * @static
 	 */
 	public static void get(String url, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure) {
+		if (url.toLowerCase().indexOf("http") != 0) {
+			failure.$invoke("URL does not begin with http. Cannot EcRepository.get");
+			return;
+		}
 		final String originalUrl = url;
 		if (EcRemote.async == false) {
 			EcRemoteLinkedData result = getBlocking(url);
@@ -275,6 +279,9 @@ public class EcRepository {
 	 * @static
 	 */
 	public static EcRemoteLinkedData getBlocking(String url) {
+		if (url.toLowerCase().indexOf("http") != 0) {
+			return null;
+		}
 		final String originalUrl = url;
 		if (originalUrl == null)
 			return null;
