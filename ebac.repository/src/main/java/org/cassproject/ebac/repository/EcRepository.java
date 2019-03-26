@@ -59,6 +59,11 @@ public class EcRepository {
 	 * @static
 	 */
 	public static void get(String url, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure) {
+		if (url == null)
+		{
+			failure.$invoke("URL is null. Cannot EcRepository.get");
+			return;
+		}
 		if (url.toLowerCase().indexOf("http") != 0) {
 			failure.$invoke("URL does not begin with http. Cannot EcRepository.get");
 			return;

@@ -373,6 +373,8 @@ public class SkyRepo {
 		o = flattenLangstrings(Global.JSON.parse(Global.JSON.stringify(o)));
 		try {
 			JSObjectAdapter.$put(o, "@version", Global.parseInt(version));
+			if (Global.isNaN(JSObjectAdapter.$get(o,"@version")))
+				JSObjectAdapter.$put(o, "@version", new Date().getTime());
 		} catch (Exception ex) {
 			JSObjectAdapter.$put(o, "@version", new Date().getTime());
 		}
