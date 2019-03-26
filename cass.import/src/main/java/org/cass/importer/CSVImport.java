@@ -241,7 +241,7 @@ public class CSVImport {
 			@Override
 			public void $invoke(Object o) {
 				final Callback0 keepGoing = (Callback0) o;
-				comp.save(new Callback1<String>() {
+				Callback1 saveDone = new Callback1<String>() {
 					public void $invoke(String results) {
 						saved++;
 
@@ -262,17 +262,8 @@ public class CSVImport {
 						}
 						keepGoing.$invoke();
 					}
-
-				}, new Callback1<String>() {
-					public void $invoke(String results) {
-						failure.$invoke("Failed to save competency");
-
-						for (int j = 0; j < competencies.$length(); j++) {
-							competencies.$get(j)._delete(null, null, null);
-						}
-						keepGoing.$invoke();
-					}
-				}, repo);
+				};
+				comp.save(saveDone, saveDone, repo);
 			}
 		});
 	}

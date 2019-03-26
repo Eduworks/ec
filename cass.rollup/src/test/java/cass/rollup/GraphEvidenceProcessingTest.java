@@ -655,7 +655,7 @@ public class GraphEvidenceProcessingTest extends EvidenceProcessingTestBase {
 
 		f.save(null, failure,repo);
 
-		final EcAssertion a = newAssertion(c);
+		final EcAssertion a = newFalseAssertion(c);
 
 		final EcFrameworkGraph fg = new EcFrameworkGraph();
 		fg.addFramework(f, repo, new Callback0() {
