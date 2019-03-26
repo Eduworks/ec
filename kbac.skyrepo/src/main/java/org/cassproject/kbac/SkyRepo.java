@@ -46,6 +46,10 @@ public class SkyRepo {
 		String type = (String) JSObjectAdapter.$get(o, "@type");
 		String context = (String) JSObjectAdapter.$get(o, "@context");
 		if (type == null)
+			type = (String) JSObjectAdapter.$get(o, "type");
+		if (context == null)
+			context = (String) JSObjectAdapter.$get(o, "context");
+		if (type == null)
 			return null;
 		if (type.indexOf("http") != -1)
 			return type;
