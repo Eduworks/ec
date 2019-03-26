@@ -24,6 +24,7 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
 	Object competencyMap = null;
 	Object edgeMap = null;
 	Object dontTryAnyMore = null;
+	Array<EcFramework> frameworks = null;
 
 	public EcFrameworkGraph(){
 		metaVerticies = (Map)new Object();
@@ -31,9 +32,11 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
 		competencyMap = new Object();
 		edgeMap = new Object();
 		dontTryAnyMore = new Object();
+		frameworks = new Array<EcFramework>();
 	}
 
 	public void addFramework(final EcFramework framework, EcRepository repo, final Callback0 success, Callback1<String> failure) {
+		frameworks.push(framework);
 		final EcFrameworkGraph me = this;
 		repo.multiget(framework.competency.concat(framework.relation), new Callback1<Array<EcRemoteLinkedData>>() {
 			@Override
