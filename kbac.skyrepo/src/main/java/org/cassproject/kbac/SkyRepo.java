@@ -220,7 +220,6 @@ public class SkyRepo {
 		String versionPart = null;
 		if (version == null || version == "") {
 			versionPart = "?refresh=true";
-			version = "";
 		} else
 			versionPart = "?version=" + version + "&version_type=external&refresh=true";
 
@@ -255,7 +254,6 @@ public class SkyRepo {
 		String versionPart = null;
 		if (version == null || version == "") {
 			versionPart = "?refresh=true";
-			version = "";
 		} else
 			versionPart = "?version=" + version + "&version_type=external&refresh=true";
 
@@ -364,16 +362,22 @@ public class SkyRepo {
 		return o;
 	}
 
-	public static String skyrepoPutInternalIndex(Object o, String id, String version, String type) {
+	public static String skyrepoPutInternalIndex(Object o, String id, String version, String type, EcRemoteLinkedData oldObj) {
 		//skyrepoPutInternalTypeCheck(false,o,type);
 
 		//TODO: Normalize data that should be normalized.
 		//ex: Public keys (@owner, @reader)
+		if (oldObj != null) {
+			String oldType = inferTypeFromObj(oldObj, null);
+			if (oldType != type)
+				skyrepoDeleteInternalIndex(id, version, oldType);
+		}
+
 		String url = putUrl(o, id, version, type);
 		o = flattenLangstrings(Global.JSON.parse(Global.JSON.stringify(o)));
 		try {
 			JSObjectAdapter.$put(o, "@version", Global.parseInt(version));
-			if (Global.isNaN(JSObjectAdapter.$get(o,"@version")))
+			if (Global.isNaN(JSObjectAdapter.$get(o, "@version")))
 				JSObjectAdapter.$put(o, "@version", new Date().getTime());
 		} catch (Exception ex) {
 			JSObjectAdapter.$put(o, "@version", new Date().getTime());
@@ -418,15 +422,15 @@ public class SkyRepo {
 		return Global.JSON.stringify(out);
 	}
 
-	public static void skyrepoPutInternal(Object o, String id, String version, String type) {
-		Object obj = skyrepoPutInternalIndex(o, id, version, type);
+	public static void skyrepoPutInternal(Object o, String id, String version, String type, EcRemoteLinkedData oldObj) {
+		Object obj = skyrepoPutInternalIndex(o, id, version, type, oldObj);
 		if (skyrepoDebug) Global.console.log(Global.JSON.stringify(obj));
 		version = (String) JSObjectAdapter.$get(obj, "_version");
 		skyrepoPutInternalPermanent(o, id, version, type);
 	}
 
 	public static void skyRepoPutInternal(Object o, String id, String version, String type) {
-		skyrepoPutInternal(o, id, version, type);
+		skyrepoPutInternal(o, id, version, type, null);
 	}
 
 	public static Object skyrepoGetIndexInternal(String index, String id, String version, String type) {
@@ -567,12 +571,14 @@ public class SkyRepo {
 		public void $invoke(Object o, String id, String version, String type) {
 			if (o == null)
 				return;
-			JSFunctionAdapter.call(validateSignatures, this, id, version, type, "Only an owner of an object may change it.");
+			EcRemoteLinkedData oldObj = (EcRemoteLinkedData) JSFunctionAdapter.call(validateSignatures, this, id, version, type, "Only an owner of an object may change it.", null, null);
+
 //		EcRemoteLinkedData d = new EcRemoteLinkedData(null,null);
 //		d.copyFrom(o);
 //		if (!d.verify())
 //			levr.error("Data does not validate. Only validatable data can be saved.",401);
-			skyrepoPutInternal(o, id, version, type);
+
+			skyrepoPutInternal(o, id, version, type, oldObj);
 		}
 	};
 
