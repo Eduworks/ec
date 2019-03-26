@@ -366,17 +366,11 @@ public class SkyRepo {
 		return o;
 	}
 
-	public static String skyrepoPutInternalIndex(Object o, String id, String version, String type, EcRemoteLinkedData oldObj) {
+	public static String skyrepoPutInternalIndex(Object o, String id, String version, String type) {
 		//skyrepoPutInternalTypeCheck(false,o,type);
 
 		//TODO: Normalize data that should be normalized.
 		//ex: Public keys (@owner, @reader)
-		if (oldObj != null) {
-			String oldType = inferTypeFromObj(oldObj, null);
-			if (oldType != type)
-				skyrepoDeleteInternalIndex(id, version, oldType);
-		}
-
 		String url = putUrl(o, id, version, type);
 		o = flattenLangstrings(Global.JSON.parse(Global.JSON.stringify(o)));
 		try {
@@ -427,10 +421,26 @@ public class SkyRepo {
 	}
 
 	public static void skyrepoPutInternal(Object o, String id, String version, String type, EcRemoteLinkedData oldObj) {
-		Object obj = skyrepoPutInternalIndex(o, id, version, type, oldObj);
+		if (oldObj != null) {
+			String oldType = inferTypeFromObj(oldObj, null);
+			if (oldType != type && type != null && (version == null || version == "")) {
+				Object perm = skyrepoGetPermanent(id, null, oldType);
+				version = ((Integer) (((Integer) JSObjectAdapter.$get(perm, "_version")) + 1)).toString();
+			}
+		}
+
+		Object obj = skyrepoPutInternalIndex(o, id, version, type);
 		if (skyrepoDebug) Global.console.log(Global.JSON.stringify(obj));
 		version = (String) JSObjectAdapter.$get(obj, "_version");
 		skyrepoPutInternalPermanent(o, id, version, type);
+
+		if (oldObj != null) {
+			String oldType = inferTypeFromObj(oldObj, null);
+			if (oldType != type && type != null) {
+				skyrepoDeleteInternalIndex(id, null, oldType);
+			}
+		}
+
 	}
 
 	public static void skyRepoPutInternal(Object o, String id, String version, String type) {
@@ -589,7 +599,7 @@ public class SkyRepo {
 	private static Function4<String, String, String, String, EcRemoteLinkedData> validateSignatures = new Function4<String, String, String, String, EcRemoteLinkedData>() {
 		@Override
 		public EcRemoteLinkedData $invoke(String id, String version, String type, String errorMessage) {
-			Object oldGet = JSFunctionAdapter.call(skyrepoGetParsed, this, id, version, type, null);
+			Object oldGet = JSFunctionAdapter.call(skyrepoGetInternal, this, id, version, type, null);
 			if (oldGet == null)
 				return null;
 
