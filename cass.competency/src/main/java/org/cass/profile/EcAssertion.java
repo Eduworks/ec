@@ -29,6 +29,12 @@ import org.stjs.javascript.functions.Callback2;
  * @author fritz.ray@eduworks.com
  */
 public class EcAssertion extends Assertion {
+
+	@Override
+	public boolean equals(Object obj) {
+		return isId(((EcAssertion)obj).id);
+	}
+
 	public static void get(String id, final Callback1<EcAssertion> success, final Callback1<String> failure) {
 		EcRepository.get(id, new Callback1<EcRemoteLinkedData>() {
 			@Override

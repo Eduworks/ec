@@ -22,6 +22,10 @@ public class EcPerson extends Person {
         return getBlocking(repo.selectedServer+(repo.selectedServer.endsWith("/") ? "" : "/")+"data/"+pk.fingerprint());
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return isId(((EcPerson)obj).id);
+    }
     /**
      * Retrieves a person from it's server asynchronously
      *

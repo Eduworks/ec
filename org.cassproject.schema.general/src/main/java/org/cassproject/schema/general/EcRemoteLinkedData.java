@@ -53,6 +53,10 @@ public class EcRemoteLinkedData extends EcLinkedData {
      */
     public String id;
 
+    @Override
+    public boolean equals(Object obj) {
+        return isId(((EcRemoteLinkedData)obj).id);
+    }
     /**
      * PEM encoded public keys of identities authorized to view the object. A
      * repository will ignore write operations from these identities, but will
