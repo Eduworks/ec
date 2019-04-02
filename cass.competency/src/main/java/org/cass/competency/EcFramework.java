@@ -36,6 +36,11 @@ public class EcFramework extends Framework {
 		}
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		return isId(((EcFramework)obj).id);
+	}
+
 	/**
 	 * Retrieves a framework from the server, specified by the ID
 	 *
