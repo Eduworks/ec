@@ -15,6 +15,8 @@ import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback2;
 
+import static cass.rollup.processors.util.EcGraphUtil.buildIdSearchQueryForIdList;
+
 public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment> {
 
 	private Map<String, Object> metaVerticies;
@@ -79,17 +81,6 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
 //			}
 //		}, failure);
 //	}
-
-	private String buildIdSearchQueryForIdList(Array<String> idList) {
-		String searchQuery = "";
-		if (idList.$length() > 1) searchQuery = "(";
-		for (int i = 0; i < idList.$length(); i++) {
-			if (i > 0) searchQuery += " OR ";
-			searchQuery += "(\\*@id:\"" + idList.$get(i) + "\")";
-		}
-		if (idList.$length() > 1) searchQuery += ")";
-		return searchQuery;
-	}
 
 	private void fetchFrameworkAlignments(final EcFramework framework) {
 		final EcFrameworkGraph me = this;

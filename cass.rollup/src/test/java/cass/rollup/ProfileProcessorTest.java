@@ -67,9 +67,7 @@ public class ProfileProcessorTest {
 //                        Assert.assertSame(true,true);
 //                    }
 //                }
-        );
-
-
+//        );
     }
 
     @Test
