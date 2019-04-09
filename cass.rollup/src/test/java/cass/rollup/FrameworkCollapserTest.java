@@ -2,24 +2,42 @@ package cass.rollup;
 
 import cass.rollup.processors.v2.graph.collapser.FrameworkCollapser;
 import cass.rollup.processors.v2.graph.collapser.NodePacketGraph;
+import cass.rollup.processors.v3.graph.EcFrameworkGraph;
+import com.eduworks.ec.crypto.EcPpk;
 import com.eduworks.ec.remote.EcRemote;
 import org.cass.competency.EcAlignment;
 import org.cass.competency.EcCompetency;
 import org.cass.competency.EcFramework;
 import org.cass.profile.EcAssertion;
+import org.cassproject.ebac.identity.EcIdentity;
+import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.stjs.javascript.Array;
+import org.stjs.javascript.Date;
 import org.stjs.javascript.Global;
+import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback2;
+import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
 @RunWith(STJSTestDriverRunner.class)
+@ScriptsBefore({"lib/require.js", "rollupInit.js","pem-jwk.js","base64toArrayBuffer.js","base64x-1.1.js","/forge/forge.bundle.js"})
 public class FrameworkCollapserTest {
+
+    private static final String SANDBOX_SERVER = "https://sandbox.cassproject.org/api/";
+    private static final String JILL_DABOSS_PPK_PEM = "xxx";
+
+    private static final String SELECTED_SERVER = SANDBOX_SERVER;
+    private static final String TEST_END_USER_PPK_PEM = JILL_DABOSS_PPK_PEM;
+
+    private static final String CAP_DBS_FWK_ID = "https://sandbox.cassproject.org/api/custom/data/schema.cassproject.org.0.3.Framework/fd992893-1d5a-432f-ba24-d88d20d44f50";
+    private static final String CAP_PL_FWK_ID = "https://sandbox.cassproject.org/api/custom/data/schema.cassproject.org.0.3.Framework/6c297f8e-8e94-47e7-b298-1104b2652361";
+    private static final String FWK_GRPH_PERF_TEST_ID = CAP_PL_FWK_ID;
 
     //private String FRAMEWORK_ID = "https://sandbox.cassproject.org/api/custom/data/schema.cassproject.org.0.3.Framework/tom-profile-dev-1";
     private String FRAMEWORK_ID = "https://sandbox.service.cassproject.org/data/schema.cassproject.org.0.3.Framework/ef23be65-b99e-44c6-93e6-1fdeacf1bbe2";
@@ -28,7 +46,6 @@ public class FrameworkCollapserTest {
 
     protected EcRepository repo;
     protected Array<String> urlArray;
-
 
     private void collapseFramework(EcFramework framework) {
         Global.console.log("Framework: " + framework.name);
@@ -51,6 +68,44 @@ public class FrameworkCollapserTest {
                 }
         );
     }
+
+    @Test
+    public void capFrameworkCollapseTest() {
+        //This needs the keys filled in to work all correctly
+        Assert.assertSame(true,true);
+//        EcRemote.async = false;
+//        EcRepository repo = new EcRepository();
+//        repo.selectedServer = SELECTED_SERVER;
+//        EcIdentity eci = new EcIdentity();
+//        eci.source = SELECTED_SERVER;
+//        eci.ppk = EcPpk.fromPem(TEST_END_USER_PPK_PEM);
+//        EcIdentityManager.addIdentity(eci);
+//        Global.console.log("Fetching framework...");
+//        EcFramework f = EcFramework.getBlocking(FWK_GRPH_PERF_TEST_ID);
+//        Global.console.log("Framework fetched");
+//        final FrameworkCollapser fc = new FrameworkCollapser();
+//        Global.console.log("Collapsing framework: " + Date.now());
+//        fc.collapseFramework(repo,f,true,
+//                new Callback2<String,NodePacketGraph>() {
+//                    @SuppressWarnings("unchecked")
+//                    @Override
+//                    public void $invoke(String fwId, NodePacketGraph npg) {
+//                        Global.console.log("SUCCESS Framework collapse: " + Date.now());
+//                        Global.console.log(npg);
+//                        Assert.assertSame(true,true);
+//                    }
+//                },
+//                new Callback1<String>() {
+//                    @SuppressWarnings("unchecked")
+//                    @Override
+//                    public void $invoke(String err) {
+//                        Global.console.log("FAILED Framework collapse" + err);
+//                        Assert.assertSame(true,true);
+//                    }
+//                }
+//        );
+    }
+
 
     @Test
     public void basicFrameworkCollapseTest() {

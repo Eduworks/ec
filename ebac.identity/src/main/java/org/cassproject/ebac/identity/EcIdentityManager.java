@@ -495,7 +495,13 @@ public class EcIdentityManager {
 						signatures.push(p1.atIfy());
 						incrementalSuccess.$invoke();
 					}
-				},failure);
+				}, new Callback1<String>() {
+					@Override
+					public void $invoke(String s) {
+						failure.$invoke(s);
+						incrementalSuccess.$invoke();
+					}
+				});
 			}
 		}, new Callback1<Array<EcIdentity>>() {
 			@Override

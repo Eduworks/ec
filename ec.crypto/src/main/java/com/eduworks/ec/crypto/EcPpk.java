@@ -19,12 +19,19 @@ import window.pemJwk;
  * @module com.eduworks.ec
  */
 public class EcPpk {
-
+	public static Object cache = null;
+	public String defaultPem = null;
 	public Object jwk = null;
 	public CryptoKey key = null;
 	public CryptoKey signKey = null;
 	protected ppk ppk;
+	protected EcPk defaultPk = null;
 	protected EcPpk() {
+	}
+
+	static {
+		if (cache == null)
+			cache = new Object();
 	}
 
 	/**
@@ -37,12 +44,16 @@ public class EcPpk {
 	 * @static
 	 */
 	public static EcPpk fromPem(String pem) {
-		EcPpk pk = new EcPpk();
+		EcPpk pk = (EcPpk) JSObjectAdapter.$get(cache, pem);
+		if (pk != null)
+			return pk;
+		pk = new EcPpk();
 		try {
 			pk.ppk = forge.pki.privateKeyFromPem(pem);
 		} catch (Exception ex) {
 			return null;
 		}
+		JSObjectAdapter.$put(cache, pem, pk);
 		return pk;
 	}
 
@@ -106,7 +117,9 @@ public class EcPpk {
 	 * @method toPem
 	 */
 	public String toPem() {
-		return forge.pki.privateKeyToPem(ppk).replaceAll("\r?\n", "");
+		if (defaultPem == null)
+			defaultPem = forge.pki.privateKeyToPem(ppk).replaceAll("\r?\n", "");
+		return defaultPem;
 	}
 
 	/**
@@ -148,7 +161,9 @@ public class EcPpk {
 	 * @method toPk
 	 */
 	public EcPk toPk() {
-		EcPk pk = new EcPk();
+		if (defaultPk != null)
+			return defaultPk;
+		EcPk pk = defaultPk = new EcPk();
 		pk.pk = forge.rsa.setPublicKey(ppk.n, ppk.e);
 		return pk;
 	}
