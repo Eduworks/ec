@@ -52,35 +52,33 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
 //	}
 
 	//multiget is REALLY slowing this down...
-//	public void addFramework(final EcFramework framework, EcRepository repo, final Callback0 success, Callback1<String> failure) {
-//		frameworks.push(framework);
-//		final EcFrameworkGraph me = this;
-//		Global.console.log("addFramework about to multiget: " + Date.now());
-//		repo.multiget(framework.competency.concat(framework.relation), new Callback1<Array<EcRemoteLinkedData>>() {
-//			@Override
-//			public void $invoke(Array<EcRemoteLinkedData> data) {
-//				Global.console.log("Multiget complete: " + Date.now());
-//				EcCompetency competencyTemplate = new EcCompetency();
-//				EcAlignment alignmentTemplate = new EcAlignment();
-//				for (int i = 0; i < data.$length(); i++) {
-//					EcRemoteLinkedData d = data.$get(i);
-//					if (d.isAny(competencyTemplate.getTypes())) {
-//						//EcCompetency c = EcCompetency.getBlocking(d.id);
-//						EcCompetency c = me.generateCompetencyFromRemoteLinkedData(d);
-//						me.addCompetency(c);
-//						me.addToMetaStateArray(me.getMetaStateCompetency(c),"framework",framework);
-//					}
-//					else if (d.isAny(alignmentTemplate.getTypes())) {
-//						//EcAlignment alignment = EcAlignment.getBlocking(d.id);
-//						EcAlignment alignment = me.generateAlignmentFromRemoteLinkedData(d);
-//						me.addRelation(alignment);
-//						me.addToMetaStateArray(me.getMetaStateAlignment(alignment),"framework",framework);
-//					}
-//				}
-//				success.$invoke();
-//			}
-//		}, failure);
-//	}
+	public void addFramework(final EcFramework framework, EcRepository repo, final Callback0 success, Callback1<String> failure) {
+		frameworks.push(framework);
+		final EcFrameworkGraph me = this;
+		Global.console.log("addFramework about to multiget: " + Date.now());
+		repo.multiget(framework.competency.concat(framework.relation), new Callback1<Array<EcRemoteLinkedData>>() {
+			@Override
+			public void $invoke(Array<EcRemoteLinkedData> data) {
+				Global.console.log("Multiget complete: " + Date.now());
+				EcCompetency competencyTemplate = new EcCompetency();
+				EcAlignment alignmentTemplate = new EcAlignment();
+				for (int i = 0; i < data.$length(); i++) {
+					EcRemoteLinkedData d = data.$get(i);
+					if (d.isAny(competencyTemplate.getTypes())) {
+						EcCompetency c = EcCompetency.getBlocking(d.id);
+						me.addCompetency(c);
+						me.addToMetaStateArray(me.getMetaStateCompetency(c),"framework",framework);
+					}
+					else if (d.isAny(alignmentTemplate.getTypes())) {
+						EcAlignment alignment = EcAlignment.getBlocking(d.id);
+						me.addRelation(alignment);
+						me.addToMetaStateArray(me.getMetaStateAlignment(alignment),"framework",framework);
+					}
+				}
+				success.$invoke();
+			}
+		}, failure);
+	}
 
 	private void fetchFrameworkAlignments(final EcFramework framework) {
 		final EcFrameworkGraph me = this;
@@ -101,28 +99,28 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
 		);
 	}
 
-	public void addFramework(final EcFramework framework, EcRepository repo, final Callback0 success, Callback1<String> failure) {
-		addFrameworkSuccessCallback = success;
-		addFrameworkFailureCallback = failure;
-		frameworks.push(framework);
-		this.repo = repo;
-		final EcFrameworkGraph me = this;
-		EcCompetency.search(repo, buildIdSearchQueryForIdList(framework.competency),
-				new Callback1<Array<EcCompetency>>() {
-					@Override
-					public void $invoke(Array<EcCompetency> ecca) {
-						for (int i = 0; i < ecca.$length(); i++) {
-							EcCompetency c = ecca.$get(i);
-							me.addCompetency(c);
-							me.addToMetaStateArray(me.getMetaStateCompetency(c),"framework",framework);
-						}
-						me.fetchFrameworkAlignments(framework);
-					}
-				},
-				me.addFrameworkFailureCallback,
-				null
-		);
-	}
+//	public void addFramework(final EcFramework framework, EcRepository repo, final Callback0 success, Callback1<String> failure) {
+//		addFrameworkSuccessCallback = success;
+//		addFrameworkFailureCallback = failure;
+//		frameworks.push(framework);
+//		this.repo = repo;
+//		final EcFrameworkGraph me = this;
+//		EcCompetency.search(repo, buildIdSearchQueryForIdList(framework.competency),
+//				new Callback1<Array<EcCompetency>>() {
+//					@Override
+//					public void $invoke(Array<EcCompetency> ecca) {
+//						for (int i = 0; i < ecca.$length(); i++) {
+//							EcCompetency c = ecca.$get(i);
+//							me.addCompetency(c);
+//							me.addToMetaStateArray(me.getMetaStateCompetency(c),"framework",framework);
+//						}
+//						me.fetchFrameworkAlignments(framework);
+//					}
+//				},
+//				me.addFrameworkFailureCallback,
+//				null
+//		);
+//	}
 
 	public void processAssertionsBoolean(final Array<EcAssertion> assertions, final Callback0 success, final Callback1<String> failure) {
 		final EcFrameworkGraph me = this;
