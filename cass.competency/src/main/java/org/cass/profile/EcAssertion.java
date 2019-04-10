@@ -456,13 +456,14 @@ public class EcAssertion extends Assertion {
 		final Array<String> results = new Array<>();
 		new EcAsyncHelper<EcEncryptedValue>().each(evidence, new Callback2<EcEncryptedValue, Callback0>() {
 			@Override
-			public void $invoke(EcEncryptedValue e, Callback0 callback0) {
+			public void $invoke(EcEncryptedValue e, final Callback0 callback0) {
 				e.decryptIntoStringAsync(new Callback1<String>() {
 					@Override
 					public void $invoke(String str) {
 						results.push(str);
+						callback0.$invoke();
 					}
-				},failure);
+				},(Callback1)callback0);
 			}
 		}, new Callback1<Array<EcEncryptedValue>>() {
 			@Override
