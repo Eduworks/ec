@@ -454,6 +454,7 @@ public class EcAssertion extends Assertion {
 
 	public void getEvidencesAsync(final Callback1<Array<String>> success, final Callback1<String> failure){
 		final Array<String> results = new Array<>();
+		if (evidence != null)
 		new EcAsyncHelper<EcEncryptedValue>().each(evidence, new Callback2<EcEncryptedValue, Callback0>() {
 			@Override
 			public void $invoke(EcEncryptedValue e, final Callback0 callback0) {
@@ -471,6 +472,8 @@ public class EcAssertion extends Assertion {
 				success.$invoke(results);
 			}
 		});
+		else
+			success.$invoke(results);
 	}
 
 	public void getEvidenceAsync(int index, final Callback1<String> success, final Callback1<String> failure) {
