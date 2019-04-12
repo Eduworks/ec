@@ -647,7 +647,6 @@ public class GraphEvidenceProcessingTest extends EvidenceProcessingTestBase {
 		f.addCompetency(c3.shortId());
 
 		EcAlignment r = newRelation(c, c2, EcAlignment.NARROWS);
-
 		EcAlignment r2 = newRelation(c2, c3, EcAlignment.NARROWS);
 
 		f.addRelation(r.shortId());
