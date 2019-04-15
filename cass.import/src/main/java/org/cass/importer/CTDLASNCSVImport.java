@@ -129,6 +129,23 @@ public class CTDLASNCSVImport {
 								JSObjectAdapter.$put(f, "schema:creator", JSObjectAdapter.$get(e, "ceasn:creator"));
 								JSObjectAdapter.$put(f, "ceasn:derivedFrom", JSObjectAdapter.$get(e, "ceasn:derivedFrom"));
 								JSObjectAdapter.$put(f, "dc:source", JSObjectAdapter.$get(e, "ceasn:source"));
+								JSObjectAdapter.$put(f, "schema:keywords", JSObjectAdapter.$get(e, "ceasn:conceptKeyword"));
+								JSObjectAdapter.$put(f, "ceasn:conceptTerm", JSObjectAdapter.$get(e, "ceasn:conceptTerm"));
+								JSObjectAdapter.$put(f, "schema:copyrightYear", JSObjectAdapter.$get(e, "ceasn:dateCopyrighted"));
+								JSObjectAdapter.$put(f, "schema:validFrom", JSObjectAdapter.$get(e, "ceasn:dateValidFrom"));
+								JSObjectAdapter.$put(f, "schema:validThrough", JSObjectAdapter.$get(e, "ceasn:dateValidUntil"));
+								JSObjectAdapter.$put(f, "schema:description", JSObjectAdapter.$get(e, "ceasn:description"));
+								JSObjectAdapter.$put(f, "ceasn:educationLevelType", JSObjectAdapter.$get(e, "ceasn:educationLevelType"));
+								JSObjectAdapter.$put(f, "schema:identifier", JSObjectAdapter.$get(e, "ceasn:identifier"));
+								JSObjectAdapter.$put(f, "schema:inLanguage", JSObjectAdapter.$get(e, "ceasn:inLanguage"));
+								JSObjectAdapter.$put(f, "ceasn:isVersionOf", JSObjectAdapter.$get(e, "ceasn:isVersionOf"));
+								JSObjectAdapter.$put(f, "schema:license", JSObjectAdapter.$get(e, "ceasn:license"));
+								JSObjectAdapter.$put(f, "ceasn:publicationStatusType", JSObjectAdapter.$get(e, "ceasn:publicationStatusType"));
+								JSObjectAdapter.$put(f, "ceasn:publisherName", JSObjectAdapter.$get(e, "ceasn:publisherName"));
+								JSObjectAdapter.$put(f, "schema:publisher", JSObjectAdapter.$get(e, "ceasn:publisher"));
+								JSObjectAdapter.$put(f, "dc:rights", JSObjectAdapter.$get(e, "ceasn:rights"));
+								JSObjectAdapter.$put(f, "schema:copyrightHolder", JSObjectAdapter.$get(e, "ceasn:rightsHolder"));
+								JSObjectAdapter.$put(f, "ceasn:repositoryDate", JSObjectAdapter.$get(e, "ceasn:repositoryDate"));
 							} else if (JSObjectAdapter.$get(e, "@type") == "ceasn:Competency") {
 								EcCompetency f = new EcCompetency();
 								if (JSObjectAdapter.$get(e, "@id") == null) continue;
@@ -186,6 +203,15 @@ public class CTDLASNCSVImport {
 								JSObjectAdapter.$put(f, "schema:creator", JSObjectAdapter.$get(e, "ceasn:creator"));
 								JSObjectAdapter.$put(f, "ceasn:codedNotation", JSObjectAdapter.$get(e, "ceasn:codedNotation"));
 								JSObjectAdapter.$put(f, "ceasn:listID", JSObjectAdapter.$get(e, "ceasn:listID"));
+								JSObjectAdapter.$put(f, "schema:keywords", JSObjectAdapter.$get(e, "ceasn:conceptKeyword"));
+								JSObjectAdapter.$put(f, "ceasn:conceptTerm", JSObjectAdapter.$get(e, "ceasn:conceptTerm"));
+								JSObjectAdapter.$put(f, "dcterms:type", JSObjectAdapter.$get(e, "ceasn:competencyCategory"));
+								JSObjectAdapter.$put(f, "ceasn:complexityLevel", JSObjectAdapter.$get(e, "ceasn:complexityLevel"));
+								JSObjectAdapter.$put(f, "ceasn:educationLevelType", JSObjectAdapter.$get(e, "ceasn:educationLevelType"));
+								JSObjectAdapter.$put(f, "schema:identifier", JSObjectAdapter.$get(e, "ceasn:identifier"));
+								JSObjectAdapter.$put(f, "schema:inLanguage", JSObjectAdapter.$get(e, "ceasn:inLanguage"));
+								JSObjectAdapter.$put(f, "ceasn:skillembodied", JSObjectAdapter.$get(e, "ceasn:skillEmbodied"));
+								JSObjectAdapter.$put(f, "schema:weight", JSObjectAdapter.$get(e, "ceasn:weight"));
 
 								if (JSObjectAdapter.$get(e, "ceasn:isChildOf") != null) {
 									EcAlignment r = new EcAlignment();
