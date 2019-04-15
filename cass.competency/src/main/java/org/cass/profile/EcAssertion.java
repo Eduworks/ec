@@ -698,7 +698,7 @@ public class EcAssertion extends Assertion {
 		new EcAsyncHelper<String>().each(evidences, new Callback2<String, Callback0>() {
 			@Override
 			public void $invoke(String s, final Callback0 callback0) {
-				EcEncryptedValue.encryptValueAsync(s, id, subject.owner, subject.reader, new Callback1<EcEncryptedValue>() {
+				EcEncryptedValue.encryptValueAsync(s, me.id, me.subject.owner, me.subject.reader, new Callback1<EcEncryptedValue>() {
 					@Override
 					public void $invoke(EcEncryptedValue ecEncryptedValue) {
 						encryptedValues.push(ecEncryptedValue);
