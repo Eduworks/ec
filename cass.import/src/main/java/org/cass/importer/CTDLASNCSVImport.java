@@ -122,9 +122,9 @@ public class CTDLASNCSVImport {
 										public void $invoke(EcLinkedData e) {
 											EcFramework f = new EcFramework();
 											f.copyFrom(e);
-											if (JSObjectAdapter.$get(e, "@owner") != null) {
+											if (JSObjectAdapter.$get(e, "owner") != null) {
 												EcIdentity id = new EcIdentity();
-												id.ppk = EcPpk.fromPem((String) JSObjectAdapter.$get(e, "@owner"));
+												id.ppk = EcPpk.fromPem((String) JSObjectAdapter.$get(e, "owner"));
 												if (ceo != null)
 													f.addOwner(ceo.ppk.toPk());
 												f.addOwner(id.ppk.toPk());
@@ -153,7 +153,7 @@ public class CTDLASNCSVImport {
 										public void $invoke(EcLinkedData e) {
 											EcCompetency f = new EcCompetency();
 											f.copyFrom(e);
-											if (JSObjectAdapter.$get(e, "@id") == null) {
+											if (JSObjectAdapter.$get(e, "id") == null) {
 												callback0.$invoke();
 												return;
 											}
@@ -171,30 +171,30 @@ public class CTDLASNCSVImport {
 													}
 												}
 												if (!done) {
-													error.$invoke("Could not find framework:" + JSObjectAdapter.$get(e, "@type"));
+													error.$invoke("Could not find framework:" + JSObjectAdapter.$get(e, "type"));
 													return;
 												}
 												if (parent != null) {
-													if (JSObjectAdapter.$get(parent, "@type") == "ceasn:CompetencyFramework") {
-														JSObjectAdapter.$put(e, "ceasn:isPartOf", (String) JSObjectAdapter.$get(parent, "@id"));
-														((EcFramework) JSObjectAdapter.$get(frameworks, (String) JSObjectAdapter.$get(parent, "@id"))).competency.push(f.shortId());
+													if (JSObjectAdapter.$get(parent, "type") == "Framework") {
+														JSObjectAdapter.$put(e, "ceasn:isPartOf", (String) JSObjectAdapter.$get(parent, "id"));
+														((EcFramework) JSObjectAdapter.$get(frameworks, (String) JSObjectAdapter.$get(parent, "id"))).competency.push(f.shortId());
 													} else {
-														error.$invoke("Object cannot trace to framework:" + JSObjectAdapter.$get(e, "@type"));
+														error.$invoke("Object cannot trace to framework:" + JSObjectAdapter.$get(e, "type"));
 														return;
 													}
 												} else {
-													error.$invoke("Object has no framework:" + JSObjectAdapter.$get(e, "@type"));
+													error.$invoke("Object has no framework:" + JSObjectAdapter.$get(e, "type"));
 													return;
 												}
 											}
 
-											if (JSObjectAdapter.$get(e, "@owner") == null) {
-												if (JSObjectAdapter.$get(JSObjectAdapter.$get(frameworkRows, (String) JSObjectAdapter.$get(e, "ceasn:isPartOf")), "@owner") != null)
-													JSObjectAdapter.$put(e, "@owner", JSObjectAdapter.$get(JSObjectAdapter.$get(frameworkRows, (String) JSObjectAdapter.$get(e, "ceasn:isPartOf")), "@owner"));
+											if (JSObjectAdapter.$get(e, "owner") == null) {
+												if (JSObjectAdapter.$get(JSObjectAdapter.$get(frameworkRows, (String) JSObjectAdapter.$get(e, "ceasn:isPartOf")), "owner") != null)
+													JSObjectAdapter.$put(e, "owner", JSObjectAdapter.$get(JSObjectAdapter.$get(frameworkRows, (String) JSObjectAdapter.$get(e, "ceasn:isPartOf")), "owner"));
 											}
 											EcIdentity id = new EcIdentity();
-											if (JSObjectAdapter.$get(e, "@owner") != null) {
-												id.ppk = EcPpk.fromPem((String) JSObjectAdapter.$get(e, "@owner"));
+											if (JSObjectAdapter.$get(e, "owner") != null) {
+												id.ppk = EcPpk.fromPem((String) JSObjectAdapter.$get(e, "owner"));
 												if (ceo != null)
 													f.addOwner(ceo.ppk.toPk());
 												if (id.ppk != null)
@@ -209,7 +209,7 @@ public class CTDLASNCSVImport {
 													r.addOwner(ceo.ppk.toPk());
 												if (id.ppk != null)
 													r.addOwner(id.ppk.toPk());
-												r.source = (String) JSObjectAdapter.$get(e, "@id");
+												r.source = (String) JSObjectAdapter.$get(e, "id");
 												r.relationType = Relation.NARROWS;
 												r.target = (String) JSObjectAdapter.$get(e, "ceasn:isChildOf");
 												relations.push(r);
