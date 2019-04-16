@@ -112,6 +112,11 @@ public class CTDLASNCSVImport {
 								if (JSObjectAdapter.$get(pretranslatedE, "@type") == "ceasn:CompetencyFramework") {
 									EcLinkedData translator = new EcLinkedData(null, null);
 									translator.copyFrom(pretranslatedE);
+									for (String key : JSObjectAdapter.$properties(translator)) {
+										if (JSObjectAdapter.$get(translator, key) == "") {
+											JSObjectAdapter.$put(translator, key, null);
+										}
+									}
 									translator.recast("http://schema.cassproject.org/0.3/ceasn2cass", "http://schema.cassproject.org/0.3", new Callback1<EcLinkedData>() {
 										@Override
 										public void $invoke(EcLinkedData e) {
@@ -138,6 +143,11 @@ public class CTDLASNCSVImport {
 								} else if (JSObjectAdapter.$get(pretranslatedE, "@type") == "ceasn:Competency") {
 									EcLinkedData translator = new EcLinkedData(null, null);
 									translator.copyFrom(pretranslatedE);
+									for (String key : JSObjectAdapter.$properties(translator)) {
+										if (JSObjectAdapter.$get(translator, key) == "") {
+											JSObjectAdapter.$put(translator, key, null);
+										}
+									}
 									translator.recast("http://schema.cassproject.org/0.3/ceasn2cass", "http://schema.cassproject.org/0.3", new Callback1<EcLinkedData>() {
 										@Override
 										public void $invoke(EcLinkedData e) {
