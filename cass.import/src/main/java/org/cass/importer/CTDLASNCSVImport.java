@@ -133,6 +133,8 @@ public class CTDLASNCSVImport {
 
 											JSObjectAdapter.$put(frameworks, f.id, f);
 											JSObjectAdapter.$put(frameworkRows, f.id, e);
+											JSObjectAdapter.$put(f, "ceasn:hasChild", null);
+											JSObjectAdapter.$put(f, "ceasn:hasTopChild", null);
 											frameworkArray.push(f);
 											f.competency = new Array();
 											f.relation = new Array();
@@ -145,10 +147,6 @@ public class CTDLASNCSVImport {
 									translator.copyFrom(pretranslatedE);
 									for (String key : JSObjectAdapter.$properties(translator)) {
 										if (JSObjectAdapter.$get(translator, key) == "") {
-											JSObjectAdapter.$put(translator, key, null);
-										}
-										else if (key == "ceasn:broadAlignment" || key == "ceasn:narrowAlignment" || key == "ceasn:exactAlignment"
-												|| key == "ceasn:majorAlignment" || key == "ceasn:minorAlignment" || key == "ceasn:prerequisiteAlignment") {
 											JSObjectAdapter.$put(translator, key, null);
 										}
 									}
@@ -220,7 +218,7 @@ public class CTDLASNCSVImport {
 												JSObjectAdapter.$put(relationById, r.shortId(), r);
 												((EcFramework) JSObjectAdapter.$get(frameworks, (String) JSObjectAdapter.$get(e, "ceasn:isPartOf"))).relation.push(r.shortId());
 											}
-											if (JSObjectAdapter.$get(pretranslatedE, "ceasn:broadAlignment") != null) {
+											if (JSObjectAdapter.$get(e, "ceasn:broadAlignment") != null) {
 												EcAlignment r = new EcAlignment();
 												r.generateId(repo.selectedServer);
 												if (ceo != null)
@@ -229,26 +227,26 @@ public class CTDLASNCSVImport {
 													r.addOwner(id.ppk.toPk());
 												r.source = (String) JSObjectAdapter.$get(e, "id");
 												r.relationType = Relation.NARROWS;
-												r.target = (String) JSObjectAdapter.$get(pretranslatedE, "ceasn:broadAlignment");
+												r.target = (String) JSObjectAdapter.$get(e, "ceasn:broadAlignment");
 												relations.push(r);
 												JSObjectAdapter.$put(relationById, r.shortId(), r);
 												((EcFramework) JSObjectAdapter.$get(frameworks, (String) JSObjectAdapter.$get(e, "ceasn:isPartOf"))).relation.push(r.shortId());
 											}
-											if (JSObjectAdapter.$get(pretranslatedE, "ceasn:narrowAlignment") != null) {
+											if (JSObjectAdapter.$get(e, "ceasn:narrowAlignment") != null) {
 												EcAlignment r = new EcAlignment();
 												r.generateId(repo.selectedServer);
 												if (ceo != null)
 													r.addOwner(ceo.ppk.toPk());
 												if (id.ppk != null)
 													r.addOwner(id.ppk.toPk());
-												r.source = (String) JSObjectAdapter.$get(pretranslatedE, "ceasn:narrowAlignment");
+												r.source = (String) JSObjectAdapter.$get(e, "ceasn:narrowAlignment");
 												r.relationType = Relation.NARROWS;
 												r.target = (String) JSObjectAdapter.$get(e, "id");
 												relations.push(r);
 												JSObjectAdapter.$put(relationById, r.shortId(), r);
 												((EcFramework) JSObjectAdapter.$get(frameworks, (String) JSObjectAdapter.$get(e, "ceasn:isPartOf"))).relation.push(r.shortId());
 											}
-											if (JSObjectAdapter.$get(pretranslatedE, "ceasn:exactAlignment") != null) {
+											if (JSObjectAdapter.$get(e, "sameAs") != null) {
 												EcAlignment r = new EcAlignment();
 												r.generateId(repo.selectedServer);
 												if (ceo != null)
@@ -257,12 +255,12 @@ public class CTDLASNCSVImport {
 													r.addOwner(id.ppk.toPk());
 												r.source = (String) JSObjectAdapter.$get(e, "id");
 												r.relationType = Relation.IS_EQUIVALENT_TO;
-												r.target = (String) JSObjectAdapter.$get(pretranslatedE, "ceasn:exactAlignment");
+												r.target = (String) JSObjectAdapter.$get(e, "sameAs");
 												relations.push(r);
 												JSObjectAdapter.$put(relationById, r.shortId(), r);
 												((EcFramework) JSObjectAdapter.$get(frameworks, (String) JSObjectAdapter.$get(e, "ceasn:isPartOf"))).relation.push(r.shortId());
 											}
-											if (JSObjectAdapter.$get(pretranslatedE, "ceasn:majorAlignment") != null) {
+											if (JSObjectAdapter.$get(e, "ceasn:majorAlignment") != null) {
 												EcAlignment r = new EcAlignment();
 												r.generateId(repo.selectedServer);
 												if (ceo != null)
@@ -271,12 +269,12 @@ public class CTDLASNCSVImport {
 													r.addOwner(id.ppk.toPk());
 												r.source = (String) JSObjectAdapter.$get(e, "id");
 												r.relationType = "majorRelated";
-												r.target = (String) JSObjectAdapter.$get(pretranslatedE, "ceasn:majorAlignment");
+												r.target = (String) JSObjectAdapter.$get(e, "ceasn:majorAlignment");
 												relations.push(r);
 												JSObjectAdapter.$put(relationById, r.shortId(), r);
 												((EcFramework) JSObjectAdapter.$get(frameworks, (String) JSObjectAdapter.$get(e, "ceasn:isPartOf"))).relation.push(r.shortId());
 											}
-											if (JSObjectAdapter.$get(pretranslatedE, "ceasn:minorAlignment") != null) {
+											if (JSObjectAdapter.$get(e, "ceasn:minorAlignment") != null) {
 												EcAlignment r = new EcAlignment();
 												r.generateId(repo.selectedServer);
 												if (ceo != null)
@@ -285,12 +283,12 @@ public class CTDLASNCSVImport {
 													r.addOwner(id.ppk.toPk());
 												r.source = (String) JSObjectAdapter.$get(e, "id");
 												r.relationType = "minorRelated";
-												r.target = (String) JSObjectAdapter.$get(pretranslatedE, "ceasn:minorAlignment");
+												r.target = (String) JSObjectAdapter.$get(e, "ceasn:minorAlignment");
 												relations.push(r);
 												JSObjectAdapter.$put(relationById, r.shortId(), r);
 												((EcFramework) JSObjectAdapter.$get(frameworks, (String) JSObjectAdapter.$get(e, "ceasn:isPartOf"))).relation.push(r.shortId());
 											}
-											if (JSObjectAdapter.$get(pretranslatedE, "ceasn:prerequisiteAlignment") != null) {
+											if (JSObjectAdapter.$get(e, "ceasn:prerequisiteAlignment") != null) {
 												EcAlignment r = new EcAlignment();
 												r.generateId(repo.selectedServer);
 												if (ceo != null)
@@ -299,14 +297,24 @@ public class CTDLASNCSVImport {
 													r.addOwner(id.ppk.toPk());
 												r.source = (String) JSObjectAdapter.$get(e, "id");
 												r.relationType = Relation.REQUIRES;
-												r.target = (String) JSObjectAdapter.$get(pretranslatedE, "ceasn:prerequisiteAlignment");
+												r.target = (String) JSObjectAdapter.$get(e, "ceasn:prerequisiteAlignment");
 												relations.push(r);
 												JSObjectAdapter.$put(relationById, r.shortId(), r);
 												((EcFramework) JSObjectAdapter.$get(frameworks, (String) JSObjectAdapter.$get(e, "ceasn:isPartOf"))).relation.push(r.shortId());
 											}
+											JSObjectAdapter.$put(f, "ceasn:isTopChildOf", null);
+											JSObjectAdapter.$put(f, "ceasn:isChildOf", null);
+											JSObjectAdapter.$put(f, "ceasn:isPartOf", null);
+											JSObjectAdapter.$put(f, "ceasn:broadAlignment", null);
+											JSObjectAdapter.$put(f, "ceasn:narrowAlignment", null);
+											//Translation of ceasn:exactAlignment
+											JSObjectAdapter.$put(f, "sameAs", null);
+											JSObjectAdapter.$put(f, "ceasn:majorAlignment", null);
+											JSObjectAdapter.$put(f, "ceasn:minorAlignment", null);
+											JSObjectAdapter.$put(f, "ceasn:prerequisiteAlignment", null);
+											JSObjectAdapter.$put(f, "ceasn:hasChild", null);
 											competencies.push(f);
 											JSObjectAdapter.$put(competencyRows, f.id, e);
-											//Delete ceasn:hasTopChild, ceasn:isChildOf, ceasn:hasChild, etc.
 											callback0.$invoke();
 										}
 									}, (Callback1) failure);
