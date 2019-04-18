@@ -59,8 +59,7 @@ public class EcRepository {
 	 * @static
 	 */
 	public static void get(String url, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure) {
-		if (url == null)
-		{
+		if (url == null) {
 			failure.$invoke("URL is null. Cannot EcRepository.get");
 			return;
 		}
@@ -331,7 +330,7 @@ public class EcRepository {
 			@Override
 			public void $invoke(String s) {
 				EcRemoteLinkedData d = EcRepository.findBlocking(originalUrl, s, new Object(), 0);
-					JSObjectAdapter.$put(cache, originalUrl, d);
+				JSObjectAdapter.$put(cache, originalUrl, d);
 				if (d != null) {
 					if (d.id != null)
 						JSObjectAdapter.$put(cache, d.id, d);
@@ -459,13 +458,106 @@ public class EcRepository {
 
 		if (EcEncryptedValue.encryptOnSave(data.id, null)) {
 			EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(data, false);
-			EcIdentityManager.sign(data);
-			_saveWithoutSigning(data, success, failure, repo);
+			EcIdentityManager.sign(encrypted);
+			_saveWithoutSigning(encrypted, success, failure, repo);
 		} else {
 			EcIdentityManager.sign(data);
 			_saveWithoutSigning(data, success, failure, repo);
 		}
 	}
+
+	/**
+	 * Attempts to save many pieces of data. Does some checks before saving to
+	 * ensure the data is valid. This version does not send a console warning,
+	 * <p>
+	 * Uses a signature sheet informed by the owner field of the data.
+	 *
+	 * @param {Array<EcRemoteLinkedData>} data Data to save to the location designated
+	 *                             by its id.
+	 * @param {Callback1<String>}  success Callback triggered on successful save
+	 * @param {Callback1<String>}  failure Callback triggered if error during
+	 *                             save
+	 * @memberOf EcRepository
+	 * @method multiput
+	 * @static
+	 */
+
+	public void multiput(final Array<EcRemoteLinkedData> data, final Callback1<String> success, final Callback1<String> failure) {
+		final EcRepository me = this;
+		for (int i = 0; i < data.$length(); i++) {
+			EcRemoteLinkedData d = data.$get(i);
+			if (d.invalid()) {
+				String msg = "Cannot save data. It is missing a vital component.";
+				if (failure != null) {
+					failure.$invoke(msg);
+				} else {
+					Global.console.error(msg);
+				}
+				return;
+			}
+
+			if (d.reader != null && d.reader.$length() == 0) {
+				JSObjectAdapter.$properties(d).$delete("reader");
+			}
+
+			if (d.owner != null && d.owner.$length() == 0) {
+				JSObjectAdapter.$properties(d).$delete("owner");
+			}
+		}
+
+		Array<String> allOwners = new Array<>();
+		Array<Object> serialized = new Array<>();
+
+		for (int i = 0; i < data.$length(); i++) {
+			EcRemoteLinkedData d = data.$get(i);
+			if (EcEncryptedValue.encryptOnSave(d.id, null)) {
+				EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(d, false);
+				EcIdentityManager.sign(encrypted);
+				data.$set(i, encrypted);
+			} else {
+				EcIdentityManager.sign(d);
+			}
+			if (caching) {
+				JSObjectAdapter.$properties(cache).$delete(d.id);
+				JSObjectAdapter.$properties(cache).$delete(d.shortId());
+			}
+			if (d.invalid()) {
+				failure.$invoke("Data is malformed.");
+				return;
+			}
+			if (alwaysTryUrl || this.shouldTryUrl(d.id))
+				d.updateTimestamp();
+			if (d.owner != null)
+				for (int j = 0; j < d.owner.$length(); j++)
+					EcArray.setAdd(allOwners, d.owner.$get(j));
+			serialized.push(Global.JSON.parse(d.toJson()));
+		}
+
+		final FormData fd = new FormData();
+		fd.append("data", Global.JSON.stringify(serialized));
+		Callback1 afterSignatureSheet = new Callback1<String>() {
+			@Override
+			public void $invoke(String signatureSheet) {
+				fd.append("signatureSheet", signatureSheet);
+				EcRemote.postExpectingString(me.selectedServer, "sky/repo/multiPut", fd, success, failure);
+			}
+		};
+
+		if (EcRemote.async == false) {
+			String signatureSheet;
+			if (allOwners != null && allOwners.$length() > 0) {
+				signatureSheet = EcIdentityManager.signatureSheetFor(allOwners, 60000 + timeOffset, selectedServer);
+			} else {
+				signatureSheet = EcIdentityManager.signatureSheet(60000 + timeOffset, selectedServer);
+			}
+			afterSignatureSheet.$invoke(signatureSheet);
+		} else if (allOwners != null && allOwners.$length() > 0) {
+			EcIdentityManager.signatureSheetForAsync(allOwners, 60000 + timeOffset, selectedServer, afterSignatureSheet, failure);
+		} else {
+			EcIdentityManager.signatureSheetAsync(60000 + timeOffset, selectedServer, afterSignatureSheet, failure);
+		}
+	}
+
 
 	/**
 	 * Attempts to save a piece of data without signing it.
@@ -514,15 +606,15 @@ public class EcRepository {
 		if (EcRemote.async == false) {
 			String signatureSheet;
 			if (data.owner != null && data.owner.$length() > 0) {
-				signatureSheet = EcIdentityManager.signatureSheetFor(data.owner, 60000+(repo == null ? 0 : repo.timeOffset), data.id);
+				signatureSheet = EcIdentityManager.signatureSheetFor(data.owner, 60000 + (repo == null ? 0 : repo.timeOffset), data.id);
 			} else {
-				signatureSheet = EcIdentityManager.signatureSheet(60000+(repo == null ? 0 : repo.timeOffset), data.id);
+				signatureSheet = EcIdentityManager.signatureSheet(60000 + (repo == null ? 0 : repo.timeOffset), data.id);
 			}
 			afterSignatureSheet.$invoke(signatureSheet);
 		} else if (data.owner != null && data.owner.$length() > 0) {
-			EcIdentityManager.signatureSheetForAsync(data.owner, 60000+(repo == null ? 0 : repo.timeOffset), data.id, afterSignatureSheet, failure);
+			EcIdentityManager.signatureSheetForAsync(data.owner, 60000 + (repo == null ? 0 : repo.timeOffset), data.id, afterSignatureSheet, failure);
 		} else {
-			EcIdentityManager.signatureSheetAsync(60000+(repo == null ? 0 : repo.timeOffset), data.id, afterSignatureSheet, failure);
+			EcIdentityManager.signatureSheetAsync(60000 + (repo == null ? 0 : repo.timeOffset), data.id, afterSignatureSheet, failure);
 		}
 
 	}
@@ -636,11 +728,11 @@ public class EcRepository {
 		final EcRepository me = this;
 		if (data.owner != null && data.owner.$length() > 0) {
 			if (EcRemote.async) {
-				EcIdentityManager.signatureSheetForAsync(data.owner, 60000+timeOffset, data.id, new Callback1<String>() {
+				EcIdentityManager.signatureSheetForAsync(data.owner, 60000 + timeOffset, data.id, new Callback1<String>() {
 					@Override
 					public void $invoke(String signatureSheet) {
 						if (signatureSheet.length() == 2 && me.adminKeys != null) {
-							EcIdentityManager.signatureSheetForAsync(me.adminKeys, 60000+me.timeOffset, data.id, new Callback1<String>() {
+							EcIdentityManager.signatureSheetForAsync(me.adminKeys, 60000 + me.timeOffset, data.id, new Callback1<String>() {
 								@Override
 								public void $invoke(String signatureSheet) {
 									EcRemote._delete(targetUrl, signatureSheet, success, failure);
@@ -651,9 +743,9 @@ public class EcRepository {
 					}
 				}, failure);
 			} else {
-				String signatureSheet = EcIdentityManager.signatureSheetFor(data.owner, 60000+me.timeOffset, data.id);
+				String signatureSheet = EcIdentityManager.signatureSheetFor(data.owner, 60000 + me.timeOffset, data.id);
 				if (signatureSheet.length() == 2 && me.adminKeys != null) {
-					signatureSheet = EcIdentityManager.signatureSheetFor(me.adminKeys, 60000+me.timeOffset, data.id);
+					signatureSheet = EcIdentityManager.signatureSheetFor(me.adminKeys, 60000 + me.timeOffset, data.id);
 					EcRemote._delete(targetUrl, signatureSheet, success, failure);
 				} else
 					EcRemote._delete(targetUrl, signatureSheet, success, failure);
@@ -704,7 +796,7 @@ public class EcRepository {
 		if (unsigned) {
 			precachePost(success, cacheUrls, fd, me);
 		} else {
-			EcIdentityManager.signatureSheetAsync(60000+timeOffset, selectedServer, new Callback1<String>() {
+			EcIdentityManager.signatureSheetAsync(60000 + timeOffset, selectedServer, new Callback1<String>() {
 				@Override
 				public void $invoke(String p1) {
 					fd.append("signatureSheet", p1);
@@ -963,7 +1055,7 @@ public class EcRepository {
 				}
 			});
 		} else
-			EcIdentityManager.signatureSheetAsync(60000+timeOffset, selectedServer, new Callback1<String>() {
+			EcIdentityManager.signatureSheetAsync(60000 + timeOffset, selectedServer, new Callback1<String>() {
 				@Override
 				public void $invoke(String signatureSheet) {
 					fd.append("signatureSheet", signatureSheet);
@@ -1062,7 +1154,7 @@ public class EcRepository {
 			});
 		} else {
 			String signatureSheet;
-			signatureSheet = EcIdentityManager.signatureSheet(60000+timeOffset, selectedServer);
+			signatureSheet = EcIdentityManager.signatureSheet(60000 + timeOffset, selectedServer);
 			fd.append("signatureSheet", signatureSheet);
 			EcRemote.postExpectingObject(me.selectedServer, "sky/repo/search", fd, new Callback1<Object>() {
 				@Override
@@ -1322,7 +1414,7 @@ public class EcRepository {
 				if (p1 != null) {
 					if (JSObjectAdapter.$get(p1, "ping") == "pong") {
 						if (JSObjectAdapter.$get(p1, "time") != null)
-							me.timeOffset = ((Long)(Object)new Date().getTime())-((Long)(Object)JSObjectAdapter.$get(p1, "time"));
+							me.timeOffset = ((Long) (Object) new Date().getTime()) - ((Long) (Object) JSObjectAdapter.$get(p1, "time"));
 						if (me.autoDetectFound == false) {
 							me.selectedServer = guess;
 							me.autoDetectFound = true;
@@ -1380,7 +1472,7 @@ public class EcRepository {
 				if (p1 != null) {
 					if (JSObjectAdapter.$get(p1, "ping") == "pong") {
 						if (JSObjectAdapter.$get(p1, "time") != null)
-							me.timeOffset = ((Long)(Object)new Date().getTime())-((Long)(Object)JSObjectAdapter.$get(p1, "time"));
+							me.timeOffset = ((Long) (Object) new Date().getTime()) - ((Long) (Object) JSObjectAdapter.$get(p1, "time"));
 						me.selectedServer = guess;
 						me.autoDetectFound = true;
 					}
@@ -1426,7 +1518,7 @@ public class EcRepository {
 	 */
 	public void listTypes(final Callback1<Array<Object>> success, final Callback1<String> failure) {
 		FormData fd = new FormData();
-		fd.append("signatureSheet", EcIdentityManager.signatureSheet(60000+timeOffset, selectedServer));
+		fd.append("signatureSheet", EcIdentityManager.signatureSheet(60000 + timeOffset, selectedServer));
 		EcRemote.postExpectingObject(selectedServer, "sky/repo/types", fd, new Callback1<Object>() {
 			@Override
 			public void $invoke(Object p1) {

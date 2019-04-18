@@ -913,6 +913,27 @@ public class SkyRepo {
 		}
 	};
 
+	public static Function0 endpointMultiPut = new Function0() {
+		@Override
+		public Object $invoke() {
+			Array ary = (Array) Global.JSON.parse(levr.fileToString(JSFunctionAdapter.call(levr.fileFromDatastream, this, "data", null)));
+
+			for (int i = 0; i < ary.$length(); i++) {
+				Object o = ary.$get(i);
+				EcRemoteLinkedData ld = new EcRemoteLinkedData(null,null);
+				ld.copyFrom(o);
+				String id = ld.getGuid();
+				Integer version = ld.getTimestamp();
+				String type = ld.getDottedType();
+				JSFunctionAdapter.call(skyrepoPutParsed, this, o, id, version, type);
+				Object params = new Object();
+				JSObjectAdapter.$put(params,"obj",Global.JSON.stringify(o));
+				JSFunctionAdapter.call(levr.afterSave, null,params);
+			}
+			return null;
+		}
+	};
+
 	public static Function0 endpointSingleGet = new Function0() {
 		@Override
 		public Object $invoke() {
@@ -1006,6 +1027,7 @@ public class SkyRepo {
 		levr.bindWebService("/data", endpointData);
 		levr.bindWebService("/sky/repo/search", skyRepoSearch);
 		levr.bindWebService("/sky/repo/multiGet", endpointMultiGet);
+		levr.bindWebService("/sky/repo/multiPut", endpointMultiPut);
 		levr.bindWebService("/sky/admin", endpointAdmin);
 	}
 }
