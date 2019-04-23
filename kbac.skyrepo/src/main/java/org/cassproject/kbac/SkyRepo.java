@@ -2,11 +2,13 @@ package org.cassproject.kbac;
 
 import com.eduworks.ec.array.EcArray;
 import com.eduworks.ec.array.EcObject;
+import com.eduworks.ec.crypto.EcCrypto;
 import com.eduworks.ec.crypto.EcPk;
 import com.eduworks.ec.crypto.EcPpk;
 import com.eduworks.ec.crypto.EcRsaOaep;
 import com.eduworks.schema.ebac.EbacEncryptedValue;
 import com.eduworks.schema.ebac.EbacSignature;
+import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.*;
 import org.stjs.javascript.annotation.GlobalScope;
@@ -15,6 +17,8 @@ import org.stjs.javascript.functions.*;
 @GlobalScope
 public class SkyRepo {
 	public static boolean skyrepoDebug = false;
+
+	public static EcRepository repo = null;
 
 	public static String elasticEndpoint = "http://localhost:9200";
 
@@ -204,6 +208,8 @@ public class SkyRepo {
 		if (atType != null)
 			return atType;
 		String fullType = skyrepoUrlType(o);
+		if (fullType == null)
+			return fullType;
 		fullType = fullType.replace("http://", "");
 		fullType = fullType.replace("https://", "");
 		fullType = fullType.replace("/", ".");
@@ -732,6 +738,11 @@ public class SkyRepo {
 			for (int i = 0; i < hits.$length(); i++) {
 				Object searchResult = hits.$get(i);
 				String type = inferTypeFromObj(JSObjectAdapter.$get(searchResult, "_source"), null);
+				if (type == null)
+				{
+					hits.splice(i--,1);
+					continue;
+				}
 				String id = (String) JSObjectAdapter.$get(searchResult, "_id");
 				//Do not use version as stored in the database. We always want the latest version of the object. (String) JSObjectAdapter.$get(searchResult, "_version");
 				String version = "";
@@ -922,7 +933,12 @@ public class SkyRepo {
 				Object o = ary.$get(i);
 				EcRemoteLinkedData ld = new EcRemoteLinkedData(null,null);
 				ld.copyFrom(o);
-				String id = ld.getGuid();
+
+				String id = null;
+				if (!EcRepository.alwaysTryUrl && repo != null && repo.shouldTryUrl(ld.id))
+					id = EcCrypto.md5(ld.id);
+				else
+					id = ld.getGuid();
 				Integer version = ld.getTimestamp();
 				String type = ld.getDottedType();
 				JSFunctionAdapter.call(skyrepoPutParsed, this, o, id, version, type);
