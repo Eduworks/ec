@@ -173,7 +173,7 @@ public class EcRepository {
 		success.$invoke(d);
 	}
 
-	private static boolean shouldTryUrl(String url) {
+	public static boolean shouldTryUrl(String url) {
 		if (url == null)
 			return false;
 		if (alwaysTryUrl)
