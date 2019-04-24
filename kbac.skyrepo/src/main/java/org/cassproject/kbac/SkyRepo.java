@@ -18,8 +18,6 @@ import org.stjs.javascript.functions.*;
 public class SkyRepo {
 	public static boolean skyrepoDebug = false;
 
-	public static EcRepository repo = null;
-
 	public static String elasticEndpoint = "http://localhost:9200";
 
 	public static String owner() {
@@ -935,7 +933,7 @@ public class SkyRepo {
 				ld.copyFrom(o);
 
 				String id = null;
-				if (!EcRepository.alwaysTryUrl && repo != null && repo.shouldTryUrl(ld.id))
+				if (!EcRepository.alwaysTryUrl && levr.repo != null && !levr.repo.shouldTryUrl(ld.id))
 					id = EcCrypto.md5(ld.id);
 				else
 					id = ld.getGuid();
