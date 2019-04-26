@@ -934,7 +934,7 @@ public class SkyRepo {
 
 				String id = null;
 				if (!EcRepository.alwaysTryUrl && levr.repo != null && !levr.repo.shouldTryUrl(ld.id))
-					id = EcCrypto.md5(ld.id);
+					id = EcCrypto.md5(ld.shortId());
 				else
 					id = ld.getGuid();
 				Integer version = ld.getTimestamp();
