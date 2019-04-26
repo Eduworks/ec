@@ -595,7 +595,7 @@ public class EcRepository {
                 fd.append("signatureSheet", signatureSheet);
                 if (!alwaysTryUrl)
                     if (repo != null)
-                        if (!repo.shouldTryUrl(data.id) || data.id.indexOf(repo.selectedServer) != -1) {
+                        if (!repo.shouldTryUrl(data.id) || data.id.indexOf(repo.selectedServer) == -1) {
                             EcRemote.postExpectingString(urlAppend(repo.selectedServer, "data/" + data.getDottedType() + "/" + EcCrypto.md5(data.shortId())), "", fd, success, failure);
                             return;
                         }
