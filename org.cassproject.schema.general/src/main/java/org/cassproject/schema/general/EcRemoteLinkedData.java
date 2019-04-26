@@ -92,7 +92,8 @@ public class EcRemoteLinkedData extends EcLinkedData {
             return null;
         // May not be a GUID, may be more canonical. Check to see if it is a
         // parsable long.
-
+        if (id.indexOf("/api/data/") == -1) //If it isn't a CaSS URL, don't trim version.
+            return id;
         if (!id.substring(id.lastIndexOf("/")).matches("\\/[0-9]+"))
             return id;
         String rawId = id.substring(0, id.lastIndexOf("/"));
