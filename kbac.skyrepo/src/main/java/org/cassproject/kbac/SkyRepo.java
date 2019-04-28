@@ -2,11 +2,13 @@ package org.cassproject.kbac;
 
 import com.eduworks.ec.array.EcArray;
 import com.eduworks.ec.array.EcObject;
+import com.eduworks.ec.crypto.EcCrypto;
 import com.eduworks.ec.crypto.EcPk;
 import com.eduworks.ec.crypto.EcPpk;
 import com.eduworks.ec.crypto.EcRsaOaep;
 import com.eduworks.schema.ebac.EbacEncryptedValue;
 import com.eduworks.schema.ebac.EbacSignature;
+import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.*;
 import org.stjs.javascript.annotation.GlobalScope;
@@ -204,6 +206,8 @@ public class SkyRepo {
 		if (atType != null)
 			return atType;
 		String fullType = skyrepoUrlType(o);
+		if (fullType == null)
+			return fullType;
 		fullType = fullType.replace("http://", "");
 		fullType = fullType.replace("https://", "");
 		fullType = fullType.replace("/", ".");
@@ -732,6 +736,11 @@ public class SkyRepo {
 			for (int i = 0; i < hits.$length(); i++) {
 				Object searchResult = hits.$get(i);
 				String type = inferTypeFromObj(JSObjectAdapter.$get(searchResult, "_source"), null);
+				if (type == null)
+				{
+					hits.splice(i--,1);
+					continue;
+				}
 				String id = (String) JSObjectAdapter.$get(searchResult, "_id");
 				//Do not use version as stored in the database. We always want the latest version of the object. (String) JSObjectAdapter.$get(searchResult, "_version");
 				String version = "";
@@ -913,6 +922,32 @@ public class SkyRepo {
 		}
 	};
 
+	public static Function0 endpointMultiPut = new Function0() {
+		@Override
+		public Object $invoke() {
+			Array ary = (Array) Global.JSON.parse(levr.fileToString(JSFunctionAdapter.call(levr.fileFromDatastream, this, "data", null)));
+
+			for (int i = 0; i < ary.$length(); i++) {
+				Object o = ary.$get(i);
+				EcRemoteLinkedData ld = new EcRemoteLinkedData(null,null);
+				ld.copyFrom(o);
+
+				String id = null;
+				if (!EcRepository.alwaysTryUrl && levr.repo != null && !levr.repo.shouldTryUrl(ld.id))
+					id = EcCrypto.md5(ld.shortId());
+				else
+					id = ld.getGuid();
+				Integer version = ld.getTimestamp();
+				String type = ld.getDottedType();
+				JSFunctionAdapter.call(skyrepoPutParsed, this, o, id, version, type);
+				Object params = new Object();
+				JSObjectAdapter.$put(params,"obj",Global.JSON.stringify(o));
+				JSFunctionAdapter.call(levr.afterSave, null,params);
+			}
+			return null;
+		}
+	};
+
 	public static Function0 endpointSingleGet = new Function0() {
 		@Override
 		public Object $invoke() {
@@ -1006,6 +1041,7 @@ public class SkyRepo {
 		levr.bindWebService("/data", endpointData);
 		levr.bindWebService("/sky/repo/search", skyRepoSearch);
 		levr.bindWebService("/sky/repo/multiGet", endpointMultiGet);
+		levr.bindWebService("/sky/repo/multiPut", endpointMultiPut);
 		levr.bindWebService("/sky/admin", endpointAdmin);
 	}
 }

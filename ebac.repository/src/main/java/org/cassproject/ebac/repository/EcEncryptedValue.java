@@ -280,6 +280,69 @@ public class EcEncryptedValue extends EbacEncryptedValue {
     }
 
     /**
+     * Encrypts a text value with the owners and readers provided
+     *
+     * @param {String}   text Text to encrypt
+     * @param {String}   id ID of the value to encrypt
+     * @param {String[]} owners Owner keys to encrypt value with
+     * @param {String[]} readers Reader keys to encrypt value with
+     * @return {EcEncryptedValue} Encrypted value
+     * @memberOf EcEncryptedValue
+     * @method encryptValue
+     * @static
+     */
+    public static void encryptValueAsync(String text, final String id, Array<String> owners, Array<String> readers, final Callback1<EcEncryptedValue> success, Callback1<String> failure) {
+        final EcEncryptedValue v = new EcEncryptedValue();
+
+        final String newIv = EcAes.newIv(16);
+        final String newSecret = EcAes.newIv(16);
+        v.payload = EcAesCtr.encrypt(text, newSecret, newIv);
+        if (owners != null) {
+            for (int i = 0; i < owners.$length(); i++) {
+                v.addOwner(EcPk.fromPem(owners.$get(i)));
+            }
+        }
+        if (readers != null) {
+            for (int i = 0; i < readers.$length(); i++) {
+                v.addReaderBasic(EcPk.fromPem(readers.$get(i)));
+            }
+        }
+
+        Array<String> pks = new Array<>();
+
+        if (owners != null)
+            if (v.owner != null)
+                pks = pks.concat(v.owner);
+        if (readers != null)
+            if (v.reader != null)
+                pks = pks.concat(v.reader);
+        new EcAsyncHelper<String>().each(pks, new Callback2<String, Callback0>() {
+            @Override
+            public void $invoke(String pk, final Callback0 callback0) {
+                EbacEncryptedSecret eSecret = new EbacEncryptedSecret();
+                eSecret.id = util.encode64(pkcs5.pbkdf2(id, "", 1, 8));
+                eSecret.iv = newIv;
+                eSecret.secret = newSecret;
+                if (v.secret == null) {
+                    v.secret = new Array<String>();
+                }
+                EcRsaOaepAsync.encrypt(EcPk.fromPem(pk), eSecret.toEncryptableJson(), new Callback1<String>() {
+                    @Override
+                    public void $invoke(String s) {
+                        v.secret.push(s);
+                        callback0.$invoke();
+                    }
+                },(Callback1)callback0);
+            }
+        }, new Callback1<Array<String>>() {
+            @Override
+            public void $invoke(Array<String> pks) {
+                success.$invoke(v);
+            }
+        });
+    }
+
+    /**
      * Encrypt a value with a specific IV and secret
      *
      * @param {String}   iv Initialization Vector for encryption
@@ -814,6 +877,25 @@ public class EcEncryptedValue extends EbacEncryptedValue {
      * @method addReader
      */
     public void addReader(EcPk newReader) {
+        addReaderBasic(newReader);
+        EbacEncryptedSecret payloadSecret = decryptSecret();
+
+        if (payloadSecret == null) {
+            Global.console.error("Cannot add a Reader if you don't know the secret");
+            return;
+        }
+
+        EcArray.setAdd(secret, EcRsaOaep.encrypt(newReader, payloadSecret.toEncryptableJson()));
+    }
+
+    /**
+     * Adds a reader to the object, if the reader does not exist.
+     *
+     * @param {EcPk} newReader PK of the new reader.
+     * @memberOf EcEncryptedValue
+     * @method addReader
+     */
+    public void addReaderBasic(EcPk newReader) {
         String pem = newReader.toPem();
         if (reader == null) {
             reader = new Array<String>();
@@ -824,15 +906,6 @@ public class EcEncryptedValue extends EbacEncryptedValue {
             if (EcArray.has(owner, pem))
                 return;
         EcArray.setAdd(reader, pem);
-
-        EbacEncryptedSecret payloadSecret = decryptSecret();
-
-        if (payloadSecret == null) {
-            Global.console.error("Cannot add a Reader if you don't know the secret");
-            return;
-        }
-
-        EcArray.setAdd(secret, EcRsaOaep.encrypt(newReader, payloadSecret.toEncryptableJson()));
     }
 
     /**

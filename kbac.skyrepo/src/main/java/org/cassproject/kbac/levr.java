@@ -1,5 +1,6 @@
 package org.cassproject.kbac;
 
+import org.cassproject.ebac.repository.EcRepository;
 import org.stjs.javascript.annotation.GlobalScope;
 import org.stjs.javascript.annotation.STJSBridge;
 import org.stjs.javascript.functions.Function0;
@@ -8,6 +9,8 @@ import org.stjs.javascript.functions.Function1;
 @GlobalScope
 @STJSBridge()
 public class levr {
+
+	public static EcRepository repo;
 
 	public static Function1 fileFromDatastream;
 

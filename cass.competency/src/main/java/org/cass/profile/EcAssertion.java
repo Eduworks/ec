@@ -132,6 +132,36 @@ public class EcAssertion extends Assertion {
 		subject = EcEncryptedValue.encryptValue(pk.toPem(), id, owners, readers);
 	}
 
+	public void setSubjectAsync(EcPk pk, final Callback0 success, Callback1<String> failure) {
+		final EcAssertion me = this;
+		Array<String> owners = new Array<String>();
+		Array<String> readers = null;
+
+		if (reader == null)
+			readers = new Array<String>();
+		else
+			readers = (Array) Global.JSON.parse(Global.JSON.stringify(reader));
+
+		if (subject != null) {
+			if (subject.owner != null)
+				owners.concat(subject.owner);
+			if (subject.reader != null)
+				readers.concat(subject.reader);
+		}
+
+		if (owner != null)
+			owners = owners.concat(owner);
+
+		readers.push(pk.toPem());
+		EcEncryptedValue.encryptValueAsync(pk.toPem(), id, owners, readers, new Callback1<EcEncryptedValue>() {
+			@Override
+			public void $invoke(EcEncryptedValue subject) {
+				me.subject = subject;
+				success.$invoke();
+			}
+		}, failure);
+	}
+
 	public void getSubjectAsync(final Callback1<EcPk> success, final Callback1<String> failure) {
 		if (subject == null) {
 			success.$invoke(null);
@@ -174,6 +204,17 @@ public class EcAssertion extends Assertion {
 
 	public void setAgent(EcPk pk) {
 		agent = EcEncryptedValue.encryptValue(pk.toPem(), id, subject.owner, subject.reader);
+	}
+
+	public void setAgentAsync(EcPk pk, final Callback0 success, Callback1<String> failure) {
+		final EcAssertion me = this;
+		EcEncryptedValue.encryptValueAsync(pk.toPem(), id, subject.owner, subject.reader, new Callback1<EcEncryptedValue>() {
+			@Override
+			public void $invoke(EcEncryptedValue agent) {
+				me.agent = agent;
+				success.$invoke();
+			}
+		}, failure);
 	}
 
 	public void getAgentAsync(final Callback1<EcPk> success, final Callback1<String> failure) {
@@ -363,6 +404,16 @@ public class EcAssertion extends Assertion {
 		assertionDate = EcEncryptedValue.encryptValue(assertionDateMs.toString(), id, subject.owner, subject.reader);
 	}
 
+	public void setAssertionDateAsync(Long assertionDateMs, final Callback0 success, Callback1<String> failure) {
+		final EcAssertion me = this;
+		EcEncryptedValue.encryptValueAsync(assertionDateMs.toString(), id, subject.owner, subject.reader, new Callback1<EcEncryptedValue>() {
+			@Override
+			public void $invoke(EcEncryptedValue assertionDate) {
+				me.assertionDate = assertionDate;
+				success.$invoke();
+			}
+		}, failure);
+	}
 	public void getAssertionDateAsync(final Callback1<Long> success, final Callback1<String> failure) {
 		if (assertionDate == null) {
 			success.$invoke(null);
@@ -407,6 +458,16 @@ public class EcAssertion extends Assertion {
 		expirationDate = EcEncryptedValue.encryptValue(expirationDateMs.toString(), id, subject.owner, subject.reader);
 	}
 
+	public void setExpirationDateAsync(Long expirationDateMs, final Callback0 success, Callback1<String> failure) {
+		final EcAssertion me = this;
+		EcEncryptedValue.encryptValueAsync(expirationDateMs.toString(), id, subject.owner, subject.reader, new Callback1<EcEncryptedValue>() {
+			@Override
+			public void $invoke(EcEncryptedValue expirationDate) {
+				me.expirationDate = expirationDate;
+				success.$invoke();
+			}
+		}, failure);
+	}
 	public void getExpirationDateAsync(final Callback1<Long> success, final Callback1<String> failure) {
 		if (expirationDate == null) {
 			success.$invoke(null);
@@ -454,6 +515,7 @@ public class EcAssertion extends Assertion {
 
 	public void getEvidencesAsync(final Callback1<Array<String>> success, final Callback1<String> failure){
 		final Array<String> results = new Array<>();
+		if (evidence != null)
 		new EcAsyncHelper<EcEncryptedValue>().each(evidence, new Callback2<EcEncryptedValue, Callback0>() {
 			@Override
 			public void $invoke(EcEncryptedValue e, final Callback0 callback0) {
@@ -471,6 +533,8 @@ public class EcAssertion extends Assertion {
 				success.$invoke(results);
 			}
 		});
+		else
+			success.$invoke(results);
 	}
 
 	public void getEvidenceAsync(int index, final Callback1<String> success, final Callback1<String> failure) {
@@ -515,6 +579,16 @@ public class EcAssertion extends Assertion {
 
 	public void setDecayFunction(String decayFunctionText) {
 		decayFunction = EcEncryptedValue.encryptValue(decayFunctionText.toString(), id, subject.owner, subject.reader);
+	}
+	public void setDecayFunctionAsync(String decayFunctionText, final Callback0 success, Callback1<String> failure) {
+		final EcAssertion me = this;
+		EcEncryptedValue.encryptValueAsync(decayFunctionText, id, subject.owner, subject.reader, new Callback1<EcEncryptedValue>() {
+			@Override
+			public void $invoke(EcEncryptedValue decayFunction) {
+				me.decayFunction = decayFunction;
+				success.$invoke();
+			}
+		}, failure);
 	}
 
 	public void getDecayFunctionAsync(final Callback1<String> success, final Callback1<String> failure) {
@@ -561,6 +635,17 @@ public class EcAssertion extends Assertion {
 		negative = EcEncryptedValue.encryptValue(negativeB.toString(), id, subject.owner, subject.reader);
 	}
 
+	public void setNegativeAsync(Boolean negativeB, final Callback0 success, Callback1<String> failure) {
+		final EcAssertion me = this;
+		EcEncryptedValue.encryptValueAsync(negativeB.toString(), id, subject.owner, subject.reader, new Callback1<EcEncryptedValue>() {
+			@Override
+			public void $invoke(EcEncryptedValue negative) {
+				me.negative = negative;
+				success.$invoke();
+			}
+		}, failure);
+	}
+
 	public void getNegativeAsync(final Callback1<Boolean> success, final Callback1<String> failure) {
 		if (negative == null) {
 			success.$invoke(null);
@@ -605,6 +690,29 @@ public class EcAssertion extends Assertion {
 		for (int i = 0; i < evidences.$length(); i++)
 			encryptedValues.push(EcEncryptedValue.encryptValue(evidences.$get(i), id, subject.owner, subject.reader));
 		evidence = encryptedValues;
+	}
+
+	public void setEvidenceAsync(Array<String> evidences, final Callback0 success, Callback1<String> failure) {
+		final EcAssertion me = this;
+		final Array<EcEncryptedValue> encryptedValues = new Array<EcEncryptedValue>();
+		new EcAsyncHelper<String>().each(evidences, new Callback2<String, Callback0>() {
+			@Override
+			public void $invoke(String s, final Callback0 callback0) {
+				EcEncryptedValue.encryptValueAsync(s, me.id, me.subject.owner, me.subject.reader, new Callback1<EcEncryptedValue>() {
+					@Override
+					public void $invoke(EcEncryptedValue ecEncryptedValue) {
+						encryptedValues.push(ecEncryptedValue);
+						callback0.$invoke();
+					}
+				},(Callback1)callback0);
+			}
+		}, new Callback1<Array<String>>() {
+			@Override
+			public void $invoke(Array<String> strings) {
+				me.evidence = encryptedValues;
+				success.$invoke();
+			}
+		});
 	}
 
 	public void save(Callback1<String> success, Callback1<String> failure, EcRepository repo) {
