@@ -33,6 +33,7 @@ public class EcAsyncHelper<T> {
      * @param {function(item,callback)} each Method that gets invoked per item in the array.
      * @param {function(array)}         after Method invoked when all callbacks are called.
      * @method each
+     * @memberOf EcAsyncHelper
      */
     public void each(final Array<T> array, Callback2<T, Callback0> each, final Callback1<Array<T>> after) {
         final EcAsyncHelper me = this;
@@ -72,18 +73,20 @@ public class EcAsyncHelper<T> {
     }
 
     /**
-     * Will prevent 'after' from being called.
+     * Stops any remaining objects from being iterated over, if they have not already. Will prevent 'after' from being called.
      *
      * @method stop
+     * @memberOf EcAsyncHelper
      */
     public void stop() {
         counter = -1;
     }
 
     /**
-     * Will allow 'after' to be called.
+     * Stops any remaining objects from being iterated over, if they have not already. Will allow 'after' to be called.
      *
      * @method stop
+     * @memberOf EcAsyncHelper
      */
     public void finish() {
         counter = 1;
@@ -94,6 +97,7 @@ public class EcAsyncHelper<T> {
      *
      * @return whether it is stopped.
      * @method isStopped
+     * @memberOf EcAsyncHelper
      */
     public boolean isStopped() {
         return counter <= -1;

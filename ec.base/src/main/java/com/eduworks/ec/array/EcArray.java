@@ -18,6 +18,7 @@ public class EcArray {
 	 * @return true iff the object is an array.
 	 * @static
 	 * @method isArray
+	 * @memberOf EcArray
 	 */
 	public static boolean isArray(Object o) {
 		return toString.call(o) == "[object Array]";
@@ -29,6 +30,7 @@ public class EcArray {
 	 * @param a {Array} Array to remove duplicates from.
 	 * @static
 	 * @method removeDuplicates
+	 * @memberOf EcArray
 	 */
 	public static void removeDuplicates(Array a) {
 		for (int i = 0; i < a.$length(); i++)
@@ -47,6 +49,7 @@ public class EcArray {
 	 * @param o {Object} Object to add to the array if it isn't in there already.
 	 * @static
 	 * @method setAdd
+	 * @memberOf EcArray
 	 */
 	public static void setAdd(Array a, Object o) {
 		if (!has(a,o)) a.push(o);
@@ -59,6 +62,7 @@ public class EcArray {
 	 * @param o {Object} Object to add to the array if it isn't in there already.
 	 * @static
 	 * @method setAdd
+	 * @memberOf EcArray
 	 */
 	public static void setRemove(Array a, Object o) {
 		while (has(a,o))
@@ -72,6 +76,7 @@ public class EcArray {
 	 * @param o {Object} Object to sample for.
 	 * @static
 	 * @method has
+	 * @memberOf EcArray
 	 */
 	public static boolean has(Array a, Object o) {
 		if (isObject(o))
@@ -99,6 +104,7 @@ public class EcArray {
 	 * @return true iff the object is an object.
 	 * @static
 	 * @method isObject
+	 * @memberOf EcArray
 	 */
 	public static boolean isObject(Object o) {
 		if (isArray(o))
@@ -108,6 +114,15 @@ public class EcArray {
 		return JSGlobal.typeof(o) == "object";
 	}
 
+	/**
+	 * Returns the index of an object or value if the object or value exists in the array. Uses .equals if available.
+	 * @param {Array} a Array to check over.
+	 * @param {any} o Object to check for.
+	 * @return Index of the result, -1 if the result isn't in the array.
+	 * @static
+	 * @method indexOf
+	 * @memberOf EcArray
+	 */
 	public static int indexOf(Array a, Object o) {
 		if (isObject(o))
 			for (int i = 0; i < a.$length(); i++) {
