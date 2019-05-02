@@ -17,7 +17,7 @@ import window.EcLevrCrypto;
  * "EcAesCtr"}}EcAesCtr{{/crossLink}}. Uses web workers and assumes 8 workers.
  *
  * @author fritz.ray@eduworks.com
- * @class EcAesCtrAsync
+ * @class EcAesCtrAsyncWorker
  * @module com.eduworks.ec
  */
 public class EcAesCtrAsyncWorker {

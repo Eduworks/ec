@@ -10,7 +10,26 @@ import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
 import window.*;
 
+/**
+ * Async version of EcRsaOaep that uses browser extensions (window.crypto) to accomplish cryptography much faster.
+ * Falls back to EcRsaOaepAsyncWorker, if window.crypto is not available.
+ * @class EcRsaOaepAsync
+ */
 public class EcRsaOaepAsync {
+
+	/**
+	 * Asynchronous form of {{#crossLink
+	 * "EcRsaOaep/encrypt:method"}}EcRsaOaep.encrypt{{/crossLink}}
+	 *
+	 * @param {EcPk}             pk Public Key to use to encrypt.
+	 * @param {string}           plaintext Plaintext to encrypt.
+	 * @param {function(string)} success Success method, result is Base64
+	 *                           encoded Ciphertext.
+	 * @param {function(string)} failure Failure method, parameter is error
+	 *                           message.
+	 * @method encrypt
+	 * @static
+	 */
 	public static void encrypt(final EcPk pk, final String text, final Callback1<String> success, final Callback1<String> failure) {
 		if (EcRemote.async == false) {
 			success.$invoke(EcRsaOaep.encrypt(pk, text));
@@ -49,6 +68,19 @@ public class EcRsaOaepAsync {
 			}, failure);
 	}
 
+	/**
+	 * Asynchronous form of {{#crossLink
+	 * "EcRsaOaep/decrypt:method"}}EcRsaOaep.decrypt{{/crossLink}}
+	 *
+	 * @param {EcPpk}            ppk Public private keypair to use to decrypt.
+	 * @param {string}           ciphertext Ciphertext to decrypt.
+	 * @param {function(string)} success Success method, result is unencoded
+	 *                           plaintext.
+	 * @param {function(string)} failure Failure method, parameter is error
+	 *                           message.
+	 * @method decrypt
+	 * @static
+	 */
 	public static void decrypt(final EcPpk ppk, final String text, final Callback1<String> success, final Callback1<String> failure) {
 
 		if (EcCrypto.caching) {
@@ -95,6 +127,20 @@ public class EcRsaOaepAsync {
 			}, failure);
 	}
 
+
+	/**
+	 * Asynchronous form of {{#crossLink
+	 * "EcRsaOaep/sign:method"}}EcRsaOaep.sign{{/crossLink}}
+	 *
+	 * @param {EcPpk}            ppk Public private keypair to use to sign message.
+	 * @param {string}           text Text to sign.
+	 * @param {function(string)} success Success method, result is Base64
+	 *                           encoded signature.
+	 * @param {function(string)} failure Failure method, parameter is error
+	 *                           message.
+	 * @method sign
+	 * @static
+	 */
 	public static void sign(final EcPpk ppk, final String text, final Callback1<String> success, final Callback1<String> failure) {
 		if (EcRemote.async == false) {
 			success.$invoke(EcRsaOaep.sign(ppk, text));
@@ -132,6 +178,19 @@ public class EcRsaOaepAsync {
 			}, failure);
 	}
 
+	/**
+	 * Asynchronous form of {{#crossLink
+	 * "EcRsaOaep/signSha256:method"}}EcRsaOaep.signSha256{{/crossLink}}
+	 *
+	 * @param {EcPpk}            ppk Public private keypair to use to sign message.
+	 * @param {string}           text Text to sign.
+	 * @param {function(string)} success Success method, result is Base64
+	 *                           encoded signature.
+	 * @param {function(string)} failure Failure method, parameter is error
+	 *                           message.
+	 * @method signSha256
+	 * @static
+	 */
 	public static void signSha256(final EcPpk ppk, final String text, final Callback1<String> success, final Callback1<String> failure) {
 		if (EcRemote.async == false) {
 			success.$invoke(EcRsaOaep.signSha256(ppk, text));
@@ -169,6 +228,20 @@ public class EcRsaOaepAsync {
 			}, failure);
 	}
 
+	/**
+	 * Asynchronous form of {{#crossLink
+	 * "EcRsaOaep/verify:method"}}EcRsaOaep.verify{{/crossLink}}
+	 *
+	 * @param {EcPk}              pk Public key to use to verify message.
+	 * @param {string}            text Text to use in verification.
+	 * @param {string}            signature Signature to use in verification.
+	 * @param {function(boolean)} success Success method, result is whether
+	 *                            signature is valid.
+	 * @param {function(string)}  failure Failure method, parameter is error
+	 *                            message.
+	 * @method verify
+	 * @static
+	 */
 	public static void verify(final EcPk pk, final String text, final String signature, final Callback1<Boolean> success, final Callback1<String> failure) {
 		if (EcRemote.async == false) {
 			success.$invoke(EcRsaOaep.verify(pk, text, signature));
