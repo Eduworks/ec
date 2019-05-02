@@ -17,6 +17,12 @@ import org.stjs.javascript.functions.Callback2;
 
 import static cass.rollup.processors.util.EcGraphUtil.buildIdSearchQueryForIdList;
 
+/**
+ * Graph for working with a framework. Additional computed data (such as profile data) can be overlaid on the graph through the use of "metaverticies" and "metaedges" that hold additional information.
+ * @class EcFrameworkGraph
+ * @author fritz.ray@eduworks.com
+ * @author tom.buskirk@eduworks.com
+ */
 public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment> {
 
     private Map<String, Object> metaVerticies;
@@ -39,6 +45,15 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
         frameworks = new Array<EcFramework>();
     }
 
+    /**
+     * Adds a framework to the graph, and creates the edges to connect the competencies in the framework.
+     * @param {EcFramework} framework Framework to add to the graph.
+     * @param {EcRepository} repo Repository to fetch data from that exists in the framework.
+     * @param {function()} success Method to invoke when done adding the framework.
+     * @param {function(error)} failure Method to invoke when things go badly.
+     * @method addFramework
+     * @memberOf EcFrameworkGraph
+     */
     public void addFramework(final EcFramework framework, EcRepository repo, final Callback0 success, Callback1<String> failure) {
         frameworks.push(framework);
         final EcFrameworkGraph me = this;
@@ -101,36 +116,18 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
         );
     }
 
-//	public void addFramework(final EcFramework framework, EcRepository repo, final Callback0 success, Callback1<String> failure) {
-//		addFrameworkSuccessCallback = success;
-//		addFrameworkFailureCallback = failure;
-//		frameworks.push(framework);
-//		this.repo = repo;
-//		final EcFrameworkGraph me = this;
-//		EcCompetency.search(repo, buildIdSearchQueryForIdList(framework.competency),
-//				new Callback1<Array<EcCompetency>>() {
-//					@Override
-//					public void $invoke(Array<EcCompetency> ecca) {
-//						for (int i = 0; i < ecca.$length(); i++) {
-//							EcCompetency c = ecca.$get(i);
-//							me.addCompetency(c);
-//							me.addToMetaStateArray(me.getMetaStateCompetency(c),"framework",framework);
-//						}
-//						me.fetchFrameworkAlignments(framework);
-//					}
-//				},
-//				me.addFrameworkFailureCallback,
-//				null
-//		);
-//	}
-
+    /**
+     * Helper method to populate the graph with assertion data, based on propagation rules implicit in the relations (see devs.cassproject.org, Relations). Does not draw conclusions. Must be able to decrypt 'negative' value.
+     * @param {Assertion[]} assertions Assertion candidates to use to populate the graph.
+     * @param {function()} success Method to invoke when the operation completes successfully.
+     * @param {function(error)} failure Error method.
+     */
     public void processAssertionsBoolean(final Array<EcAssertion> assertions, final Callback0 success, final Callback1<String> failure) {
         final EcFrameworkGraph me = this;
         final EcAsyncHelper<EcAssertion> eah = new EcAsyncHelper<EcAssertion>();
         eah.each(assertions, new Callback2<EcAssertion, Callback0>() {
             @Override
             public void $invoke(final EcAssertion assertion, final Callback0 done) {
-                //final EcCompetency competency = EcCompetency.getBlocking(assertion.competency);
                 final EcCompetency competency = me.getCompetency(assertion.competency);
                 if (competency == null || !me.containsVertex(competency)) {
                     done.$invoke();
@@ -166,12 +163,7 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
                 @Override
                 public void $invoke(EcAlignment alignment, Callback0 callback0) {
                     EcCompetency c = me.getCompetency(alignment.target);
-                    if (alignment.relationType == Relation.NARROWS)
-                        me.processAssertionsBooleanPerAssertion(assertion, negative, c, callback0, visited);
-                    else if (alignment.relationType == Relation.IS_EQUIVALENT_TO)
-                        me.processAssertionsBooleanPerAssertion(assertion, negative, c, callback0, visited);
-                    else
-                        callback0.$invoke();
+                    processAssertionBooleanOutward(alignment, callback0, c, me, assertion, negative, visited);
                 }
             }, new Callback1<Array<EcAlignment>>() {
                 @Override
@@ -180,12 +172,7 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
                         @Override
                         public void $invoke(EcAlignment alignment, Callback0 callback0) {
                             EcCompetency c = me.getCompetency(alignment.source);
-                            if (alignment.relationType == Relation.REQUIRES)
-                                me.processAssertionsBooleanPerAssertion(assertion, negative, c, callback0, visited);
-                            else if (alignment.relationType == Relation.IS_EQUIVALENT_TO)
-                                me.processAssertionsBooleanPerAssertion(assertion, negative, c, callback0, visited);
-                            else
-                                callback0.$invoke();
+                            processAssertionBooleanInward(alignment, callback0, c, me, assertion, negative, visited);
                         }
                     }, new Callback1<Array<EcAlignment>>() {
                         @Override
@@ -203,12 +190,7 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
                 @Override
                 public void $invoke(EcAlignment alignment, Callback0 callback0) {
                     EcCompetency c = me.getCompetency(alignment.source);
-                    if (alignment.relationType == Relation.NARROWS)
-                        me.processAssertionsBooleanPerAssertion(assertion, negative, c, callback0, visited);
-                    else if (alignment.relationType == Relation.IS_EQUIVALENT_TO)
-                        me.processAssertionsBooleanPerAssertion(assertion, negative, c, callback0, visited);
-                    else
-                        callback0.$invoke();
+                    processAssertionBooleanOutward(alignment, callback0, c, me, assertion, negative, visited);
                 }
             }, new Callback1<Array<EcAlignment>>() {
                 @Override
@@ -217,12 +199,7 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
                         @Override
                         public void $invoke(EcAlignment alignment, Callback0 callback0) {
                             EcCompetency c = me.getCompetency(alignment.target);
-                            if (alignment.relationType == Relation.REQUIRES)
-                                me.processAssertionsBooleanPerAssertion(assertion, negative, c, callback0, visited);
-                            else if (alignment.relationType == Relation.IS_EQUIVALENT_TO)
-                                me.processAssertionsBooleanPerAssertion(assertion, negative, c, callback0, visited);
-                            else
-                                callback0.$invoke();
+                            processAssertionBooleanInward(alignment, callback0, c, me, assertion, negative, visited);
                         }
                     }, new Callback1<Array<EcAlignment>>() {
                         @Override
@@ -235,6 +212,24 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
         }
     }
 
+    private void processAssertionBooleanOutward(EcAlignment alignment, Callback0 callback0, EcCompetency c, EcFrameworkGraph me, EcAssertion assertion, Boolean negative, Array<EcCompetency> visited) {
+        if (alignment.relationType == Relation.NARROWS)
+            me.processAssertionsBooleanPerAssertion(assertion, negative, c, callback0, visited);
+        else if (alignment.relationType == Relation.IS_EQUIVALENT_TO)
+            me.processAssertionsBooleanPerAssertion(assertion, negative, c, callback0, visited);
+        else
+            callback0.$invoke();
+    }
+
+    private void processAssertionBooleanInward(EcAlignment alignment, Callback0 callback0, EcCompetency c, EcFrameworkGraph me, EcAssertion assertion, Boolean negative, Array<EcCompetency> visited) {
+        if (alignment.relationType == Relation.REQUIRES)
+            me.processAssertionsBooleanPerAssertion(assertion, negative, c, callback0, visited);
+        else if (alignment.relationType == Relation.IS_EQUIVALENT_TO)
+            me.processAssertionsBooleanPerAssertion(assertion, negative, c, callback0, visited);
+        else
+            callback0.$invoke();
+    }
+
     private void addToMetaStateArray(Object metaState, String key, Object value) {
         if (metaState == null) return;
         if (JSObjectAdapter.$get(metaState, key) == null)
@@ -242,6 +237,13 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
         ((Array) JSObjectAdapter.$get(metaState, key)).push(value);
     }
 
+    /**
+     * Fetches the Meta Competency (additional state information used to compute profiles or other data) for a competency.
+     * @param {EcCompetency} c Competency to fetch meta state for.
+     * @return Meta state (empty object by default)
+     * @method getMetaStateCompetency
+     * @memberOf EcFrameworkGraph
+     */
     public Object getMetaStateCompetency(EcCompetency c) {
         Object result = metaVerticies.$get(c.shortId());
         if (result == null) {
