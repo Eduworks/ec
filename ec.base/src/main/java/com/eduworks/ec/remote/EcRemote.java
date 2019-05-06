@@ -73,6 +73,22 @@ public class EcRemote {
         postInner(server, service, fd, null, success, failure);
     }
 
+    /**
+     * POSTs a request to a remote endpoint. Composed of a server endpoint (root
+     * URL) and a service (service path). Sends form data as a multi-part mime
+     * request. Includes headers.
+     *
+     * @param {string}           server Protocol, hostname and path to the remote handler.
+     * @param {string}           service Path to service to invoke.
+     * @param {FormData}         fd Form data to send as multi-part mime.
+     * @param {Object}           headers Headers to attach to the HTTP post.
+     * @param {function(string)} success Method that is invoked if the server
+     *                           responds with a success (per jQuery ajax)
+     * @param {function(string)} failure Method that is invoked if the server
+     *                           responds with an error (per jQuery ajax) or a non-200/300.
+     * @method postWithHeadersExpectingString
+     * @static
+     */
     public static void postWithHeadersExpectingString(String server, String service, FormData fd, Map<String, String> headers,
                                                       final Callback1<String> success, final Callback1<String> failure) {
         postInner(server, service, fd, headers, success, failure);

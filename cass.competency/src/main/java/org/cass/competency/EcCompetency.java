@@ -146,8 +146,6 @@ public class EcCompetency extends Competency {
 	 *                                        Callback triggered if error searching
 	 * @param {Object}                        paramObj
 	 *                                        Parameter object for search
-	 * @param start
-	 * @param size
 	 * @memberOf EcCompetency
 	 * @method search
 	 * @static

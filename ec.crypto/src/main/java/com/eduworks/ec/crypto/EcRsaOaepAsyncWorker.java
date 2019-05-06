@@ -17,7 +17,7 @@ import window.EcLevrCrypto;
  * "EcRsaOaep"}}EcRsaOaep{{/crossLink}}. Uses web workers and assumes 8 workers.
  *
  * @author fritz.ray@eduworks.com
- * @class EcRsaOaepAsync
+ * @class EcRsaOaepAsyncWorker
  * @module com.eduworks.ec
  */
 public class EcRsaOaepAsyncWorker {
