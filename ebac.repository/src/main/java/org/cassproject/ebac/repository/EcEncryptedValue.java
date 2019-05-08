@@ -753,17 +753,6 @@ public class EcEncryptedValue extends EbacEncryptedValue {
                 failure.$invoke("Could not decrypt secret.");
             }
         });
-
-        // Last resort, try all the keys I have on all the possible locks.
-        // Disabled for performance reasons. I hope this won't bite us.
-//		for (int i = 0; i < EcIdentityManager.ids.$length(); i++) {
-//			EcPpk decryptionKey = EcIdentityManager.ids.$get(i).ppk;
-//			if (decryptionKey != null) {
-//				if (!decryptionKey.inArray(ppks)) {
-//					ppks.push(decryptionKey);
-//				}
-//			}
-//		}
     }
 
     private EbacEncryptedSecret tryDecryptSecretByKeyAndIndex(EcPpk decryptionKey, int j) {
@@ -791,7 +780,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
         EbacEncryptedSecret encryptedSecret = null;
         final EcEncryptedValue me = this;
         if (this.secret != null) {
-            if (estimatedIndex < 0) {
+            if (estimatedIndex < 0 || estimatedIndex >= secret.$length()) {
                 decryptSecretsByKeyAsync(decryptionKey, success, failure);
             } else {
                 EcRsaOaepAsync.decrypt(decryptionKey, secret.$get(estimatedIndex), new Callback1<String>() {
