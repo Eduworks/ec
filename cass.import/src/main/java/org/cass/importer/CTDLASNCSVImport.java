@@ -55,9 +55,9 @@ public class CTDLASNCSVImport {
 						for (int i = 0; i < tabularData.$length(); i++) {
 							if (i == 0) continue;
 							Array<String> col = tabularData.$get(i);
-							if (col.$get(typeCol) == "ceasn:CompetencyFramework")
+							if (col.$get(typeCol) != null && col.$get(typeCol).trim() == "ceasn:CompetencyFramework")
 								frameworkCounter++;
-							else if (col.$get(typeCol) == "ceasn:Competency")
+							else if (col.$get(typeCol) != null && col.$get(typeCol).trim() == "ceasn:Competency")
 								competencyCounter++;
 							else if (col.$get(typeCol) == null || col.$get(typeCol) == "")
 								continue;
@@ -105,7 +105,7 @@ public class CTDLASNCSVImport {
 						Object relationById = new Object();
 						for (int i = 0; i < tabularData.$length(); i++) {
 							Object e = tabularData.$get(i);
-							if (JSObjectAdapter.$get(e, "@type") == "ceasn:CompetencyFramework") {
+							if (JSObjectAdapter.$get(e, "@type") != null && ((String)JSObjectAdapter.$get(e, "@type")).trim() == "ceasn:CompetencyFramework") {
 								EcFramework f = new EcFramework();
 
 								if (JSObjectAdapter.$get(e, "@owner") != null) {
@@ -129,7 +129,7 @@ public class CTDLASNCSVImport {
 								JSObjectAdapter.$put(f, "schema:creator", JSObjectAdapter.$get(e, "ceasn:creator"));
 								JSObjectAdapter.$put(f, "ceasn:derivedFrom", JSObjectAdapter.$get(e, "ceasn:derivedFrom"));
 								JSObjectAdapter.$put(f, "dc:source", JSObjectAdapter.$get(e, "ceasn:source"));
-							} else if (JSObjectAdapter.$get(e, "@type") == "ceasn:Competency") {
+							} else if (JSObjectAdapter.$get(e, "@type") != null && ((String)JSObjectAdapter.$get(e, "@type")).trim() == "ceasn:Competency") {
 								EcCompetency f = new EcCompetency();
 								if (JSObjectAdapter.$get(e, "@id") == null) continue;
 								f.id = (String) JSObjectAdapter.$get(e, "@id");
@@ -151,7 +151,7 @@ public class CTDLASNCSVImport {
 										return;
 									}
 									if (parent != null) {
-										if (JSObjectAdapter.$get(parent, "@type") == "ceasn:CompetencyFramework") {
+										if (JSObjectAdapter.$get(parent, "@type") != null && ((String)JSObjectAdapter.$get(parent, "@type")).trim() == "ceasn:CompetencyFramework") {
 											JSObjectAdapter.$put(e, "ceasn:isPartOf", (String) JSObjectAdapter.$get(parent, "@id"));
 											((EcFramework) JSObjectAdapter.$get(frameworks, (String) JSObjectAdapter.$get(parent, "@id"))).competency.push(f.shortId());
 										} else {
