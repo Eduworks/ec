@@ -22,7 +22,7 @@ public class PessimisticQuadnaryAssertionProcessor extends CombinatorAssertionPr
 		if (ip.anyChildPacketsAreTrue())
 			ip.result = ResultType.TRUE;
 		else if (transferIndeterminateOptimistically && ip.anyIndeterminantChildPackets())
-			ip.result = ResultType.FALSE;
+			ip.result = ResultType.TRUE;
 		else
 			ip.result = ResultType.UNKNOWN;
 	}
@@ -30,8 +30,8 @@ public class PessimisticQuadnaryAssertionProcessor extends CombinatorAssertionPr
 	private void determineCombinatorBroadensResult(InquiryPacket ip) {
 		if (ip.anyChildPacketsAreFalse())
 			ip.result = ResultType.FALSE;
-		else if (transferIndeterminateOptimistically && ip.anyIndeterminantChildPackets())
-			ip.result = ResultType.TRUE;
+		else if (ip.anyIndeterminantChildPackets())
+			ip.result = ResultType.FALSE;
 		else
 			ip.result = ResultType.UNKNOWN;
 	}
@@ -39,8 +39,8 @@ public class PessimisticQuadnaryAssertionProcessor extends CombinatorAssertionPr
 	private void determineCombinatorRequiresResult(InquiryPacket ip) {
 		if (ip.anyChildPacketsAreFalse())
 			ip.result = ResultType.FALSE;
-		else if (transferIndeterminateOptimistically && ip.anyIndeterminantChildPackets())
-			ip.result = ResultType.TRUE;
+		else if (ip.anyIndeterminantChildPackets())
+			ip.result = ResultType.FALSE;
 		else
 			ip.result = ResultType.UNKNOWN;
 	}
@@ -49,7 +49,7 @@ public class PessimisticQuadnaryAssertionProcessor extends CombinatorAssertionPr
 		if (ip.anyChildPacketsAreTrue())
 			ip.result = ResultType.TRUE;
 		else if (transferIndeterminateOptimistically && ip.anyIndeterminantChildPackets())
-			ip.result = ResultType.FALSE;
+			ip.result = ResultType.TRUE;
 		else
 			ip.result = ResultType.UNKNOWN;
 	}
