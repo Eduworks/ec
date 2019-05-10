@@ -369,6 +369,115 @@ public class EvidenceProcessingTest extends EvidenceProcessingTestBase {
 	}
 
 	@Test
+	public void basicNarrowsSatisfiedTest() {
+		EcFramework f = newFramework("Billy's Framework");
+
+		EcCompetency c = newCompetency("Add");
+		EcCompetency c2 = newCompetency("Multiply");
+
+		f.addCompetency(c.shortId());
+		f.addCompetency(c2.shortId());
+
+		EcAlignment r = newRelation(c, c2, EcAlignment.NARROWS);
+
+		f.addRelation(r.shortId());
+
+		f.save(null, failure,repo);
+
+		EcAssertion a = newAssertion(c2);
+
+		Callback1<InquiryPacket> isTest = new Callback1<InquiryPacket>() {
+			@Override
+			public void $invoke(InquiryPacket p1) {
+				Global.console.log(p1.result.name());
+				Global.console.log(p1);
+				Assert.assertSame(InquiryPacket.ResultType.TRUE, p1.result);
+			}
+		};
+
+		performTest(f, c, isTest);
+
+		deleteById(f.shortId());
+		deleteById(c.shortId());
+		deleteById(c2.shortId());
+		deleteById(a.shortId());
+		deleteById(r.shortId());
+	}
+
+	@Test
+	public void basicNarrowsUnsatisfiedTest() {
+		EcFramework f = newFramework("Billy's Framework");
+
+		EcCompetency c = newCompetency("Add");
+		EcCompetency c2 = newCompetency("Multiply");
+
+		f.addCompetency(c.shortId());
+		f.addCompetency(c2.shortId());
+
+		EcAlignment r = newRelation(c, c2, EcAlignment.NARROWS);
+
+		f.addRelation(r.shortId());
+
+		f.save(null, failure,repo);
+
+		EcAssertion a = newAssertion(c);
+
+		Callback1<InquiryPacket> isTest = new Callback1<InquiryPacket>() {
+			@Override
+			public void $invoke(InquiryPacket p1) {
+				Global.console.log(p1.result.name());
+				Global.console.log(p1);
+				Assert.assertSame(InquiryPacket.ResultType.UNKNOWN, p1.result);
+			}
+		};
+
+		performTest(f, c2, isTest);
+
+		deleteById(f.shortId());
+		deleteById(c.shortId());
+		deleteById(c2.shortId());
+		deleteById(a.shortId());
+		deleteById(r.shortId());
+	}
+
+	@Test
+	public void basicNarrowsPositiveNegativeTest() {
+		EcFramework f = newFramework("Billy's Framework");
+
+		EcCompetency c = newCompetency("Add");
+		EcCompetency c2 = newCompetency("Multiply");
+
+		f.addCompetency(c.shortId());
+		f.addCompetency(c2.shortId());
+
+		EcAlignment r = newRelation(c, c2, EcAlignment.NARROWS);
+
+		f.addRelation(r.shortId());
+
+		f.save(null, failure,repo);
+
+		EcAssertion a = newAssertion(c);
+		EcAssertion a2 = newFalseAssertion(c);
+
+		Callback1<InquiryPacket> isTest = new Callback1<InquiryPacket>() {
+			@Override
+			public void $invoke(InquiryPacket p1) {
+				Global.console.log(p1.result.name());
+				Global.console.log(p1);
+				Assert.assertSame(InquiryPacket.ResultType.FALSE, p1.result);
+			}
+		};
+
+		performTest(f, c2, isTest);
+
+		deleteById(f.shortId());
+		deleteById(c.shortId());
+		deleteById(c2.shortId());
+		deleteById(a.shortId());
+		deleteById(r.shortId());
+	}
+
+	@Test
 	public void basicRequiresFalseTest() {
 		EcFramework f = newFramework("Billy's Framework");
 

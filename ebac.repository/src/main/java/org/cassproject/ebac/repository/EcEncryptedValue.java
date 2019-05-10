@@ -64,6 +64,8 @@ public class EcEncryptedValue extends EbacEncryptedValue {
         }
         String newIv = EcAes.newIv(16);
         String newSecret = EcAes.newIv(16);
+        Object conceptName = JSObjectAdapter.$get(d, "skos:prefLabel");
+        Object conceptSchemeName = JSObjectAdapter.$get(d, "dcterms:title");
         v.payload = EcAesCtr.encrypt(d.toJson(), newSecret, newIv);
         v.owner = d.owner;
         v.reader = d.reader;
@@ -94,6 +96,12 @@ public class EcEncryptedValue extends EbacEncryptedValue {
                 }
                 v.secret.push(EcRsaOaep.encrypt(EcPk.fromPem(d.reader.$get(i)), eSecret.toEncryptableJson()));
             }
+        }
+        if (conceptName != null) {
+            JSObjectAdapter.$put(v, "skos:prefLabel", conceptName);
+        }
+        if (conceptSchemeName != null) {
+            JSObjectAdapter.$put(v, "dcterms:title", conceptSchemeName);
         }
         return v;
     }
