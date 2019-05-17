@@ -5,6 +5,7 @@ import com.eduworks.ec.array.EcObject;
 import js.jsonld;
 import org.stjs.javascript.*;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.javascript.functions.Callback3;
 
 /**
@@ -293,6 +294,37 @@ public class EcLinkedData {
 			throw new RuntimeException("Incompatible type: " + getFullType());
 	}
 
+	public void recast(String translationContext, String targetContext, final Callback1<EcLinkedData> success, final Callback1<String> failure) {
+		final EcLinkedData me = this;
+		Object json = JSGlobal.JSON.parse(toJson());
+		if (targetContext == null)
+			targetContext = (String) JSObjectAdapter.$get(json, "@context");
+		JSObjectAdapter.$put(json, "@context", translationContext);
+		final String finalTargetContext = targetContext;
+		jsonld.expand(json, new Object(), new Callback2<Object, Object>() {
+			@Override
+			public void $invoke(final Object error, Object actual) {
+				if (error != null) {
+					failure.$invoke((String)JSObjectAdapter.$get(error, "message"));
+					return;
+				}
+				jsonld.compact(actual, finalTargetContext, new Object(), new Callback3<String, Object, Object>() {
+					@Override
+					public void $invoke(String s, Object o, Object o2) {
+						if (s != null)
+						{
+							failure.$invoke(s);
+							return;
+						}
+						me.copyFrom(o);
+						JSObjectAdapter.$put(me,"@context",finalTargetContext);
+						success.$invoke(me);
+					}
+				});
+			}
+		});
+	}
+
 	/***
 	 * Upgrades the object to the latest version, performing transforms and the like.
 	 *
@@ -311,20 +343,18 @@ public class EcLinkedData {
 	 */
 	public EcLinkedData deAtify() {
 		Map<String, Object> me = JSObjectAdapter.$properties(this);
-     boolean typeFound = false;
-     if (me.$get("@type") != null)
-         typeFound = true;
+		boolean typeFound = false;
+		if (me.$get("@type") != null)
+			typeFound = true;
 		for (String key : me) {
-			if (me.$get(key) == null){
+			if (me.$get(key) == null) {
 				if (typeFound) {
 					Object value = me.$get(key);
 					if (value != null)
 						if (value instanceof EcLinkedData)
 							value = ((EcLinkedData) value).deAtify();
 					me.$put(key.replace("@", ""), value);
-				}
-				else
-				{
+				} else {
 					Object value = me.$get(key);
 					if (value != null)
 						if (value instanceof EcLinkedData)
@@ -350,7 +380,7 @@ public class EcLinkedData {
 				if (type.indexOf(context) == 0)
 					a.push(type);
 				else
-				a.push(context + type);
+					a.push(context + type);
 			}
 		}
 		return a;
