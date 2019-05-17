@@ -1,6 +1,7 @@
 package js;
 
 import org.stjs.javascript.annotation.STJSBridge;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.javascript.functions.Callback3;
 
 @STJSBridge(sources = {"/src/main/resources/jsonld.js"})
@@ -23,4 +24,5 @@ public class jsonld{
 	 * @param callback(err, compacted, ctx) called once the operation completes.
 	 */
 	public static void compact(Object input, Object context, Object options, Callback3<String,Object,Object> callback){}
+	public static void expand(Object input, Object options, Callback2<Object,Object> callback){}
 }
