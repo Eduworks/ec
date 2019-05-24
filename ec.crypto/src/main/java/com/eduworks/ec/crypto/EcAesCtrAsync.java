@@ -3,6 +3,7 @@ package com.eduworks.ec.crypto;
 import com.eduworks.ec.blob.ArrayBuffer;
 import com.eduworks.ec.blob.BlobHelper;
 import com.eduworks.ec.remote.EcRemote;
+import forge.util;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSObjectAdapter;
@@ -46,7 +47,7 @@ public class EcAesCtrAsync {
         algorithm.counter = base64.decode(iv);
         algorithm.length = 128;
         final ArrayBuffer data;
-        data = BlobHelper.str2ab(plaintext);
+        data = BlobHelper.str2ab(util.encodeUtf8(plaintext));
         crypto.subtle.importKey("raw", base64.decode(secret), algorithm, false, keyUsages).then(new Callback1<CryptoKey>() {
             @Override
             public void $invoke(CryptoKey key) {
@@ -76,7 +77,7 @@ public class EcAesCtrAsync {
      * @method decrypt
      * @static
      */
-    public static void decrypt(String ciphertext, String secret, String iv, final Callback1<String> success, final Callback1<String> failure) {
+    public static void decrypt(final String ciphertext, final String secret, final String iv, final Callback1<String> success, final Callback1<String> failure) {
         if (EcCrypto.caching) {
             final Object cacheGet = JSObjectAdapter.$get(EcCrypto.decryptionCache, secret + iv + ciphertext);
             if (cacheGet != null) {
@@ -106,7 +107,8 @@ public class EcAesCtrAsync {
                 p.then(new Callback1<ArrayBuffer>() {
                     @Override
                     public void $invoke(ArrayBuffer p1) {
-                        success.$invoke(BlobHelper.ab2str(p1));
+                        JSObjectAdapter.$put(EcCrypto.decryptionCache, secret + iv + ciphertext, util.decodeUtf8(BlobHelper.ab2str(p1)));
+                        success.$invoke(util.decodeUtf8(BlobHelper.ab2str(p1)));
                     }
                 }, failure);
             }

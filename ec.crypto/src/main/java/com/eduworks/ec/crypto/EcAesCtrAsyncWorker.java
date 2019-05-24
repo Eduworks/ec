@@ -1,6 +1,7 @@
 package com.eduworks.ec.crypto;
 
 import com.eduworks.ec.remote.EcRemote;
+import forge.util;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSGlobal;
@@ -50,7 +51,10 @@ public class EcAesCtrAsyncWorker {
 		q1.push(new Array<Callback1>());
 		q2.push(new Array<Callback1>());
 		Worker<Object> wkr;
-		w.push(wkr = new Worker<Object>(JSObjectAdapter.$get(Global.window, "scriptPath") + "forgeAsync.js"));
+		if (JSObjectAdapter.$get(Global.window, "scriptPath") != null)
+			w.push(wkr = new Worker<Object>(JSObjectAdapter.$get(Global.window, "scriptPath") + "forgeAsync.js"));
+		else
+			w.push(wkr = new Worker<Object>("forgeAsync.js"));
 		wkr.onmessage = new Callback1<MessageEvent<Object>>() {
 			@Override
 			public void $invoke(MessageEvent<Object> p1) {
@@ -102,7 +106,7 @@ public class EcAesCtrAsyncWorker {
 			Object o = new Object();
 			JSObjectAdapter.$put(o, "secret", secret);
 			JSObjectAdapter.$put(o, "iv", iv);
-			JSObjectAdapter.$put(o, "text", plaintext);
+			JSObjectAdapter.$put(o, "text", util.encodeUtf8(plaintext));
 			JSObjectAdapter.$put(o, "cmd", "encryptAesCtr");
 			q1.$get(worker).push(success);
 			q2.$get(worker).push(failure);
@@ -148,12 +152,17 @@ public class EcAesCtrAsyncWorker {
 				q1.$get(worker).push(new Callback1<String>() {
 					@Override
 					public void $invoke(String p1) {
-						JSObjectAdapter.$put(EcCrypto.decryptionCache, secret + iv + ciphertext, p1);
-						success.$invoke(p1);
+						JSObjectAdapter.$put(EcCrypto.decryptionCache, secret + iv + ciphertext, util.decodeUtf8(p1));
+						success.$invoke(util.decodeUtf8(p1));
 					}
 				});
 			} else {
-				q1.$get(worker).push(success);
+				q1.$get(worker).push(new Callback1<String>() {
+					@Override
+					public void $invoke(String p1) {
+						success.$invoke(util.decodeUtf8(p1));
+					}
+				});
 			}
 			q2.$get(worker).push(failure);
 			w.$get(worker).postMessage(o);

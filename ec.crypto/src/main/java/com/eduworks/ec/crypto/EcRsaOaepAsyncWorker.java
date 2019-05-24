@@ -50,7 +50,10 @@ public class EcRsaOaepAsyncWorker {
 		q1.push(new Array<Callback1>());
 		q2.push(new Array<Callback1>());
 		Worker<Object> wkr;
+		if (JSObjectAdapter.$get(Global.window, "scriptPath") != null)
 		w.push(wkr = new Worker<Object>(JSObjectAdapter.$get(Global.window, "scriptPath") + "forgeAsync.js"));
+		else
+			w.push(wkr = new Worker<Object>("forgeAsync.js"));
 		wkr.onmessage = new Callback1<MessageEvent<Object>>() {
 			@Override
 			public void $invoke(MessageEvent<Object> p1) {
@@ -99,7 +102,7 @@ public class EcRsaOaepAsyncWorker {
 			rotator = rotator % 8;
 			Object o = new Object();
 			JSObjectAdapter.$put(o, "pk", pk.toPem());
-			JSObjectAdapter.$put(o, "text", plaintext);
+			JSObjectAdapter.$put(o, "text", forge.util.encodeUtf8(plaintext));
 			JSObjectAdapter.$put(o, "cmd", "encryptRsaOaep");
 			q1.$get(worker).push(success);
 			q2.$get(worker).push(failure);
@@ -143,12 +146,17 @@ public class EcRsaOaepAsyncWorker {
 				q1.$get(worker).push(new Callback1<String>() {
 					@Override
 					public void $invoke(String p1) {
-						JSObjectAdapter.$put(EcCrypto.decryptionCache, ppk.toPem() + ciphertext, p1);
-						success.$invoke(p1);
+						JSObjectAdapter.$put(EcCrypto.decryptionCache, ppk.toPem() + ciphertext, forge.util.decodeUtf8(p1));
+						success.$invoke(forge.util.decodeUtf8(p1));
 					}
 				});
 			} else {
-				q1.$get(worker).push(success);
+				q1.$get(worker).push(new Callback1<String>() {
+					@Override
+					public void $invoke(String p1) {
+						success.$invoke(forge.util.decodeUtf8(p1));
+					}
+				});
 			}
 			q2.$get(worker).push(failure);
 			w.$get(worker).postMessage(o);
@@ -177,7 +185,7 @@ public class EcRsaOaepAsyncWorker {
 			rotator = rotator % 8;
 			Object o = new Object();
 			JSObjectAdapter.$put(o, "ppk", ppk.toPem());
-			JSObjectAdapter.$put(o, "text", text);
+			JSObjectAdapter.$put(o, "text", forge.util.encodeUtf8(text));
 			JSObjectAdapter.$put(o, "cmd", "signRsaOaep");
 			q1.$get(worker).push(success);
 			q2.$get(worker).push(failure);
@@ -207,7 +215,7 @@ public class EcRsaOaepAsyncWorker {
 			rotator = rotator % 8;
 			Object o = new Object();
 			JSObjectAdapter.$put(o, "ppk", ppk.toPem());
-			JSObjectAdapter.$put(o, "text", text);
+			JSObjectAdapter.$put(o, "text", forge.util.encodeUtf8(text));
 			JSObjectAdapter.$put(o, "cmd", "signSha256RsaOaep");
 			q1.$get(worker).push(success);
 			q2.$get(worker).push(failure);
@@ -238,7 +246,7 @@ public class EcRsaOaepAsyncWorker {
 			rotator = rotator % 8;
 			Object o = new Object();
 			JSObjectAdapter.$put(o, "pk", pk.toPem());
-			JSObjectAdapter.$put(o, "text", text);
+			JSObjectAdapter.$put(o, "text", forge.util.encodeUtf8(text));
 			JSObjectAdapter.$put(o, "signature", signature);
 			JSObjectAdapter.$put(o, "cmd", "verifyRsaOaep");
 			q1.$get(worker).push(success);

@@ -32,7 +32,7 @@ public class EcRsaOaep {
 		if (Global.typeof(EcLevrHttp.httpStatus) != "undefined") {
 			return EcLevrCrypto.rsaEncrypt(plaintext, pk.toPem());
 		}
-		return forge.util.encode64(pk.pk.encrypt(plaintext, "RSA-OAEP"));
+		return forge.util.encode64(pk.pk.encrypt(forge.util.encodeUtf8(plaintext), "RSA-OAEP"));
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class EcRsaOaep {
 		if (Global.typeof(EcLevrHttp.httpStatus) != "undefined") {
 			result = EcLevrCrypto.rsaDecrypt(ciphertext, ppk.toPem());
 		} else {
-			result = ppk.ppk.decrypt(forge.util.decode64(ciphertext), "RSA-OAEP");
+			result = forge.util.decodeUtf8(ppk.ppk.decrypt(forge.util.decode64(ciphertext), "RSA-OAEP"));
 		}
 		if (EcCrypto.caching) {
 			JSObjectAdapter.$put(EcCrypto.decryptionCache, ppk.toPem() + ciphertext, result);
@@ -81,7 +81,7 @@ public class EcRsaOaep {
 			return EcLevrCrypto.rsaSign(text, ppk.toPem());
 		}
 		sha1 s = sha1.create();
-		s.update(text, "utf8");
+		s.update(forge.util.encodeUtf8(text), "utf8");
 		return util.encode64(ppk.ppk.sign(s));
 	}
 
@@ -98,7 +98,7 @@ public class EcRsaOaep {
 	 */
 	public static String signSha256(EcPpk ppk, String text) {
 		sha256 s = sha256.create();
-		s.update(text, "utf8");
+		s.update(forge.util.encodeUtf8(text), "utf8");
 		return util.encode64(ppk.ppk.sign(s));
 	}
 
@@ -118,7 +118,7 @@ public class EcRsaOaep {
 			return EcLevrCrypto.rsaVerify(signature, pk.toPem(), text);
 		}
 		sha1 s = sha1.create();
-		s.update(text, "utf8");
+		s.update(forge.util.encodeUtf8(text), "utf8");
 		try {
 			return pk.verify(s.digest().bytes(), util.decode64(signature));
 		} catch (Exception ex) {

@@ -15,6 +15,14 @@ public class util {
 		return null;
 	}
 
+	public static String encodeUtf8(String encrypt) {
+		return null;
+	}
+
+	public static String decodeUtf8(String text) {
+		return null;
+	}
+
 	public static payload createBuffer(String text) {
 		return null;
 	}
