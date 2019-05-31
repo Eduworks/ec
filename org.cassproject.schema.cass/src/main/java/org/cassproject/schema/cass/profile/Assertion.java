@@ -25,7 +25,8 @@ public class Assertion extends CreativeWork {
 	private static final String TYPE_0_2 = "http://schema.eduworks.com/cass/0.2/assertion";
 	private static final String TYPE_0_3 = "http://schema.cassproject.org/0.2/Assertion";
 	private static final String TYPE_0_4 = "http://schema.cassproject.org/0.3/Assertion";
-	public static final String myType = TYPE_0_4;
+	private static final String TYPE_0_5 = "https://schema.cassproject.org/0.3/Assertion";
+	public static final String myType = TYPE_0_5;
 	public static Object codebooks;
 	/**
 	 * URL of the competency.
@@ -320,6 +321,9 @@ public class Assertion extends CreativeWork {
 		if (TYPE_0_3.equals(getFullType())) {
 			setContextAndType(Cass.context_0_4, TYPE_0_4);
 		}
+		if (TYPE_0_4.equals(getFullType())) {
+			setContextAndType(Cass.context_0_5, TYPE_0_5);
+		}
 		agent = EcEncryptedValue.revive(agent);
 		subject = EcEncryptedValue.revive(subject);
 		assertionDate = EcEncryptedValue.revive(assertionDate);
@@ -336,6 +340,7 @@ public class Assertion extends CreativeWork {
 	@Override
 	public Array<String> getTypes() {
 		Array<String> a = new Array<String>();
+		a.push(TYPE_0_5);
 		a.push(TYPE_0_4);
 		a.push(TYPE_0_3);
 		a.push(TYPE_0_2);
