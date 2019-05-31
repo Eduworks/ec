@@ -76,7 +76,7 @@ public class Relation extends CreativeWork {
 	private static final String TYPE_0_3 = "http://schema.cassproject.org/0.2/Relation";
 	private static final String TYPE_0_4 = "http://schema.cassproject.org/0.3/Relation";
 	private static final String TYPE_0_5 = "https://schema.cassproject.org/0.3/Relation";
-	public static final String myType = TYPE_0_4;
+	public static final String myType = TYPE_0_5;
 	/**
 	 * URL of the object at the beginning of the relation.
 	 * A <relation> B, this is A.
@@ -137,6 +137,9 @@ public class Relation extends CreativeWork {
 		}
 		if (TYPE_0_3==getFullType()) {
 			setContextAndType(Cass.context_0_4, TYPE_0_4);
+		}
+		if (TYPE_0_4.equals(getFullType())) {
+			setContextAndType(Cass.context_0_5, TYPE_0_5);
 		}
 	}
 

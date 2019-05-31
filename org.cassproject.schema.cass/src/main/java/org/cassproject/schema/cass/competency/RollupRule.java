@@ -17,7 +17,7 @@ public class RollupRule extends CreativeWork {
 	private static final String TYPE_0_3 = "http://schema.cassproject.org/0.2/RollupRule";
 	private static final String TYPE_0_4 = "http://schema.cassproject.org/0.3/RollupRule";
 	private static final String TYPE_0_5 = "https://schema.cassproject.org/0.3/RollupRule";
-	public static final String myType = TYPE_0_4;
+	public static final String myType = TYPE_0_5;
 	/**
 	 * The rollup rule encoded as source code that is understandable to the assertion processor.
 	 *
@@ -44,6 +44,9 @@ public class RollupRule extends CreativeWork {
 		}
 		if (TYPE_0_3.equals(getFullType())) {
 			setContextAndType(Cass.context_0_4, TYPE_0_4);
+		}
+		if (TYPE_0_4.equals(getFullType())) {
+			setContextAndType(Cass.context_0_5, TYPE_0_5);
 		}
 	}
 
