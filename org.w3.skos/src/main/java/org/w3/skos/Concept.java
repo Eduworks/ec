@@ -1,6 +1,7 @@
 package org.w3.skos;
 
 import org.cassproject.schema.general.EcRemoteLinkedData;
+import org.stjs.javascript.Array;
 
 /**
  * www.w3.org/2004/02/skos/core/Concept
@@ -11,6 +12,8 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  */
 public class Concept extends EcRemoteLinkedData
 {
+	private static final String TYPE_0_1 = "http://schema.cassproject.org/0.3/skos/Concept";
+	private static final String TYPE_0_2 = "https://schema.cassproject.org/0.3/skos/Concept";
 	public static final String myType = "http://schema.cassproject.org/0.3/skos/Concept";
 	/**
 	 * Constructor, automatically sets @context and @type.
@@ -36,5 +39,13 @@ public class Concept extends EcRemoteLinkedData
 	 * @type Concept
 	 */
 	public Concept semanticRelation;
+
+	@Override
+	public Array<String> getTypes() {
+		Array<String> a = new Array<String>();
+		a.push(TYPE_0_2);
+		a.push(TYPE_0_1);
+		return a;
+	}
 
 }
