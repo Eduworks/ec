@@ -7,7 +7,7 @@ import org.w3.skos.Concept;
  * credentialengine.org/Competency
  * Description of knowledge, skills, and/or abilities.
  * @author credentialengine.org
- * @class Competency
+ * @class CeCompetency
  * @module org.credentialengine
  */
 public class Competency extends EcRemoteLinkedData
