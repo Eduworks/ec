@@ -69,6 +69,7 @@
                             <li><a href="../classes/AgreeAction.html">AgreeAction</a></li>
                             <li><a href="../classes/Airline.html">Airline</a></li>
                             <li><a href="../classes/Airport.html">Airport</a></li>
+                            <li><a href="../classes/AlignmentMap.html">AlignmentMap</a></li>
                             <li><a href="../classes/AlignmentObject.html">AlignmentObject</a></li>
                             <li><a href="../classes/AllocateAction.html">AllocateAction</a></li>
                             <li><a href="../classes/AmusementPark.html">AmusementPark</a></li>
@@ -161,6 +162,7 @@
                             <li><a href="../classes/Casino.html">Casino</a></li>
                             <li><a href="../classes/Cass.html">Cass</a></li>
                             <li><a href="../classes/CatholicChurch.html">CatholicChurch</a></li>
+                            <li><a href="../classes/CeCompetency.html">CeCompetency</a></li>
                             <li><a href="../classes/Cemetery.html">Cemetery</a></li>
                             <li><a href="../classes/Certificate.html">Certificate</a></li>
                             <li><a href="../classes/Certification.html">Certification</a></li>
@@ -288,18 +290,22 @@
                             <li><a href="../classes/EcAes.html">EcAes</a></li>
                             <li><a href="../classes/EcAesCtr.html">EcAesCtr</a></li>
                             <li><a href="../classes/EcAesCtrAsync.html">EcAesCtrAsync</a></li>
+                            <li><a href="../classes/EcAesCtrAsyncWorker.html">EcAesCtrAsyncWorker</a></li>
                             <li><a href="../classes/EcAlignment.html">EcAlignment</a></li>
                             <li><a href="../classes/EcArray.html">EcArray</a></li>
                             <li><a href="../classes/EcAsyncHelper.html">EcAsyncHelper</a></li>
                             <li><a href="../classes/EcCompetency.html">EcCompetency</a></li>
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
+                            <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
+                            <li><a href="../classes/EcFrameworkGraph.html">EcFrameworkGraph</a></li>
                             <li><a href="../classes/EcIdentity.html">EcIdentity</a></li>
                             <li><a href="../classes/EcIdentityManager.html">EcIdentityManager</a></li>
                             <li><a href="../classes/EcLevel.html">EcLevel</a></li>
+                            <li><a href="../classes/EcLevrHttp.html">EcLevrHttp</a></li>
                             <li><a href="../classes/EcLinkedData.html">EcLinkedData</a></li>
                             <li><a href="../classes/EcModal.html">EcModal</a></li>
                             <li><a href="../classes/EcObject.html">EcObject</a></li>
@@ -313,6 +319,7 @@
                             <li><a href="../classes/EcRollupRule.html">EcRollupRule</a></li>
                             <li><a href="../classes/EcRsaOaep.html">EcRsaOaep</a></li>
                             <li><a href="../classes/EcRsaOaepAsync.html">EcRsaOaepAsync</a></li>
+                            <li><a href="../classes/EcRsaOaepAsyncWorker.html">EcRsaOaepAsyncWorker</a></li>
                             <li><a href="../classes/EcScreen.html">EcScreen</a></li>
                             <li><a href="../classes/EcView.html">EcView</a></li>
                             <li><a href="../classes/EducationalAudience.html">EducationalAudience</a></li>
@@ -346,6 +353,7 @@
                             <li><a href="../classes/Festival.html">Festival</a></li>
                             <li><a href="../classes/FilmAction.html">FilmAction</a></li>
                             <li><a href="../classes/FinancialAlignmentObject.html">FinancialAlignmentObject</a></li>
+                            <li><a href="../classes/FinancialAssistanceProfile.html">FinancialAssistanceProfile</a></li>
                             <li><a href="../classes/FinancialProduct.html">FinancialProduct</a></li>
                             <li><a href="../classes/FinancialService.html">FinancialService</a></li>
                             <li><a href="../classes/FindAction.html">FindAction</a></li>
@@ -588,6 +596,7 @@
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
                             <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
+                            <li><a href="../classes/ProfileProcessor.html">ProfileProcessor</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
                             <li><a href="../classes/PropertyValueSpecification.html">PropertyValueSpecification</a></li>
@@ -705,6 +714,7 @@
                             <li><a href="../classes/Synagogue.html">Synagogue</a></li>
                             <li><a href="../classes/Table.html">Table</a></li>
                             <li><a href="../classes/TakeAction.html">TakeAction</a></li>
+                            <li><a href="../classes/Task.html">Task</a></li>
                             <li><a href="../classes/TaskProfile.html">TaskProfile</a></li>
                             <li><a href="../classes/TattooParlor.html">TattooParlor</a></li>
                             <li><a href="../classes/Taxi.html">Taxi</a></li>
@@ -796,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 1.0.0
+              Version: latest unstable
             </div>
             
         </div>
@@ -820,21 +830,29 @@ package org.schema;
  */
 public class NutritionInformation extends StructuredValue {
 	/**
-	 * Schema.org/calories
-	 * The number of calories.
+	 * Schema.org/saturatedFatContent
+	 * The number of grams of saturated fat.
 	 *
-	 * @property calories
-	 * @type Energy
-	 */
-	public Energy calories;
-	/**
-	 * Schema.org/fiberContent
-	 * The number of grams of fiber.
-	 *
-	 * @property fiberContent
+	 * @property saturatedFatContent
 	 * @type Mass
 	 */
-	public Mass fiberContent;
+	public Mass saturatedFatContent;
+	/**
+	 * Schema.org/fatContent
+	 * The number of grams of fat.
+	 *
+	 * @property fatContent
+	 * @type Mass
+	 */
+	public Mass fatContent;
+	/**
+	 * Schema.org/unsaturatedFatContent
+	 * The number of grams of unsaturated fat.
+	 *
+	 * @property unsaturatedFatContent
+	 * @type Mass
+	 */
+	public Mass unsaturatedFatContent;
 	/**
 	 * Schema.org/sugarContent
 	 * The number of grams of sugar.
@@ -852,6 +870,14 @@ public class NutritionInformation extends StructuredValue {
 	 */
 	public Mass cholesterolContent;
 	/**
+	 * Schema.org/carbohydrateContent
+	 * The number of grams of carbohydrates.
+	 *
+	 * @property carbohydrateContent
+	 * @type Mass
+	 */
+	public Mass carbohydrateContent;
+	/**
 	 * Schema.org/proteinContent
 	 * The number of grams of protein.
 	 *
@@ -860,13 +886,13 @@ public class NutritionInformation extends StructuredValue {
 	 */
 	public Mass proteinContent;
 	/**
-	 * Schema.org/fatContent
-	 * The number of grams of fat.
+	 * Schema.org/sodiumContent
+	 * The number of milligrams of sodium.
 	 *
-	 * @property fatContent
+	 * @property sodiumContent
 	 * @type Mass
 	 */
-	public Mass fatContent;
+	public Mass sodiumContent;
 	/**
 	 * Schema.org/transFatContent
 	 * The number of grams of trans fat.
@@ -876,37 +902,21 @@ public class NutritionInformation extends StructuredValue {
 	 */
 	public Mass transFatContent;
 	/**
-	 * Schema.org/carbohydrateContent
-	 * The number of grams of carbohydrates.
+	 * Schema.org/fiberContent
+	 * The number of grams of fiber.
 	 *
-	 * @property carbohydrateContent
+	 * @property fiberContent
 	 * @type Mass
 	 */
-	public Mass carbohydrateContent;
+	public Mass fiberContent;
 	/**
-	 * Schema.org/unsaturatedFatContent
-	 * The number of grams of unsaturated fat.
+	 * Schema.org/calories
+	 * The number of calories.
 	 *
-	 * @property unsaturatedFatContent
-	 * @type Mass
+	 * @property calories
+	 * @type Energy
 	 */
-	public Mass unsaturatedFatContent;
-	/**
-	 * Schema.org/saturatedFatContent
-	 * The number of grams of saturated fat.
-	 *
-	 * @property saturatedFatContent
-	 * @type Mass
-	 */
-	public Mass saturatedFatContent;
-	/**
-	 * Schema.org/sodiumContent
-	 * The number of milligrams of sodium.
-	 *
-	 * @property sodiumContent
-	 * @type Mass
-	 */
-	public Mass sodiumContent;
+	public Energy calories;
 	/**
 	 * Schema.org/servingSize
 	 * The serving size, in terms of the number of volume or mass.

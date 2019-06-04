@@ -69,6 +69,7 @@
                             <li><a href="../classes/AgreeAction.html">AgreeAction</a></li>
                             <li><a href="../classes/Airline.html">Airline</a></li>
                             <li><a href="../classes/Airport.html">Airport</a></li>
+                            <li><a href="../classes/AlignmentMap.html">AlignmentMap</a></li>
                             <li><a href="../classes/AlignmentObject.html">AlignmentObject</a></li>
                             <li><a href="../classes/AllocateAction.html">AllocateAction</a></li>
                             <li><a href="../classes/AmusementPark.html">AmusementPark</a></li>
@@ -161,6 +162,7 @@
                             <li><a href="../classes/Casino.html">Casino</a></li>
                             <li><a href="../classes/Cass.html">Cass</a></li>
                             <li><a href="../classes/CatholicChurch.html">CatholicChurch</a></li>
+                            <li><a href="../classes/CeCompetency.html">CeCompetency</a></li>
                             <li><a href="../classes/Cemetery.html">Cemetery</a></li>
                             <li><a href="../classes/Certificate.html">Certificate</a></li>
                             <li><a href="../classes/Certification.html">Certification</a></li>
@@ -288,18 +290,22 @@
                             <li><a href="../classes/EcAes.html">EcAes</a></li>
                             <li><a href="../classes/EcAesCtr.html">EcAesCtr</a></li>
                             <li><a href="../classes/EcAesCtrAsync.html">EcAesCtrAsync</a></li>
+                            <li><a href="../classes/EcAesCtrAsyncWorker.html">EcAesCtrAsyncWorker</a></li>
                             <li><a href="../classes/EcAlignment.html">EcAlignment</a></li>
                             <li><a href="../classes/EcArray.html">EcArray</a></li>
                             <li><a href="../classes/EcAsyncHelper.html">EcAsyncHelper</a></li>
                             <li><a href="../classes/EcCompetency.html">EcCompetency</a></li>
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
+                            <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
+                            <li><a href="../classes/EcFrameworkGraph.html">EcFrameworkGraph</a></li>
                             <li><a href="../classes/EcIdentity.html">EcIdentity</a></li>
                             <li><a href="../classes/EcIdentityManager.html">EcIdentityManager</a></li>
                             <li><a href="../classes/EcLevel.html">EcLevel</a></li>
+                            <li><a href="../classes/EcLevrHttp.html">EcLevrHttp</a></li>
                             <li><a href="../classes/EcLinkedData.html">EcLinkedData</a></li>
                             <li><a href="../classes/EcModal.html">EcModal</a></li>
                             <li><a href="../classes/EcObject.html">EcObject</a></li>
@@ -313,6 +319,7 @@
                             <li><a href="../classes/EcRollupRule.html">EcRollupRule</a></li>
                             <li><a href="../classes/EcRsaOaep.html">EcRsaOaep</a></li>
                             <li><a href="../classes/EcRsaOaepAsync.html">EcRsaOaepAsync</a></li>
+                            <li><a href="../classes/EcRsaOaepAsyncWorker.html">EcRsaOaepAsyncWorker</a></li>
                             <li><a href="../classes/EcScreen.html">EcScreen</a></li>
                             <li><a href="../classes/EcView.html">EcView</a></li>
                             <li><a href="../classes/EducationalAudience.html">EducationalAudience</a></li>
@@ -346,6 +353,7 @@
                             <li><a href="../classes/Festival.html">Festival</a></li>
                             <li><a href="../classes/FilmAction.html">FilmAction</a></li>
                             <li><a href="../classes/FinancialAlignmentObject.html">FinancialAlignmentObject</a></li>
+                            <li><a href="../classes/FinancialAssistanceProfile.html">FinancialAssistanceProfile</a></li>
                             <li><a href="../classes/FinancialProduct.html">FinancialProduct</a></li>
                             <li><a href="../classes/FinancialService.html">FinancialService</a></li>
                             <li><a href="../classes/FindAction.html">FindAction</a></li>
@@ -588,6 +596,7 @@
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
                             <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
+                            <li><a href="../classes/ProfileProcessor.html">ProfileProcessor</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
                             <li><a href="../classes/PropertyValueSpecification.html">PropertyValueSpecification</a></li>
@@ -705,6 +714,7 @@
                             <li><a href="../classes/Synagogue.html">Synagogue</a></li>
                             <li><a href="../classes/Table.html">Table</a></li>
                             <li><a href="../classes/TakeAction.html">TakeAction</a></li>
+                            <li><a href="../classes/Task.html">Task</a></li>
                             <li><a href="../classes/TaskProfile.html">TaskProfile</a></li>
                             <li><a href="../classes/TattooParlor.html">TattooParlor</a></li>
                             <li><a href="../classes/Taxi.html">Taxi</a></li>
@@ -796,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 1.0.0
+              Version: latest unstable
             </div>
             
         </div>
@@ -820,101 +830,21 @@ package org.schema;
  */
 public class SoftwareApplication extends CreativeWork {
 	/**
-	 * Schema.org/storageRequirements
-	 * Storage requirements (free space required).
+	 * Schema.org/downloadUrl
+	 * If the file can be downloaded, URL to download the binary.
 	 *
-	 * @property storageRequirements
-	 * @type schema, URL | schema,Text
-	 */
-	public Object storageRequirements;
-	/**
-	 * Schema.org/device
-	 * Device required to run the application. Used in cases where a specific make/model is required to run the application.
-	 *
-	 * @property device
-	 * @type Text
-	 */
-	public String device;
-	/**
-	 * Schema.org/installUrl
-	 * URL at which the app may be installed, if different from the URL of the item.
-	 *
-	 * @property installUrl
+	 * @property downloadUrl
 	 * @type URL
 	 */
-	public String installUrl;
+	public String downloadUrl;
 	/**
-	 * Schema.org/countriesSupported
-	 * Countries for which the application is supported. You can also provide the two-letter ISO 3166-1 alpha-2 country code.
+	 * Schema.org/softwareRequirements
+	 * Component dependency requirements for application. This includes runtime environments and shared libraries that are not included in the application distribution package, but required to run the application (Examples: DirectX, Java or .NET runtime).
 	 *
-	 * @property countriesSupported
+	 * @property softwareRequirements
 	 * @type Text
 	 */
-	public String countriesSupported;
-	/**
-	 * Schema.org/softwareVersion
-	 * Version of the software instance.
-	 *
-	 * @property softwareVersion
-	 * @type Text
-	 */
-	public String softwareVersion;
-	/**
-	 * Schema.org/softwareAddOn
-	 * Additional content for a software application.
-	 *
-	 * @property softwareAddOn
-	 * @type SoftwareApplication
-	 */
-	public SoftwareApplication softwareAddOn;
-	/**
-	 * Schema.org/supportingData
-	 * Supporting data for a SoftwareApplication.
-	 *
-	 * @property supportingData
-	 * @type DataFeed
-	 */
-	public DataFeed supportingData;
-	/**
-	 * Schema.org/memoryRequirements
-	 * Minimum memory requirements.
-	 *
-	 * @property memoryRequirements
-	 * @type schema, URL | schema,Text
-	 */
-	public Object memoryRequirements;
-	/**
-	 * Schema.org/applicationSubCategory
-	 * Subcategory of the application, e.g. &#x27;Arcade Game&#x27;.
-	 *
-	 * @property applicationSubCategory
-	 * @type schema, URL | schema,Text
-	 */
-	public Object applicationSubCategory;
-	/**
-	 * Schema.org/featureList
-	 * Features or modules provided by this application (and possibly required by other applications).
-	 *
-	 * @property featureList
-	 * @type schema, URL | schema,Text
-	 */
-	public Object featureList;
-	/**
-	 * Schema.org/softwareHelp
-	 * Software application help.
-	 *
-	 * @property softwareHelp
-	 * @type CreativeWork
-	 */
-	public CreativeWork softwareHelp;
-	/**
-	 * Schema.org/screenshot
-	 * A link to a screenshot image of the app.
-	 *
-	 * @property screenshot
-	 * @type schema, URL | schema,ImageObject
-	 */
-	public Object screenshot;
+	public String softwareRequirements;
 	/**
 	 * Schema.org/permissions
 	 * Permission(s) required to run the app (for example, a mobile app may require full internet access or may run only on wifi).
@@ -924,38 +854,6 @@ public class SoftwareApplication extends CreativeWork {
 	 */
 	public String permissions;
 	/**
-	 * Schema.org/requirements
-	 * Component dependency requirements for application. This includes runtime environments and shared libraries that are not included in the application distribution package, but required to run the application (Examples: DirectX, Java or .NET runtime).
-	 *
-	 * @property requirements
-	 * @type schema, URL | schema,Text
-	 */
-	public Object requirements;
-	/**
-	 * Schema.org/applicationCategory
-	 * Type of software application, e.g. &#x27;Game, Multimedia&#x27;.
-	 *
-	 * @property applicationCategory
-	 * @type schema, URL | schema,Text
-	 */
-	public Object applicationCategory;
-	/**
-	 * Schema.org/releaseNotes
-	 * Description of what changed in this version.
-	 *
-	 * @property releaseNotes
-	 * @type schema, URL | schema,Text
-	 */
-	public Object releaseNotes;
-	/**
-	 * Schema.org/operatingSystem
-	 * Operating systems supported (Windows 7, OSX 10.6, Android 1.6).
-	 *
-	 * @property operatingSystem
-	 * @type Text
-	 */
-	public String operatingSystem;
-	/**
 	 * Schema.org/processorRequirements
 	 * Processor architecture required to run the application (e.g. IA64).
 	 *
@@ -963,14 +861,6 @@ public class SoftwareApplication extends CreativeWork {
 	 * @type Text
 	 */
 	public String processorRequirements;
-	/**
-	 * Schema.org/countriesNotSupported
-	 * Countries for which the application is not supported. You can also provide the two-letter ISO 3166-1 alpha-2 country code.
-	 *
-	 * @property countriesNotSupported
-	 * @type Text
-	 */
-	public String countriesNotSupported;
 	/**
 	 * Schema.org/availableOnDevice
 	 * Device required to run the application. Used in cases where a specific make/model is required to run the application.
@@ -980,21 +870,61 @@ public class SoftwareApplication extends CreativeWork {
 	 */
 	public String availableOnDevice;
 	/**
-	 * Schema.org/softwareRequirements
+	 * Schema.org/featureList
+	 * Features or modules provided by this application (and possibly required by other applications).
+	 *
+	 * @property featureList
+	 * @type URL
+	 */
+	public String featureList;
+	/**
+	 * Schema.org/applicationSubCategory
+	 * Subcategory of the application, e.g. &#x27;Arcade Game&#x27;.
+	 *
+	 * @property applicationSubCategory
+	 * @type URL
+	 */
+	public String applicationSubCategory;
+	/**
+	 * Schema.org/requirements
 	 * Component dependency requirements for application. This includes runtime environments and shared libraries that are not included in the application distribution package, but required to run the application (Examples: DirectX, Java or .NET runtime).
 	 *
-	 * @property softwareRequirements
-	 * @type schema, URL | schema,Text
-	 */
-	public Object softwareRequirements;
-	/**
-	 * Schema.org/fileSize
-	 * Size of the application / package (e.g. 18MB). In the absence of a unit (MB, KB etc.), KB will be assumed.
-	 *
-	 * @property fileSize
+	 * @property requirements
 	 * @type Text
 	 */
-	public String fileSize;
+	public String requirements;
+	/**
+	 * Schema.org/device
+	 * Device required to run the application. Used in cases where a specific make/model is required to run the application.
+	 *
+	 * @property device
+	 * @type Text
+	 */
+	public String device;
+	/**
+	 * Schema.org/applicationCategory
+	 * Type of software application, e.g. &#x27;Game, Multimedia&#x27;.
+	 *
+	 * @property applicationCategory
+	 * @type Text
+	 */
+	public String applicationCategory;
+	/**
+	 * Schema.org/softwareVersion
+	 * Version of the software instance.
+	 *
+	 * @property softwareVersion
+	 * @type Text
+	 */
+	public String softwareVersion;
+	/**
+	 * Schema.org/storageRequirements
+	 * Storage requirements (free space required).
+	 *
+	 * @property storageRequirements
+	 * @type Text
+	 */
+	public String storageRequirements;
 	/**
 	 * Schema.org/applicationSuite
 	 * The name of the application suite to which the application belongs (e.g. Excel belongs to Office).
@@ -1004,13 +934,93 @@ public class SoftwareApplication extends CreativeWork {
 	 */
 	public String applicationSuite;
 	/**
-	 * Schema.org/downloadUrl
-	 * If the file can be downloaded, URL to download the binary.
+	 * Schema.org/memoryRequirements
+	 * Minimum memory requirements.
 	 *
-	 * @property downloadUrl
+	 * @property memoryRequirements
+	 * @type Text
+	 */
+	public String memoryRequirements;
+	/**
+	 * Schema.org/screenshot
+	 * A link to a screenshot image of the app.
+	 *
+	 * @property screenshot
 	 * @type URL
 	 */
-	public String downloadUrl;
+	public String screenshot;
+	/**
+	 * Schema.org/countriesSupported
+	 * Countries for which the application is supported. You can also provide the two-letter ISO 3166-1 alpha-2 country code.
+	 *
+	 * @property countriesSupported
+	 * @type Text
+	 */
+	public String countriesSupported;
+	/**
+	 * Schema.org/softwareHelp
+	 * Software application help.
+	 *
+	 * @property softwareHelp
+	 * @type CreativeWork
+	 */
+	public CreativeWork softwareHelp;
+	/**
+	 * Schema.org/softwareAddOn
+	 * Additional content for a software application.
+	 *
+	 * @property softwareAddOn
+	 * @type SoftwareApplication
+	 */
+	public SoftwareApplication softwareAddOn;
+	/**
+	 * Schema.org/releaseNotes
+	 * Description of what changed in this version.
+	 *
+	 * @property releaseNotes
+	 * @type Text
+	 */
+	public String releaseNotes;
+	/**
+	 * Schema.org/supportingData
+	 * Supporting data for a SoftwareApplication.
+	 *
+	 * @property supportingData
+	 * @type DataFeed
+	 */
+	public DataFeed supportingData;
+	/**
+	 * Schema.org/countriesNotSupported
+	 * Countries for which the application is not supported. You can also provide the two-letter ISO 3166-1 alpha-2 country code.
+	 *
+	 * @property countriesNotSupported
+	 * @type Text
+	 */
+	public String countriesNotSupported;
+	/**
+	 * Schema.org/operatingSystem
+	 * Operating systems supported (Windows 7, OSX 10.6, Android 1.6).
+	 *
+	 * @property operatingSystem
+	 * @type Text
+	 */
+	public String operatingSystem;
+	/**
+	 * Schema.org/fileSize
+	 * Size of the application / package (e.g. 18MB). In the absence of a unit (MB, KB etc.), KB will be assumed.
+	 *
+	 * @property fileSize
+	 * @type Text
+	 */
+	public String fileSize;
+	/**
+	 * Schema.org/installUrl
+	 * URL at which the app may be installed, if different from the URL of the item.
+	 *
+	 * @property installUrl
+	 * @type URL
+	 */
+	public String installUrl;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

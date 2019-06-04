@@ -69,6 +69,7 @@
                             <li><a href="../classes/AgreeAction.html">AgreeAction</a></li>
                             <li><a href="../classes/Airline.html">Airline</a></li>
                             <li><a href="../classes/Airport.html">Airport</a></li>
+                            <li><a href="../classes/AlignmentMap.html">AlignmentMap</a></li>
                             <li><a href="../classes/AlignmentObject.html">AlignmentObject</a></li>
                             <li><a href="../classes/AllocateAction.html">AllocateAction</a></li>
                             <li><a href="../classes/AmusementPark.html">AmusementPark</a></li>
@@ -161,6 +162,7 @@
                             <li><a href="../classes/Casino.html">Casino</a></li>
                             <li><a href="../classes/Cass.html">Cass</a></li>
                             <li><a href="../classes/CatholicChurch.html">CatholicChurch</a></li>
+                            <li><a href="../classes/CeCompetency.html">CeCompetency</a></li>
                             <li><a href="../classes/Cemetery.html">Cemetery</a></li>
                             <li><a href="../classes/Certificate.html">Certificate</a></li>
                             <li><a href="../classes/Certification.html">Certification</a></li>
@@ -288,18 +290,22 @@
                             <li><a href="../classes/EcAes.html">EcAes</a></li>
                             <li><a href="../classes/EcAesCtr.html">EcAesCtr</a></li>
                             <li><a href="../classes/EcAesCtrAsync.html">EcAesCtrAsync</a></li>
+                            <li><a href="../classes/EcAesCtrAsyncWorker.html">EcAesCtrAsyncWorker</a></li>
                             <li><a href="../classes/EcAlignment.html">EcAlignment</a></li>
                             <li><a href="../classes/EcArray.html">EcArray</a></li>
                             <li><a href="../classes/EcAsyncHelper.html">EcAsyncHelper</a></li>
                             <li><a href="../classes/EcCompetency.html">EcCompetency</a></li>
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
+                            <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
+                            <li><a href="../classes/EcFrameworkGraph.html">EcFrameworkGraph</a></li>
                             <li><a href="../classes/EcIdentity.html">EcIdentity</a></li>
                             <li><a href="../classes/EcIdentityManager.html">EcIdentityManager</a></li>
                             <li><a href="../classes/EcLevel.html">EcLevel</a></li>
+                            <li><a href="../classes/EcLevrHttp.html">EcLevrHttp</a></li>
                             <li><a href="../classes/EcLinkedData.html">EcLinkedData</a></li>
                             <li><a href="../classes/EcModal.html">EcModal</a></li>
                             <li><a href="../classes/EcObject.html">EcObject</a></li>
@@ -313,6 +319,7 @@
                             <li><a href="../classes/EcRollupRule.html">EcRollupRule</a></li>
                             <li><a href="../classes/EcRsaOaep.html">EcRsaOaep</a></li>
                             <li><a href="../classes/EcRsaOaepAsync.html">EcRsaOaepAsync</a></li>
+                            <li><a href="../classes/EcRsaOaepAsyncWorker.html">EcRsaOaepAsyncWorker</a></li>
                             <li><a href="../classes/EcScreen.html">EcScreen</a></li>
                             <li><a href="../classes/EcView.html">EcView</a></li>
                             <li><a href="../classes/EducationalAudience.html">EducationalAudience</a></li>
@@ -346,6 +353,7 @@
                             <li><a href="../classes/Festival.html">Festival</a></li>
                             <li><a href="../classes/FilmAction.html">FilmAction</a></li>
                             <li><a href="../classes/FinancialAlignmentObject.html">FinancialAlignmentObject</a></li>
+                            <li><a href="../classes/FinancialAssistanceProfile.html">FinancialAssistanceProfile</a></li>
                             <li><a href="../classes/FinancialProduct.html">FinancialProduct</a></li>
                             <li><a href="../classes/FinancialService.html">FinancialService</a></li>
                             <li><a href="../classes/FindAction.html">FindAction</a></li>
@@ -588,6 +596,7 @@
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
                             <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
+                            <li><a href="../classes/ProfileProcessor.html">ProfileProcessor</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
                             <li><a href="../classes/PropertyValueSpecification.html">PropertyValueSpecification</a></li>
@@ -705,6 +714,7 @@
                             <li><a href="../classes/Synagogue.html">Synagogue</a></li>
                             <li><a href="../classes/Table.html">Table</a></li>
                             <li><a href="../classes/TakeAction.html">TakeAction</a></li>
+                            <li><a href="../classes/Task.html">Task</a></li>
                             <li><a href="../classes/TaskProfile.html">TaskProfile</a></li>
                             <li><a href="../classes/TattooParlor.html">TattooParlor</a></li>
                             <li><a href="../classes/Taxi.html">Taxi</a></li>
@@ -796,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 1.0.0
+              Version: latest unstable
             </div>
             
         </div>
@@ -820,77 +830,13 @@ package org.schema;
  */
 public class Invoice extends Intangible {
 	/**
-	 * Schema.org/referencesOrder
-	 * The Order(s) related to this Invoice. One or more Orders may be combined into a single Invoice.
+	 * Schema.org/provider
+	 * The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.
 	 *
-	 * @property referencesOrder
-	 * @type Order
+	 * @property provider
+	 * @type Person
 	 */
-	public Order referencesOrder;
-	/**
-	 * Schema.org/broker
-	 * An entity that arranges for an exchange between a buyer and a seller.  In most cases a broker never acquires or releases ownership of a product or service involved in an exchange.  If it is not clear whether an entity is a broker, seller, or buyer, the latter two terms are preferred.
-	 *
-	 * @property broker
-	 * @type schema, Organization | schema,Person
-	 */
-	public Object broker;
-	/**
-	 * Schema.org/minimumPaymentDue
-	 * The minimum payment required at this time.
-	 *
-	 * @property minimumPaymentDue
-	 * @type schema, PriceSpecification | schema,MonetaryAmount
-	 */
-	public Object minimumPaymentDue;
-	/**
-	 * Schema.org/scheduledPaymentDate
-	 * The date the invoice is scheduled to be paid.
-	 *
-	 * @property scheduledPaymentDate
-	 * @type Date
-	 */
-	public String scheduledPaymentDate;
-	/**
-	 * Schema.org/paymentMethod
-	 * The name of the credit card or other method of payment for the order.
-	 *
-	 * @property paymentMethod
-	 * @type PaymentMethod
-	 */
-	public PaymentMethod paymentMethod;
-	/**
-	 * Schema.org/paymentDueDate
-	 * The date that payment is due.
-	 *
-	 * @property paymentDueDate
-	 * @type DateTime
-	 */
-	public String paymentDueDate;
-	/**
-	 * Schema.org/paymentMethodId
-	 * An identifier for the method of payment used (e.g. the last 4 digits of the credit card).
-	 *
-	 * @property paymentMethodId
-	 * @type Text
-	 */
-	public String paymentMethodId;
-	/**
-	 * Schema.org/totalPaymentDue
-	 * The total amount due.
-	 *
-	 * @property totalPaymentDue
-	 * @type schema, PriceSpecification | schema,MonetaryAmount
-	 */
-	public Object totalPaymentDue;
-	/**
-	 * Schema.org/customer
-	 * Party placing the order or paying the invoice.
-	 *
-	 * @property customer
-	 * @type schema, Organization | schema,Person
-	 */
-	public Object customer;
+	public Person provider;
 	/**
 	 * Schema.org/paymentDue
 	 * The date that payment is due.
@@ -900,29 +846,13 @@ public class Invoice extends Intangible {
 	 */
 	public String paymentDue;
 	/**
-	 * Schema.org/paymentStatus
-	 * The status of payment; whether the invoice has been paid or not.
+	 * Schema.org/billingPeriod
+	 * The time interval used to compute the invoice.
 	 *
-	 * @property paymentStatus
-	 * @type schema, Text | schema,PaymentStatusType
+	 * @property billingPeriod
+	 * @type Duration
 	 */
-	public Object paymentStatus;
-	/**
-	 * Schema.org/accountId
-	 * The identifier for the account the payment will be applied to.
-	 *
-	 * @property accountId
-	 * @type Text
-	 */
-	public String accountId;
-	/**
-	 * Schema.org/provider
-	 * The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.
-	 *
-	 * @property provider
-	 * @type schema, Organization | schema,Person
-	 */
-	public Object provider;
+	public Duration billingPeriod;
 	/**
 	 * Schema.org/confirmationNumber
 	 * A number that confirms the given order or payment has been received.
@@ -932,21 +862,101 @@ public class Invoice extends Intangible {
 	 */
 	public String confirmationNumber;
 	/**
-	 * Schema.org/billingPeriod
-	 * The time interval used to compute the invoice.
+	 * Schema.org/scheduledPaymentDate
+	 * The date the invoice is scheduled to be paid.
 	 *
-	 * @property billingPeriod
-	 * @type Duration
+	 * @property scheduledPaymentDate
+	 * @type Date
 	 */
-	public Duration billingPeriod;
+	public String scheduledPaymentDate;
+	/**
+	 * Schema.org/customer
+	 * Party placing the order or paying the invoice.
+	 *
+	 * @property customer
+	 * @type Organization
+	 */
+	public Organization customer;
 	/**
 	 * Schema.org/category
 	 * A category for the item. Greater signs or slashes can be used to informally indicate a category hierarchy.
 	 *
 	 * @property category
-	 * @type schema, Text | schema,Thing
+	 * @type Text
 	 */
-	public Object category;
+	public String category;
+	/**
+	 * Schema.org/paymentStatus
+	 * The status of payment; whether the invoice has been paid or not.
+	 *
+	 * @property paymentStatus
+	 * @type PaymentStatusType
+	 */
+	public PaymentStatusType paymentStatus;
+	/**
+	 * Schema.org/broker
+	 * An entity that arranges for an exchange between a buyer and a seller.  In most cases a broker never acquires or releases ownership of a product or service involved in an exchange.  If it is not clear whether an entity is a broker, seller, or buyer, the latter two terms are preferred.
+	 *
+	 * @property broker
+	 * @type Person
+	 */
+	public Person broker;
+	/**
+	 * Schema.org/paymentMethod
+	 * The name of the credit card or other method of payment for the order.
+	 *
+	 * @property paymentMethod
+	 * @type PaymentMethod
+	 */
+	public PaymentMethod paymentMethod;
+	/**
+	 * Schema.org/paymentMethodId
+	 * An identifier for the method of payment used (e.g. the last 4 digits of the credit card).
+	 *
+	 * @property paymentMethodId
+	 * @type Text
+	 */
+	public String paymentMethodId;
+	/**
+	 * Schema.org/minimumPaymentDue
+	 * The minimum payment required at this time.
+	 *
+	 * @property minimumPaymentDue
+	 * @type MonetaryAmount
+	 */
+	public MonetaryAmount minimumPaymentDue;
+	/**
+	 * Schema.org/totalPaymentDue
+	 * The total amount due.
+	 *
+	 * @property totalPaymentDue
+	 * @type MonetaryAmount
+	 */
+	public MonetaryAmount totalPaymentDue;
+	/**
+	 * Schema.org/accountId
+	 * The identifier for the account the payment will be applied to.
+	 *
+	 * @property accountId
+	 * @type Text
+	 */
+	public String accountId;
+	/**
+	 * Schema.org/referencesOrder
+	 * The Order(s) related to this Invoice. One or more Orders may be combined into a single Invoice.
+	 *
+	 * @property referencesOrder
+	 * @type Order
+	 */
+	public Order referencesOrder;
+	/**
+	 * Schema.org/paymentDueDate
+	 * The date that payment is due.
+	 *
+	 * @property paymentDueDate
+	 * @type DateTime
+	 */
+	public String paymentDueDate;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

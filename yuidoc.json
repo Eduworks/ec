@@ -1,7 +1,7 @@
 {
     "name": "EC Library",
     "description": "EC Library API: ",
-    "version": "1.0.0",
+    "version": "latest unstable",
     "url": "http://ec.eduworks.org/",
     "logo": "http://eduworks.com/img/eduworks-ring-e.png",
     "options": {

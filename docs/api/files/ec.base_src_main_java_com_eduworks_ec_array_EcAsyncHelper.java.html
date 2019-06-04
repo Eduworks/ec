@@ -69,6 +69,7 @@
                             <li><a href="../classes/AgreeAction.html">AgreeAction</a></li>
                             <li><a href="../classes/Airline.html">Airline</a></li>
                             <li><a href="../classes/Airport.html">Airport</a></li>
+                            <li><a href="../classes/AlignmentMap.html">AlignmentMap</a></li>
                             <li><a href="../classes/AlignmentObject.html">AlignmentObject</a></li>
                             <li><a href="../classes/AllocateAction.html">AllocateAction</a></li>
                             <li><a href="../classes/AmusementPark.html">AmusementPark</a></li>
@@ -161,6 +162,7 @@
                             <li><a href="../classes/Casino.html">Casino</a></li>
                             <li><a href="../classes/Cass.html">Cass</a></li>
                             <li><a href="../classes/CatholicChurch.html">CatholicChurch</a></li>
+                            <li><a href="../classes/CeCompetency.html">CeCompetency</a></li>
                             <li><a href="../classes/Cemetery.html">Cemetery</a></li>
                             <li><a href="../classes/Certificate.html">Certificate</a></li>
                             <li><a href="../classes/Certification.html">Certification</a></li>
@@ -288,18 +290,22 @@
                             <li><a href="../classes/EcAes.html">EcAes</a></li>
                             <li><a href="../classes/EcAesCtr.html">EcAesCtr</a></li>
                             <li><a href="../classes/EcAesCtrAsync.html">EcAesCtrAsync</a></li>
+                            <li><a href="../classes/EcAesCtrAsyncWorker.html">EcAesCtrAsyncWorker</a></li>
                             <li><a href="../classes/EcAlignment.html">EcAlignment</a></li>
                             <li><a href="../classes/EcArray.html">EcArray</a></li>
                             <li><a href="../classes/EcAsyncHelper.html">EcAsyncHelper</a></li>
                             <li><a href="../classes/EcCompetency.html">EcCompetency</a></li>
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
+                            <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
+                            <li><a href="../classes/EcFrameworkGraph.html">EcFrameworkGraph</a></li>
                             <li><a href="../classes/EcIdentity.html">EcIdentity</a></li>
                             <li><a href="../classes/EcIdentityManager.html">EcIdentityManager</a></li>
                             <li><a href="../classes/EcLevel.html">EcLevel</a></li>
+                            <li><a href="../classes/EcLevrHttp.html">EcLevrHttp</a></li>
                             <li><a href="../classes/EcLinkedData.html">EcLinkedData</a></li>
                             <li><a href="../classes/EcModal.html">EcModal</a></li>
                             <li><a href="../classes/EcObject.html">EcObject</a></li>
@@ -313,6 +319,7 @@
                             <li><a href="../classes/EcRollupRule.html">EcRollupRule</a></li>
                             <li><a href="../classes/EcRsaOaep.html">EcRsaOaep</a></li>
                             <li><a href="../classes/EcRsaOaepAsync.html">EcRsaOaepAsync</a></li>
+                            <li><a href="../classes/EcRsaOaepAsyncWorker.html">EcRsaOaepAsyncWorker</a></li>
                             <li><a href="../classes/EcScreen.html">EcScreen</a></li>
                             <li><a href="../classes/EcView.html">EcView</a></li>
                             <li><a href="../classes/EducationalAudience.html">EducationalAudience</a></li>
@@ -346,6 +353,7 @@
                             <li><a href="../classes/Festival.html">Festival</a></li>
                             <li><a href="../classes/FilmAction.html">FilmAction</a></li>
                             <li><a href="../classes/FinancialAlignmentObject.html">FinancialAlignmentObject</a></li>
+                            <li><a href="../classes/FinancialAssistanceProfile.html">FinancialAssistanceProfile</a></li>
                             <li><a href="../classes/FinancialProduct.html">FinancialProduct</a></li>
                             <li><a href="../classes/FinancialService.html">FinancialService</a></li>
                             <li><a href="../classes/FindAction.html">FindAction</a></li>
@@ -588,6 +596,7 @@
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
                             <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
+                            <li><a href="../classes/ProfileProcessor.html">ProfileProcessor</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
                             <li><a href="../classes/PropertyValueSpecification.html">PropertyValueSpecification</a></li>
@@ -705,6 +714,7 @@
                             <li><a href="../classes/Synagogue.html">Synagogue</a></li>
                             <li><a href="../classes/Table.html">Table</a></li>
                             <li><a href="../classes/TakeAction.html">TakeAction</a></li>
+                            <li><a href="../classes/Task.html">Task</a></li>
                             <li><a href="../classes/TaskProfile.html">TaskProfile</a></li>
                             <li><a href="../classes/TattooParlor.html">TattooParlor</a></li>
                             <li><a href="../classes/Taxi.html">Taxi</a></li>
@@ -796,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 1.0.0
+              Version: latest unstable
             </div>
             
         </div>
@@ -826,58 +836,91 @@ import org.stjs.javascript.functions.Callback2;
  * @class EcAsyncHelper
  */
 public class EcAsyncHelper&lt;T&gt; {
-	public static String scriptPath = null;
-	/**
-	 * Counter that counts down when each callback is called. Lots of tricks can be done to cause after to proc in different ways.
-	 *
-	 * @property counter
-	 * @type integer
-	 */
-	public Integer counter;
+    public static String scriptPath = null;
+    /**
+     * Counter that counts down when each callback is called. Lots of tricks can be done to cause after to proc in different ways.
+     *
+     * @property counter
+     * @type integer
+     */
+    public Integer counter;
 
-	/**
-	 * &quot;Each&quot; method. See class description.
-	 *
-	 * @param {Array}                   array Array to iterate over.
-	 * @param {function(item,callback)} each Method that gets invoked per item in the array.
-	 * @param {function(array)}         after Method invoked when all callbacks are called.
-	 * @method each
-	 */
-	public void each(final Array&lt;T&gt; array, Callback2&lt;T, Callback0&gt; each, final Callback1&lt;Array&lt;T&gt;&gt; after) {
-		final EcAsyncHelper me = this;
-		counter = array.$length();
-		if (array.$length() == 0)
-			after.$invoke(array);
-		for (int i = 0; i &lt; array.$length(); i++) {
-			if (counter &gt; 0)
-				execute(array, each, after, me, i);
-		}
-	}
+    /**
+     * &quot;Each&quot; method. See class description.
+     *
+     * @param {Array}                   array Array to iterate over.
+     * @param {function(item,callback)} each Method that gets invoked per item in the array.
+     * @param {function(array)}         after Method invoked when all callbacks are called.
+     * @method each
+     * @memberOf EcAsyncHelper
+     */
+    public void each(final Array&lt;T&gt; array, Callback2&lt;T, Callback0&gt; each, final Callback1&lt;Array&lt;T&gt;&gt; after) {
+        final EcAsyncHelper me = this;
+        counter = array.$length();
+        if (array.$length() == 0)
+            after.$invoke(array);
+        for (int i = 0; i &lt; array.$length(); i++) {
+            if (counter &gt; 0)
+                execute(array, each, after, me, i);
+        }
+    }
 
-	private void execute(final Array&lt;T&gt; array, final Callback2&lt;T, Callback0&gt; each, final Callback1&lt;Array&lt;T&gt;&gt; after, final EcAsyncHelper me, final int i) {
-		Task.immediate(new Callback0() {
-			@Override
-			public void $invoke() {
-				each.$invoke(array.$get(i), new Callback0() {
-					@Override
-					public void $invoke() {
-						me.counter--;
-						if (me.counter == 0)
-							after.$invoke(array);
-					}
-				});
-			}
-		});
-	}
+    private void execute(final Array&lt;T&gt; array, final Callback2&lt;T, Callback0&gt; each, final Callback1&lt;Array&lt;T&gt;&gt; after, final EcAsyncHelper me, final int i) {
+        Task.immediate(new Callback0() {
+            @Override
+            public void $invoke() {
+                each.$invoke(array.$get(i), new Callback0() {
+                    @Override
+                    public void $invoke() {
+                        me.counter--;
+                        if (me.counter == 0)
+                            after.$invoke(array);
+                    }
+                });
+            }
+        });
+    }
 
-	/**
-	 * Will prevent &#x27;after&#x27; from being called.
-	 *
-	 * @method stop
-	 */
-	public void stop() {
-		counter = -1;
-	}
+    public Callback1&lt;String&gt; failWithCallback(final Callback1&lt;String&gt; failure, final Callback0 callback) {
+        return new Callback1&lt;String&gt;() {
+            @Override
+            public void $invoke(String s) {
+                callback.$invoke();
+                failure.$invoke(s);
+            }
+        };
+    }
+
+    /**
+     * Stops any remaining objects from being iterated over, if they have not already. Will prevent &#x27;after&#x27; from being called.
+     *
+     * @method stop
+     * @memberOf EcAsyncHelper
+     */
+    public void stop() {
+        counter = -1;
+    }
+
+    /**
+     * Stops any remaining objects from being iterated over, if they have not already. Will allow &#x27;after&#x27; to be called.
+     *
+     * @method stop
+     * @memberOf EcAsyncHelper
+     */
+    public void finish() {
+        counter = 1;
+    }
+
+    /**
+     * Is preventing &#x27;after&#x27; from being called?
+     *
+     * @return whether it is stopped.
+     * @method isStopped
+     * @memberOf EcAsyncHelper
+     */
+    public boolean isStopped() {
+        return counter &lt;= -1;
+    }
 }
 
 </pre>

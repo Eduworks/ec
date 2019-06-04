@@ -69,6 +69,7 @@
                             <li><a href="../classes/AgreeAction.html">AgreeAction</a></li>
                             <li><a href="../classes/Airline.html">Airline</a></li>
                             <li><a href="../classes/Airport.html">Airport</a></li>
+                            <li><a href="../classes/AlignmentMap.html">AlignmentMap</a></li>
                             <li><a href="../classes/AlignmentObject.html">AlignmentObject</a></li>
                             <li><a href="../classes/AllocateAction.html">AllocateAction</a></li>
                             <li><a href="../classes/AmusementPark.html">AmusementPark</a></li>
@@ -161,6 +162,7 @@
                             <li><a href="../classes/Casino.html">Casino</a></li>
                             <li><a href="../classes/Cass.html">Cass</a></li>
                             <li><a href="../classes/CatholicChurch.html">CatholicChurch</a></li>
+                            <li><a href="../classes/CeCompetency.html">CeCompetency</a></li>
                             <li><a href="../classes/Cemetery.html">Cemetery</a></li>
                             <li><a href="../classes/Certificate.html">Certificate</a></li>
                             <li><a href="../classes/Certification.html">Certification</a></li>
@@ -288,18 +290,22 @@
                             <li><a href="../classes/EcAes.html">EcAes</a></li>
                             <li><a href="../classes/EcAesCtr.html">EcAesCtr</a></li>
                             <li><a href="../classes/EcAesCtrAsync.html">EcAesCtrAsync</a></li>
+                            <li><a href="../classes/EcAesCtrAsyncWorker.html">EcAesCtrAsyncWorker</a></li>
                             <li><a href="../classes/EcAlignment.html">EcAlignment</a></li>
                             <li><a href="../classes/EcArray.html">EcArray</a></li>
                             <li><a href="../classes/EcAsyncHelper.html">EcAsyncHelper</a></li>
                             <li><a href="../classes/EcCompetency.html">EcCompetency</a></li>
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
+                            <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
+                            <li><a href="../classes/EcFrameworkGraph.html">EcFrameworkGraph</a></li>
                             <li><a href="../classes/EcIdentity.html">EcIdentity</a></li>
                             <li><a href="../classes/EcIdentityManager.html">EcIdentityManager</a></li>
                             <li><a href="../classes/EcLevel.html">EcLevel</a></li>
+                            <li><a href="../classes/EcLevrHttp.html">EcLevrHttp</a></li>
                             <li><a href="../classes/EcLinkedData.html">EcLinkedData</a></li>
                             <li><a href="../classes/EcModal.html">EcModal</a></li>
                             <li><a href="../classes/EcObject.html">EcObject</a></li>
@@ -313,6 +319,7 @@
                             <li><a href="../classes/EcRollupRule.html">EcRollupRule</a></li>
                             <li><a href="../classes/EcRsaOaep.html">EcRsaOaep</a></li>
                             <li><a href="../classes/EcRsaOaepAsync.html">EcRsaOaepAsync</a></li>
+                            <li><a href="../classes/EcRsaOaepAsyncWorker.html">EcRsaOaepAsyncWorker</a></li>
                             <li><a href="../classes/EcScreen.html">EcScreen</a></li>
                             <li><a href="../classes/EcView.html">EcView</a></li>
                             <li><a href="../classes/EducationalAudience.html">EducationalAudience</a></li>
@@ -346,6 +353,7 @@
                             <li><a href="../classes/Festival.html">Festival</a></li>
                             <li><a href="../classes/FilmAction.html">FilmAction</a></li>
                             <li><a href="../classes/FinancialAlignmentObject.html">FinancialAlignmentObject</a></li>
+                            <li><a href="../classes/FinancialAssistanceProfile.html">FinancialAssistanceProfile</a></li>
                             <li><a href="../classes/FinancialProduct.html">FinancialProduct</a></li>
                             <li><a href="../classes/FinancialService.html">FinancialService</a></li>
                             <li><a href="../classes/FindAction.html">FindAction</a></li>
@@ -588,6 +596,7 @@
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
                             <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
+                            <li><a href="../classes/ProfileProcessor.html">ProfileProcessor</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
                             <li><a href="../classes/PropertyValueSpecification.html">PropertyValueSpecification</a></li>
@@ -705,6 +714,7 @@
                             <li><a href="../classes/Synagogue.html">Synagogue</a></li>
                             <li><a href="../classes/Table.html">Table</a></li>
                             <li><a href="../classes/TakeAction.html">TakeAction</a></li>
+                            <li><a href="../classes/Task.html">Task</a></li>
                             <li><a href="../classes/TaskProfile.html">TaskProfile</a></li>
                             <li><a href="../classes/TattooParlor.html">TattooParlor</a></li>
                             <li><a href="../classes/Taxi.html">Taxi</a></li>
@@ -796,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 1.0.0
+              Version: latest unstable
             </div>
             
         </div>
@@ -838,6 +848,12 @@ import org.stjs.javascript.functions.Callback2;
  * @author fritz.ray@eduworks.com
  */
 public class EcAssertion extends Assertion {
+
+	@Override
+	public boolean equals(Object obj) {
+		return isId(((EcAssertion)obj).id);
+	}
+
 	public static void get(String id, final Callback1&lt;EcAssertion&gt; success, final Callback1&lt;String&gt; failure) {
 		EcRepository.get(id, new Callback1&lt;EcRemoteLinkedData&gt;() {
 			@Override
@@ -935,6 +951,36 @@ public class EcAssertion extends Assertion {
 		subject = EcEncryptedValue.encryptValue(pk.toPem(), id, owners, readers);
 	}
 
+	public void setSubjectAsync(EcPk pk, final Callback0 success, Callback1&lt;String&gt; failure) {
+		final EcAssertion me = this;
+		Array&lt;String&gt; owners = new Array&lt;String&gt;();
+		Array&lt;String&gt; readers = null;
+
+		if (reader == null)
+			readers = new Array&lt;String&gt;();
+		else
+			readers = (Array) Global.JSON.parse(Global.JSON.stringify(reader));
+
+		if (subject != null) {
+			if (subject.owner != null)
+				owners.concat(subject.owner);
+			if (subject.reader != null)
+				readers.concat(subject.reader);
+		}
+
+		if (owner != null)
+			owners = owners.concat(owner);
+
+		readers.push(pk.toPem());
+		EcEncryptedValue.encryptValueAsync(pk.toPem(), id, owners, readers, new Callback1&lt;EcEncryptedValue&gt;() {
+			@Override
+			public void $invoke(EcEncryptedValue subject) {
+				me.subject = subject;
+				success.$invoke();
+			}
+		}, failure);
+	}
+
 	public void getSubjectAsync(final Callback1&lt;EcPk&gt; success, final Callback1&lt;String&gt; failure) {
 		if (subject == null) {
 			success.$invoke(null);
@@ -977,6 +1023,17 @@ public class EcAssertion extends Assertion {
 
 	public void setAgent(EcPk pk) {
 		agent = EcEncryptedValue.encryptValue(pk.toPem(), id, subject.owner, subject.reader);
+	}
+
+	public void setAgentAsync(EcPk pk, final Callback0 success, Callback1&lt;String&gt; failure) {
+		final EcAssertion me = this;
+		EcEncryptedValue.encryptValueAsync(pk.toPem(), id, subject.owner, subject.reader, new Callback1&lt;EcEncryptedValue&gt;() {
+			@Override
+			public void $invoke(EcEncryptedValue agent) {
+				me.agent = agent;
+				success.$invoke();
+			}
+		}, failure);
 	}
 
 	public void getAgentAsync(final Callback1&lt;EcPk&gt; success, final Callback1&lt;String&gt; failure) {
@@ -1166,6 +1223,16 @@ public class EcAssertion extends Assertion {
 		assertionDate = EcEncryptedValue.encryptValue(assertionDateMs.toString(), id, subject.owner, subject.reader);
 	}
 
+	public void setAssertionDateAsync(Long assertionDateMs, final Callback0 success, Callback1&lt;String&gt; failure) {
+		final EcAssertion me = this;
+		EcEncryptedValue.encryptValueAsync(assertionDateMs.toString(), id, subject.owner, subject.reader, new Callback1&lt;EcEncryptedValue&gt;() {
+			@Override
+			public void $invoke(EcEncryptedValue assertionDate) {
+				me.assertionDate = assertionDate;
+				success.$invoke();
+			}
+		}, failure);
+	}
 	public void getAssertionDateAsync(final Callback1&lt;Long&gt; success, final Callback1&lt;String&gt; failure) {
 		if (assertionDate == null) {
 			success.$invoke(null);
@@ -1210,6 +1277,16 @@ public class EcAssertion extends Assertion {
 		expirationDate = EcEncryptedValue.encryptValue(expirationDateMs.toString(), id, subject.owner, subject.reader);
 	}
 
+	public void setExpirationDateAsync(Long expirationDateMs, final Callback0 success, Callback1&lt;String&gt; failure) {
+		final EcAssertion me = this;
+		EcEncryptedValue.encryptValueAsync(expirationDateMs.toString(), id, subject.owner, subject.reader, new Callback1&lt;EcEncryptedValue&gt;() {
+			@Override
+			public void $invoke(EcEncryptedValue expirationDate) {
+				me.expirationDate = expirationDate;
+				success.$invoke();
+			}
+		}, failure);
+	}
 	public void getExpirationDateAsync(final Callback1&lt;Long&gt; success, final Callback1&lt;String&gt; failure) {
 		if (expirationDate == null) {
 			success.$invoke(null);
@@ -1255,6 +1332,30 @@ public class EcAssertion extends Assertion {
 		return decryptedString;
 	}
 
+	public void getEvidencesAsync(final Callback1&lt;Array&lt;String&gt;&gt; success, final Callback1&lt;String&gt; failure){
+		final Array&lt;String&gt; results = new Array&lt;&gt;();
+		if (evidence != null)
+		new EcAsyncHelper&lt;EcEncryptedValue&gt;().each(evidence, new Callback2&lt;EcEncryptedValue, Callback0&gt;() {
+			@Override
+			public void $invoke(EcEncryptedValue e, final Callback0 callback0) {
+				e.decryptIntoStringAsync(new Callback1&lt;String&gt;() {
+					@Override
+					public void $invoke(String str) {
+						results.push(str);
+						callback0.$invoke();
+					}
+				},(Callback1)callback0);
+			}
+		}, new Callback1&lt;Array&lt;EcEncryptedValue&gt;&gt;() {
+			@Override
+			public void $invoke(Array&lt;EcEncryptedValue&gt; strings) {
+				success.$invoke(results);
+			}
+		});
+		else
+			success.$invoke(results);
+	}
+
 	public void getEvidenceAsync(int index, final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure) {
 		if (evidence.$get(index) == null) {
 			success.$invoke(null);
@@ -1297,6 +1398,16 @@ public class EcAssertion extends Assertion {
 
 	public void setDecayFunction(String decayFunctionText) {
 		decayFunction = EcEncryptedValue.encryptValue(decayFunctionText.toString(), id, subject.owner, subject.reader);
+	}
+	public void setDecayFunctionAsync(String decayFunctionText, final Callback0 success, Callback1&lt;String&gt; failure) {
+		final EcAssertion me = this;
+		EcEncryptedValue.encryptValueAsync(decayFunctionText, id, subject.owner, subject.reader, new Callback1&lt;EcEncryptedValue&gt;() {
+			@Override
+			public void $invoke(EcEncryptedValue decayFunction) {
+				me.decayFunction = decayFunction;
+				success.$invoke();
+			}
+		}, failure);
 	}
 
 	public void getDecayFunctionAsync(final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure) {
@@ -1343,6 +1454,17 @@ public class EcAssertion extends Assertion {
 		negative = EcEncryptedValue.encryptValue(negativeB.toString(), id, subject.owner, subject.reader);
 	}
 
+	public void setNegativeAsync(Boolean negativeB, final Callback0 success, Callback1&lt;String&gt; failure) {
+		final EcAssertion me = this;
+		EcEncryptedValue.encryptValueAsync(negativeB.toString(), id, subject.owner, subject.reader, new Callback1&lt;EcEncryptedValue&gt;() {
+			@Override
+			public void $invoke(EcEncryptedValue negative) {
+				me.negative = negative;
+				success.$invoke();
+			}
+		}, failure);
+	}
+
 	public void getNegativeAsync(final Callback1&lt;Boolean&gt; success, final Callback1&lt;String&gt; failure) {
 		if (negative == null) {
 			success.$invoke(null);
@@ -1387,6 +1509,29 @@ public class EcAssertion extends Assertion {
 		for (int i = 0; i &lt; evidences.$length(); i++)
 			encryptedValues.push(EcEncryptedValue.encryptValue(evidences.$get(i), id, subject.owner, subject.reader));
 		evidence = encryptedValues;
+	}
+
+	public void setEvidenceAsync(Array&lt;String&gt; evidences, final Callback0 success, Callback1&lt;String&gt; failure) {
+		final EcAssertion me = this;
+		final Array&lt;EcEncryptedValue&gt; encryptedValues = new Array&lt;EcEncryptedValue&gt;();
+		new EcAsyncHelper&lt;String&gt;().each(evidences, new Callback2&lt;String, Callback0&gt;() {
+			@Override
+			public void $invoke(String s, final Callback0 callback0) {
+				EcEncryptedValue.encryptValueAsync(s, me.id, me.subject.owner, me.subject.reader, new Callback1&lt;EcEncryptedValue&gt;() {
+					@Override
+					public void $invoke(EcEncryptedValue ecEncryptedValue) {
+						encryptedValues.push(ecEncryptedValue);
+						callback0.$invoke();
+					}
+				},(Callback1)callback0);
+			}
+		}, new Callback1&lt;Array&lt;String&gt;&gt;() {
+			@Override
+			public void $invoke(Array&lt;String&gt; strings) {
+				me.evidence = encryptedValues;
+				success.$invoke();
+			}
+		});
 	}
 
 	public void save(Callback1&lt;String&gt; success, Callback1&lt;String&gt; failure, EcRepository repo) {
@@ -1502,6 +1647,102 @@ public class EcAssertion extends Assertion {
 			subject.removeReader(newReader);
 		}
 		super.removeReader(newReader);
+	}
+
+	public void addReaderAsync(final EcPk newReader, final Callback0 success, final Callback1&lt;String&gt; failure) {
+		Array&lt;EcEncryptedValue&gt; ary = new Array&lt;&gt;();
+
+		if (agent != null) {
+			ary.push(agent);
+		}
+		if (assertionDate != null) {
+			ary.push(assertionDate);
+		}
+		if (decayFunction != null) {
+			ary.push(decayFunction);
+		}
+		if (evidence != null)
+			for (int i = 0; i &lt; evidence.$length(); i++) {
+				ary.push(evidence.$get(i));
+			}
+		if (expirationDate != null) {
+			ary.push(expirationDate);
+		}
+		if (negative != null) {
+			ary.push(negative);
+		}
+		if (subject != null) {
+			ary.push(subject);
+		}
+		super.addReader(newReader);
+		final EcAsyncHelper&lt;EcEncryptedValue&gt; eah = new EcAsyncHelper&lt;&gt;();
+		eah.each(ary, new Callback2&lt;EcEncryptedValue, Callback0&gt;() {
+			@Override
+			public void $invoke(EcEncryptedValue ecEncryptedValue, Callback0 callback0) {
+				ecEncryptedValue.addReaderAsync(newReader, callback0, new Callback1&lt;String&gt;() {
+					@Override
+					public void $invoke(String s) {
+						if (!eah.isStopped()) {
+							eah.stop();
+							failure.$invoke(&quot;Failed to add reader to an assertion.&quot;);
+						}
+					}
+				});
+			}
+		}, new Callback1&lt;Array&lt;EcEncryptedValue&gt;&gt;() {
+			@Override
+			public void $invoke(Array&lt;EcEncryptedValue&gt; strings) {
+				success.$invoke();
+			}
+		});
+	}
+
+	public void removeReaderAsync(final EcPk oldReader, final Callback0 success, final Callback1&lt;String&gt; failure) {
+		Array&lt;EcEncryptedValue&gt; ary = new Array&lt;&gt;();
+
+		if (agent != null) {
+			ary.push(agent);
+		}
+		if (assertionDate != null) {
+			ary.push(assertionDate);
+		}
+		if (decayFunction != null) {
+			ary.push(decayFunction);
+		}
+		if (evidence != null)
+			for (int i = 0; i &lt; evidence.$length(); i++) {
+				ary.push(evidence.$get(i));
+			}
+		if (expirationDate != null) {
+			ary.push(expirationDate);
+		}
+		if (negative != null) {
+			ary.push(negative);
+		}
+		if (subject != null) {
+			ary.push(subject);
+		}
+		super.removeReader(oldReader);
+		final EcAsyncHelper&lt;EcEncryptedValue&gt; eah = new EcAsyncHelper&lt;&gt;();
+		eah.each(ary, new Callback2&lt;EcEncryptedValue, Callback0&gt;() {
+			@Override
+			public void $invoke(EcEncryptedValue ecEncryptedValue, Callback0 callback0) {
+				ecEncryptedValue.removeReaderAsync(oldReader, callback0, new Callback1&lt;String&gt;() {
+					@Override
+					public void $invoke(String s) {
+						if (!eah.isStopped()) {
+							eah.stop();
+							failure.$invoke(&quot;Failed to remove reader to an assertion.&quot;);
+						}
+					}
+				});
+			}
+		}, new Callback1&lt;Array&lt;EcEncryptedValue&gt;&gt;() {
+			@Override
+			public void $invoke(Array&lt;EcEncryptedValue&gt; strings) {
+				success.$invoke();
+			}
+		});
 	}
 
 	public String getSearchStringByTypeAndCompetency(EcCompetency competency) {

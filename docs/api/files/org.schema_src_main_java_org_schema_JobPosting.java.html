@@ -69,6 +69,7 @@
                             <li><a href="../classes/AgreeAction.html">AgreeAction</a></li>
                             <li><a href="../classes/Airline.html">Airline</a></li>
                             <li><a href="../classes/Airport.html">Airport</a></li>
+                            <li><a href="../classes/AlignmentMap.html">AlignmentMap</a></li>
                             <li><a href="../classes/AlignmentObject.html">AlignmentObject</a></li>
                             <li><a href="../classes/AllocateAction.html">AllocateAction</a></li>
                             <li><a href="../classes/AmusementPark.html">AmusementPark</a></li>
@@ -161,6 +162,7 @@
                             <li><a href="../classes/Casino.html">Casino</a></li>
                             <li><a href="../classes/Cass.html">Cass</a></li>
                             <li><a href="../classes/CatholicChurch.html">CatholicChurch</a></li>
+                            <li><a href="../classes/CeCompetency.html">CeCompetency</a></li>
                             <li><a href="../classes/Cemetery.html">Cemetery</a></li>
                             <li><a href="../classes/Certificate.html">Certificate</a></li>
                             <li><a href="../classes/Certification.html">Certification</a></li>
@@ -288,18 +290,22 @@
                             <li><a href="../classes/EcAes.html">EcAes</a></li>
                             <li><a href="../classes/EcAesCtr.html">EcAesCtr</a></li>
                             <li><a href="../classes/EcAesCtrAsync.html">EcAesCtrAsync</a></li>
+                            <li><a href="../classes/EcAesCtrAsyncWorker.html">EcAesCtrAsyncWorker</a></li>
                             <li><a href="../classes/EcAlignment.html">EcAlignment</a></li>
                             <li><a href="../classes/EcArray.html">EcArray</a></li>
                             <li><a href="../classes/EcAsyncHelper.html">EcAsyncHelper</a></li>
                             <li><a href="../classes/EcCompetency.html">EcCompetency</a></li>
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
+                            <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
+                            <li><a href="../classes/EcFrameworkGraph.html">EcFrameworkGraph</a></li>
                             <li><a href="../classes/EcIdentity.html">EcIdentity</a></li>
                             <li><a href="../classes/EcIdentityManager.html">EcIdentityManager</a></li>
                             <li><a href="../classes/EcLevel.html">EcLevel</a></li>
+                            <li><a href="../classes/EcLevrHttp.html">EcLevrHttp</a></li>
                             <li><a href="../classes/EcLinkedData.html">EcLinkedData</a></li>
                             <li><a href="../classes/EcModal.html">EcModal</a></li>
                             <li><a href="../classes/EcObject.html">EcObject</a></li>
@@ -313,6 +319,7 @@
                             <li><a href="../classes/EcRollupRule.html">EcRollupRule</a></li>
                             <li><a href="../classes/EcRsaOaep.html">EcRsaOaep</a></li>
                             <li><a href="../classes/EcRsaOaepAsync.html">EcRsaOaepAsync</a></li>
+                            <li><a href="../classes/EcRsaOaepAsyncWorker.html">EcRsaOaepAsyncWorker</a></li>
                             <li><a href="../classes/EcScreen.html">EcScreen</a></li>
                             <li><a href="../classes/EcView.html">EcView</a></li>
                             <li><a href="../classes/EducationalAudience.html">EducationalAudience</a></li>
@@ -346,6 +353,7 @@
                             <li><a href="../classes/Festival.html">Festival</a></li>
                             <li><a href="../classes/FilmAction.html">FilmAction</a></li>
                             <li><a href="../classes/FinancialAlignmentObject.html">FinancialAlignmentObject</a></li>
+                            <li><a href="../classes/FinancialAssistanceProfile.html">FinancialAssistanceProfile</a></li>
                             <li><a href="../classes/FinancialProduct.html">FinancialProduct</a></li>
                             <li><a href="../classes/FinancialService.html">FinancialService</a></li>
                             <li><a href="../classes/FindAction.html">FindAction</a></li>
@@ -588,6 +596,7 @@
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
                             <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
+                            <li><a href="../classes/ProfileProcessor.html">ProfileProcessor</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
                             <li><a href="../classes/PropertyValueSpecification.html">PropertyValueSpecification</a></li>
@@ -705,6 +714,7 @@
                             <li><a href="../classes/Synagogue.html">Synagogue</a></li>
                             <li><a href="../classes/Table.html">Table</a></li>
                             <li><a href="../classes/TakeAction.html">TakeAction</a></li>
+                            <li><a href="../classes/Task.html">Task</a></li>
                             <li><a href="../classes/TaskProfile.html">TaskProfile</a></li>
                             <li><a href="../classes/TattooParlor.html">TattooParlor</a></li>
                             <li><a href="../classes/Taxi.html">Taxi</a></li>
@@ -796,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 1.0.0
+              Version: latest unstable
             </div>
             
         </div>
@@ -820,14 +830,6 @@ package org.schema;
  */
 public class JobPosting extends Intangible {
 	/**
-	 * Schema.org/baseSalary
-	 * The base salary of the job or of an employee in an EmployeeRole.
-	 *
-	 * @property baseSalary
-	 * @type schema, Number | schema,PriceSpecification | schema,MonetaryAmount
-	 */
-	public Object baseSalary;
-	/**
 	 * Schema.org/benefits
 	 * Description of benefits associated with the job.
 	 *
@@ -835,62 +837,6 @@ public class JobPosting extends Intangible {
 	 * @type Text
 	 */
 	public String benefits;
-	/**
-	 * Schema.org/jobBenefits
-	 * Description of benefits associated with the job.
-	 *
-	 * @property jobBenefits
-	 * @type Text
-	 */
-	public String jobBenefits;
-	/**
-	 * Schema.org/experienceRequirements
-	 * Description of skills and experience needed for the position.
-	 *
-	 * @property experienceRequirements
-	 * @type Text
-	 */
-	public String experienceRequirements;
-	/**
-	 * Schema.org/hiringOrganization
-	 * Organization offering the job position.
-	 *
-	 * @property hiringOrganization
-	 * @type Organization
-	 */
-	public Organization hiringOrganization;
-	/**
-	 * Schema.org/employmentType
-	 * Type of employment (e.g. full-time, part-time, contract, temporary, seasonal, internship).
-	 *
-	 * @property employmentType
-	 * @type Text
-	 */
-	public String employmentType;
-	/**
-	 * Schema.org/workHours
-	 * The typical working hours for this job (e.g. 1st shift, night shift, 8am-5pm).
-	 *
-	 * @property workHours
-	 * @type Text
-	 */
-	public String workHours;
-	/**
-	 * Schema.org/responsibilities
-	 * Responsibilities associated with this role.
-	 *
-	 * @property responsibilities
-	 * @type Text
-	 */
-	public String responsibilities;
-	/**
-	 * Schema.org/skills
-	 * Skills required to fulfill this role.
-	 *
-	 * @property skills
-	 * @type Text
-	 */
-	public String skills;
 	/**
 	 * Schema.org/qualifications
 	 * Specific qualifications required for this role.
@@ -900,54 +846,6 @@ public class JobPosting extends Intangible {
 	 */
 	public String qualifications;
 	/**
-	 * Schema.org/occupationalCategory
-	 * Category or categories describing the job. Use BLS O*NET-SOC taxonomy: http://www.onetcenter.org/taxonomy.html. Ideally includes textual label and formal code, with the property repeated for each applicable value.
-	 *
-	 * @property occupationalCategory
-	 * @type Text
-	 */
-	public String occupationalCategory;
-	/**
-	 * Schema.org/incentives
-	 * Description of bonus and commission compensation aspects of the job.
-	 *
-	 * @property incentives
-	 * @type Text
-	 */
-	public String incentives;
-	/**
-	 * Schema.org/validThrough
-	 * The date after when the item is not valid. For example the end of an offer, salary period, or a period of opening hours.
-	 *
-	 * @property validThrough
-	 * @type DateTime
-	 */
-	public String validThrough;
-	/**
-	 * Schema.org/title
-	 * The title of the job.
-	 *
-	 * @property title
-	 * @type Text
-	 */
-	public String title;
-	/**
-	 * Schema.org/educationRequirements
-	 * Educational background needed for the position.
-	 *
-	 * @property educationRequirements
-	 * @type Text
-	 */
-	public String educationRequirements;
-	/**
-	 * Schema.org/specialCommitments
-	 * Any special commitments associated with this job posting. Valid entries include VeteranCommit, MilitarySpouseCommit, etc.
-	 *
-	 * @property specialCommitments
-	 * @type Text
-	 */
-	public String specialCommitments;
-	/**
 	 * Schema.org/incentiveCompensation
 	 * Description of bonus and commission compensation aspects of the job.
 	 *
@@ -955,6 +853,14 @@ public class JobPosting extends Intangible {
 	 * @type Text
 	 */
 	public String incentiveCompensation;
+	/**
+	 * Schema.org/workHours
+	 * The typical working hours for this job (e.g. 1st shift, night shift, 8am-5pm).
+	 *
+	 * @property workHours
+	 * @type Text
+	 */
+	public String workHours;
 	/**
 	 * Schema.org/salaryCurrency
 	 * The currency (coded using [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217) ) used for the main salary information in this job posting or for this employee.
@@ -964,21 +870,13 @@ public class JobPosting extends Intangible {
 	 */
 	public String salaryCurrency;
 	/**
-	 * Schema.org/jobLocation
-	 * A (typically single) geographic location associated with the job position.
+	 * Schema.org/jobBenefits
+	 * Description of benefits associated with the job.
 	 *
-	 * @property jobLocation
-	 * @type Place
-	 */
-	public Place jobLocation;
-	/**
-	 * Schema.org/industry
-	 * The industry associated with the job position.
-	 *
-	 * @property industry
+	 * @property jobBenefits
 	 * @type Text
 	 */
-	public String industry;
+	public String jobBenefits;
 	/**
 	 * Schema.org/datePosted
 	 * Publication date for the job posting.
@@ -987,6 +885,118 @@ public class JobPosting extends Intangible {
 	 * @type Date
 	 */
 	public String datePosted;
+	/**
+	 * Schema.org/skills
+	 * Skills required to fulfill this role.
+	 *
+	 * @property skills
+	 * @type Text
+	 */
+	public String skills;
+	/**
+	 * Schema.org/incentives
+	 * Description of bonus and commission compensation aspects of the job.
+	 *
+	 * @property incentives
+	 * @type Text
+	 */
+	public String incentives;
+	/**
+	 * Schema.org/educationRequirements
+	 * Educational background needed for the position.
+	 *
+	 * @property educationRequirements
+	 * @type Text
+	 */
+	public String educationRequirements;
+	/**
+	 * Schema.org/responsibilities
+	 * Responsibilities associated with this role.
+	 *
+	 * @property responsibilities
+	 * @type Text
+	 */
+	public String responsibilities;
+	/**
+	 * Schema.org/baseSalary
+	 * The base salary of the job or of an employee in an EmployeeRole.
+	 *
+	 * @property baseSalary
+	 * @type MonetaryAmount
+	 */
+	public MonetaryAmount baseSalary;
+	/**
+	 * Schema.org/validThrough
+	 * The date after when the item is not valid. For example the end of an offer, salary period, or a period of opening hours.
+	 *
+	 * @property validThrough
+	 * @type DateTime
+	 */
+	public String validThrough;
+	/**
+	 * Schema.org/hiringOrganization
+	 * Organization offering the job position.
+	 *
+	 * @property hiringOrganization
+	 * @type Organization
+	 */
+	public Organization hiringOrganization;
+	/**
+	 * Schema.org/specialCommitments
+	 * Any special commitments associated with this job posting. Valid entries include VeteranCommit, MilitarySpouseCommit, etc.
+	 *
+	 * @property specialCommitments
+	 * @type Text
+	 */
+	public String specialCommitments;
+	/**
+	 * Schema.org/occupationalCategory
+	 * Category or categories describing the job. Use BLS O*NET-SOC taxonomy: http://www.onetcenter.org/taxonomy.html. Ideally includes textual label and formal code, with the property repeated for each applicable value.
+	 *
+	 * @property occupationalCategory
+	 * @type Text
+	 */
+	public String occupationalCategory;
+	/**
+	 * Schema.org/experienceRequirements
+	 * Description of skills and experience needed for the position.
+	 *
+	 * @property experienceRequirements
+	 * @type Text
+	 */
+	public String experienceRequirements;
+	/**
+	 * Schema.org/employmentType
+	 * Type of employment (e.g. full-time, part-time, contract, temporary, seasonal, internship).
+	 *
+	 * @property employmentType
+	 * @type Text
+	 */
+	public String employmentType;
+	/**
+	 * Schema.org/jobLocation
+	 * A (typically single) geographic location associated with the job position.
+	 *
+	 * @property jobLocation
+	 * @type Place
+	 */
+	public Place jobLocation;
+	/**
+	 * Schema.org/title
+	 * The title of the job.
+	 *
+	 * @property title
+	 * @type Text
+	 */
+	public String title;
+	/**
+	 * Schema.org/industry
+	 * The industry associated with the job position.
+	 *
+	 * @property industry
+	 * @type Text
+	 */
+	public String industry;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

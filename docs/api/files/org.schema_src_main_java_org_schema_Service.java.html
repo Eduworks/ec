@@ -69,6 +69,7 @@
                             <li><a href="../classes/AgreeAction.html">AgreeAction</a></li>
                             <li><a href="../classes/Airline.html">Airline</a></li>
                             <li><a href="../classes/Airport.html">Airport</a></li>
+                            <li><a href="../classes/AlignmentMap.html">AlignmentMap</a></li>
                             <li><a href="../classes/AlignmentObject.html">AlignmentObject</a></li>
                             <li><a href="../classes/AllocateAction.html">AllocateAction</a></li>
                             <li><a href="../classes/AmusementPark.html">AmusementPark</a></li>
@@ -161,6 +162,7 @@
                             <li><a href="../classes/Casino.html">Casino</a></li>
                             <li><a href="../classes/Cass.html">Cass</a></li>
                             <li><a href="../classes/CatholicChurch.html">CatholicChurch</a></li>
+                            <li><a href="../classes/CeCompetency.html">CeCompetency</a></li>
                             <li><a href="../classes/Cemetery.html">Cemetery</a></li>
                             <li><a href="../classes/Certificate.html">Certificate</a></li>
                             <li><a href="../classes/Certification.html">Certification</a></li>
@@ -288,18 +290,22 @@
                             <li><a href="../classes/EcAes.html">EcAes</a></li>
                             <li><a href="../classes/EcAesCtr.html">EcAesCtr</a></li>
                             <li><a href="../classes/EcAesCtrAsync.html">EcAesCtrAsync</a></li>
+                            <li><a href="../classes/EcAesCtrAsyncWorker.html">EcAesCtrAsyncWorker</a></li>
                             <li><a href="../classes/EcAlignment.html">EcAlignment</a></li>
                             <li><a href="../classes/EcArray.html">EcArray</a></li>
                             <li><a href="../classes/EcAsyncHelper.html">EcAsyncHelper</a></li>
                             <li><a href="../classes/EcCompetency.html">EcCompetency</a></li>
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
+                            <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
+                            <li><a href="../classes/EcFrameworkGraph.html">EcFrameworkGraph</a></li>
                             <li><a href="../classes/EcIdentity.html">EcIdentity</a></li>
                             <li><a href="../classes/EcIdentityManager.html">EcIdentityManager</a></li>
                             <li><a href="../classes/EcLevel.html">EcLevel</a></li>
+                            <li><a href="../classes/EcLevrHttp.html">EcLevrHttp</a></li>
                             <li><a href="../classes/EcLinkedData.html">EcLinkedData</a></li>
                             <li><a href="../classes/EcModal.html">EcModal</a></li>
                             <li><a href="../classes/EcObject.html">EcObject</a></li>
@@ -313,6 +319,7 @@
                             <li><a href="../classes/EcRollupRule.html">EcRollupRule</a></li>
                             <li><a href="../classes/EcRsaOaep.html">EcRsaOaep</a></li>
                             <li><a href="../classes/EcRsaOaepAsync.html">EcRsaOaepAsync</a></li>
+                            <li><a href="../classes/EcRsaOaepAsyncWorker.html">EcRsaOaepAsyncWorker</a></li>
                             <li><a href="../classes/EcScreen.html">EcScreen</a></li>
                             <li><a href="../classes/EcView.html">EcView</a></li>
                             <li><a href="../classes/EducationalAudience.html">EducationalAudience</a></li>
@@ -346,6 +353,7 @@
                             <li><a href="../classes/Festival.html">Festival</a></li>
                             <li><a href="../classes/FilmAction.html">FilmAction</a></li>
                             <li><a href="../classes/FinancialAlignmentObject.html">FinancialAlignmentObject</a></li>
+                            <li><a href="../classes/FinancialAssistanceProfile.html">FinancialAssistanceProfile</a></li>
                             <li><a href="../classes/FinancialProduct.html">FinancialProduct</a></li>
                             <li><a href="../classes/FinancialService.html">FinancialService</a></li>
                             <li><a href="../classes/FindAction.html">FindAction</a></li>
@@ -588,6 +596,7 @@
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
                             <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
+                            <li><a href="../classes/ProfileProcessor.html">ProfileProcessor</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
                             <li><a href="../classes/PropertyValueSpecification.html">PropertyValueSpecification</a></li>
@@ -705,6 +714,7 @@
                             <li><a href="../classes/Synagogue.html">Synagogue</a></li>
                             <li><a href="../classes/Table.html">Table</a></li>
                             <li><a href="../classes/TakeAction.html">TakeAction</a></li>
+                            <li><a href="../classes/Task.html">Task</a></li>
                             <li><a href="../classes/TaskProfile.html">TaskProfile</a></li>
                             <li><a href="../classes/TattooParlor.html">TattooParlor</a></li>
                             <li><a href="../classes/Taxi.html">Taxi</a></li>
@@ -796,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 1.0.0
+              Version: latest unstable
             </div>
             
         </div>
@@ -820,6 +830,30 @@ package org.schema;
  */
 public class Service extends Intangible {
 	/**
+	 * Schema.org/serviceAudience
+	 * The audience eligible for this service.
+	 *
+	 * @property serviceAudience
+	 * @type Audience
+	 */
+	public Audience serviceAudience;
+	/**
+	 * Schema.org/serviceArea
+	 * The geographic area where the service is provided.
+	 *
+	 * @property serviceArea
+	 * @type GeoShape
+	 */
+	public GeoShape serviceArea;
+	/**
+	 * Schema.org/provider
+	 * The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.
+	 *
+	 * @property provider
+	 * @type Person
+	 */
+	public Person provider;
+	/**
 	 * Schema.org/audience
 	 * An intended audience, i.e. a group for whom something was created.
 	 *
@@ -828,69 +862,13 @@ public class Service extends Intangible {
 	 */
 	public Audience audience;
 	/**
-	 * Schema.org/award
-	 * An award won by or for this item.
+	 * Schema.org/hasOfferCatalog
+	 * Indicates an OfferCatalog listing for this Organization, Person, or Service.
 	 *
-	 * @property award
-	 * @type Text
+	 * @property hasOfferCatalog
+	 * @type OfferCatalog
 	 */
-	public String award;
-	/**
-	 * Schema.org/broker
-	 * An entity that arranges for an exchange between a buyer and a seller.  In most cases a broker never acquires or releases ownership of a product or service involved in an exchange.  If it is not clear whether an entity is a broker, seller, or buyer, the latter two terms are preferred.
-	 *
-	 * @property broker
-	 * @type schema, Organization | schema,Person
-	 */
-	public Object broker;
-	/**
-	 * Schema.org/isRelatedTo
-	 * A pointer to another, somehow related product (or multiple products).
-	 *
-	 * @property isRelatedTo
-	 * @type schema, Service | schema,Product
-	 */
-	public Object isRelatedTo;
-	/**
-	 * Schema.org/providerMobility
-	 * Indicates the mobility of a provided service (e.g. &#x27;static&#x27;, &#x27;dynamic&#x27;).
-	 *
-	 * @property providerMobility
-	 * @type Text
-	 */
-	public String providerMobility;
-	/**
-	 * Schema.org/offers
-	 * An offer to provide this item&amp;#x2014;for example, an offer to sell a product, rent the DVD of a movie, perform a service, or give away tickets to an event.
-	 *
-	 * @property offers
-	 * @type Offer
-	 */
-	public Offer offers;
-	/**
-	 * Schema.org/review
-	 * A review of the item.
-	 *
-	 * @property review
-	 * @type Review
-	 */
-	public Review review;
-	/**
-	 * Schema.org/brand
-	 * The brand(s) associated with a product or service, or the brand(s) maintained by an organization or business person.
-	 *
-	 * @property brand
-	 * @type schema, Organization | schema,Brand
-	 */
-	public Object brand;
-	/**
-	 * Schema.org/areaServed
-	 * The geographic area where a service or offered item is provided.
-	 *
-	 * @property areaServed
-	 * @type schema, GeoShape | schema,Text | schema,Place | schema,AdministrativeArea
-	 */
-	public Object areaServed;
+	public OfferCatalog hasOfferCatalog;
 	/**
 	 * Schema.org/hoursAvailable
 	 * The hours during which this service or contact is available.
@@ -900,45 +878,13 @@ public class Service extends Intangible {
 	 */
 	public OpeningHoursSpecification hoursAvailable;
 	/**
-	 * Schema.org/produces
-	 * The tangible thing generated by the service, e.g. a passport, permit, etc.
+	 * Schema.org/providerMobility
+	 * Indicates the mobility of a provided service (e.g. &#x27;static&#x27;, &#x27;dynamic&#x27;).
 	 *
-	 * @property produces
-	 * @type Thing
+	 * @property providerMobility
+	 * @type Text
 	 */
-	public Thing produces;
-	/**
-	 * Schema.org/availableChannel
-	 * A means of accessing the service (e.g. a phone bank, a web site, a location, etc.).
-	 *
-	 * @property availableChannel
-	 * @type ServiceChannel
-	 */
-	public ServiceChannel availableChannel;
-	/**
-	 * Schema.org/isSimilarTo
-	 * A pointer to another, functionally similar product (or multiple products).
-	 *
-	 * @property isSimilarTo
-	 * @type schema, Service | schema,Product
-	 */
-	public Object isSimilarTo;
-	/**
-	 * Schema.org/provider
-	 * The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.
-	 *
-	 * @property provider
-	 * @type schema, Organization | schema,Person
-	 */
-	public Object provider;
-	/**
-	 * Schema.org/serviceArea
-	 * The geographic area where the service is provided.
-	 *
-	 * @property serviceArea
-	 * @type schema, GeoShape | schema,Place | schema,AdministrativeArea
-	 */
-	public Object serviceArea;
+	public String providerMobility;
 	/**
 	 * Schema.org/aggregateRating
 	 * The overall rating, based on a collection of reviews or ratings, of the item.
@@ -947,6 +893,38 @@ public class Service extends Intangible {
 	 * @type AggregateRating
 	 */
 	public AggregateRating aggregateRating;
+	/**
+	 * Schema.org/offers
+	 * An offer to provide this item&amp;#x2014;for example, an offer to sell a product, rent the DVD of a movie, perform a service, or give away tickets to an event.
+	 *
+	 * @property offers
+	 * @type Offer
+	 */
+	public Offer offers;
+	/**
+	 * Schema.org/award
+	 * An award won by or for this item.
+	 *
+	 * @property award
+	 * @type Text
+	 */
+	public String award;
+	/**
+	 * Schema.org/category
+	 * A category for the item. Greater signs or slashes can be used to informally indicate a category hierarchy.
+	 *
+	 * @property category
+	 * @type Text
+	 */
+	public String category;
+	/**
+	 * Schema.org/broker
+	 * An entity that arranges for an exchange between a buyer and a seller.  In most cases a broker never acquires or releases ownership of a product or service involved in an exchange.  If it is not clear whether an entity is a broker, seller, or buyer, the latter two terms are preferred.
+	 *
+	 * @property broker
+	 * @type Person
+	 */
+	public Person broker;
 	/**
 	 * Schema.org/serviceOutput
 	 * The tangible thing generated by the service, e.g. a passport, permit, etc.
@@ -960,25 +938,41 @@ public class Service extends Intangible {
 	 * An associated logo.
 	 *
 	 * @property logo
-	 * @type schema, URL | schema,ImageObject
+	 * @type ImageObject
 	 */
-	public Object logo;
+	public ImageObject logo;
 	/**
-	 * Schema.org/hasOfferCatalog
-	 * Indicates an OfferCatalog listing for this Organization, Person, or Service.
+	 * Schema.org/isSimilarTo
+	 * A pointer to another, functionally similar product (or multiple products).
 	 *
-	 * @property hasOfferCatalog
-	 * @type OfferCatalog
+	 * @property isSimilarTo
+	 * @type Product
 	 */
-	public OfferCatalog hasOfferCatalog;
+	public Product isSimilarTo;
 	/**
-	 * Schema.org/serviceAudience
-	 * The audience eligible for this service.
+	 * Schema.org/isRelatedTo
+	 * A pointer to another, somehow related product (or multiple products).
 	 *
-	 * @property serviceAudience
-	 * @type Audience
+	 * @property isRelatedTo
+	 * @type Product
 	 */
-	public Audience serviceAudience;
+	public Product isRelatedTo;
+	/**
+	 * Schema.org/availableChannel
+	 * A means of accessing the service (e.g. a phone bank, a web site, a location, etc.).
+	 *
+	 * @property availableChannel
+	 * @type ServiceChannel
+	 */
+	public ServiceChannel availableChannel;
+	/**
+	 * Schema.org/review
+	 * A review of the item.
+	 *
+	 * @property review
+	 * @type Review
+	 */
+	public Review review;
 	/**
 	 * Schema.org/serviceType
 	 * The type of service being offered, e.g. veterans&#x27; benefits, emergency relief, etc.
@@ -988,13 +982,29 @@ public class Service extends Intangible {
 	 */
 	public String serviceType;
 	/**
-	 * Schema.org/category
-	 * A category for the item. Greater signs or slashes can be used to informally indicate a category hierarchy.
+	 * Schema.org/produces
+	 * The tangible thing generated by the service, e.g. a passport, permit, etc.
 	 *
-	 * @property category
-	 * @type schema, Text | schema,Thing
+	 * @property produces
+	 * @type Thing
 	 */
-	public Object category;
+	public Thing produces;
+	/**
+	 * Schema.org/brand
+	 * The brand(s) associated with a product or service, or the brand(s) maintained by an organization or business person.
+	 *
+	 * @property brand
+	 * @type Organization
+	 */
+	public Organization brand;
+	/**
+	 * Schema.org/areaServed
+	 * The geographic area where a service or offered item is provided.
+	 *
+	 * @property areaServed
+	 * @type Place
+	 */
+	public Place areaServed;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

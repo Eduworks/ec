@@ -69,6 +69,7 @@
                             <li><a href="../classes/AgreeAction.html">AgreeAction</a></li>
                             <li><a href="../classes/Airline.html">Airline</a></li>
                             <li><a href="../classes/Airport.html">Airport</a></li>
+                            <li><a href="../classes/AlignmentMap.html">AlignmentMap</a></li>
                             <li><a href="../classes/AlignmentObject.html">AlignmentObject</a></li>
                             <li><a href="../classes/AllocateAction.html">AllocateAction</a></li>
                             <li><a href="../classes/AmusementPark.html">AmusementPark</a></li>
@@ -161,6 +162,7 @@
                             <li><a href="../classes/Casino.html">Casino</a></li>
                             <li><a href="../classes/Cass.html">Cass</a></li>
                             <li><a href="../classes/CatholicChurch.html">CatholicChurch</a></li>
+                            <li><a href="../classes/CeCompetency.html">CeCompetency</a></li>
                             <li><a href="../classes/Cemetery.html">Cemetery</a></li>
                             <li><a href="../classes/Certificate.html">Certificate</a></li>
                             <li><a href="../classes/Certification.html">Certification</a></li>
@@ -288,18 +290,22 @@
                             <li><a href="../classes/EcAes.html">EcAes</a></li>
                             <li><a href="../classes/EcAesCtr.html">EcAesCtr</a></li>
                             <li><a href="../classes/EcAesCtrAsync.html">EcAesCtrAsync</a></li>
+                            <li><a href="../classes/EcAesCtrAsyncWorker.html">EcAesCtrAsyncWorker</a></li>
                             <li><a href="../classes/EcAlignment.html">EcAlignment</a></li>
                             <li><a href="../classes/EcArray.html">EcArray</a></li>
                             <li><a href="../classes/EcAsyncHelper.html">EcAsyncHelper</a></li>
                             <li><a href="../classes/EcCompetency.html">EcCompetency</a></li>
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
+                            <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
+                            <li><a href="../classes/EcFrameworkGraph.html">EcFrameworkGraph</a></li>
                             <li><a href="../classes/EcIdentity.html">EcIdentity</a></li>
                             <li><a href="../classes/EcIdentityManager.html">EcIdentityManager</a></li>
                             <li><a href="../classes/EcLevel.html">EcLevel</a></li>
+                            <li><a href="../classes/EcLevrHttp.html">EcLevrHttp</a></li>
                             <li><a href="../classes/EcLinkedData.html">EcLinkedData</a></li>
                             <li><a href="../classes/EcModal.html">EcModal</a></li>
                             <li><a href="../classes/EcObject.html">EcObject</a></li>
@@ -313,6 +319,7 @@
                             <li><a href="../classes/EcRollupRule.html">EcRollupRule</a></li>
                             <li><a href="../classes/EcRsaOaep.html">EcRsaOaep</a></li>
                             <li><a href="../classes/EcRsaOaepAsync.html">EcRsaOaepAsync</a></li>
+                            <li><a href="../classes/EcRsaOaepAsyncWorker.html">EcRsaOaepAsyncWorker</a></li>
                             <li><a href="../classes/EcScreen.html">EcScreen</a></li>
                             <li><a href="../classes/EcView.html">EcView</a></li>
                             <li><a href="../classes/EducationalAudience.html">EducationalAudience</a></li>
@@ -346,6 +353,7 @@
                             <li><a href="../classes/Festival.html">Festival</a></li>
                             <li><a href="../classes/FilmAction.html">FilmAction</a></li>
                             <li><a href="../classes/FinancialAlignmentObject.html">FinancialAlignmentObject</a></li>
+                            <li><a href="../classes/FinancialAssistanceProfile.html">FinancialAssistanceProfile</a></li>
                             <li><a href="../classes/FinancialProduct.html">FinancialProduct</a></li>
                             <li><a href="../classes/FinancialService.html">FinancialService</a></li>
                             <li><a href="../classes/FindAction.html">FindAction</a></li>
@@ -588,6 +596,7 @@
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
                             <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
+                            <li><a href="../classes/ProfileProcessor.html">ProfileProcessor</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
                             <li><a href="../classes/PropertyValueSpecification.html">PropertyValueSpecification</a></li>
@@ -705,6 +714,7 @@
                             <li><a href="../classes/Synagogue.html">Synagogue</a></li>
                             <li><a href="../classes/Table.html">Table</a></li>
                             <li><a href="../classes/TakeAction.html">TakeAction</a></li>
+                            <li><a href="../classes/Task.html">Task</a></li>
                             <li><a href="../classes/TaskProfile.html">TaskProfile</a></li>
                             <li><a href="../classes/TattooParlor.html">TattooParlor</a></li>
                             <li><a href="../classes/Taxi.html">Taxi</a></li>
@@ -796,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 1.0.0
+              Version: latest unstable
             </div>
             
         </div>
@@ -820,125 +830,13 @@ package org.schema;
  */
 public class Order extends Intangible {
 	/**
-	 * Schema.org/orderDelivery
-	 * The delivery of the parcel related to this order or order item.
+	 * Schema.org/orderDate
+	 * Date order was placed.
 	 *
-	 * @property orderDelivery
-	 * @type ParcelDelivery
-	 */
-	public ParcelDelivery orderDelivery;
-	/**
-	 * Schema.org/discountCurrency
-	 * The currency (in 3-letter ISO 4217 format) of the discount.
-	 *
-	 * @property discountCurrency
-	 * @type Text
-	 */
-	public String discountCurrency;
-	/**
-	 * Schema.org/isGift
-	 * Was the offer accepted as a gift for someone other than the buyer.
-	 *
-	 * @property isGift
-	 * @type Boolean
-	 */
-	public Boolean isGift;
-	/**
-	 * Schema.org/broker
-	 * An entity that arranges for an exchange between a buyer and a seller.  In most cases a broker never acquires or releases ownership of a product or service involved in an exchange.  If it is not clear whether an entity is a broker, seller, or buyer, the latter two terms are preferred.
-	 *
-	 * @property broker
-	 * @type schema, Organization | schema,Person
-	 */
-	public Object broker;
-	/**
-	 * Schema.org/discountCode
-	 * Code used to redeem a discount.
-	 *
-	 * @property discountCode
-	 * @type Text
-	 */
-	public String discountCode;
-	/**
-	 * Schema.org/paymentMethod
-	 * The name of the credit card or other method of payment for the order.
-	 *
-	 * @property paymentMethod
-	 * @type PaymentMethod
-	 */
-	public PaymentMethod paymentMethod;
-	/**
-	 * Schema.org/orderNumber
-	 * The identifier of the transaction.
-	 *
-	 * @property orderNumber
-	 * @type Text
-	 */
-	public String orderNumber;
-	/**
-	 * Schema.org/billingAddress
-	 * The billing address for the order.
-	 *
-	 * @property billingAddress
-	 * @type PostalAddress
-	 */
-	public PostalAddress billingAddress;
-	/**
-	 * Schema.org/paymentDueDate
-	 * The date that payment is due.
-	 *
-	 * @property paymentDueDate
+	 * @property orderDate
 	 * @type DateTime
 	 */
-	public String paymentDueDate;
-	/**
-	 * Schema.org/paymentMethodId
-	 * An identifier for the method of payment used (e.g. the last 4 digits of the credit card).
-	 *
-	 * @property paymentMethodId
-	 * @type Text
-	 */
-	public String paymentMethodId;
-	/**
-	 * Schema.org/orderStatus
-	 * The current status of the order.
-	 *
-	 * @property orderStatus
-	 * @type OrderStatus
-	 */
-	public OrderStatus orderStatus;
-	/**
-	 * Schema.org/paymentUrl
-	 * The URL for sending a payment.
-	 *
-	 * @property paymentUrl
-	 * @type URL
-	 */
-	public String paymentUrl;
-	/**
-	 * Schema.org/orderedItem
-	 * The item ordered.
-	 *
-	 * @property orderedItem
-	 * @type schema, OrderItem | schema,Product
-	 */
-	public Object orderedItem;
-	/**
-	 * Schema.org/seller
-	 * An entity which offers (sells / leases / lends / loans) the services / goods.  A seller may also be a provider.
-	 *
-	 * @property seller
-	 * @type schema, Organization | schema,Person
-	 */
-	public Object seller;
-	/**
-	 * Schema.org/customer
-	 * Party placing the order or paying the invoice.
-	 *
-	 * @property customer
-	 * @type schema, Organization | schema,Person
-	 */
-	public Object customer;
+	public String orderDate;
 	/**
 	 * Schema.org/paymentDue
 	 * The date that payment is due.
@@ -948,37 +846,37 @@ public class Order extends Intangible {
 	 */
 	public String paymentDue;
 	/**
-	 * Schema.org/acceptedOffer
-	 * The offer(s) -- e.g., product, quantity and price combinations -- included in the order.
+	 * Schema.org/orderNumber
+	 * The identifier of the transaction.
 	 *
-	 * @property acceptedOffer
-	 * @type Offer
-	 */
-	public Offer acceptedOffer;
-	/**
-	 * Schema.org/confirmationNumber
-	 * A number that confirms the given order or payment has been received.
-	 *
-	 * @property confirmationNumber
+	 * @property orderNumber
 	 * @type Text
 	 */
-	public String confirmationNumber;
+	public String orderNumber;
 	/**
-	 * Schema.org/orderDate
-	 * Date order was placed.
+	 * Schema.org/paymentUrl
+	 * The URL for sending a payment.
 	 *
-	 * @property orderDate
-	 * @type DateTime
+	 * @property paymentUrl
+	 * @type URL
 	 */
-	public String orderDate;
+	public String paymentUrl;
 	/**
-	 * Schema.org/merchant
-	 * &#x27;merchant&#x27; is an out-dated term for &#x27;seller&#x27;.
+	 * Schema.org/orderStatus
+	 * The current status of the order.
 	 *
-	 * @property merchant
-	 * @type schema, Organization | schema,Person
+	 * @property orderStatus
+	 * @type OrderStatus
 	 */
-	public Object merchant;
+	public OrderStatus orderStatus;
+	/**
+	 * Schema.org/billingAddress
+	 * The billing address for the order.
+	 *
+	 * @property billingAddress
+	 * @type PostalAddress
+	 */
+	public PostalAddress billingAddress;
 	/**
 	 * Schema.org/partOfInvoice
 	 * The order is being paid as part of the referenced Invoice.
@@ -988,13 +886,125 @@ public class Order extends Intangible {
 	 */
 	public Invoice partOfInvoice;
 	/**
+	 * Schema.org/confirmationNumber
+	 * A number that confirms the given order or payment has been received.
+	 *
+	 * @property confirmationNumber
+	 * @type Text
+	 */
+	public String confirmationNumber;
+	/**
+	 * Schema.org/customer
+	 * Party placing the order or paying the invoice.
+	 *
+	 * @property customer
+	 * @type Organization
+	 */
+	public Organization customer;
+	/**
+	 * Schema.org/merchant
+	 * &#x27;merchant&#x27; is an out-dated term for &#x27;seller&#x27;.
+	 *
+	 * @property merchant
+	 * @type Person
+	 */
+	public Person merchant;
+	/**
+	 * Schema.org/broker
+	 * An entity that arranges for an exchange between a buyer and a seller.  In most cases a broker never acquires or releases ownership of a product or service involved in an exchange.  If it is not clear whether an entity is a broker, seller, or buyer, the latter two terms are preferred.
+	 *
+	 * @property broker
+	 * @type Person
+	 */
+	public Person broker;
+	/**
+	 * Schema.org/orderedItem
+	 * The item ordered.
+	 *
+	 * @property orderedItem
+	 * @type Product
+	 */
+	public Product orderedItem;
+	/**
+	 * Schema.org/isGift
+	 * Was the offer accepted as a gift for someone other than the buyer.
+	 *
+	 * @property isGift
+	 * @type Boolean
+	 */
+	public Boolean isGift;
+	/**
+	 * Schema.org/paymentMethod
+	 * The name of the credit card or other method of payment for the order.
+	 *
+	 * @property paymentMethod
+	 * @type PaymentMethod
+	 */
+	public PaymentMethod paymentMethod;
+	/**
+	 * Schema.org/seller
+	 * An entity which offers (sells / leases / lends / loans) the services / goods.  A seller may also be a provider.
+	 *
+	 * @property seller
+	 * @type Person
+	 */
+	public Person seller;
+	/**
+	 * Schema.org/paymentMethodId
+	 * An identifier for the method of payment used (e.g. the last 4 digits of the credit card).
+	 *
+	 * @property paymentMethodId
+	 * @type Text
+	 */
+	public String paymentMethodId;
+	/**
 	 * Schema.org/discount
 	 * Any discount applied (to an Order).
 	 *
 	 * @property discount
-	 * @type schema, Number | schema,Text
+	 * @type Number
 	 */
-	public Object discount;
+	public Double discount;
+	/**
+	 * Schema.org/orderDelivery
+	 * The delivery of the parcel related to this order or order item.
+	 *
+	 * @property orderDelivery
+	 * @type ParcelDelivery
+	 */
+	public ParcelDelivery orderDelivery;
+	/**
+	 * Schema.org/acceptedOffer
+	 * The offer(s) -- e.g., product, quantity and price combinations -- included in the order.
+	 *
+	 * @property acceptedOffer
+	 * @type Offer
+	 */
+	public Offer acceptedOffer;
+	/**
+	 * Schema.org/discountCurrency
+	 * The currency (in 3-letter ISO 4217 format) of the discount.
+	 *
+	 * @property discountCurrency
+	 * @type Text
+	 */
+	public String discountCurrency;
+	/**
+	 * Schema.org/paymentDueDate
+	 * The date that payment is due.
+	 *
+	 * @property paymentDueDate
+	 * @type DateTime
+	 */
+	public String paymentDueDate;
+	/**
+	 * Schema.org/discountCode
+	 * Code used to redeem a discount.
+	 *
+	 * @property discountCode
+	 * @type Text
+	 */
+	public String discountCode;
 
 	/**
 	 * Constructor, automatically sets @context and @type.
