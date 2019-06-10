@@ -69,6 +69,7 @@
                             <li><a href="../classes/AgreeAction.html">AgreeAction</a></li>
                             <li><a href="../classes/Airline.html">Airline</a></li>
                             <li><a href="../classes/Airport.html">Airport</a></li>
+                            <li><a href="../classes/AlignmentMap.html">AlignmentMap</a></li>
                             <li><a href="../classes/AlignmentObject.html">AlignmentObject</a></li>
                             <li><a href="../classes/AllocateAction.html">AllocateAction</a></li>
                             <li><a href="../classes/AmusementPark.html">AmusementPark</a></li>
@@ -161,6 +162,7 @@
                             <li><a href="../classes/Casino.html">Casino</a></li>
                             <li><a href="../classes/Cass.html">Cass</a></li>
                             <li><a href="../classes/CatholicChurch.html">CatholicChurch</a></li>
+                            <li><a href="../classes/CeCompetency.html">CeCompetency</a></li>
                             <li><a href="../classes/Cemetery.html">Cemetery</a></li>
                             <li><a href="../classes/Certificate.html">Certificate</a></li>
                             <li><a href="../classes/Certification.html">Certification</a></li>
@@ -288,18 +290,22 @@
                             <li><a href="../classes/EcAes.html">EcAes</a></li>
                             <li><a href="../classes/EcAesCtr.html">EcAesCtr</a></li>
                             <li><a href="../classes/EcAesCtrAsync.html">EcAesCtrAsync</a></li>
+                            <li><a href="../classes/EcAesCtrAsyncWorker.html">EcAesCtrAsyncWorker</a></li>
                             <li><a href="../classes/EcAlignment.html">EcAlignment</a></li>
                             <li><a href="../classes/EcArray.html">EcArray</a></li>
                             <li><a href="../classes/EcAsyncHelper.html">EcAsyncHelper</a></li>
                             <li><a href="../classes/EcCompetency.html">EcCompetency</a></li>
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
+                            <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
+                            <li><a href="../classes/EcFrameworkGraph.html">EcFrameworkGraph</a></li>
                             <li><a href="../classes/EcIdentity.html">EcIdentity</a></li>
                             <li><a href="../classes/EcIdentityManager.html">EcIdentityManager</a></li>
                             <li><a href="../classes/EcLevel.html">EcLevel</a></li>
+                            <li><a href="../classes/EcLevrHttp.html">EcLevrHttp</a></li>
                             <li><a href="../classes/EcLinkedData.html">EcLinkedData</a></li>
                             <li><a href="../classes/EcModal.html">EcModal</a></li>
                             <li><a href="../classes/EcObject.html">EcObject</a></li>
@@ -313,6 +319,7 @@
                             <li><a href="../classes/EcRollupRule.html">EcRollupRule</a></li>
                             <li><a href="../classes/EcRsaOaep.html">EcRsaOaep</a></li>
                             <li><a href="../classes/EcRsaOaepAsync.html">EcRsaOaepAsync</a></li>
+                            <li><a href="../classes/EcRsaOaepAsyncWorker.html">EcRsaOaepAsyncWorker</a></li>
                             <li><a href="../classes/EcScreen.html">EcScreen</a></li>
                             <li><a href="../classes/EcView.html">EcView</a></li>
                             <li><a href="../classes/EducationalAudience.html">EducationalAudience</a></li>
@@ -346,6 +353,7 @@
                             <li><a href="../classes/Festival.html">Festival</a></li>
                             <li><a href="../classes/FilmAction.html">FilmAction</a></li>
                             <li><a href="../classes/FinancialAlignmentObject.html">FinancialAlignmentObject</a></li>
+                            <li><a href="../classes/FinancialAssistanceProfile.html">FinancialAssistanceProfile</a></li>
                             <li><a href="../classes/FinancialProduct.html">FinancialProduct</a></li>
                             <li><a href="../classes/FinancialService.html">FinancialService</a></li>
                             <li><a href="../classes/FindAction.html">FindAction</a></li>
@@ -588,6 +596,7 @@
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
                             <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
+                            <li><a href="../classes/ProfileProcessor.html">ProfileProcessor</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
                             <li><a href="../classes/PropertyValueSpecification.html">PropertyValueSpecification</a></li>
@@ -705,6 +714,7 @@
                             <li><a href="../classes/Synagogue.html">Synagogue</a></li>
                             <li><a href="../classes/Table.html">Table</a></li>
                             <li><a href="../classes/TakeAction.html">TakeAction</a></li>
+                            <li><a href="../classes/Task.html">Task</a></li>
                             <li><a href="../classes/TaskProfile.html">TaskProfile</a></li>
                             <li><a href="../classes/TattooParlor.html">TattooParlor</a></li>
                             <li><a href="../classes/Taxi.html">Taxi</a></li>
@@ -796,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 1.0.0
+              Version: latest unstable
             </div>
             
         </div>
@@ -815,6 +825,7 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.schema.Organization;
 import org.schema.Person;
 import org.schema.CreativeWork;
+import org.schema.Product;
 import org.stjs.javascript.*;
 import org.stjs.javascript.functions.Callback1;
 
@@ -837,7 +848,7 @@ public class ExtResource extends CreativeWork {
 		context = &quot;http://schema.eduworks.com/pebleXtension/0.1/&quot;;
 		type = &quot;Resource&quot;;
 	}
- 
+
 	/**
 	 * Retrieves the resource specified with the ID from the server
 	 *
@@ -854,39 +865,39 @@ public class ExtResource extends CreativeWork {
 	 */
 	public static void get(String id, final Callback1&lt;ExtResource&gt; success, final Callback1&lt;String&gt; failure) {
 		EcRepository.get(id, new Callback1&lt;EcRemoteLinkedData&gt;() {
-			@Override
-			public void $invoke(EcRemoteLinkedData p1) {
-				if (p1 instanceof ExtResource)
-					if (success != null) {
-						success.$invoke((ExtResource) p1);
-						return;
-					}
+                                @Override
+                                public void $invoke(EcRemoteLinkedData p1) {
+                                        if (p1 instanceof ExtResource)
+                                                if (success != null) {
+                                                        success.$invoke((ExtResource) p1);
+                                                        return;
+                                                }
 
-				ExtResource resource = new ExtResource();
+                                        ExtResource resource = new ExtResource();
 
-				if (p1.isA(EcEncryptedValue.myType)) {
-					EcEncryptedValue encrypted = new EcEncryptedValue();
-					encrypted.copyFrom(p1);
-					p1 = encrypted.decryptIntoObject();
-				}
-				if (p1.isAny(resource.getTypes())) {
-					resource.copyFrom(p1);
-					if (EcRepository.caching) {
-						JSObjectAdapter.$put(EcRepository.cache, resource.shortId(), resource);
-						JSObjectAdapter.$put(EcRepository.cache, resource.id, resource);
-					}
-					if (success != null)
-						success.$invoke(resource);
-				} else {
-					String msg = &quot;Resultant object is not a resource.&quot;;
-					if (failure != null)
-						failure.$invoke(msg);
-					else
-						Global.console.error(msg);
-				}
+                                        if (p1.isA(EcEncryptedValue.myType)) {
+                                                EcEncryptedValue encrypted = new EcEncryptedValue();
+                                                encrypted.copyFrom(p1);
+                                                p1 = encrypted.decryptIntoObject();
+                                        }
+                                        if (p1.isAny(resource.getTypes())) {
+                                                resource.copyFrom(p1);
+                                                if (EcRepository.caching) {
+                                                        JSObjectAdapter.$put(EcRepository.cache, resource.shortId(), resource);
+                                                        JSObjectAdapter.$put(EcRepository.cache, resource.id, resource);
+                                                }
+                                                if (success != null)
+                                                        success.$invoke(resource);
+                                        } else {
+                                                String msg = &quot;Resultant object is not a resource.&quot;;
+                                                if (failure != null)
+                                                        failure.$invoke(msg);
+                                                else
+                                                        Global.console.error(msg);
+                                        }
 
-			}
-		}, failure);
+                                }
+                        }, failure);
 	}
 
 	/**
@@ -954,39 +965,39 @@ public class ExtResource extends CreativeWork {
 		if (query == null || query == &quot;&quot;)
 			query = queryAdd;
 		else
-//			query = &quot;(&quot; + query + &quot;) AND educationalUse:\&quot;&quot;+edUse+&quot;\&quot; AND &quot; + queryAdd;
+                        //			query = &quot;(&quot; + query + &quot;) AND educationalUse:\&quot;&quot;+edUse+&quot;\&quot; AND &quot; + queryAdd;
 			query = &quot;(&quot; + query + &quot;) AND &quot; + queryAdd;
 
 		repo.searchWithParams(query, paramObj, null, new Callback1&lt;Array&lt;EcRemoteLinkedData&gt;&gt;() {
 
-			@Override
-			public void $invoke(Array&lt;EcRemoteLinkedData&gt; p1) {
-				if (success != null) {
-					Array&lt;ExtResource&gt; ret = JSCollections.$array();
-					for (int i = 0; i &lt; p1.$length(); i++) {
-						ExtResource resource = new ExtResource();
-//						if(p1.$get(i).isAny(resource.getTypes())){
-						resource.copyFrom(p1.$get(i));
-//						}
-//						else if(p1.$get(i).isA(EcEncryptedValue.myType)){
-//							EcEncryptedValue val = new EcEncryptedValue();
-//							val.copyFrom(p1.$get(i));
-//							if(val.isAnEncrypted(ExtResource.myType)){
-//								EcRemoteLinkedData obj = val.decryptIntoObject();
-//								resource.copyFrom(obj);
-//							}
-//						}
+                                @Override
+                                public void $invoke(Array&lt;EcRemoteLinkedData&gt; p1) {
+                                        if (success != null) {
+                                                Array&lt;ExtResource&gt; ret = JSCollections.$array();
+                                                for (int i = 0; i &lt; p1.$length(); i++) {
+                                                        ExtResource resource = new ExtResource();
+                                                        //						if(p1.$get(i).isAny(resource.getTypes())){
+                                                        resource.copyFrom(p1.$get(i));
+                                                        //						}
+                                                        //						else if(p1.$get(i).isA(EcEncryptedValue.myType)){
+                                                        //							EcEncryptedValue val = new EcEncryptedValue();
+                                                        //							val.copyFrom(p1.$get(i));
+                                                        //							if(val.isAnEncrypted(ExtResource.myType)){
+                                                        //								EcRemoteLinkedData obj = val.decryptIntoObject();
+                                                        //								resource.copyFrom(obj);
+                                                        //							}
+                                                        //						}
 
-						ret.$set(i, resource);
-					}
+                                                        ret.$set(i, resource);
+                                                }
 
-					success.$invoke(ret);
-				}
-			}
+                                                success.$invoke(ret);
+                                        }
+                                }
 
-		}, failure);
+                        }, failure);
 	}
-	
+
 	/**
 	 * Saves this resource on the server corresponding to its ID
 	 *
@@ -1120,7 +1131,7 @@ public class ExtResource extends CreativeWork {
 	public void setTitle(String title) {
 		this.name = title;
 	}
-	
+
 	/**
 	 * Returns the description of the resource
 	 *
@@ -1140,7 +1151,7 @@ public class ExtResource extends CreativeWork {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	/**
 	 * Returns the text of the resource
 	 *
@@ -1200,7 +1211,7 @@ public class ExtResource extends CreativeWork {
 	public void setAdditionalType(String name) {
 		this.additionalType = name;
 	}
-	
+
 	/**
 	 * Returns the keywords of the resource
 	 *
@@ -1224,11 +1235,11 @@ public class ExtResource extends CreativeWork {
 	/**
 	 * Returns the institution of the resource
 	 *
-	 * @return {Organization}
+	 * @return {Person}
 	 * publisher of resource
 	 */
-	public Organization getInstitution() {
-		return (Organization) publisher;
+	public Person getInstitution() {
+		return publisher;
 	}
 
 	/**
@@ -1237,10 +1248,10 @@ public class ExtResource extends CreativeWork {
 	 * @param {Organization} institution
 	 *                       institution of the resource
 	 */
-	public void setInstitution(Organization institution) {
+	public void setInstitution(Person institution) {
 		this.publisher = institution;
 	}
-	
+
 	/**
 	 * Returns the community of the resource
 	 *
@@ -1282,25 +1293,25 @@ public class ExtResource extends CreativeWork {
 	}
 
 	/**
-     *  Returns the resource&#x27;s authoring URL
-     * 
-     *  @return {String}
-     *  authoring url of resource
-     */
-	public String getAuthoringURL() {
-        return (String) isBasedOn;
-    }
-	
-    /**
-     *  Sets the authoring URL of the resource
-     * 
-     *  @param {String} page
-     *                  Authoring url of the resource
-     */
-	public void setAuthoringURL(String page) {
-        this.isBasedOn = page;
-    }
-    
+         *  Returns the resource&#x27;s authoring URL
+         *
+         *  @return {Product}
+         *  authoring url of resource
+         */
+	public Product getAuthoringURL() {
+                return isBasedOn;
+        }
+
+        /**
+         *  Sets the authoring URL of the resource
+         *
+         *  @param {String} page
+         *                  Authoring url of the resource
+         */
+	public void setAuthoringURL(Product page) {
+                this.isBasedOn = page;
+        }
+
 	/**
 	 * Returns the resource object URL
 	 *

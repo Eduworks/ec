@@ -19,7 +19,8 @@ public class Competency extends CreativeWork {
 	private static final String TYPE_0_2 = "http://schema.eduworks.com/cass/0.2/competency";
 	private static final String TYPE_0_3 = "http://schema.cassproject.org/0.2/Competency";
 	private static final String TYPE_0_4 = "http://schema.cassproject.org/0.3/Competency";
-	public static final String myType = TYPE_0_4;
+	private static final String TYPE_0_5 = "https://schema.cassproject.org/0.3/Competency";
+	public static final String myType = TYPE_0_5;
 	/**
 	 * Scope in which the competency may be applied. e.g. Underwater.
 	 *
@@ -54,11 +55,15 @@ public class Competency extends CreativeWork {
 		if (TYPE_0_3.equals(getFullType())) {
 			setContextAndType(Cass.context_0_4, TYPE_0_4);
 		}
+		if (TYPE_0_4.equals(getFullType())) {
+			setContextAndType(Cass.context_0_5, TYPE_0_5);
+		}
 	}
 
 	@Override
 	public Array<String> getTypes() {
 		Array<String> a = new Array<String>();
+		a.push(TYPE_0_5);
 		a.push(TYPE_0_4);
 		a.push(TYPE_0_3);
 		a.push(TYPE_0_2);

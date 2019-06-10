@@ -69,6 +69,7 @@
                             <li><a href="../classes/AgreeAction.html">AgreeAction</a></li>
                             <li><a href="../classes/Airline.html">Airline</a></li>
                             <li><a href="../classes/Airport.html">Airport</a></li>
+                            <li><a href="../classes/AlignmentMap.html">AlignmentMap</a></li>
                             <li><a href="../classes/AlignmentObject.html">AlignmentObject</a></li>
                             <li><a href="../classes/AllocateAction.html">AllocateAction</a></li>
                             <li><a href="../classes/AmusementPark.html">AmusementPark</a></li>
@@ -161,6 +162,7 @@
                             <li><a href="../classes/Casino.html">Casino</a></li>
                             <li><a href="../classes/Cass.html">Cass</a></li>
                             <li><a href="../classes/CatholicChurch.html">CatholicChurch</a></li>
+                            <li><a href="../classes/CeCompetency.html">CeCompetency</a></li>
                             <li><a href="../classes/Cemetery.html">Cemetery</a></li>
                             <li><a href="../classes/Certificate.html">Certificate</a></li>
                             <li><a href="../classes/Certification.html">Certification</a></li>
@@ -288,18 +290,22 @@
                             <li><a href="../classes/EcAes.html">EcAes</a></li>
                             <li><a href="../classes/EcAesCtr.html">EcAesCtr</a></li>
                             <li><a href="../classes/EcAesCtrAsync.html">EcAesCtrAsync</a></li>
+                            <li><a href="../classes/EcAesCtrAsyncWorker.html">EcAesCtrAsyncWorker</a></li>
                             <li><a href="../classes/EcAlignment.html">EcAlignment</a></li>
                             <li><a href="../classes/EcArray.html">EcArray</a></li>
                             <li><a href="../classes/EcAsyncHelper.html">EcAsyncHelper</a></li>
                             <li><a href="../classes/EcCompetency.html">EcCompetency</a></li>
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
+                            <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
+                            <li><a href="../classes/EcFrameworkGraph.html">EcFrameworkGraph</a></li>
                             <li><a href="../classes/EcIdentity.html">EcIdentity</a></li>
                             <li><a href="../classes/EcIdentityManager.html">EcIdentityManager</a></li>
                             <li><a href="../classes/EcLevel.html">EcLevel</a></li>
+                            <li><a href="../classes/EcLevrHttp.html">EcLevrHttp</a></li>
                             <li><a href="../classes/EcLinkedData.html">EcLinkedData</a></li>
                             <li><a href="../classes/EcModal.html">EcModal</a></li>
                             <li><a href="../classes/EcObject.html">EcObject</a></li>
@@ -313,6 +319,7 @@
                             <li><a href="../classes/EcRollupRule.html">EcRollupRule</a></li>
                             <li><a href="../classes/EcRsaOaep.html">EcRsaOaep</a></li>
                             <li><a href="../classes/EcRsaOaepAsync.html">EcRsaOaepAsync</a></li>
+                            <li><a href="../classes/EcRsaOaepAsyncWorker.html">EcRsaOaepAsyncWorker</a></li>
                             <li><a href="../classes/EcScreen.html">EcScreen</a></li>
                             <li><a href="../classes/EcView.html">EcView</a></li>
                             <li><a href="../classes/EducationalAudience.html">EducationalAudience</a></li>
@@ -346,6 +353,7 @@
                             <li><a href="../classes/Festival.html">Festival</a></li>
                             <li><a href="../classes/FilmAction.html">FilmAction</a></li>
                             <li><a href="../classes/FinancialAlignmentObject.html">FinancialAlignmentObject</a></li>
+                            <li><a href="../classes/FinancialAssistanceProfile.html">FinancialAssistanceProfile</a></li>
                             <li><a href="../classes/FinancialProduct.html">FinancialProduct</a></li>
                             <li><a href="../classes/FinancialService.html">FinancialService</a></li>
                             <li><a href="../classes/FindAction.html">FindAction</a></li>
@@ -588,6 +596,7 @@
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
                             <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
+                            <li><a href="../classes/ProfileProcessor.html">ProfileProcessor</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
                             <li><a href="../classes/PropertyValueSpecification.html">PropertyValueSpecification</a></li>
@@ -705,6 +714,7 @@
                             <li><a href="../classes/Synagogue.html">Synagogue</a></li>
                             <li><a href="../classes/Table.html">Table</a></li>
                             <li><a href="../classes/TakeAction.html">TakeAction</a></li>
+                            <li><a href="../classes/Task.html">Task</a></li>
                             <li><a href="../classes/TaskProfile.html">TaskProfile</a></li>
                             <li><a href="../classes/TattooParlor.html">TattooParlor</a></li>
                             <li><a href="../classes/Taxi.html">Taxi</a></li>
@@ -843,7 +853,7 @@
             
             
             <div class="version-info">
-              Version: 1.0.0
+              Version: latest unstable
             </div>
             
         </div>
@@ -908,7 +918,7 @@ services on a server.</p>
           </td>
           <td>
             <div class="method-name ">
-              <a href="#method_search">search</a>(repo, query, {Callback1&lt;Array&lt;EcCompetency&gt;&gt;, failure, paramObj, start, size)
+              <a href="#method_search">search</a>(repo, query, {Callback1&lt;Array&lt;EcCompetency&gt;&gt;, failure, paramObj)
             </div>
             <div class="short-description">
               <p>Searches a repository for competencies that match the search query</p>
@@ -1097,7 +1107,7 @@ services on a server.</p>
         <h2 id="static-public-methods">Static Public Methods</h2>
 <div class="method item">
     <div id="method_get" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l40"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:40</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l45"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:45</code></a></span>
         <h3 class="">
             public
             static
@@ -1175,7 +1185,7 @@ returns the competency retrieved</p>
 </div>
 <div class="method item">
     <div id="method_getBlocking" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l95"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:95</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l100"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:100</code></a></span>
         <h3 class="">
             public
             static
@@ -1234,12 +1244,12 @@ The competency retrieved</p>
 </div>
 <div class="method item">
     <div id="method_search" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l131"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:131</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l136"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:136</code></a></span>
         <h3 class="">
             public
             static
             
-            search(repo, query, {Callback1&lt;Array&lt;EcCompetency&gt;&gt;, failure, paramObj, start, size)
+            search(repo, query, {Callback1&lt;Array&lt;EcCompetency&gt;&gt;, failure, paramObj)
         </h3>
     </div>
 
@@ -1331,32 +1341,6 @@ Callback triggered after completing the search, returns the results</p>
 </td>
             </tr>
 
-            <tr>
-              <td>start</td>
-              <td>Object</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td> </td>
-            </tr>
-
-            <tr>
-              <td>size</td>
-              <td>Object</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td> </td>
-            </tr>
-
           </tbody>
         </table>
       </div>
@@ -1378,7 +1362,7 @@ Callback triggered after completing the search, returns the results</p>
     <h2 id="public-methods">Public Methods</h2>
 <div class="method item">
     <div id="method__delete" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l565"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:565</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l568"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:568</code></a></span>
         <h3 class="">
             public
             
@@ -1456,7 +1440,7 @@ TODO: Delete rollup rules?</div>
 </div>
 <div class="method item">
     <div id="method_addAlignment" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l190"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:190</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l193"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:193</code></a></span>
         <h3 class="">
             public
             
@@ -1585,7 +1569,7 @@ Created relationship</p>
 </div>
 <div class="method item">
     <div id="method_addLevel" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l295"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:295</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l298"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:298</code></a></span>
         <h3 class="">
             public
             
@@ -1713,7 +1697,7 @@ Level created</p>
 </div>
 <div class="method item">
     <div id="method_addRollupRule" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l410"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:410</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l413"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:413</code></a></span>
         <h3 class="">
             public
             
@@ -1841,7 +1825,7 @@ Created rollup rule</p>
 </div>
 <div class="method item">
     <div id="method_levels" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l331"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:331</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l334"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:334</code></a></span>
         <h3 class="">
             public
             
@@ -1932,7 +1916,7 @@ Created rollup rule</p>
 </div>
 <div class="method item">
     <div id="method_relations" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l228"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:228</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l231"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:231</code></a></span>
         <h3 class="">
             public
             
@@ -2023,7 +2007,7 @@ Created rollup rule</p>
 </div>
 <div class="method item">
     <div id="method_relations" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l247"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:247</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l250"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:250</code></a></span>
         <h3 class="deprecated">
             public
             
@@ -2117,7 +2101,7 @@ Created rollup rule</p>
 </div>
 <div class="method item">
     <div id="method_rollupRules" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l449"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:449</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l452"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:452</code></a></span>
         <h3 class="">
             public
             
@@ -2208,7 +2192,7 @@ Created rollup rule</p>
 </div>
 <div class="method item">
     <div id="method_save" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l540"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:540</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l543"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:543</code></a></span>
         <h3 class="">
             public
             
@@ -2271,7 +2255,7 @@ Created rollup rule</p>
 </div>
 <div class="method item">
     <div id="method_setScope" class="title">
-        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l528"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:528</code></a></span>
+        <span class="source-link"><a href="../files/cass.competency_src_main_java_org_cass_competency_EcCompetency.java.html#l531"><code>cass.competency&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cass&#x2F;competency&#x2F;EcCompetency.java:531</code></a></span>
         <h3 class="">
             public
             

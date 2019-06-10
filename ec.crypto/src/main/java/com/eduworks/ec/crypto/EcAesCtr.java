@@ -36,7 +36,7 @@ public class EcAesCtr {
 
 		cipher c = cipher.createCipher("AES-CTR", util.decode64(secret));
 		c.start(new EcAesParameters(iv));
-		c.update(util.createBuffer(plaintext));
+		c.update(util.createBuffer(util.encodeUtf8(plaintext)));
 		c.finish();
 		cipheroutput encrypted = c.output;
 		return util.encode64(encrypted.bytes());
@@ -73,7 +73,7 @@ public class EcAesCtr {
 		c.finish();
 		cipheroutput decrypted = c.output;
 		if (EcCrypto.caching)
-			JSObjectAdapter.$put(EcCrypto.decryptionCache, secret + iv + ciphertext, decrypted.data);
-		return decrypted.data;
+			JSObjectAdapter.$put(EcCrypto.decryptionCache, secret + iv + ciphertext, util.decodeUtf8(decrypted.data));
+		return util.decodeUtf8(decrypted.data);
 	}
 }

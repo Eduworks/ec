@@ -9,10 +9,11 @@ import static org.junit.Assert.assertTrue;
 import static org.stjs.javascript.Global.console;
 
 @RunWith(STJSTestDriverRunner.class)
-@ScriptsBefore({"/forge/forge.bundle.js", "ec.base.js"})
+@ScriptsBefore({"pem-jwk.js", "require.js", "/forge/forge.bundle.js", "ec.base.js"})
 public class EcAesTest {
 	@Test
 	public void aesTest() {
+		console.log("-----aesTest-----");
 		String randomString = EcAes.newIv(1024);
 		console.log("Random string: " + randomString);
 		String secret = EcAes.newIv(32);
@@ -25,6 +26,22 @@ public class EcAesTest {
 		console.log("Decrypted String: " + decrypted);
 
 		assertTrue(randomString.equals(decrypted));
+	}
 
+	@Test
+	public void aesUtf8Test() {
+		console.log("-----aesUtf8Test-----");
+		String randomString = "abcᚠᛇᚻ᛫ᛒᛦᚦ᛫ᚠᚱᚩᚠᚢᚱ᛫ᚠᛁᚱᚪ᛫ᚷᛖᚻᚹᛦᛚᚳᚢᛗ";
+		console.log("Random string: " + randomString);
+		String secret = EcAes.newIv(32);
+		console.log("Random secret: " + secret);
+		String iv = EcAes.newIv(32);
+		console.log("Random iv:" + iv);
+		String encrypted = EcAesCtr.encrypt(randomString, secret, iv);
+		console.log("Encrypted String: " + encrypted);
+		String decrypted = EcAesCtr.decrypt(encrypted, secret, iv);
+		console.log("Decrypted String: " + decrypted);
+
+		assertTrue(randomString.equals(decrypted));
 	}
 }

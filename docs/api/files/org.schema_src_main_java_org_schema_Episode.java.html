@@ -69,6 +69,7 @@
                             <li><a href="../classes/AgreeAction.html">AgreeAction</a></li>
                             <li><a href="../classes/Airline.html">Airline</a></li>
                             <li><a href="../classes/Airport.html">Airport</a></li>
+                            <li><a href="../classes/AlignmentMap.html">AlignmentMap</a></li>
                             <li><a href="../classes/AlignmentObject.html">AlignmentObject</a></li>
                             <li><a href="../classes/AllocateAction.html">AllocateAction</a></li>
                             <li><a href="../classes/AmusementPark.html">AmusementPark</a></li>
@@ -161,6 +162,7 @@
                             <li><a href="../classes/Casino.html">Casino</a></li>
                             <li><a href="../classes/Cass.html">Cass</a></li>
                             <li><a href="../classes/CatholicChurch.html">CatholicChurch</a></li>
+                            <li><a href="../classes/CeCompetency.html">CeCompetency</a></li>
                             <li><a href="../classes/Cemetery.html">Cemetery</a></li>
                             <li><a href="../classes/Certificate.html">Certificate</a></li>
                             <li><a href="../classes/Certification.html">Certification</a></li>
@@ -288,18 +290,22 @@
                             <li><a href="../classes/EcAes.html">EcAes</a></li>
                             <li><a href="../classes/EcAesCtr.html">EcAesCtr</a></li>
                             <li><a href="../classes/EcAesCtrAsync.html">EcAesCtrAsync</a></li>
+                            <li><a href="../classes/EcAesCtrAsyncWorker.html">EcAesCtrAsyncWorker</a></li>
                             <li><a href="../classes/EcAlignment.html">EcAlignment</a></li>
                             <li><a href="../classes/EcArray.html">EcArray</a></li>
                             <li><a href="../classes/EcAsyncHelper.html">EcAsyncHelper</a></li>
                             <li><a href="../classes/EcCompetency.html">EcCompetency</a></li>
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
+                            <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
+                            <li><a href="../classes/EcFrameworkGraph.html">EcFrameworkGraph</a></li>
                             <li><a href="../classes/EcIdentity.html">EcIdentity</a></li>
                             <li><a href="../classes/EcIdentityManager.html">EcIdentityManager</a></li>
                             <li><a href="../classes/EcLevel.html">EcLevel</a></li>
+                            <li><a href="../classes/EcLevrHttp.html">EcLevrHttp</a></li>
                             <li><a href="../classes/EcLinkedData.html">EcLinkedData</a></li>
                             <li><a href="../classes/EcModal.html">EcModal</a></li>
                             <li><a href="../classes/EcObject.html">EcObject</a></li>
@@ -313,6 +319,7 @@
                             <li><a href="../classes/EcRollupRule.html">EcRollupRule</a></li>
                             <li><a href="../classes/EcRsaOaep.html">EcRsaOaep</a></li>
                             <li><a href="../classes/EcRsaOaepAsync.html">EcRsaOaepAsync</a></li>
+                            <li><a href="../classes/EcRsaOaepAsyncWorker.html">EcRsaOaepAsyncWorker</a></li>
                             <li><a href="../classes/EcScreen.html">EcScreen</a></li>
                             <li><a href="../classes/EcView.html">EcView</a></li>
                             <li><a href="../classes/EducationalAudience.html">EducationalAudience</a></li>
@@ -346,6 +353,7 @@
                             <li><a href="../classes/Festival.html">Festival</a></li>
                             <li><a href="../classes/FilmAction.html">FilmAction</a></li>
                             <li><a href="../classes/FinancialAlignmentObject.html">FinancialAlignmentObject</a></li>
+                            <li><a href="../classes/FinancialAssistanceProfile.html">FinancialAssistanceProfile</a></li>
                             <li><a href="../classes/FinancialProduct.html">FinancialProduct</a></li>
                             <li><a href="../classes/FinancialService.html">FinancialService</a></li>
                             <li><a href="../classes/FindAction.html">FindAction</a></li>
@@ -588,6 +596,7 @@
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
                             <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
+                            <li><a href="../classes/ProfileProcessor.html">ProfileProcessor</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
                             <li><a href="../classes/PropertyValueSpecification.html">PropertyValueSpecification</a></li>
@@ -705,6 +714,7 @@
                             <li><a href="../classes/Synagogue.html">Synagogue</a></li>
                             <li><a href="../classes/Table.html">Table</a></li>
                             <li><a href="../classes/TakeAction.html">TakeAction</a></li>
+                            <li><a href="../classes/Task.html">Task</a></li>
                             <li><a href="../classes/TaskProfile.html">TaskProfile</a></li>
                             <li><a href="../classes/TattooParlor.html">TattooParlor</a></li>
                             <li><a href="../classes/Taxi.html">Taxi</a></li>
@@ -796,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 1.0.0
+              Version: latest unstable
             </div>
             
         </div>
@@ -820,22 +830,6 @@ package org.schema;
  */
 public class Episode extends CreativeWork {
 	/**
-	 * Schema.org/director
-	 * A director of e.g. tv, radio, movie, video gaming etc. content, or of an event. Directors can be associated with individual items or with a series, episode, clip.
-	 *
-	 * @property director
-	 * @type Person
-	 */
-	public Person director;
-	/**
-	 * Schema.org/partOfSeason
-	 * The season to which this episode belongs.
-	 *
-	 * @property partOfSeason
-	 * @type CreativeWorkSeason
-	 */
-	public CreativeWorkSeason partOfSeason;
-	/**
 	 * Schema.org/actor
 	 * An actor, e.g. in tv, radio, movie, video games etc., or in an event. Actors can be associated with individual items or with a series, episode, clip.
 	 *
@@ -844,29 +838,13 @@ public class Episode extends CreativeWork {
 	 */
 	public Person actor;
 	/**
-	 * Schema.org/episodeNumber
-	 * Position of the episode within an ordered group of episodes.
+	 * Schema.org/partOfSeries
+	 * The series to which this episode or season belongs.
 	 *
-	 * @property episodeNumber
-	 * @type schema, Integer | schema,Text
+	 * @property partOfSeries
+	 * @type CreativeWorkSeries
 	 */
-	public Object episodeNumber;
-	/**
-	 * Schema.org/musicBy
-	 * The composer of the soundtrack.
-	 *
-	 * @property musicBy
-	 * @type schema, Person | schema,MusicGroup
-	 */
-	public Object musicBy;
-	/**
-	 * Schema.org/actors
-	 * An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.
-	 *
-	 * @property actors
-	 * @type Person
-	 */
-	public Person actors;
+	public CreativeWorkSeries partOfSeries;
 	/**
 	 * Schema.org/trailer
 	 * The trailer of a movie or tv/radio series, season, episode, etc.
@@ -876,13 +854,21 @@ public class Episode extends CreativeWork {
 	 */
 	public VideoObject trailer;
 	/**
-	 * Schema.org/productionCompany
-	 * The production company or studio responsible for the item e.g. series, video game, episode etc.
+	 * Schema.org/partOfSeason
+	 * The season to which this episode belongs.
 	 *
-	 * @property productionCompany
-	 * @type Organization
+	 * @property partOfSeason
+	 * @type CreativeWorkSeason
 	 */
-	public Organization productionCompany;
+	public CreativeWorkSeason partOfSeason;
+	/**
+	 * Schema.org/musicBy
+	 * The composer of the soundtrack.
+	 *
+	 * @property musicBy
+	 * @type Person
+	 */
+	public Person musicBy;
 	/**
 	 * Schema.org/directors
 	 * A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.
@@ -892,13 +878,37 @@ public class Episode extends CreativeWork {
 	 */
 	public Person directors;
 	/**
-	 * Schema.org/partOfSeries
-	 * The series to which this episode or season belongs.
+	 * Schema.org/episodeNumber
+	 * Position of the episode within an ordered group of episodes.
 	 *
-	 * @property partOfSeries
-	 * @type CreativeWorkSeries
+	 * @property episodeNumber
+	 * @type Integer
 	 */
-	public CreativeWorkSeries partOfSeries;
+	public Integer episodeNumber;
+	/**
+	 * Schema.org/director
+	 * A director of e.g. tv, radio, movie, video gaming etc. content, or of an event. Directors can be associated with individual items or with a series, episode, clip.
+	 *
+	 * @property director
+	 * @type Person
+	 */
+	public Person director;
+	/**
+	 * Schema.org/productionCompany
+	 * The production company or studio responsible for the item e.g. series, video game, episode etc.
+	 *
+	 * @property productionCompany
+	 * @type Organization
+	 */
+	public Organization productionCompany;
+	/**
+	 * Schema.org/actors
+	 * An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.
+	 *
+	 * @property actors
+	 * @type Person
+	 */
+	public Person actors;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

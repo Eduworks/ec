@@ -69,6 +69,7 @@
                             <li><a href="../classes/AgreeAction.html">AgreeAction</a></li>
                             <li><a href="../classes/Airline.html">Airline</a></li>
                             <li><a href="../classes/Airport.html">Airport</a></li>
+                            <li><a href="../classes/AlignmentMap.html">AlignmentMap</a></li>
                             <li><a href="../classes/AlignmentObject.html">AlignmentObject</a></li>
                             <li><a href="../classes/AllocateAction.html">AllocateAction</a></li>
                             <li><a href="../classes/AmusementPark.html">AmusementPark</a></li>
@@ -161,6 +162,7 @@
                             <li><a href="../classes/Casino.html">Casino</a></li>
                             <li><a href="../classes/Cass.html">Cass</a></li>
                             <li><a href="../classes/CatholicChurch.html">CatholicChurch</a></li>
+                            <li><a href="../classes/CeCompetency.html">CeCompetency</a></li>
                             <li><a href="../classes/Cemetery.html">Cemetery</a></li>
                             <li><a href="../classes/Certificate.html">Certificate</a></li>
                             <li><a href="../classes/Certification.html">Certification</a></li>
@@ -288,18 +290,22 @@
                             <li><a href="../classes/EcAes.html">EcAes</a></li>
                             <li><a href="../classes/EcAesCtr.html">EcAesCtr</a></li>
                             <li><a href="../classes/EcAesCtrAsync.html">EcAesCtrAsync</a></li>
+                            <li><a href="../classes/EcAesCtrAsyncWorker.html">EcAesCtrAsyncWorker</a></li>
                             <li><a href="../classes/EcAlignment.html">EcAlignment</a></li>
                             <li><a href="../classes/EcArray.html">EcArray</a></li>
                             <li><a href="../classes/EcAsyncHelper.html">EcAsyncHelper</a></li>
                             <li><a href="../classes/EcCompetency.html">EcCompetency</a></li>
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
+                            <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
+                            <li><a href="../classes/EcFrameworkGraph.html">EcFrameworkGraph</a></li>
                             <li><a href="../classes/EcIdentity.html">EcIdentity</a></li>
                             <li><a href="../classes/EcIdentityManager.html">EcIdentityManager</a></li>
                             <li><a href="../classes/EcLevel.html">EcLevel</a></li>
+                            <li><a href="../classes/EcLevrHttp.html">EcLevrHttp</a></li>
                             <li><a href="../classes/EcLinkedData.html">EcLinkedData</a></li>
                             <li><a href="../classes/EcModal.html">EcModal</a></li>
                             <li><a href="../classes/EcObject.html">EcObject</a></li>
@@ -313,6 +319,7 @@
                             <li><a href="../classes/EcRollupRule.html">EcRollupRule</a></li>
                             <li><a href="../classes/EcRsaOaep.html">EcRsaOaep</a></li>
                             <li><a href="../classes/EcRsaOaepAsync.html">EcRsaOaepAsync</a></li>
+                            <li><a href="../classes/EcRsaOaepAsyncWorker.html">EcRsaOaepAsyncWorker</a></li>
                             <li><a href="../classes/EcScreen.html">EcScreen</a></li>
                             <li><a href="../classes/EcView.html">EcView</a></li>
                             <li><a href="../classes/EducationalAudience.html">EducationalAudience</a></li>
@@ -346,6 +353,7 @@
                             <li><a href="../classes/Festival.html">Festival</a></li>
                             <li><a href="../classes/FilmAction.html">FilmAction</a></li>
                             <li><a href="../classes/FinancialAlignmentObject.html">FinancialAlignmentObject</a></li>
+                            <li><a href="../classes/FinancialAssistanceProfile.html">FinancialAssistanceProfile</a></li>
                             <li><a href="../classes/FinancialProduct.html">FinancialProduct</a></li>
                             <li><a href="../classes/FinancialService.html">FinancialService</a></li>
                             <li><a href="../classes/FindAction.html">FindAction</a></li>
@@ -588,6 +596,7 @@
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
                             <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
+                            <li><a href="../classes/ProfileProcessor.html">ProfileProcessor</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
                             <li><a href="../classes/PropertyValueSpecification.html">PropertyValueSpecification</a></li>
@@ -705,6 +714,7 @@
                             <li><a href="../classes/Synagogue.html">Synagogue</a></li>
                             <li><a href="../classes/Table.html">Table</a></li>
                             <li><a href="../classes/TakeAction.html">TakeAction</a></li>
+                            <li><a href="../classes/Task.html">Task</a></li>
                             <li><a href="../classes/TaskProfile.html">TaskProfile</a></li>
                             <li><a href="../classes/TattooParlor.html">TattooParlor</a></li>
                             <li><a href="../classes/Taxi.html">Taxi</a></li>
@@ -796,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 1.0.0
+              Version: latest unstable
             </div>
             
         </div>
@@ -820,69 +830,13 @@ package org.schema;
  */
 public class Reservation extends Intangible {
 	/**
-	 * Schema.org/bookingAgent
-	 * &#x27;bookingAgent&#x27; is an out-dated term indicating a &#x27;broker&#x27; that serves as a booking agent.
+	 * Schema.org/provider
+	 * The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.
 	 *
-	 * @property bookingAgent
-	 * @type schema, Organization | schema,Person
+	 * @property provider
+	 * @type Person
 	 */
-	public Object bookingAgent;
-	/**
-	 * Schema.org/priceCurrency
-	 * The currency (in 3-letter ISO 4217 format) of the price or a price component, when attached to [[PriceSpecification]] and its subtypes.
-	 *
-	 * @property priceCurrency
-	 * @type Text
-	 */
-	public String priceCurrency;
-	/**
-	 * Schema.org/bookingTime
-	 * The date and time the reservation was booked.
-	 *
-	 * @property bookingTime
-	 * @type DateTime
-	 */
-	public String bookingTime;
-	/**
-	 * Schema.org/totalPrice
-	 * The total price for the reservation or ticket, including applicable taxes, shipping, etc.
-	 *
-	 * @property totalPrice
-	 * @type schema, Number | schema,PriceSpecification | schema,Text
-	 */
-	public Object totalPrice;
-	/**
-	 * Schema.org/broker
-	 * An entity that arranges for an exchange between a buyer and a seller.  In most cases a broker never acquires or releases ownership of a product or service involved in an exchange.  If it is not clear whether an entity is a broker, seller, or buyer, the latter two terms are preferred.
-	 *
-	 * @property broker
-	 * @type schema, Organization | schema,Person
-	 */
-	public Object broker;
-	/**
-	 * Schema.org/modifiedTime
-	 * The date and time the reservation was modified.
-	 *
-	 * @property modifiedTime
-	 * @type DateTime
-	 */
-	public String modifiedTime;
-	/**
-	 * Schema.org/reservationId
-	 * A unique identifier for the reservation.
-	 *
-	 * @property reservationId
-	 * @type Text
-	 */
-	public String reservationId;
-	/**
-	 * Schema.org/reservationStatus
-	 * The current status of the reservation.
-	 *
-	 * @property reservationStatus
-	 * @type ReservationStatusType
-	 */
-	public ReservationStatusType reservationStatus;
+	public Person provider;
 	/**
 	 * Schema.org/programMembershipUsed
 	 * Any membership in a frequent flyer, hotel loyalty program, etc. being applied to the reservation.
@@ -892,13 +846,37 @@ public class Reservation extends Intangible {
 	 */
 	public ProgramMembership programMembershipUsed;
 	/**
-	 * Schema.org/provider
-	 * The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.
+	 * Schema.org/reservationStatus
+	 * The current status of the reservation.
 	 *
-	 * @property provider
-	 * @type schema, Organization | schema,Person
+	 * @property reservationStatus
+	 * @type ReservationStatusType
 	 */
-	public Object provider;
+	public ReservationStatusType reservationStatus;
+	/**
+	 * Schema.org/underName
+	 * The person or organization the reservation or ticket is for.
+	 *
+	 * @property underName
+	 * @type Organization
+	 */
+	public Organization underName;
+	/**
+	 * Schema.org/bookingAgent
+	 * &#x27;bookingAgent&#x27; is an out-dated term indicating a &#x27;broker&#x27; that serves as a booking agent.
+	 *
+	 * @property bookingAgent
+	 * @type Organization
+	 */
+	public Organization bookingAgent;
+	/**
+	 * Schema.org/totalPrice
+	 * The total price for the reservation or ticket, including applicable taxes, shipping, etc.
+	 *
+	 * @property totalPrice
+	 * @type Number
+	 */
+	public Double totalPrice;
 	/**
 	 * Schema.org/reservationFor
 	 * The thing -- flight, event, restaurant,etc. being reserved.
@@ -908,6 +886,46 @@ public class Reservation extends Intangible {
 	 */
 	public Thing reservationFor;
 	/**
+	 * Schema.org/priceCurrency
+	 * The currency (in 3-letter ISO 4217 format) of the price or a price component, when attached to [[PriceSpecification]] and its subtypes.
+	 *
+	 * @property priceCurrency
+	 * @type Text
+	 */
+	public String priceCurrency;
+	/**
+	 * Schema.org/broker
+	 * An entity that arranges for an exchange between a buyer and a seller.  In most cases a broker never acquires or releases ownership of a product or service involved in an exchange.  If it is not clear whether an entity is a broker, seller, or buyer, the latter two terms are preferred.
+	 *
+	 * @property broker
+	 * @type Person
+	 */
+	public Person broker;
+	/**
+	 * Schema.org/modifiedTime
+	 * The date and time the reservation was modified.
+	 *
+	 * @property modifiedTime
+	 * @type DateTime
+	 */
+	public String modifiedTime;
+	/**
+	 * Schema.org/bookingTime
+	 * The date and time the reservation was booked.
+	 *
+	 * @property bookingTime
+	 * @type DateTime
+	 */
+	public String bookingTime;
+	/**
+	 * Schema.org/reservationId
+	 * A unique identifier for the reservation.
+	 *
+	 * @property reservationId
+	 * @type Text
+	 */
+	public String reservationId;
+	/**
 	 * Schema.org/reservedTicket
 	 * A ticket associated with the reservation.
 	 *
@@ -915,14 +933,6 @@ public class Reservation extends Intangible {
 	 * @type Ticket
 	 */
 	public Ticket reservedTicket;
-	/**
-	 * Schema.org/underName
-	 * The person or organization the reservation or ticket is for.
-	 *
-	 * @property underName
-	 * @type schema, Organization | schema,Person
-	 */
-	public Object underName;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

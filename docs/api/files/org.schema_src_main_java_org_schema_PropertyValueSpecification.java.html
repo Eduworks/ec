@@ -69,6 +69,7 @@
                             <li><a href="../classes/AgreeAction.html">AgreeAction</a></li>
                             <li><a href="../classes/Airline.html">Airline</a></li>
                             <li><a href="../classes/Airport.html">Airport</a></li>
+                            <li><a href="../classes/AlignmentMap.html">AlignmentMap</a></li>
                             <li><a href="../classes/AlignmentObject.html">AlignmentObject</a></li>
                             <li><a href="../classes/AllocateAction.html">AllocateAction</a></li>
                             <li><a href="../classes/AmusementPark.html">AmusementPark</a></li>
@@ -161,6 +162,7 @@
                             <li><a href="../classes/Casino.html">Casino</a></li>
                             <li><a href="../classes/Cass.html">Cass</a></li>
                             <li><a href="../classes/CatholicChurch.html">CatholicChurch</a></li>
+                            <li><a href="../classes/CeCompetency.html">CeCompetency</a></li>
                             <li><a href="../classes/Cemetery.html">Cemetery</a></li>
                             <li><a href="../classes/Certificate.html">Certificate</a></li>
                             <li><a href="../classes/Certification.html">Certification</a></li>
@@ -288,18 +290,22 @@
                             <li><a href="../classes/EcAes.html">EcAes</a></li>
                             <li><a href="../classes/EcAesCtr.html">EcAesCtr</a></li>
                             <li><a href="../classes/EcAesCtrAsync.html">EcAesCtrAsync</a></li>
+                            <li><a href="../classes/EcAesCtrAsyncWorker.html">EcAesCtrAsyncWorker</a></li>
                             <li><a href="../classes/EcAlignment.html">EcAlignment</a></li>
                             <li><a href="../classes/EcArray.html">EcArray</a></li>
                             <li><a href="../classes/EcAsyncHelper.html">EcAsyncHelper</a></li>
                             <li><a href="../classes/EcCompetency.html">EcCompetency</a></li>
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
+                            <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
+                            <li><a href="../classes/EcFrameworkGraph.html">EcFrameworkGraph</a></li>
                             <li><a href="../classes/EcIdentity.html">EcIdentity</a></li>
                             <li><a href="../classes/EcIdentityManager.html">EcIdentityManager</a></li>
                             <li><a href="../classes/EcLevel.html">EcLevel</a></li>
+                            <li><a href="../classes/EcLevrHttp.html">EcLevrHttp</a></li>
                             <li><a href="../classes/EcLinkedData.html">EcLinkedData</a></li>
                             <li><a href="../classes/EcModal.html">EcModal</a></li>
                             <li><a href="../classes/EcObject.html">EcObject</a></li>
@@ -313,6 +319,7 @@
                             <li><a href="../classes/EcRollupRule.html">EcRollupRule</a></li>
                             <li><a href="../classes/EcRsaOaep.html">EcRsaOaep</a></li>
                             <li><a href="../classes/EcRsaOaepAsync.html">EcRsaOaepAsync</a></li>
+                            <li><a href="../classes/EcRsaOaepAsyncWorker.html">EcRsaOaepAsyncWorker</a></li>
                             <li><a href="../classes/EcScreen.html">EcScreen</a></li>
                             <li><a href="../classes/EcView.html">EcView</a></li>
                             <li><a href="../classes/EducationalAudience.html">EducationalAudience</a></li>
@@ -346,6 +353,7 @@
                             <li><a href="../classes/Festival.html">Festival</a></li>
                             <li><a href="../classes/FilmAction.html">FilmAction</a></li>
                             <li><a href="../classes/FinancialAlignmentObject.html">FinancialAlignmentObject</a></li>
+                            <li><a href="../classes/FinancialAssistanceProfile.html">FinancialAssistanceProfile</a></li>
                             <li><a href="../classes/FinancialProduct.html">FinancialProduct</a></li>
                             <li><a href="../classes/FinancialService.html">FinancialService</a></li>
                             <li><a href="../classes/FindAction.html">FindAction</a></li>
@@ -588,6 +596,7 @@
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
                             <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
+                            <li><a href="../classes/ProfileProcessor.html">ProfileProcessor</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
                             <li><a href="../classes/PropertyValueSpecification.html">PropertyValueSpecification</a></li>
@@ -705,6 +714,7 @@
                             <li><a href="../classes/Synagogue.html">Synagogue</a></li>
                             <li><a href="../classes/Table.html">Table</a></li>
                             <li><a href="../classes/TakeAction.html">TakeAction</a></li>
+                            <li><a href="../classes/Task.html">Task</a></li>
                             <li><a href="../classes/TaskProfile.html">TaskProfile</a></li>
                             <li><a href="../classes/TattooParlor.html">TattooParlor</a></li>
                             <li><a href="../classes/Taxi.html">Taxi</a></li>
@@ -796,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 1.0.0
+              Version: latest unstable
             </div>
             
         </div>
@@ -820,29 +830,13 @@ package org.schema;
  */
 public class PropertyValueSpecification extends Intangible {
 	/**
-	 * Schema.org/valueMinLength
-	 * Specifies the minimum allowed range for number of characters in a literal value.
+	 * Schema.org/defaultValue
+	 * The default value of the input.  For properties that expect a literal, the default is a literal value, for properties that expect an object, it&#x27;s an ID reference to one of the current values.
 	 *
-	 * @property valueMinLength
-	 * @type Number
+	 * @property defaultValue
+	 * @type Thing
 	 */
-	public Double valueMinLength;
-	/**
-	 * Schema.org/valuePattern
-	 * Specifies a regular expression for testing literal values according to the HTML spec.
-	 *
-	 * @property valuePattern
-	 * @type Text
-	 */
-	public String valuePattern;
-	/**
-	 * Schema.org/readonlyValue
-	 * Whether or not a property is mutable.  Default is false. Specifying this for a property that also has a value makes it act similar to a &quot;hidden&quot; input in an HTML form.
-	 *
-	 * @property readonlyValue
-	 * @type Boolean
-	 */
-	public Boolean readonlyValue;
+	public Thing defaultValue;
 	/**
 	 * Schema.org/minValue
 	 * The lower value of some characteristic or property.
@@ -852,6 +846,14 @@ public class PropertyValueSpecification extends Intangible {
 	 */
 	public Double minValue;
 	/**
+	 * Schema.org/valuePattern
+	 * Specifies a regular expression for testing literal values according to the HTML spec.
+	 *
+	 * @property valuePattern
+	 * @type Text
+	 */
+	public String valuePattern;
+	/**
 	 * Schema.org/stepValue
 	 * The stepValue attribute indicates the granularity that is expected (and required) of the value in a PropertyValueSpecification.
 	 *
@@ -860,13 +862,29 @@ public class PropertyValueSpecification extends Intangible {
 	 */
 	public Double stepValue;
 	/**
-	 * Schema.org/valueName
-	 * Indicates the name of the PropertyValueSpecification to be used in URL templates and form encoding in a manner analogous to HTML&#x27;s input@name.
+	 * Schema.org/valueMaxLength
+	 * Specifies the allowed range for number of characters in a literal value.
 	 *
-	 * @property valueName
-	 * @type Text
+	 * @property valueMaxLength
+	 * @type Number
 	 */
-	public String valueName;
+	public Double valueMaxLength;
+	/**
+	 * Schema.org/readonlyValue
+	 * Whether or not a property is mutable.  Default is false. Specifying this for a property that also has a value makes it act similar to a &quot;hidden&quot; input in an HTML form.
+	 *
+	 * @property readonlyValue
+	 * @type Boolean
+	 */
+	public Boolean readonlyValue;
+	/**
+	 * Schema.org/valueMinLength
+	 * Specifies the minimum allowed range for number of characters in a literal value.
+	 *
+	 * @property valueMinLength
+	 * @type Number
+	 */
+	public Double valueMinLength;
 	/**
 	 * Schema.org/maxValue
 	 * The upper value of some characteristic or property.
@@ -876,13 +894,13 @@ public class PropertyValueSpecification extends Intangible {
 	 */
 	public Double maxValue;
 	/**
-	 * Schema.org/valueRequired
-	 * Whether the property must be filled in to complete the action.  Default is false.
+	 * Schema.org/valueName
+	 * Indicates the name of the PropertyValueSpecification to be used in URL templates and form encoding in a manner analogous to HTML&#x27;s input@name.
 	 *
-	 * @property valueRequired
-	 * @type Boolean
+	 * @property valueName
+	 * @type Text
 	 */
-	public Boolean valueRequired;
+	public String valueName;
 	/**
 	 * Schema.org/multipleValues
 	 * Whether multiple values are allowed for the property.  Default is false.
@@ -892,21 +910,13 @@ public class PropertyValueSpecification extends Intangible {
 	 */
 	public Boolean multipleValues;
 	/**
-	 * Schema.org/defaultValue
-	 * The default value of the input.  For properties that expect a literal, the default is a literal value, for properties that expect an object, it&#x27;s an ID reference to one of the current values.
+	 * Schema.org/valueRequired
+	 * Whether the property must be filled in to complete the action.  Default is false.
 	 *
-	 * @property defaultValue
-	 * @type schema, Text | schema,Thing
+	 * @property valueRequired
+	 * @type Boolean
 	 */
-	public Object defaultValue;
-	/**
-	 * Schema.org/valueMaxLength
-	 * Specifies the allowed range for number of characters in a literal value.
-	 *
-	 * @property valueMaxLength
-	 * @type Number
-	 */
-	public Double valueMaxLength;
+	public Boolean valueRequired;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

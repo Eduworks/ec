@@ -24,7 +24,7 @@ public class AssertionEnvelope extends CreativeWork {
 	public static final String myType = TYPE_0_5;
 
 	public AssertionEnvelope() {
-		setContextAndType(Cass.context_0_5, myType);
+		setContextAndType(Cass.context_0_6, myType);
 	}
 
 	/***

@@ -69,6 +69,7 @@
                             <li><a href="../classes/AgreeAction.html">AgreeAction</a></li>
                             <li><a href="../classes/Airline.html">Airline</a></li>
                             <li><a href="../classes/Airport.html">Airport</a></li>
+                            <li><a href="../classes/AlignmentMap.html">AlignmentMap</a></li>
                             <li><a href="../classes/AlignmentObject.html">AlignmentObject</a></li>
                             <li><a href="../classes/AllocateAction.html">AllocateAction</a></li>
                             <li><a href="../classes/AmusementPark.html">AmusementPark</a></li>
@@ -161,6 +162,7 @@
                             <li><a href="../classes/Casino.html">Casino</a></li>
                             <li><a href="../classes/Cass.html">Cass</a></li>
                             <li><a href="../classes/CatholicChurch.html">CatholicChurch</a></li>
+                            <li><a href="../classes/CeCompetency.html">CeCompetency</a></li>
                             <li><a href="../classes/Cemetery.html">Cemetery</a></li>
                             <li><a href="../classes/Certificate.html">Certificate</a></li>
                             <li><a href="../classes/Certification.html">Certification</a></li>
@@ -288,18 +290,22 @@
                             <li><a href="../classes/EcAes.html">EcAes</a></li>
                             <li><a href="../classes/EcAesCtr.html">EcAesCtr</a></li>
                             <li><a href="../classes/EcAesCtrAsync.html">EcAesCtrAsync</a></li>
+                            <li><a href="../classes/EcAesCtrAsyncWorker.html">EcAesCtrAsyncWorker</a></li>
                             <li><a href="../classes/EcAlignment.html">EcAlignment</a></li>
                             <li><a href="../classes/EcArray.html">EcArray</a></li>
                             <li><a href="../classes/EcAsyncHelper.html">EcAsyncHelper</a></li>
                             <li><a href="../classes/EcCompetency.html">EcCompetency</a></li>
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
+                            <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
+                            <li><a href="../classes/EcFrameworkGraph.html">EcFrameworkGraph</a></li>
                             <li><a href="../classes/EcIdentity.html">EcIdentity</a></li>
                             <li><a href="../classes/EcIdentityManager.html">EcIdentityManager</a></li>
                             <li><a href="../classes/EcLevel.html">EcLevel</a></li>
+                            <li><a href="../classes/EcLevrHttp.html">EcLevrHttp</a></li>
                             <li><a href="../classes/EcLinkedData.html">EcLinkedData</a></li>
                             <li><a href="../classes/EcModal.html">EcModal</a></li>
                             <li><a href="../classes/EcObject.html">EcObject</a></li>
@@ -313,6 +319,7 @@
                             <li><a href="../classes/EcRollupRule.html">EcRollupRule</a></li>
                             <li><a href="../classes/EcRsaOaep.html">EcRsaOaep</a></li>
                             <li><a href="../classes/EcRsaOaepAsync.html">EcRsaOaepAsync</a></li>
+                            <li><a href="../classes/EcRsaOaepAsyncWorker.html">EcRsaOaepAsyncWorker</a></li>
                             <li><a href="../classes/EcScreen.html">EcScreen</a></li>
                             <li><a href="../classes/EcView.html">EcView</a></li>
                             <li><a href="../classes/EducationalAudience.html">EducationalAudience</a></li>
@@ -346,6 +353,7 @@
                             <li><a href="../classes/Festival.html">Festival</a></li>
                             <li><a href="../classes/FilmAction.html">FilmAction</a></li>
                             <li><a href="../classes/FinancialAlignmentObject.html">FinancialAlignmentObject</a></li>
+                            <li><a href="../classes/FinancialAssistanceProfile.html">FinancialAssistanceProfile</a></li>
                             <li><a href="../classes/FinancialProduct.html">FinancialProduct</a></li>
                             <li><a href="../classes/FinancialService.html">FinancialService</a></li>
                             <li><a href="../classes/FindAction.html">FindAction</a></li>
@@ -588,6 +596,7 @@
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
                             <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
+                            <li><a href="../classes/ProfileProcessor.html">ProfileProcessor</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
                             <li><a href="../classes/PropertyValueSpecification.html">PropertyValueSpecification</a></li>
@@ -705,6 +714,7 @@
                             <li><a href="../classes/Synagogue.html">Synagogue</a></li>
                             <li><a href="../classes/Table.html">Table</a></li>
                             <li><a href="../classes/TakeAction.html">TakeAction</a></li>
+                            <li><a href="../classes/Task.html">Task</a></li>
                             <li><a href="../classes/TaskProfile.html">TaskProfile</a></li>
                             <li><a href="../classes/TattooParlor.html">TattooParlor</a></li>
                             <li><a href="../classes/Taxi.html">Taxi</a></li>
@@ -796,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 1.0.0
+              Version: latest unstable
             </div>
             
         </div>
@@ -809,6 +819,7 @@
 <pre class="code prettyprint linenums">
 package org.cassproject.schema.general;
 
+import com.eduworks.ec.array.EcArray;
 import com.eduworks.ec.crypto.EcPk;
 import com.eduworks.ec.crypto.EcPpk;
 import com.eduworks.ec.crypto.EcRsaOaep;
@@ -861,6 +872,10 @@ public class EcRemoteLinkedData extends EcLinkedData {
      */
     public String id;
 
+    @Override
+    public boolean equals(Object obj) {
+        return isId(((EcRemoteLinkedData)obj).id);
+    }
     /**
      * PEM encoded public keys of identities authorized to view the object. A
      * repository will ignore write operations from these identities, but will
@@ -896,7 +911,8 @@ public class EcRemoteLinkedData extends EcLinkedData {
             return null;
         // May not be a GUID, may be more canonical. Check to see if it is a
         // parsable long.
-
+        if (id.indexOf(&quot;/api/data/&quot;) == -1 &amp;&amp; id.indexOf(&quot;/api/custom/data/&quot;) == -1) //If it isn&#x27;t a CaSS URL, don&#x27;t trim version.
+            return id;
         if (!id.substring(id.lastIndexOf(&quot;/&quot;)).matches(&quot;\\/[0-9]+&quot;))
             return id;
         String rawId = id.substring(0, id.lastIndexOf(&quot;/&quot;));
@@ -1219,10 +1235,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
         String pem = newReader.toPem();
         if (reader == null)
             reader = new Array&lt;String&gt;();
-        for (int i = 0; i &lt; reader.$length(); i++)
-            if (reader.$get(i) == pem)
-                return;
-        reader.push(pem);
+        EcArray.setAdd(reader,pem);
         // Changing an owner invalidates the signatures in order to prevent
         // server admins from injecting owners or readers into the object.
         signature = null;
@@ -1239,9 +1252,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
         String pem = oldReader.toPem();
         if (reader == null)
             reader = new Array&lt;String&gt;();
-        for (int i = 0; i &lt; reader.$length(); i++)
-            if (reader.$get(i) == pem)
-                reader.splice(i, 1);
+        EcArray.setRemove(reader,pem);
         // Changing an owner invalidates the signatures in order to prevent
         // server admins from injecting owners or readers into the object.
         signature = null;
@@ -1275,6 +1286,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
      * @method updateTimestamp
      */
     public void updateTimestamp() {
+        if (getTimestamp() == null) return;
         String rawId = id.substring(0, id.lastIndexOf(&quot;/&quot;));
         if (rawId.endsWith(&quot;/&quot;) == false)
             rawId += &quot;/&quot;;
@@ -1283,12 +1295,18 @@ public class EcRemoteLinkedData extends EcLinkedData {
     }
 
     /**
-     * Updates the ID timestamp of the object, for versioning purposes.
+     * Returns the ID timestamp of the object, for versioning purposes.
      *
-     * @method updateTimestamp
+     * @method getTimestamp
      */
     public Integer getTimestamp() {
-        return Integer.parseInt(id.substring(id.lastIndexOf(&quot;/&quot;)+1));
+        String timestamp = id.substring(id.lastIndexOf(&quot;/&quot;)+1);
+        if (timestamp.matches(&quot;[0-9]+&quot;)) {
+            return Integer.parseInt(timestamp);
+        }
+        else {
+            return null;
+        }
     }
 
     /**

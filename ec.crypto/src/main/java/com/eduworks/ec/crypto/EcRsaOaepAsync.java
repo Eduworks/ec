@@ -51,7 +51,7 @@ public class EcRsaOaepAsync {
 				@Override
 				public void $invoke(CryptoKey key) {
 					pk.key = key;
-					crypto.subtle.encrypt(algorithm, key, BlobHelper.str2ab(text)).then(new Callback1<ArrayBuffer>() {
+					crypto.subtle.encrypt(algorithm, key, BlobHelper.str2ab(forge.util.encodeUtf8(text))).then(new Callback1<ArrayBuffer>() {
 						@Override
 						public void $invoke(ArrayBuffer p1) {
 							success.$invoke(base64.encode(p1));
@@ -60,7 +60,7 @@ public class EcRsaOaepAsync {
 				}
 			}, failure);
 		else
-			crypto.subtle.encrypt(algorithm, pk.key, BlobHelper.str2ab(text)).then(new Callback1<ArrayBuffer>() {
+			crypto.subtle.encrypt(algorithm, pk.key, BlobHelper.str2ab(forge.util.encodeUtf8(text))).then(new Callback1<ArrayBuffer>() {
 				@Override
 				public void $invoke(ArrayBuffer p1) {
 					success.$invoke(base64.encode(p1));
@@ -113,7 +113,7 @@ public class EcRsaOaepAsync {
 					crypto.subtle.decrypt(algorithm, key, base64.decode(text)).then(new Callback1<ArrayBuffer>() {
 						@Override
 						public void $invoke(ArrayBuffer p1) {
-							success.$invoke(BlobHelper.ab2str(p1));
+							success.$invoke(forge.util.decodeUtf8(BlobHelper.ab2str(p1)));
 						}
 					}, failure);
 				}
@@ -122,7 +122,7 @@ public class EcRsaOaepAsync {
 			crypto.subtle.decrypt(algorithm, ppk.key, base64.decode(text)).then(new Callback1<ArrayBuffer>() {
 				@Override
 				public void $invoke(ArrayBuffer p1) {
-					success.$invoke(BlobHelper.ab2str(p1));
+					success.$invoke(forge.util.decodeUtf8(BlobHelper.ab2str(p1)));
 				}
 			}, failure);
 	}
@@ -161,7 +161,7 @@ public class EcRsaOaepAsync {
 				@Override
 				public void $invoke(CryptoKey key) {
 					ppk.signKey = key;
-					crypto.subtle.sign(algorithm, key, BlobHelper.str2ab(text)).then(new Callback1<ArrayBuffer>() {
+					crypto.subtle.sign(algorithm, key, BlobHelper.str2ab(forge.util.encodeUtf8(text))).then(new Callback1<ArrayBuffer>() {
 						@Override
 						public void $invoke(ArrayBuffer p1) {
 							success.$invoke(base64.encode(p1));
@@ -170,7 +170,7 @@ public class EcRsaOaepAsync {
 				}
 			}, failure);
 		else
-			crypto.subtle.sign(algorithm, ppk.signKey, BlobHelper.str2ab(text)).then(new Callback1<ArrayBuffer>() {
+			crypto.subtle.sign(algorithm, ppk.signKey, BlobHelper.str2ab(forge.util.encodeUtf8(text))).then(new Callback1<ArrayBuffer>() {
 				@Override
 				public void $invoke(ArrayBuffer p1) {
 					success.$invoke(base64.encode(p1));
@@ -211,7 +211,7 @@ public class EcRsaOaepAsync {
 				@Override
 				public void $invoke(CryptoKey key) {
 					ppk.signKey = key;
-					crypto.subtle.sign(algorithm, key, BlobHelper.str2ab(text)).then(new Callback1<ArrayBuffer>() {
+					crypto.subtle.sign(algorithm, key, BlobHelper.str2ab(forge.util.encodeUtf8(text))).then(new Callback1<ArrayBuffer>() {
 						@Override
 						public void $invoke(ArrayBuffer p1) {
 							success.$invoke(base64.encode(p1));
@@ -220,7 +220,7 @@ public class EcRsaOaepAsync {
 				}
 			}, failure);
 		else
-			crypto.subtle.sign(algorithm, ppk.signKey, BlobHelper.str2ab(text)).then(new Callback1<ArrayBuffer>() {
+			crypto.subtle.sign(algorithm, ppk.signKey, BlobHelper.str2ab(forge.util.encodeUtf8(text))).then(new Callback1<ArrayBuffer>() {
 				@Override
 				public void $invoke(ArrayBuffer p1) {
 					success.$invoke(base64.encode(p1));
@@ -262,7 +262,7 @@ public class EcRsaOaepAsync {
 				@Override
 				public void $invoke(CryptoKey key) {
 					pk.signKey = key;
-					crypto.subtle.verify(algorithm, key, base64.decode(signature), BlobHelper.str2ab(text)).then(new Callback1<Boolean>() {
+					crypto.subtle.verify(algorithm, key, base64.decode(signature), BlobHelper.str2ab(forge.util.encodeUtf8(text))).then(new Callback1<Boolean>() {
 						@Override
 						public void $invoke(Boolean p1) {
 							success.$invoke(p1);
@@ -271,7 +271,7 @@ public class EcRsaOaepAsync {
 				}
 			}, failure);
 		else
-			crypto.subtle.verify(algorithm, pk.signKey, base64.decode(signature), BlobHelper.str2ab(text)).then(new Callback1<Boolean>() {
+			crypto.subtle.verify(algorithm, pk.signKey, base64.decode(signature), BlobHelper.str2ab(forge.util.encodeUtf8(text))).then(new Callback1<Boolean>() {
 				@Override
 				public void $invoke(Boolean p1) {
 					success.$invoke(p1);

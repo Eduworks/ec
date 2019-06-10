@@ -69,6 +69,7 @@
                             <li><a href="../classes/AgreeAction.html">AgreeAction</a></li>
                             <li><a href="../classes/Airline.html">Airline</a></li>
                             <li><a href="../classes/Airport.html">Airport</a></li>
+                            <li><a href="../classes/AlignmentMap.html">AlignmentMap</a></li>
                             <li><a href="../classes/AlignmentObject.html">AlignmentObject</a></li>
                             <li><a href="../classes/AllocateAction.html">AllocateAction</a></li>
                             <li><a href="../classes/AmusementPark.html">AmusementPark</a></li>
@@ -161,6 +162,7 @@
                             <li><a href="../classes/Casino.html">Casino</a></li>
                             <li><a href="../classes/Cass.html">Cass</a></li>
                             <li><a href="../classes/CatholicChurch.html">CatholicChurch</a></li>
+                            <li><a href="../classes/CeCompetency.html">CeCompetency</a></li>
                             <li><a href="../classes/Cemetery.html">Cemetery</a></li>
                             <li><a href="../classes/Certificate.html">Certificate</a></li>
                             <li><a href="../classes/Certification.html">Certification</a></li>
@@ -288,18 +290,22 @@
                             <li><a href="../classes/EcAes.html">EcAes</a></li>
                             <li><a href="../classes/EcAesCtr.html">EcAesCtr</a></li>
                             <li><a href="../classes/EcAesCtrAsync.html">EcAesCtrAsync</a></li>
+                            <li><a href="../classes/EcAesCtrAsyncWorker.html">EcAesCtrAsyncWorker</a></li>
                             <li><a href="../classes/EcAlignment.html">EcAlignment</a></li>
                             <li><a href="../classes/EcArray.html">EcArray</a></li>
                             <li><a href="../classes/EcAsyncHelper.html">EcAsyncHelper</a></li>
                             <li><a href="../classes/EcCompetency.html">EcCompetency</a></li>
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
+                            <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
+                            <li><a href="../classes/EcFrameworkGraph.html">EcFrameworkGraph</a></li>
                             <li><a href="../classes/EcIdentity.html">EcIdentity</a></li>
                             <li><a href="../classes/EcIdentityManager.html">EcIdentityManager</a></li>
                             <li><a href="../classes/EcLevel.html">EcLevel</a></li>
+                            <li><a href="../classes/EcLevrHttp.html">EcLevrHttp</a></li>
                             <li><a href="../classes/EcLinkedData.html">EcLinkedData</a></li>
                             <li><a href="../classes/EcModal.html">EcModal</a></li>
                             <li><a href="../classes/EcObject.html">EcObject</a></li>
@@ -313,6 +319,7 @@
                             <li><a href="../classes/EcRollupRule.html">EcRollupRule</a></li>
                             <li><a href="../classes/EcRsaOaep.html">EcRsaOaep</a></li>
                             <li><a href="../classes/EcRsaOaepAsync.html">EcRsaOaepAsync</a></li>
+                            <li><a href="../classes/EcRsaOaepAsyncWorker.html">EcRsaOaepAsyncWorker</a></li>
                             <li><a href="../classes/EcScreen.html">EcScreen</a></li>
                             <li><a href="../classes/EcView.html">EcView</a></li>
                             <li><a href="../classes/EducationalAudience.html">EducationalAudience</a></li>
@@ -346,6 +353,7 @@
                             <li><a href="../classes/Festival.html">Festival</a></li>
                             <li><a href="../classes/FilmAction.html">FilmAction</a></li>
                             <li><a href="../classes/FinancialAlignmentObject.html">FinancialAlignmentObject</a></li>
+                            <li><a href="../classes/FinancialAssistanceProfile.html">FinancialAssistanceProfile</a></li>
                             <li><a href="../classes/FinancialProduct.html">FinancialProduct</a></li>
                             <li><a href="../classes/FinancialService.html">FinancialService</a></li>
                             <li><a href="../classes/FindAction.html">FindAction</a></li>
@@ -588,6 +596,7 @@
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
                             <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
+                            <li><a href="../classes/ProfileProcessor.html">ProfileProcessor</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
                             <li><a href="../classes/PropertyValueSpecification.html">PropertyValueSpecification</a></li>
@@ -705,6 +714,7 @@
                             <li><a href="../classes/Synagogue.html">Synagogue</a></li>
                             <li><a href="../classes/Table.html">Table</a></li>
                             <li><a href="../classes/TakeAction.html">TakeAction</a></li>
+                            <li><a href="../classes/Task.html">Task</a></li>
                             <li><a href="../classes/TaskProfile.html">TaskProfile</a></li>
                             <li><a href="../classes/TattooParlor.html">TattooParlor</a></li>
                             <li><a href="../classes/Taxi.html">Taxi</a></li>
@@ -796,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 1.0.0
+              Version: latest unstable
             </div>
             
         </div>
@@ -811,7 +821,7 @@ package org.schema;
 
 /**
  * Schema.org/Action
- * An action performed by a direct agent and indirect participants upon a direct object. Optionally happens at a location with the help of an inanimate instrument. The execution of the action may produce a result. Specific action sub-type documentation specifies the exact expectation of each argument/role.\n\nSee also [blog post](http://blog.schema.org/2014/04/announcing-schemaorg-actions.html) and [Actions overview document](http://schema.org/docs/actions.html).
+ * An action performed by a direct agent and indirect participants upon a direct object. Optionally happens at a location with the help of an inanimate instrument. The execution of the action may produce a result. Specific action sub-type documentation specifies the exact expectation of each argument/role.\n\nSee also [blog post](http://blog.schema.org/2014/04/announcing-schemaorg-actions.html) and [Actions overview document](schema:docs/actions.html).
  *
  * @author schema.org
  * @class Action
@@ -819,62 +829,6 @@ package org.schema;
  * @extends Thing
  */
 public class Action extends Thing {
-	/**
-	 * Schema.org/startTime
-	 * The startTime of something. For a reserved event or service (e.g. FoodEstablishmentReservation), the time that it is expected to start. For actions that span a period of time, when the action was performed. e.g. John wrote a book from *January* to December.\n\nNote that Event uses startDate/endDate instead of startTime/endTime, even when describing dates with times. This situation may be clarified in future revisions.
-	 *
-	 * @property startTime
-	 * @type DateTime
-	 */
-	public String startTime;
-	/**
-	 * Schema.org/target
-	 * Indicates a target EntryPoint for an Action.
-	 *
-	 * @property target
-	 * @type EntryPoint
-	 */
-	public EntryPoint target;
-	/**
-	 * Schema.org/participant
-	 * Other co-agents that participated in the action indirectly. e.g. John wrote a book with *Steve*.
-	 *
-	 * @property participant
-	 * @type schema, Organization | schema,Person
-	 */
-	public Object participant;
-	/**
-	 * Schema.org/instrument
-	 * The object that helped the agent perform the action. e.g. John wrote a book with *a pen*.
-	 *
-	 * @property instrument
-	 * @type Thing
-	 */
-	public Thing instrument;
-	/**
-	 * Schema.org/agent
-	 * The direct performer or driver of the action (animate or inanimate). e.g. *John* wrote a book.
-	 *
-	 * @property agent
-	 * @type schema, Organization | schema,Person
-	 */
-	public Object agent;
-	/**
-	 * Schema.org/object
-	 * The object upon which the action is carried out, whose state is kept intact or changed. Also known as the semantic roles patient, affected or undergoer (which change their state) or theme (which doesn&#x27;t). e.g. John read *a book*.
-	 *
-	 * @property object
-	 * @type Thing
-	 */
-	public Thing object;
-	/**
-	 * Schema.org/actionStatus
-	 * Indicates the current disposition of the Action.
-	 *
-	 * @property actionStatus
-	 * @type ActionStatusType
-	 */
-	public ActionStatusType actionStatus;
 	/**
 	 * Schema.org/result
 	 * The result produced in the action. e.g. John wrote *a book*.
@@ -884,13 +838,69 @@ public class Action extends Thing {
 	 */
 	public Thing result;
 	/**
-	 * Schema.org/location
-	 * The location of for example where the event is happening, an organization is located, or where an action takes place.
+	 * Schema.org/actionStatus
+	 * Indicates the current disposition of the Action.
 	 *
-	 * @property location
-	 * @type schema, PostalAddress | schema,Text | schema,Place
+	 * @property actionStatus
+	 * @type ActionStatusType
 	 */
-	public Object location;
+	public ActionStatusType actionStatus;
+	/**
+	 * Schema.org/target
+	 * Indicates a target EntryPoint for an Action.
+	 *
+	 * @property target
+	 * @type EntryPoint
+	 */
+	public EntryPoint target;
+	/**
+	 * Schema.org/agent
+	 * The direct performer or driver of the action (animate or inanimate). e.g. *John* wrote a book.
+	 *
+	 * @property agent
+	 * @type Person
+	 */
+	public Person agent;
+	/**
+	 * Schema.org/startTime
+	 * The startTime of something. For a reserved event or service (e.g. FoodEstablishmentReservation), the time that it is expected to start. For actions that span a period of time, when the action was performed. e.g. John wrote a book from *January* to December.\n\nNote that Event uses startDate/endDate instead of startTime/endTime, even when describing dates with times. This situation may be clarified in future revisions.
+	 *
+	 * @property startTime
+	 * @type DateTime
+	 */
+	public String startTime;
+	/**
+	 * Schema.org/endTime
+	 * The endTime of something. For a reserved event or service (e.g. FoodEstablishmentReservation), the time that it is expected to end. For actions that span a period of time, when the action was performed. e.g. John wrote a book from January to *December*.\n\nNote that Event uses startDate/endDate instead of startTime/endTime, even when describing dates with times. This situation may be clarified in future revisions.
+	 *
+	 * @property endTime
+	 * @type DateTime
+	 */
+	public String endTime;
+	/**
+	 * Schema.org/participant
+	 * Other co-agents that participated in the action indirectly. e.g. John wrote a book with *Steve*.
+	 *
+	 * @property participant
+	 * @type Person
+	 */
+	public Person participant;
+	/**
+	 * Schema.org/instrument
+	 * The object that helped the agent perform the action. e.g. John wrote a book with *a pen*.
+	 *
+	 * @property instrument
+	 * @type Thing
+	 */
+	public Thing instrument;
+	/**
+	 * Schema.org/object
+	 * The object upon which the action is carried out, whose state is kept intact or changed. Also known as the semantic roles patient, affected or undergoer (which change their state) or theme (which doesn&#x27;t). e.g. John read *a book*.
+	 *
+	 * @property object
+	 * @type Thing
+	 */
+	public Thing object;
 	/**
 	 * Schema.org/error
 	 * For failed actions, more information on the cause of the failure.
@@ -900,13 +910,13 @@ public class Action extends Thing {
 	 */
 	public Thing error;
 	/**
-	 * Schema.org/endTime
-	 * The endTime of something. For a reserved event or service (e.g. FoodEstablishmentReservation), the time that it is expected to end. For actions that span a period of time, when the action was performed. e.g. John wrote a book from January to *December*.\n\nNote that Event uses startDate/endDate instead of startTime/endTime, even when describing dates with times. This situation may be clarified in future revisions.
+	 * Schema.org/location
+	 * The location of for example where the event is happening, an organization is located, or where an action takes place.
 	 *
-	 * @property endTime
-	 * @type DateTime
+	 * @property location
+	 * @type PostalAddress
 	 */
-	public String endTime;
+	public PostalAddress location;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

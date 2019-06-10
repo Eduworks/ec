@@ -129,7 +129,7 @@ public class CTDLASNCSVConceptImport {
                                         JSObjectAdapter.$put(nameWithLanguage, "en-US", name);
                                         JSObjectAdapter.$put(translator, "ceasn:name", nameWithLanguage);
                                     }
-                                    translator.recast("http://schema.cassproject.org/0.3/ceasn2cassConcepts", "http://schema.cassproject.org/0.3/skos", new Callback1<EcLinkedData>() {
+                                    translator.recast("https://schema.cassproject.org/0.3/ceasn2cassConcepts", "https://schema.cassproject.org/0.3/skos", new Callback1<EcLinkedData>() {
                                         @Override
                                         public void $invoke(EcLinkedData e) {
                                             EcConceptScheme f = new EcConceptScheme();
@@ -171,7 +171,7 @@ public class CTDLASNCSVConceptImport {
                                         JSObjectAdapter.$put(nameWithLanguage, "en-US", name);
                                         JSObjectAdapter.$put(translator, "skos:prefLabel", nameWithLanguage);
                                     }
-                                    translator.recast("http://schema.cassproject.org/0.3/ceasn2cassConcepts", "http://schema.cassproject.org/0.3/skos", new Callback1<EcLinkedData>() {
+                                    translator.recast("https://schema.cassproject.org/0.3/ceasn2cassConcepts", "https://schema.cassproject.org/0.3/skos", new Callback1<EcLinkedData>() {
                                         @Override
                                         public void $invoke(EcLinkedData e) {
                                             EcConcept f = new EcConcept();

@@ -69,6 +69,7 @@
                             <li><a href="../classes/AgreeAction.html">AgreeAction</a></li>
                             <li><a href="../classes/Airline.html">Airline</a></li>
                             <li><a href="../classes/Airport.html">Airport</a></li>
+                            <li><a href="../classes/AlignmentMap.html">AlignmentMap</a></li>
                             <li><a href="../classes/AlignmentObject.html">AlignmentObject</a></li>
                             <li><a href="../classes/AllocateAction.html">AllocateAction</a></li>
                             <li><a href="../classes/AmusementPark.html">AmusementPark</a></li>
@@ -161,6 +162,7 @@
                             <li><a href="../classes/Casino.html">Casino</a></li>
                             <li><a href="../classes/Cass.html">Cass</a></li>
                             <li><a href="../classes/CatholicChurch.html">CatholicChurch</a></li>
+                            <li><a href="../classes/CeCompetency.html">CeCompetency</a></li>
                             <li><a href="../classes/Cemetery.html">Cemetery</a></li>
                             <li><a href="../classes/Certificate.html">Certificate</a></li>
                             <li><a href="../classes/Certification.html">Certification</a></li>
@@ -288,18 +290,22 @@
                             <li><a href="../classes/EcAes.html">EcAes</a></li>
                             <li><a href="../classes/EcAesCtr.html">EcAesCtr</a></li>
                             <li><a href="../classes/EcAesCtrAsync.html">EcAesCtrAsync</a></li>
+                            <li><a href="../classes/EcAesCtrAsyncWorker.html">EcAesCtrAsyncWorker</a></li>
                             <li><a href="../classes/EcAlignment.html">EcAlignment</a></li>
                             <li><a href="../classes/EcArray.html">EcArray</a></li>
                             <li><a href="../classes/EcAsyncHelper.html">EcAsyncHelper</a></li>
                             <li><a href="../classes/EcCompetency.html">EcCompetency</a></li>
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
+                            <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
+                            <li><a href="../classes/EcFrameworkGraph.html">EcFrameworkGraph</a></li>
                             <li><a href="../classes/EcIdentity.html">EcIdentity</a></li>
                             <li><a href="../classes/EcIdentityManager.html">EcIdentityManager</a></li>
                             <li><a href="../classes/EcLevel.html">EcLevel</a></li>
+                            <li><a href="../classes/EcLevrHttp.html">EcLevrHttp</a></li>
                             <li><a href="../classes/EcLinkedData.html">EcLinkedData</a></li>
                             <li><a href="../classes/EcModal.html">EcModal</a></li>
                             <li><a href="../classes/EcObject.html">EcObject</a></li>
@@ -313,6 +319,7 @@
                             <li><a href="../classes/EcRollupRule.html">EcRollupRule</a></li>
                             <li><a href="../classes/EcRsaOaep.html">EcRsaOaep</a></li>
                             <li><a href="../classes/EcRsaOaepAsync.html">EcRsaOaepAsync</a></li>
+                            <li><a href="../classes/EcRsaOaepAsyncWorker.html">EcRsaOaepAsyncWorker</a></li>
                             <li><a href="../classes/EcScreen.html">EcScreen</a></li>
                             <li><a href="../classes/EcView.html">EcView</a></li>
                             <li><a href="../classes/EducationalAudience.html">EducationalAudience</a></li>
@@ -346,6 +353,7 @@
                             <li><a href="../classes/Festival.html">Festival</a></li>
                             <li><a href="../classes/FilmAction.html">FilmAction</a></li>
                             <li><a href="../classes/FinancialAlignmentObject.html">FinancialAlignmentObject</a></li>
+                            <li><a href="../classes/FinancialAssistanceProfile.html">FinancialAssistanceProfile</a></li>
                             <li><a href="../classes/FinancialProduct.html">FinancialProduct</a></li>
                             <li><a href="../classes/FinancialService.html">FinancialService</a></li>
                             <li><a href="../classes/FindAction.html">FindAction</a></li>
@@ -588,6 +596,7 @@
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
                             <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
+                            <li><a href="../classes/ProfileProcessor.html">ProfileProcessor</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
                             <li><a href="../classes/PropertyValueSpecification.html">PropertyValueSpecification</a></li>
@@ -705,6 +714,7 @@
                             <li><a href="../classes/Synagogue.html">Synagogue</a></li>
                             <li><a href="../classes/Table.html">Table</a></li>
                             <li><a href="../classes/TakeAction.html">TakeAction</a></li>
+                            <li><a href="../classes/Task.html">Task</a></li>
                             <li><a href="../classes/TaskProfile.html">TaskProfile</a></li>
                             <li><a href="../classes/TattooParlor.html">TattooParlor</a></li>
                             <li><a href="../classes/Taxi.html">Taxi</a></li>
@@ -796,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 1.0.0
+              Version: latest unstable
             </div>
             
         </div>
@@ -822,100 +832,114 @@ import window.pemJwk;
  * @module com.eduworks.ec
  */
 public class EcPk {
-	public pk pk;
-	public Object jwk = null;
-	public CryptoKey key = null;
-	public CryptoKey signKey = null;
-	protected EcPk() {
-	}
+    public static Object cache = null;
+    public pk pk;
+    public String defaultPem = null;
+    public Object jwk = null;
+    public CryptoKey key = null;
+    public CryptoKey signKey = null;
 
-	/**
-	 * Decodes a PEM encoded SubjectPublicKeyInfo (PKCS#8) or RSAPublicKey (PKCS#1) formatted RSA Public Key.
-	 * (In case you were curious.)
-	 *
-	 * @param {string} pem PEM as a string.
-	 * @return {EcPk} Object used to perform public key operations.
-	 * @method fromPem
-	 * @static
-	 */
-	public static EcPk fromPem(String pem) {
-		EcPk pk = new EcPk();
-		try {
-			pk.pk = pki.publicKeyFromPem(pem);
-		} catch (Exception ex) {
-			return null;
-		}
-		return pk;
-	}
+    protected EcPk() {
+    }
 
-	/**
-	 * Compares two public keys, and returns true if their PEM forms match.
-	 *
-	 * @param {EcPk} obj Object to compare to.
-	 * @return {boolean} True if the keys match.
-	 * @method equals
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof EcPk)
-			return toPem().equals(((EcPk) obj).toPem());
-		return super.equals(obj);
-	}
+    static {
+        if (cache == null)
+            cache = new Object();
+    }
 
-	/**
-	 * Encodes the public key into a PEM encoded SubjectPublicKeyInfo (PKCS#8) formatted RSA Public Key.
-	 * (In case you were curious.)
-	 *
-	 * @return {string} PEM encoded public key without whitespace.
-	 * @method toPem
-	 */
-	public String toPem() {
-		return pki.publicKeyToPem(pk).replaceAll(&quot;\r?\n&quot;, &quot;&quot;);
-	}
+    /**
+     * Decodes a PEM encoded SubjectPublicKeyInfo (PKCS#8) or RSAPublicKey (PKCS#1) formatted RSA Public Key.
+     * (In case you were curious.)
+     *
+     * @param {string} pem PEM as a string.
+     * @return {EcPk} Object used to perform public key operations.
+     * @method fromPem
+     * @static
+     */
+    public static EcPk fromPem(String pem) {
+        EcPk pk = (EcPk) JSObjectAdapter.$get(cache, pem);
+        if (pk != null)
+            return pk;
+        pk = new EcPk();
+        try {
+            pk.pk = pki.publicKeyFromPem(pem);
+        } catch (Exception ex) {
+            return null;
+        }
+        JSObjectAdapter.$put(cache, pem, pk);
+        return pk;
+    }
 
-	/**
-	 * Encodes the public key into a PEM encoded RSAPublicKey (PKCS#1) formatted RSA Public Key.
-	 * (In case you were curious.)
-	 *
-	 * @return {string} PEM encoded public key without whitespace.
-	 * @method toPkcs1Pem
-	 */
-	public String toPkcs1Pem() {
-		return pki.publicKeyToRSAPublicKeyPem(pk).replaceAll(&quot;\r?\n&quot;, &quot;&quot;);
-	}
+    /**
+     * Compares two public keys, and returns true if their PEM forms match.
+     *
+     * @param {EcPk} obj Object to compare to.
+     * @return {boolean} True if the keys match.
+     * @method equals
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof EcPk)
+            return toPem().equals(((EcPk) obj).toPem());
+        return super.equals(obj);
+    }
 
-	/**
-	 * Encodes the public key into a PEM encoded SubjectPublicKeyInfo (PKCS#8) formatted RSA Public Key.
-	 * (In case you were curious.)
-	 *
-	 * @return {string} PEM encoded public key without whitespace.
-	 * @method toPkcs8Pem
-	 */
-	public String toPkcs8Pem() {
-		return pki.publicKeyToPem(pk).replaceAll(&quot;\r?\n&quot;, &quot;&quot;);
-	}
+    /**
+     * Encodes the public key into a PEM encoded SubjectPublicKeyInfo (PKCS#8) formatted RSA Public Key.
+     * (In case you were curious.)
+     *
+     * @return {string} PEM encoded public key without whitespace.
+     * @method toPem
+     */
+    public String toPem() {
+        if (defaultPem == null)
+            defaultPem = pki.publicKeyToPem(pk).replaceAll(&quot;\r?\n&quot;, &quot;&quot;);
+        return defaultPem;
+    }
 
-	public Object toJwk() {
-		if (jwk == null)
-			jwk = pemJwk.pem2jwk(pki.publicKeyToPem(pk));
-		return jwk;
-	}
+    /**
+     * Encodes the public key into a PEM encoded RSAPublicKey (PKCS#1) formatted RSA Public Key.
+     * (In case you were curious.)
+     *
+     * @return {string} PEM encoded public key without whitespace.
+     * @method toPkcs1Pem
+     */
+    public String toPkcs1Pem() {
+        return pki.publicKeyToRSAPublicKeyPem(pk).replaceAll(&quot;\r?\n&quot;, &quot;&quot;);
+    }
 
-	/**
-	 * Hashes the public key into an SSH compatible fingerprint.
-	 *
-	 * @return {string} Public key fingerprint.
-	 * @method fingerprint
-	 */
-	public String fingerprint() {
-		Object o = new Object();
-		JSObjectAdapter.$put(o, &quot;encoding&quot;, &quot;hex&quot;);
-		return ssh.getPublicKeyFingerprint(pk, o);
-	}
+    /**
+     * Encodes the public key into a PEM encoded SubjectPublicKeyInfo (PKCS#8) formatted RSA Public Key.
+     * (In case you were curious.)
+     *
+     * @return {string} PEM encoded public key without whitespace.
+     * @method toPkcs8Pem
+     */
+    public String toPkcs8Pem() {
+        return pki.publicKeyToPem(pk).replaceAll(&quot;\r?\n&quot;, &quot;&quot;);
+    }
 
-	public Boolean verify(bytes bytes, payload decode64) {
-		return pk.verify(bytes, decode64);
-	}
+    public Object toJwk() {
+        if (jwk == null)
+            jwk = pemJwk.pem2jwk(pki.publicKeyToPem(pk));
+        return jwk;
+    }
+
+    /**
+     * Hashes the public key into an SSH compatible fingerprint.
+     *
+     * @return {string} Public key fingerprint.
+     * @method fingerprint
+     */
+    public String fingerprint() {
+        Object o = new Object();
+        JSObjectAdapter.$put(o, &quot;encoding&quot;, &quot;hex&quot;);
+        return ssh.getPublicKeyFingerprint(pk, o);
+    }
+
+    public Boolean verify(bytes bytes, payload decode64) {
+        return pk.verify(bytes, decode64);
+    }
 }
 
 </pre>

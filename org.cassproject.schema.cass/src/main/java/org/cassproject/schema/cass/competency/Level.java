@@ -19,7 +19,8 @@ public class Level extends CreativeWork {
 	private static final String TYPE_0_2 = "http://schema.eduworks.com/cass/0.2/level";
 	private static final String TYPE_0_3 = "http://schema.cassproject.org/0.2/Level";
 	private static final String TYPE_0_4 = "http://schema.cassproject.org/0.3/Level";
-	public static final String myType = TYPE_0_4;
+	private static final String TYPE_0_5 = "https://schema.cassproject.org/0.3/Level";
+	public static final String myType = TYPE_0_5;
 	/**
 	 * Specifies the URL of the competency this level relates to.
 	 *
@@ -64,11 +65,15 @@ public class Level extends CreativeWork {
 		if (TYPE_0_3.equals(getFullType())) {
 			setContextAndType(Cass.context_0_4, TYPE_0_4);
 		}
+		if (TYPE_0_4.equals(getFullType())) {
+			setContextAndType(Cass.context_0_5, TYPE_0_5);
+		}
 	}
 
 	@Override
 	public Array<String> getTypes() {
 		Array<String> a = new Array<String>();
+		a.push(TYPE_0_5);
 		a.push(TYPE_0_4);
 		a.push(TYPE_0_3);
 		a.push(TYPE_0_2);

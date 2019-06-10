@@ -69,6 +69,7 @@
                             <li><a href="../classes/AgreeAction.html">AgreeAction</a></li>
                             <li><a href="../classes/Airline.html">Airline</a></li>
                             <li><a href="../classes/Airport.html">Airport</a></li>
+                            <li><a href="../classes/AlignmentMap.html">AlignmentMap</a></li>
                             <li><a href="../classes/AlignmentObject.html">AlignmentObject</a></li>
                             <li><a href="../classes/AllocateAction.html">AllocateAction</a></li>
                             <li><a href="../classes/AmusementPark.html">AmusementPark</a></li>
@@ -161,6 +162,7 @@
                             <li><a href="../classes/Casino.html">Casino</a></li>
                             <li><a href="../classes/Cass.html">Cass</a></li>
                             <li><a href="../classes/CatholicChurch.html">CatholicChurch</a></li>
+                            <li><a href="../classes/CeCompetency.html">CeCompetency</a></li>
                             <li><a href="../classes/Cemetery.html">Cemetery</a></li>
                             <li><a href="../classes/Certificate.html">Certificate</a></li>
                             <li><a href="../classes/Certification.html">Certification</a></li>
@@ -288,18 +290,22 @@
                             <li><a href="../classes/EcAes.html">EcAes</a></li>
                             <li><a href="../classes/EcAesCtr.html">EcAesCtr</a></li>
                             <li><a href="../classes/EcAesCtrAsync.html">EcAesCtrAsync</a></li>
+                            <li><a href="../classes/EcAesCtrAsyncWorker.html">EcAesCtrAsyncWorker</a></li>
                             <li><a href="../classes/EcAlignment.html">EcAlignment</a></li>
                             <li><a href="../classes/EcArray.html">EcArray</a></li>
                             <li><a href="../classes/EcAsyncHelper.html">EcAsyncHelper</a></li>
                             <li><a href="../classes/EcCompetency.html">EcCompetency</a></li>
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
+                            <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
+                            <li><a href="../classes/EcFrameworkGraph.html">EcFrameworkGraph</a></li>
                             <li><a href="../classes/EcIdentity.html">EcIdentity</a></li>
                             <li><a href="../classes/EcIdentityManager.html">EcIdentityManager</a></li>
                             <li><a href="../classes/EcLevel.html">EcLevel</a></li>
+                            <li><a href="../classes/EcLevrHttp.html">EcLevrHttp</a></li>
                             <li><a href="../classes/EcLinkedData.html">EcLinkedData</a></li>
                             <li><a href="../classes/EcModal.html">EcModal</a></li>
                             <li><a href="../classes/EcObject.html">EcObject</a></li>
@@ -313,6 +319,7 @@
                             <li><a href="../classes/EcRollupRule.html">EcRollupRule</a></li>
                             <li><a href="../classes/EcRsaOaep.html">EcRsaOaep</a></li>
                             <li><a href="../classes/EcRsaOaepAsync.html">EcRsaOaepAsync</a></li>
+                            <li><a href="../classes/EcRsaOaepAsyncWorker.html">EcRsaOaepAsyncWorker</a></li>
                             <li><a href="../classes/EcScreen.html">EcScreen</a></li>
                             <li><a href="../classes/EcView.html">EcView</a></li>
                             <li><a href="../classes/EducationalAudience.html">EducationalAudience</a></li>
@@ -346,6 +353,7 @@
                             <li><a href="../classes/Festival.html">Festival</a></li>
                             <li><a href="../classes/FilmAction.html">FilmAction</a></li>
                             <li><a href="../classes/FinancialAlignmentObject.html">FinancialAlignmentObject</a></li>
+                            <li><a href="../classes/FinancialAssistanceProfile.html">FinancialAssistanceProfile</a></li>
                             <li><a href="../classes/FinancialProduct.html">FinancialProduct</a></li>
                             <li><a href="../classes/FinancialService.html">FinancialService</a></li>
                             <li><a href="../classes/FindAction.html">FindAction</a></li>
@@ -588,6 +596,7 @@
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
                             <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
+                            <li><a href="../classes/ProfileProcessor.html">ProfileProcessor</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
                             <li><a href="../classes/PropertyValueSpecification.html">PropertyValueSpecification</a></li>
@@ -705,6 +714,7 @@
                             <li><a href="../classes/Synagogue.html">Synagogue</a></li>
                             <li><a href="../classes/Table.html">Table</a></li>
                             <li><a href="../classes/TakeAction.html">TakeAction</a></li>
+                            <li><a href="../classes/Task.html">Task</a></li>
                             <li><a href="../classes/TaskProfile.html">TaskProfile</a></li>
                             <li><a href="../classes/TattooParlor.html">TattooParlor</a></li>
                             <li><a href="../classes/Taxi.html">Taxi</a></li>
@@ -796,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 1.0.0
+              Version: latest unstable
             </div>
             
         </div>
@@ -820,13 +830,29 @@ package org.schema;
  */
 public class Product extends Thing {
 	/**
-	 * Schema.org/reviews
-	 * Review of the item.
+	 * Schema.org/manufacturer
+	 * The manufacturer of the product.
 	 *
-	 * @property reviews
-	 * @type Review
+	 * @property manufacturer
+	 * @type Organization
 	 */
-	public Review reviews;
+	public Organization manufacturer;
+	/**
+	 * Schema.org/sku
+	 * The Stock Keeping Unit (SKU), i.e. a merchant-specific identifier for a product or service, or the product to which the offer refers.
+	 *
+	 * @property sku
+	 * @type Text
+	 */
+	public String sku;
+	/**
+	 * Schema.org/productionDate
+	 * The date of production of the item, e.g. vehicle.
+	 *
+	 * @property productionDate
+	 * @type Date
+	 */
+	public String productionDate;
 	/**
 	 * Schema.org/audience
 	 * An intended audience, i.e. a group for whom something was created.
@@ -836,6 +862,62 @@ public class Product extends Thing {
 	 */
 	public Audience audience;
 	/**
+	 * Schema.org/mpn
+	 * The Manufacturer Part Number (MPN) of the product, or the product to which the offer refers.
+	 *
+	 * @property mpn
+	 * @type Text
+	 */
+	public String mpn;
+	/**
+	 * Schema.org/height
+	 * The height of the item.
+	 *
+	 * @property height
+	 * @type Distance
+	 */
+	public Distance height;
+	/**
+	 * Schema.org/gtin8
+	 * The [GTIN-8](http://apps.gs1.org/GDD/glossary/Pages/GTIN-8.aspx) code of the product, or the product to which the offer refers. This code is also known as EAN/UCC-8 or 8-digit EAN. See [GS1 GTIN Summary](http://www.gs1.org/barcodes/technical/idkeys/gtin) for more details.
+	 *
+	 * @property gtin8
+	 * @type Text
+	 */
+	public String gtin8;
+	/**
+	 * Schema.org/reviews
+	 * Review of the item.
+	 *
+	 * @property reviews
+	 * @type Review
+	 */
+	public Review reviews;
+	/**
+	 * Schema.org/aggregateRating
+	 * The overall rating, based on a collection of reviews or ratings, of the item.
+	 *
+	 * @property aggregateRating
+	 * @type AggregateRating
+	 */
+	public AggregateRating aggregateRating;
+	/**
+	 * Schema.org/isConsumableFor
+	 * A pointer to another product (or multiple products) for which this product is a consumable.
+	 *
+	 * @property isConsumableFor
+	 * @type Product
+	 */
+	public Product isConsumableFor;
+	/**
+	 * Schema.org/offers
+	 * An offer to provide this item&amp;#x2014;for example, an offer to sell a product, rent the DVD of a movie, perform a service, or give away tickets to an event.
+	 *
+	 * @property offers
+	 * @type Offer
+	 */
+	public Offer offers;
+	/**
 	 * Schema.org/award
 	 * An award won by or for this item.
 	 *
@@ -844,6 +926,38 @@ public class Product extends Thing {
 	 */
 	public String award;
 	/**
+	 * Schema.org/category
+	 * A category for the item. Greater signs or slashes can be used to informally indicate a category hierarchy.
+	 *
+	 * @property category
+	 * @type Text
+	 */
+	public String category;
+	/**
+	 * Schema.org/width
+	 * The width of the item.
+	 *
+	 * @property width
+	 * @type Distance
+	 */
+	public Distance width;
+	/**
+	 * Schema.org/awards
+	 * Awards won by or for this item.
+	 *
+	 * @property awards
+	 * @type Text
+	 */
+	public String awards;
+	/**
+	 * Schema.org/additionalProperty
+	 * A property-value pair representing an additional characteristics of the entitity, e.g. a product feature or another characteristic for which there is no matching property in schema.org.\n\nNote: Publishers should be aware that applications designed to use specific schema.org properties (e.g. schema:width, schema:color, schema:gtin13, ...) will typically expect such data to be provided using those properties, rather than using the generic property/value mechanism.
+	 *
+	 * @property additionalProperty
+	 * @type PropertyValue
+	 */
+	public PropertyValue additionalProperty;
+	/**
 	 * Schema.org/isAccessoryOrSparePartFor
 	 * A pointer to another product (or multiple products) for which this product is an accessory or spare part.
 	 *
@@ -851,6 +965,14 @@ public class Product extends Thing {
 	 * @type Product
 	 */
 	public Product isAccessoryOrSparePartFor;
+	/**
+	 * Schema.org/logo
+	 * An associated logo.
+	 *
+	 * @property logo
+	 * @type ImageObject
+	 */
+	public ImageObject logo;
 	/**
 	 * Schema.org/gtin14
 	 * The [GTIN-14](http://apps.gs1.org/GDD/glossary/Pages/GTIN-14.aspx) code of the product, or the product to which the offer refers. See [GS1 GTIN Summary](http://www.gs1.org/barcodes/technical/idkeys/gtin) for more details.
@@ -876,157 +998,13 @@ public class Product extends Thing {
 	 */
 	public String gtin12;
 	/**
-	 * Schema.org/height
-	 * The height of the item.
-	 *
-	 * @property height
-	 * @type schema, Distance | schema,QuantitativeValue
-	 */
-	public Object height;
-	/**
-	 * Schema.org/additionalProperty
-	 * A property-value pair representing an additional characteristics of the entitity, e.g. a product feature or another characteristic for which there is no matching property in schema.org.\n\nNote: Publishers should be aware that applications designed to use specific schema.org properties (e.g. http://schema.org/width, http://schema.org/color, http://schema.org/gtin13, ...) will typically expect such data to be provided using those properties, rather than using the generic property/value mechanism.
-	 *
-	 * @property additionalProperty
-	 * @type PropertyValue
-	 */
-	public PropertyValue additionalProperty;
-	/**
-	 * Schema.org/isRelatedTo
-	 * A pointer to another, somehow related product (or multiple products).
-	 *
-	 * @property isRelatedTo
-	 * @type schema, Service | schema,Product
-	 */
-	public Object isRelatedTo;
-	/**
-	 * Schema.org/purchaseDate
-	 * The date the item e.g. vehicle was purchased by the current owner.
-	 *
-	 * @property purchaseDate
-	 * @type Date
-	 */
-	public String purchaseDate;
-	/**
-	 * Schema.org/offers
-	 * An offer to provide this item&amp;#x2014;for example, an offer to sell a product, rent the DVD of a movie, perform a service, or give away tickets to an event.
-	 *
-	 * @property offers
-	 * @type Offer
-	 */
-	public Offer offers;
-	/**
-	 * Schema.org/review
-	 * A review of the item.
-	 *
-	 * @property review
-	 * @type Review
-	 */
-	public Review review;
-	/**
-	 * Schema.org/mpn
-	 * The Manufacturer Part Number (MPN) of the product, or the product to which the offer refers.
-	 *
-	 * @property mpn
-	 * @type Text
-	 */
-	public String mpn;
-	/**
-	 * Schema.org/releaseDate
-	 * The release date of a product or product model. This can be used to distinguish the exact variant of a product.
-	 *
-	 * @property releaseDate
-	 * @type Date
-	 */
-	public String releaseDate;
-	/**
-	 * Schema.org/productionDate
-	 * The date of production of the item, e.g. vehicle.
-	 *
-	 * @property productionDate
-	 * @type Date
-	 */
-	public String productionDate;
-	/**
-	 * Schema.org/brand
-	 * The brand(s) associated with a product or service, or the brand(s) maintained by an organization or business person.
-	 *
-	 * @property brand
-	 * @type schema, Organization | schema,Brand
-	 */
-	public Object brand;
-	/**
-	 * Schema.org/depth
-	 * The depth of the item.
-	 *
-	 * @property depth
-	 * @type schema, Distance | schema,QuantitativeValue
-	 */
-	public Object depth;
-	/**
-	 * Schema.org/awards
-	 * Awards won by or for this item.
-	 *
-	 * @property awards
-	 * @type Text
-	 */
-	public String awards;
-	/**
-	 * Schema.org/model
-	 * The model of the product. Use with the URL of a ProductModel or a textual representation of the model identifier. The URL of the ProductModel can be from an external source. It is recommended to additionally provide strong product identifiers via the gtin8/gtin13/gtin14 and mpn properties.
-	 *
-	 * @property model
-	 * @type schema, ProductModel | schema,Text
-	 */
-	public Object model;
-	/**
-	 * Schema.org/color
-	 * The color of the product.
-	 *
-	 * @property color
-	 * @type Text
-	 */
-	public String color;
-	/**
-	 * Schema.org/sku
-	 * The Stock Keeping Unit (SKU), i.e. a merchant-specific identifier for a product or service, or the product to which the offer refers.
-	 *
-	 * @property sku
-	 * @type Text
-	 */
-	public String sku;
-	/**
-	 * Schema.org/gtin8
-	 * The [GTIN-8](http://apps.gs1.org/GDD/glossary/Pages/GTIN-8.aspx) code of the product, or the product to which the offer refers. This code is also known as EAN/UCC-8 or 8-digit EAN. See [GS1 GTIN Summary](http://www.gs1.org/barcodes/technical/idkeys/gtin) for more details.
-	 *
-	 * @property gtin8
-	 * @type Text
-	 */
-	public String gtin8;
-	/**
-	 * Schema.org/productID
-	 * The product identifier, such as ISBN. For example: &#x60;&#x60;&#x60; meta itemprop=&quot;productID&quot; content=&quot;isbn:123-456-789&quot; &#x60;&#x60;&#x60;.
-	 *
-	 * @property productID
-	 * @type Text
-	 */
-	public String productID;
-	/**
 	 * Schema.org/material
 	 * A material that something is made from, e.g. leather, wool, cotton, paper.
 	 *
 	 * @property material
-	 * @type schema, URL | schema,Text | schema,Product
+	 * @type URL
 	 */
-	public Object material;
-	/**
-	 * Schema.org/isConsumableFor
-	 * A pointer to another product (or multiple products) for which this product is a consumable.
-	 *
-	 * @property isConsumableFor
-	 * @type Product
-	 */
-	public Product isConsumableFor;
+	public String material;
 	/**
 	 * Schema.org/weight
 	 * The weight of the product or person.
@@ -1036,21 +1014,69 @@ public class Product extends Thing {
 	 */
 	public QuantitativeValue weight;
 	/**
+	 * Schema.org/depth
+	 * The depth of the item.
+	 *
+	 * @property depth
+	 * @type Distance
+	 */
+	public Distance depth;
+	/**
 	 * Schema.org/isSimilarTo
 	 * A pointer to another, functionally similar product (or multiple products).
 	 *
 	 * @property isSimilarTo
-	 * @type schema, Service | schema,Product
+	 * @type Product
 	 */
-	public Object isSimilarTo;
+	public Product isSimilarTo;
 	/**
-	 * Schema.org/width
-	 * The width of the item.
+	 * Schema.org/model
+	 * The model of the product. Use with the URL of a ProductModel or a textual representation of the model identifier. The URL of the ProductModel can be from an external source. It is recommended to additionally provide strong product identifiers via the gtin8/gtin13/gtin14 and mpn properties.
 	 *
-	 * @property width
-	 * @type schema, Distance | schema,QuantitativeValue
+	 * @property model
+	 * @type Text
 	 */
-	public Object width;
+	public String model;
+	/**
+	 * Schema.org/color
+	 * The color of the product.
+	 *
+	 * @property color
+	 * @type Text
+	 */
+	public String color;
+	/**
+	 * Schema.org/isRelatedTo
+	 * A pointer to another, somehow related product (or multiple products).
+	 *
+	 * @property isRelatedTo
+	 * @type Product
+	 */
+	public Product isRelatedTo;
+	/**
+	 * Schema.org/productID
+	 * The product identifier, such as ISBN. For example: &#x60;&#x60;&#x60; meta itemprop=&quot;productID&quot; content=&quot;isbn:123-456-789&quot; &#x60;&#x60;&#x60;.
+	 *
+	 * @property productID
+	 * @type Text
+	 */
+	public String productID;
+	/**
+	 * Schema.org/review
+	 * A review of the item.
+	 *
+	 * @property review
+	 * @type Review
+	 */
+	public Review review;
+	/**
+	 * Schema.org/purchaseDate
+	 * The date the item e.g. vehicle was purchased by the current owner.
+	 *
+	 * @property purchaseDate
+	 * @type Date
+	 */
+	public String purchaseDate;
 	/**
 	 * Schema.org/itemCondition
 	 * A predefined value from OfferItemCondition or a textual description of the condition of the product or service, or the products or services included in the offer.
@@ -1060,37 +1086,21 @@ public class Product extends Thing {
 	 */
 	public OfferItemCondition itemCondition;
 	/**
-	 * Schema.org/aggregateRating
-	 * The overall rating, based on a collection of reviews or ratings, of the item.
+	 * Schema.org/brand
+	 * The brand(s) associated with a product or service, or the brand(s) maintained by an organization or business person.
 	 *
-	 * @property aggregateRating
-	 * @type AggregateRating
-	 */
-	public AggregateRating aggregateRating;
-	/**
-	 * Schema.org/manufacturer
-	 * The manufacturer of the product.
-	 *
-	 * @property manufacturer
+	 * @property brand
 	 * @type Organization
 	 */
-	public Organization manufacturer;
+	public Organization brand;
 	/**
-	 * Schema.org/logo
-	 * An associated logo.
+	 * Schema.org/releaseDate
+	 * The release date of a product or product model. This can be used to distinguish the exact variant of a product.
 	 *
-	 * @property logo
-	 * @type schema, URL | schema,ImageObject
+	 * @property releaseDate
+	 * @type Date
 	 */
-	public Object logo;
-	/**
-	 * Schema.org/category
-	 * A category for the item. Greater signs or slashes can be used to informally indicate a category hierarchy.
-	 *
-	 * @property category
-	 * @type schema, Text | schema,Thing
-	 */
-	public Object category;
+	public String releaseDate;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

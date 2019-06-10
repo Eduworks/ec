@@ -69,6 +69,7 @@
                             <li><a href="../classes/AgreeAction.html">AgreeAction</a></li>
                             <li><a href="../classes/Airline.html">Airline</a></li>
                             <li><a href="../classes/Airport.html">Airport</a></li>
+                            <li><a href="../classes/AlignmentMap.html">AlignmentMap</a></li>
                             <li><a href="../classes/AlignmentObject.html">AlignmentObject</a></li>
                             <li><a href="../classes/AllocateAction.html">AllocateAction</a></li>
                             <li><a href="../classes/AmusementPark.html">AmusementPark</a></li>
@@ -161,6 +162,7 @@
                             <li><a href="../classes/Casino.html">Casino</a></li>
                             <li><a href="../classes/Cass.html">Cass</a></li>
                             <li><a href="../classes/CatholicChurch.html">CatholicChurch</a></li>
+                            <li><a href="../classes/CeCompetency.html">CeCompetency</a></li>
                             <li><a href="../classes/Cemetery.html">Cemetery</a></li>
                             <li><a href="../classes/Certificate.html">Certificate</a></li>
                             <li><a href="../classes/Certification.html">Certification</a></li>
@@ -288,18 +290,22 @@
                             <li><a href="../classes/EcAes.html">EcAes</a></li>
                             <li><a href="../classes/EcAesCtr.html">EcAesCtr</a></li>
                             <li><a href="../classes/EcAesCtrAsync.html">EcAesCtrAsync</a></li>
+                            <li><a href="../classes/EcAesCtrAsyncWorker.html">EcAesCtrAsyncWorker</a></li>
                             <li><a href="../classes/EcAlignment.html">EcAlignment</a></li>
                             <li><a href="../classes/EcArray.html">EcArray</a></li>
                             <li><a href="../classes/EcAsyncHelper.html">EcAsyncHelper</a></li>
                             <li><a href="../classes/EcCompetency.html">EcCompetency</a></li>
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
+                            <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
+                            <li><a href="../classes/EcFrameworkGraph.html">EcFrameworkGraph</a></li>
                             <li><a href="../classes/EcIdentity.html">EcIdentity</a></li>
                             <li><a href="../classes/EcIdentityManager.html">EcIdentityManager</a></li>
                             <li><a href="../classes/EcLevel.html">EcLevel</a></li>
+                            <li><a href="../classes/EcLevrHttp.html">EcLevrHttp</a></li>
                             <li><a href="../classes/EcLinkedData.html">EcLinkedData</a></li>
                             <li><a href="../classes/EcModal.html">EcModal</a></li>
                             <li><a href="../classes/EcObject.html">EcObject</a></li>
@@ -313,6 +319,7 @@
                             <li><a href="../classes/EcRollupRule.html">EcRollupRule</a></li>
                             <li><a href="../classes/EcRsaOaep.html">EcRsaOaep</a></li>
                             <li><a href="../classes/EcRsaOaepAsync.html">EcRsaOaepAsync</a></li>
+                            <li><a href="../classes/EcRsaOaepAsyncWorker.html">EcRsaOaepAsyncWorker</a></li>
                             <li><a href="../classes/EcScreen.html">EcScreen</a></li>
                             <li><a href="../classes/EcView.html">EcView</a></li>
                             <li><a href="../classes/EducationalAudience.html">EducationalAudience</a></li>
@@ -346,6 +353,7 @@
                             <li><a href="../classes/Festival.html">Festival</a></li>
                             <li><a href="../classes/FilmAction.html">FilmAction</a></li>
                             <li><a href="../classes/FinancialAlignmentObject.html">FinancialAlignmentObject</a></li>
+                            <li><a href="../classes/FinancialAssistanceProfile.html">FinancialAssistanceProfile</a></li>
                             <li><a href="../classes/FinancialProduct.html">FinancialProduct</a></li>
                             <li><a href="../classes/FinancialService.html">FinancialService</a></li>
                             <li><a href="../classes/FindAction.html">FindAction</a></li>
@@ -588,6 +596,7 @@
                             <li><a href="../classes/ProfessionalService.html">ProfessionalService</a></li>
                             <li><a href="../classes/ProficiencyScale.html">ProficiencyScale</a></li>
                             <li><a href="../classes/ProfilePage.html">ProfilePage</a></li>
+                            <li><a href="../classes/ProfileProcessor.html">ProfileProcessor</a></li>
                             <li><a href="../classes/ProgramMembership.html">ProgramMembership</a></li>
                             <li><a href="../classes/PropertyValue.html">PropertyValue</a></li>
                             <li><a href="../classes/PropertyValueSpecification.html">PropertyValueSpecification</a></li>
@@ -705,6 +714,7 @@
                             <li><a href="../classes/Synagogue.html">Synagogue</a></li>
                             <li><a href="../classes/Table.html">Table</a></li>
                             <li><a href="../classes/TakeAction.html">TakeAction</a></li>
+                            <li><a href="../classes/Task.html">Task</a></li>
                             <li><a href="../classes/TaskProfile.html">TaskProfile</a></li>
                             <li><a href="../classes/TattooParlor.html">TattooParlor</a></li>
                             <li><a href="../classes/Taxi.html">Taxi</a></li>
@@ -796,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 1.0.0
+              Version: latest unstable
             </div>
             
         </div>
@@ -823,8 +833,13 @@ import org.stjs.javascript.Array;
  * @extends Graph
  */
 public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
-	Array&lt;Triple&lt;V, V, E&gt;&gt; edges;
-	Array&lt;V&gt; verticies;
+	Array&lt;Triple&lt;V, V, E&gt;&gt; edges = null;
+	Array&lt;V&gt; verticies = null;
+
+	public EcDirectedGraph(){
+		edges = new Array&lt;&gt;();
+		verticies = new Array&lt;&gt;();
+	}
 
 	@Override
 	public Array&lt;E&gt; getEdges() {
@@ -845,7 +860,7 @@ public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
 	@Override
 	public boolean containsVertex(V vertex) {
 		for (int i = 0; i &lt; verticies.$length(); i++)
-			if (vertex == verticies.$get(i))
+			if (vertex.equals(verticies.$get(i)))
 				return true;
 		return false;
 	}
@@ -853,7 +868,7 @@ public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
 	@Override
 	public boolean containsEdge(E edge) {
 		for (int i = 0; i &lt; edges.$length(); i++)
-			if (edge == edges.$get(i).edge)
+			if (edge.equals(edges.$get(i).edge))
 				return true;
 		return false;
 	}
@@ -872,9 +887,9 @@ public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
 	public Array&lt;V&gt; getNeighbors(V vertex) {
 		Array&lt;V&gt; results = new Array&lt;&gt;();
 		for (int i = 0; i &lt; edges.$length(); i++) {
-			if (vertex == edges.$get(i).source)
+			if (vertex.equals(edges.$get(i).source))
 				results.push(edges.$get(i).destination);
-			else if (vertex == edges.$get(i).destination)
+			else if (vertex.equals(edges.$get(i).destination))
 				results.push(edges.$get(i).source);
 		}
 		EcArray.removeDuplicates(results);
@@ -885,9 +900,9 @@ public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
 	public Array&lt;E&gt; getIncidentEdges(V vertex) {
 		Array&lt;E&gt; results = new Array&lt;&gt;();
 		for (int i = 0; i &lt; edges.$length(); i++) {
-			if (vertex == edges.$get(i).source)
+			if (vertex.equals(edges.$get(i).source))
 				results.push(edges.$get(i).edge);
-			else if (vertex == edges.$get(i).destination)
+			else if (vertex.equals(edges.$get(i).destination))
 				results.push(edges.$get(i).edge);
 		}
 		EcArray.removeDuplicates(results);
@@ -898,7 +913,7 @@ public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
 	public Array&lt;V&gt; getIncidentVertices(E edge) {
 		Array&lt;V&gt; results = new Array&lt;&gt;();
 		for (int i = 0; i &lt; edges.$length(); i++) {
-			if (edge == edges.$get(i).edge) {
+			if (edge.equals(edges.$get(i).edge)) {
 				results.push(edges.$get(i).source);
 				results.push(edges.$get(i).destination);
 			}
@@ -910,9 +925,9 @@ public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
 	@Override
 	public E findEdge(V v1, V v2) {
 		for (int i = 0; i &lt; edges.$length(); i++) {
-			if (v1 == edges.$get(i).source &amp;&amp; v2 == edges.$get(i).destination)
+			if (v1.equals(edges.$get(i).source) &amp;&amp; v2.equals(edges.$get(i).destination))
 				return edges.$get(i).edge;
-			if (v1 == edges.$get(i).destination &amp;&amp; v2 == edges.$get(i).source)
+			if (v1.equals(edges.$get(i).destination) &amp;&amp; v2.equals(edges.$get(i).source))
 				return edges.$get(i).edge;
 		}
 		return null;
@@ -922,9 +937,9 @@ public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
 	public Array&lt;E&gt; findEdgeSet(V v1, V v2) {
 		Array&lt;E&gt; results = new Array&lt;&gt;();
 		for (int i = 0; i &lt; edges.$length(); i++) {
-			if (v1 == edges.$get(i).source &amp;&amp; v2 == edges.$get(i).destination)
+			if (v1.equals(edges.$get(i).source) &amp;&amp; v2.equals(edges.$get(i).destination))
 				results.push(edges.$get(i).edge);
-			if (v1 == edges.$get(i).destination &amp;&amp; v2 == edges.$get(i).source)
+			if (v1.equals(edges.$get(i).destination) &amp;&amp; v2.equals(edges.$get(i).source))
 				results.push(edges.$get(i).edge);
 		}
 		return results;
@@ -932,7 +947,12 @@ public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
 
 	@Override
 	public boolean addVertex(V vertex) {
-		if (verticies.indexOf(vertex) != -1)
+		verticies.push(vertex);
+		return true;
+	}
+
+	public boolean addVertexSafely(V vertex) {
+		if (EcArray.has(verticies,vertex))
 			return false;
 		verticies.push(vertex);
 		return true;
@@ -940,10 +960,10 @@ public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
 
 	@Override
 	public boolean removeVertex(V vertex) {
-		int indexOf = verticies.indexOf(vertex);
+		int indexOf = EcArray.indexOf(verticies,vertex);
 		if (indexOf != -1) {
 			for (int i = 0; i &lt; edges.$length(); i++) {
-				if (edges.$get(i).source == vertex || edges.$get(i).destination == vertex) {
+				if (edges.$get(i).source.equals(vertex) || edges.$get(i).destination.equals(vertex)) {
 					edges.splice(i, 1);
 					i--;
 				}
@@ -958,7 +978,7 @@ public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
 	public boolean removeEdge(E edge) {
 		boolean success = false;
 		for (int i = 0; i &lt; edges.$length(); i++) {
-			if (edges.$get(i).edge==edge) {
+			if (edges.$get(i).edge.equals(edge)) {
 				edges.splice(i, 1);
 				i--;
 				success = true;
@@ -970,9 +990,9 @@ public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
 	@Override
 	public boolean isNeighbor(V v1, V v2) {
 		for (int i = 0; i &lt; edges.$length(); i++) {
-			if (v1==edges.$get(i).source &amp;&amp; v2==edges.$get(i).destination)
+			if (v1.equals(edges.$get(i).source) &amp;&amp; v2.equals(edges.$get(i).destination))
 				return true;
-			else if (v1==edges.$get(i).destination &amp;&amp; v2==edges.$get(i).source)
+			else if (v1.equals(edges.$get(i).destination) &amp;&amp; v2.equals(edges.$get(i).source))
 				return true;
 		}
 		return false;
@@ -981,7 +1001,7 @@ public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
 	@Override
 	public boolean isIncident(V vertex, E edge) {
 		for (int i = 0; i &lt; edges.$length(); i++) {
-			if ((vertex==edges.$get(i).source || vertex==edges.$get(i).destination) &amp;&amp; edge==edges.$get(i).edge)
+			if ((vertex.equals(edges.$get(i).source) || vertex.equals(edges.$get(i).destination)) &amp;&amp; edge.equals(edges.$get(i).edge))
 				return true;
 		}
 		return false;
@@ -991,7 +1011,7 @@ public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
 	public int degree(V vertex) {
 		int count = 0;
 		for (int i = 0; i &lt; edges.$length(); i++) {
-			if (vertex==edges.$get(i).source || vertex==edges.$get(i).destination)
+			if (vertex.equals(edges.$get(i).source) || vertex.equals(edges.$get(i).destination))
 				count++;
 		}
 		return count;
@@ -1032,7 +1052,7 @@ public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
 	public Array&lt;E&gt; getInEdges(V vertex) {
 		Array&lt;E&gt; results = new Array&lt;&gt;();
 		for (int i = 0; i &lt; edges.$length(); i++) {
-			if (vertex==edges.$get(i).destination)
+			if (vertex.equals(edges.$get(i).destination))
 				results.push(edges.$get(i).edge);
 		}
 		EcArray.removeDuplicates(results);
@@ -1043,7 +1063,7 @@ public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
 	public Array&lt;E&gt; getOutEdges(V vertex) {
 		Array&lt;E&gt; results = new Array&lt;&gt;();
 		for (int i = 0; i &lt; edges.$length(); i++) {
-			if (vertex==edges.$get(i).source)
+			if (vertex.equals(edges.$get(i).source))
 				results.push(edges.$get(i).edge);
 		}
 		EcArray.removeDuplicates(results);
@@ -1063,7 +1083,7 @@ public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
 	@Override
 	public V getSource(E directed_edge) {
 		for (int i = 0; i &lt; edges.$length(); i++) {
-			if (directed_edge==edges.$get(i).edge)
+			if (directed_edge.equals(edges.$get(i).edge))
 				return edges.$get(i).source;
 		}
 		return null;
@@ -1072,7 +1092,7 @@ public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
 	@Override
 	public V getDest(E directed_edge) {
 		for (int i = 0; i &lt; edges.$length(); i++) {
-			if (directed_edge==edges.$get(i).edge)
+			if (directed_edge.equals(edges.$get(i).edge))
 				return edges.$get(i).destination;
 		}
 		return null;
@@ -1082,7 +1102,7 @@ public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
 	public Array&lt;V&gt; getPredecessors(V vertex) {
 		Array&lt;V&gt; results = new Array&lt;&gt;();
 		for (int i = 0; i &lt; edges.$length(); i++) {
-			if (vertex==edges.$get(i).destination)
+			if (vertex.equals(edges.$get(i).destination))
 				results.push(edges.$get(i).source);
 		}
 		EcArray.removeDuplicates(results);
@@ -1093,7 +1113,7 @@ public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
 	public Array&lt;V&gt; getSuccessors(V vertex) {
 		Array&lt;V&gt; results = new Array&lt;&gt;();
 		for (int i = 0; i &lt; edges.$length(); i++) {
-			if (vertex==edges.$get(i).source)
+			if (vertex.equals(edges.$get(i).source))
 				results.push(edges.$get(i).destination);
 		}
 		EcArray.removeDuplicates(results);
@@ -1103,8 +1123,8 @@ public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
 	@Override
 	public boolean isPredecessor(V v1, V v2) {
 		for (int i = 0; i &lt; edges.$length(); i++) {
-			if (v1==edges.$get(i).destination)
-				if (v2==edges.$get(i).source)
+			if (v1.equals(edges.$get(i).destination))
+				if (v2.equals(edges.$get(i).source))
 					return true;
 		}
 		return false;
@@ -1113,8 +1133,8 @@ public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
 	@Override
 	public boolean isSuccessor(V v1, V v2) {
 		for (int i = 0; i &lt; edges.$length(); i++) {
-			if (v2==edges.$get(i).destination)
-				if (v1==edges.$get(i).source)
+			if (v2.equals(edges.$get(i).destination))
+				if (v1.equals(edges.$get(i).source))
 					return true;
 		}
 		return false;
@@ -1133,8 +1153,8 @@ public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
 	@Override
 	public boolean isSource(V vertex, E edge) {
 		for (int i = 0; i &lt; edges.$length(); i++) {
-			if (edge==edges.$get(i).edge)
-				if (vertex==edges.$get(i).source)
+			if (edge.equals(edges.$get(i).edge))
+				if (vertex.equals(edges.$get(i).source))
 					return true;
 		}
 		return false;
@@ -1143,8 +1163,8 @@ public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
 	@Override
 	public boolean isDest(V vertex, E edge) {
 		for (int i = 0; i &lt; edges.$length(); i++) {
-			if (edge==edges.$get(i).edge)
-				if (vertex==edges.$get(i).destination)
+			if (edge.equals(edges.$get(i).edge))
+				if (vertex.equals(edges.$get(i).destination))
 					return true;
 		}
 		return false;
@@ -1152,15 +1172,38 @@ public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
 
 	@Override
 	public boolean addEdge(E e, V v1, V v2) {
-		addVertex(v1);
-		addVertex(v2);
+		addVertexSafely(v1);
+		addVertexSafely(v2);
 
 		Triple&lt;V, V, E&gt; t = new Triple&lt;&gt;();
 		t.source = v1;
 		t.destination = v2;
 		t.edge = e;
 
-		if (edges.indexOf(t) != -1)
+		edges.push(t);
+		return true;
+	}
+
+	public boolean addEdgeUnsafely(E e, V v1, V v2) {
+		Triple&lt;V, V, E&gt; t = new Triple&lt;&gt;();
+		t.source = v1;
+		t.destination = v2;
+		t.edge = e;
+
+		edges.push(t);
+		return true;
+	}
+
+	public boolean addEdgeSafely(E e, V v1, V v2) {
+		addVertexSafely(v1);
+		addVertexSafely(v2);
+
+		Triple&lt;V, V, E&gt; t = new Triple&lt;&gt;();
+		t.source = v1;
+		t.destination = v2;
+		t.edge = e;
+
+		if (EcArray.has(edges,t))
 			return false;
 
 		edges.push(t);
@@ -1170,10 +1213,10 @@ public abstract class EcDirectedGraph&lt;V, E&gt; implements Graph&lt;V, E&gt; {
 	@Override
 	public V getOpposite(V vertex, E edge) {
 		for (int i = 0; i &lt; edges.$length(); i++) {
-			if (edge==edges.$get(i).edge)
-				if (vertex==edges.$get(i).destination)
+			if (edge.equals(edges.$get(i).edge))
+				if (vertex.equals(edges.$get(i).destination))
 					return edges.$get(i).source;
-				else if (vertex==edges.$get(i).source)
+				else if (vertex.equals(edges.$get(i).source))
 					return edges.$get(i).destination;
 		}
 		return null;
