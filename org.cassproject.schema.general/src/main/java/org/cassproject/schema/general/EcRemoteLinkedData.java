@@ -136,7 +136,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
     }
 
     public String getDottedType() {
-        return getFullType().replace("http://", "").replaceAll("/", ".");
+        return getFullType().replace("http://", "").replace("https://", "").replaceAll("/", ".");
     }
 
     /**
