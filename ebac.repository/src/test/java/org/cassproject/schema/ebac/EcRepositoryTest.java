@@ -91,7 +91,7 @@ public class EcRepositoryTest {
 		if (!thing.id.endsWith("/"))
 			thing.id += "/";
 		thing.id += "data/";
-		thing.id += thing.type.replace("http://", "").replaceAll("/", ".");
+		thing.id += thing.type.replace("http://", "").replace("https://", "").replaceAll("/", ".");
 		thing.id += "/";
 		thing.id += "test-public-object";
 		thing.id += "/";
@@ -204,7 +204,7 @@ public class EcRepositoryTest {
 		if (!thing.id.endsWith("/"))
 			thing.id += "/";
 		thing.id += "dunno/";
-		thing.id += thing.type.replace("http://", "").replaceAll("/", ".");
+		thing.id += thing.type.replace("http://", "").replace("https://", "").replaceAll("/", ".");
 		thing.id += "/";
 		thing.id += "test-public-object";
 		thing.id += "/";
