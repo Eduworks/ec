@@ -63,13 +63,13 @@ function codeGenerate(graph, node) {
     {
 		text += "\tpublic " + className + "()\n";
 		text += "\t{\n";
-		text += "\t\tcontext=\"http://schema.cassproject.org/0.3/skos/\";\n";
+		text += "\t\tcontext=\"https://schema.cassproject.org/0.4/skos/\";\n";
 		text += "\t\ttype=\"" + className + "\";\n";
 		text += "\t}\n\n";
     }else{
 		text += "\tpublic " + className + "()\n";
 		text += "\t{\n";
-		text += "\t\tsuper(\"http://schema.cassproject.org/0.3/skos/\",\"" + className + "\");\n";
+		text += "\t\tsuper(\"https://schema.cassproject.org/0.4/skos/\",\"" + className + "\");\n";
 		text += "\t}\n\n";
 	}
 

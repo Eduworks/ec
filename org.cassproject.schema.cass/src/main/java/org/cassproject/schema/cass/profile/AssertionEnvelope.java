@@ -21,10 +21,11 @@ import org.stjs.javascript.functions.Callback2;
  */
 public class AssertionEnvelope extends CreativeWork {
 	private static final String TYPE_0_5 = "http://schema.cassproject.org/0.4/AssertionEnvelope";
-	public static final String myType = TYPE_0_5;
+	private static final String TYPE_0_6 = "https://schema.cassproject.org/0.4/AssertionEnvelope";
+	public static final String myType = TYPE_0_6;
 
 	public AssertionEnvelope() {
-		setContextAndType(Cass.context_0_6, myType);
+		setContextAndType(Cass.context, myType);
 	}
 
 	/***

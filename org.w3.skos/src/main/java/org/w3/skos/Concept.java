@@ -14,14 +14,15 @@ public class Concept extends EcRemoteLinkedData
 {
 	private static final String TYPE_0_1 = "http://schema.cassproject.org/0.3/skos/Concept";
 	private static final String TYPE_0_2 = "https://schema.cassproject.org/0.3/skos/Concept";
-	public static final String myType = TYPE_0_2;
+	private static final String TYPE_0_3 = "https://schema.cassproject.org/0.4/skos/Concept";
+	public static final String myType = TYPE_0_3;
 	/**
 	 * Constructor, automatically sets @context and @type.
 	 * @constructor
 	 */
 	public Concept()
 	{
-		super("https://schema.cassproject.org/0.3/skos/","Concept");
+		super("https://schema.cassproject.org/0.4/skos/","Concept");
 	}
 
 	/**
@@ -46,11 +47,15 @@ public class Concept extends EcRemoteLinkedData
 		if (TYPE_0_1.equals(getFullType())) {
 			setContextAndType("https://schema.cassproject.org/0.3/skos", TYPE_0_2);
 		}
+		if (TYPE_0_2.equals(getFullType())) {
+			setContextAndType("https://schema.cassproject.org/0.4/skos", TYPE_0_3);
+		}
 	}
 
 	@Override
 	public Array<String> getTypes() {
 		Array<String> a = new Array<String>();
+		a.push(TYPE_0_3);
 		a.push(TYPE_0_2);
 		a.push(TYPE_0_1);
 		return a;

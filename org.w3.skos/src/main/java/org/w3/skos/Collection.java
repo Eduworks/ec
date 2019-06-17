@@ -19,7 +19,7 @@ public class Collection extends EcRemoteLinkedData
 	 */
 	public Collection()
 	{
-		super("http://schema.cassproject.org/0.3/skos/","Collection");
+		super("https://schema.cassproject.org/0.4/skos/","Collection");
 	}
 
 	/**

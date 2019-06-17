@@ -19,7 +19,7 @@ public class OrderedCollection extends Collection
 	 */
 	public OrderedCollection()
 	{
-		context="http://schema.cassproject.org/0.3/skos/";
+		context="https://schema.cassproject.org/0.4/skos/";
 		type="OrderedCollection";
 	}
 
