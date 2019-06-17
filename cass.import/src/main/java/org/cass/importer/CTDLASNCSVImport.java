@@ -13,6 +13,8 @@ import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.cass.competency.Relation;
 import org.json.ld.EcLinkedData;
 import org.stjs.javascript.Array;
+import org.stjs.javascript.Date;
+import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
@@ -131,6 +133,27 @@ public class CTDLASNCSVImport {
 												EcIdentityManager.addIdentityQuietly(id);
 											}
 
+											if (JSObjectAdapter.$get(e, "ceasn:dateCreated") == null && JSObjectAdapter.$get(e, "schema:dateCreated") == null) {
+												if (EcFramework.template != null && JSObjectAdapter.$get(EcFramework.template,("schema:dateCreated")) != null) {
+													String timestamp;
+													String date;
+													if (!f.id.substring(f.id.lastIndexOf("/")).matches("\\/[0-9]+")) {
+														timestamp = null;
+													}
+													else {
+														timestamp = f.id.substring(f.id.lastIndexOf("/")+1);
+													}
+													if (timestamp != null) {
+														date = new Date(JSGlobal.parseInt(timestamp)).toISOString();
+													}
+													else {
+														date = new Date().toISOString();
+													}
+													JSObjectAdapter.$put(f,"schema:dateCreated", date);
+												}
+											}
+
+
 											JSObjectAdapter.$put(frameworks, f.id, f);
 											JSObjectAdapter.$put(frameworkRows, f.id, e);
 											JSObjectAdapter.$put(f, "ceasn:hasChild", null);
@@ -202,6 +225,25 @@ public class CTDLASNCSVImport {
 												if (id.ppk != null)
 													f.addOwner(id.ppk.toPk());
 												EcIdentityManager.addIdentityQuietly(id);
+											}
+											if (JSObjectAdapter.$get(e, "ceasn:dateCreated") == null && JSObjectAdapter.$get(e, "schema:dateCreated") == null) {
+												if (EcCompetency.template != null && JSObjectAdapter.$get(EcCompetency.template,("schema:dateCreated")) != null) {
+													String timestamp;
+													String date;
+													if (!f.id.substring(f.id.lastIndexOf("/")).matches("\\/[0-9]+")) {
+														timestamp = null;
+													}
+													else {
+														timestamp = f.id.substring(f.id.lastIndexOf("/")+1);
+													}
+													if (timestamp != null) {
+														date = new Date(JSGlobal.parseInt(timestamp)).toISOString();
+													}
+													else {
+														date = new Date().toISOString();
+													}
+													JSObjectAdapter.$put(f,"schema:dateCreated", date);
+												}
 											}
 
 											if (JSObjectAdapter.$get(e, "ceasn:isChildOf") != null) {
