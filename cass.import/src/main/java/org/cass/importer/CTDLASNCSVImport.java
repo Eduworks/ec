@@ -11,6 +11,7 @@ import org.cassproject.ebac.identity.EcIdentity;
 import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.cass.competency.Relation;
+import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.json.ld.EcLinkedData;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Date;
@@ -133,24 +134,8 @@ public class CTDLASNCSVImport {
 												EcIdentityManager.addIdentityQuietly(id);
 											}
 
-											if (JSObjectAdapter.$get(e, "ceasn:dateCreated") == null && JSObjectAdapter.$get(e, "schema:dateCreated") == null) {
-												if (EcFramework.template != null && JSObjectAdapter.$get(EcFramework.template,("schema:dateCreated")) != null) {
-													String timestamp;
-													String date;
-													if (!f.id.substring(f.id.lastIndexOf("/")).matches("\\/[0-9]+")) {
-														timestamp = null;
-													}
-													else {
-														timestamp = f.id.substring(f.id.lastIndexOf("/")+1);
-													}
-													if (timestamp != null) {
-														date = new Date(JSGlobal.parseInt(timestamp)).toISOString();
-													}
-													else {
-														date = new Date().toISOString();
-													}
-													JSObjectAdapter.$put(f,"schema:dateCreated", date);
-												}
+											if (EcFramework.template != null && JSObjectAdapter.$get(EcFramework.template,("schema:dateCreated")) != null) {
+												setDateCreated(e, f);
 											}
 
 
@@ -226,24 +211,9 @@ public class CTDLASNCSVImport {
 													f.addOwner(id.ppk.toPk());
 												EcIdentityManager.addIdentityQuietly(id);
 											}
-											if (JSObjectAdapter.$get(e, "ceasn:dateCreated") == null && JSObjectAdapter.$get(e, "schema:dateCreated") == null) {
-												if (EcCompetency.template != null && JSObjectAdapter.$get(EcCompetency.template,("schema:dateCreated")) != null) {
-													String timestamp;
-													String date;
-													if (!f.id.substring(f.id.lastIndexOf("/")).matches("\\/[0-9]+")) {
-														timestamp = null;
-													}
-													else {
-														timestamp = f.id.substring(f.id.lastIndexOf("/")+1);
-													}
-													if (timestamp != null) {
-														date = new Date(JSGlobal.parseInt(timestamp)).toISOString();
-													}
-													else {
-														date = new Date().toISOString();
-													}
-													JSObjectAdapter.$put(f,"schema:dateCreated", date);
-												}
+
+											if (EcCompetency.template != null && JSObjectAdapter.$get(EcCompetency.template,("schema:dateCreated")) != null) {
+												setDateCreated(e, f);
 											}
 
 											if (JSObjectAdapter.$get(e, "ceasn:isChildOf") != null) {
@@ -380,5 +350,18 @@ public class CTDLASNCSVImport {
 				error = failure;
 			}
 		});
+	}
+
+	public static void setDateCreated(EcLinkedData importObject, EcRemoteLinkedData object) {
+		if (JSObjectAdapter.$get(importObject, "ceasn:dateCreated") == null && JSObjectAdapter.$get(importObject, "schema:dateCreated") == null) {
+			Integer timestamp = object.getTimestamp();
+			String date;
+			if (timestamp != null) {
+				date = new Date(JSGlobal.parseInt(timestamp)).toISOString();
+			} else {
+				date = new Date().toISOString();
+			}
+			JSObjectAdapter.$put(object, "schema:dateCreated", date);
+		}
 	}
 }

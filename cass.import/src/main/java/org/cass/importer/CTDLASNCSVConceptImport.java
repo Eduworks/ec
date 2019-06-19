@@ -143,25 +143,11 @@ public class CTDLASNCSVConceptImport {
                                                 EcIdentityManager.addIdentityQuietly(id);
                                             }
                                             JSObjectAdapter.$put(f, "schema:dateModified", new Date().toISOString());
-                                            if (JSObjectAdapter.$get(e, "ceasn:dateCreated") == null && JSObjectAdapter.$get(e, "schema:dateCreated") == null) {
-                                                if (EcConceptScheme.template != null && JSObjectAdapter.$get(EcConceptScheme.template,("schema:dateCreated")) != null) {
-                                                    String timestamp;
-                                                    String date;
-                                                    if (!f.id.substring(f.id.lastIndexOf("/")).matches("\\/[0-9]+")) {
-                                                        timestamp = null;
-                                                    }
-                                                    else {
-                                                        timestamp = f.id.substring(f.id.lastIndexOf("/")+1);
-                                                    }
-                                                    if (timestamp != null) {
-                                                        date = new Date(JSGlobal.parseInt(timestamp)).toISOString();
-                                                    }
-                                                    else {
-                                                        date = new Date().toISOString();
-                                                    }
-                                                    JSObjectAdapter.$put(f,"schema:dateCreated", date);
-                                                }
+
+                                            if (EcConceptScheme.template != null && JSObjectAdapter.$get(EcConceptScheme.template,("schema:dateCreated")) != null) {
+                                                CTDLASNCSVImport.setDateCreated(e, f);
                                             }
+
                                             schemeArray.push(f);
                                             callback0.$invoke();
                                         }
@@ -207,25 +193,10 @@ public class CTDLASNCSVConceptImport {
                                                 EcIdentityManager.addIdentityQuietly(id);
                                             }
 
-                                            if (JSObjectAdapter.$get(e, "ceasn:dateCreated") == null && JSObjectAdapter.$get(e, "schema:dateCreated") == null) {
-                                                if (EcConcept.template != null && JSObjectAdapter.$get(EcConcept.template,("schema:dateCreated")) != null) {
-                                                    String timestamp;
-                                                    String date;
-                                                    if (!f.id.substring(f.id.lastIndexOf("/")).matches("\\/[0-9]+")) {
-                                                        timestamp = null;
-                                                    }
-                                                    else {
-                                                        timestamp = f.id.substring(f.id.lastIndexOf("/")+1);
-                                                    }
-                                                    if (timestamp != null) {
-                                                        date = new Date(JSGlobal.parseInt(timestamp)).toISOString();
-                                                    }
-                                                    else {
-                                                        date = new Date().toISOString();
-                                                    }
-                                                    JSObjectAdapter.$put(f,"schema:dateCreated", date);
-                                                }
+                                            if (EcConcept.template != null && JSObjectAdapter.$get(EcConcept.template,("schema:dateCreated")) != null) {
+                                                CTDLASNCSVImport.setDateCreated(e, f);
                                             }
+
                                             //Turn relation fields into arrays
                                             if (JSObjectAdapter.$get(e, "skos:narrower") != null) {
                                                 Object relation = JSObjectAdapter.$get(e, "skos:narrower");
@@ -277,9 +248,7 @@ public class CTDLASNCSVConceptImport {
                                                 }
                                             }
                                             JSObjectAdapter.$put(f, "schema:dateModified", new Date().toISOString());
-                                            if (JSObjectAdapter.$get(e, "schema:dateCreated") == null) {
-                                                JSObjectAdapter.$put(f, "schema:dateCreated", new Date().toISOString());
-                                            }
+
                                             concepts.push(f);
                                             callback0.$invoke();
                                         }
