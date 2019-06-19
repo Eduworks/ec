@@ -24,7 +24,7 @@ import org.stjs.javascript.functions.Callback1;
 public class EcCompetency extends Competency {
 	static Map<String, Boolean> relDone = JSCollections.$map();
 	static Map<String, Boolean> levelDone = JSCollections.$map();
-	static Object template = null;
+	public static Object template = null;
 
 	public EcCompetency() {
 		Map<String, Object> me = JSObjectAdapter.$properties(this);

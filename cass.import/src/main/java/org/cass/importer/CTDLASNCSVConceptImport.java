@@ -143,9 +143,11 @@ public class CTDLASNCSVConceptImport {
                                                 EcIdentityManager.addIdentityQuietly(id);
                                             }
                                             JSObjectAdapter.$put(f, "schema:dateModified", new Date().toISOString());
-                                            if (JSObjectAdapter.$get(e, "schema:dateCreated") == null) {
-                                                JSObjectAdapter.$put(f, "schema:dateCreated", new Date().toISOString());
+
+                                            if (EcConceptScheme.template != null && JSObjectAdapter.$get(EcConceptScheme.template,("schema:dateCreated")) != null) {
+                                                CTDLASNCSVImport.setDateCreated(e, f);
                                             }
+
                                             schemeArray.push(f);
                                             callback0.$invoke();
                                         }
@@ -190,6 +192,11 @@ public class CTDLASNCSVConceptImport {
                                                     f.addOwner(id.ppk.toPk());
                                                 EcIdentityManager.addIdentityQuietly(id);
                                             }
+
+                                            if (EcConcept.template != null && JSObjectAdapter.$get(EcConcept.template,("schema:dateCreated")) != null) {
+                                                CTDLASNCSVImport.setDateCreated(e, f);
+                                            }
+
                                             //Turn relation fields into arrays
                                             if (JSObjectAdapter.$get(e, "skos:narrower") != null) {
                                                 Object relation = JSObjectAdapter.$get(e, "skos:narrower");
@@ -241,9 +248,7 @@ public class CTDLASNCSVConceptImport {
                                                 }
                                             }
                                             JSObjectAdapter.$put(f, "schema:dateModified", new Date().toISOString());
-                                            if (JSObjectAdapter.$get(e, "schema:dateCreated") == null) {
-                                                JSObjectAdapter.$put(f, "schema:dateCreated", new Date().toISOString());
-                                            }
+
                                             concepts.push(f);
                                             callback0.$invoke();
                                         }
