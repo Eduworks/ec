@@ -130,12 +130,7 @@ public class EcRepository {
                 }
             });
         } else {
-            long offset = 0;
-            for (int i = 0; i < repos.$length(); i++) {
-                if (url.indexOf(repos.$get(i).selectedServer) != -1) {
-                    offset = repos.$get(i).timeOffset;
-                }
-            }
+            long offset = setOffset(url);
             EcIdentityManager.signatureSheetAsync(60000 + offset, url, new Callback1<String>() {
                 @Override
                 public void $invoke(String p1) {
@@ -160,6 +155,16 @@ public class EcRepository {
                 }
             }, failure);
         }
+    }
+
+    public static long setOffset(String url) {
+        long offset = 0;
+        for (int i = 0; i < repos.$length(); i++) {
+            if (url.indexOf(repos.$get(i).selectedServer) != -1) {
+                offset = repos.$get(i).timeOffset;
+            }
+        }
+        return offset;
     }
 
     private static void getHandleData(Object p1, String originalUrl, Callback1<EcRemoteLinkedData> success, Callback1<String> failure, String finalUrl) {
@@ -312,12 +317,7 @@ public class EcRepository {
         String p1 = null;
 
         if (unsigned == false) {
-            long offset = 0;
-            for (int i = 0; i < repos.$length(); i++) {
-                if (url.indexOf(repos.$get(i).selectedServer) != -1) {
-                    offset = repos.$get(i).timeOffset;
-                }
-            }
+            long offset = setOffset(url);
             p1 = EcIdentityManager.signatureSheet(60000 + offset, originalUrl);
             fd.append("signatureSheet", p1);
         }
@@ -618,11 +618,7 @@ public class EcRepository {
 
         long offset = 0;
         if (repo == null) {
-            for (int i = 0; i < repos.$length(); i++) {
-                if (data.id.indexOf(repos.$get(i).selectedServer) != -1) {
-                    offset = repos.$get(i).timeOffset;
-                }
-            }
+            offset = setOffset(data.id);
         }
         else {
             offset = repo.timeOffset;
@@ -687,12 +683,7 @@ public class EcRepository {
         final String targetUrl;
         targetUrl = data.shortId();
 
-        long offset = 0;
-        for (int i = 0; i < repos.$length(); i++) {
-            if (data.id.indexOf(repos.$get(i).selectedServer) != -1) {
-                offset = repos.$get(i).timeOffset;
-            }
-        }
+        long offset = setOffset(data.id);
 
         if (data.owner != null && data.owner.$length() > 0) {
             if (EcRemote.async) {
