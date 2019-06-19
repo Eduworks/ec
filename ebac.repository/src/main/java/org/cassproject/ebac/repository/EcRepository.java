@@ -129,8 +129,9 @@ public class EcRepository {
                     EcRepository.find(originalUrl, p1, new Object(), 0, success, failure);
                 }
             });
-        } else
-            EcIdentityManager.signatureSheetAsync(60000, url, new Callback1<String>() {
+        } else {
+            long offset = setOffset(url);
+            EcIdentityManager.signatureSheetAsync(60000 + offset, url, new Callback1<String>() {
                 @Override
                 public void $invoke(String p1) {
                     if (JSObjectAdapter.$get(cache, originalUrl) != null) {
@@ -153,6 +154,17 @@ public class EcRepository {
                     });
                 }
             }, failure);
+        }
+    }
+
+    public static long setOffset(String url) {
+        long offset = 0;
+        for (int i = 0; i < repos.$length(); i++) {
+            if (url.indexOf(repos.$get(i).selectedServer) != -1) {
+                offset = repos.$get(i).timeOffset;
+            }
+        }
+        return offset;
     }
 
     private static void getHandleData(Object p1, String originalUrl, Callback1<EcRemoteLinkedData> success, Callback1<String> failure, String finalUrl) {
@@ -305,7 +317,8 @@ public class EcRepository {
         String p1 = null;
 
         if (unsigned == false) {
-            p1 = EcIdentityManager.signatureSheet(60000, originalUrl);
+            long offset = setOffset(url);
+            p1 = EcIdentityManager.signatureSheet(60000 + offset, originalUrl);
             fd.append("signatureSheet", p1);
         }
         boolean oldAsync = EcRemote.async;
@@ -603,18 +616,26 @@ public class EcRepository {
             }
         };
 
+        long offset = 0;
+        if (repo == null) {
+            offset = setOffset(data.id);
+        }
+        else {
+            offset = repo.timeOffset;
+        }
+
         if (EcRemote.async == false) {
             String signatureSheet;
             if (data.owner != null && data.owner.$length() > 0) {
-                signatureSheet = EcIdentityManager.signatureSheetFor(data.owner, 60000 + (repo == null ? 0 : repo.timeOffset), data.id);
+                signatureSheet = EcIdentityManager.signatureSheetFor(data.owner, 60000 + offset, data.id);
             } else {
-                signatureSheet = EcIdentityManager.signatureSheet(60000 + (repo == null ? 0 : repo.timeOffset), data.id);
+                signatureSheet = EcIdentityManager.signatureSheet(60000 + offset, data.id);
             }
             afterSignatureSheet.$invoke(signatureSheet);
         } else if (data.owner != null && data.owner.$length() > 0) {
-            EcIdentityManager.signatureSheetForAsync(data.owner, 60000 + (repo == null ? 0 : repo.timeOffset), data.id, afterSignatureSheet, failure);
+            EcIdentityManager.signatureSheetForAsync(data.owner, 60000 + offset, data.id, afterSignatureSheet, failure);
         } else {
-            EcIdentityManager.signatureSheetAsync(60000 + (repo == null ? 0 : repo.timeOffset), data.id, afterSignatureSheet, failure);
+            EcIdentityManager.signatureSheetAsync(60000 + offset, data.id, afterSignatureSheet, failure);
         }
 
     }
@@ -662,9 +683,11 @@ public class EcRepository {
         final String targetUrl;
         targetUrl = data.shortId();
 
+        long offset = setOffset(data.id);
+
         if (data.owner != null && data.owner.$length() > 0) {
             if (EcRemote.async) {
-                EcIdentityManager.signatureSheetForAsync(data.owner, 60000, data.id, new Callback1<String>() {
+                EcIdentityManager.signatureSheetForAsync(data.owner, 60000 + offset, data.id, new Callback1<String>() {
                     @Override
                     public void $invoke(String signatureSheet) {
                         if (signatureSheet.length() == 2) {
@@ -680,7 +703,7 @@ public class EcRepository {
                     }
                 }, failure);
             } else {
-                String signatureSheet = EcIdentityManager.signatureSheetFor(data.owner, 60000, data.id);
+                String signatureSheet = EcIdentityManager.signatureSheetFor(data.owner, 60000 + offset, data.id);
                 if (signatureSheet.length() == 2) {
                     for (int i = 0; i < repos.$length(); i++) {
                         if (data.id.indexOf(repos.$get(i).selectedServer) != -1) {
