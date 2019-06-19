@@ -19,6 +19,7 @@ public class EbacCredentialRequest extends EcLinkedData {
 	private static final String TYPE_0_1 = "http://schema.eduworks.com/ebac/0.1/credentialRequest";
 	private static final String TYPE_0_2 = "http://schema.eduworks.com/ebac/0.2/credentialRequest";
 	private static final String TYPE_0_3 = "http://schema.cassproject.org/kbac/0.2/CredentialRequest";
+	private static final String TYPE_0_4 = "https://schema.cassproject.org/kbac/0.4/CredentialRequest";
 	/**
 	 * Hashed username.
 	 *
@@ -34,7 +35,7 @@ public class EbacCredentialRequest extends EcLinkedData {
 	 */
 	public String password;
 	public EbacCredentialRequest() {
-		super(Ebac.context, TYPE_0_3);
+		super(Ebac.context, TYPE_0_4);
 	}
 
 	@Override
@@ -51,11 +52,15 @@ public class EbacCredentialRequest extends EcLinkedData {
 		if (TYPE_0_2==getFullType()) {
 			setContextAndType(Ebac.context_0_3, TYPE_0_3);
 		}
+		if (TYPE_0_3==getFullType()) {
+			setContextAndType(Ebac.context_0_4, TYPE_0_4);
+		}
 	}
 
 	@Override
 	public Array<String> getTypes() {
 		Array<String> a = new Array<String>();
+		a.push(TYPE_0_4);
 		a.push(TYPE_0_3);
 		a.push(TYPE_0_2);
 		a.push(TYPE_0_1);

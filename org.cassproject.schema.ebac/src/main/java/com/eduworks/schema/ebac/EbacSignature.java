@@ -18,6 +18,7 @@ public class EbacSignature extends EcLinkedData {
 	private static final String TYPE_0_1 = "http://schema.eduworks.com/ebac/0.1/timeLimitedSignature";
 	private static final String TYPE_0_2 = "http://schema.eduworks.com/ebac/0.2/timeLimitedSignature";
 	private static final String TYPE_0_3 = "http://schema.cassproject.org/kbac/0.2/TimeLimitedSignature";
+	private static final String TYPE_0_4 = "https://schema.cassproject.org/kbac/0.4/TimeLimitedSignature";
 	/**
 	 * The public key of the authorizing party in PEM format.
 	 *
@@ -52,7 +53,7 @@ public class EbacSignature extends EcLinkedData {
 	public String server;
 
 	public EbacSignature() {
-		super(Ebac.context, TYPE_0_3);
+		super(Ebac.context, TYPE_0_4);
 	}
 
 	@Override
@@ -69,11 +70,15 @@ public class EbacSignature extends EcLinkedData {
 		if (TYPE_0_2.equals(getFullType())) {
 			setContextAndType(Ebac.context_0_3, TYPE_0_3);
 		}
+		if (TYPE_0_3.equals(getFullType())) {
+			setContextAndType(Ebac.context_0_4, TYPE_0_4);
+		}
 	}
 
 	@Override
 	public Array<String> getTypes() {
 		Array<String> a = new Array<String>();
+		a.push(TYPE_0_4);
 		a.push(TYPE_0_3);
 		a.push(TYPE_0_2);
 		a.push(TYPE_0_1);
