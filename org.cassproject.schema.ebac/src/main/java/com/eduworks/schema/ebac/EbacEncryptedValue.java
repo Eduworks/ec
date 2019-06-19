@@ -17,8 +17,9 @@ public class EbacEncryptedValue extends EcRemoteLinkedData {
 	private static final String TYPE_0_1 = "http://schema.eduworks.com/ebac/0.1/encryptedValue";
 	private static final String TYPE_0_2 = "http://schema.eduworks.com/ebac/0.2/encryptedValue";
 	private static final String TYPE_0_3 = "http://schema.cassproject.org/kbac/0.2/EncryptedValue";
+	private static final String TYPE_0_4 = "https://schema.cassproject.org/kbac/0.4/EncryptedValue";
 
-	public static final String myType = TYPE_0_3;
+	public static final String myType = TYPE_0_4;
 	/**
 	 * Optional Hint used to aid in search.
 	 * Displays the type of the encrypted object.
@@ -86,11 +87,15 @@ public class EbacEncryptedValue extends EcRemoteLinkedData {
 		if (TYPE_0_2==getFullType()) {
 			setContextAndType(Ebac.context_0_3, TYPE_0_3);
 		}
+		if (TYPE_0_3==getFullType()) {
+			setContextAndType(Ebac.context_0_4, TYPE_0_4);
+		}
 	}
 
 	@Override
 	public Array<String> getTypes() {
 		Array<String> a = new Array<String>();
+		a.push(TYPE_0_4);
 		a.push(TYPE_0_3);
 		a.push(TYPE_0_2);
 		a.push(TYPE_0_1);

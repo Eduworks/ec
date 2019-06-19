@@ -3,6 +3,7 @@ package org.cass.adapter;
 import com.eduworks.ec.remote.EcRemote;
 import com.eduworks.ec.remote.FormData;
 import org.cassproject.ebac.identity.EcIdentityManager;
+import org.cassproject.ebac.repository.EcRepository;
 import org.json.ld.EcLinkedData;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.functions.Callback1;
@@ -41,7 +42,8 @@ public class XapiConfig extends EcLinkedData {
 	 */
 	public static void get(final String serverUrl, final Callback1<Object> success, final Callback1<String> failure) {
 		final FormData fd = new FormData();
-		EcIdentityManager.signatureSheetAsync(60000, serverUrl, new Callback1<String>() {
+		long offset = EcRepository.setOffset(serverUrl);
+		EcIdentityManager.signatureSheetAsync(60000 + offset, serverUrl, new Callback1<String>() {
 			@Override
 			public void $invoke(String signatureSheet) {
 				fd.append("signatureSheet", signatureSheet);
@@ -62,7 +64,8 @@ public class XapiConfig extends EcLinkedData {
 	public void save(final String serverUrl, final Callback1<Object> success, final Callback1<String> failure) {
 		final FormData fd = new FormData();
 		fd.append("config", Global.JSON.stringify(this));
-		EcIdentityManager.signatureSheetAsync(60000, serverUrl, new Callback1<String>() {
+		long offset = EcRepository.setOffset(serverUrl);
+		EcIdentityManager.signatureSheetAsync(60000 + offset, serverUrl, new Callback1<String>() {
 			@Override
 			public void $invoke(String signatureSheet) {
 				fd.append("signatureSheet", signatureSheet);

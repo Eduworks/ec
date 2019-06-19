@@ -20,6 +20,7 @@ public class EbacCredentialCommit extends EcLinkedData {
 	private static final String TYPE_0_1 = "http://schema.eduworks.com/ebac/0.1/credentialCommit";
 	private static final String TYPE_0_2 = "http://schema.eduworks.com/ebac/0.2/credentialCommit";
 	private static final String TYPE_0_3 = "http://schema.cassproject.org/kbac/0.2/CredentialCommit";
+	private static final String TYPE_0_4 = "https://schema.cassproject.org/kbac/0.4/CredentialCommit";
 	/**
 	 * Hashed username.
 	 *
@@ -50,7 +51,7 @@ public class EbacCredentialCommit extends EcLinkedData {
 	 */
 	public EbacCredentials credentials;
 	public EbacCredentialCommit() {
-		super(Ebac.context, TYPE_0_3);
+		super(Ebac.context, TYPE_0_4);
 		credentials = new EbacCredentials();
 	}
 
@@ -68,11 +69,15 @@ public class EbacCredentialCommit extends EcLinkedData {
 		if (TYPE_0_2.equals(getFullType())) {
 			setContextAndType(Ebac.context_0_3, TYPE_0_3);
 		}
+		if (TYPE_0_3.equals(getFullType())) {
+			setContextAndType(Ebac.context_0_4, TYPE_0_4);
+		}
 	}
 
 	@Override
 	public Array<String> getTypes() {
 		Array<String> a = new Array<String>();
+		a.push(TYPE_0_4);
 		a.push(TYPE_0_3);
 		a.push(TYPE_0_2);
 		a.push(TYPE_0_1);

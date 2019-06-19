@@ -11,8 +11,11 @@ import org.cassproject.ebac.identity.EcIdentity;
 import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.cass.competency.Relation;
+import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.json.ld.EcLinkedData;
 import org.stjs.javascript.Array;
+import org.stjs.javascript.Date;
+import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
@@ -117,7 +120,7 @@ public class CTDLASNCSVImport {
 											JSObjectAdapter.$put(translator, key, null);
 										}
 									}
-									translator.recast("https://schema.cassproject.org/0.3/ceasn2cass", "https://schema.cassproject.org/0.3", new Callback1<EcLinkedData>() {
+									translator.recast("https://schema.cassproject.org/0.4/ceasn2cass", "https://schema.cassproject.org/0.4", new Callback1<EcLinkedData>() {
 										@Override
 										public void $invoke(EcLinkedData e) {
 											EcFramework f = new EcFramework();
@@ -130,6 +133,11 @@ public class CTDLASNCSVImport {
 												f.addOwner(id.ppk.toPk());
 												EcIdentityManager.addIdentityQuietly(id);
 											}
+
+											if (EcFramework.template != null && JSObjectAdapter.$get(EcFramework.template,("schema:dateCreated")) != null) {
+												setDateCreated(e, f);
+											}
+
 
 											JSObjectAdapter.$put(frameworks, f.id, f);
 											JSObjectAdapter.$put(frameworkRows, f.id, e);
@@ -150,7 +158,7 @@ public class CTDLASNCSVImport {
 											JSObjectAdapter.$put(translator, key, null);
 										}
 									}
-									translator.recast("https://schema.cassproject.org/0.3/ceasn2cass", "https://schema.cassproject.org/0.3", new Callback1<EcLinkedData>() {
+									translator.recast("https://schema.cassproject.org/0.4/ceasn2cass", "https://schema.cassproject.org/0.4", new Callback1<EcLinkedData>() {
 										@Override
 										public void $invoke(EcLinkedData e) {
 											EcCompetency f = new EcCompetency();
@@ -202,6 +210,10 @@ public class CTDLASNCSVImport {
 												if (id.ppk != null)
 													f.addOwner(id.ppk.toPk());
 												EcIdentityManager.addIdentityQuietly(id);
+											}
+
+											if (EcCompetency.template != null && JSObjectAdapter.$get(EcCompetency.template,("schema:dateCreated")) != null) {
+												setDateCreated(e, f);
 											}
 
 											if (JSObjectAdapter.$get(e, "ceasn:isChildOf") != null) {
@@ -338,5 +350,18 @@ public class CTDLASNCSVImport {
 				error = failure;
 			}
 		});
+	}
+
+	public static void setDateCreated(EcLinkedData importObject, EcRemoteLinkedData object) {
+		if (JSObjectAdapter.$get(importObject, "ceasn:dateCreated") == null && JSObjectAdapter.$get(importObject, "schema:dateCreated") == null) {
+			Integer timestamp = object.getTimestamp();
+			String date;
+			if (timestamp != null) {
+				date = new Date(JSGlobal.parseInt(timestamp)).toISOString();
+			} else {
+				date = new Date().toISOString();
+			}
+			JSObjectAdapter.$put(object, "schema:dateCreated", date);
+		}
 	}
 }

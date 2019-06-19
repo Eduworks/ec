@@ -129,7 +129,7 @@ public class CTDLASNCSVConceptImport {
                                         JSObjectAdapter.$put(nameWithLanguage, "en-US", name);
                                         JSObjectAdapter.$put(translator, "ceasn:name", nameWithLanguage);
                                     }
-                                    translator.recast("https://schema.cassproject.org/0.3/ceasn2cassConcepts", "https://schema.cassproject.org/0.3/skos", new Callback1<EcLinkedData>() {
+                                    translator.recast("https://schema.cassproject.org/0.4/ceasn2cassConcepts", "https://schema.cassproject.org/0.4/skos", new Callback1<EcLinkedData>() {
                                         @Override
                                         public void $invoke(EcLinkedData e) {
                                             EcConceptScheme f = new EcConceptScheme();
@@ -143,9 +143,11 @@ public class CTDLASNCSVConceptImport {
                                                 EcIdentityManager.addIdentityQuietly(id);
                                             }
                                             JSObjectAdapter.$put(f, "schema:dateModified", new Date().toISOString());
-                                            if (JSObjectAdapter.$get(e, "schema:dateCreated") == null) {
-                                                JSObjectAdapter.$put(f, "schema:dateCreated", new Date().toISOString());
+
+                                            if (EcConceptScheme.template != null && JSObjectAdapter.$get(EcConceptScheme.template,("schema:dateCreated")) != null) {
+                                                CTDLASNCSVImport.setDateCreated(e, f);
                                             }
+
                                             schemeArray.push(f);
                                             callback0.$invoke();
                                         }
@@ -171,7 +173,7 @@ public class CTDLASNCSVConceptImport {
                                         JSObjectAdapter.$put(nameWithLanguage, "en-US", name);
                                         JSObjectAdapter.$put(translator, "skos:prefLabel", nameWithLanguage);
                                     }
-                                    translator.recast("https://schema.cassproject.org/0.3/ceasn2cassConcepts", "https://schema.cassproject.org/0.3/skos", new Callback1<EcLinkedData>() {
+                                    translator.recast("https://schema.cassproject.org/0.4/ceasn2cassConcepts", "https://schema.cassproject.org/0.4/skos", new Callback1<EcLinkedData>() {
                                         @Override
                                         public void $invoke(EcLinkedData e) {
                                             EcConcept f = new EcConcept();
@@ -190,6 +192,11 @@ public class CTDLASNCSVConceptImport {
                                                     f.addOwner(id.ppk.toPk());
                                                 EcIdentityManager.addIdentityQuietly(id);
                                             }
+
+                                            if (EcConcept.template != null && JSObjectAdapter.$get(EcConcept.template,("schema:dateCreated")) != null) {
+                                                CTDLASNCSVImport.setDateCreated(e, f);
+                                            }
+
                                             //Turn relation fields into arrays
                                             if (JSObjectAdapter.$get(e, "skos:narrower") != null) {
                                                 Object relation = JSObjectAdapter.$get(e, "skos:narrower");
@@ -241,9 +248,7 @@ public class CTDLASNCSVConceptImport {
                                                 }
                                             }
                                             JSObjectAdapter.$put(f, "schema:dateModified", new Date().toISOString());
-                                            if (JSObjectAdapter.$get(e, "schema:dateCreated") == null) {
-                                                JSObjectAdapter.$put(f, "schema:dateCreated", new Date().toISOString());
-                                            }
+
                                             concepts.push(f);
                                             callback0.$invoke();
                                         }
