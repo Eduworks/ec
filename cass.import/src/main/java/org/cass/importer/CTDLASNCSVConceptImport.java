@@ -137,11 +137,11 @@ public class CTDLASNCSVConceptImport {
                                             if (JSObjectAdapter.$get(e, "owner") != null) {
                                                 EcIdentity id = new EcIdentity();
                                                 id.ppk = EcPpk.fromPem((String) JSObjectAdapter.$get(e, "owner"));
-                                                if (ceo != null)
-                                                    f.addOwner(ceo.ppk.toPk());
                                                 f.addOwner(id.ppk.toPk());
                                                 EcIdentityManager.addIdentityQuietly(id);
                                             }
+                                            if (ceo != null)
+                                                f.addOwner(ceo.ppk.toPk());
                                             JSObjectAdapter.$put(f, "schema:dateModified", new Date().toISOString());
 
                                             if (EcConceptScheme.template != null && JSObjectAdapter.$get(EcConceptScheme.template,("schema:dateCreated")) != null) {
@@ -186,12 +186,12 @@ public class CTDLASNCSVConceptImport {
                                             if (JSObjectAdapter.$get(e, "owner") != null) {
                                                 EcIdentity id = new EcIdentity();
                                                 id.ppk = EcPpk.fromPem((String) JSObjectAdapter.$get(e, "owner"));
-                                                if (ceo != null)
-                                                    f.addOwner(ceo.ppk.toPk());
                                                 if (id.ppk != null)
                                                     f.addOwner(id.ppk.toPk());
                                                 EcIdentityManager.addIdentityQuietly(id);
                                             }
+                                            if (ceo != null)
+                                                f.addOwner(ceo.ppk.toPk());
 
                                             if (EcConcept.template != null && JSObjectAdapter.$get(EcConcept.template,("schema:dateCreated")) != null) {
                                                 CTDLASNCSVImport.setDateCreated(e, f);

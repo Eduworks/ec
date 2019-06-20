@@ -128,11 +128,11 @@ public class CTDLASNCSVImport {
 											if (JSObjectAdapter.$get(e, "owner") != null) {
 												EcIdentity id = new EcIdentity();
 												id.ppk = EcPpk.fromPem((String) JSObjectAdapter.$get(e, "owner"));
-												if (ceo != null)
-													f.addOwner(ceo.ppk.toPk());
 												f.addOwner(id.ppk.toPk());
 												EcIdentityManager.addIdentityQuietly(id);
 											}
+											if (ceo != null)
+												f.addOwner(ceo.ppk.toPk());
 
 											if (EcFramework.template != null && JSObjectAdapter.$get(EcFramework.template,("schema:dateCreated")) != null) {
 												setDateCreated(e, f);
@@ -205,12 +205,12 @@ public class CTDLASNCSVImport {
 											EcIdentity id = new EcIdentity();
 											if (JSObjectAdapter.$get(e, "owner") != null) {
 												id.ppk = EcPpk.fromPem((String) JSObjectAdapter.$get(e, "owner"));
-												if (ceo != null)
-													f.addOwner(ceo.ppk.toPk());
 												if (id.ppk != null)
 													f.addOwner(id.ppk.toPk());
 												EcIdentityManager.addIdentityQuietly(id);
 											}
+											if (ceo != null)
+												f.addOwner(ceo.ppk.toPk());
 
 											if (EcCompetency.template != null && JSObjectAdapter.$get(EcCompetency.template,("schema:dateCreated")) != null) {
 												setDateCreated(e, f);
