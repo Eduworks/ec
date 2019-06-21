@@ -104,7 +104,12 @@ public class SkyRepo {
 				if (signature == null)
 					levr.error("Missing Signature.", 496);
 
-				if (getTypeFromObject(sigSheet.$get(i)) != "https://schema.cassproject.org/kbac/0.4/TimeLimitedSignature")
+				Array<String> validTypes = signature.getTypes();
+				boolean foundType = false;
+				for (int j = 0;j < validTypes.$length();j++)
+					if (getTypeFromObject(sigSheet.$get(i)) == validTypes.$get(j))
+						foundType = true;
+				if (!foundType)
 					levr.error("Invalid Signature Version.", 422);
 
 				if (signature.expiry == null)

@@ -3,8 +3,6 @@ package com.eduworks.schema.ebac;
 import org.cassproject.schema.general.Ebac;
 import org.json.ld.EcLinkedData;
 import org.stjs.javascript.Array;
-import org.stjs.javascript.JSObjectAdapter;
-import org.stjs.javascript.Map;
 
 /**
  * Signature used to authorize movement of data on behalf of a private-key
@@ -59,20 +57,7 @@ public class EbacSignature extends EcLinkedData {
 	@Override
 	protected void upgrade() {
 		super.upgrade();
-		if (TYPE_0_1.equals(type)) {
-			Map<String, Object> me = JSObjectAdapter.$properties(this);
-			// Error in older versions of LD objects: We used @schema instead of
-			// @context. Whoops.
-			if (me.$get("@context") == null && me.$get("@schema") != null)
-				me.$put("@context", me.$get("@schema"));
-			setContextAndType(Ebac.context_0_2, TYPE_0_2);
-		}
-		if (TYPE_0_2.equals(getFullType())) {
-			setContextAndType(Ebac.context_0_3, TYPE_0_3);
-		}
-		if (TYPE_0_3.equals(getFullType())) {
-			setContextAndType(Ebac.context_0_4, TYPE_0_4);
-		}
+		//DO NOT CHANGE ANYTHING WHEN AN UPGRADE OCCURS, this invalidates the signature.
 	}
 
 	@Override
