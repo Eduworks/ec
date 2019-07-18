@@ -1,5 +1,6 @@
 package org.cass.importer;
 
+import com.eduworks.ec.array.EcArray;
 import com.eduworks.ec.array.EcAsyncHelper;
 import com.eduworks.ec.crypto.EcPpk;
 import js.Papa;
@@ -13,14 +14,13 @@ import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.cass.competency.Relation;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.json.ld.EcLinkedData;
-import org.stjs.javascript.Array;
-import org.stjs.javascript.Date;
-import org.stjs.javascript.JSGlobal;
-import org.stjs.javascript.JSObjectAdapter;
+import org.stjs.javascript.*;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback2;
 import org.stjs.javascript.functions.Callback3;
+
+import static org.stjs.javascript.JSGlobal.typeof;
 
 public class CTDLASNCSVImport {
 
@@ -119,6 +119,13 @@ public class CTDLASNCSVImport {
 										if (JSObjectAdapter.$get(translator, key) == "") {
 											JSObjectAdapter.$put(translator, key, null);
 										}
+										else if (JSObjectAdapter.$get(translator, key) != null){
+											Object thisKey = JSObjectAdapter.$get(translator, key);
+											if (typeof(thisKey) == "string" && ((String)thisKey).indexOf("|") != -1) {
+												thisKey = ((String)thisKey).split("|");
+												JSObjectAdapter.$put(translator, key, thisKey);
+											}
+										}
 									}
 									translator.recast("https://schema.cassproject.org/0.4/ceasn2cass", "https://schema.cassproject.org/0.4", new Callback1<EcLinkedData>() {
 										@Override
@@ -156,6 +163,13 @@ public class CTDLASNCSVImport {
 									for (String key : JSObjectAdapter.$properties(translator)) {
 										if (JSObjectAdapter.$get(translator, key) == "") {
 											JSObjectAdapter.$put(translator, key, null);
+										}
+										else if (JSObjectAdapter.$get(translator, key) != null){
+											Object thisKey = JSObjectAdapter.$get(translator, key);
+											if (typeof(thisKey) == "string" && ((String)thisKey).indexOf("|") != -1) {
+												thisKey = ((String)thisKey).split("|");
+												JSObjectAdapter.$put(translator, key, thisKey);
+											}
 										}
 									}
 									translator.recast("https://schema.cassproject.org/0.4/ceasn2cass", "https://schema.cassproject.org/0.4", new Callback1<EcLinkedData>() {
@@ -231,88 +245,125 @@ public class CTDLASNCSVImport {
 												((EcFramework) JSObjectAdapter.$get(frameworks, (String) JSObjectAdapter.$get(e, "ceasn:isPartOf"))).relation.push(r.shortId());
 											}
 											if (JSObjectAdapter.$get(e, "ceasn:broadAlignment") != null) {
-												EcAlignment r = new EcAlignment();
-												r.generateId(repo.selectedServer);
-												if (ceo != null)
-													r.addOwner(ceo.ppk.toPk());
-												if (id.ppk != null)
-													r.addOwner(id.ppk.toPk());
-												r.source = (String) JSObjectAdapter.$get(e, "id");
-												r.relationType = Relation.NARROWS;
-												r.target = (String) JSObjectAdapter.$get(e, "ceasn:broadAlignment");
-												relations.push(r);
-												JSObjectAdapter.$put(relationById, r.shortId(), r);
-												((EcFramework) JSObjectAdapter.$get(frameworks, (String) JSObjectAdapter.$get(e, "ceasn:isPartOf"))).relation.push(r.shortId());
+												if (!EcArray.isArray(JSObjectAdapter.$get(e, "ceasn:broadAlignment"))) {
+													Array<String> broad = JSGlobal.Array((String)JSObjectAdapter.$get(e, "ceasn:broadAlignment"));
+													JSObjectAdapter.$put(e, "ceasn:broadAlignment", broad);
+												}
+												for (int i = 0; i < ((Array<String>)JSObjectAdapter.$get(e, "ceasn:broadAlignment")).$length(); i++) {
+													EcAlignment r = new EcAlignment();
+													r.generateId(repo.selectedServer);
+													if (ceo != null)
+														r.addOwner(ceo.ppk.toPk());
+													if (id.ppk != null)
+														r.addOwner(id.ppk.toPk());
+													r.source = (String) JSObjectAdapter.$get(e, "id");
+													r.relationType = Relation.NARROWS;
+													r.target = ((Array<String>)JSObjectAdapter.$get(e, "ceasn:broadAlignment")).$get(i);
+													relations.push(r);
+													JSObjectAdapter.$put(relationById, r.shortId(), r);
+													((EcFramework) JSObjectAdapter.$get(frameworks, (String) JSObjectAdapter.$get(e, "ceasn:isPartOf"))).relation.push(r.shortId());
+												}
+
 											}
 											if (JSObjectAdapter.$get(e, "ceasn:narrowAlignment") != null) {
-												EcAlignment r = new EcAlignment();
-												r.generateId(repo.selectedServer);
-												if (ceo != null)
-													r.addOwner(ceo.ppk.toPk());
-												if (id.ppk != null)
-													r.addOwner(id.ppk.toPk());
-												r.source = (String) JSObjectAdapter.$get(e, "ceasn:narrowAlignment");
-												r.relationType = Relation.NARROWS;
-												r.target = (String) JSObjectAdapter.$get(e, "id");
-												relations.push(r);
-												JSObjectAdapter.$put(relationById, r.shortId(), r);
-												((EcFramework) JSObjectAdapter.$get(frameworks, (String) JSObjectAdapter.$get(e, "ceasn:isPartOf"))).relation.push(r.shortId());
+												if (!EcArray.isArray(JSObjectAdapter.$get(e, "ceasn:narrowAlignment"))) {
+													Array<String> narrow = JSGlobal.Array((String)JSObjectAdapter.$get(e, "ceasn:narrowAlignment"));
+													JSObjectAdapter.$put(e, "ceasn:narrowAlignment", narrow);
+												}
+												for (int i = 0; i < ((Array<String>)JSObjectAdapter.$get(e, "ceasn:narrowAlignment")).$length(); i++) {
+													EcAlignment r = new EcAlignment();
+													r.generateId(repo.selectedServer);
+													if (ceo != null)
+														r.addOwner(ceo.ppk.toPk());
+													if (id.ppk != null)
+														r.addOwner(id.ppk.toPk());
+													r.source = ((Array<String>)JSObjectAdapter.$get(e, "ceasn:narrowAlignment")).$get(i);
+													r.relationType = Relation.NARROWS;
+													r.target = (String) JSObjectAdapter.$get(e, "id");
+													relations.push(r);
+													JSObjectAdapter.$put(relationById, r.shortId(), r);
+													((EcFramework) JSObjectAdapter.$get(frameworks, (String) JSObjectAdapter.$get(e, "ceasn:isPartOf"))).relation.push(r.shortId());
+												}
 											}
 											if (JSObjectAdapter.$get(e, "sameAs") != null) {
-												EcAlignment r = new EcAlignment();
-												r.generateId(repo.selectedServer);
-												if (ceo != null)
-													r.addOwner(ceo.ppk.toPk());
-												if (id.ppk != null)
-													r.addOwner(id.ppk.toPk());
-												r.source = (String) JSObjectAdapter.$get(e, "id");
-												r.relationType = Relation.IS_EQUIVALENT_TO;
-												r.target = (String) JSObjectAdapter.$get(e, "sameAs");
-												relations.push(r);
-												JSObjectAdapter.$put(relationById, r.shortId(), r);
-												((EcFramework) JSObjectAdapter.$get(frameworks, (String) JSObjectAdapter.$get(e, "ceasn:isPartOf"))).relation.push(r.shortId());
+												if (!EcArray.isArray(JSObjectAdapter.$get(e, "sameAs"))) {
+													Array<String> same = JSGlobal.Array((String)JSObjectAdapter.$get(e, "sameAs"));
+													JSObjectAdapter.$put(e, "sameAs", same);
+												}
+												for (int i = 0; i < ((Array<String>)JSObjectAdapter.$get(e, "sameAs")).$length(); i++) {
+													EcAlignment r = new EcAlignment();
+													r.generateId(repo.selectedServer);
+													if (ceo != null)
+														r.addOwner(ceo.ppk.toPk());
+													if (id.ppk != null)
+														r.addOwner(id.ppk.toPk());
+													r.source = (String) JSObjectAdapter.$get(e, "id");
+													r.relationType = Relation.IS_EQUIVALENT_TO;
+													r.target = ((Array<String>)JSObjectAdapter.$get(e, "sameAs")).$get(i);
+													relations.push(r);
+													JSObjectAdapter.$put(relationById, r.shortId(), r);
+													((EcFramework) JSObjectAdapter.$get(frameworks, (String) JSObjectAdapter.$get(e, "ceasn:isPartOf"))).relation.push(r.shortId());
+												}
 											}
 											if (JSObjectAdapter.$get(e, "ceasn:majorAlignment") != null) {
-												EcAlignment r = new EcAlignment();
-												r.generateId(repo.selectedServer);
-												if (ceo != null)
-													r.addOwner(ceo.ppk.toPk());
-												if (id.ppk != null)
-													r.addOwner(id.ppk.toPk());
-												r.source = (String) JSObjectAdapter.$get(e, "id");
-												r.relationType = "majorRelated";
-												r.target = (String) JSObjectAdapter.$get(e, "ceasn:majorAlignment");
-												relations.push(r);
-												JSObjectAdapter.$put(relationById, r.shortId(), r);
-												((EcFramework) JSObjectAdapter.$get(frameworks, (String) JSObjectAdapter.$get(e, "ceasn:isPartOf"))).relation.push(r.shortId());
+												if (!EcArray.isArray(JSObjectAdapter.$get(e, "ceasn:majorAlignment"))) {
+													Array<String> major = JSGlobal.Array((String)JSObjectAdapter.$get(e, "ceasn:majorAlignment"));
+													JSObjectAdapter.$put(e, "ceasn:majorAlignment", major);
+												}
+												for (int i = 0; i < ((Array<String>)JSObjectAdapter.$get(e, "ceasn:majorAlignment")).$length(); i++) {
+													EcAlignment r = new EcAlignment();
+													r.generateId(repo.selectedServer);
+													if (ceo != null)
+														r.addOwner(ceo.ppk.toPk());
+													if (id.ppk != null)
+														r.addOwner(id.ppk.toPk());
+													r.source = (String) JSObjectAdapter.$get(e, "id");
+													r.relationType = "majorRelated";
+													r.target = ((Array<String>)JSObjectAdapter.$get(e, "ceasn:majorAlignment")).$get(i);
+													relations.push(r);
+													JSObjectAdapter.$put(relationById, r.shortId(), r);
+													((EcFramework) JSObjectAdapter.$get(frameworks, (String) JSObjectAdapter.$get(e, "ceasn:isPartOf"))).relation.push(r.shortId());
+												}
 											}
 											if (JSObjectAdapter.$get(e, "ceasn:minorAlignment") != null) {
-												EcAlignment r = new EcAlignment();
-												r.generateId(repo.selectedServer);
-												if (ceo != null)
-													r.addOwner(ceo.ppk.toPk());
-												if (id.ppk != null)
-													r.addOwner(id.ppk.toPk());
-												r.source = (String) JSObjectAdapter.$get(e, "id");
-												r.relationType = "minorRelated";
-												r.target = (String) JSObjectAdapter.$get(e, "ceasn:minorAlignment");
-												relations.push(r);
-												JSObjectAdapter.$put(relationById, r.shortId(), r);
-												((EcFramework) JSObjectAdapter.$get(frameworks, (String) JSObjectAdapter.$get(e, "ceasn:isPartOf"))).relation.push(r.shortId());
+												if (!EcArray.isArray(JSObjectAdapter.$get(e, "ceasn:minorAlignment"))) {
+													Array<String> minor = JSGlobal.Array((String)JSObjectAdapter.$get(e, "ceasn:minorAlignment"));
+													JSObjectAdapter.$put(e, "ceasn:minorAlignment", minor);
+												}
+												for (int i = 0; i < ((Array<String>)JSObjectAdapter.$get(e, "ceasn:minorAlignment")).$length(); i++) {
+													EcAlignment r = new EcAlignment();
+													r.generateId(repo.selectedServer);
+													if (ceo != null)
+														r.addOwner(ceo.ppk.toPk());
+													if (id.ppk != null)
+														r.addOwner(id.ppk.toPk());
+													r.source = (String) JSObjectAdapter.$get(e, "id");
+													r.relationType = "minorRelated";
+													r.target = ((Array<String>)JSObjectAdapter.$get(e, "ceasn:minorAlignment")).$get(i);
+													relations.push(r);
+													JSObjectAdapter.$put(relationById, r.shortId(), r);
+													((EcFramework) JSObjectAdapter.$get(frameworks, (String) JSObjectAdapter.$get(e, "ceasn:isPartOf"))).relation.push(r.shortId());
+												}
 											}
 											if (JSObjectAdapter.$get(e, "ceasn:prerequisiteAlignment") != null) {
-												EcAlignment r = new EcAlignment();
-												r.generateId(repo.selectedServer);
-												if (ceo != null)
-													r.addOwner(ceo.ppk.toPk());
-												if (id.ppk != null)
-													r.addOwner(id.ppk.toPk());
-												r.source = (String) JSObjectAdapter.$get(e, "id");
-												r.relationType = Relation.REQUIRES;
-												r.target = (String) JSObjectAdapter.$get(e, "ceasn:prerequisiteAlignment");
-												relations.push(r);
-												JSObjectAdapter.$put(relationById, r.shortId(), r);
-												((EcFramework) JSObjectAdapter.$get(frameworks, (String) JSObjectAdapter.$get(e, "ceasn:isPartOf"))).relation.push(r.shortId());
+												if (!EcArray.isArray(JSObjectAdapter.$get(e, "ceasn:prerequisiteAlignment"))) {
+													Array<String> prereq = JSGlobal.Array((String)JSObjectAdapter.$get(e, "ceasn:prerequisiteAlignment"));
+													JSObjectAdapter.$put(e, "ceasn:prerequisiteAlignment", prereq);
+												}
+												for (int i = 0; i < ((Array<String>)JSObjectAdapter.$get(e, "ceasn:prerequisiteAlignment")).$length(); i++) {
+													EcAlignment r = new EcAlignment();
+													r.generateId(repo.selectedServer);
+													if (ceo != null)
+														r.addOwner(ceo.ppk.toPk());
+													if (id.ppk != null)
+														r.addOwner(id.ppk.toPk());
+													r.source = (String) JSObjectAdapter.$get(e, "id");
+													r.relationType = Relation.REQUIRES;
+													r.target = ((Array<String>)JSObjectAdapter.$get(e, "ceasn:prerequisiteAlignment")).$get(i);
+													relations.push(r);
+													JSObjectAdapter.$put(relationById, r.shortId(), r);
+													((EcFramework) JSObjectAdapter.$get(frameworks, (String) JSObjectAdapter.$get(e, "ceasn:isPartOf"))).relation.push(r.shortId());
+												}
 											}
 											JSObjectAdapter.$put(f, "ceasn:isTopChildOf", null);
 											JSObjectAdapter.$put(f, "ceasn:isChildOf", null);
