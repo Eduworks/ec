@@ -117,9 +117,9 @@ public class CTDLASNCSVConceptImport {
                                         }
                                         else if (JSObjectAdapter.$get(translator, key) != null){
                                             Object thisKey = JSObjectAdapter.$get(translator, key);
-                                            if (typeof(thisKey) == "string" && ((String)thisKey).indexOf("[") != -1) {
-                                                thisKey = ((String)thisKey).replaceAll("'", "\"");
-                                                JSObjectAdapter.$put(translator, key, JSGlobal.JSON.parse((String)thisKey));
+                                            if (typeof(thisKey) == "string" && ((String)thisKey).indexOf("|") != -1) {
+                                                thisKey = ((String)thisKey).split("|");
+                                                JSObjectAdapter.$put(translator, key, thisKey);
                                             }
                                         }
                                     }
@@ -161,9 +161,9 @@ public class CTDLASNCSVConceptImport {
                                         }
                                         else if (JSObjectAdapter.$get(translator, key) != null){
                                             Object thisKey = JSObjectAdapter.$get(translator, key);
-                                            if (typeof(thisKey) == "string" && ((String)thisKey).indexOf("[") != -1) {
-                                                thisKey = ((String)thisKey).replaceAll("'", "\"");
-                                                JSObjectAdapter.$put(translator, key, JSGlobal.JSON.parse((String)thisKey));
+                                            if (typeof(thisKey) == "string" && ((String)thisKey).indexOf("|") != -1) {
+                                                thisKey = ((String)thisKey).split("|");
+                                                JSObjectAdapter.$put(translator, key, thisKey);
                                             }
                                         }
                                     }
