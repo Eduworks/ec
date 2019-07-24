@@ -5,7 +5,7 @@
 
     <groupId>com.eduworks</groupId>
     <artifactId>ec</artifactId>
-    <version>2.9.9</version>
+    <version>2.9.10</version>
     <packaging>pom</packaging>
 
     <name>Eduworks Controller</name>
@@ -370,6 +370,7 @@
         <module>ebac.repository</module>
         <module>org.w3.skos</module>
         <module>org.schema</module>
+        <module>forge</module>
         <module>org.json-ld</module>
         <module>org.credentialengine</module>
         <module>org.angles.schema.angles</module>
