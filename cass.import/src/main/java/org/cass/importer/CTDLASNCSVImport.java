@@ -285,6 +285,13 @@ public class CTDLASNCSVImport {
 					else if (((String)thisKey).indexOf("|") != -1) {
 						thisKey = ((String)thisKey).split("|");
 						JSObjectAdapter.$put(translator, key, thisKey);
+						//Remove whitespace from piped values
+						for (int i = 0; i < ((Array<String>)thisKey).$length(); i++) {
+							if (((Array<String>)thisKey).$get(i) != ((Array<String>)thisKey).$get(i).trim()) {
+								String thisVal = ((Array<String>)thisKey).$get(i).trim();
+								((Array<String>)thisKey).$set(i, thisVal);
+							}
+						}
 					}
 				}
 				//Strip whitespace from keys
