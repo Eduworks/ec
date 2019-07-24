@@ -5,7 +5,6 @@ import com.eduworks.ec.array.EcAsyncHelper;
 import com.eduworks.ec.crypto.EcPpk;
 import js.Papa;
 import js.PapaParseParams;
-import netscape.javascript.JSObject;
 import org.stjs.javascript.JSON;
 import org.w3.skos.EcConcept;
 import org.w3.skos.EcConceptScheme;
@@ -117,9 +116,9 @@ public class CTDLASNCSVConceptImport {
                                         }
                                         else if (JSObjectAdapter.$get(translator, key) != null){
                                             Object thisKey = JSObjectAdapter.$get(translator, key);
-                                            if (typeof(thisKey) == "string" && ((String)thisKey).indexOf("[") != -1) {
-                                                thisKey = ((String)thisKey).replaceAll("'", "\"");
-                                                JSObjectAdapter.$put(translator, key, JSGlobal.JSON.parse((String)thisKey));
+                                            if (typeof(thisKey) == "string" && ((String)thisKey).indexOf("|") != -1) {
+                                                thisKey = ((String)thisKey).split("|");
+                                                JSObjectAdapter.$put(translator, key, thisKey);
                                             }
                                         }
                                     }
@@ -161,9 +160,9 @@ public class CTDLASNCSVConceptImport {
                                         }
                                         else if (JSObjectAdapter.$get(translator, key) != null){
                                             Object thisKey = JSObjectAdapter.$get(translator, key);
-                                            if (typeof(thisKey) == "string" && ((String)thisKey).indexOf("[") != -1) {
-                                                thisKey = ((String)thisKey).replaceAll("'", "\"");
-                                                JSObjectAdapter.$put(translator, key, JSGlobal.JSON.parse((String)thisKey));
+                                            if (typeof(thisKey) == "string" && ((String)thisKey).indexOf("|") != -1) {
+                                                thisKey = ((String)thisKey).split("|");
+                                                JSObjectAdapter.$put(translator, key, thisKey);
                                             }
                                         }
                                     }
