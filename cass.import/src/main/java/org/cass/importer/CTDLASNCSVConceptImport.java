@@ -5,7 +5,6 @@ import com.eduworks.ec.array.EcAsyncHelper;
 import com.eduworks.ec.crypto.EcPpk;
 import js.Papa;
 import js.PapaParseParams;
-import netscape.javascript.JSObject;
 import org.stjs.javascript.JSON;
 import org.w3.skos.EcConcept;
 import org.w3.skos.EcConceptScheme;
