@@ -111,18 +111,8 @@ public class CTDLASNCSVConceptImport {
                                 if (JSObjectAdapter.$get(pretranslatedE, "@type") == "skos:ConceptScheme") {
                                     EcLinkedData translator = new EcLinkedData(null, null);
                                     translator.copyFrom(pretranslatedE);
-                                    for (String key : JSObjectAdapter.$properties(translator)) {
-                                        if (JSObjectAdapter.$get(translator, key) == "") {
-                                            JSObjectAdapter.$put(translator, key, null);
-                                        }
-                                        else if (JSObjectAdapter.$get(translator, key) != null){
-                                            Object thisKey = JSObjectAdapter.$get(translator, key);
-                                            if (typeof(thisKey) == "string" && ((String)thisKey).indexOf("|") != -1) {
-                                                thisKey = ((String)thisKey).split("|");
-                                                JSObjectAdapter.$put(translator, key, thisKey);
-                                            }
-                                        }
-                                    }
+                                    CTDLASNCSVImport.cleanUpTranslator(translator);
+
                                     if (JSObjectAdapter.$get(translator, "ceasn:name") != null) {
                                         Object name = JSObjectAdapter.$get(translator, "ceasn:name");
                                         Object nameWithLanguage = new Object();
@@ -155,18 +145,8 @@ public class CTDLASNCSVConceptImport {
                                 } else if (JSObjectAdapter.$get(pretranslatedE, "@type") == "skos:Concept") {
                                     EcLinkedData translator = new EcLinkedData(null, null);
                                     translator.copyFrom(pretranslatedE);
-                                    for (String key : JSObjectAdapter.$properties(translator)) {
-                                        if (JSObjectAdapter.$get(translator, key) == "") {
-                                            JSObjectAdapter.$put(translator, key, null);
-                                        }
-                                        else if (JSObjectAdapter.$get(translator, key) != null){
-                                            Object thisKey = JSObjectAdapter.$get(translator, key);
-                                            if (typeof(thisKey) == "string" && ((String)thisKey).indexOf("|") != -1) {
-                                                thisKey = ((String)thisKey).split("|");
-                                                JSObjectAdapter.$put(translator, key, thisKey);
-                                            }
-                                        }
-                                    }
+                                    CTDLASNCSVImport.cleanUpTranslator(translator);
+
                                     if (JSObjectAdapter.$get(translator, "skos:prefLabel") != null) {
                                         Object name = JSObjectAdapter.$get(translator, "skos:prefLabel");
                                         Object nameWithLanguage = new Object();

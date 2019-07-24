@@ -115,18 +115,8 @@ public class CTDLASNCSVImport {
 								if (JSObjectAdapter.$get(pretranslatedE, "@type") == "ceasn:CompetencyFramework") {
 									EcLinkedData translator = new EcLinkedData(null, null);
 									translator.copyFrom(pretranslatedE);
-									for (String key : JSObjectAdapter.$properties(translator)) {
-										if (JSObjectAdapter.$get(translator, key) == "") {
-											JSObjectAdapter.$put(translator, key, null);
-										}
-										else if (JSObjectAdapter.$get(translator, key) != null){
-											Object thisKey = JSObjectAdapter.$get(translator, key);
-											if (typeof(thisKey) == "string" && ((String)thisKey).indexOf("|") != -1) {
-												thisKey = ((String)thisKey).split("|");
-												JSObjectAdapter.$put(translator, key, thisKey);
-											}
-										}
-									}
+									cleanUpTranslator(translator);
+
 									translator.recast("https://schema.cassproject.org/0.4/ceasn2cass", "https://schema.cassproject.org/0.4", new Callback1<EcLinkedData>() {
 										@Override
 										public void $invoke(EcLinkedData e) {
@@ -160,18 +150,7 @@ public class CTDLASNCSVImport {
 								} else if (JSObjectAdapter.$get(pretranslatedE, "@type") == "ceasn:Competency") {
 									EcLinkedData translator = new EcLinkedData(null, null);
 									translator.copyFrom(pretranslatedE);
-									for (String key : JSObjectAdapter.$properties(translator)) {
-										if (JSObjectAdapter.$get(translator, key) == "") {
-											JSObjectAdapter.$put(translator, key, null);
-										}
-										else if (JSObjectAdapter.$get(translator, key) != null){
-											Object thisKey = JSObjectAdapter.$get(translator, key);
-											if (typeof(thisKey) == "string" && ((String)thisKey).indexOf("|") != -1) {
-												thisKey = ((String)thisKey).split("|");
-												JSObjectAdapter.$put(translator, key, thisKey);
-											}
-										}
-									}
+									cleanUpTranslator(translator);
 									translator.recast("https://schema.cassproject.org/0.4/ceasn2cass", "https://schema.cassproject.org/0.4", new Callback1<EcLinkedData>() {
 										@Override
 										public void $invoke(EcLinkedData e) {
@@ -288,6 +267,34 @@ public class CTDLASNCSVImport {
 				error = failure;
 			}
 		});
+	}
+
+	static void cleanUpTranslator(EcLinkedData translator) {
+		for (String key : JSObjectAdapter.$properties(translator)) {
+			if (JSObjectAdapter.$get(translator, key) == "") {
+				JSObjectAdapter.$put(translator, key, null);
+			}
+			else if (JSObjectAdapter.$get(translator, key) != null){
+				Object thisKey = JSObjectAdapter.$get(translator, key);
+				if (typeof(thisKey) == "string") {
+					//If it's only whitespace, remove value
+					if (((String)JSObjectAdapter.$get(translator, key)).trim().length() == 0) {
+						JSObjectAdapter.$put(translator, key, null);
+					}
+					//If multiple values, split string into an array
+					else if (((String)thisKey).indexOf("|") != -1) {
+						thisKey = ((String)thisKey).split("|");
+						JSObjectAdapter.$put(translator, key, thisKey);
+					}
+				}
+				//Strip whitespace from keys
+				if (key != key.trim()) {
+					String trimKey = key.trim();
+					JSObjectAdapter.$put(translator, trimKey, JSObjectAdapter.$get(translator, key));
+					JSObjectAdapter.$put(translator, key, null);
+				}
+			}
+		}
 	}
 
 	static void createRelations(EcLinkedData e, String field, String type, EcRepository repo, EcIdentity ceo, EcIdentity id, Array relations, Object relationById, Object frameworks) {
