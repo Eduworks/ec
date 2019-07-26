@@ -7,7 +7,6 @@ import org.cassproject.ebac.repository.EcRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.stjs.javascript.Date;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.testing.annotation.ScriptsBefore;
