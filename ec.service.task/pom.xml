@@ -3,10 +3,10 @@
    <parent>
     <groupId>com.eduworks</groupId>
     <artifactId>ec</artifactId>
-    <version>2.9.10</version>
+    <version>2.9.11</version>
   </parent>
   <artifactId>ec.service.task</artifactId>
-  <version>2.9.10</version>
+  <version>2.9.11</version>
   <name>ec.service.task</name>
   <url>http://maven.apache.org</url>
   <properties>
@@ -22,7 +22,7 @@
     <dependency>
       <groupId>com.eduworks</groupId>
       <artifactId>ec.base</artifactId>
-      <version>2.9.10</version>
+      <version>2.9.11</version>
     </dependency>
   </dependencies>
 </project>
