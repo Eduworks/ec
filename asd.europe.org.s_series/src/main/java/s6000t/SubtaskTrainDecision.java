@@ -10,7 +10,6 @@ package s6000t;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import s3000l.ConditionInstance;
 import s3000l.ProductName;
-import s3000l.SubtaskTrainDecisionCodeValues;
 
 public class SubtaskTrainDecision extends EcRemoteLinkedData {
 

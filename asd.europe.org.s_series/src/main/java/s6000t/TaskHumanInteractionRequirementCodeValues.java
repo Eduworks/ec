@@ -5,12 +5,12 @@
  *
  **/
 
-package s3000l;
+package s6000t;
 
 
-public enum TaskImportanceCategoryCodeValues {
+public enum TaskHumanInteractionRequirementCodeValues {
 
-    V,
-    M,
-    N;
+    C,
+    T,
+    I;
 }

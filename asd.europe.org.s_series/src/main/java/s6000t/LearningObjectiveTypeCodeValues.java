@@ -5,7 +5,7 @@
  *
  **/
 
-package s3000l;
+package s6000t;
 
 
 public enum LearningObjectiveTypeCodeValues {

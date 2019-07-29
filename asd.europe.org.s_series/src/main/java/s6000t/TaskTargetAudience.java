@@ -10,7 +10,6 @@ package s6000t;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import s3000l.ConditionInstance;
 import s3000l.ProductName;
-import s3000l.TaskTargetAudienceCodeValues;
 
 public class TaskTargetAudience extends EcRemoteLinkedData {
 

@@ -9,7 +9,6 @@ package s6000t;
 
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import s3000l.ConditionInstance;
-import s3000l.LearningObjectiveTypeCodeValues;
 import s3000l.ProductName;
 
 public class LearningObjectiveType extends EcRemoteLinkedData {

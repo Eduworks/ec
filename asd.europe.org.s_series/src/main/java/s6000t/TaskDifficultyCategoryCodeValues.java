@@ -5,11 +5,12 @@
  *
  **/
 
-package s3000l;
+package s6000t;
 
 
-public enum TaskTargetAudienceCodeValues {
+public enum TaskDifficultyCategoryCodeValues {
 
-    PS,
-    OP;
+    V,
+    M,
+    N;
 }

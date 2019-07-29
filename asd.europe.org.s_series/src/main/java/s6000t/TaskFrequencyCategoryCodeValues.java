@@ -5,12 +5,12 @@
  *
  **/
 
-package s3000l;
+package s6000t;
 
 
-public enum TaskTrainingDifficultyCodeValues {
+public enum TaskFrequencyCategoryCodeValues {
 
     V,
     M,
-    N;
+    I;
 }

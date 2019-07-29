@@ -5,12 +5,11 @@
  *
  **/
 
-package s3000l;
+package s6000t;
 
 
-public enum TaskHumanInteractionRequirementCodeValues {
+public enum TaskTargetAudienceCodeValues {
 
-    C,
-    T,
-    I;
+    PS,
+    OP;
 }

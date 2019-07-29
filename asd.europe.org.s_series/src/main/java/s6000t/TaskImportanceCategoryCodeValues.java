@@ -5,11 +5,12 @@
  *
  **/
 
-package s3000l;
+package s6000t;
 
 
-public enum SubtaskTrainDecisionCodeValues {
+public enum TaskImportanceCategoryCodeValues {
 
-    T,
+    V,
+    M,
     N;
 }
