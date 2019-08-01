@@ -5,11 +5,11 @@
   <parent>
     <groupId>com.eduworks</groupId>
     <artifactId>ec</artifactId>
-    <version>2.9.11</version>
+    <version>SNAPSHOT</version>
   </parent>
   <groupId>com.eduworks</groupId>
   <artifactId>forge</artifactId>
-  <version>2.9.11</version>
+  <version>SNAPSHOT</version>
   <name>forge</name>
   <url>http://maven.apache.org</url>
   <properties>
