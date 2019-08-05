@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: latest unstable
+              Version: 2.9.12
             </div>
             
         </div>
@@ -894,7 +894,9 @@ public class Relation extends CreativeWork {
 	private static final String TYPE_0_2 = &quot;http://schema.eduworks.com/cass/0.2/relation&quot;;
 	private static final String TYPE_0_3 = &quot;http://schema.cassproject.org/0.2/Relation&quot;;
 	private static final String TYPE_0_4 = &quot;http://schema.cassproject.org/0.3/Relation&quot;;
-	public static final String myType = TYPE_0_4;
+	private static final String TYPE_0_5 = &quot;https://schema.cassproject.org/0.3/Relation&quot;;
+	private static final String TYPE_0_6 = &quot;https://schema.cassproject.org/0.4/Relation&quot;;
+	public static final String myType = TYPE_0_6;
 	/**
 	 * URL of the object at the beginning of the relation.
 	 * A &lt;relation&gt; B, this is A.
@@ -956,11 +958,19 @@ public class Relation extends CreativeWork {
 		if (TYPE_0_3==getFullType()) {
 			setContextAndType(Cass.context_0_4, TYPE_0_4);
 		}
+		if (TYPE_0_4.equals(getFullType())) {
+			setContextAndType(Cass.context_0_5, TYPE_0_5);
+		}
+		if (TYPE_0_5.equals(getFullType())) {
+			setContextAndType(Cass.context_0_6, TYPE_0_6);
+		}
 	}
 
 	@Override
 	public Array&lt;String&gt; getTypes() {
 		Array&lt;String&gt; a = new Array&lt;String&gt;();
+		a.push(TYPE_0_6);
+		a.push(TYPE_0_5);
 		a.push(TYPE_0_4);
 		a.push(TYPE_0_3);
 		a.push(TYPE_0_2);

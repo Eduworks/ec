@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: latest unstable
+              Version: 2.9.12
             </div>
             
         </div>
@@ -822,6 +822,7 @@ package org.cass.adapter;
 import com.eduworks.ec.remote.EcRemote;
 import com.eduworks.ec.remote.FormData;
 import org.cassproject.ebac.identity.EcIdentityManager;
+import org.cassproject.ebac.repository.EcRepository;
 import org.json.ld.EcLinkedData;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.functions.Callback1;
@@ -861,7 +862,8 @@ public class MoodleConfig extends EcLinkedData {
 	 */
 	public static void get(final String serverUrl, final Callback1&lt;Object&gt; success, final Callback1&lt;String&gt; failure) {
 		final FormData fd = new FormData();
-		EcIdentityManager.signatureSheetAsync(60000, serverUrl, new Callback1&lt;String&gt;() {
+		long offset = EcRepository.setOffset(serverUrl);
+		EcIdentityManager.signatureSheetAsync(60000 + offset, serverUrl, new Callback1&lt;String&gt;() {
 			@Override
 			public void $invoke(String signatureSheet) {
 				fd.append(&quot;signatureSheet&quot;, signatureSheet);
@@ -885,7 +887,8 @@ public class MoodleConfig extends EcLinkedData {
 	 */
 	public static void getMoodleKey(final String serverUrl, final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure) {
 		final FormData fd = new FormData();
-		EcIdentityManager.signatureSheetAsync(60000, serverUrl, new Callback1&lt;String&gt;() {
+		long offset = EcRepository.setOffset(serverUrl);
+		EcIdentityManager.signatureSheetAsync(60000 + offset, serverUrl, new Callback1&lt;String&gt;() {
 			@Override
 			public void $invoke(String signatureSheet) {
 				fd.append(&quot;signatureSheet&quot;, signatureSheet);
@@ -917,7 +920,8 @@ public class MoodleConfig extends EcLinkedData {
 	public void save(final String serverUrl, final Callback1&lt;Object&gt; success, final Callback1&lt;String&gt; failure) {
 		final FormData fd = new FormData();
 		fd.append(&quot;config&quot;, Global.JSON.stringify(this));
-		EcIdentityManager.signatureSheetAsync(60000, serverUrl, new Callback1&lt;String&gt;() {
+		long offset = EcRepository.setOffset(serverUrl);
+		EcIdentityManager.signatureSheetAsync(60000 + offset, serverUrl, new Callback1&lt;String&gt;() {
 			@Override
 			public void $invoke(String signatureSheet) {
 				fd.append(&quot;signatureSheet&quot;, signatureSheet);

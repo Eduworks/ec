@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: latest unstable
+              Version: 2.9.12
             </div>
             
         </div>
@@ -835,7 +835,9 @@ public class RollupRule extends CreativeWork {
 	private static final String TYPE_0_2 = &quot;http://schema.eduworks.com/cass/0.2/rollupRule&quot;;
 	private static final String TYPE_0_3 = &quot;http://schema.cassproject.org/0.2/RollupRule&quot;;
 	private static final String TYPE_0_4 = &quot;http://schema.cassproject.org/0.3/RollupRule&quot;;
-	public static final String myType = TYPE_0_4;
+	private static final String TYPE_0_5 = &quot;https://schema.cassproject.org/0.3/RollupRule&quot;;
+	private static final String TYPE_0_6 = &quot;https://schema.cassproject.org/0.4/RollupRule&quot;;
+	public static final String myType = TYPE_0_6;
 	/**
 	 * The rollup rule encoded as source code that is understandable to the assertion processor.
 	 *
@@ -863,11 +865,19 @@ public class RollupRule extends CreativeWork {
 		if (TYPE_0_3.equals(getFullType())) {
 			setContextAndType(Cass.context_0_4, TYPE_0_4);
 		}
+		if (TYPE_0_4.equals(getFullType())) {
+			setContextAndType(Cass.context_0_5, TYPE_0_5);
+		}
+		if (TYPE_0_5.equals(getFullType())) {
+			setContextAndType(Cass.context_0_6, TYPE_0_6);
+		}
 	}
 
 	@Override
 	public Array&lt;String&gt; getTypes() {
 		Array&lt;String&gt; a = new Array&lt;String&gt;();
+		a.push(TYPE_0_6);
+		a.push(TYPE_0_5);
 		a.push(TYPE_0_4);
 		a.push(TYPE_0_3);
 		a.push(TYPE_0_2);

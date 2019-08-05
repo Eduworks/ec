@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: latest unstable
+              Version: 2.9.12
             </div>
             
         </div>
@@ -923,7 +923,12 @@ public class SkyRepo {
 				if (signature == null)
 					levr.error(&quot;Missing Signature.&quot;, 496);
 
-				if (getTypeFromObject(sigSheet.$get(i)) != &quot;http://schema.cassproject.org/kbac/0.2/TimeLimitedSignature&quot;)
+				Array&lt;String&gt; validTypes = signature.getTypes();
+				boolean foundType = false;
+				for (int j = 0;j &lt; validTypes.$length();j++)
+					if (getTypeFromObject(sigSheet.$get(i)) == validTypes.$get(j))
+						foundType = true;
+				if (!foundType)
 					levr.error(&quot;Invalid Signature Version.&quot;, 422);
 
 				if (signature.expiry == null)

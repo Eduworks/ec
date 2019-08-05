@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: latest unstable
+              Version: 2.9.12
             </div>
             
         </div>
@@ -955,7 +955,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
     }
 
     public String getDottedType() {
-        return getFullType().replace(&quot;http://&quot;, &quot;&quot;).replaceAll(&quot;/&quot;, &quot;.&quot;);
+        return getFullType().replace(&quot;http://&quot;, &quot;&quot;).replace(&quot;https://&quot;, &quot;&quot;).replaceAll(&quot;/&quot;, &quot;.&quot;);
     }
 
     /**

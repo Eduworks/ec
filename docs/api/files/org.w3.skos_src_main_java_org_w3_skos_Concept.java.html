@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: latest unstable
+              Version: 2.9.12
             </div>
             
         </div>
@@ -820,6 +820,7 @@
 package org.w3.skos;
 
 import org.cassproject.schema.general.EcRemoteLinkedData;
+import org.stjs.javascript.Array;
 
 /**
  * www.w3.org/2004/02/skos/core/Concept
@@ -830,14 +831,17 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
  */
 public class Concept extends EcRemoteLinkedData
 {
-	public static final String myType = &quot;http://schema.cassproject.org/0.3/skos/Concept&quot;;
+	private static final String TYPE_0_1 = &quot;http://schema.cassproject.org/0.3/skos/Concept&quot;;
+	private static final String TYPE_0_2 = &quot;https://schema.cassproject.org/0.3/skos/Concept&quot;;
+	private static final String TYPE_0_3 = &quot;https://schema.cassproject.org/0.4/skos/Concept&quot;;
+	public static final String myType = TYPE_0_3;
 	/**
 	 * Constructor, automatically sets @context and @type.
 	 * @constructor
 	 */
 	public Concept()
 	{
-		super(&quot;http://schema.cassproject.org/0.3/skos/&quot;,&quot;Concept&quot;);
+		super(&quot;https://schema.cassproject.org/0.4/skos/&quot;,&quot;Concept&quot;);
 	}
 
 	/**
@@ -855,6 +859,26 @@ public class Concept extends EcRemoteLinkedData
 	 * @type Concept
 	 */
 	public Concept semanticRelation;
+
+	@Override
+	protected void upgrade() {
+		super.upgrade();
+		if (TYPE_0_1.equals(getFullType())) {
+			setContextAndType(&quot;https://schema.cassproject.org/0.3/skos&quot;, TYPE_0_2);
+		}
+		if (TYPE_0_2.equals(getFullType())) {
+			setContextAndType(&quot;https://schema.cassproject.org/0.4/skos&quot;, TYPE_0_3);
+		}
+	}
+
+	@Override
+	public Array&lt;String&gt; getTypes() {
+		Array&lt;String&gt; a = new Array&lt;String&gt;();
+		a.push(TYPE_0_3);
+		a.push(TYPE_0_2);
+		a.push(TYPE_0_1);
+		return a;
+	}
 
 }
 </pre>

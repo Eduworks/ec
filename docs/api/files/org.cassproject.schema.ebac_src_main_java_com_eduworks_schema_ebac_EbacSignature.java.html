@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: latest unstable
+              Version: 2.9.12
             </div>
             
         </div>
@@ -822,8 +822,6 @@ package com.eduworks.schema.ebac;
 import org.cassproject.schema.general.Ebac;
 import org.json.ld.EcLinkedData;
 import org.stjs.javascript.Array;
-import org.stjs.javascript.JSObjectAdapter;
-import org.stjs.javascript.Map;
 
 /**
  * Signature used to authorize movement of data on behalf of a private-key
@@ -837,6 +835,7 @@ public class EbacSignature extends EcLinkedData {
 	private static final String TYPE_0_1 = &quot;http://schema.eduworks.com/ebac/0.1/timeLimitedSignature&quot;;
 	private static final String TYPE_0_2 = &quot;http://schema.eduworks.com/ebac/0.2/timeLimitedSignature&quot;;
 	private static final String TYPE_0_3 = &quot;http://schema.cassproject.org/kbac/0.2/TimeLimitedSignature&quot;;
+	private static final String TYPE_0_4 = &quot;https://schema.cassproject.org/kbac/0.4/TimeLimitedSignature&quot;;
 	/**
 	 * The public key of the authorizing party in PEM format.
 	 *
@@ -871,28 +870,19 @@ public class EbacSignature extends EcLinkedData {
 	public String server;
 
 	public EbacSignature() {
-		super(Ebac.context, TYPE_0_3);
+		super(Ebac.context, TYPE_0_4);
 	}
 
 	@Override
 	protected void upgrade() {
 		super.upgrade();
-		if (TYPE_0_1.equals(type)) {
-			Map&lt;String, Object&gt; me = JSObjectAdapter.$properties(this);
-			// Error in older versions of LD objects: We used @schema instead of
-			// @context. Whoops.
-			if (me.$get(&quot;@context&quot;) == null &amp;&amp; me.$get(&quot;@schema&quot;) != null)
-				me.$put(&quot;@context&quot;, me.$get(&quot;@schema&quot;));
-			setContextAndType(Ebac.context_0_2, TYPE_0_2);
-		}
-		if (TYPE_0_2.equals(getFullType())) {
-			setContextAndType(Ebac.context_0_3, TYPE_0_3);
-		}
+		//DO NOT CHANGE ANYTHING WHEN AN UPGRADE OCCURS, this invalidates the signature.
 	}
 
 	@Override
 	public Array&lt;String&gt; getTypes() {
 		Array&lt;String&gt; a = new Array&lt;String&gt;();
+		a.push(TYPE_0_4);
 		a.push(TYPE_0_3);
 		a.push(TYPE_0_2);
 		a.push(TYPE_0_1);
