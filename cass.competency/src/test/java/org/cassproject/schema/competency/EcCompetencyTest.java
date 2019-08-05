@@ -24,7 +24,7 @@ import org.stjs.testing.driver.STJSTestDriverRunner;
 @ScriptsBefore({"pem-jwk.js", "require.js","/forge/forge.bundle.js"})
 public class EcCompetencyTest {
 
-	static String server = "http://localhost:8080/api/";
+	static String server = "http://localhost/api/";
 	static EcPpk ppk;
 	static EcIdentity newId1 = new EcIdentity();
 	static EcRepository repo = new EcRepository();

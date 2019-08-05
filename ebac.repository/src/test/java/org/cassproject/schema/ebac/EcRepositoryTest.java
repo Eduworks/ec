@@ -25,7 +25,7 @@ import static org.stjs.javascript.Global.console;
 @RunWith(STJSTestDriverRunner.class)
 @ScriptsBefore({"/forge/forge.bundle.js"})
 public class EcRepositoryTest {
-	public static String server = "http://localhost:8080/api/";
+	public static String server = "http://localhost/api/";
 
 	@Before
 	public void begin() {

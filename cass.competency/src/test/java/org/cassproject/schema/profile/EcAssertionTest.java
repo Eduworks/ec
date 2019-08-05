@@ -23,7 +23,7 @@ import org.stjs.testing.driver.STJSTestDriverRunner;
 @RunWith(STJSTestDriverRunner.class)
 @ScriptsBefore({"/forge/forge.bundle.js"})
 public class EcAssertionTest {
-	static String server = "http://localhost:8080/api/";
+	static String server = "http://localhost/api/";
 	static EcPpk ppk1;
 	static EcPpk ppk2;
 	static EcPpk ppk3;
