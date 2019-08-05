@@ -21,7 +21,7 @@ import static org.stjs.javascript.Global.console;
 @RunWith(STJSTestDriverRunner.class)
 @ScriptsBefore({"pem-jwk.js", "require.js","/forge/forge.bundle.js"})
 public class EcVersioningTest {
-	static String server = "http://localhost:8080/api/";
+	static String server = "http://localhost/api/";
 
 	@Before
 	public void begin() {

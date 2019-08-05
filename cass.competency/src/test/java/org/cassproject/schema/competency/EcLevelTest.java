@@ -23,7 +23,7 @@ import org.stjs.testing.driver.STJSTestDriverRunner;
 @ScriptsBefore({"/forge/forge.bundle.js"})
 public class EcLevelTest {
 
-	static String server = "http://localhost:8080/api/";
+	static String server = "http://localhost/api/";
 	static EcPpk ppk;
 	static EcIdentity newId1 = new EcIdentity();
 	static EcRepository repo = new EcRepository();
