@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>com.eduworks</groupId>
 		<artifactId>ec</artifactId>
-		<version>SNAPSHOT</version>
+		<version>2.9.12</version>
 	</parent>
 	<groupId>com.eduworks</groupId>
 	<artifactId>asd.europe.org.s_series</artifactId>
-	<version>SNAPSHOT</version>
+	<version>2.9.12</version>
 	<name>asd.europe.org.s_series</name>
 	<url>http://maven.apache.org</url>
 	<properties>
