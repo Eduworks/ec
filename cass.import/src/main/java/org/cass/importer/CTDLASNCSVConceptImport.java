@@ -219,11 +219,11 @@ public class CTDLASNCSVConceptImport {
                                                     JSObjectAdapter.$put(f, "skos:narrowMatch", array);
                                                 }
                                             }
-                                            if (JSObjectAdapter.$get(e, "skos:relatedMatch") != null) {
-                                                Object relation = JSObjectAdapter.$get(e, "skos:relatedMatch");
+                                            if (JSObjectAdapter.$get(e, "skos:related") != null) {
+                                                Object relation = JSObjectAdapter.$get(e, "skos:related");
                                                 if (!EcArray.isArray(relation)) {
                                                     Array<String> array = JSCollections.$array((String)relation);
-                                                    JSObjectAdapter.$put(f, "skos:relatedMatch", array);
+                                                    JSObjectAdapter.$put(f, "skos:related", array);
                                                 }
                                             }
                                             JSObjectAdapter.$put(f, "schema:dateModified", new Date().toISOString());
