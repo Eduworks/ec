@@ -828,6 +828,8 @@ public class SkyRepo {
             Integer size = 50;
             if (params.size != null)
                 size = Global.parseInt(params.size);
+            if (params.refresh != null)
+                ctx.put("refresh",params.refresh);
             String sort = params.sort;
             String track_scores = params.track_scores;
             Object searchParams = JSFunctionAdapter.call(levr.fileFromDatastream, this, "searchParams", null);
