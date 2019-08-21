@@ -939,38 +939,50 @@ public class SkyRepo {
         }
     };
 
+    public static Function0<Object> endpointMultiPutEach = new Function0<Object>(){
+        @Override
+        public Object $invoke() {
+            EcRemoteLinkedData ld = new EcRemoteLinkedData(null, null);
+            Object o = JSGlobal.JSON.parse((String)params.obj);
+            ld.copyFrom(o);
+
+            String id = null;
+            if (!EcRepository.alwaysTryUrl && levr.repo != null && !levr.repo.shouldTryUrl(ld.id))
+                id = levr.stringToHex(levr.md5(ld.shortId()));
+            else
+                id = ld.getGuid();
+            Integer version = ld.getTimestamp();
+            String type = ld.getDottedType();
+            try {
+                ctx.put("refresh","false");
+                JSFunctionAdapter.call(skyrepoPutParsed, this, o, id, version, type);
+                return o;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return null;
+        }
+    };
+
     public static Function0 endpointMultiPut = new Function0() {
         @Override
         public Object $invoke() {
             Array ary = (Array) Global.JSON.parse(levr.fileToString(JSFunctionAdapter.call(levr.fileFromDatastream, this, "data", null)));
-            Array<Object> response = new Array<Object>();
-            for (int i = 0; i < ary.$length(); i++) {
-                Object o = ary.$get(i);
-                EcRemoteLinkedData ld = new EcRemoteLinkedData(null, null);
-                ld.copyFrom(o);
-
-                String id = null;
-                if (!EcRepository.alwaysTryUrl && levr.repo != null && !levr.repo.shouldTryUrl(ld.id))
-                    id = EcCrypto.md5(ld.shortId());
-                else
-                    id = ld.getGuid();
-                Integer version = ld.getTimestamp();
-                String type = ld.getDottedType();
-                try {
-                    if (i == ary.$length()-1)
-                        ctx.put("refresh","true");
-                    else
-                        ctx.put("refresh","false");
-                    JSFunctionAdapter.call(skyrepoPutParsed, this, o, id, version, type);
-                    Object params = new Object();
-                    JSObjectAdapter.$put(params, "obj", Global.JSON.stringify(o));
-                    JSFunctionAdapter.call(levr.afterSave, null, params);
-                    response.push(o);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+            Array<Object> results = new Array<Object>();
+            if (ary != null) {
+                Array forEachResults = JSFunctionAdapter.call((Array) levr.forEach, this, ary, "obj", null, LevrResolverServlet.resolvableFunctions.get("endpointMultiPutEach"), true, true, false, true, false);
+                for (int i = 0; i < forEachResults.$length(); i++)
+                    if (forEachResults.$get(i) != null)
+                        results.push(forEachResults.$get(i));
             }
-            return JSGlobal.JSON.stringify(response);
+            levr.httpGet(elasticEndpoint + "/_all/_refresh");
+            for (int i = 0;i < results.$length();i++) {
+                Object o = results.$get(i);
+                Object params = new Object();
+                JSObjectAdapter.$put(params, "obj", Global.JSON.stringify(o));
+                JSFunctionAdapter.call(levr.afterSave, null, params);
+            }
+            return JSGlobal.JSON.stringify(results);
         }
     };
 

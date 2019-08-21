@@ -20,7 +20,16 @@ public class levr {
 		return null;
 	}
 
+	public static String stringToHex(String string) {
+		return null;
+	}
+
+	public static String md5(String message){return null;}
+
 	public static void error(String message, Integer httpCode) {
+	}
+
+	public static void debug(String message) {
 	}
 
 	public static Integer date(String input, String dateFormat, Boolean raw) {
