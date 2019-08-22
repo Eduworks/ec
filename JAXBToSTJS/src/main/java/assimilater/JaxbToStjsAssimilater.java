@@ -13,6 +13,7 @@ import java.util.List;
  * 3) Modify the SOURCE_FOLDER, DEST_FOLDER, SOURCE_PACKAGE, DEST_PACKAGE, and EC_REMOTE_LD_CONSTR_SCHEMA constants in
  *      this class to the appropriate values (Don't forget trailing file separators!!!)
  * 4) Run the main method of this class
+ * 5) Do any needed refactoring (moving S6000t classes to the appropriate package...didn't have time to make this automatic)
  *
  * Known issues:
  *  -Enumeration nested in class file may cause issues (None of these exist in tested XSDs)
@@ -26,13 +27,13 @@ public class JaxbToStjsAssimilater {
     private static final String SOURCE_FOLDER = "C:\\TomsWorkFast\\intellijWorkspace\\JAXBToSTJS\\src\\sourceFiles\\";
     //private static final String DEST_FOLDER = "C:\\TomsWorkFast\\intellijWorkspace\\ec\\asd.europe.org.s_series\\src\\main\\java\\s6000t\\taskTrainAnalysis\\";
     //private static final String DEST_FOLDER = "C:\\TomsWorkFast\\intellijWorkspace\\ec\\cass.rollup\\src\\main\\java\\cass\\rollup\\s6000t\\taskTrainAnalysis\\";
-    private static final String DEST_FOLDER = "C:\\TomsWorkFast\\intellijWorkspace\\ec\\asd.europe.org.s_series\\src\\main\\java\\s6000t\\taskTrainAnalysis\\";
+    private static final String DEST_FOLDER = "C:\\TomsWorkFast\\intellijWorkspace\\ec\\asd.europe.org.s_series\\src\\main\\java\\s3000l\\";
 
     private static final String SOURCE_PACKAGE = "sourceFiles";
-    private static final String DEST_PACKAGE = "s6000t.taskTrainAnalysis";
+    private static final String DEST_PACKAGE = "s3000l";
     //private static final String DEST_PACKAGE = "cass.rollup.s6000t.taskTrainAnalysis";
 
-    private static final String EC_REMOTE_LD_CONSTR_SCHEMA = "http://asd-europe.org/";
+    private static final String EC_REMOTE_LD_CONSTR_SCHEMA = "http://www.asd-europe.org/s-series/s3000l";
 
     private static final boolean LOG_ENABLED = true;
 

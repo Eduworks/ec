@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema version="001-00" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns="http://www.asd-europe.org/spec/validValues"
+    xmlns:prim="http://www.asd-europe.org/dmewg/primitives"
     targetNamespace="http://www.asd-europe.org/spec/validValues">
     
     <xsd:annotation>
