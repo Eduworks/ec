@@ -30,14 +30,14 @@ public class EcRsaOaepAsync {
 	 * @method encrypt
 	 * @static
 	 */
-	public static void encrypt(final EcPk pk, final String text, final Callback1<String> success, final Callback1<String> failure) {
+	public static void encrypt(final EcPk pk, final String plainText, final Callback1<String> success, final Callback1<String> failure) {
 		if (EcRemote.async == false) {
-			success.$invoke(EcRsaOaep.encrypt(pk, text));
+			success.$invoke(EcRsaOaep.encrypt(pk, plainText));
 			return;
 		}
 
 		if (EcBrowserDetection.isIeOrEdge() || Global.window == null || window.crypto == null || crypto.subtle == null) {
-			EcRsaOaepAsyncWorker.encrypt(pk, text, success, failure);
+			EcRsaOaepAsyncWorker.encrypt(pk, plainText, success, failure);
 			return;
 		}
 		Array<String> keyUsages = new Array<>();
@@ -51,7 +51,7 @@ public class EcRsaOaepAsync {
 				@Override
 				public void $invoke(CryptoKey key) {
 					pk.key = key;
-					crypto.subtle.encrypt(algorithm, key, BlobHelper.str2ab(forge.util.encodeUtf8(text))).then(new Callback1<ArrayBuffer>() {
+					crypto.subtle.encrypt(algorithm, key, BlobHelper.str2ab(forge.util.encodeUtf8(plainText))).then(new Callback1<ArrayBuffer>() {
 						@Override
 						public void $invoke(ArrayBuffer p1) {
 							success.$invoke(base64.encode(p1));
@@ -60,7 +60,7 @@ public class EcRsaOaepAsync {
 				}
 			}, failure);
 		else
-			crypto.subtle.encrypt(algorithm, pk.key, BlobHelper.str2ab(forge.util.encodeUtf8(text))).then(new Callback1<ArrayBuffer>() {
+			crypto.subtle.encrypt(algorithm, pk.key, BlobHelper.str2ab(forge.util.encodeUtf8(plainText))).then(new Callback1<ArrayBuffer>() {
 				@Override
 				public void $invoke(ArrayBuffer p1) {
 					success.$invoke(base64.encode(p1));
@@ -81,22 +81,22 @@ public class EcRsaOaepAsync {
 	 * @method decrypt
 	 * @static
 	 */
-	public static void decrypt(final EcPpk ppk, final String text, final Callback1<String> success, final Callback1<String> failure) {
+	public static void decrypt(final EcPpk ppk, final String cipherText, final Callback1<String> success, final Callback1<String> failure) {
 
 		if (EcCrypto.caching) {
 			Object cacheGet = null;
-			cacheGet = JSObjectAdapter.$get(EcCrypto.decryptionCache, ppk.toPem() + text);
+			cacheGet = JSObjectAdapter.$get(EcCrypto.decryptionCache, ppk.toPem() + cipherText);
 			if (cacheGet != null) {
 				success.$invoke((String) cacheGet);
 				return;
 			}
 		}
 		if (EcRemote.async == false) {
-			success.$invoke(EcRsaOaep.decrypt(ppk, text));
+			success.$invoke(EcRsaOaep.decrypt(ppk, cipherText));
 			return;
 		}
 		if (EcBrowserDetection.isIeOrEdge() || Global.window == null || window.crypto == null || crypto.subtle == null) {
-			EcRsaOaepAsyncWorker.decrypt(ppk, text, success, failure);
+			EcRsaOaepAsyncWorker.decrypt(ppk, cipherText, success, failure);
 			return;
 		}
 		Array<String> keyUsages = new Array<>();
@@ -110,19 +110,27 @@ public class EcRsaOaepAsync {
 				@Override
 				public void $invoke(CryptoKey key) {
 					ppk.key = key;
-					crypto.subtle.decrypt(algorithm, key, base64.decode(text)).then(new Callback1<ArrayBuffer>() {
+					crypto.subtle.decrypt(algorithm, key, base64.decode(cipherText)).then(new Callback1<ArrayBuffer>() {
 						@Override
 						public void $invoke(ArrayBuffer p1) {
-							success.$invoke(forge.util.decodeUtf8(BlobHelper.ab2str(p1)));
+							String result = forge.util.decodeUtf8(BlobHelper.ab2str(p1));
+							if (EcCrypto.caching) {
+								JSObjectAdapter.$put(EcCrypto.decryptionCache, ppk.toPem() + cipherText, result);
+							}
+							success.$invoke(result);
 						}
 					}, failure);
 				}
 			}, failure);
 		else
-			crypto.subtle.decrypt(algorithm, ppk.key, base64.decode(text)).then(new Callback1<ArrayBuffer>() {
+			crypto.subtle.decrypt(algorithm, ppk.key, base64.decode(cipherText)).then(new Callback1<ArrayBuffer>() {
 				@Override
 				public void $invoke(ArrayBuffer p1) {
-					success.$invoke(forge.util.decodeUtf8(BlobHelper.ab2str(p1)));
+					String result = forge.util.decodeUtf8(BlobHelper.ab2str(p1));
+					if (EcCrypto.caching) {
+						JSObjectAdapter.$put(EcCrypto.decryptionCache, ppk.toPem() + cipherText, result);
+					}
+					success.$invoke(result);
 				}
 			}, failure);
 	}
