@@ -1,6 +1,9 @@
 package org.cass.exporter;
 
+import com.eduworks.ec.array.EcArray;
 import js.Papa;
+import netscape.javascript.JSObject;
+import org.cass.competency.EcCompetency;
 import org.cass.competency.EcFramework;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
@@ -27,10 +30,25 @@ public class CSVExport extends Exporter {
 	static Array<EcRemoteLinkedData> frameworkCompetencies;
 	static Array<EcRemoteLinkedData> frameworkRelations;
 
-	public static void exportObjects(Array<EcRemoteLinkedData> objects, String fileName) {
+	public static void exportObjects(Array<EcRemoteLinkedData> objects, String fileName, Boolean piped) {
 		CSVExportProcess compExport = new CSVExport().new CSVExportProcess();
-		compExport.buildExport(objects);
+		compExport.buildExport(objects, piped);
 		compExport.downloadCSV(fileName);
+	}
+
+	public static void exportCTDLASN(Object json, String name) {
+		Array<Object> graph = (Array<Object>)JSObjectAdapter.$get(json, "@graph");
+		Array<EcRemoteLinkedData> objects = JSCollections.$array();
+		for (int i = 0; i < graph.$length(); i++) {
+			EcRemoteLinkedData rld = new EcRemoteLinkedData("https://credreg.net/ctdlasn/schema/context/json", (String)JSObjectAdapter.$get(graph.$get(i), "@type"));
+			rld.copyFrom(graph.$get(i));
+			if (i != 0) {
+				objects.push(rld);
+			}
+		}
+
+		exportObjects(objects, name + ".csv", true);
+
 	}
 
 	/**
@@ -74,7 +92,7 @@ public class CSVExport extends Exporter {
 
 								if (frameworkCompetencies.$length() == fw.competency.$length()) {
 									CSVExportProcess compExport = new CSVExport().new CSVExportProcess();
-									compExport.buildExport(frameworkCompetencies);
+									compExport.buildExport(frameworkCompetencies, false);
 									compExport.downloadCSV(fw.getName() + " - Competencies.csv");
 								} else {
 									// incremental if we want
@@ -86,7 +104,7 @@ public class CSVExport extends Exporter {
 
 								if (frameworkCompetencies.$length() == fw.competency.$length()) {
 									CSVExportProcess compExport = new CSVExport().new CSVExportProcess();
-									compExport.buildExport(frameworkCompetencies);
+									compExport.buildExport(frameworkCompetencies, false);
 									compExport.downloadCSV(fw.getName() + " - Competencies.csv");
 								} else {
 									// incremental if we want
@@ -103,7 +121,7 @@ public class CSVExport extends Exporter {
 								frameworkRelations.push(relation);
 								if (frameworkRelations.$length() == fw.relation.$length()) {
 									CSVExportProcess compExport = new CSVExport().new CSVExportProcess();
-									compExport.buildExport(frameworkRelations);
+									compExport.buildExport(frameworkRelations, false);
 									compExport.downloadCSV(fw.getName() + " - Relations.csv");
 									if (success != null && success != JSGlobal.undefined)
 										success.$invoke();
@@ -118,7 +136,7 @@ public class CSVExport extends Exporter {
 								frameworkRelations.push(null);
 								if (frameworkRelations.$length() == fw.relation.$length()) {
 									CSVExportProcess compExport = new CSVExport().new CSVExportProcess();
-									compExport.buildExport(frameworkRelations);
+									compExport.buildExport(frameworkRelations, false);
 									compExport.downloadCSV(fw.getName() + " - Relations.csv");
 									if (success != null && success != JSGlobal.undefined)
 										success.$invoke();
@@ -140,7 +158,7 @@ public class CSVExport extends Exporter {
 			csvOutput = JSCollections.$array();
 		}
 
-		public void flattenObject(EcRemoteLinkedData flattenedObject, Object object, String prefix) {
+		public void flattenObject(EcRemoteLinkedData flattenedObject, Object object, String prefix, Boolean piped) {
 
 			EcRemoteLinkedData data = new EcRemoteLinkedData((String) JSObjectAdapter.$get(object, "@context"), (String) JSObjectAdapter.$get(object, "@type"));
 			data.copyFrom(object);
@@ -149,12 +167,20 @@ public class CSVExport extends Exporter {
 			Map<String, Object> props = JSObjectAdapter.$properties(tempObj);
 			for (String prop : props) {
 				String id;
-				if (prefix != null && prefix != JSGlobal.undefined)
+				if (prefix != null && prefix != JSGlobal.undefined && !piped)
 					id = prefix + "." + prop;
 				else
 					id = prop;
-				if (props.$get(prop) != null && props.$get(prop) != "" && props.$get(prop) instanceof Object) {
-					flattenObject(flattenedObject, props.$get(prop), id);
+				if (props.$get(prop) != null && props.$get(prop) != "" && props.$get(prop) instanceof Object && !piped) {
+					flattenObject(flattenedObject, props.$get(prop), id, false);
+				} else if (props.$get(prop) != null && props.$get(prop) != "" && (props.$get(prop) instanceof Object || EcArray.isArray(props.$get(prop)))) {
+					String display = "";
+					Map<String, Object> props2 = JSObjectAdapter.$properties(props.$get(prop));
+					for (String prop2 : props2) {
+						display += props2.$get(prop2) + "|";
+					}
+					display = display.substring(0, display.length()-1);
+					JSObjectAdapter.$put(flattenedObject, id, display);
 				} else {
 					String display = Thing.getDisplayStringFrom(props.$get(prop));
 					JSObjectAdapter.$put(flattenedObject, id, display);
@@ -162,10 +188,10 @@ public class CSVExport extends Exporter {
 			}
 		}
 
-		public void addCSVRow(EcRemoteLinkedData object) {
+		public void addCSVRow(EcRemoteLinkedData object, Boolean piped) {
 			EcRemoteLinkedData flattenedObject = new EcRemoteLinkedData(object.context, object.type);
 
-			flattenObject(flattenedObject, object, null);
+			flattenObject(flattenedObject, object, null, piped);
 			csvOutput.push(Global.JSON.parse(flattenedObject.toJson()));
 
 			Map<String, Object> props = JSObjectAdapter.$properties(Global.JSON.parse(flattenedObject.toJson()));
@@ -181,13 +207,13 @@ public class CSVExport extends Exporter {
 			}
 		}
 
-		public void buildExport(Array<EcRemoteLinkedData> objects) {
+		public void buildExport(Array<EcRemoteLinkedData> objects, Boolean piped) {
 			for (int i = 0; i < objects.$length(); i++)
 				if (objects.$get(i) != null) {
 
 					EcRemoteLinkedData object = objects.$get(i);
 
-					addCSVRow(object);
+					addCSVRow(object, piped);
 				}
 		}
 
