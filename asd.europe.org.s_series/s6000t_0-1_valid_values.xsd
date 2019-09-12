@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema version="001-00" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+<xsd:schema version="000-06" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns="http://www.asd-europe.org/spec/validValues"
     targetNamespace="http://www.asd-europe.org/spec/validValues"> 
     
     <xsd:annotation>
         <xsd:documentation>Issue number: 1.1</xsd:documentation>
         <xsd:documentation>Issue date: 2014-07-01</xsd:documentation>
-        <xsd:documentation>XML schema release number: 001</xsd:documentation>
+        <xsd:documentation>XML schema release number: 000-06</xsd:documentation>
         <xsd:documentation>XML schema release date: 2016-02-10</xsd:documentation>
         <xsd:documentation>URL: http://www.s3000l.org</xsd:documentation>
         <xsd:documentation>Root element: lsaDataset</xsd:documentation>
@@ -35,13 +35,12 @@
     <xsd:include schemaLocation="s6000t_0-1_valid_values_applic.xsd"/> 
     
     <!-- ================================= S6000T Additions ===================================== -->
-        
     
     <xsd:simpleType name="affectiveLevelOfLearningCodeValues">
         <xsd:restriction base="xsd:string">
         </xsd:restriction>
-    </xsd:simpleType>
-    
+    </xsd:simpleType>    
+        
     <xsd:simpleType name="cognitiveLevelOfLearningCodeValues">
         <xsd:restriction base="xsd:string">
         </xsd:restriction>
@@ -65,7 +64,17 @@
     <xsd:simpleType name="competencyDefinitionTypeCodeValues">
         <xsd:restriction base="xsd:string">
         </xsd:restriction>
-    </xsd:simpleType>     
+    </xsd:simpleType>       
+        
+    <xsd:simpleType name="knowledgeSkillAttitudeGapIdentifierClassValues">
+        <xsd:restriction base="xsd:string">
+        </xsd:restriction>
+    </xsd:simpleType>  
+    
+    <xsd:simpleType name="knowledgeSkillAttitudeGapIterationIdentifierClassValues">
+        <xsd:restriction base="xsd:string">
+        </xsd:restriction>
+    </xsd:simpleType>  
         
     <xsd:simpleType name="learningObjectiveIdentifierClassValues">
         <xsd:restriction base="xsd:string">
@@ -146,6 +155,16 @@
         <xsd:restriction base="xsd:string">
         </xsd:restriction>
     </xsd:simpleType>
+    
+    <xsd:simpleType name="taskAffectivelevelOfLearningIterationIdentifierClassValues">
+        <xsd:restriction base="xsd:string">
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="taskCognitiveLevelOfLearningIterationIdentifierClassValues">
+        <xsd:restriction base="xsd:string">
+        </xsd:restriction>
+    </xsd:simpleType>        
         
     <xsd:simpleType name="taskDifficultyCategoryCodeValues">
         <xsd:restriction base="xsd:string">
@@ -225,23 +244,18 @@
                 </xsd:annotation>
             </xsd:enumeration>
         </xsd:restriction>
-    </xsd:simpleType>          
-    
-    <xsd:simpleType name="taskKnowledgeSkillAttitudeGapIterationIdentifierClassValues">
-        <xsd:restriction base="xsd:string">
-        </xsd:restriction>
-    </xsd:simpleType>    
+    </xsd:simpleType> 
     
     <xsd:simpleType name="taskKnowledgeSkillAttitudeGapIdentifierClassValues">
         <xsd:restriction base="xsd:string">
         </xsd:restriction>
-    </xsd:simpleType>    
+    </xsd:simpleType> 
     
-    <xsd:simpleType name="taskKnowledgeSkillAttitudeRequirementIdentifierClassValues">
+    <xsd:simpleType name="taskPsychomotorLevelOfLearningIterationIdentifierClassValues">
         <xsd:restriction base="xsd:string">
         </xsd:restriction>
-    </xsd:simpleType>
-    
+    </xsd:simpleType>   
+        
     <xsd:simpleType name="taskTargetAudienceCodeValues">
         <xsd:restriction base="xsd:string">
             <xsd:enumeration value="PS">
@@ -282,6 +296,41 @@
         </xsd:restriction>
     </xsd:simpleType>
     
+    <xsd:simpleType name="taskTrainingLevelDecisionCodeValues">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="1">
+                <xsd:annotation>
+                    <xsd:appinfo>SX001G:veryHightTaskTrainingPriority</xsd:appinfo>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="2">
+                <xsd:annotation>
+                    <xsd:appinfo>SX001G:hightTaskTrainingPriority</xsd:appinfo>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="3">
+                <xsd:annotation>
+                    <xsd:appinfo>SX001G:moderatelyTaskTrainingPriority</xsd:appinfo>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="4">
+                <xsd:annotation>
+                    <xsd:appinfo>SX001G:lowTaskTrainingPriority</xsd:appinfo>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="5">
+                <xsd:annotation>
+                    <xsd:appinfo>SX001G:noTaskTrainingPriority</xsd:appinfo>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="0">
+                <xsd:annotation>
+                    <xsd:appinfo>SX001G:otherMeansToLearnTask</xsd:appinfo>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
     <xsd:simpleType name="taskTrainingLevelCodeValues">
         <xsd:restriction base="xsd:string">
             <xsd:enumeration value="1">
@@ -310,8 +359,33 @@
                 </xsd:annotation>
             </xsd:enumeration>
         </xsd:restriction>
+    </xsd:simpleType>    
+    
+    <xsd:simpleType name="trainingComponentLearningObjectiveDependencyTypeCodeValues">
+        <xsd:restriction base="xsd:string">
+        </xsd:restriction>
     </xsd:simpleType>
     
+    <xsd:simpleType name="trainingComponentMediaCodeValues">
+        <xsd:restriction base="xsd:string">
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="trainingComponentMethodCodeValues">
+        <xsd:restriction base="xsd:string">
+        </xsd:restriction>
+    </xsd:simpleType>    
+        
+    <xsd:simpleType name="trainingComponentSpecialResourceRequirementReferenceTypeCodeValues">
+        <xsd:restriction base="xsd:string">
+        </xsd:restriction>
+    </xsd:simpleType> 
+    
+    <xsd:simpleType name="trainingComponentSpecialResourceRequirementTypeCodeValues">
+        <xsd:restriction base="xsd:string">
+        </xsd:restriction>
+    </xsd:simpleType> 
+        
     <xsd:simpleType name="warningCautionTrainDecisionIterationIdentifierClassValues">
         <xsd:restriction base="xsd:string">
         </xsd:restriction>

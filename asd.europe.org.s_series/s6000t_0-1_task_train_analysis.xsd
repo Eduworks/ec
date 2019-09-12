@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema version="000-05" xmlns:xsd="http://www.w3.org/2001/XMLSchema" vc:minVersion="1.1"
+<xsd:schema version="000-06" xmlns:xsd="http://www.w3.org/2001/XMLSchema" vc:minVersion="1.1"
     xmlns="http://www.asd-europe.org/s-series/s6000t"
     xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning"
     xmlns:value="http://www.asd-europe.org/spec/validValues"
@@ -9,8 +9,8 @@
     <xsd:annotation>
         <xsd:documentation>Issue number: 0.1</xsd:documentation>
         <xsd:documentation>Issue date: 2019-10-15</xsd:documentation>
-        <xsd:documentation>XML schema release number: 000-05</xsd:documentation>
-        <xsd:documentation>XML schema release date: 2019-08-XX</xsd:documentation>
+        <xsd:documentation>XML schema release number: 000-06</xsd:documentation>
+        <xsd:documentation>XML schema release date: 2019-09-11</xsd:documentation>
         <xsd:documentation>URL: http://www.s6000t.org</xsd:documentation>
         <xsd:documentation>Root element: taskTrainAnalysis</xsd:documentation>
         <xsd:documentation>Copyright:
@@ -270,7 +270,7 @@
         </xsd:annotation>
         <xsd:sequence>
             <!--UML-Attributes-->
-            <xsd:element name="compType" type="associatedCompetencyObligatoriness" minOccurs="0" nillable="true"/>
+            <xsd:element name="obligCat" type="associatedCompetencyObligatoriness" minOccurs="0" nillable="true"/>
             <!--UML-EmbAssocs-->
             <xsd:element name="compDef" type="competencyDefinitionRef" minOccurs="0" nillable="true"/>
             <!--UML-Interfaces-->
@@ -321,10 +321,11 @@
         </xsd:annotation>
         <xsd:sequence>
             <!--UML-Attributes-->
-            <xsd:element name="jobPosName" type="jobPositionName"/>
+            <xsd:element name="jobPosName" type="jobPositionName" maxOccurs="unbounded"/>
             <xsd:element name="jobPosDescr" type="jobPositionDescription" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
             <!--UML-CompAssocs-->
-            <xsd:element name="compDefs" type="prerequisiteCompetenciesItem" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="trainPopDef" type="trainingPopulationItem" minOccurs="0" nillable="true"/>
+            <xsd:element name="ksaGaps" type="knowledgeSkillAttitudeGapAnalysisItem" minOccurs="0" nillable="true"/>
             <!--UML-Interfaces-->
             <xsd:group ref="organizationAssignmentItem"/>
             <xsd:group ref="documentAssignmentItem"/> 
@@ -333,7 +334,85 @@
         <xsd:attribute name="uid" use="optional">
             <xsd:simpleType>
                 <xsd:restriction base="xsd:ID">
-                    <xsd:pattern value="jobp[1-9][0-9]*"/>
+                    <xsd:pattern value="jobpos[1-9][0-9]*"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute name="uri" type="xsd:anyURI" use="optional"/>
+        <xsd:attribute name="crud" type="crudCodeValues" default="I"/>
+    </xsd:complexType>    
+    
+    <xsd:complexType name="knowledgeSkillAttitudeGapDefinition">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:KnowledgeSkillAttitudeGapDefinition</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <!--UML-Attributes-->
+            <xsd:element name="gapId" type="knowledgeSkillAttitudeGapIdentifier"/>
+            <!--UML-CompAssocs-->
+            <xsd:element name="gapIter" type="knowledgeSkillAttitudeGapDefinitionIteration" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <!--UML-Interfaces-->
+            <xsd:group ref="organizationAssignmentItem"/>
+            <xsd:group ref="documentAssignmentItem"/> 
+            <xsd:group ref="remarkAssignmentItem"/>
+        </xsd:sequence>
+        <xsd:attribute name="uid" use="optional">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:ID">
+                    <xsd:pattern value="ksagapa[1-9][0-9]*"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute name="uri" type="xsd:anyURI" use="optional"/>
+        <xsd:attribute name="crud" type="crudCodeValues" default="I"/>
+    </xsd:complexType>    
+    
+    <xsd:complexType name="knowledgeSkillAttitudeGapDefinitionIteration">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:KnowledgeSkillAttitudeGapDefinitionIteration</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <!--UML-Attributes-->
+            <xsd:element name="gapIterId" type="knowledgeSkillAttitudeGapIterationIdentifier"/>
+            <xsd:element name="gapDescr" type="knowledgeSkillAttitudeGapDescription" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <!--UML-EmbAssocs-->
+            <xsd:element name="evalCompDef" type="prerequisiteCompetenciesDefinitionRef" minOccurs="0" nillable="true"/>
+            <xsd:element name="taskGapSource" type="taskKnowledgeSkillAttitudeGapRef" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="gapLO" type="knowledgeSkillAttitudeLearningObjective" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <!--UML-Interfaces-->
+            <xsd:group ref="organizationAssignmentItem"/>
+            <xsd:group ref="documentAssignmentItem"/> 
+            <xsd:group ref="remarkAssignmentItem"/>
+        </xsd:sequence>
+        <xsd:attribute name="uid" use="optional">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:ID">
+                    <xsd:pattern value="ksagap[1-9][0-9]*"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute name="uri" type="xsd:anyURI" use="optional"/>
+        <xsd:attribute name="crud" type="crudCodeValues" default="I"/>
+    </xsd:complexType>      
+    
+    <xsd:complexType name="knowledgeSkillAttitudeLearningObjective">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:KnowledgeSkillAttitudeLearningObjective</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <!--UML-Attributes-->
+            <xsd:element name="loRtnle" type="knowledgeSkillAttitudeLearningObjectiveRationale" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <!--UML-EmbAssocs-->
+            <xsd:element name="loRef" type="learningObjectiveRef" minOccurs="0" nillable="true"/>
+            <!--UML-Interfaces-->
+            <xsd:group ref="organizationAssignmentItem"/>
+            <xsd:group ref="documentAssignmentItem"/> 
+            <xsd:group ref="remarkAssignmentItem"/>
+        </xsd:sequence>
+        <xsd:attribute name="uid" use="optional">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:ID">
+                    <xsd:pattern value="lollo[1-9][0-9]*"/>
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
@@ -341,6 +420,30 @@
         <xsd:attribute name="crud" type="crudCodeValues" default="I"/>
     </xsd:complexType>
 
+    <xsd:complexType name="learningAssessment">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:LearningAssessment</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <!--UML-Attributes-->
+            <xsd:element name="assmentName" type="learningAssessmentName" maxOccurs="unbounded"/>
+            <xsd:element name="assmentDescr" type="learningAssessmentDescription" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <!--UML-Interfaces-->
+            <xsd:group ref="organizationAssignmentItem"/>
+            <xsd:group ref="documentAssignmentItem"/> 
+            <xsd:group ref="remarkAssignmentItem"/>
+        </xsd:sequence>
+        <xsd:attribute name="uid" use="optional">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:ID">
+                    <xsd:pattern value="lrnassmnt[1-9][0-9]*"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute name="uri" type="xsd:anyURI" use="optional"/>
+        <xsd:attribute name="crud" type="crudCodeValues" default="I"/>
+    </xsd:complexType>  
+    
     <xsd:complexType name="learningObjective">
         <xsd:annotation>
             <xsd:appinfo>SX001G:LearningObjective</xsd:appinfo>
@@ -349,7 +452,7 @@
             <!--UML-Attributes-->
             <xsd:element name="loId" type="learningObjectiveIdentifier" maxOccurs="unbounded"/>
             <xsd:element name="loType" type="learningObjectiveType" minOccurs="0" nillable="true"/>
-            <xsd:element name="title" type="learningObjectiveTitle" minOccurs="0" nillable="true"/>
+            <xsd:element name="loName" type="learningObjectiveName" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
             <!--UML-CompAssocs-->
             <xsd:element name="loRev" type="learningObjectiveRevision" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
             <!--UML-Interfaces-->
@@ -399,15 +502,17 @@
         </xsd:annotation>
         <xsd:sequence>
             <!--UML-Attributes-->
-            <xsd:element name="loRevId" type="learningObjectiveRevisionIdentifier" maxOccurs="unbounded"/>
+            <xsd:element name="loRevId" type="learningObjectiveRevisionIdentifier"/>
             <xsd:element name="loRevRtnle" type="learningObjectiveRevisionRationale" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
             <xsd:element name="loDescr" type="learningObjectiveDescription" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
             <!--UML-AttrGroups-->
             <xsd:element name="loPerfStd" type="learningObjectivePerformanceStandard" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-            <xsd:element name="loAssmnt" type="learningObjectiveAssessment" minOccurs="0"/>
             <!--UML-AggrAssocs-->
-            <xsd:element name="relLO" type="learningObjectiveRelationship" minOccurs="0" maxOccurs="unbounded"/>       
+            <xsd:element name="loTrainStrat" type="learningObjectiveTrainingStrategy" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <!--UML-EmbAssocs -->
+            <xsd:element name="relLO" type="learningObjectiveRelationship" minOccurs="0" maxOccurs="unbounded" nillable="true"/>       
             <!--UML-Interfaces-->
+            <xsd:element name="assessmnts" type="learningAssessmentItem" minOccurs="0" nillable="true"/>
             <xsd:group ref="organizationAssignmentItem"/>
             <xsd:group ref="documentAssignmentItem"/> 
             <xsd:group ref="remarkAssignmentItem"/>
@@ -422,6 +527,63 @@
         <xsd:attribute name="uri" type="xsd:anyURI" use="optional"/>
         <xsd:attribute name="crud" type="crudCodeValues" default="I"/>
     </xsd:complexType>    
+        
+    <xsd:complexType name="learningObjectiveTrainingComponent">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:LearningObjectiveTrainingComponent</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <!--UML-Attributes-->
+            <xsd:element name="compSeqNr" type="trainingComponentSequenceNumber"/>
+            <xsd:element name="compName" type="trainingComponentName" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="media" type="trainingComponentMedia" nillable="true" minOccurs="0"/>
+            <xsd:element name="method" type="trainingComponentMethod" nillable="true" minOccurs="0"/>
+            <!--UML-AggrAssocs-->
+            <xsd:element name="resRqmt" type="trainingComponentSpecialResourceRequirement" minOccurs="0" maxOccurs="unbounded" nillable="true"/>   
+            <!--UML-EmbAssocs-->
+            <xsd:element name="loDepend" type="trainingComponentLearningObjectiveDependency" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <!--UML-Interfaces-->
+            <xsd:element name="assessmnts" type="learningAssessmentItem" minOccurs="0" nillable="true"/>
+            <xsd:group ref="organizationAssignmentItem"/>
+            <xsd:group ref="documentAssignmentItem"/> 
+            <xsd:group ref="remarkAssignmentItem"/>
+        </xsd:sequence>
+        <xsd:attribute name="uid" use="optional">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:ID">
+                    <xsd:pattern value="lobjts[1-9][0-9]*"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute name="uri" type="xsd:anyURI" use="optional"/>
+        <xsd:attribute name="crud" type="crudCodeValues" default="I"/>
+    </xsd:complexType>  
+    
+    <xsd:complexType name="learningObjectiveTrainingStrategy">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:LearningObjectiveTrainingStrategy</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <!--UML-Attributes-->
+            <xsd:element name="trainStrName" type="learningObjectiveTrainingStrategyName" maxOccurs="unbounded"/>
+            <!--UML-AggrAssocs-->
+            <xsd:element name="trainComp" type="learningObjectiveTrainingComponent" minOccurs="0" maxOccurs="unbounded" nillable="true"/>       
+            <!--UML-Interfaces-->
+            <xsd:element name="assessmnts" type="learningAssessmentItem" minOccurs="0" nillable="true"/>
+            <xsd:group ref="organizationAssignmentItem"/>
+            <xsd:group ref="documentAssignmentItem"/> 
+            <xsd:group ref="remarkAssignmentItem"/>
+        </xsd:sequence>
+        <xsd:attribute name="uid" use="optional">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:ID">
+                    <xsd:pattern value="lotrains[1-9][0-9]*"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute name="uri" type="xsd:anyURI" use="optional"/>
+        <xsd:attribute name="crud" type="crudCodeValues" default="I"/>
+    </xsd:complexType>  
     
     <xsd:complexType name="prerequisiteCompetenciesDefinition">
         <xsd:annotation>
@@ -429,10 +591,10 @@
         </xsd:annotation>
         <xsd:sequence>
             <!--UML-Attributes-->
-            <xsd:element name="compId" type="prerequisiteCompetenciesIterationIdentifier"/>
+            <xsd:element name="iterId" type="prerequisiteCompetenciesIterationIdentifier"/>
             <xsd:element name="compDescr" type="prerequisiteCompetenciesDescription" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
             <!--UML-EmbAssocs-->
-            <xsd:element name="compDef" type="associatedCompetencyDefinition" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="reqComp" type="associatedCompetencyDefinition" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
             <!--UML-Interfaces-->
             <xsd:group ref="organizationAssignmentItem"/>
             <xsd:group ref="documentAssignmentItem"/> 
@@ -456,8 +618,15 @@
         <xsd:sequence>
             <!--UML-Attributes-->
             <xsd:element name="subtTrainId" type="subtaskTrainIdentifier"/>
-            <xsd:element name="trainDecision" type="subtaskTrainingDecision" minOccurs="0" nillable="true"/>
-            <xsd:element name="trainRtnle" type="subtaskTrainingDecisionRationale" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="coordCat" type="subtaskHumanInteractionRequirement" minOccurs="0" nillable="true"/>
+            <xsd:element name="subtDiff" type="subtaskDifficultyCategory" minOccurs="0" nillable="true"/>
+            <xsd:element name="subtImp" type="subtaskImportanceCategory" minOccurs="0" nillable="true"/>
+            <xsd:element name="subtFreq" type="subtaskFrequencyCategory" minOccurs="0" nillable="true"/>
+            <xsd:element name="subtTrainLvl" type="subtaskTrainingLevel" minOccurs="0" nillable="true"/>
+            <xsd:element name="subtTrainLvlRtnle" type="subtaskTrainingLevelRationale" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="trainDiff" type="subtaskTrainingDifficulty" minOccurs="0" nillable="true"/>
+            <xsd:element name="trainLvl" type="subtaskTrainingLevelDecision" minOccurs="0" nillable="true"/>
+            <xsd:element name="trainLvlRtnle" type="subtaskTrainingLevelDecisionRationale" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
             <!--UML-CompAssocs-->
             <xsd:element name="perfObj" type="subtaskPerformanceObjective" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
             <xsd:group ref="subtaskTrainStepNonAbstractClasses" minOccurs="0" maxOccurs="unbounded"/>
@@ -467,7 +636,7 @@
             <xsd:group ref="organizationAssignmentItem"/>
             <xsd:group ref="documentAssignmentItem"/> 
             <xsd:group ref="remarkAssignmentItem"/>
-            <xsd:element name="ksaReqs" type="taskKnowledgeSkillAttitudeRequirementItem" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="ksaReqs" type="knowledgeSkillAttitudeRequirementItem" minOccurs="0" nillable="true"/>
         </xsd:sequence>
         <xsd:attribute name="uid" use="optional">
             <xsd:simpleType>
@@ -512,14 +681,15 @@
         <xsd:sequence>
             <!--UML-Attributes-->
             <xsd:element name="stepId" type="subtaskTrainStepIdentifier"/>
+            <xsd:element name="stepName" type="subtaskTrainStepName" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
             <xsd:element name="stepDescr" type="subtaskTrainStepDescription" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
             <!--UML-AttributeGroups-->
-            <xsd:element name="stepPerfStd" type="subtaskStepPerformanceStandard" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="perfStd" type="subtaskStepPerformanceStandard" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
             <!--UML-Interfaces-->
             <xsd:group ref="organizationAssignmentItem"/>
             <xsd:group ref="documentAssignmentItem"/> 
             <xsd:group ref="remarkAssignmentItem"/>
-            <xsd:element name="ksaReqs" type="taskKnowledgeSkillAttitudeRequirementItem" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="ksaReqs" type="knowledgeSkillAttitudeRequirementItem" minOccurs="0" nillable="true"/>
         </xsd:sequence>
         <xsd:attribute name="uid" use="optional">
             <xsd:simpleType>
@@ -563,16 +733,12 @@
         </xsd:annotation>
         <xsd:sequence>
             <!--UML-Attributes-->
-            <xsd:element name="iterId" type="levelOfLearningIterationIdentifier"/>
-            <xsd:element name="knowlLev" type="levelOfLearningKnowledge" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-            <xsd:element name="lolRtnle" type="levelOfLearningRationale" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-            <xsd:element name="iterRtnle" type="levelOfLearningIterationRationale" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-            <xsd:element name="iterDate" type="levelOfLearningIterationDate" minOccurs="0" nillable="true"/>
-            <xsd:element name="lol" type="affectiveLevelOfLearning" minOccurs="0" nillable="true"/>
-            <!--UML-CompAssocs-->
-            <xsd:element name="gapRec" type="taskKnowledgeSkillAttitudeGapAnalysisRecord" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="affIterId" type="taskAffectivelevelOfLearningIterationIdentifier"/>
+            <xsd:element name="affLoL" type="affectiveLevelOfLearning" minOccurs="0" nillable="true"/>            
+            <!--UML-AttrGroups-->
+            <xsd:element name="taskLoLChar" type="taskLevelOfLearningCharacteristics" minOccurs="0" nillable="true"/>
             <!--UML-Interfaces-->
-            <xsd:element name="lolLearnObjs" type="knowledgeSkillAttitudeLearningObjectiveItem" minOccurs="0" nillable="true"/>
+            <xsd:element name="taskKSAGaps" type="taskKnowledgeSkillAttitudeGapItem" minOccurs="0" nillable="true"/>
             <xsd:group ref="organizationAssignmentItem"/>
             <xsd:group ref="documentAssignmentItem"/> 
             <xsd:group ref="remarkAssignmentItem"/>
@@ -580,7 +746,7 @@
         <xsd:attribute name="uid" use="optional">
             <xsd:simpleType>
                 <xsd:restriction base="xsd:ID">
-                    <xsd:pattern value="lolit[1-9][0-9]*"/>
+                    <xsd:pattern value="tafflol[1-9][0-9]*"/>
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
@@ -594,16 +760,12 @@
         </xsd:annotation>
         <xsd:sequence>
             <!--UML-Attributes-->
-            <xsd:element name="iterId" type="levelOfLearningIterationIdentifier"/>
-            <xsd:element name="knowlLev" type="levelOfLearningKnowledge" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-            <xsd:element name="lolRtnle" type="levelOfLearningRationale" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-            <xsd:element name="iterRtnle" type="levelOfLearningIterationRationale" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-            <xsd:element name="iterDate" type="levelOfLearningIterationDate" minOccurs="0" nillable="true"/>
-            <xsd:element name="lol" type="cognitiveLevelOfLearning" minOccurs="0" nillable="true"/>
-            <!--UML-CompAssocs-->
-            <xsd:element name="gapRec" type="taskKnowledgeSkillAttitudeGapAnalysisRecord" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="cognIterId" type="taskCognitiveLevelOfLearningIterationIdentifier"/>
+            <xsd:element name="cognLoL" type="cognitiveLevelOfLearning" minOccurs="0" nillable="true"/>
+            <!--UML-AttrGroups-->
+            <xsd:element name="taskLoLChar" type="taskLevelOfLearningCharacteristics" minOccurs="0" nillable="true"/>
             <!--UML-Interfaces-->
-            <xsd:element name="lolLearnObjs" type="knowledgeSkillAttitudeLearningObjectiveItem" minOccurs="0" nillable="true"/>
+            <xsd:element name="taskKSAGaps" type="taskKnowledgeSkillAttitudeGapItem" minOccurs="0" nillable="true"/>
             <xsd:group ref="organizationAssignmentItem"/>
             <xsd:group ref="documentAssignmentItem"/> 
             <xsd:group ref="remarkAssignmentItem"/>
@@ -611,7 +773,7 @@
         <xsd:attribute name="uid" use="optional">
             <xsd:simpleType>
                 <xsd:restriction base="xsd:ID">
-                    <xsd:pattern value="lolit[1-9][0-9]*"/>
+                    <xsd:pattern value="tcoglol[1-9][0-9]*"/>
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
@@ -625,34 +787,8 @@
         </xsd:annotation>
         <xsd:sequence>
             <!--UML-Attributes-->
-            <xsd:element name="gapId" type="taskKnowledgeSkillAttitudeGapIdentifier"/>
-            <xsd:element name="gapDescr" type="taskKnowledgeSkillAttitudeGapDescription" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-            <!--UML-Interfaces-->
-            <xsd:element name="lolLearnObjs" type="knowledgeSkillAttitudeLearningObjectiveItem" minOccurs="0" nillable="true"/>
-            <xsd:group ref="organizationAssignmentItem"/>
-            <xsd:group ref="documentAssignmentItem"/> 
-            <xsd:group ref="remarkAssignmentItem"/>
-        </xsd:sequence>
-        <xsd:attribute name="uid" use="optional">
-            <xsd:simpleType>
-                <xsd:restriction base="xsd:ID">
-                    <xsd:pattern value="ksagap[1-9][0-9]*"/>
-                </xsd:restriction>
-            </xsd:simpleType>
-        </xsd:attribute>
-        <xsd:attribute name="uri" type="xsd:anyURI" use="optional"/>
-        <xsd:attribute name="crud" type="crudCodeValues" default="I"/>
-    </xsd:complexType>
-    
-    <xsd:complexType name="taskKnowledgeSkillAttitudeGapAnalysisRecord">
-        <xsd:annotation>
-            <xsd:appinfo>SX001G:TaskKnowledgeSkillAttitudeGapRecord</xsd:appinfo>
-        </xsd:annotation>
-        <xsd:sequence>
-            <!--UML-Attributes-->
-            <xsd:element name="gapsIterId" type="taskKnowledgeSkillAttitudeGapIterationIdentifier"/>
-            <!--UML-CompAssocs-->
-            <xsd:element name="gap" type="taskKnowledgeSkillAttitudeGap" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="taskKSAGapId" type="taskKnowledgeSkillAttitudeGapIdentifier"/>
+            <xsd:element name="taskKSAGapDescr" type="taskKnowledgeSkillAttitudeGapDescription" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
             <!--UML-EmbAssocs-->
             <xsd:element name="evalCompDef" type="prerequisiteCompetenciesDefinitionRef" minOccurs="0" nillable="true"/>
             <!--UML-Interfaces-->
@@ -663,62 +799,7 @@
         <xsd:attribute name="uid" use="optional">
             <xsd:simpleType>
                 <xsd:restriction base="xsd:ID">
-                    <xsd:pattern value="ksagapa[1-9][0-9]*"/>
-                </xsd:restriction>
-            </xsd:simpleType>
-        </xsd:attribute>
-        <xsd:attribute name="uri" type="xsd:anyURI" use="optional"/>
-        <xsd:attribute name="crud" type="crudCodeValues" default="I"/>
-    </xsd:complexType>
-    
-    <xsd:complexType name="taskKnowledgeSkillAttitudeRequirement">
-        <xsd:annotation>
-            <xsd:appinfo>SX001G:TaskKnowledgeSkillAttitudeRequirement</xsd:appinfo>
-        </xsd:annotation>
-        <xsd:sequence>         
-            <!--UML-Attributes-->
-            <xsd:element name="ksaReqId" type="taskKnowledgeSkillAttitudeRequirementIdentifier"/>
-            <!--UML-CompAssocs-->
-            <xsd:element name="affecLoL" type="taskAffectiveLevelOfLearning" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-            <xsd:element name="cognLoL" type="taskCognitiveLevelOfLearning" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-            <xsd:element name="psychLoL" type="taskPsychomotorLevelOfLearning" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-            <!--UML-EmbAssocs-->
-            <xsd:group ref="competenceDefinitionItem" minOccurs="0"/>
-            <!--UML-Interfaces-->
-            <xsd:group ref="organizationAssignmentItem"/>
-            <xsd:group ref="documentAssignmentItem"/> 
-            <xsd:group ref="remarkAssignmentItem"/>
-        </xsd:sequence>
-        <xsd:attribute name="uid" use="optional">
-            <xsd:simpleType>
-                <xsd:restriction base="xsd:ID">
-                    <xsd:pattern value="ksareq[1-9][0-9]*"/>
-                </xsd:restriction>
-            </xsd:simpleType>
-        </xsd:attribute>
-        <xsd:attribute name="uri" type="xsd:anyURI" use="optional"/>
-        <xsd:attribute name="crud" type="crudCodeValues" default="I"/>
-    </xsd:complexType>    
-    
-    <xsd:complexType name="taskLevelOfLearningLearningObjective">
-        <xsd:annotation>
-            <xsd:appinfo>SX001G:taskLevelOfLearningLearningObjective</xsd:appinfo>
-        </xsd:annotation>
-        <xsd:sequence>
-            <!--UML-Attributes-->
-            <xsd:element name="seqNr" type="taskLevelOfLearningLearningObjectiveSequenceNumber"/>
-            <xsd:element name="loRtnle" type="taskLevelOfLearningLearningObjectiveRationale" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-            <!--UML-EmbAssocs-->
-            <xsd:element name="loRef" type="learningObjectiveRef" minOccurs="0" nillable="true"/>
-            <!--UML-Interfaces-->
-            <xsd:group ref="organizationAssignmentItem"/>
-            <xsd:group ref="documentAssignmentItem"/> 
-            <xsd:group ref="remarkAssignmentItem"/>
-        </xsd:sequence>
-        <xsd:attribute name="uid" use="optional">
-            <xsd:simpleType>
-                <xsd:restriction base="xsd:ID">
-                    <xsd:pattern value="lollo[1-9][0-9]*"/>
+                    <xsd:pattern value="taskgap[1-9][0-9]*"/>
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
@@ -732,16 +813,12 @@
         </xsd:annotation>
         <xsd:sequence>
             <!--UML-Attributes-->
-            <xsd:element name="iterId" type="levelOfLearningIterationIdentifier"/>
-            <xsd:element name="knowlLev" type="levelOfLearningKnowledge" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-            <xsd:element name="lolRtnle" type="levelOfLearningRationale" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-            <xsd:element name="iterRtnle" type="levelOfLearningIterationRationale" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-            <xsd:element name="iterDate" type="levelOfLearningIterationDate" minOccurs="0" nillable="true"/>
-            <xsd:element name="lol" type="psychomotorLevelOfLearning" minOccurs="0" nillable="true"/>
-            <!--UML-CompAssocs-->
-            <xsd:element name="gapRec" type="taskKnowledgeSkillAttitudeGapAnalysisRecord" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="psychoIterId" type="taskPsychomotorLevelOfLearningIterationIdentifier"/>
+            <xsd:element name="psychoLoL" type="psychomotorLevelOfLearning" minOccurs="0" nillable="true"/>
+            <!--UML-AttrGroups-->
+            <xsd:element name="taskLoLChar" type="taskLevelOfLearningCharacteristics" minOccurs="0" nillable="true"/>
             <!--UML-Interfaces-->
-            <xsd:element name="lolLearnObjs" type="knowledgeSkillAttitudeLearningObjectiveItem" minOccurs="0" nillable="true"/>
+            <xsd:element name="taskKSAGaps" type="taskKnowledgeSkillAttitudeGapItem" minOccurs="0" nillable="true"/>
             <xsd:group ref="organizationAssignmentItem"/>
             <xsd:group ref="documentAssignmentItem"/> 
             <xsd:group ref="remarkAssignmentItem"/>
@@ -749,7 +826,7 @@
         <xsd:attribute name="uid" use="optional">
             <xsd:simpleType>
                 <xsd:restriction base="xsd:ID">
-                    <xsd:pattern value="lolit[1-9][0-9]*"/>
+                    <xsd:pattern value="tpsylol[1-9][0-9]*"/>
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
@@ -763,7 +840,6 @@
         </xsd:annotation>
         <xsd:sequence>
             <!--UML-Attributes-->
-            <!--UML-Attributes-->
             <xsd:element name="iterationId" type="taskTrainDecisionIterationIdentifier"/>
             <xsd:element name="dcsnRtnle" type="taskTrainDecisionRationale" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
             <xsd:element name="iterRtnle" type="taskTrainDecisionIterationRationale" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
@@ -773,21 +849,21 @@
             <xsd:element name="taskDiff" type="taskDifficultyCategory" minOccurs="0" nillable="true"/>
             <xsd:element name="taskImp" type="taskImportanceCategory" minOccurs="0" nillable="true"/>
             <xsd:element name="taskFreq" type="taskFrequencyCategory" minOccurs="0" nillable="true"/>
-            <xsd:element name="trainLev" type="taskTrainingLevel" minOccurs="0" nillable="true"/>
-            <xsd:element name="trainLevRtnle" type="taskTrainingLevelRationale" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="taskTrainLvl" type="taskTrainingLevel" minOccurs="0" nillable="true"/>
+            <xsd:element name="taskTrainLvlRtnle" type="taskTrainingLevelRationale" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="trainDiff" type="taskTrainingDifficulty" minOccurs="0" nillable="true"/>
-            <xsd:element name="trainTask" type="taskTrainingDecision" minOccurs="0" nillable="true"/>
-            <xsd:element name="trainRtnle" type="taskTrainingDecisionRationale" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="trainLvl" type="taskTrainingLevelDecision" minOccurs="0" nillable="true"/>
+            <xsd:element name="trainLvlRtnle" type="taskTrainingLevelDecisionRationale" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
             <!--UML-AttributeGroups-->
             <xsd:element name="perfObj" type="taskPerformanceObjective" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-            <xsd:element name="algTrainLev" type="algorithmDerivedTaskTrainLevel" minOccurs="0" nillable="true"/>
+            <xsd:element name="algTrainLvl" type="algorithmDerivedTaskTrainLevel" minOccurs="0" nillable="true"/>
             <!--UML-CompAssocs-->
             <xsd:group ref="subtaskTrainDecisionNonAbstractClasses" maxOccurs="unbounded"/>
             <!--UML-Interfaces-->
             <xsd:group ref="organizationAssignmentItem"/>
             <xsd:group ref="documentAssignmentItem"/> 
             <xsd:group ref="remarkAssignmentItem"/>
-            <xsd:element name="ksaReqs" type="taskKnowledgeSkillAttitudeRequirementItem" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="ksaReqs" type="knowledgeSkillAttitudeRequirementItem" minOccurs="0" nillable="true"/>
         </xsd:sequence>
         <xsd:attribute name="uid" use="optional">
             <xsd:simpleType>
@@ -858,6 +934,83 @@
         <xsd:attribute name="crud" type="crudCodeValues" default="I"/>
     </xsd:complexType>
     
+    <xsd:complexType name="trainingComponentLearningObjectiveDependency">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:TrainingComponentLearningObjectiveDependency</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <!--UML-Attributes-->
+            <xsd:element name="depType" type="trainingComponentLearningObjectiveDependencyType" minOccurs="0" nillable="true"/>
+            <!--UML-EmbAssocs-->
+            <xsd:element name="loRef" type="learningObjectiveRef" minOccurs="0" nillable="true"/>
+            <!--UML-Interfaces-->
+            <xsd:group ref="organizationAssignmentItem"/>
+            <xsd:group ref="documentAssignmentItem"/> 
+            <xsd:group ref="remarkAssignmentItem"/>
+        </xsd:sequence>
+        <xsd:attribute name="uid" use="optional">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:ID">
+                    <xsd:pattern value="tcompdep[1-9][0-9]*"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute name="uri" type="xsd:anyURI" use="optional"/>
+        <xsd:attribute name="crud" type="crudCodeValues" default="I"/>
+    </xsd:complexType>
+    
+    <xsd:complexType name="trainingComponentSpecialResourceRequirement">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:TrainingComponentSpecialResourceRequirement</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <!--UML-Attributes-->
+            <xsd:element name="resName" type="trainingComponentSpecialResourceRequirementName" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="resType" type="trainingComponentSpecialResourceRequirementType" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="resDescr" type="trainingComponentSpecialResourceRequirementDescription" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <!--UML-EmbAssocs-->
+            <xsd:element name="resRef" type="trainingComponentSpecialResourceRequirementReference" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <!--UML-Interfaces-->
+            <xsd:group ref="organizationAssignmentItem"/>
+            <xsd:group ref="documentAssignmentItem"/> 
+            <xsd:group ref="remarkAssignmentItem"/>
+        </xsd:sequence>
+        <xsd:attribute name="uid" use="optional">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:ID">
+                    <xsd:pattern value="tcompreq[1-9][0-9]*"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute name="uri" type="xsd:anyURI" use="optional"/>
+        <xsd:attribute name="crud" type="crudCodeValues" default="I"/>
+    </xsd:complexType>
+    
+    <xsd:complexType name="trainingComponentSpecialResourceRequirementReference">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:TrainingComponentSpecialResourceRequirementReference</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <!--UML-Attributes-->
+            <xsd:element name="refType" type="trainingComponentSpecialResourceRequirementReferenceType" minOccurs="0" nillable="true"/>
+            <!--UML-EmbAssocs-->
+            <xsd:group ref="specialResourceReferenceItem"/>
+            <!--UML-Interfaces-->
+            <xsd:group ref="organizationAssignmentItem"/>
+            <xsd:group ref="documentAssignmentItem"/> 
+            <xsd:group ref="remarkAssignmentItem"/>
+        </xsd:sequence>
+        <xsd:attribute name="uid" use="optional">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:ID">
+                    <xsd:pattern value="tcompdep[1-9][0-9]*"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute name="uri" type="xsd:anyURI" use="optional"/>
+        <xsd:attribute name="crud" type="crudCodeValues" default="I"/>
+    </xsd:complexType>
+        
     <xsd:complexType name="warningCautionTrainDecision">
         <xsd:annotation>
             <xsd:appinfo>SX001G:WarningCautionTrainDecision</xsd:appinfo>
@@ -873,7 +1026,7 @@
             <xsd:group ref="organizationAssignmentItem"/>
             <xsd:group ref="documentAssignmentItem"/> 
             <xsd:group ref="remarkAssignmentItem"/>
-            <xsd:element name="ksaReqs" type="taskKnowledgeSkillAttitudeRequirementItem" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="ksaReqs" type="knowledgeSkillAttitudeRequirementItem" minOccurs="0" nillable="true"/>
         </xsd:sequence>
         <xsd:attribute name="uid" use="optional">
             <xsd:simpleType>
@@ -888,42 +1041,78 @@
     
     <!-- selects -->
 
-    
-    
-    <!-- extend -->
-        
-    <xsd:complexType name="knowledgeSkillAttitudeLearningObjectiveItem">
+    <xsd:group name="specialResourceReferenceItem">
         <xsd:annotation>
-            <xsd:appinfo>SX001G:KnowledgeSkillAttitudeLearningObjectiveItem</xsd:appinfo>
+            <xsd:appinfo>SX001G:SpecialResourceReferenceItem</xsd:appinfo>
         </xsd:annotation>
-        <xsd:sequence>
+        <xsd:choice>
+            <xsd:element name="prodRef" type="productReference"/>
+            <xsd:element name="prodVarRef" type="productVariantReference"/>
+            <xsd:element name="partRef" type="partAsDesignedReference"/>
+            <xsd:element name="beRef" type="breakdownElementReference"/>
+        </xsd:choice>
+    </xsd:group> 
+    
+    <!-- extend -->   
+    
+    <xsd:complexType name="knowledgeSkillAttitudeGapAnalysisItem">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:KnowledgeSkillAttitudeGapAnalysisItem</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>            
             <!--UML-CompAssocs-->
-            <xsd:element name="lolLearnObj" type="taskLevelOfLearningLearningObjective" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="ksaGap" type="knowledgeSkillAttitudeGapDefinition" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
         </xsd:sequence>
     </xsd:complexType>
     
-    <xsd:complexType name="taskKnowledgeSkillAttitudeRequirementItem">
+    <xsd:complexType name="knowledgeSkillAttitudeRequirementItem">
         <xsd:annotation>
-            <xsd:appinfo>SX001G:TaskKnowledgeSkillAttitudeRequirementItem</xsd:appinfo>
+            <xsd:appinfo>SX001G:knowledgeSkillAttitudeRequirementItem</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>
             <!--UML-CompAssocs-->
-            <xsd:element name="ksaReq" type="taskKnowledgeSkillAttitudeRequirement" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="affLoL" type="taskAffectiveLevelOfLearning" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="cognLoL" type="taskCognitiveLevelOfLearning" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="psychLoL" type="taskPsychomotorLevelOfLearning" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <!--UML-EmbAssocs-->
+            <xsd:group ref="competenceDefinitionItem" minOccurs="0"/>
         </xsd:sequence>
     </xsd:complexType>
-       
-    <xsd:complexType name="prerequisiteCompetenciesItem">
+    
+    <xsd:complexType name="learningAssessmentItem">
         <xsd:annotation>
-            <xsd:appinfo>SX001G:PrerequisiteCompetenciesItem</xsd:appinfo>
+            <xsd:appinfo>SX001G:LearningAssessmentItem</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>
+            <!--UML-CompAssocs-->
+            <xsd:element name="assessmnt" type="learningAssessment" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="taskKnowledgeSkillAttitudeGapItem">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:TaskKnowledgeSkillAttitudeGapItem</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <!--UML-CompAssocs-->
+            <xsd:element name="taskKSAGap" type="taskKnowledgeSkillAttitudeGap" minOccurs="0" maxOccurs="unbounded" nillable="true"/>            
+        </xsd:sequence>
+    </xsd:complexType>
+           
+    <xsd:complexType name="trainingPopulationItem">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:TrainingPopulationItem</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <!--UML-AttrGroups-->
+            <xsd:element name="trainPopData" type="trainingPopulationCharacteristics" minOccurs="0" nillable="true"/>
             <!--UML-CompAssocs-->
             <xsd:element name="compDef" type="prerequisiteCompetenciesDefinition" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
         </xsd:sequence>
     </xsd:complexType>
     
     
-    <!--  -->
+    <!-- AttributeGroups -->
         
     <xsd:complexType name="algorithmDerivedTaskTrainLevel">
         <xsd:annotation>
@@ -931,14 +1120,13 @@
         </xsd:annotation>
         <xsd:sequence>
             <!--UML-Attributes-->
-            <xsd:element name="aTaskDiff" type="algorithmTaskDifficultyCategory" minOccurs="0" nillable="true"/>
-            <xsd:element name="aTaskImp" type="algorithmTaskImportanceCategory" minOccurs="0" nillable="true"/>
-            <xsd:element name="aTaskFreq" type="algorithmTaskFrequencyCategory" minOccurs="0" nillable="true"/>
-            <xsd:element name="aTrainLev" type="algorithmTaskTrainingLevel" minOccurs="0" nillable="true"/>
+            <xsd:element name="taskDiff" type="algorithmTaskDifficultyCategory" minOccurs="0" nillable="true"/>
+            <xsd:element name="taskImp" type="algorithmTaskImportanceCategory" minOccurs="0" nillable="true"/>
+            <xsd:element name="taskFreq" type="algorithmTaskFrequencyCategory" minOccurs="0" nillable="true"/>
+            <xsd:element name="taskTrainLvl" type="algorithmTaskTrainingLevel" minOccurs="0" nillable="true"/>
         </xsd:sequence>
     </xsd:complexType>
-    
-    
+            
     <xsd:complexType name="learningObjectiveAssessment">
         <xsd:annotation>
             <xsd:appinfo>SX001G:LearningObjectiveAssessment</xsd:appinfo>
@@ -947,17 +1135,16 @@
             <!--UML-Attributes-->
         </xsd:sequence>
     </xsd:complexType>
-    
-    
+        
     <xsd:complexType name="learningObjectivePerformanceStandard">
         <xsd:annotation>
             <xsd:appinfo>SX001G:LearningObjectivePerformanceStandard</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>
             <!--UML-Attributes-->
-            <xsd:element name="behvrCond" type="learningObjectiveBehaviorCondition" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-            <xsd:element name="behvrActn" type="learningObjectiveBehaviorAction" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-            <xsd:element name="behvrStd" type="learningObjectiveBehaviorStandard" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="cond" type="learningObjectiveBehaviorCondition" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="action" type="learningObjectiveBehaviorAction" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="std" type="learningObjectiveBehaviorStandard" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
         </xsd:sequence>
     </xsd:complexType>   
     
@@ -967,9 +1154,10 @@
         </xsd:annotation>
         <xsd:sequence>
             <!--UML-Attributes-->
-            <xsd:element name="behvrCond" type="subtaskBehaviorCondition" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-            <xsd:element name="behvrActn" type="subtaskBehaviorAction" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-            <xsd:element name="behvrStd" type="subtaskBehaviorStandard" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="cond" type="subtaskBehaviorCondition" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="action" type="subtaskBehaviorAction" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="std" type="subtaskBehaviorStandard" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="poStmnt" type="subtaskPerformanceObjectiveStatement" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
             <xsd:group ref="applicabilityAssignmentItem"/>
         </xsd:sequence>
     </xsd:complexType>
@@ -980,12 +1168,26 @@
         </xsd:annotation>
         <xsd:sequence>
             <!--UML-Attributes-->
-            <xsd:element name="behvrCond" type="subtaskStepBehaviorCondition" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-            <xsd:element name="behvrActn" type="subtaskStepBehaviorAction" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-            <xsd:element name="behvrStd" type="subtaskStepBehaviorStandard" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="cond" type="subtaskStepBehaviorCondition" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="action" type="subtaskStepBehaviorAction" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="std" type="subtaskStepBehaviorStandard" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="poStmnt" type="subtaskStepPerformanceStandardStatement" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
             <xsd:group ref="applicabilityAssignmentItem"/>
         </xsd:sequence>
-    </xsd:complexType>    
+    </xsd:complexType>
+    
+    <xsd:complexType name="taskLevelOfLearningCharacteristics">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:TaskLevelOfLearningCharacteristics</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <!--UML-Attributes-->
+            <xsd:element name="knowlLev" type="levelOfLearningKnowledge" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="lolRtnle" type="levelOfLearningRationale" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="iterRtnle" type="levelOfLearningIterationRationale" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="iterDate" type="levelOfLearningIterationDate" minOccurs="0" nillable="true"/>
+        </xsd:sequence>
+    </xsd:complexType>   
             
     <xsd:complexType name="taskPerformanceObjective">
         <xsd:annotation>
@@ -993,10 +1195,22 @@
         </xsd:annotation>
         <xsd:sequence>
             <!--UML-Attributes-->
-            <xsd:element name="behvrCond" type="taskBehaviorCondition" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-            <xsd:element name="behvrActn" type="taskBehaviorAction" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-            <xsd:element name="behvrStd" type="taskBehaviorStandard" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="cond" type="taskBehaviorCondition" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="action" type="taskBehaviorAction" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="std" type="taskBehaviorStandard" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="poStmnt" type="taskPerformanceObjectiveStatement" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
             <xsd:group ref="applicabilityAssignmentItem"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="trainingPopulationCharacteristics">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:TrainingPopulationCharacteristics</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <!--UML-Attributes-->
+            <xsd:element name="trainPopDescr" type="trainingPopulationDescription" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="number" type="trainingPopulationNumberOfPeople" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
         </xsd:sequence>
     </xsd:complexType>
     
@@ -1146,6 +1360,54 @@
         </xsd:sequence>
     </xsd:complexType>  
     
+    <xsd:complexType name="knowledgeSkillAttitudeGapDescription">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:knowledgeSkillAttitudeGapDescription</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>       
+            <xsd:element name="descr" type="nonEmptyString" nillable="true"/>
+            <xsd:element name="lang" type="value:languageCodeValues" minOccurs="0" nillable="true"/>
+            <xsd:element name="date" type="xsd:date" minOccurs="0" nillable="true"/>
+            <xsd:element name="providedBy" type="organizationReference" minOccurs="0" nillable="true"/>
+            <xsd:group ref="applicabilityAssignmentItem"/>
+        </xsd:sequence>
+    </xsd:complexType>      
+    
+    <xsd:complexType name="knowledgeSkillAttitudeGapIdentifier">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:knowledgeSkillAttitudeGapkIdentifier</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="id" type="nonEmptyString" nillable="true"/>
+            <xsd:element name="class"  type="value:knowledgeSkillAttitudeGapIdentifierClassValues" minOccurs="0" nillable="true"/>
+            <xsd:element name="setBy" type="organizationReference" minOccurs="0" nillable="true"/>
+        </xsd:sequence>
+    </xsd:complexType> 
+    
+    <xsd:complexType name="knowledgeSkillAttitudeGapIterationIdentifier">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:knowledgeSkillAttitudeGapIterationIdentifier</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="id" type="nonEmptyString" nillable="true"/>
+            <xsd:element name="class"  type="value:knowledgeSkillAttitudeGapIterationIdentifierClassValues" minOccurs="0" nillable="true"/>
+            <xsd:element name="setBy" type="organizationReference" minOccurs="0" nillable="true"/>
+        </xsd:sequence>
+    </xsd:complexType> 
+        
+    <xsd:complexType name="knowledgeSkillAttitudeLearningObjectiveRationale">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:knowledgeSkillAttitudeLearningObjectiveRationale</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>       
+            <xsd:element name="descr" type="nonEmptyString" nillable="true"/>
+            <xsd:element name="lang" type="value:languageCodeValues" minOccurs="0" nillable="true"/>
+            <xsd:element name="date" type="xsd:date" minOccurs="0" nillable="true"/>
+            <xsd:element name="providedBy" type="organizationReference" minOccurs="0" nillable="true"/>
+            <xsd:group ref="applicabilityAssignmentItem"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
     <xsd:complexType name="jobPositionName">
         <xsd:annotation>
             <xsd:appinfo>SX001G:jobPositionName</xsd:appinfo>
@@ -1156,6 +1418,30 @@
             <xsd:element name="providedBy" type="organizationReference" minOccurs="0" nillable="true"/>
         </xsd:sequence>
     </xsd:complexType>
+    
+    <xsd:complexType name="learningAssessmentName">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:learningAssessmentName</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>       
+            <xsd:element name="name" type="nonEmptyString" nillable="true"/>                 
+            <xsd:element name="lang" type="value:languageCodeValues" minOccurs="0" nillable="true"/>                
+            <xsd:element name="providedBy" type="organizationReference" minOccurs="0" nillable="true"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="learningAssessmentDescription">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:learningAssessmentDescription</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>       
+            <xsd:element name="descr" type="nonEmptyString" nillable="true"/>
+            <xsd:element name="lang" type="value:languageCodeValues" minOccurs="0" nillable="true"/>
+            <xsd:element name="date" type="xsd:date" minOccurs="0" nillable="true"/>
+            <xsd:element name="providedBy" type="organizationReference" minOccurs="0" nillable="true"/>
+            <xsd:group ref="applicabilityAssignmentItem"/>
+        </xsd:sequence>
+    </xsd:complexType>  
     
     <xsd:complexType name="learningObjectiveBehaviorAction">
         <xsd:annotation>
@@ -1256,16 +1542,25 @@
         </xsd:sequence>
     </xsd:complexType>
     
-    <xsd:complexType name="learningObjectiveTitle">
+    <xsd:complexType name="learningObjectiveName">
         <xsd:annotation>
-            <xsd:appinfo>SX001G:learningObjectiveTitle</xsd:appinfo>
+            <xsd:appinfo>SX001G:learningObjectiveName</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>       
-            <xsd:element name="descr" type="nonEmptyString" nillable="true"/>
-            <xsd:element name="lang" type="value:languageCodeValues" minOccurs="0" nillable="true"/>
-            <xsd:element name="date" type="xsd:date" minOccurs="0" nillable="true"/>
+            <xsd:element name="name" type="nonEmptyString" nillable="true"/>                 
+            <xsd:element name="lang" type="value:languageCodeValues" minOccurs="0" nillable="true"/>                
             <xsd:element name="providedBy" type="organizationReference" minOccurs="0" nillable="true"/>
-            <xsd:group ref="applicabilityAssignmentItem"/>
+        </xsd:sequence>
+    </xsd:complexType>
+        
+    <xsd:complexType name="learningObjectiveTrainingStrategyName">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:learningObjectiveTrainingStrategyName</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>       
+            <xsd:element name="name" type="nonEmptyString" nillable="true"/>                 
+            <xsd:element name="lang" type="value:languageCodeValues" minOccurs="0" nillable="true"/>                
+            <xsd:element name="providedBy" type="organizationReference" minOccurs="0" nillable="true"/>
         </xsd:sequence>
     </xsd:complexType>
             
@@ -1288,22 +1583,11 @@
         <xsd:sequence>
             <xsd:element name="date" type="xsd:date" nillable="true"/>
         </xsd:sequence>
-    </xsd:complexType>
-    
-    <xsd:complexType name="levelOfLearningIterationIdentifier">
-        <xsd:annotation>
-            <xsd:appinfo>SX001G:subtaskTrainIdentifier</xsd:appinfo>
-        </xsd:annotation>
-        <xsd:sequence>
-            <xsd:element name="id" type="nonEmptyString" nillable="true"/>
-            <xsd:element name="class"  type="value:levelOfLearningIterationIdentifierClassValues" minOccurs="0" nillable="true"/>
-            <xsd:element name="setBy" type="organizationReference" minOccurs="0" nillable="true"/>
-        </xsd:sequence>
-    </xsd:complexType>    
+    </xsd:complexType> 
     
     <xsd:complexType name="levelOfLearningIterationRationale">
         <xsd:annotation>
-            <xsd:appinfo>SX001G:levelOfLearningLevelIterationRationale</xsd:appinfo>
+            <xsd:appinfo>SX001G:levelOfLearningIterationRationale</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>       
             <xsd:element name="descr" type="nonEmptyString" nillable="true"/>
@@ -1316,7 +1600,7 @@
     
     <xsd:complexType name="levelOfLearningKnowledge">
         <xsd:annotation>
-            <xsd:appinfo>SX001G:levelOfLearningKnowledgeLevel</xsd:appinfo>
+            <xsd:appinfo>SX001G:levelOfLearningKnowledge</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>       
             <xsd:element name="descr" type="nonEmptyString" nillable="true"/>
@@ -1329,7 +1613,7 @@
     
     <xsd:complexType name="levelOfLearningRationale">
         <xsd:annotation>
-            <xsd:appinfo>SX001G:levelOfLearningLevelRationale</xsd:appinfo>
+            <xsd:appinfo>SX001G:levelOfLearningRationale</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>       
             <xsd:element name="descr" type="nonEmptyString" nillable="true"/>
@@ -1415,6 +1699,71 @@
         </xsd:sequence>
     </xsd:complexType>  
     
+    <xsd:complexType name="subtaskDifficultyCategory">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:subtaskDifficultyCategory</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="code" type="value:taskDifficultyCategoryCodeValues" nillable="true"/>
+            <!-- Same values as for the task -->
+            <xsd:group ref="applicabilityAssignmentItem"/>
+            <xsd:group ref="documentAssignmentItem"/>
+            <xsd:group ref="remarkAssignmentItem"/>
+        </xsd:sequence>  
+    </xsd:complexType>
+    
+    <xsd:complexType name="subtaskFrequencyCategory">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:subtaskFrequencyCategory</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="code" type="value:taskFrequencyCategoryCodeValues" nillable="true"/>
+            <!-- Same values as for the task -->
+            <xsd:group ref="applicabilityAssignmentItem"/>
+            <xsd:group ref="documentAssignmentItem"/>
+            <xsd:group ref="remarkAssignmentItem"/>
+        </xsd:sequence>  
+    </xsd:complexType>    
+    
+    <xsd:complexType name="subtaskHumanInteractionRequirement">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:subtaskHumanInteractionRequirement</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="code" type="value:taskHumanInteractionRequirementCodeValues" nillable="true"/>
+            <!-- Same values as for the task -->
+            <xsd:group ref="applicabilityAssignmentItem"/>
+            <xsd:group ref="documentAssignmentItem"/>
+            <xsd:group ref="remarkAssignmentItem"/>
+        </xsd:sequence>  
+    </xsd:complexType>     
+    
+    <xsd:complexType name="subtaskImportanceCategory">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:subtaskImportanceCategory</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="code" type="value:taskImportanceCategoryCodeValues" nillable="true"/>
+            <!-- Same values as for the task -->
+            <xsd:group ref="applicabilityAssignmentItem"/>
+            <xsd:group ref="documentAssignmentItem"/>
+            <xsd:group ref="remarkAssignmentItem"/>
+        </xsd:sequence>  
+    </xsd:complexType>  
+        
+    <xsd:complexType name="subtaskPerformanceObjectiveStatement">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:subtaskPerformanceObjectiveStatement</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>       
+            <xsd:element name="descr" type="nonEmptyString" nillable="true"/>
+            <xsd:element name="lang" type="value:languageCodeValues" minOccurs="0" nillable="true"/>
+            <xsd:element name="date" type="xsd:date" minOccurs="0" nillable="true"/>
+            <xsd:element name="providedBy" type="organizationReference" minOccurs="0" nillable="true"/>
+            <xsd:group ref="applicabilityAssignmentItem"/>
+        </xsd:sequence>
+    </xsd:complexType>  
+    
     <xsd:complexType name="subtaskStepBehaviorAction">
         <xsd:annotation>
             <xsd:appinfo>SX001G:subtaskStepBehaviorAction</xsd:appinfo>
@@ -1452,23 +1801,74 @@
             <xsd:element name="providedBy" type="organizationReference" minOccurs="0" nillable="true"/>
             <xsd:group ref="applicabilityAssignmentItem"/>
         </xsd:sequence>
-    </xsd:complexType>  
-         
-    <xsd:complexType name="subtaskTrainingDecision">
+    </xsd:complexType>      
+    
+    <xsd:complexType name="subtaskStepPerformanceStandardStatement">
         <xsd:annotation>
-            <xsd:appinfo>SX001G:subtaskTrainingDecision</xsd:appinfo>
+            <xsd:appinfo>SX001G:subtaskStepPerformanceStandardStatement</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>       
+            <xsd:element name="descr" type="nonEmptyString" nillable="true"/>
+            <xsd:element name="lang" type="value:languageCodeValues" minOccurs="0" nillable="true"/>
+            <xsd:element name="date" type="xsd:date" minOccurs="0" nillable="true"/>
+            <xsd:element name="providedBy" type="organizationReference" minOccurs="0" nillable="true"/>
+            <xsd:group ref="applicabilityAssignmentItem"/>
+        </xsd:sequence>
+    </xsd:complexType>  
+    
+    <xsd:complexType name="subtaskTrainIdentifier">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:subtaskTrainIdentifier</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:element name="code" type="value:subtaskTrainingDecisionCodeValues" nillable="true"/>
+            <xsd:element name="id" type="nonEmptyString" nillable="true"/>
+            <xsd:element name="class"  type="value:subtaskTrainIdentifierClassValues" minOccurs="0" nillable="true"/>
+            <xsd:element name="setBy" type="organizationReference" minOccurs="0" nillable="true"/>
+        </xsd:sequence>
+    </xsd:complexType>    
+    
+    <xsd:complexType name="subtaskTrainingDifficulty">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:subtaskTrainingDifficulty</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="code" type="value:taskTrainingDifficultyCodeValues" nillable="true"/>
+            <!-- Same values as for the task -->
             <xsd:group ref="applicabilityAssignmentItem"/>
             <xsd:group ref="documentAssignmentItem"/>
             <xsd:group ref="remarkAssignmentItem"/>
         </xsd:sequence>  
     </xsd:complexType>
     
-    <xsd:complexType name="subtaskTrainingDecisionRationale">
+    <xsd:complexType name="subtaskTrainingLevel">
         <xsd:annotation>
-            <xsd:appinfo>SX001G:subtaskTrainingDecisionRationale</xsd:appinfo>
+            <xsd:appinfo>SX001G:subtaskTrainingLevel</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="code" type="value:taskTrainingLevelCodeValues" nillable="true"/>
+            <!-- Same values as for the task -->
+            <xsd:group ref="applicabilityAssignmentItem"/>
+            <xsd:group ref="documentAssignmentItem"/>
+            <xsd:group ref="remarkAssignmentItem"/>
+        </xsd:sequence>  
+    </xsd:complexType>  
+    
+    <xsd:complexType name="subtaskTrainingLevelDecision">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:subtaskTrainingLevelDecision</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="code" type="value:taskTrainingLevelDecisionCodeValues" nillable="true"/>
+            <!-- Same values as for the task -->
+            <xsd:group ref="applicabilityAssignmentItem"/>
+            <xsd:group ref="documentAssignmentItem"/>
+            <xsd:group ref="remarkAssignmentItem"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="subtaskTrainingLevelDecisionRationale">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:subtaskTrainingLevelDecisionRationale</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>       
             <xsd:element name="descr" type="nonEmptyString" nillable="true"/>
@@ -1479,14 +1879,16 @@
         </xsd:sequence>
     </xsd:complexType>
     
-    <xsd:complexType name="subtaskTrainIdentifier">
+    <xsd:complexType name="subtaskTrainingLevelRationale">
         <xsd:annotation>
-            <xsd:appinfo>SX001G:subtaskTrainIdentifier</xsd:appinfo>
+            <xsd:appinfo>SX001G:subtaskTrainingLevelRationale</xsd:appinfo>
         </xsd:annotation>
-        <xsd:sequence>
-            <xsd:element name="id" type="nonEmptyString" nillable="true"/>
-            <xsd:element name="class"  type="value:subtaskTrainIdentifierClassValues" minOccurs="0" nillable="true"/>
-            <xsd:element name="setBy" type="organizationReference" minOccurs="0" nillable="true"/>
+        <xsd:sequence>       
+            <xsd:element name="descr" type="nonEmptyString" nillable="true"/>
+            <xsd:element name="lang" type="value:languageCodeValues" minOccurs="0" nillable="true"/>
+            <xsd:element name="date" type="xsd:date" minOccurs="0" nillable="true"/>
+            <xsd:element name="providedBy" type="organizationReference" minOccurs="0" nillable="true"/>
+            <xsd:group ref="applicabilityAssignmentItem"/>
         </xsd:sequence>
     </xsd:complexType>
         
@@ -1513,7 +1915,29 @@
             <!-- Change valid value class -->
             <xsd:element name="setBy" type="organizationReference" minOccurs="0" nillable="true"/>
         </xsd:sequence>
-    </xsd:complexType>
+    </xsd:complexType>    
+    
+    <xsd:complexType name="subtaskTrainStepName">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:subtaskTrainStepName</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>       
+            <xsd:element name="name" type="nonEmptyString" nillable="true"/>                 
+            <xsd:element name="lang" type="value:languageCodeValues" minOccurs="0" nillable="true"/>                
+            <xsd:element name="providedBy" type="organizationReference" minOccurs="0" nillable="true"/>
+        </xsd:sequence>
+    </xsd:complexType>    
+    
+    <xsd:complexType name="taskAffectivelevelOfLearningIterationIdentifier">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:taskAffectivelevelOfLearningIterationIdentifier</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="id" type="nonEmptyString" nillable="true"/>
+            <xsd:element name="class"  type="value:taskAffectivelevelOfLearningIterationIdentifierClassValues" minOccurs="0" nillable="true"/>
+            <xsd:element name="setBy" type="organizationReference" minOccurs="0" nillable="true"/>
+        </xsd:sequence>
+    </xsd:complexType>  
     
     <xsd:complexType name="taskBehaviorAction">
         <xsd:annotation>
@@ -1553,6 +1977,17 @@
             <xsd:group ref="applicabilityAssignmentItem"/>
         </xsd:sequence>
     </xsd:complexType>  
+    
+    <xsd:complexType name="taskCognitiveLevelOfLearningIterationIdentifier">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:taskCognitiveLevelOfLearningIterationIdentifier</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="id" type="nonEmptyString" nillable="true"/>
+            <xsd:element name="class"  type="value:taskCognitiveLevelOfLearningIterationIdentifierClassValues" minOccurs="0" nillable="true"/>
+            <xsd:element name="setBy" type="organizationReference" minOccurs="0" nillable="true"/>
+        </xsd:sequence>
+    </xsd:complexType>     
         
     <xsd:complexType name="taskDifficultyCategory">
         <xsd:annotation>
@@ -1601,18 +2036,7 @@
             <xsd:group ref="remarkAssignmentItem"/>
         </xsd:sequence>  
     </xsd:complexType>    
-    
-    <xsd:complexType name="taskKnowledgeSkillAttitudeGapIterationIdentifier">
-        <xsd:annotation>
-            <xsd:appinfo>SX001G:taskKnowledgeSkillAttitudeGapIterationIdentifier</xsd:appinfo>
-        </xsd:annotation>
-        <xsd:sequence>
-            <xsd:element name="id" type="nonEmptyString" nillable="true"/>
-            <xsd:element name="class"  type="value:taskKnowledgeSkillAttitudeGapIterationIdentifierClassValues" minOccurs="0" nillable="true"/>
-            <xsd:element name="setBy" type="organizationReference" minOccurs="0" nillable="true"/>
-        </xsd:sequence>
-    </xsd:complexType> 
-    
+            
     <xsd:complexType name="taskKnowledgeSkillAttitudeGapDescription">
         <xsd:annotation>
             <xsd:appinfo>SX001G:taskKnowledgeSkillAttitudeGapDescription</xsd:appinfo>
@@ -1624,8 +2048,8 @@
             <xsd:element name="providedBy" type="organizationReference" minOccurs="0" nillable="true"/>
             <xsd:group ref="applicabilityAssignmentItem"/>
         </xsd:sequence>
-    </xsd:complexType>  
-    
+    </xsd:complexType> 
+        
     <xsd:complexType name="taskKnowledgeSkillAttitudeGapIdentifier">
         <xsd:annotation>
             <xsd:appinfo>SX001G:taskKnowledgeSkillAttitudeGapIdentifier</xsd:appinfo>
@@ -1635,22 +2059,11 @@
             <xsd:element name="class"  type="value:taskKnowledgeSkillAttitudeGapIdentifierClassValues" minOccurs="0" nillable="true"/>
             <xsd:element name="setBy" type="organizationReference" minOccurs="0" nillable="true"/>
         </xsd:sequence>
-    </xsd:complexType> 
-    
-    <xsd:complexType name="taskKnowledgeSkillAttitudeRequirementIdentifier">
+    </xsd:complexType>  
+        
+    <xsd:complexType name="taskPerformanceObjectiveStatement">
         <xsd:annotation>
-            <xsd:appinfo>SX001G:taskKnowledgeSkillAttitudeRequirementIdentifier</xsd:appinfo>
-        </xsd:annotation>
-        <xsd:sequence>
-            <xsd:element name="id" type="nonEmptyString" nillable="true"/>
-            <xsd:element name="class"  type="value:taskKnowledgeSkillAttitudeRequirementIdentifierClassValues" minOccurs="0" nillable="true"/>
-            <xsd:element name="setBy" type="organizationReference" minOccurs="0" nillable="true"/>
-        </xsd:sequence>
-    </xsd:complexType>    
-    
-    <xsd:complexType name="taskLevelOfLearningLearningObjectiveRationale">
-        <xsd:annotation>
-            <xsd:appinfo>SX001G:taskLevelOfLearningLearningObjectiveRationale</xsd:appinfo>
+            <xsd:appinfo>SX001G:taskPerformanceObjectiveStatement</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>       
             <xsd:element name="descr" type="nonEmptyString" nillable="true"/>
@@ -1661,14 +2074,16 @@
         </xsd:sequence>
     </xsd:complexType>
     
-    <xsd:complexType name="taskLevelOfLearningLearningObjectiveSequenceNumber">
+    <xsd:complexType name="taskPsychomotorLevelOfLearningIterationIdentifier">
         <xsd:annotation>
-            <xsd:appinfo>S1000G:taskLevelOfLearningLearningObjectiveSequenceNumber</xsd:appinfo>
+            <xsd:appinfo>SX001G:taskPsychomotorLevelOfLearningIterationIdentifier</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:element name="value" type="xsd:int"/>
+            <xsd:element name="id" type="nonEmptyString" nillable="true"/>
+            <xsd:element name="class"  type="value:taskPsychomotorLevelOfLearningIterationIdentifierClassValues" minOccurs="0" nillable="true"/>
+            <xsd:element name="setBy" type="organizationReference" minOccurs="0" nillable="true"/>
         </xsd:sequence>
-    </xsd:complexType>
+    </xsd:complexType> 
     
     <xsd:complexType name="taskTargetAudience">
         <xsd:annotation>
@@ -1698,7 +2113,6 @@
         <xsd:sequence>
             <xsd:element name="id" type="nonEmptyString" nillable="true"/>
             <xsd:element name="class"  type="value:taskTrainDecisionIterationIdentifierClassValues" minOccurs="0" nillable="true"/>
-            <!-- Change valid value class -->
             <xsd:element name="setBy" type="organizationReference" minOccurs="0" nillable="true"/>
         </xsd:sequence>
     </xsd:complexType>    
@@ -1728,32 +2142,6 @@
             <xsd:group ref="applicabilityAssignmentItem"/>
         </xsd:sequence>
     </xsd:complexType>   
-    
-    <xsd:complexType name="taskTrainingDecision">
-        <xsd:annotation>
-            <xsd:appinfo>SX001G:taskTrainingDecision</xsd:appinfo>
-        </xsd:annotation>
-        <xsd:sequence>
-            <xsd:element name="value" type="xsd:boolean" nillable="true">
-                <xsd:annotation>
-                    <xsd:appinfo>SX001G:value</xsd:appinfo>
-                </xsd:annotation>
-            </xsd:element> 
-        </xsd:sequence>
-    </xsd:complexType>
-    
-    <xsd:complexType name="taskTrainingDecisionRationale">
-        <xsd:annotation>
-            <xsd:appinfo>SX001G:taskTrainingDecisionRationale</xsd:appinfo>
-        </xsd:annotation>
-        <xsd:sequence>       
-            <xsd:element name="descr" type="nonEmptyString" nillable="true"/>
-            <xsd:element name="lang" type="value:languageCodeValues" minOccurs="0" nillable="true"/>
-            <xsd:element name="date" type="xsd:date" minOccurs="0" nillable="true"/>
-            <xsd:element name="providedBy" type="organizationReference" minOccurs="0" nillable="true"/>
-            <xsd:group ref="applicabilityAssignmentItem"/>
-        </xsd:sequence>
-    </xsd:complexType>
         
     <xsd:complexType name="taskTrainingDifficulty">
         <xsd:annotation>
@@ -1777,6 +2165,31 @@
             <xsd:group ref="documentAssignmentItem"/>
             <xsd:group ref="remarkAssignmentItem"/>
         </xsd:sequence>  
+    </xsd:complexType>    
+    
+    <xsd:complexType name="taskTrainingLevelDecision">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:taskTrainingLevelDecision</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="code" type="value:taskTrainingLevelDecisionCodeValues" nillable="true"/>
+            <xsd:group ref="applicabilityAssignmentItem"/>
+            <xsd:group ref="documentAssignmentItem"/>
+            <xsd:group ref="remarkAssignmentItem"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="taskTrainingLevelDecisionRationale">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:taskTrainingLevelDecisionRationale</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>       
+            <xsd:element name="descr" type="nonEmptyString" nillable="true"/>
+            <xsd:element name="lang" type="value:languageCodeValues" minOccurs="0" nillable="true"/>
+            <xsd:element name="date" type="xsd:date" minOccurs="0" nillable="true"/>
+            <xsd:element name="providedBy" type="organizationReference" minOccurs="0" nillable="true"/>
+            <xsd:group ref="applicabilityAssignmentItem"/>
+        </xsd:sequence>
     </xsd:complexType>
     
     <xsd:complexType name="taskTrainingLevelRationale">
@@ -1790,6 +2203,161 @@
             <xsd:element name="providedBy" type="organizationReference" minOccurs="0" nillable="true"/>
             <xsd:group ref="applicabilityAssignmentItem"/>
         </xsd:sequence>
+    </xsd:complexType>    
+    
+    <xsd:complexType name="trainingComponentLearningObjectiveDependencyType">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:trainingComponentLearningObjectiveDependencyType</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="code" type="value:trainingComponentLearningObjectiveDependencyTypeCodeValues" nillable="true"/>
+            <xsd:group ref="applicabilityAssignmentItem"/>
+            <xsd:group ref="documentAssignmentItem"/>
+            <xsd:group ref="remarkAssignmentItem"/>
+        </xsd:sequence>  
+    </xsd:complexType>
+    
+    <xsd:complexType name="trainingComponentMedia">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:trainingComponentMedia</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="code" type="value:trainingComponentMediaCodeValues" nillable="true"/>
+            <xsd:group ref="applicabilityAssignmentItem"/>
+            <xsd:group ref="documentAssignmentItem"/>
+            <xsd:group ref="remarkAssignmentItem"/>
+        </xsd:sequence>  
+    </xsd:complexType>
+    
+    <xsd:complexType name="trainingComponentMethod">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:trainingComponentMethod</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="code" type="value:trainingComponentMethodCodeValues" nillable="true"/>
+            <xsd:group ref="applicabilityAssignmentItem"/>
+            <xsd:group ref="documentAssignmentItem"/>
+            <xsd:group ref="remarkAssignmentItem"/>
+        </xsd:sequence>  
+    </xsd:complexType>
+    
+    <xsd:complexType name="trainingComponentName">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:trainingComponentName</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>       
+            <xsd:element name="name" type="nonEmptyString" nillable="true"/>                 
+            <xsd:element name="lang" type="value:languageCodeValues" minOccurs="0" nillable="true"/>                
+            <xsd:element name="providedBy" type="organizationReference" minOccurs="0" nillable="true"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="trainingComponentSequenceNumber">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:trainingComponentSequenceNumber</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="value" type="xsd:int" nillable="true"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="trainingComponentSpecialResourceRequirementDescription">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:trainingComponentSpecialResourceRequirementDescription</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>       
+            <xsd:element name="descr" type="nonEmptyString" nillable="true"/>
+            <xsd:element name="lang" type="value:languageCodeValues" minOccurs="0" nillable="true"/>
+            <xsd:element name="date" type="xsd:date" minOccurs="0" nillable="true"/>
+            <xsd:element name="providedBy" type="organizationReference" minOccurs="0" nillable="true"/>
+            <xsd:group ref="applicabilityAssignmentItem"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="trainingComponentSpecialResourceRequirementName">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:trainingComponentSpecialResourceRequirementName</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>       
+            <xsd:element name="name" type="nonEmptyString" nillable="true"/>                 
+            <xsd:element name="lang" type="value:languageCodeValues" minOccurs="0" nillable="true"/>                
+            <xsd:element name="providedBy" type="organizationReference" minOccurs="0" nillable="true"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="trainingComponentSpecialResourceRequirementReferenceType">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:trainingComponentSpecialResourceRequirementReferenceType</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="code" type="value:trainingComponentSpecialResourceRequirementReferenceTypeCodeValues" nillable="true"/>
+            <xsd:group ref="applicabilityAssignmentItem"/>
+            <xsd:group ref="documentAssignmentItem"/>
+            <xsd:group ref="remarkAssignmentItem"/>
+        </xsd:sequence>  
+    </xsd:complexType>
+    
+    <xsd:complexType name="trainingComponentSpecialResourceRequirementType">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:trainingComponentSpecialResourceRequirementType</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="code" type="value:trainingComponentSpecialResourceRequirementTypeCodeValues" nillable="true"/>
+            <xsd:group ref="applicabilityAssignmentItem"/>
+            <xsd:group ref="documentAssignmentItem"/>
+            <xsd:group ref="remarkAssignmentItem"/>
+        </xsd:sequence>  
+    </xsd:complexType>
+    
+    <xsd:complexType name="trainingPopulationDescription">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:trainingPopulationDescription</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>       
+            <xsd:element name="descr" type="nonEmptyString" nillable="true"/>
+            <xsd:element name="lang" type="value:languageCodeValues" minOccurs="0" nillable="true"/>
+            <xsd:element name="date" type="xsd:date" minOccurs="0" nillable="true"/>
+            <xsd:element name="providedBy" type="organizationReference" minOccurs="0" nillable="true"/>
+            <xsd:group ref="applicabilityAssignmentItem"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="trainingPopulationNumberOfPeople">
+        <xsd:annotation>
+            <xsd:appinfo>SX001G:trainingPopulationNumberOfPeople</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="date" type="xsd:date" minOccurs="0" nillable="true"/>                    
+            <xsd:element name="vdtm" type="value:valueDeterminationCodeValues" minOccurs="0" nillable="true"/>                    
+            <xsd:choice>
+                <xsd:sequence>
+                    <xsd:element name="unit" type="unit:quantityUnit"/>                            
+                    <xsd:choice>
+                        <xsd:sequence>
+                            <xsd:element name="value" type="xsd:decimal" nillable="true"/>                                    
+                        </xsd:sequence>
+                        <xsd:sequence>
+                            <xsd:element name="nomVal" type="xsd:decimal"/>                                                                       
+                            <xsd:element name="lowOff" type="xsd:decimal"/>                                    
+                            <xsd:element name="uppOff" type="xsd:decimal"/>                                    
+                        </xsd:sequence>
+                        <xsd:sequence>
+                            <xsd:element name="lowVal" type="xsd:decimal"/>                                    
+                            <xsd:element name="uppVal" type="xsd:decimal"/>                                    
+                        </xsd:sequence>
+                    </xsd:choice>
+                </xsd:sequence>
+                <xsd:sequence>
+                    <xsd:element name="txt" type="nonEmptyString" nillable="true"/>                            
+                </xsd:sequence>
+            </xsd:choice>
+            <xsd:sequence>
+                <xsd:group ref="applicabilityAssignmentItem"/>
+                <xsd:group ref="documentAssignmentItem"/>
+                <xsd:group ref="organizationAssignmentItem"/>
+                <xsd:group ref="remarkAssignmentItem"/>
+            </xsd:sequence>  
+        </xsd:sequence> 
     </xsd:complexType>
         
     <xsd:complexType name="warningCautionTrainDecisionIterationIdentifier">
@@ -1831,7 +2399,7 @@
             <xsd:appinfo>SX001G:warningCautionTrainingLevel</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:element name="code" type="value:taskTrainingLevelCodeValues" nillable="true"/>
+            <xsd:element name="code" type="value:taskTrainingLevelDecisionCodeValues" nillable="true"/>
             <xsd:group ref="applicabilityAssignmentItem"/>
             <xsd:group ref="documentAssignmentItem"/>
             <xsd:group ref="remarkAssignmentItem"/>
@@ -1865,7 +2433,7 @@
             </xsd:simpleType>
         </xsd:attribute>
         <xsd:attribute name="uriRef" type="xsd:anyURI" use="optional"/>
-        <!--<xsd:assert test="(@uidRef and not(compId) and not(uriRef)) or (not(@uidRef) and compId and not(uriRef)) or (not(@uidRef) and not(compId) and uriRef)"/>-->
+        <xsd:assert test="(@uidRef and not(compId) and not(uriRef)) or (not(@uidRef) and compId and not(uriRef)) or (not(@uidRef) and not(compId) and uriRef)"/>
     </xsd:complexType>
     
     <xsd:complexType name="jobPositionRef">
@@ -1875,13 +2443,28 @@
         <xsd:attribute name="uidRef" use="optional">
             <xsd:simpleType>
                 <xsd:restriction base="uidRef">
-                    <xsd:pattern value="jobp[1-9][0-9]*"/>
+                    <xsd:pattern value="jobpos[1-9][0-9]*"/>
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
         <xsd:attribute name="uriRef" type="xsd:anyURI" use="optional"/>
-        <!--<xsd:assert test="(@uidRef and not(jobPosName) and not(uriRef)) or (not(@uidRef) and jobPosName and not(uriRef)) or (not(@uidRef) and not(jobPosName) and uriRef)"/>-->
+        <xsd:assert test="(@uidRef and not(jobPosName) and not(uriRef)) or (not(@uidRef) and jobPosName and not(uriRef)) or (not(@uidRef) and not(jobPosName) and uriRef)"/>
     </xsd:complexType>
+    
+    <xsd:complexType name="knowledgeSkillAttitudeGapDefinitionRef">
+        <xsd:sequence minOccurs="0">
+            <xsd:element name="gapId" type="knowledgeSkillAttitudeGapIdentifier"/>
+        </xsd:sequence>
+        <xsd:attribute name="uidRef" use="optional">
+            <xsd:simpleType>
+                <xsd:restriction base="uidRef">
+                    <xsd:pattern value="ksagapa[1-9][0-9]*"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute name="uriRef" type="xsd:anyURI" use="optional"/>
+        <xsd:assert test="(@uidRef and not(gapId) and not(uriRef)) or (not(@uidRef) and gapId and not(uriRef)) or (not(@uidRef) and not(gapId) and uriRef)"/>
+    </xsd:complexType>  
     
     <xsd:complexType name="learningObjectiveRef">
         <xsd:sequence minOccurs="0">
@@ -1895,7 +2478,7 @@
             </xsd:simpleType>
         </xsd:attribute>
         <xsd:attribute name="uriRef" type="xsd:anyURI" use="optional"/>
-        <!--<xsd:assert test="(@uidRef and not(loId) and not(uriRef)) or (not(@uidRef) and loId and not(uriRef)) or (not(@uidRef) and not(loId) and uriRef)"/>-->
+        <xsd:assert test="(@uidRef and not(loId) and not(uriRef)) or (not(@uidRef) and loId and not(uriRef)) or (not(@uidRef) and not(loId) and uriRef)"/>
     </xsd:complexType>    
     
     <xsd:complexType name="prerequisiteCompetenciesDefinitionRef">
@@ -1916,14 +2499,14 @@
             </xsd:simpleType>
         </xsd:attribute>
         <xsd:attribute name="uriRef" type="xsd:anyURI" use="optional"/>
-        <!--<xsd:assert test="(@uidRef and not(compId) and not(uriRef)) or (not(@uidRef) and compId and not(uriRef)) or (not(@uidRef) and not(compId) and uriRef)"/>-->
+        <xsd:assert test="(@uidRef and not(compId) and not(uriRef)) or (not(@uidRef) and compId and not(uriRef)) or (not(@uidRef) and not(compId) and uriRef)"/>
     </xsd:complexType>
     
     <xsd:complexType name="subtaskTrainDecisionDefinitionRef">
         <xsd:sequence minOccurs="0">
             <xsd:element name="taskId" type="taskIdentifier"/>
             <xsd:element name="taskRevId" type="taskRevisionIdentifier"/>
-            <xsd:element name="trainIterationId" type="taskTrainDecisionIterationIdentifier" />
+            <xsd:element name="iterationId" type="taskTrainDecisionIterationIdentifier" />
             <xsd:element name="subtTrainId" type="subtaskTrainIdentifier"/>
         </xsd:sequence>
         <xsd:attribute name="uidRef" use="optional">
@@ -1934,14 +2517,14 @@
             </xsd:simpleType>
         </xsd:attribute>
         <xsd:attribute name="uriRef" type="xsd:anyURI" use="optional"/>
-        <!--<xsd:assert test="(@uidRef and not(taskId) and not(uriRef)) or (not(@uidRef) and taskId and not(uriRef)) or (not(@uidRef) and not(taskId) and uriRef)"/>-->
+        <xsd:assert test="(@uidRef and not(taskId) and not(uriRef)) or (not(@uidRef) and taskId and not(uriRef)) or (not(@uidRef) and not(taskId) and uriRef)"/>
     </xsd:complexType>
     
     <xsd:complexType name="subtaskTrainStepDefinitionRef">
         <xsd:sequence minOccurs="0">
             <xsd:element name="taskId" type="taskIdentifier"/>
             <xsd:element name="taskRevId" type="taskRevisionIdentifier"/>
-            <xsd:element name="trainIterationId" type="taskTrainDecisionIterationIdentifier" />
+            <xsd:element name="iterationId" type="taskTrainDecisionIterationIdentifier" />
             <xsd:element name="subtTrainId" type="subtaskTrainIdentifier"/>
             <xsd:element name="stepId" type="subtaskTrainStepIdentifier"/>
         </xsd:sequence>
@@ -1952,9 +2535,111 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(taskId)) or (not(@uidRef) and taskId)"/>-->
+        <xsd:attribute name="uriRef" type="xsd:anyURI" use="optional"/>
+        <xsd:assert test="(@uidRef and not(taskId) and not(uriRef)) or (not(@uidRef) and taskId and not(uriRef)) or (not(@uidRef) and not(taskId) and uriRef)"/>
     </xsd:complexType>
     
+    <xsd:complexType name="taskAffectiveLevelOfLearningRef">
+        <xsd:sequence minOccurs="0">
+            <xsd:choice>
+                <xsd:element name="trainTaskRef" type="taskTrainDecisionByEvaluationRef"/>
+                <xsd:element name="trainSubtaskRef" type="subtaskTrainDecisionDefinitionRef"/>
+                <xsd:element name="trainStepRef"  type="subtaskTrainStepDefinitionRef"/>
+                <xsd:element name="wcnRef" type="warningCautionNoteRef"/>
+            </xsd:choice>
+            <xsd:element name="affIterId" type="taskAffectivelevelOfLearningIterationIdentifier"/>
+        </xsd:sequence>
+        <xsd:attribute name="uidRef" use="optional">
+            <xsd:simpleType>
+                <xsd:restriction base="uidRef">
+                    <xsd:pattern value="tafflol[1-9][0-9]*"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute name="uriRef" type="xsd:anyURI" use="optional"/>
+        <xsd:assert test="(@uidRef and not(affIterId) and not(uriRef)) or (not(@uidRef) and affIterId and not(uriRef)) or (not(@uidRef) and not(affIterId) and uriRef)"/>
+    </xsd:complexType>  
+    
+    <xsd:complexType name="taskCognitiveLevelOfLearningRef">
+        <xsd:sequence minOccurs="0">
+            <xsd:choice>
+                <xsd:element name="trainTaskRef" type="taskTrainDecisionByEvaluationRef"/>
+                <xsd:element name="trainSubtaskRef" type="subtaskTrainDecisionDefinitionRef"/>
+                <xsd:element name="trainStepRef"  type="subtaskTrainStepDefinitionRef"/>
+                <xsd:element name="wcnRef" type="warningCautionNoteRef"/>
+            </xsd:choice>
+            <xsd:element name="cognIterId" type="taskCognitiveLevelOfLearningIterationIdentifier"/>
+        </xsd:sequence>
+        <xsd:attribute name="uidRef" use="optional">
+            <xsd:simpleType>
+                <xsd:restriction base="uidRef">
+                    <xsd:pattern value="tcoglol[1-9][0-9]*"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute name="uriRef" type="xsd:anyURI" use="optional"/>
+        <xsd:assert test="(@uidRef and not(cognIterId) and not(uriRef)) or (not(@uidRef) and cognIterId and not(uriRef)) or (not(@uidRef) and not(cognIterId) and uriRef)"/>
+    </xsd:complexType>  
+    
+    <xsd:complexType name="taskKnowledgeSkillAttitudeGapRef">
+        <xsd:sequence minOccurs="0">
+            <xsd:choice>
+                <xsd:element name="taskAffLoLRef" type="taskAffectiveLevelOfLearningRef"/>
+                <xsd:element name="taskCognLoLRef" type="taskCognitiveLevelOfLearningRef"/>
+                <xsd:element name="taskPsychLoLRef" type="taskPsychomotorLevelOfLearningRef"/>
+            </xsd:choice>           
+            <xsd:element name="taskKSAGapId" type="taskKnowledgeSkillAttitudeGapIdentifier"/>
+        </xsd:sequence>
+        <xsd:attribute name="uidRef" use="optional">
+            <xsd:simpleType>
+                <xsd:restriction base="uidRef">
+                    <xsd:pattern value="taskgap[1-9][0-9]*"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute name="uriRef" type="xsd:anyURI" use="optional"/>
+        <xsd:assert test="(@uidRef and not(taskKSAGapId) and not(uriRef)) or (not(@uidRef) and taskKSAGapId and not(uriRef)) or (not(@uidRef) and not(taskKSAGapId) and uriRef)"/>
+    </xsd:complexType>    
+    
+    <xsd:complexType name="taskPsychomotorLevelOfLearningRef">
+        <xsd:sequence minOccurs="0">
+            <xsd:choice>
+                <xsd:element name="trainTaskRef" type="taskTrainDecisionByEvaluationRef"/>
+                <xsd:element name="trainSubtaskRef" type="subtaskTrainDecisionDefinitionRef"/>
+                <xsd:element name="trainStepRef"  type="subtaskTrainStepDefinitionRef"/>
+                <xsd:element name="wcnRef" type="warningCautionNoteRef"/>
+            </xsd:choice>
+            <xsd:element name="psychoIterId" type="taskPsychomotorLevelOfLearningIterationIdentifier"/>
+        </xsd:sequence>
+        <xsd:attribute name="uidRef" use="optional">
+            <xsd:simpleType>
+                <xsd:restriction base="uidRef">
+                    <xsd:pattern value="tpsylol[1-9][0-9]*"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute name="uriRef" type="xsd:anyURI" use="optional"/>
+        <xsd:assert test="(@uidRef and not(psychoIterId) and not(uriRef)) or (not(@uidRef) and psychoIterId and not(uriRef)) or (not(@uidRef) and not(psychoIterId) and uriRef)"/>
+    </xsd:complexType>
+    
+    <xsd:complexType name="taskTrainDecisionByEvaluationRef">
+        <xsd:sequence minOccurs="0">
+            <xsd:element name="taskId" type="taskIdentifier"/>
+            <xsd:element name="taskRevId" type="taskRevisionIdentifier"/>
+            <xsd:element name="iterationId" type="taskTrainDecisionIterationIdentifier" />
+        </xsd:sequence>
+        <xsd:attribute name="uidRef" use="optional">
+            <xsd:simpleType>
+                <xsd:restriction base="uidRef">
+                    <xsd:pattern value="ttd[1-9][0-9]*"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+        <xsd:attribute name="uriRef" type="xsd:anyURI" use="optional"/>
+        <xsd:assert test="(@uidRef and not(taskId) and not(uriRef)) or (not(@uidRef) and taskId and not(uriRef)) or (not(@uidRef) and not(taskId) and uriRef)"/>
+    </xsd:complexType>
+    
+        
     <!--  -->
     
     <xsd:group name="subtaskTrainDecisionNonAbstractClasses">
@@ -4932,8 +5617,9 @@
             <!--UML-Attributes-->
             <xsd:element name="skillCode" type="skillCode"/>
             <!--UML-CompAssocs-->
-            <!-- S6000T Tailorization -->
-            <xsd:element name="compDefs" type="prerequisiteCompetenciesItem" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+                 <!-- S6000T Tailorization -->
+            <xsd:element name="trainPopDef" type="trainingPopulationItem" minOccurs="0" nillable="true"/>
+            <xsd:element name="ksaGaps" type="knowledgeSkillAttitudeGapAnalysisItem" minOccurs="0" nillable="true"/>
             <!--UML-Interfaces-->
             <xsd:group ref="organizationAssignmentItem"/>
             <xsd:group ref="documentAssignmentItem"/>
@@ -4958,8 +5644,9 @@
             <xsd:element name="skillLevName" type="skillLevelName"/>
             <xsd:element name="skillLevDescr" type="skillLevelDescription" minOccurs="0" nillable="true"/>
             <!--UML-CompAssocs-->
-            <!-- S6000T Tailorization -->
-            <xsd:element name="compDefs" type="prerequisiteCompetenciesItem" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+                 <!-- S6000T Tailorization -->
+            <xsd:element name="trainPopDef" type="trainingPopulationItem" minOccurs="0" nillable="true"/>
+            <xsd:element name="ksaGaps" type="knowledgeSkillAttitudeGapAnalysisItem" minOccurs="0" nillable="true"/>
             <!--UML-Interfaces-->
             <xsd:group ref="documentAssignmentItem"/>
             <xsd:group ref="remarkAssignmentItem"/>
@@ -5940,8 +6627,9 @@
             <xsd:element name="tradeName" type="tradeName"/>
             <!--UML-CompAssocs-->
             <xsd:element name="skillLevel" type="skillLevel" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
-            <!-- S6000T Tailorization -->
-            <xsd:element name="compDefs" type="prerequisiteCompetenciesItem" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+                  <!-- S6000T Tailorization -->
+            <xsd:element name="trainPopDef" type="trainingPopulationItem" minOccurs="0" nillable="true"/>
+            <xsd:element name="ksaGaps" type="knowledgeSkillAttitudeGapAnalysisItem" minOccurs="0" nillable="true"/>
             <!--UML-Interfaces-->
             <xsd:group ref="organizationAssignmentItem"/>
             <xsd:group ref="documentAssignmentItem"/>
@@ -6003,7 +6691,7 @@
             <xsd:element name="wcnDescr" type="warningCautionNoteDescription" minOccurs="0" nillable="true"/>
             <xsd:element name="wcnType" type="warningCautionNoteType" minOccurs="0" nillable="true"/>
             <!--UML-CompAssocs-->
-            <xsd:element name="trainDecision" type="warningCautionTrainDecision" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            <xsd:element name="trainDcsn" type="warningCautionTrainDecision" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
             <!--UML-Interfaces-->
             <xsd:group ref="documentAssignmentItem"/>
             <xsd:group ref="remarkAssignmentItem"/>
@@ -6189,6 +6877,7 @@
             <xsd:element name="tradeRef" type="tradeReference"/>
             <xsd:element name="skillLevelRef" type="skillLevelReference"/>
             <xsd:element name="skillRef" type="skillReference"/>
+            <!-- S6000T Addition -->
             <xsd:element name="jobPosRef" type="jobPositionRef"/>
         </xsd:choice>
     </xsd:group> 
@@ -11517,7 +12206,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(prodConfId)) or (not(@uidRef) and prodConfId)"/>-->
+        <xsd:assert test="(@uidRef and not(prodConfId)) or (not(@uidRef) and prodConfId)"/>
     </xsd:complexType>
     
     <xsd:complexType name="applicabilityStatementReference" >
@@ -11531,7 +12220,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(applicId)) or (not(@uidRef) and applicId)"/>-->
+        <xsd:assert test="(@uidRef and not(applicId)) or (not(@uidRef) and applicId)"/>
     </xsd:complexType>
     
     <xsd:complexType name="breakdownElementReference">
@@ -11545,7 +12234,8 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(beId)) or (not(@uidRef) and beId)"/>-->
+        <xsd:attribute name="uriRef" type="xsd:anyURI" use="optional"/>
+        <xsd:assert test="(@uidRef and not(beId) and not(uriRef)) or (not(@uidRef) and beId and not(uriRef)) or (not(@uidRef) and not(beId) and uriRef)"/>
     </xsd:complexType>
     
     <xsd:complexType name="breakdownElementRevisionReference">
@@ -11560,7 +12250,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(beId)) or (not(@uidRef) and beId)"/>-->
+        <xsd:assert test="(@uidRef and not(beId)) or (not(@uidRef) and beId)"/>
     </xsd:complexType>
     
     <xsd:complexType name="breakdownElementStructureReference">
@@ -11604,7 +12294,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(crId)) or (not(@uidRef) and crId)"/>-->
+        <xsd:assert test="(@uidRef and not(crId)) or (not(@uidRef) and crId)"/>
     </xsd:complexType>
     
     <xsd:complexType name="circuitBreakerReference">
@@ -11618,7 +12308,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(cbId)) or (not(@uidRef) and cbId)"/>-->
+        <xsd:assert test="(@uidRef and not(cbId)) or (not(@uidRef) and cbId)"/>
     </xsd:complexType>
     
     <xsd:complexType name="conditionInstanceReference">
@@ -11633,7 +12323,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(condName)) or (not(@uidRef) and condName)"/>-->
+        <xsd:assert test="(@uidRef and not(condName)) or (not(@uidRef) and condName)"/>
     </xsd:complexType>
     
     <xsd:complexType name="conditionTypeReference">
@@ -11647,7 +12337,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(condName)) or (not(@uidRef) and condName)"/>-->
+        <xsd:assert test="(@uidRef and not(condName)) or (not(@uidRef) and condName)"/>
     </xsd:complexType>
     
     <xsd:complexType name="conditionTypeValueReference">
@@ -11664,7 +12354,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(code or propValue)) or (not(@uidRef) and (code or propValue))"/>-->
+        <xsd:assert test="(@uidRef and not(code or propValue)) or (not(@uidRef) and (code or propValue))"/>
     </xsd:complexType>
     
     <xsd:complexType name="contractReference">
@@ -11678,7 +12368,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(contrId)) or (not(@uidRef) and contrId)"/>-->
+        <xsd:assert test="(@uidRef and not(contrId)) or (not(@uidRef) and contrId)"/>
     </xsd:complexType>
     
     <xsd:complexType name="damageReference">
@@ -11713,7 +12403,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(docId or dmc or pmc)) or (not(@uidRef) and (docId or dmc or pmc))"/>-->
+        <xsd:assert test="(@uidRef and not(docId or dmc or pmc)) or (not(@uidRef) and (docId or dmc or pmc))"/>
     </xsd:complexType>
     
     <xsd:complexType name="documentReference">
@@ -11731,7 +12421,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(docId or dmc or pmc)) or (not(@uidRef) and (docId or dmc or pmc))"/>-->
+        <xsd:assert test="(@uidRef and not(docId or dmc or pmc)) or (not(@uidRef) and (docId or dmc or pmc))"/>
     </xsd:complexType>
     
     <xsd:complexType name="failureModeReference">
@@ -11745,7 +12435,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(fmId)) or (not(@uidRef) and fmId)"/>-->
+        <xsd:assert test="(@uidRef and not(fmId)) or (not(@uidRef) and fmId)"/>
     </xsd:complexType>
     
     <xsd:complexType name="functionalFailureReference">
@@ -11779,7 +12469,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(mlvId)) or (not(@uidRef) and mlvId)"/>-->
+        <xsd:assert test="(@uidRef and not(mlvId)) or (not(@uidRef) and mlvId)"/>
     </xsd:complexType>
     
     <xsd:complexType name="maintenanceLocationReference">
@@ -11793,7 +12483,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(mLocId)) or (not(@uidRef) and mLocId)"/>-->
+        <xsd:assert test="(@uidRef and not(mLocId)) or (not(@uidRef) and mLocId)"/>
     </xsd:complexType>
     
     <xsd:complexType name="messageReference">
@@ -11807,7 +12497,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(msgId)) or (not(@uidRef) and msgId)"/>-->
+        <xsd:assert test="(@uidRef and not(msgId)) or (not(@uidRef) and msgId)"/>
     </xsd:complexType>
     
     <xsd:complexType name="operatingLocationReference">
@@ -11821,7 +12511,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(opLocId)) or (not(@uidRef) and opLocId)"/>-->
+        <xsd:assert test="(@uidRef and not(opLocId)) or (not(@uidRef) and opLocId)"/>
     </xsd:complexType>
     
     <xsd:complexType name="operatingLocationTypeReference">
@@ -11835,7 +12525,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(opTypeId)) or (not(@uidRef) and opTypeId)"/>-->
+        <xsd:assert test="(@uidRef and not(opTypeId)) or (not(@uidRef) and opTypeId)"/>
     </xsd:complexType>
     
     <xsd:complexType name="organizationReference">
@@ -11849,7 +12539,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(orgId)) or (not(@uidRef) and orgId)"/>-->
+        <xsd:assert test="(@uidRef and not(orgId)) or (not(@uidRef) and orgId)"/>
     </xsd:complexType>
     
     <xsd:complexType name="partAsDesignedPartsListEntryReference">
@@ -11866,7 +12556,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(partId)) or (not(@uidRef) and partId)"/>-->
+        <xsd:assert test="(@uidRef and not(partId)) or (not(@uidRef) and partId)"/>
     </xsd:complexType>
     
     <xsd:complexType name="partAsDesignedReference">
@@ -11880,7 +12570,8 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(partId)) or (not(@uidRef) and partId)"/>-->
+        <xsd:attribute name="uriRef" type="xsd:anyURI" use="optional"/>
+        <xsd:assert test="(@uidRef and not(partId) and not(uriRef)) or (not(@uidRef) and partId and not(uriRef)) or (not(@uidRef) and not(partId) and uriRef)"/>
     </xsd:complexType>
         
     <xsd:complexType name="projectReference">
@@ -11894,7 +12585,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(projId)) or (not(@uidRef) and projId)"/>-->
+        <xsd:assert test="(@uidRef and not(projId)) or (not(@uidRef) and projId)"/>
     </xsd:complexType>
     
     <xsd:complexType name="productReference">
@@ -11908,7 +12599,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(prodId)) or (not(@uidRef) and prodId)"/>-->
+        <xsd:assert test="(@uidRef and not(prodId)) or (not(@uidRef) and prodId)"/>
     </xsd:complexType>
     
     <xsd:complexType name="productUsagePhaseReference">
@@ -11922,7 +12613,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(usagePhase)) or (not(@uidRef) and usagePhase)"/>-->
+        <xsd:assert test="(@uidRef and not(usagePhase)) or (not(@uidRef) and usagePhase)"/>
     </xsd:complexType>
     
     <xsd:complexType name="productVariantReference">
@@ -11937,7 +12628,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(prodId)) or (not(@uidRef) and prodId)"/>-->
+        <xsd:assert test="(@uidRef and not(prodId)) or (not(@uidRef) and prodId)"/>
     </xsd:complexType>
     
     <xsd:complexType name="repeatTimeLimitReference">
@@ -11961,7 +12652,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(resSpecId)) or (not(@uidRef) and resSpecId)"/>-->
+        <xsd:assert test="(@uidRef and not(resSpecId)) or (not(@uidRef) and resSpecId)"/>
     </xsd:complexType>
     
     <xsd:complexType name="securityClassReference">
@@ -11975,7 +12666,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(scc)) or (not(@uidRef) and scc)"/>-->
+        <xsd:assert test="(@uidRef and not(scc)) or (not(@uidRef) and scc)"/>
     </xsd:complexType>
     
     <xsd:complexType name="skillReference">
@@ -11991,7 +12682,7 @@
         </xsd:attribute>
         <!-- S6000T tailorization -->
         <xsd:attribute name="uriRef" type="xsd:anyURI" use="optional"/>
-        <!--<xsd:assert test="(@uidRef and not(skillCode) and not(uriRef)) or (not(@uidRef) and skillCode and not(uriRef)) or (not(@uidRef) and not(skillCode) and uriRef)"/>-->
+        <xsd:assert test="(@uidRef and not(skillCode) and not(uriRef)) or (not(@uidRef) and skillCode and not(uriRef)) or (not(@uidRef) and not(skillCode) and uriRef)"/>
     </xsd:complexType>
     
     <xsd:complexType name="skillLevelReference">
@@ -12008,7 +12699,7 @@
         </xsd:attribute>
         <!-- S6000T tailorization -->
         <xsd:attribute name="uriRef" type="xsd:anyURI" use="optional"/>
-        <!--<xsd:assert test="(@uidRef and not(tradeName) and not(uriRef)) or (not(@uidRef) and tradeName and not(uriRef)) or (not(@uidRef) and not(tradeName) and uriRef)"/>-->
+        <xsd:assert test="(@uidRef and not(tradeName) and not(uriRef)) or (not(@uidRef) and tradeName and not(uriRef)) or (not(@uidRef) and not(tradeName) and uriRef)"/>
     </xsd:complexType>
     
     <xsd:complexType name="softwareElementPartRealizationReference">
@@ -12032,7 +12723,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(evntTitle)) or (not(@uidRef) and evntTitle)"/>-->
+        <xsd:assert test="(@uidRef and not(evntTitle)) or (not(@uidRef) and evntTitle)"/>
     </xsd:complexType>
     
     <xsd:complexType name="substanceDefinitionReference">
@@ -12046,7 +12737,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(subsId)) or (not(@uidRef) and subsId)"/>-->
+        <xsd:assert test="(@uidRef and not(subsId)) or (not(@uidRef) and subsId)"/>
     </xsd:complexType>
     
     <xsd:complexType name="subtaskCircuitBreakerSettingsReference">
@@ -12072,7 +12763,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(taskId) and not(uriRef)) or (not(@uidRef) and taskId and not(uriRef)) or (not(@uidRef) and not(taskId) and uriRef)"/>-->
+        <xsd:assert test="(@uidRef and not(taskId) and not(uriRef)) or (not(@uidRef) and taskId and not(uriRef)) or (not(@uidRef) and not(taskId) and uriRef)"/>
     </xsd:complexType>
     
     <xsd:complexType name="taskRef">
@@ -12086,7 +12777,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(taskId) and not(uriRef)) or (not(@uidRef) and taskId and not(uriRef)) or (not(@uidRef) and not(taskId) and uriRef)"/>-->
+        <xsd:assert test="(@uidRef and not(taskId) and not(uriRef)) or (not(@uidRef) and taskId and not(uriRef)) or (not(@uidRef) and not(taskId) and uriRef)"/>
     </xsd:complexType>
     
     <xsd:complexType name="taskRequirementReference">
@@ -12100,7 +12791,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(trId)) or (not(@uidRef) and trId)"/>-->
+        <xsd:assert test="(@uidRef and not(trId)) or (not(@uidRef) and trId)"/>
     </xsd:complexType>
     
     <xsd:complexType name="taskResourceReference">
@@ -12126,7 +12817,7 @@
         </xsd:attribute>
         <!-- S6000T tailorization -->
         <xsd:attribute name="uriRef" type="xsd:anyURI" use="optional"/>
-        <!--<xsd:assert test="(@uidRef and not(tradeName) and not(uriRef)) or (not(@uidRef) and tradeName and not(uriRef)) or (not(@uidRef) and not(tradeName) and uriRef)"/>-->
+        <xsd:assert test="(@uidRef and not(tradeName) and not(uriRef)) or (not(@uidRef) and tradeName and not(uriRef)) or (not(@uidRef) and not(tradeName) and uriRef)"/>
     </xsd:complexType>
     
     <xsd:complexType name="warningCautionNoteRef">
@@ -12140,7 +12831,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:attribute>
-        <!--<xsd:assert test="(@uidRef and not(wcnId) and not(uriRef)) or (not(@uidRef) and wcnId and not(uriRef)) or (not(@uidRef) and not(wcnId) and uriRef)"/>-->
+        <xsd:assert test="(@uidRef and not(wcnId) and not(uriRef)) or (not(@uidRef) and wcnId and not(uriRef)) or (not(@uidRef) and not(wcnId) and uriRef)"/>
     </xsd:complexType>
     
     <!-- ==================== UML SPECIALIZATION UTILITY CLASSES ============================ -->
