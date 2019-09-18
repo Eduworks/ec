@@ -2,8 +2,6 @@ package org.cass.exporter;
 
 import com.eduworks.ec.array.EcArray;
 import js.Papa;
-import netscape.javascript.JSObject;
-import org.cass.competency.EcCompetency;
 import org.cass.competency.EcFramework;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
