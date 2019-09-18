@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 2.10.5
+              Version: 2.10.6
             </div>
             
         </div>
@@ -819,6 +819,7 @@
 <pre class="code prettyprint linenums">
 package org.cass.exporter;
 
+import com.eduworks.ec.array.EcArray;
 import js.Papa;
 import org.cass.competency.EcFramework;
 import org.cassproject.ebac.repository.EcRepository;
@@ -846,10 +847,25 @@ public class CSVExport extends Exporter {
 	static Array&lt;EcRemoteLinkedData&gt; frameworkCompetencies;
 	static Array&lt;EcRemoteLinkedData&gt; frameworkRelations;
 
-	public static void exportObjects(Array&lt;EcRemoteLinkedData&gt; objects, String fileName) {
+	public static void exportObjects(Array&lt;EcRemoteLinkedData&gt; objects, String fileName, Boolean piped) {
 		CSVExportProcess compExport = new CSVExport().new CSVExportProcess();
-		compExport.buildExport(objects);
+		compExport.buildExport(objects, piped);
 		compExport.downloadCSV(fileName);
+	}
+
+	public static void exportCTDLASN(Object json, String name) {
+		Array&lt;Object&gt; graph = (Array&lt;Object&gt;)JSObjectAdapter.$get(json, &quot;@graph&quot;);
+		Array&lt;EcRemoteLinkedData&gt; objects = JSCollections.$array();
+		for (int i = 0; i &lt; graph.$length(); i++) {
+			EcRemoteLinkedData rld = new EcRemoteLinkedData(&quot;https://credreg.net/ctdlasn/schema/context/json&quot;, (String)JSObjectAdapter.$get(graph.$get(i), &quot;@type&quot;));
+			rld.copyFrom(graph.$get(i));
+			if (i != 0) {
+				objects.push(rld);
+			}
+		}
+
+		exportObjects(objects, name + &quot;.csv&quot;, true);
+
 	}
 
 	/**
@@ -893,7 +909,7 @@ public class CSVExport extends Exporter {
 
 								if (frameworkCompetencies.$length() == fw.competency.$length()) {
 									CSVExportProcess compExport = new CSVExport().new CSVExportProcess();
-									compExport.buildExport(frameworkCompetencies);
+									compExport.buildExport(frameworkCompetencies, false);
 									compExport.downloadCSV(fw.getName() + &quot; - Competencies.csv&quot;);
 								} else {
 									// incremental if we want
@@ -905,7 +921,7 @@ public class CSVExport extends Exporter {
 
 								if (frameworkCompetencies.$length() == fw.competency.$length()) {
 									CSVExportProcess compExport = new CSVExport().new CSVExportProcess();
-									compExport.buildExport(frameworkCompetencies);
+									compExport.buildExport(frameworkCompetencies, false);
 									compExport.downloadCSV(fw.getName() + &quot; - Competencies.csv&quot;);
 								} else {
 									// incremental if we want
@@ -922,7 +938,7 @@ public class CSVExport extends Exporter {
 								frameworkRelations.push(relation);
 								if (frameworkRelations.$length() == fw.relation.$length()) {
 									CSVExportProcess compExport = new CSVExport().new CSVExportProcess();
-									compExport.buildExport(frameworkRelations);
+									compExport.buildExport(frameworkRelations, false);
 									compExport.downloadCSV(fw.getName() + &quot; - Relations.csv&quot;);
 									if (success != null &amp;&amp; success != JSGlobal.undefined)
 										success.$invoke();
@@ -937,7 +953,7 @@ public class CSVExport extends Exporter {
 								frameworkRelations.push(null);
 								if (frameworkRelations.$length() == fw.relation.$length()) {
 									CSVExportProcess compExport = new CSVExport().new CSVExportProcess();
-									compExport.buildExport(frameworkRelations);
+									compExport.buildExport(frameworkRelations, false);
 									compExport.downloadCSV(fw.getName() + &quot; - Relations.csv&quot;);
 									if (success != null &amp;&amp; success != JSGlobal.undefined)
 										success.$invoke();
@@ -959,7 +975,7 @@ public class CSVExport extends Exporter {
 			csvOutput = JSCollections.$array();
 		}
 
-		public void flattenObject(EcRemoteLinkedData flattenedObject, Object object, String prefix) {
+		public void flattenObject(EcRemoteLinkedData flattenedObject, Object object, String prefix, Boolean piped) {
 
 			EcRemoteLinkedData data = new EcRemoteLinkedData((String) JSObjectAdapter.$get(object, &quot;@context&quot;), (String) JSObjectAdapter.$get(object, &quot;@type&quot;));
 			data.copyFrom(object);
@@ -968,12 +984,20 @@ public class CSVExport extends Exporter {
 			Map&lt;String, Object&gt; props = JSObjectAdapter.$properties(tempObj);
 			for (String prop : props) {
 				String id;
-				if (prefix != null &amp;&amp; prefix != JSGlobal.undefined)
+				if (prefix != null &amp;&amp; prefix != JSGlobal.undefined &amp;&amp; !piped)
 					id = prefix + &quot;.&quot; + prop;
 				else
 					id = prop;
-				if (props.$get(prop) != null &amp;&amp; props.$get(prop) != &quot;&quot; &amp;&amp; props.$get(prop) instanceof Object) {
-					flattenObject(flattenedObject, props.$get(prop), id);
+				if (props.$get(prop) != null &amp;&amp; props.$get(prop) != &quot;&quot; &amp;&amp; props.$get(prop) instanceof Object &amp;&amp; !piped) {
+					flattenObject(flattenedObject, props.$get(prop), id, false);
+				} else if (props.$get(prop) != null &amp;&amp; props.$get(prop) != &quot;&quot; &amp;&amp; (props.$get(prop) instanceof Object || EcArray.isArray(props.$get(prop)))) {
+					String display = &quot;&quot;;
+					Map&lt;String, Object&gt; props2 = JSObjectAdapter.$properties(props.$get(prop));
+					for (String prop2 : props2) {
+						display += props2.$get(prop2) + &quot;|&quot;;
+					}
+					display = display.substring(0, display.length()-1);
+					JSObjectAdapter.$put(flattenedObject, id, display);
 				} else {
 					String display = Thing.getDisplayStringFrom(props.$get(prop));
 					JSObjectAdapter.$put(flattenedObject, id, display);
@@ -981,10 +1005,10 @@ public class CSVExport extends Exporter {
 			}
 		}
 
-		public void addCSVRow(EcRemoteLinkedData object) {
+		public void addCSVRow(EcRemoteLinkedData object, Boolean piped) {
 			EcRemoteLinkedData flattenedObject = new EcRemoteLinkedData(object.context, object.type);
 
-			flattenObject(flattenedObject, object, null);
+			flattenObject(flattenedObject, object, null, piped);
 			csvOutput.push(Global.JSON.parse(flattenedObject.toJson()));
 
 			Map&lt;String, Object&gt; props = JSObjectAdapter.$properties(Global.JSON.parse(flattenedObject.toJson()));
@@ -1000,13 +1024,13 @@ public class CSVExport extends Exporter {
 			}
 		}
 
-		public void buildExport(Array&lt;EcRemoteLinkedData&gt; objects) {
+		public void buildExport(Array&lt;EcRemoteLinkedData&gt; objects, Boolean piped) {
 			for (int i = 0; i &lt; objects.$length(); i++)
 				if (objects.$get(i) != null) {
 
 					EcRemoteLinkedData object = objects.$get(i);
 
-					addCSVRow(object);
+					addCSVRow(object, piped);
 				}
 		}
 
