@@ -10,6 +10,7 @@ import com.eduworks.ec.remote.FormData;
 import org.json.ld.EcLinkedData;
 import org.stjs.javascript.*;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Function0;
 
 /**
  * Data wrapper to represent remotely hosted data. Includes necessary KBAC fields for
@@ -21,6 +22,7 @@ import org.stjs.javascript.functions.Callback1;
  * @module org.cassproject
  */
 public class EcRemoteLinkedData extends EcLinkedData {
+
     // An owner has write privileges according to a repository.
     // These owners are in PEM format.
     /**
