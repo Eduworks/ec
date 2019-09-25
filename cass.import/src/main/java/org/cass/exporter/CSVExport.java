@@ -2,7 +2,6 @@ package org.cass.exporter;
 
 import com.eduworks.ec.array.EcArray;
 import js.Papa;
-import netscape.javascript.JSObject;
 import org.cass.competency.EcCompetency;
 import org.cass.competency.EcFramework;
 import org.cassproject.ebac.repository.EcRepository;
@@ -42,9 +41,7 @@ public class CSVExport extends Exporter {
 		for (int i = 0; i < graph.$length(); i++) {
 			EcRemoteLinkedData rld = new EcRemoteLinkedData("https://credreg.net/ctdlasn/schema/context/json", (String)JSObjectAdapter.$get(graph.$get(i), "@type"));
 			rld.copyFrom(graph.$get(i));
-			if (i != 0) {
-				objects.push(rld);
-			}
+			objects.push(rld);
 		}
 
 		exportObjects(objects, name + ".csv", true);
