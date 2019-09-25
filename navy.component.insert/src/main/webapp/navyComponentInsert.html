@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Navy Component Insert</title>
+
+</head>
+<body>
+
+    <select id="insertType">
+        <option value="skills">Skills</option>
+        <option value="abilities">Abilities</option>
+        <option value="occTasks">Occupational Tasks</option>
+        <option value="jobs">Jobs</option>
+        <option value="necs">NECs</option>
+        <option value="ratings">Ratings</option>
+    </select>
+    <input type="file" id="dataFile">
+    <button onclick="insertFile()">Insert</button>
+    <br>
+    <br>
+    <textarea id="logArea" style="width:75%;height: 20rem"></textarea>
+
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/vendor/jquery-ui.min.js"></script>
+    <script src="js/cass/cass.min.js"></script>
+    <script src="js/navyComponentInsert.js"></script>
+
+</body>
+</html>

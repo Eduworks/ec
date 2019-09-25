@@ -1,6 +1,7 @@
 package components;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,23 @@ public class OccupationalTask extends NavyComponent {
                 "Skills: " + getSkills().size()+ "\n" +
                 "Abilities: " + getAbilities().size();
         return s;
+    }
+
+    @Override
+    @SuppressWarnings("Duplicates")
+    public JSONObject toJson() {
+        JSONObject jo = super.toJson();
+        JSONArray skillArray = new JSONArray();
+        JSONArray abilityArray = new JSONArray();
+        for (Skill s: getSkills()) {
+            skillArray.put(s.getExternalSystemId());
+        }
+        for (Ability a: getAbilities()) {
+            abilityArray.put(a.getExternalSystemId());
+        }
+        jo.put("skills",skillArray);
+        jo.put("abilities",abilityArray);
+        return jo;
     }
 
 }

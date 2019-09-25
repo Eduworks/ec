@@ -21,7 +21,13 @@ public class NavyComponentFetcher {
     private static final String ENTITY_LOOKUP_QUERY_URL_PREFIX = "https://credreg.net/NavyARTT/navygraph/resources/";
     private static final String USER_AGENT = "Mozilla/5.0";
 
-    private static final String OUTPUT_FILE_PREFIX = "E:\\TomsWork\\CurrentProjects\\ARTT\\testNavyComponentFetcher";
+    private static final String OUTPUT_ROOT_DIR = "E:\\TomsWork\\CurrentProjects\\ARTT\\";
+    private static final String ABILITIES_OUTPUT_FILE_PREFIX = OUTPUT_ROOT_DIR + "testNavyComponentFetcher_ABILITIES_";
+    private static final String SKILLS_OUTPUT_FILE_PREFIX = OUTPUT_ROOT_DIR + "testNavyComponentFetcher_SKILLS_";
+    private static final String OTS_OUTPUT_FILE_PREFIX = OUTPUT_ROOT_DIR + "testNavyComponentFetcher_OCCTASKS_";
+    private static final String JOBS_OUTPUT_FILE_PREFIX = OUTPUT_ROOT_DIR + "testNavyComponentFetcher_JOBS_";
+    private static final String NECS_OUTPUT_FILE_PREFIX = OUTPUT_ROOT_DIR + "testNavyComponentFetcher_NECS_";
+    private static final String RATINGS_OUTPUT_FILE_PREFIX = OUTPUT_ROOT_DIR + "testNavyComponentFetcher_RATINGS_";
 
     private static final boolean ONLY_FIRST_RATING = false; //for testing stuff
 
@@ -469,6 +475,14 @@ public class NavyComponentFetcher {
         return ja;
     }
 
+    private JSONArray buildOccupationTasksJsonArray() {
+        JSONArray ja = new JSONArray();
+        for (String key:getNavyOccupationalTaskMap().keySet()) {
+            ja.put(getNavyOccupationalTaskMap().get(key).toJson());
+        }
+        return ja;
+    }
+
     private JSONArray buildAbilitiesJsonArray() {
         JSONArray ja = new JSONArray();
         for (String key:getNavyAbilityMap().keySet()) {
@@ -485,24 +499,38 @@ public class NavyComponentFetcher {
         return ja;
     }
 
-    private JSONObject buildComponentJson() throws Exception {
-        log("Building component JSON...");
-        JSONObject jo = new JSONObject();
-        jo.put("skills",buildSkillsJsonArray());
-        jo.put("abilities",buildAbilitiesJsonArray());
-        jo.put("jobs",buildJobsJsonArray());
-        jo.put("necs",buildNecsJsonArray());
-        jo.put("ratings",buildRatingsJsonArray());
-        return jo;
+//    private JSONObject buildComponentJson() throws Exception {
+//        log("Building component JSON...");
+//        JSONObject jo = new JSONObject();
+//        jo.put("skills",buildSkillsJsonArray());
+//        jo.put("abilities",buildAbilitiesJsonArray());
+//        jo.put("jobs",buildJobsJsonArray());
+//        jo.put("necs",buildNecsJsonArray());
+//        jo.put("ratings",buildRatingsJsonArray());
+//        return jo;
+//    }
+
+    private String generateTimestamp() {
+        Calendar cal = Calendar.getInstance();
+        return String.valueOf(cal.getTimeInMillis());
     }
 
-    private void writeJsonToFile(JSONObject jo) throws Exception {
-        log("Writing component JSON to output file...");
-        Calendar cal = Calendar.getInstance();
-        String fileName = OUTPUT_FILE_PREFIX + cal.getTimeInMillis() + ".json";
+    private void writeJsonArrayToFile(JSONArray ja, String filePrefix, String timeStamp) throws Exception {
+        String fileName = filePrefix + timeStamp + ".json";
+        log("Writing component JSON to output file: " + fileName);
         FileWriter fw = new FileWriter(fileName);
-        fw.write(jo.toString(4));
+        fw.write(ja.toString(4));
         fw.close();
+    }
+
+    private void writeOutputFiles() throws Exception {
+        String timeStamp = generateTimestamp();
+        writeJsonArrayToFile(buildNecsJsonArray(),NECS_OUTPUT_FILE_PREFIX,timeStamp);
+        writeJsonArrayToFile(buildSkillsJsonArray(),SKILLS_OUTPUT_FILE_PREFIX,timeStamp);
+        writeJsonArrayToFile(buildAbilitiesJsonArray(),ABILITIES_OUTPUT_FILE_PREFIX,timeStamp);
+        writeJsonArrayToFile(buildOccupationTasksJsonArray(),OTS_OUTPUT_FILE_PREFIX,timeStamp);
+        writeJsonArrayToFile(buildJobsJsonArray(),JOBS_OUTPUT_FILE_PREFIX,timeStamp);
+        writeJsonArrayToFile(buildRatingsJsonArray(),RATINGS_OUTPUT_FILE_PREFIX,timeStamp);
     }
 
     public void fetchNavyComponents() throws Exception {
@@ -515,7 +543,7 @@ public class NavyComponentFetcher {
         fetchJobOccupationalTaskList();
         fetchOccupationalTaskSkillList();
         fetchOccupationalTaskAbilityList();
-        writeJsonToFile(buildComponentJson());
+        writeOutputFiles();
     }
 
     public static void main(String[] args) throws Exception {

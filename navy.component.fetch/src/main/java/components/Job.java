@@ -36,21 +36,32 @@ public class Job extends NavyComponent {
         return s;
     }
 
+//    @Override
+//    public JSONObject toJson() {
+//        JSONObject jo = super.toJson();
+//        JSONArray skillArray = new JSONArray();
+//        JSONArray abilityArray = new JSONArray();
+//        for (OccupationalTask ot:getOccupationalTasks()) {
+//            for (Skill s: ot.getSkills()) {
+//                skillArray.put(s.getExternalSystemId());
+//            }
+//            for (Ability a: ot.getAbilities()) {
+//                abilityArray.put(a.getExternalSystemId());
+//            }
+//        }
+//        jo.put("skills",skillArray);
+//        jo.put("abilities",abilityArray);
+//        return jo;
+//    }
+
     @Override
     public JSONObject toJson() {
         JSONObject jo = super.toJson();
-        JSONArray skillArray = new JSONArray();
-        JSONArray abilityArray = new JSONArray();
+        JSONArray otArray = new JSONArray();
         for (OccupationalTask ot:getOccupationalTasks()) {
-            for (Skill s: ot.getSkills()) {
-                skillArray.put(s.getExternalSystemId());
-            }
-            for (Ability a: ot.getAbilities()) {
-                abilityArray.put(a.getExternalSystemId());
-            }
+            otArray.put(ot.getExternalSystemId());
         }
-        jo.put("skills",skillArray);
-        jo.put("abilities",abilityArray);
+        jo.put("occupationalTasks",otArray);
         return jo;
     }
 }
