@@ -399,6 +399,29 @@ function insertFile() {
 
 initRepo();
 
+function fixOccTaskType() {
+    log("Finding type:OccupationalTask....");
+    EcCompetency.search(repo,"dcterms\\:type:OccupationalTask",
+        function(aoa) {
+            var cnt = 0;
+            for (var i=0;i<aoa.length;i++) {
+                if (aoa[i]['dcterms:type'] === 'OccupationalTask') {
+                    var c = aoa[i];
+                    log("Fixing type: " + c.shortId());
+                    c["dcterms:type"]="Occupational Task";
+                    repo.saveTo(c,consoleLogSuccess,logError);
+                    cnt ++;
+                }
+            }
+            console.log("Record Count: " + cnt);
+        },
+        function(msg) {
+            console.log('FAILURE: ' + msg);
+        },
+        {"size":2000}
+    );
+}
+
 
 function testAddComp() {
     var c = createCompetencyObject(null,'Test Name','Test Desc','tomtype','TTT');

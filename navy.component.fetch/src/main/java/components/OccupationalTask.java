@@ -8,7 +8,7 @@ import java.util.List;
 
 public class OccupationalTask extends NavyComponent {
 
-    private static final String DC_TERMS_TYPE = "OccupationalTask";
+    private static final String DC_TERMS_TYPE = "Occupational Task";
 
     private JSONArray skillIds = new JSONArray();
     private JSONArray abilityIds = new JSONArray();
