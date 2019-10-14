@@ -2,6 +2,7 @@ package org.cass.exporter;
 
 import com.eduworks.ec.array.EcArray;
 import js.Papa;
+import org.cass.competency.EcCompetency;
 import org.cass.competency.EcFramework;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
@@ -35,18 +36,33 @@ public class CSVExport extends Exporter {
 	}
 
 	public static void exportCTDLASN(Object json, String name) {
-		Array<Object> graph = (Array<Object>)JSObjectAdapter.$get(json, "@graph");
 		Array<EcRemoteLinkedData> objects = JSCollections.$array();
-		for (int i = 0; i < graph.$length(); i++) {
-			EcRemoteLinkedData rld = new EcRemoteLinkedData("https://credreg.net/ctdlasn/schema/context/json", (String)JSObjectAdapter.$get(graph.$get(i), "@type"));
-			rld.copyFrom(graph.$get(i));
-			if (i != 0) {
-				objects.push(rld);
+		findGraphs(json, objects);
+		exportObjects(objects, name + ".csv", true);
+	}
+
+	static void findGraphs(Object json, Array<EcRemoteLinkedData> objects) {
+		Array<Object> jsonArray;
+		if (!EcArray.isArray(json)) {
+			jsonArray = JSCollections.$array(json);
+		}
+		else {
+			jsonArray = (Array<Object>)json;
+		}
+		for (int j = 0; j < jsonArray.$length(); j++) {
+			Object framework = jsonArray.$get(j);
+			Array<Object> graph = (Array<Object>)JSObjectAdapter.$get(framework, "@graph");
+			if (graph != null) {
+				for (int i = 0; i < graph.$length(); i++) {
+					EcRemoteLinkedData rld = new EcRemoteLinkedData("https://credreg.net/ctdlasn/schema/context/json", (String)JSObjectAdapter.$get(graph.$get(i), "@type"));
+					rld.copyFrom(graph.$get(i));
+					objects.push(rld);
+					if (JSObjectAdapter.$get(graph.$get(i), "@graph") != null) {
+						findGraphs(graph.$get(i), objects);
+					}
+				}
 			}
 		}
-
-		exportObjects(objects, name + ".csv", true);
-
 	}
 
 	/**
