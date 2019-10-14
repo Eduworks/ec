@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 2.10.6
+              Version: 2.10.7
             </div>
             
         </div>
@@ -836,7 +836,7 @@ public class EcPerson extends Person {
         get(repo.selectedServer+(repo.selectedServer.endsWith(&quot;/&quot;) ? &quot;&quot; : &quot;/&quot;)+&quot;data/&quot;+pk.fingerprint(),success,failure);
     }
 
-    public static EcPerson getByPkBlocking(EcRepository repo, EcPk pk, final Callback1&lt;EcPerson&gt; success, final Callback1&lt;String&gt; failure)
+    public static EcPerson getByPkBlocking(EcRepository repo, EcPk pk)
     {
         return getBlocking(repo.selectedServer+(repo.selectedServer.endsWith(&quot;/&quot;) ? &quot;&quot; : &quot;/&quot;)+&quot;data/&quot;+pk.fingerprint());
     }

@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 2.10.6
+              Version: 2.10.7
             </div>
             
         </div>
@@ -821,6 +821,7 @@ package org.cass.exporter;
 
 import com.eduworks.ec.array.EcArray;
 import js.Papa;
+import org.cass.competency.EcCompetency;
 import org.cass.competency.EcFramework;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
@@ -854,18 +855,33 @@ public class CSVExport extends Exporter {
 	}
 
 	public static void exportCTDLASN(Object json, String name) {
-		Array&lt;Object&gt; graph = (Array&lt;Object&gt;)JSObjectAdapter.$get(json, &quot;@graph&quot;);
 		Array&lt;EcRemoteLinkedData&gt; objects = JSCollections.$array();
-		for (int i = 0; i &lt; graph.$length(); i++) {
-			EcRemoteLinkedData rld = new EcRemoteLinkedData(&quot;https://credreg.net/ctdlasn/schema/context/json&quot;, (String)JSObjectAdapter.$get(graph.$get(i), &quot;@type&quot;));
-			rld.copyFrom(graph.$get(i));
-			if (i != 0) {
-				objects.push(rld);
+		findGraphs(json, objects);
+		exportObjects(objects, name + &quot;.csv&quot;, true);
+	}
+
+	static void findGraphs(Object json, Array&lt;EcRemoteLinkedData&gt; objects) {
+		Array&lt;Object&gt; jsonArray;
+		if (!EcArray.isArray(json)) {
+			jsonArray = JSCollections.$array(json);
+		}
+		else {
+			jsonArray = (Array&lt;Object&gt;)json;
+		}
+		for (int j = 0; j &lt; jsonArray.$length(); j++) {
+			Object framework = jsonArray.$get(j);
+			Array&lt;Object&gt; graph = (Array&lt;Object&gt;)JSObjectAdapter.$get(framework, &quot;@graph&quot;);
+			if (graph != null) {
+				for (int i = 0; i &lt; graph.$length(); i++) {
+					EcRemoteLinkedData rld = new EcRemoteLinkedData(&quot;https://credreg.net/ctdlasn/schema/context/json&quot;, (String)JSObjectAdapter.$get(graph.$get(i), &quot;@type&quot;));
+					rld.copyFrom(graph.$get(i));
+					objects.push(rld);
+					if (JSObjectAdapter.$get(graph.$get(i), &quot;@graph&quot;) != null) {
+						findGraphs(graph.$get(i), objects);
+					}
+				}
 			}
 		}
-
-		exportObjects(objects, name + &quot;.csv&quot;, true);
-
 	}
 
 	/**
