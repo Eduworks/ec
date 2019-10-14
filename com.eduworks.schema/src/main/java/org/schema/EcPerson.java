@@ -17,7 +17,7 @@ public class EcPerson extends Person {
         get(repo.selectedServer+(repo.selectedServer.endsWith("/") ? "" : "/")+"data/"+pk.fingerprint(),success,failure);
     }
 
-    public static EcPerson getByPkBlocking(EcRepository repo, EcPk pk, final Callback1<EcPerson> success, final Callback1<String> failure)
+    public static EcPerson getByPkBlocking(EcRepository repo, EcPk pk)
     {
         return getBlocking(repo.selectedServer+(repo.selectedServer.endsWith("/") ? "" : "/")+"data/"+pk.fingerprint());
     }
