@@ -28,16 +28,16 @@ import static cass.rollup.processors.util.EcGraphUtil.buildIdSearchQueryForIdLis
  */
 public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment> {
 
-	private Map<String, Object> metaVerticies;
-	private Map<String, Object> metaEdges;
-	Object competencyMap = null;
-	Object edgeMap = null;
-	Object dontTryAnyMore = null;
-	Array<EcFramework> frameworks = null;
+    private Map<String, Object> metaVerticies;
+    private Map<String, Object> metaEdges;
+    Object competencyMap = null;
+    Object edgeMap = null;
+    Object dontTryAnyMore = null;
+    Array<EcFramework> frameworks = null;
 
-	private Callback0 addFrameworkSuccessCallback;
-	private Callback1<String> addFrameworkFailureCallback;
-	private EcRepository repo;
+    private Callback0 addFrameworkSuccessCallback;
+    private Callback1<String> addFrameworkFailureCallback;
+    private EcRepository repo;
 
 	public EcFrameworkGraph() {
 		metaVerticies = (Map) new Object();
@@ -260,15 +260,15 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
 		return result;
 	}
 
-	public Object getMetaStateAlignment(EcAlignment a) {
-		Object result = metaEdges.$get(a.shortId());
-		if (result == null) {
-			if (containsEdge(a) == false) return null;
-			if (metaEdges.$get(a.shortId()) == null)
-				metaEdges.$put(a.shortId(), result = new Object());
-		}
-		return result;
-	}
+    public Object getMetaStateAlignment(EcAlignment a) {
+        Object result = metaEdges.$get(a.shortId());
+        if (result == null) {
+            if (containsEdge(a) == false) return null;
+            if (metaEdges.$get(a.shortId()) == null)
+                metaEdges.$put(a.shortId(), result = new Object());
+        }
+        return result;
+    }
 
 	@Override
 	public boolean containsVertex(EcCompetency competency) {
@@ -295,9 +295,9 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
 		return addVertex(competency);
 	}
 
-	private boolean addRelation(EcAlignment alignment) {
-		if (alignment == null) return false;
-		if (containsEdge(alignment)) return false;
+    private boolean addRelation(EcAlignment alignment) {
+        if (alignment == null) return false;
+        if (containsEdge(alignment)) return false;
 
 		EcCompetency source = (EcCompetency) JSObjectAdapter.$get(competencyMap, alignment.source);
 		if (source == null && JSObjectAdapter.$get(dontTryAnyMore, alignment.source) != null)
@@ -314,21 +314,21 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
 		if (target == null) JSObjectAdapter.$put(dontTryAnyMore, alignment.target, "");
 		if (source == null || target == null) return false;
 
-		return addEdgeUnsafely(alignment, source, target);
-	}
+        return addEdgeUnsafely(alignment, source, target);
+    }
 
-	@Override
-	public boolean addHyperEdge(EcAlignment edge, Array<? extends EcCompetency> vertices) {
-		throw new RuntimeException("Don't do this.");
-	}
+    @Override
+    public boolean addHyperEdge(EcAlignment edge, Array<? extends EcCompetency> vertices) {
+        throw new RuntimeException("Don't do this.");
+    }
 
-	@Override
-	public String getEdgeType(EcAlignment edge) {
-		return edge.relationType;
-	}
+    @Override
+    public String getEdgeType(EcAlignment edge) {
+        return edge.relationType;
+    }
 
-	@Override
-	public String getDefaultEdgeType() {
-		return EcAlignment.NARROWS;
-	}
+    @Override
+    public String getDefaultEdgeType() {
+        return EcAlignment.NARROWS;
+    }
 }
