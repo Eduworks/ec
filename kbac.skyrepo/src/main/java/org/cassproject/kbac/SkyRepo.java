@@ -976,12 +976,14 @@ public class SkyRepo {
                         results.push(forEachResults.$get(i));
             }
             levr.httpGet(elasticEndpoint + "/_all/_refresh");
+            Array ids = new Array();
             for (int i = 0;i < results.$length();i++) {
                 Object o = results.$get(i);
-                Object params = new Object();
-                JSObjectAdapter.$put(params, "obj", Global.JSON.stringify(o));
-                JSFunctionAdapter.call(levr.afterSave, null, params);
+                ids.push(JSObjectAdapter.$get(o,"@id"));
             }
+            Object params = new Object();
+            JSObjectAdapter.$put(params, "obj", Global.JSON.stringify(ids));
+            JSFunctionAdapter.call(levr.afterSaveBulk, null, params);
             return JSGlobal.JSON.stringify(results);
         }
     };
