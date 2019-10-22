@@ -40,19 +40,19 @@ public class levr {
 		return null;
 	}
 
-	public static String httpPost(Object o, String url, String contentType, boolean multipart) {
+	public static String httpPost(Object o, String url, String contentType, boolean multipart,String name, String authToken, Boolean reliable) {
 		return null;
 	}
 
-	public static String httpDelete(String url) {
+	public static String httpDelete(String url, String authToken, Boolean reliable) {
 		return null;
 	}
 
-	public static String httpGet(String url) {
+	public static String httpGet(String url,Boolean reliable) {
 		return null;
 	}
 
-	public static Object httpPut(Object o, String url,String contentType) {
+	public static Object httpPut(Object o, String url,String contentType, String authToken, Boolean reliable) {
 		return null;
 	}
 

@@ -197,13 +197,13 @@ public class SkyRepo {
     public static Function0<Object> elasticMapping = new Function0<Object>() {
         @Override
         public Object $invoke() {
-            return levr.httpGet(elasticEndpoint + "/_mapping");
+            return levr.httpGet(elasticEndpoint + "/_mapping",true);
         }
     };
     public static Function0<Object> elasticSettings = new Function0<Object>() {
         @Override
         public Object $invoke() {
-            return levr.httpGet(elasticEndpoint + "/_settings");
+            return levr.httpGet(elasticEndpoint + "/_settings",true);
         }
     };
 
@@ -412,7 +412,7 @@ public class SkyRepo {
         }
         if (skyrepoDebug)
             Global.console.log(Global.JSON.stringify(o));
-        return levr.httpPost(o, url, "application/json", false);
+        return levr.httpPost(o, url, "application/json", false,null,null,true);
     }
 
     public static boolean permanentCreated = false;
@@ -426,7 +426,7 @@ public class SkyRepo {
             JSObjectAdapter.$put(permNoIndex, "permanent", doc);
             JSObjectAdapter.$put(doc, "enabled", false);
 
-            Object result = levr.httpPut(mappings, elasticEndpoint + "/permanent", "application/json");
+            Object result = levr.httpPut(mappings, elasticEndpoint + "/permanent", "application/json",null,true);
             if (skyrepoDebug)
                 Global.console.log(Global.JSON.stringify(result));
             permanentCreated = true;
@@ -434,10 +434,10 @@ public class SkyRepo {
         Object data = new Object();
         JSObjectAdapter.$put(data, "data", Global.JSON.stringify(o));
         String url = putPermanentBaseUrl(o, id, version, type);
-        Object out = levr.httpPost(data, url, "application/json", false);
+        Object out = levr.httpPost(data, url, "application/json", false,null,null,true);
         if (version != null) {
             url = putPermanentUrl(o, id, version, type);
-            out = levr.httpPost(data, url, "application/json", false);
+            out = levr.httpPost(data, url, "application/json", false,null,null,true);
         }
         if (skyrepoDebug)
             Global.console.log(Global.JSON.stringify(out));
@@ -472,7 +472,7 @@ public class SkyRepo {
 
     public static Object skyrepoGetIndexInternal(String index, String id, Integer version, String type) {
         if (skyrepoDebug) Global.console.log("Fetching from " + index + " : " + type + " / " + id + " / " + version);
-        Object result = levr.httpGet(getUrl(index, id, version, type));
+        Object result = levr.httpGet(getUrl(index, id, version, type),true);
         return result;
     }
 
@@ -484,7 +484,7 @@ public class SkyRepo {
                 return result;
             } else {
                 String microSearchUrl = elasticEndpoint + "/_search?version&q=_id:" + id + "";
-                Object microSearch = levr.httpGet(microSearchUrl);
+                Object microSearch = levr.httpGet(microSearchUrl,true);
                 if (skyrepoDebug) Global.console.log(microSearchUrl);
                 if (microSearch == null)
                     return null;
@@ -640,12 +640,12 @@ public class SkyRepo {
 
     public static String skyrepoDeleteInternalIndex(String id, Integer version, String type) {
         String url = deleteUrl(id, version, type);
-        return levr.httpDelete(url);
+        return levr.httpDelete(url,null,true);
     }
 
     public static String skyrepoDeleteInternalPermanent(String id, Integer version, String type) {
         String url = deletePermanentBaseUrl(id, version, type);
-        return levr.httpDelete(url);
+        return levr.httpDelete(url,null,true);
     }
 
     public static Function3<String, Integer, String, EcRemoteLinkedData> skyrepoDelete = new Function3<String, Integer, String, EcRemoteLinkedData>() {
@@ -731,7 +731,7 @@ public class SkyRepo {
                     searchUrl(urlRemainder),
                     "application/json",
                     false
-            );
+            ,null,null,true);
             if (skyrepoDebug) Global.console.log(Global.JSON.stringify(results));
             if (JSObjectAdapter.$get(results, "error") != null) {
                 Array root_cause = (Array) JSObjectAdapter.$get(JSObjectAdapter.$get(results, "error"), "root_cause");
@@ -908,7 +908,7 @@ public class SkyRepo {
                 JSObjectAdapter.$put(p, "_id", id + "." + (version == null ? "" : version));
                 docs.push(p);
             }
-            Object response = levr.httpPost(mget, elasticEndpoint + "/_mget", "application/json", false);
+            Object response = levr.httpPost(mget, elasticEndpoint + "/_mget", "application/json", false,null,null,true);
             Array resultDocs = (Array) JSObjectAdapter.$get(response, "docs");
             Array results = new Array();
             if (resultDocs != null) {
@@ -969,7 +969,7 @@ public class SkyRepo {
                     if (forEachResults.$get(i) != null)
                         results.push(forEachResults.$get(i));
             }
-            levr.httpGet(elasticEndpoint + "/_all/_refresh");
+            levr.httpGet(elasticEndpoint + "/_all/_refresh",true);
             Array ids = new Array();
             for (int i = 0;i < results.$length();i++) {
                 Object o = results.$get(i);
