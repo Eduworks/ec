@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 2.10.7
+              Version: 2.11.0
             </div>
             
         </div>
@@ -860,6 +860,45 @@ public class EcEncryptedValue extends EbacEncryptedValue {
         EcEncryptedValue v = new EcEncryptedValue();
         v.copyFrom(partiallyRehydratedObject);
         return v;
+    }
+
+    /**
+     * Converts a piece of (likely) encrypted remote linked data to an unencrypted object.
+     * @param d Data to decrypt
+     * @return Decrypted data
+     * @memberOf EcEncryptedValue
+     * @static
+     * @method fromEncryptedValue
+     */
+    public static EcRemoteLinkedData fromEncryptedValue(EcRemoteLinkedData d){
+        if (!d.isAny(new EcEncryptedValue().getTypes()))
+            return d;
+        EcEncryptedValue eev = new EcEncryptedValue();
+        eev.copyFrom(d);
+        EcEncryptedValue.encryptOnSave(d.id, true);
+        EcEncryptedValue.encryptOnSave(d.shortId(), true);
+        return eev.decryptIntoObject();
+    }
+
+    /**
+     * Converts a piece of (likely) encrypted remote linked data to an unencrypted object.
+     * @param {EcRemoteLinkedData} d Data to decrypt
+     * @param {Callback1&lt;EcRemoteLinkedData&gt;} success
+     * @param {Callback1&lt;String&gt;} failure
+     * @param d Data to decrypt
+     * @return Decrypted data
+     * @memberOf EcEncryptedValue
+     * @static
+     * @method fromEncryptedValue
+     */
+    public static void fromEncryptedValueAsync(EcRemoteLinkedData d, Callback1&lt;EcRemoteLinkedData&gt; success, Callback1&lt;String&gt; failure){
+        if (!d.isAny(new EcEncryptedValue().getTypes()))
+            success.$invoke(d);
+        EcEncryptedValue eev = new EcEncryptedValue();
+        eev.copyFrom(d);
+        EcEncryptedValue.encryptOnSave(d.id, true);
+        EcEncryptedValue.encryptOnSave(d.shortId(), true);
+        eev.decryptIntoObjectAsync(success,failure);
     }
 
     /**

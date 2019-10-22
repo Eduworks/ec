@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 2.10.7
+              Version: 2.11.0
             </div>
             
         </div>
@@ -821,9 +821,7 @@ package com.eduworks.ec.array;
 
 import com.eduworks.ec.task.Task;
 import org.stjs.javascript.Array;
-import org.stjs.javascript.functions.Callback0;
-import org.stjs.javascript.functions.Callback1;
-import org.stjs.javascript.functions.Callback2;
+import org.stjs.javascript.functions.*;
 
 /**
  * Pattern (probably similar to Promise) that provides fine grained control over asynchronous execution.
@@ -837,6 +835,14 @@ import org.stjs.javascript.functions.Callback2;
  */
 public class EcAsyncHelper&lt;T&gt; {
     public static String scriptPath = null;
+    public static Callback1&lt;String&gt; setNull(final Callback1 set){
+        return new Callback1&lt;String&gt;() {
+            @Override
+            public void $invoke(String s) {
+                set.$invoke(null);
+            }
+        };
+    }
     /**
      * Counter that counts down when each callback is called. Lots of tricks can be done to cause after to proc in different ways.
      *
@@ -865,6 +871,26 @@ public class EcAsyncHelper&lt;T&gt; {
         }
     }
 
+    /**
+     * &quot;Each&quot; method. Allows for replacing values in the array. See class description.
+     *
+     * @param {Array}                   array Array to iterate over.
+     * @param {function(item,callback)} each Method that gets invoked per item in the array.
+     * @param {function(array)}         after Method invoked when all callbacks are called.
+     * @method each
+     * @memberOf EcAsyncHelper
+     */
+    public void eachSet(final Array&lt;T&gt; array, Callback2&lt;T, Callback1&gt; each, final Callback1&lt;Array&lt;T&gt;&gt; after) {
+        final EcAsyncHelper me = this;
+        counter = array.$length();
+        if (array.$length() == 0)
+            after.$invoke(array);
+        for (int i = 0; i &lt; array.$length(); i++) {
+            if (counter &gt; 0)
+                executeSet(array, each, after, me, i);
+        }
+    }
+
     private void execute(final Array&lt;T&gt; array, final Callback2&lt;T, Callback0&gt; each, final Callback1&lt;Array&lt;T&gt;&gt; after, final EcAsyncHelper me, final int i) {
         Task.immediate(new Callback0() {
             @Override
@@ -875,6 +901,28 @@ public class EcAsyncHelper&lt;T&gt; {
                         me.counter--;
                         if (me.counter == 0)
                             after.$invoke(array);
+                    }
+                });
+            }
+        });
+    }
+
+    private void executeSet(final Array&lt;T&gt; array, final Callback2&lt;T, Callback1&gt; each, final Callback1&lt;Array&lt;T&gt;&gt; after, final EcAsyncHelper me, final int i) {
+        Task.immediate(new Callback0() {
+            @Override
+            public void $invoke() {
+                each.$invoke(array.$get(i), new Callback1&lt;T&gt;() {
+                    @Override
+                    public void $invoke(T result) {
+                        array.$set(i,result);
+                        me.counter--;
+                        if (me.counter == 0) {
+                            Array&lt;T&gt; finalArray = new Array&lt;&gt;();
+                            for (int j = 0;j &lt; array.$length();j++)
+                                if (array.$get(j) != null)
+                                    finalArray.push(array.$get(j));
+                            after.$invoke(finalArray);
+                        }
                     }
                 });
             }

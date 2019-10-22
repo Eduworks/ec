@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 2.10.7
+              Version: 2.11.0
             </div>
             
         </div>
@@ -1016,13 +1016,13 @@ public class SkyRepo {
     public static Function0&lt;Object&gt; elasticMapping = new Function0&lt;Object&gt;() {
         @Override
         public Object $invoke() {
-            return levr.httpGet(elasticEndpoint + &quot;/_mapping&quot;);
+            return levr.httpGet(elasticEndpoint + &quot;/_mapping&quot;,true);
         }
     };
     public static Function0&lt;Object&gt; elasticSettings = new Function0&lt;Object&gt;() {
         @Override
         public Object $invoke() {
-            return levr.httpGet(elasticEndpoint + &quot;/_settings&quot;);
+            return levr.httpGet(elasticEndpoint + &quot;/_settings&quot;,true);
         }
     };
 
@@ -1046,17 +1046,17 @@ public class SkyRepo {
         return &quot;_all&quot;;
     }
 
-    private static String putUrl(Object o, String id, String version, String type) {
+    private static String putUrl(Object o, String id, Integer version, String type) {
         String typeFromObj = inferTypeFromObj(o, type);
 
         String versionPart = null;
         String refreshPart = &quot;refresh=true&quot;;
         if (ctx.get(&quot;refresh&quot;) != null)
             refreshPart = &quot;refresh=&quot;+ctx.get(&quot;refresh&quot;);
-        if (version == null || version == &quot;&quot;) {
+        if (version == null) {
             versionPart = &quot;?&quot;+refreshPart;
         } else
-            versionPart = &quot;?version=&quot; + version + &quot;&amp;version_type=external&amp;&quot;+refreshPart;
+            versionPart = &quot;?version=&quot; + (version == null ? &quot;&quot; : version) + &quot;&amp;version_type=external&amp;&quot;+refreshPart;
 
         String url = elasticEndpoint;
         url += &quot;/&quot; + typeFromObj.toLowerCase();
@@ -1067,36 +1067,35 @@ public class SkyRepo {
         return url;
     }
 
-    private static String putPermanentUrl(Object o, String id, String version, String type) {
+    private static String putPermanentUrl(Object o, String id, Integer version, String type) {
         String versionPart = null;
         String refreshPart = &quot;refresh=true&quot;;
         if (ctx.get(&quot;refresh&quot;) != null)
             refreshPart = &quot;refresh=&quot;+ctx.get(&quot;refresh&quot;);
-        if (version == null || version == &quot;&quot;) {
+        if (version == null) {
             versionPart = &quot;?&quot;+refreshPart;
-            version = &quot;&quot;;
         } else
-            versionPart = &quot;?version=&quot; + version + &quot;&amp;version_type=external&amp;&quot;+refreshPart;
+            versionPart = &quot;?version=&quot; + (version == null ? &quot;&quot; : version) + &quot;&amp;version_type=external&amp;&quot;+refreshPart;
 
         String url = elasticEndpoint;
         url += &quot;/permanent&quot;;
         url += &quot;/permanent&quot;;
-        url += &quot;/&quot; + levr.urlEncode(id) + &quot;.&quot; + version + versionPart;
+        url += &quot;/&quot; + levr.urlEncode(id) + &quot;.&quot; + (version == null ? &quot;&quot; : version) + versionPart;
 
         if (skyrepoDebug)
             Global.console.log(&quot;PutPermanent:&quot; + url);
         return url;
     }
 
-    private static String putPermanentBaseUrl(Object o, String id, String version, String type) {
+    private static String putPermanentBaseUrl(Object o, String id, Integer version, String type) {
         String versionPart = null;
         String refreshPart = &quot;refresh=true&quot;;
         if (ctx.get(&quot;refresh&quot;) != null)
             refreshPart = &quot;refresh=&quot;+ctx.get(&quot;refresh&quot;);
-        if (version == null || version == &quot;&quot;) {
+        if (version == null) {
             versionPart = &quot;?&quot;+refreshPart;
         } else
-            versionPart = &quot;?version=&quot; + version + &quot;&amp;version_type=external&amp;&quot;+refreshPart;
+            versionPart = &quot;?version=&quot; + (version == null ? &quot;&quot; : version) + &quot;&amp;version_type=external&amp;&quot;+refreshPart;
 
         String url = elasticEndpoint;
         url += &quot;/permanent&quot;;
@@ -1108,15 +1107,14 @@ public class SkyRepo {
         return url;
     }
 
-    private static String getUrl(String index, String id, String version, String type) {
+    private static String getUrl(String index, String id, Integer version, String type) {
         String typeFromObj = inferTypeWithoutObj(type);
 
         String versionPart = null;
-        if (version == null || version == &quot;&quot;) {
+        if (version == null) {
             versionPart = &quot;&quot;;
-            version = &quot;&quot;;
         } else
-            versionPart = &quot;?version=&quot; + version + &quot;&amp;version_type=external&quot;;
+            versionPart = &quot;?version=&quot; + (version == null ? &quot;&quot; : version) + &quot;&amp;version_type=external&quot;;
 
         String url = elasticEndpoint;
         url += &quot;/&quot; + index;
@@ -1125,7 +1123,7 @@ public class SkyRepo {
         else
             url += &quot;/&quot; + typeFromObj;
         if (index == &quot;permanent&quot;)
-            url += &quot;/&quot; + levr.urlEncode(id) + &quot;.&quot; + version;
+            url += &quot;/&quot; + levr.urlEncode(id) + &quot;.&quot; + (version == null ? &quot;&quot; : version);
         else
             url += &quot;/&quot; + levr.urlEncode(id);
 
@@ -1134,7 +1132,7 @@ public class SkyRepo {
         return url;
     }
 
-    private static String deleteUrl(String id, String version, String type) {
+    private static String deleteUrl(String id, Integer version, String type) {
         String typeFromObj = inferTypeWithoutObj(type);
 
         String refreshPart = &quot;refresh=true&quot;;
@@ -1151,8 +1149,7 @@ public class SkyRepo {
         return url;
     }
 
-    private static String deletePermanentBaseUrl(String id, String version, String type) {
-
+    private static String deletePermanentBaseUrl(String id, Integer version, String type) {
         String url = elasticEndpoint;
         url += &quot;/permanent&quot;;
         url += &quot;/permanent&quot;;
@@ -1206,7 +1203,7 @@ public class SkyRepo {
         return o;
     }
 
-    public static String skyrepoPutInternalIndex(Object o, String id, String version, String type) {
+    public static String skyrepoPutInternalIndex(Object o, String id, Integer version, String type) {
         String url = putUrl(o, id, version, type);
         o = flattenLangstrings(Global.JSON.parse(Global.JSON.stringify(o)));
         if (JSObjectAdapter.$get(o, &quot;@owner&quot;) != null &amp;&amp; EcArray.isArray(JSObjectAdapter.$get(o, &quot;@owner&quot;))) {
@@ -1234,12 +1231,12 @@ public class SkyRepo {
         }
         if (skyrepoDebug)
             Global.console.log(Global.JSON.stringify(o));
-        return levr.httpPost(o, url, &quot;application/json&quot;, false);
+        return levr.httpPost(o, url, &quot;application/json&quot;, false,null,null,true);
     }
 
     public static boolean permanentCreated = false;
 
-    public static String skyrepoPutInternalPermanent(Object o, String id, String version, String type) {
+    public static String skyrepoPutInternalPermanent(Object o, String id, Integer version, String type) {
         if (permanentCreated != true) {
             Object mappings = new Object();
             Object permNoIndex = new Object();
@@ -1248,7 +1245,7 @@ public class SkyRepo {
             JSObjectAdapter.$put(permNoIndex, &quot;permanent&quot;, doc);
             JSObjectAdapter.$put(doc, &quot;enabled&quot;, false);
 
-            Object result = levr.httpPut(mappings, elasticEndpoint + &quot;/permanent&quot;, &quot;application/json&quot;);
+            Object result = levr.httpPut(mappings, elasticEndpoint + &quot;/permanent&quot;, &quot;application/json&quot;,null,true);
             if (skyrepoDebug)
                 Global.console.log(Global.JSON.stringify(result));
             permanentCreated = true;
@@ -1256,28 +1253,28 @@ public class SkyRepo {
         Object data = new Object();
         JSObjectAdapter.$put(data, &quot;data&quot;, Global.JSON.stringify(o));
         String url = putPermanentBaseUrl(o, id, version, type);
-        Object out = levr.httpPost(data, url, &quot;application/json&quot;, false);
-        if (version != null &amp;&amp; version != &quot;&quot;) {
+        Object out = levr.httpPost(data, url, &quot;application/json&quot;, false,null,null,true);
+        if (version != null) {
             url = putPermanentUrl(o, id, version, type);
-            out = levr.httpPost(data, url, &quot;application/json&quot;, false);
+            out = levr.httpPost(data, url, &quot;application/json&quot;, false,null,null,true);
         }
         if (skyrepoDebug)
             Global.console.log(Global.JSON.stringify(out));
         return Global.JSON.stringify(out);
     }
 
-    public static void skyrepoPutInternal(Object o, String id, String version, String type, EcRemoteLinkedData oldObj) {
+    public static void skyrepoPutInternal(Object o, String id, Integer version, String type, EcRemoteLinkedData oldObj) {
         if (oldObj != null) {
             String oldType = inferTypeFromObj(oldObj, null);
-            if (oldType != type &amp;&amp; type != null &amp;&amp; (version == null || version == &quot;&quot;)) {
+            if (oldType != type &amp;&amp; type != null &amp;&amp; (version == null)) {
                 Object perm = skyrepoGetPermanent(id, null, oldType);
-                version = ((Integer) (((Integer) JSObjectAdapter.$get(perm, &quot;_version&quot;)) + 1)).toString();
+                version = ((Integer) (((Integer) JSObjectAdapter.$get(perm, &quot;_version&quot;)) + 1));
             }
         }
 
         Object obj = skyrepoPutInternalIndex(o, id, version, type);
         if (skyrepoDebug) Global.console.log(Global.JSON.stringify(obj));
-        version = (String) JSObjectAdapter.$get(obj, &quot;_version&quot;);
+        version = (Integer) JSObjectAdapter.$get(obj, &quot;_version&quot;);
         skyrepoPutInternalPermanent(o, id, version, type);
 
         if (oldObj != null) {
@@ -1288,25 +1285,25 @@ public class SkyRepo {
         }
     }
 
-    public static void skyRepoPutInternal(Object o, String id, String version, String type) {
+    public static void skyRepoPutInternal(Object o, String id, Integer version, String type) {
         skyrepoPutInternal(o, id, version, type, null);
     }
 
-    public static Object skyrepoGetIndexInternal(String index, String id, String version, String type) {
+    public static Object skyrepoGetIndexInternal(String index, String id, Integer version, String type) {
         if (skyrepoDebug) Global.console.log(&quot;Fetching from &quot; + index + &quot; : &quot; + type + &quot; / &quot; + id + &quot; / &quot; + version);
-        Object result = levr.httpGet(getUrl(index, id, version, type));
+        Object result = levr.httpGet(getUrl(index, id, version, type),true);
         return result;
     }
 
-    public static Function3&lt;String, String, String, Object&gt; skyrepoGetIndex = new Function3&lt;String, String, String, Object&gt;() {
+    public static Function3&lt;String, Integer, String, Object&gt; skyrepoGetIndex = new Function3&lt;String, Integer, String, Object&gt;() {
         @Override
-        public Object $invoke(String id, String version, String type) {
+        public Object $invoke(String id, Integer version, String type) {
             if (type != null &amp;&amp; type != &quot;&quot;) {
                 Object result = skyrepoGetIndexInternal(type.toLowerCase(), id, version, type);
                 return result;
             } else {
                 String microSearchUrl = elasticEndpoint + &quot;/_search?version&amp;q=_id:&quot; + id + &quot;&quot;;
-                Object microSearch = levr.httpGet(microSearchUrl);
+                Object microSearch = levr.httpGet(microSearchUrl,true);
                 if (skyrepoDebug) Global.console.log(microSearchUrl);
                 if (microSearch == null)
                     return null;
@@ -1322,18 +1319,16 @@ public class SkyRepo {
         }
     };
 
-    public static Object skyrepoGetPermanent(String id, String version, String type) {
+    public static Object skyrepoGetPermanent(String id, Integer version, String type) {
         Object result = skyrepoGetIndexInternal(&quot;permanent&quot;, id, version, type);
         return result;
-
     }
 
-    public static Function3&lt;String, String, String, Object&gt; skyrepoGetInternal = new Function3&lt;String, String, String, Object&gt;() {
+    public static Function3&lt;String, Integer, String, Object&gt; skyrepoGetInternal = new Function3&lt;String, Integer, String, Object&gt;() {
         @Override
-        public Object $invoke(String id, String version, String type) {
+        public Object $invoke(String id, Integer version, String type) {
             Object versionRetrievalObject = null;
 
-            //TODO: Validate inputs
             Object result = skyrepoGetPermanent(id, version, type);
             if (result == null)
                 return null;
@@ -1375,7 +1370,7 @@ public class SkyRepo {
             if (skyrepoDebug) Global.console.log(Global.JSON.stringify(params.obj));
             String id = (String) JSObjectAdapter.$get(parseParams, &quot;id&quot;);
             String type = (String) JSObjectAdapter.$get(parseParams, &quot;type&quot;);
-            String version = (String) JSObjectAdapter.$get(parseParams, &quot;version&quot;);
+            Integer version = (Integer) JSObjectAdapter.$get(parseParams, &quot;version&quot;);
             return JSFunctionAdapter.call(skyrepoGetParsed, this, id, version, type, null);
         }
     };
@@ -1420,14 +1415,14 @@ public class SkyRepo {
                 obj = Global.JSON.parse((String) obj);
             String id = (String) JSObjectAdapter.$get(parseParams, &quot;id&quot;);
             String type = (String) JSObjectAdapter.$get(parseParams, &quot;type&quot;);
-            String version = (String) JSObjectAdapter.$get(parseParams, &quot;version&quot;);
+            Integer version = (Integer) JSObjectAdapter.$get(parseParams, &quot;version&quot;);
             return JSFunctionAdapter.call(skyrepoPutParsed, this, obj, id, version, type, null);
         }
     };
 
-    public static Callback4&lt;Object, String, String, String&gt; skyrepoPutParsed = new Callback4&lt;Object, String, String, String&gt;() {
+    public static Callback4&lt;Object, String, Integer, String&gt; skyrepoPutParsed = new Callback4&lt;Object, String, Integer, String&gt;() {
         @Override
-        public void $invoke(Object o, String id, String version, String type) {
+        public void $invoke(Object o, String id, Integer version, String type) {
             if (o == null)
                 return;
             EcRemoteLinkedData oldObj = (EcRemoteLinkedData) JSFunctionAdapter.call(validateSignatures, this, id, version, type, &quot;Only an owner of an object may change it.&quot;, null, null);
@@ -1435,9 +1430,9 @@ public class SkyRepo {
         }
     };
 
-    private static Function4&lt;String, String, String, String, EcRemoteLinkedData&gt; validateSignatures = new Function4&lt;String, String, String, String, EcRemoteLinkedData&gt;() {
+    private static Function4&lt;String, Integer, String, String, EcRemoteLinkedData&gt; validateSignatures = new Function4&lt;String, Integer, String, String, EcRemoteLinkedData&gt;() {
         @Override
-        public EcRemoteLinkedData $invoke(String id, String version, String type, String errorMessage) {
+        public EcRemoteLinkedData $invoke(String id, Integer version, String type, String errorMessage) {
             Object oldGet = JSFunctionAdapter.call(skyrepoGetInternal, this, id, version, type, null);
             if (oldGet == null)
                 return null;
@@ -1462,19 +1457,19 @@ public class SkyRepo {
         }
     };
 
-    public static String skyrepoDeleteInternalIndex(String id, String version, String type) {
+    public static String skyrepoDeleteInternalIndex(String id, Integer version, String type) {
         String url = deleteUrl(id, version, type);
-        return levr.httpDelete(url);
+        return levr.httpDelete(url,null,true);
     }
 
-    public static String skyrepoDeleteInternalPermanent(String id, String version, String type) {
+    public static String skyrepoDeleteInternalPermanent(String id, Integer version, String type) {
         String url = deletePermanentBaseUrl(id, version, type);
-        return levr.httpDelete(url);
+        return levr.httpDelete(url,null,true);
     }
 
-    public static Function3&lt;String, String, String, EcRemoteLinkedData&gt; skyrepoDelete = new Function3&lt;String, String, String, EcRemoteLinkedData&gt;() {
+    public static Function3&lt;String, Integer, String, EcRemoteLinkedData&gt; skyrepoDelete = new Function3&lt;String, Integer, String, EcRemoteLinkedData&gt;() {
         @Override
-        public EcRemoteLinkedData $invoke(String id, String version, String type) {
+        public EcRemoteLinkedData $invoke(String id, Integer version, String type) {
             EcRemoteLinkedData oldObj = JSFunctionAdapter.call((Object) validateSignatures, this, id, version, type, &quot;Only an owner of an object may delete it.&quot;);
             skyrepoDeleteInternalIndex(id, version, type);
             skyrepoDeleteInternalPermanent(id, version, type);
@@ -1555,7 +1550,7 @@ public class SkyRepo {
                     searchUrl(urlRemainder),
                     &quot;application/json&quot;,
                     false
-            );
+            ,null,null,true);
             if (skyrepoDebug) Global.console.log(Global.JSON.stringify(results));
             if (JSObjectAdapter.$get(results, &quot;error&quot;) != null) {
                 Array root_cause = (Array) JSObjectAdapter.$get(JSObjectAdapter.$get(results, &quot;error&quot;), &quot;root_cause&quot;);
@@ -1577,11 +1572,10 @@ public class SkyRepo {
                 }
                 String id = (String) JSObjectAdapter.$get(searchResult, &quot;_id&quot;);
                 //Do not use version as stored in the database. We always want the latest version of the object. (String) JSObjectAdapter.$get(searchResult, &quot;_version&quot;);
-                String version = &quot;&quot;;
                 String hit = &quot;data/&quot;;
                 if (type != null)
                     hit += type + &quot;/&quot;;
-                hit += id + &quot;/&quot; + version;
+                hit += id;
                 hits.$set(i, hit);
             }
             searchResults = JSFunctionAdapter.call((Array) levr.forEach, this, hits, &quot;obj&quot;, null, LevrResolverServlet.resolvableFunctions.get(&quot;endpointSingleGet&quot;), true, true, false, true, false);
@@ -1606,7 +1600,7 @@ public class SkyRepo {
                 JSObjectAdapter.$put(result, &quot;id&quot;, split.$get(2));
             }
             if (split.$length() == 4)
-                JSObjectAdapter.$put(result, &quot;version&quot;, split.$get(3));
+                JSObjectAdapter.$put(result, &quot;version&quot;, split.$get(3) == &quot;&quot; ? null : JSGlobal.parseInt(split.$get(3)));
             return result;
         }
 
@@ -1678,7 +1672,7 @@ public class SkyRepo {
             Object parseParams = JSFunctionAdapter.call(queryParse, this, urlRemainder, null);
             String id = (String) JSObjectAdapter.$get(parseParams, &quot;id&quot;);
             String type = (String) JSObjectAdapter.$get(parseParams, &quot;type&quot;);
-            String version = (String) JSObjectAdapter.$get(parseParams, &quot;version&quot;);
+            Integer version = (Integer) JSObjectAdapter.$get(parseParams, &quot;version&quot;);
             if (methodType == &quot;DELETE&quot;) {
                 EcRemoteLinkedData oldObj = (EcRemoteLinkedData) JSFunctionAdapter.call((Object) skyrepoDelete, this, id, version, type);
                 Object cast = new Object();
@@ -1726,14 +1720,14 @@ public class SkyRepo {
                 String id = (String) JSObjectAdapter.$get(parseParams, &quot;id&quot;);
                 JSObjectAdapter.$put(lookup, id, urlRemainder);
                 String type = (String) JSObjectAdapter.$get(parseParams, &quot;type&quot;);
-                String version = (String) JSObjectAdapter.$get(parseParams, &quot;version&quot;);
+                Integer version = (Integer) JSObjectAdapter.$get(parseParams, &quot;version&quot;);
                 Object p = new Object();
                 JSObjectAdapter.$put(p, &quot;_index&quot;, &quot;permanent&quot;);
                 JSObjectAdapter.$put(p, &quot;_type&quot;, &quot;permanent&quot;);
                 JSObjectAdapter.$put(p, &quot;_id&quot;, id + &quot;.&quot; + (version == null ? &quot;&quot; : version));
                 docs.push(p);
             }
-            Object response = levr.httpPost(mget, elasticEndpoint + &quot;/_mget&quot;, &quot;application/json&quot;, false);
+            Object response = levr.httpPost(mget, elasticEndpoint + &quot;/_mget&quot;, &quot;application/json&quot;, false,null,null,true);
             Array resultDocs = (Array) JSObjectAdapter.$get(response, &quot;docs&quot;);
             Array results = new Array();
             if (resultDocs != null) {
@@ -1777,7 +1771,7 @@ public class SkyRepo {
                 JSFunctionAdapter.call(skyrepoPutParsed, this, o, id, version, type);
                 return o;
             } catch (Exception ex) {
-                ex.printStackTrace();
+                levr.debug(ex.getMessage());
             }
             return null;
         }
@@ -1794,13 +1788,15 @@ public class SkyRepo {
                     if (forEachResults.$get(i) != null)
                         results.push(forEachResults.$get(i));
             }
-            levr.httpGet(elasticEndpoint + &quot;/_all/_refresh&quot;);
+            levr.httpGet(elasticEndpoint + &quot;/_all/_refresh&quot;,true);
+            Array ids = new Array();
             for (int i = 0;i &lt; results.$length();i++) {
                 Object o = results.$get(i);
-                Object params = new Object();
-                JSObjectAdapter.$put(params, &quot;obj&quot;, Global.JSON.stringify(o));
-                JSFunctionAdapter.call(levr.afterSave, null, params);
+                ids.push(JSObjectAdapter.$get(o,&quot;@id&quot;));
             }
+            Object params = new Object();
+            JSObjectAdapter.$put(params, &quot;obj&quot;, Global.JSON.stringify(ids));
+            JSFunctionAdapter.call(levr.afterSaveBulk, null, params);
             return JSGlobal.JSON.stringify(results);
         }
     };
@@ -1812,7 +1808,7 @@ public class SkyRepo {
             Object parseParams = JSFunctionAdapter.call(queryParse, this, urlRemainder, null);
             String id = (String) JSObjectAdapter.$get(parseParams, &quot;id&quot;);
             String type = (String) JSObjectAdapter.$get(parseParams, &quot;type&quot;);
-            String version = (String) JSObjectAdapter.$get(parseParams, &quot;version&quot;);
+            Integer version = (Integer) JSObjectAdapter.$get(parseParams, &quot;version&quot;);
             Object o = JSFunctionAdapter.call(skyrepoGetParsed, this, id, version, type, null);
             if (o != null)
                 return o;
