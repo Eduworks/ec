@@ -81,6 +81,7 @@ public class levr {
 	public static Function0 beforeGet;
 
 	public static Function0 afterSave;
+	public static Function0 afterSaveBulk;
 
 	public static String rsaGenerate() {
 		return null;

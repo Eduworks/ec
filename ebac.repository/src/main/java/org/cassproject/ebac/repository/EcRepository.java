@@ -15,8 +15,10 @@ import org.stjs.javascript.dom.Element;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback2;
+import org.stjs.javascript.functions.Function0;
 
 import static com.eduworks.ec.remote.EcRemote.urlAppend;
+import static org.stjs.javascript.JSObjectAdapter.$prototype;
 
 /**
  * Repository object used to interact with the CASS Repository web services.
@@ -483,16 +485,16 @@ public class EcRepository {
      * Attempts to save many pieces of data. Does some checks before saving to
      * ensure the data is valid. This version does not send a console warning,
      * <p>
-	 * Uses a signature sheet informed by the owner field of the data.
-	 *
-	 * @param {Array<EcRemoteLinkedData>} data Data to save to the location designated
-	 *                             by its id.
-	 * @param {Callback1<String>}  success Callback triggered on successful save
-	 * @param {Callback1<String>}  failure Callback triggered if error during
-	 *                             save
-	 * @memberOf EcRepository
-	 * @method multiput
-	 * @static
+     * Uses a signature sheet informed by the owner field of the data.
+     *
+     * @param {Array<EcRemoteLinkedData>} data Data to save to the location designated
+     *                                    by its id.
+     * @param {Callback1<String>}         success Callback triggered on successful save
+     * @param {Callback1<String>}         failure Callback triggered if error during
+     *                                    save
+     * @memberOf EcRepository
+     * @method multiput
+     * @static
      */
 
     public void multiput(final Array<EcRemoteLinkedData> data, final Callback1<String> success, final Callback1<String> failure) {
@@ -619,8 +621,7 @@ public class EcRepository {
         long offset = 0;
         if (repo == null) {
             offset = setOffset(data.id);
-        }
-        else {
+        } else {
             offset = repo.timeOffset;
         }
 
@@ -1669,5 +1670,100 @@ public class EcRepository {
                 failure.$invoke("");
             }
         });
+    }
+
+
+    public static <T extends EcRemoteLinkedData> void getAs(String id, final T result, final Callback1<T> success, final Callback1<String> failure) {
+        EcRepository.get(id, new Callback1<EcRemoteLinkedData>() {
+            @Override
+            public void $invoke(EcRemoteLinkedData p1) {
+                if ($prototype(p1) == $prototype(result))
+                    if (success != null) {
+                        success.$invoke((T) p1);
+                        return;
+                    }
+
+                EcEncryptedValue.fromEncryptedValueAsync(p1, new Callback1<EcRemoteLinkedData>() {
+                    @Override
+                    public void $invoke(EcRemoteLinkedData p1) {
+                        if (p1.isAny(result.getTypes())) {
+                            result.copyFrom(p1);
+
+                            if (EcRepository.caching) {
+                                JSObjectAdapter.$put(EcRepository.cache, result.shortId(), result);
+                                JSObjectAdapter.$put(EcRepository.cache, result.id, result);
+                            }
+                            if (success != null)
+                                success.$invoke(result);
+                        } else {
+                            String msg = "Retrieved object was not a " + result.getFullType();
+                            if (failure != null)
+                                failure.$invoke(msg);
+                            else
+                                Global.console.error(msg);
+                        }
+                    }
+                }, failure);
+            }
+        }, failure);
+    }
+
+    public static <T extends EcRemoteLinkedData> T getBlockingAs(String id, final T result) {
+        EcRemoteLinkedData p1 = EcRepository.getBlocking(id);
+        if (p1 == null) return null;
+        if ($prototype(p1) == $prototype(result))
+            return (T) p1;
+
+        p1 = EcEncryptedValue.fromEncryptedValue(p1);
+        if (p1.isAny(result.getTypes())) {
+            result.copyFrom(p1);
+            if (EcRepository.caching) {
+                JSObjectAdapter.$put(EcRepository.cache, result.shortId(), result);
+                JSObjectAdapter.$put(EcRepository.cache, result.id, result);
+            }
+            return result;
+        } else {
+            String msg = "Retrieved object was not a " + result.getFullType();
+            Global.console.error(msg);
+            return null;
+        }
+    }
+
+    public static <T extends EcRemoteLinkedData> void searchAs(EcRepository repo, String query, final Function0 factory, final Callback1<Array> success, final Callback1<String> failure, Object paramObj) {
+        String queryAdd = ((T)factory.$invoke()).getSearchStringByType();
+
+        if (query == null || query == "")
+            query = queryAdd;
+        else
+            query = "(" + query + ") AND " + queryAdd;
+
+        repo.searchWithParams(query, paramObj, null, new Callback1<Array<EcRemoteLinkedData>>() {
+            @Override
+            public void $invoke(final Array<EcRemoteLinkedData> p1s) {
+                final EcAsyncHelper<EcRemoteLinkedData> eah = new EcAsyncHelper<>();
+                if (success != null) {
+                    eah.eachSet(p1s, new Callback2<EcRemoteLinkedData, Callback1>() {
+                        @Override
+                        public void $invoke(EcRemoteLinkedData p1, final Callback1 set) {
+                            EcEncryptedValue.fromEncryptedValueAsync(p1, new Callback1<EcRemoteLinkedData>() {
+                                @Override
+                                public void $invoke(EcRemoteLinkedData p1) {
+                                    T result = (T)factory.$invoke();
+                                    if (p1.isAny(result.getTypes())) {
+                                        result.copyFrom(p1);
+                                        set.$invoke(result);
+                                    }
+                                }
+                            },EcAsyncHelper.setNull(set));
+                        }
+                    }, new Callback1<Array<EcRemoteLinkedData>>() {
+                        @Override
+                        public void $invoke(Array<EcRemoteLinkedData> results) {
+                            success.$invoke((Array)results);
+                        }
+                    });
+                }
+            }
+        }, failure);
     }
 }

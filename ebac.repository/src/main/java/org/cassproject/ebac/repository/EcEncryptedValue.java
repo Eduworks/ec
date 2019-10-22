@@ -44,6 +44,45 @@ public class EcEncryptedValue extends EbacEncryptedValue {
     }
 
     /**
+     * Converts a piece of (likely) encrypted remote linked data to an unencrypted object.
+     * @param d Data to decrypt
+     * @return Decrypted data
+     * @memberOf EcEncryptedValue
+     * @static
+     * @method fromEncryptedValue
+     */
+    public static EcRemoteLinkedData fromEncryptedValue(EcRemoteLinkedData d){
+        if (!d.isAny(new EcEncryptedValue().getTypes()))
+            return d;
+        EcEncryptedValue eev = new EcEncryptedValue();
+        eev.copyFrom(d);
+        EcEncryptedValue.encryptOnSave(d.id, true);
+        EcEncryptedValue.encryptOnSave(d.shortId(), true);
+        return eev.decryptIntoObject();
+    }
+
+    /**
+     * Converts a piece of (likely) encrypted remote linked data to an unencrypted object.
+     * @param {EcRemoteLinkedData} d Data to decrypt
+     * @param {Callback1<EcRemoteLinkedData>} success
+     * @param {Callback1<String>} failure
+     * @param d Data to decrypt
+     * @return Decrypted data
+     * @memberOf EcEncryptedValue
+     * @static
+     * @method fromEncryptedValue
+     */
+    public static void fromEncryptedValueAsync(EcRemoteLinkedData d, Callback1<EcRemoteLinkedData> success, Callback1<String> failure){
+        if (!d.isAny(new EcEncryptedValue().getTypes()))
+            success.$invoke(d);
+        EcEncryptedValue eev = new EcEncryptedValue();
+        eev.copyFrom(d);
+        EcEncryptedValue.encryptOnSave(d.id, true);
+        EcEncryptedValue.encryptOnSave(d.shortId(), true);
+        eev.decryptIntoObjectAsync(success,failure);
+    }
+
+    /**
      * Converts a piece of remote linked data to an encrypted value
      *
      * @param {EcRemoteLinkedData} d Data to encrypt
