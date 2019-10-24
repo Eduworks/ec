@@ -226,6 +226,21 @@ public class CTDLASNCSVConceptImport {
                                                     JSObjectAdapter.$put(f, "skos:related", array);
                                                 }
                                             }
+                                            //If concept has topConceptOf, add to hasTopConcept of Scheme
+                                            if (JSObjectAdapter.$get(e, "skos:topConceptOf") != null) {
+                                                String scheme = (String)JSObjectAdapter.$get(e, "skos:topConceptOf");
+                                                for (int i = 0; i < schemeArray.$length(); i++) {
+                                                    Object schemeObj = schemeArray.$get(i);
+                                                    if (scheme == JSObjectAdapter.$get(schemeObj,"id")) {
+                                                        if (JSObjectAdapter.$get(schemeObj, "skos:hasTopConcept") == null) {
+                                                            Array hasTopConcept = new Array<String>();
+                                                            JSObjectAdapter.$put(schemeObj, "skos:hasTopConcept", hasTopConcept);
+                                                        }
+                                                        Object conceptId = f.shortId();
+                                                        EcArray.setAdd((Array<String>)JSObjectAdapter.$get(schemeObj, "skos:hasTopConcept"), conceptId);
+                                                    }
+                                                }
+                                            }
                                             JSObjectAdapter.$put(f, "schema:dateModified", new Date().toISOString());
 
                                             concepts.push(f);
