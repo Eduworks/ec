@@ -75,11 +75,13 @@ public class EcEncryptedValue extends EbacEncryptedValue {
     public static void fromEncryptedValueAsync(EcRemoteLinkedData d, Callback1<EcRemoteLinkedData> success, Callback1<String> failure){
         if (!d.isAny(new EcEncryptedValue().getTypes()))
             success.$invoke(d);
-        EcEncryptedValue eev = new EcEncryptedValue();
-        eev.copyFrom(d);
-        EcEncryptedValue.encryptOnSave(d.id, true);
-        EcEncryptedValue.encryptOnSave(d.shortId(), true);
-        eev.decryptIntoObjectAsync(success,failure);
+        else {
+            EcEncryptedValue eev = new EcEncryptedValue();
+            eev.copyFrom(d);
+            EcEncryptedValue.encryptOnSave(d.id, true);
+            EcEncryptedValue.encryptOnSave(d.shortId(), true);
+            eev.decryptIntoObjectAsync(success,failure);
+        }
     }
 
     /**
