@@ -1677,7 +1677,7 @@ public class EcRepository {
         EcRepository.get(id, new Callback1<EcRemoteLinkedData>() {
             @Override
             public void $invoke(EcRemoteLinkedData p1) {
-                if ($prototype(p1) == $prototype(result))
+                if (p1.getClass() == result.getClass())
                     if (success != null) {
                         success.$invoke((T) p1);
                         return;
@@ -1711,7 +1711,7 @@ public class EcRepository {
     public static <T extends EcRemoteLinkedData> T getBlockingAs(String id, final T result) {
         EcRemoteLinkedData p1 = EcRepository.getBlocking(id);
         if (p1 == null) return null;
-        if ($prototype(p1) == $prototype(result))
+        if (p1.getClass() == result.getClass())
             return (T) p1;
 
         p1 = EcEncryptedValue.fromEncryptedValue(p1);
