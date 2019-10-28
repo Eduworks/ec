@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 2.11.0
+              Version: 2.11.1
             </div>
             
         </div>
@@ -1675,6 +1675,8 @@ public class SkyRepo {
             Integer version = (Integer) JSObjectAdapter.$get(parseParams, &quot;version&quot;);
             if (methodType == &quot;DELETE&quot;) {
                 EcRemoteLinkedData oldObj = (EcRemoteLinkedData) JSFunctionAdapter.call((Object) skyrepoDelete, this, id, version, type);
+                if (oldObj == null)
+                    return null;
                 Object cast = new Object();
                 JSObjectAdapter.$put(cast, &quot;obj&quot;, oldObj.toJson());
                 JSFunctionAdapter.call(levr.afterSave, this, cast);
