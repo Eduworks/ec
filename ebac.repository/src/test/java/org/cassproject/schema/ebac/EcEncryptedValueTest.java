@@ -24,7 +24,7 @@ import org.stjs.testing.driver.STJSTestDriverRunner;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(STJSTestDriverRunner.class)
-@ScriptsBefore({"/forge/forge.bundle.js"})
+@ScriptsBefore({"pem-jwk.js", "require.js", "/forge/forge.bundle.js", "ec.base.js"})
 public class EcEncryptedValueTest {
 	static String server = "http://localhost/api/";
 	static class console{

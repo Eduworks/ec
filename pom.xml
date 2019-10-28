@@ -35,7 +35,7 @@
     </licenses>
 
     <scm>
-        <connection>scm:svn:https://github.com/Eduworks/ec</connection>
+        <connection>scm:git:https://github.com/Eduworks/ec</connection>
         <url>https://github.com/Eduworks/ec</url>
     </scm>
 

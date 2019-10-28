@@ -10,8 +10,7 @@ import static org.junit.Assert.assertTrue;
 import static org.stjs.javascript.Global.console;
 
 @RunWith(STJSTestDriverRunner.class)
-@ScriptsBefore(
-		{"/forge/forge.bundle.js", "ec.base.js", "base64toArrayBuffer.js"})
+@ScriptsBefore({"pem-jwk.js", "require.js", "/forge/forge.bundle.js", "ec.base.js"})
 public class EcAesAsyncTest {
 	@Test
 	public void aesTest() {
