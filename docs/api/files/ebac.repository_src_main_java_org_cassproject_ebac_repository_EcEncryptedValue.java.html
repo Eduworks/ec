@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 2.11.0
+              Version: 2.11.1
             </div>
             
         </div>
@@ -894,11 +894,13 @@ public class EcEncryptedValue extends EbacEncryptedValue {
     public static void fromEncryptedValueAsync(EcRemoteLinkedData d, Callback1&lt;EcRemoteLinkedData&gt; success, Callback1&lt;String&gt; failure){
         if (!d.isAny(new EcEncryptedValue().getTypes()))
             success.$invoke(d);
-        EcEncryptedValue eev = new EcEncryptedValue();
-        eev.copyFrom(d);
-        EcEncryptedValue.encryptOnSave(d.id, true);
-        EcEncryptedValue.encryptOnSave(d.shortId(), true);
-        eev.decryptIntoObjectAsync(success,failure);
+        else {
+            EcEncryptedValue eev = new EcEncryptedValue();
+            eev.copyFrom(d);
+            EcEncryptedValue.encryptOnSave(d.id, true);
+            EcEncryptedValue.encryptOnSave(d.shortId(), true);
+            eev.decryptIntoObjectAsync(success,failure);
+        }
     }
 
     /**
