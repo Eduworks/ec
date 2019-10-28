@@ -16,13 +16,25 @@ import org.stjs.javascript.functions.Callback1;
 import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
-import static org.stjs.javascript.Global.console;
 
 @RunWith(STJSTestDriverRunner.class)
 @ScriptsBefore({"pem-jwk.js", "require.js","/forge/forge.bundle.js"})
 public class EcVersioningTest {
 	static String server = "http://localhost/api/";
 
+	static class console{
+		EcRepository r;
+		console(){
+			r = new EcRepository();
+			r.selectedServer = server;
+		}
+		static void log(String s){
+			EcRemote.getExpectingString(server,"ping?log="+s,null,null);
+		}
+		static void error(String s){
+			EcRemote.getExpectingString(server,"ping?error=true&log="+s,null,null);
+		}
+	}
 	@Before
 	public void begin() {
 		EcRemote.async = false;

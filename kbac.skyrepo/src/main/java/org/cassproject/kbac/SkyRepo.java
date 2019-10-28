@@ -856,6 +856,8 @@ public class SkyRepo {
             Integer version = (Integer) JSObjectAdapter.$get(parseParams, "version");
             if (methodType == "DELETE") {
                 EcRemoteLinkedData oldObj = (EcRemoteLinkedData) JSFunctionAdapter.call((Object) skyrepoDelete, this, id, version, type);
+                if (oldObj == null)
+                    return null;
                 Object cast = new Object();
                 JSObjectAdapter.$put(cast, "obj", oldObj.toJson());
                 JSFunctionAdapter.call(levr.afterSave, this, cast);
