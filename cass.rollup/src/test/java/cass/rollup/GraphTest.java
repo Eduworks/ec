@@ -16,7 +16,7 @@ import org.stjs.testing.driver.STJSTestDriverRunner;
 @ScriptsBefore({ "lib/require.js", "rollupInit.js", "/forge/forge.bundle.js" })
 public class GraphTest extends EvidenceProcessingTestBase {
 
-    private static final String REPOSITORY_URL = "https://dev.cassproject.org/api/custom";
+    private static final String REPOSITORY_URL = "https://dev.cassproject.org/api/";
     private static final String FRAMREWORK_ID = "https://dev.cassproject.org/api/data/schema.cassproject.org.0.2.Framework/775965fc-6b50-4b78-b15e-cc60fbad66a0";
     private static final String COMPETENCY_ID = "https://dev.cassproject.org/api/data/schema.cassproject.org.0.2.Competency/1f2126b3-cb90-4ab2-a646-40da40384c93";
     //private static final String COMPETENCY_ID = "https://dev.cassproject.org/api/data/schema.cassproject.org.0.2.Competency/48b4ba83-3aa4-475a-bff5-de4e3c05613e";
