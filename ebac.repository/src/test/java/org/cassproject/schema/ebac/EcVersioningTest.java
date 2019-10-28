@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.schema.Thing;
 import org.stjs.javascript.Array;
+import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
@@ -29,10 +30,10 @@ public class EcVersioningTest {
 			r.selectedServer = server;
 		}
 		static void log(String s){
-			EcRemote.getExpectingString(server,"ping?log="+s,null,null);
+			EcRemote.getExpectingString(server,"ping?log="+ JSGlobal.encodeURIComponent(s),null,null);
 		}
 		static void error(String s){
-			EcRemote.getExpectingString(server,"ping?error=true&log="+s,null,null);
+			EcRemote.getExpectingString(server,"ping?error=true&log="+JSGlobal.encodeURIComponent(s),null,null);
 		}
 	}
 	@Before
