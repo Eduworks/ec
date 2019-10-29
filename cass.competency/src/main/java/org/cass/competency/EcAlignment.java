@@ -113,19 +113,13 @@ public class EcAlignment extends Relation {
      */
     public static void searchBySource(EcRepository repo, final String sourceId, final Callback1<Array<EcAlignment>> success, Callback1<String> failure, Object paramObj) {
         String query = "";
-        query = "(" + new EcAlignment().getSearchStringByType();
         final String noVersion = EcRemoteLinkedData.trimVersionFromUrl(sourceId);
         if (noVersion == sourceId) {
-            query += " AND (source:\"" + sourceId + "\"))";
+            query += "source:\"" + sourceId + "\"";
         } else {
-            query += " AND (source:\"" + sourceId + "\" OR source:\"" + noVersion + "\"))";
+            query += "source:\"" + sourceId + "\" OR source:\"" + noVersion + "\"";
         }
-        EcRepository.searchAs(repo, query, new Function0() {
-            @Override
-            public Object $invoke() {
-                return new EcAlignment();
-            }
-        },(Callback1<Array>)(Object)success,failure,paramObj);
+        search(repo,query,success,failure,paramObj);
     }
 
     /**
@@ -147,7 +141,7 @@ public class EcAlignment extends Relation {
      */
     public static void searchBySources(EcRepository repo, final Array<String> sourceIds, final Callback1<Array<EcAlignment>> success, Callback1<String> failure, Object paramObj) {
         String query = "";
-        query = "(" + new EcAlignment().getSearchStringByType() + " AND (source:";
+        query = "(source:";
 
         Array<String> noVersions = JSCollections.$array();
         for (int i = 0; i < sourceIds.$length(); i++) {
@@ -164,38 +158,8 @@ public class EcAlignment extends Relation {
             noVersions.push(noVersion);
         }
 
-        query += "))";
-
-        final Array<String> finalNoVersions = noVersions;
-        repo.searchWithParams(query, paramObj, null, new Callback1<Array<EcRemoteLinkedData>>() {
-
-            @Override
-            public void $invoke(Array<EcRemoteLinkedData> p1) {
-                if (success != null) {
-                    Array<EcAlignment> ret = JSCollections.$array();
-                    for (int i = 0; i < p1.$length(); i++) {
-                        EcAlignment alignment = new EcAlignment();
-                        if (p1.$get(i).isAny(alignment.getTypes())) {
-                            alignment.copyFrom(p1.$get(i));
-                        } else if (p1.$get(i).isA(EcEncryptedValue.myType)) {
-                            EcEncryptedValue val = new EcEncryptedValue();
-                            val.copyFrom(p1.$get(i));
-                            if (val.isAnEncrypted(EcAlignment.myType)) {
-                                EcRemoteLinkedData obj = val.decryptIntoObject();
-                                if (sourceIds.indexOf((String) JSObjectAdapter.$get(obj, "source")) == -1 && finalNoVersions.indexOf((String) JSObjectAdapter.$get(obj, "source")) == -1) {
-                                    continue;
-                                }
-                                alignment.copyFrom(obj);
-                            }
-                        }
-                        ret.$set(i, alignment);
-                    }
-
-                    success.$invoke(ret);
-                }
-            }
-
-        }, failure);
+        query += ")";
+        search(repo,query,success,failure,paramObj);
     }
 
     /**
@@ -217,46 +181,13 @@ public class EcAlignment extends Relation {
      */
     public static void searchByCompetency(EcRepository repo, final String competencyId, final Callback1<Array<EcAlignment>> success, Callback1<String> failure, Object paramObj) {
         String query = "";
-        query = "(" + new EcAlignment().getSearchStringByType();
         final String noVersion = EcRemoteLinkedData.trimVersionFromUrl(competencyId);
         if (noVersion == competencyId) {
-            query += " AND (source:\"" + competencyId + "\" OR target:\"" + competencyId + "\"))";
+            query += " AND (source:\"" + competencyId + "\" OR target:\"" + competencyId + "\")";
         } else {
-            query += " AND (source:\"" + competencyId + "\" OR source:\"" + noVersion + "\" OR target:\"" + competencyId + "\" OR target:\"" + noVersion + "\"))";
+            query += " AND (source:\"" + competencyId + "\" OR source:\"" + noVersion + "\" OR target:\"" + competencyId + "\" OR target:\"" + noVersion + "\")";
         }
-
-        query += " OR @encryptedType:\"" + EcAlignment.myType + "\" OR @encryptedType:\"" + EcAlignment.myType.replace(Cass.context + "/", "") + "\")";
-
-        repo.searchWithParams(query, paramObj, null, new Callback1<Array<EcRemoteLinkedData>>() {
-
-            @Override
-            public void $invoke(Array<EcRemoteLinkedData> p1) {
-                if (success != null) {
-                    Array<EcAlignment> ret = JSCollections.$array();
-                    for (int i = 0; i < p1.$length(); i++) {
-                        EcAlignment alignment = new EcAlignment();
-                        if (p1.$get(i).isAny(alignment.getTypes())) {
-                            alignment.copyFrom(p1.$get(i));
-                        } else if (p1.$get(i).isA(EcEncryptedValue.myType)) {
-                            EcEncryptedValue val = new EcEncryptedValue();
-                            val.copyFrom(p1.$get(i));
-                            if (val.isAnEncrypted(EcAlignment.myType)) {
-                                EcRemoteLinkedData obj = val.decryptIntoObject();
-                                if (JSObjectAdapter.$get(obj, "source") != competencyId && JSObjectAdapter.$get(obj, "source") != noVersion &&
-                                        JSObjectAdapter.$get(obj, "target") != competencyId && JSObjectAdapter.$get(obj, "target") != noVersion) {
-                                    continue;
-                                }
-                                alignment.copyFrom(obj);
-                            }
-                        }
-                        ret.$set(i, alignment);
-                    }
-
-                    success.$invoke(ret);
-                }
-            }
-
-        }, failure);
+        search(repo,query,success,failure,paramObj);
     }
 
     /**

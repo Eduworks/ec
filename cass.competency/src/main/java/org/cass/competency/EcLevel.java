@@ -108,46 +108,8 @@ public class EcLevel extends Level {
 			return;
 		}
 
-		String query = "(" + new EcLevel().getSearchStringByType();
-
-		query += " AND ( competency:\"" + competencyId + "\" OR competency:\"" + EcRemoteLinkedData.trimVersionFromUrl(competencyId) + "\"))";
-
-		query += " OR @encryptedType:\"" + EcLevel.myType + "\" OR @encryptedType:\"" + EcLevel.myType.replace(Cass.context + "/", "") + "\"";
-
-		repo.searchWithParams(query, paramObj, null, new Callback1<Array<EcRemoteLinkedData>>() {
-
-			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1) {
-				if (success != null) {
-					Array<EcLevel> levels = JSCollections.$array();
-
-					for (int i = 0; i < p1.$length(); i++) {
-						EcLevel level = new EcLevel();
-
-						if (p1.$get(i).isAny(level.getTypes())) {
-							level.copyFrom(p1.$get(i));
-						} else if (p1.$get(i).isA(EcEncryptedValue.myType)) {
-							EcEncryptedValue val = new EcEncryptedValue();
-							val.copyFrom(p1.$get(i));
-							if (val.isAnEncrypted(EcLevel.myType)) {
-								EcRemoteLinkedData obj = val.decryptIntoObject();
-								if (JSObjectAdapter.$get(obj, "competency") != competencyId) {
-									continue;
-								}
-								level.copyFrom(obj);
-								EcEncryptedValue.encryptOnSave(level.id, true);
-							}
-						}
-						level.copyFrom(p1.$get(i));
-						levels.$set(i, level);
-					}
-
-					if (success != null)
-						success.$invoke(levels);
-				}
-			}
-
-		}, failure);
+		String query = "competency:\"" + competencyId + "\" OR competency:\"" + EcRemoteLinkedData.trimVersionFromUrl(competencyId) + "\"";
+		search(repo,competencyId,success,failure,paramObj);
 	}
 
 	/**
