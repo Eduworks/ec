@@ -5,6 +5,7 @@ import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.*;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Function0;
 
 /**
  * Created by fray on 11/29/17.
@@ -39,44 +40,7 @@ public class EcConcept extends Concept {
 	 * @static
 	 */
 	public static void get(String id, final Callback1<EcConcept> success, final Callback1<String> failure) {
-		EcRepository.get(id, new Callback1<EcRemoteLinkedData>() {
-			@Override
-			public void $invoke(EcRemoteLinkedData p1) {
-				if (p1 instanceof EcConcept)
-					if (success != null) {
-						success.$invoke((EcConcept) p1);
-						return;
-					}
-
-				EcConcept concept = new EcConcept();
-
-				if (p1.isA(EcEncryptedValue.myType)) {
-					EcEncryptedValue encrypted = new EcEncryptedValue();
-					encrypted.copyFrom(p1);
-					p1 = encrypted.decryptIntoObject();
-
-					EcEncryptedValue.encryptOnSave(p1.id, true);
-
-				}
-				if (p1.isAny(concept.getTypes())) {
-					concept.copyFrom(p1);
-					if (EcRepository.caching) {
-						JSObjectAdapter.$put(EcRepository.cache, concept.shortId(), concept);
-						JSObjectAdapter.$put(EcRepository.cache, concept.id, concept);
-					}
-					if (success != null)
-						success.$invoke(concept);
-				} else {
-					String msg = "Retrieved object was not a concept";
-					if (failure != null)
-						failure.$invoke(msg);
-					else
-						Global.console.error(msg);
-				}
-
-			}
-
-		}, failure);
+		EcRepository.getAs(id,new EcConcept(),success,failure);
 	}
 
 	/**
@@ -92,27 +56,7 @@ public class EcConcept extends Concept {
 	 * @static
 	 */
 	public static EcConcept getBlocking(String id) {
-		EcRemoteLinkedData p1 = EcRepository.getBlocking(id);
-		if (p1 == null)
-			return null;
-		EcConcept concept = new EcConcept();
-
-		if (p1.isA(EcEncryptedValue.myType)) {
-			EcEncryptedValue encrypted = new EcEncryptedValue();
-			encrypted.copyFrom(p1);
-			p1 = encrypted.decryptIntoObject();
-
-			EcEncryptedValue.encryptOnSave(p1.id, true);
-		}
-		if (p1.isAny(concept.getTypes())) {
-			concept.copyFrom(p1);
-
-			return concept;
-		} else {
-			String msg = "Retrieved object was not a concept";
-			Global.console.error(msg);
-			return null;
-		}
+		return EcRepository.getBlockingAs(id,new EcConcept());
 	}
 
 	/**
@@ -133,43 +77,12 @@ public class EcConcept extends Concept {
 	 * @static
 	 */
 	public static void search(EcRepository repo, String query, final Callback1<Array<EcConcept>> success, Callback1<String> failure, Object paramObj) {
-		String queryAdd = "";
-		queryAdd = new EcConcept().getSearchStringByType();
-
-		if (query == null || query == "")
-			query = queryAdd;
-		else
-			query = "(" + query + ") AND " + queryAdd;
-
-		repo.searchWithParams(query, paramObj, null, new Callback1<Array<EcRemoteLinkedData>>() {
-
+		EcRepository.searchAs(repo, query, new Function0() {
 			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1) {
-				if (success != null) {
-					Array<EcConcept> ret = JSCollections.$array();
-					for (int i = 0; i < p1.$length(); i++) {
-						EcConcept comp = new EcConcept();
-						if (p1.$get(i).isAny(comp.getTypes())) {
-							comp.copyFrom(p1.$get(i));
-						} else if (p1.$get(i).isA(EcEncryptedValue.myType)) {
-							EcEncryptedValue val = new EcEncryptedValue();
-							val.copyFrom(p1.$get(i));
-							if (val.isAnEncrypted(EcConcept.myType)) {
-								EcRemoteLinkedData obj = val.decryptIntoObject();
-								comp.copyFrom(obj);
-								EcEncryptedValue.encryptOnSave(comp.id, true);
-							}
-						}
-
-						ret.$set(i, comp);
-					}
-
-					success.$invoke(ret);
-				}
+			public Object $invoke() {
+				return new EcConcept();
 			}
-
-		}, failure);
-
+		},(Callback1<Array>)(Object)success,failure,paramObj);
 	}
 
 }

@@ -9,8 +9,43 @@ import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Function0;
 
 public class EcOrganization extends Organization {
+
+    /**
+     * Retrieves an organization from it's server asynchronously
+     *
+     * @param {String}            id
+     *                            ID of the concept to retrieve from the server
+     * @param {Callback1<String>} success
+     *                            Callback triggered after retrieving the organization,
+     *                            returns the organization retrieved
+     * @param {Callback1<String>} failure
+     *                            Callback triggered if error retrieving organization
+     * @memberOf EcOrganization
+     * @method get
+     * @static
+     */
+    public static void get(String id, final Callback1<EcOrganization> success, final Callback1<String> failure) {
+        EcRepository.getAs(id,new EcOrganization(),success,failure);
+    }
+
+    /**
+     * Retrieves an organization from it's server synchronously, the call
+     * blocks until it is successful or an error occurs
+     *
+     * @param {String} id
+     *                 ID of the organization to retrieve
+     * @return EcOrganization
+     * The concept retrieved
+     * @memberOf EcOrganization
+     * @method getBlocking
+     * @static
+     */
+    public static EcOrganization getBlocking(String id) {
+        return EcRepository.getBlockingAs(id,new EcOrganization());
+    }
 
     /**
      * Searches a repository for organizations that match the search query
@@ -26,37 +61,12 @@ public class EcOrganization extends Organization {
      * @static
      */
     public static void search(EcRepository repo, String query, final Callback1<Array<EcOrganization>> success, Callback1<String> failure, Object paramObj) {
-        String queryAdd = "";
-        queryAdd = new Organization().getSearchStringByType();
-
-        if (query == null || query == "") query = queryAdd;
-        else query = "(" + query + ") AND " + queryAdd;
-
-        repo.searchWithParams(query, paramObj, null, new Callback1<Array<EcRemoteLinkedData>>() {
+        EcRepository.searchAs(repo, query, new Function0() {
             @Override
-            public void $invoke(Array<EcRemoteLinkedData> p1) {
-                if (success != null) {
-                    Array<EcOrganization> ret = JSCollections.$array();
-                    for (int i = 0; i < p1.$length(); i++) {
-                        EcOrganization comp = new EcOrganization();
-                        if (p1.$get(i).isAny(comp.getTypes())) {
-                            comp.copyFrom(p1.$get(i));
-                        }
-                        else if (p1.$get(i).isA(EcEncryptedValue.myType)) {
-                            EcEncryptedValue val = new EcEncryptedValue();
-                            val.copyFrom(p1.$get(i));
-                            if (val.isAnEncrypted(new EcOrganization().getFullType())) {
-                                EcRemoteLinkedData obj = val.decryptIntoObject();
-                                comp.copyFrom(obj);
-                                EcEncryptedValue.encryptOnSave(comp.id, true);
-                            }
-                        }
-                        ret.$set(i, comp);
-                    }
-                    success.$invoke(ret);
-                }
+            public Object $invoke() {
+                return new EcOrganization();
             }
-        }, failure);
+        },(Callback1<Array>)(Object)success,failure,paramObj);
     }
 
     /**

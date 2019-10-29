@@ -19,6 +19,7 @@ import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback2;
+import org.stjs.javascript.functions.Function0;
 
 /**
  * The sequence that assertions should be built as such: 1. Generate the ID. 2.
@@ -36,51 +37,20 @@ public class EcAssertion extends Assertion {
 	}
 
 	public static void get(String id, final Callback1<EcAssertion> success, final Callback1<String> failure) {
-		EcRepository.get(id, new Callback1<EcRemoteLinkedData>() {
-			@Override
-			public void $invoke(EcRemoteLinkedData p1) {
-				EcAssertion assertion = new EcAssertion();
-				if (p1.isAny(assertion.getTypes())) {
-					assertion.copyFrom(p1);
+		EcRepository.getAs(id,new EcAssertion(),success,failure);
+	}
 
-					if (success != null)
-						success.$invoke(assertion);
-				} else {
-					String msg = "Retrieved object was not an assertion";
-					if (failure != null)
-						failure.$invoke(msg);
-					else
-						Global.console.error(msg);
-				}
-			}
-		}, failure);
+	public static EcAssertion getBlocking(String id) {
+		return EcRepository.getBlockingAs(id,new EcAssertion());
 	}
 
 	public static void search(EcRepository repo, String query, final Callback1<Array<EcAssertion>> success, Callback1<String> failure, Object paramObj) {
-		String queryAdd = new EcAssertion().getSearchStringByType();
-
-		if (query == null || query == "")
-			query = queryAdd;
-		else
-			query = "(" + query + ") AND " + queryAdd;
-
-		repo.searchWithParams(query, paramObj, null, new Callback1<Array<EcRemoteLinkedData>>() {
-
+		EcRepository.searchAs(repo, query, new Function0() {
 			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1) {
-				if (success != null) {
-					Array<EcAssertion> ret = JSCollections.$array();
-					for (int i = 0; i < p1.$length(); i++) {
-						EcAssertion assertion = new EcAssertion();
-						assertion.copyFrom(p1.$get(i));
-						ret.$set(i, assertion);
-					}
-
-					success.$invoke(ret);
-				}
+			public Object $invoke() {
+				return new EcAssertion();
 			}
-
-		}, failure);
+		},(Callback1<Array>)(Object)success,failure,paramObj);
 	}
 
 	public EcPk getSubject() {

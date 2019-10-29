@@ -1730,7 +1730,12 @@ public class EcRepository {
     }
 
     public static <T extends EcRemoteLinkedData> void searchAs(EcRepository repo, String query, final Function0 factory, final Callback1<Array> success, final Callback1<String> failure, Object paramObj) {
-        String queryAdd = ((T)factory.$invoke()).getSearchStringByType();
+        if (paramObj == null)
+            paramObj = new Object();
+
+        T template = ((T) factory.$invoke());
+        String queryAdd = template.getSearchStringByType();
+        JSObjectAdapter.$put(paramObj, "index_hint", "*" + template.type.toLowerCase());
 
         if (query == null || query == "")
             query = queryAdd;
@@ -1748,18 +1753,18 @@ public class EcRepository {
                             EcEncryptedValue.fromEncryptedValueAsync(p1, new Callback1<EcRemoteLinkedData>() {
                                 @Override
                                 public void $invoke(EcRemoteLinkedData p1) {
-                                    T result = (T)factory.$invoke();
+                                    T result = (T) factory.$invoke();
                                     if (p1.isAny(result.getTypes())) {
                                         result.copyFrom(p1);
                                         set.$invoke(result);
                                     }
                                 }
-                            },EcAsyncHelper.setNull(set));
+                            }, EcAsyncHelper.setNull(set));
                         }
                     }, new Callback1<Array<EcRemoteLinkedData>>() {
                         @Override
                         public void $invoke(Array<EcRemoteLinkedData> results) {
-                            success.$invoke((Array)results);
+                            success.$invoke((Array) results);
                         }
                     });
                 }

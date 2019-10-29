@@ -12,6 +12,7 @@ public class params {
 	public static String size;
 	public static String sort;
 	public static String track_scores;
+	public static String index_hint;
 	public static String id;
 	public static String type;
 	public static String version;

@@ -472,8 +472,8 @@ public class EcCompetency extends Competency {
 				Global.console.error(msg);
 			return;
 		}
-if (repo == null)
-		EcRepository.save(this, success, failure);
+		if (repo == null)
+			EcRepository.save(this, success, failure);
 		else
 			repo.saveTo(this,success,failure);
 	}

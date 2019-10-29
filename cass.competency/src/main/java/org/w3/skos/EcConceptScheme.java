@@ -5,6 +5,7 @@ import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.*;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Function0;
 
 /**
  * Created by fray on 11/29/17.
@@ -38,39 +39,7 @@ public class EcConceptScheme extends ConceptScheme {
 	 * @static
 	 */
 	public static void get(String id, final Callback1<EcConceptScheme> success, final Callback1<String> failure) {
-		EcRepository.get(id, new Callback1<EcRemoteLinkedData>() {
-			@Override
-			public void $invoke(EcRemoteLinkedData p1) {
-				EcConceptScheme scheme = new EcConceptScheme();
-
-				if (p1.isA(EcEncryptedValue.myType)) {
-					EcEncryptedValue encrypted = new EcEncryptedValue();
-					encrypted.copyFrom(p1);
-					p1 = encrypted.decryptIntoObject();
-
-					EcEncryptedValue.encryptOnSave(p1.id, true);
-				}
-				if (p1.isAny(scheme.getTypes())) {
-					scheme.copyFrom(p1);
-
-					if (success != null)
-						success.$invoke(scheme);
-				} else {
-					String msg = "Resultant object is not a concept scheme.";
-					if (failure != null)
-						failure.$invoke(msg);
-					else
-						Global.console.error(msg);
-				}
-
-			}
-		}, new Callback1<String>() {
-			@Override
-			public void $invoke(String p1) {
-				if (failure != null)
-					failure.$invoke(p1);
-			}
-		});
+		EcRepository.getAs(id,new EcConceptScheme(),success,failure);
 	}
 
 	/**
@@ -88,23 +57,7 @@ public class EcConceptScheme extends ConceptScheme {
 	 * @static
 	 */
 	public static EcConceptScheme getBlocking(String id) {
-		EcRemoteLinkedData p1 = EcRepository.getBlocking(id);
-		if (p1 == null) return null;
-		EcConceptScheme scheme = new EcConceptScheme();
-
-		if (p1.isA(EcEncryptedValue.myType)) {
-			EcEncryptedValue encrypted = new EcEncryptedValue();
-			encrypted.copyFrom(p1);
-			p1 = encrypted.decryptIntoObject();
-
-			EcEncryptedValue.encryptOnSave(p1.id, true);
-		}
-		if (p1.isAny(scheme.getTypes())) {
-			scheme.copyFrom(p1);
-			return scheme;
-		} else {
-			return null;
-		}
+		return EcRepository.getBlockingAs(id,new EcConceptScheme());
 	}
 
 	/**
@@ -126,43 +79,12 @@ public class EcConceptScheme extends ConceptScheme {
 	 * @static
 	 */
 	public static void search(EcRepository repo, String query, final Callback1<Array<EcConceptScheme>> success, Callback1<String> failure, Object paramObj) {
-		String queryAdd = "";
-		queryAdd = new EcConceptScheme().getSearchStringByType();
-
-		if (query == null || query == "")
-			query = queryAdd;
-		else
-			query = "(" + query + ") AND " + queryAdd;
-
-		repo.searchWithParams(query, paramObj, null, new Callback1<Array<EcRemoteLinkedData>>() {
-
+		EcRepository.searchAs(repo, query, new Function0() {
 			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1) {
-				if (success != null) {
-					Array<EcConceptScheme> ret = JSCollections.$array();
-					for (int i = 0; i < p1.$length(); i++) {
-
-						EcConceptScheme scheme = new EcConceptScheme();
-						if (p1.$get(i).isAny(scheme.getTypes())) {
-							scheme.copyFrom(p1.$get(i));
-						} else if (p1.$get(i).isA(EcEncryptedValue.myType)) {
-							EcEncryptedValue val = new EcEncryptedValue();
-							val.copyFrom(p1.$get(i));
-							if (val.isAnEncrypted(EcConceptScheme.myType)) {
-								EcRemoteLinkedData obj = val.decryptIntoObject();
-								scheme.copyFrom(obj);
-								EcEncryptedValue.encryptOnSave(scheme.id, true);
-							}
-						}
-
-						ret.$set(i, scheme);
-					}
-
-					success.$invoke(ret);
-				}
+			public Object $invoke() {
+				return new EcConceptScheme();
 			}
-
-		}, failure);
+		},(Callback1<Array>)(Object)success,failure,paramObj);
 	}
 
 }

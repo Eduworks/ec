@@ -6,8 +6,44 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Function0;
 
 public class EcCreativeWork extends CreativeWork {
+
+	/**
+	 * Retrieves a creative work from it's server asynchronously
+	 *
+	 * @param {String}            id
+	 *                            ID of the creative work to retrieve from the server
+	 * @param {Callback1<String>} success
+	 *                            Callback triggered after retrieving the creative work,
+	 *                            returns the creative work retrieved
+	 * @param {Callback1<String>} failure
+	 *                            Callback triggered if error retrieving creative work
+	 * @memberOf EcCreativeWork
+	 * @method get
+	 * @static
+	 */
+	public static void get(String id, final Callback1<EcCreativeWork> success, final Callback1<String> failure) {
+		EcRepository.getAs(id,new EcCreativeWork(),success,failure);
+	}
+
+	/**
+	 * Retrieves a creative work from it's server synchronously, the call
+	 * blocks until it is successful or an error occurs
+	 *
+	 * @param {String} id
+	 *                 ID of the creative work to retrieve
+	 * @return EcCreativeWork
+	 * The creative work retrieved
+	 * @memberOf EcCreativeWork
+	 * @method getBlocking
+	 * @static
+	 */
+	public static EcCreativeWork getBlocking(String id) {
+		return EcRepository.getBlockingAs(id,new EcCreativeWork());
+	}
+
 	/**
 	 * Searches a repository for creative works that match the search query
 	 *
@@ -26,37 +62,11 @@ public class EcCreativeWork extends CreativeWork {
 	 * @static
 	 */
 	public static void search(EcRepository repo, String query, final Callback1<Array<EcCreativeWork>> success, Callback1<String> failure, Object paramObj) {
-		String queryAdd = "";
-		queryAdd = new EcCreativeWork().getSearchStringByType();
-
-		if (query == null || query == "")
-			query = queryAdd;
-		else
-			query = "(" + query + ") AND " + queryAdd;
-
-		repo.searchWithParams(query, paramObj, null, new Callback1<Array<EcRemoteLinkedData>>() {
+		EcRepository.searchAs(repo, query, new Function0() {
 			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1) {
-				if (success != null) {
-					Array<EcCreativeWork> ret = JSCollections.$array();
-					for (int i = 0; i < p1.$length(); i++) {
-						EcCreativeWork comp = new EcCreativeWork();
-						if (p1.$get(i).isAny(comp.getTypes())) {
-							comp.copyFrom(p1.$get(i));
-						} else if (p1.$get(i).isA(EcEncryptedValue.myType)) {
-							EcEncryptedValue val = new EcEncryptedValue();
-							val.copyFrom(p1.$get(i));
-							if (val.isAnEncrypted(new EcCreativeWork().getFullType())) {
-								EcRemoteLinkedData obj = val.decryptIntoObject();
-								comp.copyFrom(obj);
-								EcEncryptedValue.encryptOnSave(comp.id, true);
-							}
-						}
-						ret.$set(i, comp);
-					}
-					success.$invoke(ret);
-				}
+			public Object $invoke() {
+				return new EcCreativeWork();
 			}
-		}, failure);
+		},(Callback1<Array>)(Object)success,failure,paramObj);
 	}
 }
