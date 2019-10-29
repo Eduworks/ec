@@ -7,6 +7,7 @@ import org.schema.CreativeWork;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Function0;
 
 public class EcQuiz extends CreativeWork {
 
@@ -34,39 +35,12 @@ public class EcQuiz extends CreativeWork {
 	 * @static
 	 */
 	public static void search(EcRepository repo, String query, final Callback1<Array<EcQuiz>> success, Callback1<String> failure, Object paramObj) {
-		String queryAdd = "";
-		queryAdd = new EcQuiz().getSearchStringByType();
-
-		if (query == null || query == "") {
-			query = queryAdd;
-		} else {
-			query = "(" + query + ") AND " + queryAdd;
-		}
-
-		repo.searchWithParams(query, paramObj, null, new Callback1<Array<EcRemoteLinkedData>>() {
+		EcRepository.searchAs(repo, query, new Function0() {
 			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1) {
-				if (success != null) {
-					Array<EcQuiz> ret = JSCollections.$array();
-					for (int i = 0; i < p1.$length(); i++) {
-						EcQuiz comp = new EcQuiz();
-						if (p1.$get(i).isAny(comp.getTypes())) {
-							comp.copyFrom(p1.$get(i));
-						} else if (p1.$get(i).isA(EcEncryptedValue.myType)) {
-							EcEncryptedValue val = new EcEncryptedValue();
-							val.copyFrom(p1.$get(i));
-							if (val.isAnEncrypted(EcQuiz.myType)) {
-								EcRemoteLinkedData obj = val.decryptIntoObject();
-								comp.copyFrom(obj);
-								EcEncryptedValue.encryptOnSave(comp.id, true);
-							}
-						}
-						ret.$set(i, comp);
-					}
-					success.$invoke(ret);
-				}
+			public Object $invoke() {
+				return new EcQuiz();
 			}
-		}, failure);
+		},(Callback1<Array>)(Object)success,failure,paramObj);
 	}
 
 }

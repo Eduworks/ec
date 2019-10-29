@@ -7,6 +7,7 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Function0;
 
 /**
  * Implementation of a file with methods for communicating with repository services
@@ -58,31 +59,12 @@ public class EcFile extends GeneralFile {
 	 * @static
 	 */
 	public static void get(String id, final Callback1<EcFile> success, final Callback1<String> failure) {
-		EcRepository.get(id, new Callback1<EcRemoteLinkedData>() {
-			@Override
-			public void $invoke(EcRemoteLinkedData p1) {
-				EcFile f = new EcFile();
-				if (p1.isA(EcEncryptedValue.myType)) {
-					EcEncryptedValue encrypted = new EcEncryptedValue();
-					encrypted.copyFrom(p1);
-					p1 = encrypted.decryptIntoObject();
-
-					EcEncryptedValue.encryptOnSave(p1.id, true);
-				}
-				if (p1 != null && p1.isA(GeneralFile.myType)) {
-					f.copyFrom(p1);
-
-					if (success != null)
-						success.$invoke(f);
-				} else {
-					if (failure != null)
-						failure.$invoke("Resultant object is not a competency.");
-					return;
-				}
-			}
-		}, failure);
+		EcRepository.getAs(id,new EcFile(),success,failure);
 	}
 
+	public static EcFile getBlocking(String id) {
+		return EcRepository.getBlockingAs(id,new EcFile());
+	}
 	/**
 	 * Searches the repository given for files that match the query passed in
 	 *
@@ -97,48 +79,17 @@ public class EcFile extends GeneralFile {
 	 *                             Callback triggered if error occurs while searching
 	 * @param {Object}             paramObj
 	 *                             Parameters to pass to search
-	 * @param start
-	 * @param size
 	 * @memberOf EcFile
 	 * @method search
 	 * @static
 	 */
 	public static void search(EcRepository repo, String query, final Callback1<Array<EcFile>> success, Callback1<String> failure, Object paramObj) {
-		String queryAdd = "";
-
-		queryAdd = new GeneralFile().getSearchStringByType();
-
-		if (query == null || query == "")
-			query = queryAdd;
-		else
-			query = "(" + query + ") AND " + queryAdd;
-
-		repo.searchWithParams(query, paramObj, null, new Callback1<Array<EcRemoteLinkedData>>() {
+		EcRepository.searchAs(repo, query, new Function0() {
 			@Override
-			public void $invoke(Array<EcRemoteLinkedData> p1) {
-				if (success != null) {
-					Array<EcFile> ret = JSCollections.$array();
-					for (int i = 0; i < p1.$length(); i++) {
-						EcFile file = new EcFile();
-						if (p1.$get(i).isAny(file.getTypes())) {
-							file.copyFrom(p1.$get(i));
-						} else if (p1.$get(i).isA(EcEncryptedValue.myType)) {
-							EcEncryptedValue val = new EcEncryptedValue();
-							val.copyFrom(p1.$get(i));
-							if (val.isAnEncrypted(EcFile.myType)) {
-								EcRemoteLinkedData obj = val.decryptIntoObject();
-								file.copyFrom(obj);
-								EcEncryptedValue.encryptOnSave(file.id, true);
-							}
-						}
-
-						ret.$set(i, file);
-					}
-
-					success.$invoke(ret);
-				}
+			public Object $invoke() {
+				return new EcFile();
 			}
-		}, failure);
+		},(Callback1<Array>)(Object)success,failure,paramObj);
 	}
 
 	/**
