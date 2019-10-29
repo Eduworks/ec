@@ -47,7 +47,7 @@ public class EcAesCtrAsync {
         algorithm.counter = base64.decode(iv);
         algorithm.length = 128;
         final ArrayBuffer data;
-        data = BlobHelper.str2ab(util.encodeUtf8(plaintext));
+        data = BlobHelper.str2ab(plaintext);
         crypto.subtle.importKey("raw", base64.decode(secret), algorithm, false, keyUsages).then(new Callback1<CryptoKey>() {
             @Override
             public void $invoke(CryptoKey key) {
@@ -107,8 +107,8 @@ public class EcAesCtrAsync {
                 p.then(new Callback1<ArrayBuffer>() {
                     @Override
                     public void $invoke(ArrayBuffer p1) {
-                        JSObjectAdapter.$put(EcCrypto.decryptionCache, secret + iv + ciphertext, util.decodeUtf8(BlobHelper.ab2str(p1)));
-                        success.$invoke(util.decodeUtf8(BlobHelper.ab2str(p1)));
+                        JSObjectAdapter.$put(EcCrypto.decryptionCache, secret + iv + ciphertext, BlobHelper.ab2str(p1));
+                        success.$invoke(BlobHelper.ab2str(p1));
                     }
                 }, failure);
             }
