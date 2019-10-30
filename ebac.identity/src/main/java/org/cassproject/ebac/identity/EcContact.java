@@ -115,7 +115,7 @@ public class EcContact {
 	 */
 	public EbacContact toEncryptedContact(String secret) {
 		EbacContact c = new EbacContact();
-		c.iv = EcAes.newIv(32);
+		c.iv = EcAes.newIv(16);
 		c.pk = EcAesCtr.encrypt(pk.toPem(), secret, c.iv);
 		c.displayNameIv = EcAes.newIv(16);
 		c.displayName = EcAesCtr.encrypt(displayName, secret, c.iv);

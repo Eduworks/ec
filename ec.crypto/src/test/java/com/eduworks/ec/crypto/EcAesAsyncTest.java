@@ -10,7 +10,7 @@ import static org.junit.Assert.assertTrue;
 import static org.stjs.javascript.Global.console;
 
 @RunWith(STJSTestDriverRunner.class)
-@ScriptsBefore({"pem-jwk.js", "require.js", "/forge/forge.bundle.js", "ec.base.js"})
+@ScriptsBefore({"pem-jwk.js", "require.js", "/forge/forge.bundle.js", "ec.base.js", "base64toArrayBuffer.js"})
 public class EcAesAsyncTest {
 	@Test
 	public void aesTest() {
@@ -54,9 +54,9 @@ public class EcAesAsyncTest {
 		console.log("-----aesCrossTest1-----");
 		final String randomString = EcAes.newIv(1024);
 		console.log("Random string: " + randomString);
-		final String secret = EcAes.newIv(32);
+		final String secret = EcAes.newIv(16);
 		console.log("Random secret: " + secret);
-		final String iv = EcAes.newIv(32);
+		final String iv = EcAes.newIv(16);
 		console.log("Random iv:" + iv);
 		EcAesCtrAsync.encrypt(randomString, secret, iv, new Callback1<String>() {
 			@Override
@@ -81,9 +81,9 @@ public class EcAesAsyncTest {
 		console.log("-----aesCrossTest1Utf8-----");
 		final String randomString = "ᚠᛇᚻ᛫ᛒᛦᚦ᛫ᚠᚱᚩᚠᚢᚱ᛫ᚠᛁᚱᚪ᛫ᚷᛖᚻᚹᛦᛚᚳᚢᛗ";
 		console.log("Random string: " + randomString);
-		final String secret = EcAes.newIv(32);
+		final String secret = EcAes.newIv(16);
 		console.log("Random secret: " + secret);
-		final String iv = EcAes.newIv(32);
+		final String iv = EcAes.newIv(16);
 		console.log("Random iv:" + iv);
 		EcAesCtrAsync.encrypt(randomString, secret, iv, new Callback1<String>() {
 			@Override
@@ -108,9 +108,9 @@ public class EcAesAsyncTest {
 		console.log("-----aesCrossTest2Utf8-----");
 		final String randomString = "ᚠᛇᚻ᛫ᛒᛦᚦ᛫ᚠᚱᚩᚠᚢᚱ᛫ᚠᛁᚱᚪ᛫ᚷᛖᚻᚹᛦᛚᚳᚢᛗ";
 		console.log("Random string: " + randomString);
-		final String secret = EcAes.newIv(32);
+		final String secret = EcAes.newIv(16);
 		console.log("Random secret: " + secret);
-		final String iv = EcAes.newIv(32);
+		final String iv = EcAes.newIv(16);
 		console.log("Random iv:" + iv);
 		String encrypted = EcAesCtr.encrypt(randomString, secret, iv);
 		console.log("Encrypted String: " + encrypted);
@@ -171,9 +171,9 @@ public class EcAesAsyncTest {
 		console.log("-----aesCrossTest1Worker-----");
 		final String randomString = EcAes.newIv(1024);
 		console.log("Random string: " + randomString);
-		final String secret = EcAes.newIv(32);
+		final String secret = EcAes.newIv(16);
 		console.log("Random secret: " + secret);
-		final String iv = EcAes.newIv(32);
+		final String iv = EcAes.newIv(16);
 		console.log("Random iv:" + iv);
 		EcAesCtrAsyncWorker.encrypt(randomString, secret, iv, new Callback1<String>() {
 			@Override
@@ -198,9 +198,9 @@ public class EcAesAsyncTest {
 		console.log("-----aesCrossTest1Utf8Worker-----");
 		final String randomString = "ᚠᛇᚻ᛫ᛒᛦᚦ᛫ᚠᚱᚩᚠᚢᚱ᛫ᚠᛁᚱᚪ᛫ᚷᛖᚻᚹᛦᛚᚳᚢᛗ";
 		console.log("Random string: " + randomString);
-		final String secret = EcAes.newIv(32);
+		final String secret = EcAes.newIv(16);
 		console.log("Random secret: " + secret);
-		final String iv = EcAes.newIv(32);
+		final String iv = EcAes.newIv(16);
 		console.log("Random iv:" + iv);
 		EcAesCtrAsyncWorker.encrypt(randomString, secret, iv, new Callback1<String>() {
 			@Override
@@ -225,9 +225,9 @@ public class EcAesAsyncTest {
 		console.log("-----aesCrossTest2Utf8Worker-----");
 		final String randomString = "ᚠᛇᚻ᛫ᛒᛦᚦ᛫ᚠᚱᚩᚠᚢᚱ᛫ᚠᛁᚱᚪ᛫ᚷᛖᚻᚹᛦᛚᚳᚢᛗ";
 		console.log("Random string: " + randomString);
-		final String secret = EcAes.newIv(32);
+		final String secret = EcAes.newIv(16);
 		console.log("Random secret: " + secret);
-		final String iv = EcAes.newIv(32);
+		final String iv = EcAes.newIv(16);
 		console.log("Random iv:" + iv);
 		String encrypted = EcAesCtr.encrypt(randomString, secret, iv);
 		console.log("Encrypted String: " + encrypted);

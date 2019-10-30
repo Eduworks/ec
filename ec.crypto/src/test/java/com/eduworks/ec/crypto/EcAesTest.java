@@ -9,16 +9,16 @@ import static org.junit.Assert.assertTrue;
 import static org.stjs.javascript.Global.console;
 
 @RunWith(STJSTestDriverRunner.class)
-@ScriptsBefore({"pem-jwk.js", "require.js", "/forge/forge.bundle.js", "ec.base.js"})
+@ScriptsBefore({"pem-jwk.js", "require.js", "/forge/forge.bundle.js", "ec.base.js", "base64toArrayBuffer.js"})
 public class EcAesTest {
 	@Test
 	public void aesTest() {
 		console.log("-----aesTest-----");
 		String randomString = EcAes.newIv(1024);
 		console.log("Random string: " + randomString);
-		String secret = EcAes.newIv(32);
+		String secret = EcAes.newIv(16);
 		console.log("Random secret: " + secret);
-		String iv = EcAes.newIv(32);
+		String iv = EcAes.newIv(16);
 		console.log("Random iv:" + iv);
 		String encrypted = EcAesCtr.encrypt(randomString, secret, iv);
 		console.log("Encrypted String: " + encrypted);
@@ -33,9 +33,9 @@ public class EcAesTest {
 		console.log("-----aesUtf8Test-----");
 		String randomString = "abcᚠᛇᚻ᛫ᛒᛦᚦ᛫ᚠᚱᚩᚠᚢᚱ᛫ᚠᛁᚱᚪ᛫ᚷᛖᚻᚹᛦᛚᚳᚢᛗ";
 		console.log("Random string: " + randomString);
-		String secret = EcAes.newIv(32);
+		String secret = EcAes.newIv(16);
 		console.log("Random secret: " + secret);
-		String iv = EcAes.newIv(32);
+		String iv = EcAes.newIv(16);
 		console.log("Random iv:" + iv);
 		String encrypted = EcAesCtr.encrypt(randomString, secret, iv);
 		console.log("Encrypted String: " + encrypted);
