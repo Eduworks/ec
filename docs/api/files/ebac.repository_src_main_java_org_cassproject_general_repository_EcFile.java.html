@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 2.11.1
+              Version: 2.11.2
             </div>
             
         </div>
@@ -826,6 +826,7 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Function0;
 
 /**
  * Implementation of a file with methods for communicating with repository services
@@ -877,31 +878,12 @@ public class EcFile extends GeneralFile {
 	 * @static
 	 */
 	public static void get(String id, final Callback1&lt;EcFile&gt; success, final Callback1&lt;String&gt; failure) {
-		EcRepository.get(id, new Callback1&lt;EcRemoteLinkedData&gt;() {
-			@Override
-			public void $invoke(EcRemoteLinkedData p1) {
-				EcFile f = new EcFile();
-				if (p1.isA(EcEncryptedValue.myType)) {
-					EcEncryptedValue encrypted = new EcEncryptedValue();
-					encrypted.copyFrom(p1);
-					p1 = encrypted.decryptIntoObject();
-
-					EcEncryptedValue.encryptOnSave(p1.id, true);
-				}
-				if (p1 != null &amp;&amp; p1.isA(GeneralFile.myType)) {
-					f.copyFrom(p1);
-
-					if (success != null)
-						success.$invoke(f);
-				} else {
-					if (failure != null)
-						failure.$invoke(&quot;Resultant object is not a competency.&quot;);
-					return;
-				}
-			}
-		}, failure);
+		EcRepository.getAs(id,new EcFile(),success,failure);
 	}
 
+	public static EcFile getBlocking(String id) {
+		return EcRepository.getBlockingAs(id,new EcFile());
+	}
 	/**
 	 * Searches the repository given for files that match the query passed in
 	 *
@@ -916,48 +898,17 @@ public class EcFile extends GeneralFile {
 	 *                             Callback triggered if error occurs while searching
 	 * @param {Object}             paramObj
 	 *                             Parameters to pass to search
-	 * @param start
-	 * @param size
 	 * @memberOf EcFile
 	 * @method search
 	 * @static
 	 */
 	public static void search(EcRepository repo, String query, final Callback1&lt;Array&lt;EcFile&gt;&gt; success, Callback1&lt;String&gt; failure, Object paramObj) {
-		String queryAdd = &quot;&quot;;
-
-		queryAdd = new GeneralFile().getSearchStringByType();
-
-		if (query == null || query == &quot;&quot;)
-			query = queryAdd;
-		else
-			query = &quot;(&quot; + query + &quot;) AND &quot; + queryAdd;
-
-		repo.searchWithParams(query, paramObj, null, new Callback1&lt;Array&lt;EcRemoteLinkedData&gt;&gt;() {
+		EcRepository.searchAs(repo, query, new Function0() {
 			@Override
-			public void $invoke(Array&lt;EcRemoteLinkedData&gt; p1) {
-				if (success != null) {
-					Array&lt;EcFile&gt; ret = JSCollections.$array();
-					for (int i = 0; i &lt; p1.$length(); i++) {
-						EcFile file = new EcFile();
-						if (p1.$get(i).isAny(file.getTypes())) {
-							file.copyFrom(p1.$get(i));
-						} else if (p1.$get(i).isA(EcEncryptedValue.myType)) {
-							EcEncryptedValue val = new EcEncryptedValue();
-							val.copyFrom(p1.$get(i));
-							if (val.isAnEncrypted(EcFile.myType)) {
-								EcRemoteLinkedData obj = val.decryptIntoObject();
-								file.copyFrom(obj);
-								EcEncryptedValue.encryptOnSave(file.id, true);
-							}
-						}
-
-						ret.$set(i, file);
-					}
-
-					success.$invoke(ret);
-				}
+			public Object $invoke() {
+				return new EcFile();
 			}
-		}, failure);
+		},(Callback1&lt;Array&gt;)(Object)success,failure,paramObj);
 	}
 
 	/**

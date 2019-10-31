@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 2.11.1
+              Version: 2.11.2
             </div>
             
         </div>
@@ -1032,8 +1032,10 @@ public class EcRemote {
                 @Override
                 public void $invoke() {
                     if (xhrx.readyState == 4 &amp;&amp; xhrx.status == 200)
+                        if (success != null)
                         success.$invoke(xhrx.responseText);
                     else if (xhrx.readyState == 4)
+                        if (failure != null)
                         failure.$invoke(xhrx.responseText);
                 }
             };
@@ -1046,6 +1048,7 @@ public class EcRemote {
 //		JSObjectAdapter.$put(xhr, &quot;withCredentials&quot;, true);
 
         if (Global.typeof(EcLevrHttp.httpStatus) != &quot;undefined&quot;) {
+            if (success != null)
             success.$invoke(JSON.stringify(EcLevrHttp.httpGet(url)));
         } else {
             xhr.send();

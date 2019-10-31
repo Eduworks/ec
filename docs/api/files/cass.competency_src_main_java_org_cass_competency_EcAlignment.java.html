@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 2.11.1
+              Version: 2.11.2
             </div>
             
         </div>
@@ -932,19 +932,13 @@ public class EcAlignment extends Relation {
      */
     public static void searchBySource(EcRepository repo, final String sourceId, final Callback1&lt;Array&lt;EcAlignment&gt;&gt; success, Callback1&lt;String&gt; failure, Object paramObj) {
         String query = &quot;&quot;;
-        query = &quot;(&quot; + new EcAlignment().getSearchStringByType();
         final String noVersion = EcRemoteLinkedData.trimVersionFromUrl(sourceId);
         if (noVersion == sourceId) {
-            query += &quot; AND (source:\&quot;&quot; + sourceId + &quot;\&quot;))&quot;;
+            query += &quot;source:\&quot;&quot; + sourceId + &quot;\&quot;&quot;;
         } else {
-            query += &quot; AND (source:\&quot;&quot; + sourceId + &quot;\&quot; OR source:\&quot;&quot; + noVersion + &quot;\&quot;))&quot;;
+            query += &quot;source:\&quot;&quot; + sourceId + &quot;\&quot; OR source:\&quot;&quot; + noVersion + &quot;\&quot;&quot;;
         }
-        EcRepository.searchAs(repo, query, new Function0() {
-            @Override
-            public Object $invoke() {
-                return new EcAlignment();
-            }
-        },(Callback1&lt;Array&gt;)(Object)success,failure,paramObj);
+        search(repo,query,success,failure,paramObj);
     }
 
     /**
@@ -966,7 +960,7 @@ public class EcAlignment extends Relation {
      */
     public static void searchBySources(EcRepository repo, final Array&lt;String&gt; sourceIds, final Callback1&lt;Array&lt;EcAlignment&gt;&gt; success, Callback1&lt;String&gt; failure, Object paramObj) {
         String query = &quot;&quot;;
-        query = &quot;(&quot; + new EcAlignment().getSearchStringByType() + &quot; AND (source:&quot;;
+        query = &quot;(source:&quot;;
 
         Array&lt;String&gt; noVersions = JSCollections.$array();
         for (int i = 0; i &lt; sourceIds.$length(); i++) {
@@ -983,38 +977,8 @@ public class EcAlignment extends Relation {
             noVersions.push(noVersion);
         }
 
-        query += &quot;))&quot;;
-
-        final Array&lt;String&gt; finalNoVersions = noVersions;
-        repo.searchWithParams(query, paramObj, null, new Callback1&lt;Array&lt;EcRemoteLinkedData&gt;&gt;() {
-
-            @Override
-            public void $invoke(Array&lt;EcRemoteLinkedData&gt; p1) {
-                if (success != null) {
-                    Array&lt;EcAlignment&gt; ret = JSCollections.$array();
-                    for (int i = 0; i &lt; p1.$length(); i++) {
-                        EcAlignment alignment = new EcAlignment();
-                        if (p1.$get(i).isAny(alignment.getTypes())) {
-                            alignment.copyFrom(p1.$get(i));
-                        } else if (p1.$get(i).isA(EcEncryptedValue.myType)) {
-                            EcEncryptedValue val = new EcEncryptedValue();
-                            val.copyFrom(p1.$get(i));
-                            if (val.isAnEncrypted(EcAlignment.myType)) {
-                                EcRemoteLinkedData obj = val.decryptIntoObject();
-                                if (sourceIds.indexOf((String) JSObjectAdapter.$get(obj, &quot;source&quot;)) == -1 &amp;&amp; finalNoVersions.indexOf((String) JSObjectAdapter.$get(obj, &quot;source&quot;)) == -1) {
-                                    continue;
-                                }
-                                alignment.copyFrom(obj);
-                            }
-                        }
-                        ret.$set(i, alignment);
-                    }
-
-                    success.$invoke(ret);
-                }
-            }
-
-        }, failure);
+        query += &quot;)&quot;;
+        search(repo,query,success,failure,paramObj);
     }
 
     /**
@@ -1036,46 +1000,13 @@ public class EcAlignment extends Relation {
      */
     public static void searchByCompetency(EcRepository repo, final String competencyId, final Callback1&lt;Array&lt;EcAlignment&gt;&gt; success, Callback1&lt;String&gt; failure, Object paramObj) {
         String query = &quot;&quot;;
-        query = &quot;(&quot; + new EcAlignment().getSearchStringByType();
         final String noVersion = EcRemoteLinkedData.trimVersionFromUrl(competencyId);
         if (noVersion == competencyId) {
-            query += &quot; AND (source:\&quot;&quot; + competencyId + &quot;\&quot; OR target:\&quot;&quot; + competencyId + &quot;\&quot;))&quot;;
+            query += &quot; AND (source:\&quot;&quot; + competencyId + &quot;\&quot; OR target:\&quot;&quot; + competencyId + &quot;\&quot;)&quot;;
         } else {
-            query += &quot; AND (source:\&quot;&quot; + competencyId + &quot;\&quot; OR source:\&quot;&quot; + noVersion + &quot;\&quot; OR target:\&quot;&quot; + competencyId + &quot;\&quot; OR target:\&quot;&quot; + noVersion + &quot;\&quot;))&quot;;
+            query += &quot; AND (source:\&quot;&quot; + competencyId + &quot;\&quot; OR source:\&quot;&quot; + noVersion + &quot;\&quot; OR target:\&quot;&quot; + competencyId + &quot;\&quot; OR target:\&quot;&quot; + noVersion + &quot;\&quot;)&quot;;
         }
-
-        query += &quot; OR @encryptedType:\&quot;&quot; + EcAlignment.myType + &quot;\&quot; OR @encryptedType:\&quot;&quot; + EcAlignment.myType.replace(Cass.context + &quot;/&quot;, &quot;&quot;) + &quot;\&quot;)&quot;;
-
-        repo.searchWithParams(query, paramObj, null, new Callback1&lt;Array&lt;EcRemoteLinkedData&gt;&gt;() {
-
-            @Override
-            public void $invoke(Array&lt;EcRemoteLinkedData&gt; p1) {
-                if (success != null) {
-                    Array&lt;EcAlignment&gt; ret = JSCollections.$array();
-                    for (int i = 0; i &lt; p1.$length(); i++) {
-                        EcAlignment alignment = new EcAlignment();
-                        if (p1.$get(i).isAny(alignment.getTypes())) {
-                            alignment.copyFrom(p1.$get(i));
-                        } else if (p1.$get(i).isA(EcEncryptedValue.myType)) {
-                            EcEncryptedValue val = new EcEncryptedValue();
-                            val.copyFrom(p1.$get(i));
-                            if (val.isAnEncrypted(EcAlignment.myType)) {
-                                EcRemoteLinkedData obj = val.decryptIntoObject();
-                                if (JSObjectAdapter.$get(obj, &quot;source&quot;) != competencyId &amp;&amp; JSObjectAdapter.$get(obj, &quot;source&quot;) != noVersion &amp;&amp;
-                                        JSObjectAdapter.$get(obj, &quot;target&quot;) != competencyId &amp;&amp; JSObjectAdapter.$get(obj, &quot;target&quot;) != noVersion) {
-                                    continue;
-                                }
-                                alignment.copyFrom(obj);
-                            }
-                        }
-                        ret.$set(i, alignment);
-                    }
-
-                    success.$invoke(ret);
-                }
-            }
-
-        }, failure);
+        search(repo,query,success,failure,paramObj);
     }
 
     /**
