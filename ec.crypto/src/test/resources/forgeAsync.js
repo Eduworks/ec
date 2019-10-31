@@ -14,6 +14,14 @@ try {
     importScripts('../../../forge/forge.min.js');
 } catch (ex) {}
 
+if (global.forge === undefined)
+    if (typeof __webpack_require__ === 'function')
+        var forge = require("forge");
+    else
+        var forge = require("node-forge");
+else
+    var forge = global.forge;
+
 self.addEventListener('message', function (e) {
     var data = e.data;
     try {

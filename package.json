@@ -1,0 +1,36 @@
+{
+  "name": "ec",
+  "version": "2.11.1",
+  "description": "Test Suite for EC",
+  "main": "test.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "dependencies": {
+    "antlr4": "^4.7.2",
+    "esprima": "^4.0.1",
+    "form-data": "^2.5.1",
+    "import-scripts": "^1.0.0",
+    "node-forge": "^0.9.1",
+    "pem-jwk": "^2.0.0",
+    "subtle-crypto": "^0.0.0",
+    "text-encoding": "^0.7.0",
+    "tiny-worker": "^2.3.0",
+    "xmlhttprequest": "^1.8.0",
+    "yuidoc-ember-cli-theme": "^1.0.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eduworks/ec.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Eduworks/ec/issues"
+  },
+  "homepage": "https://github.com/Eduworks/ec#readme"
+}

@@ -39,7 +39,7 @@ public class EcAlignmentTest {
 	public void setup() {
 		Global.console.log("setup");
 
-		EcRemote.async = true;
+		EcRemote.async = false;
 
 		repo.selectedServer = server;
 

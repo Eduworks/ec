@@ -264,6 +264,10 @@ public class EcRepository {
             return null;
         }
         final EcRepository repo = repos.$get(i);
+        if (repo.selectedServer == null)
+        {
+            return findBlocking(url, error, history, i + 1);
+        }
         if (((Boolean) JSObjectAdapter.$get(history, repo.selectedServer)) == true)
             findBlocking(url, error, history, i + 1);
         JSObjectAdapter.$put(history, repo.selectedServer, true);

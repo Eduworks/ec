@@ -22,24 +22,12 @@ import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
 import static org.junit.Assert.assertTrue;
+import static org.stjs.javascript.Global.console;
 
 @RunWith(STJSTestDriverRunner.class)
 @ScriptsBefore({"pem-jwk.js", "require.js", "/forge/forge.bundle.js", "ec.base.js"})
 public class EcEncryptedValueTest {
 	static String server = "http://localhost/api/";
-	static class console{
-		EcRepository r;
-		console(){
-			r = new EcRepository();
-			r.selectedServer = server;
-		}
-		static void log(String s){
-			EcRemote.getExpectingString(server,"ping?log="+ JSGlobal.encodeURIComponent(s),null,null);
-		}
-		static void error(String s){
-			EcRemote.getExpectingString(server,"ping?error=true&log="+JSGlobal.encodeURIComponent(s),null,null);
-		}
-	}
 	@Before
 	public void begin()
 	{
@@ -620,6 +608,7 @@ public class EcEncryptedValueTest {
 				org.cassproject.schema.general.General.context + "/test");
 		thing.generateId(server);
 		JSObjectAdapter.$put(thing, "value", "Private Object Value");
+		JSObjectAdapter.$put(thing, "name", "Private Object Name");
 
 		thing.addOwner(ppk.toPk());
 		thing.signWith(ppk);

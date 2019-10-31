@@ -213,8 +213,10 @@ public class EcRemote {
                 @Override
                 public void $invoke() {
                     if (xhrx.readyState == 4 && xhrx.status == 200)
+                        if (success != null)
                         success.$invoke(xhrx.responseText);
                     else if (xhrx.readyState == 4)
+                        if (failure != null)
                         failure.$invoke(xhrx.responseText);
                 }
             };
@@ -227,6 +229,7 @@ public class EcRemote {
 //		JSObjectAdapter.$put(xhr, "withCredentials", true);
 
         if (Global.typeof(EcLevrHttp.httpStatus) != "undefined") {
+            if (success != null)
             success.$invoke(JSON.stringify(EcLevrHttp.httpGet(url)));
         } else {
             xhr.send();

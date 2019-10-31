@@ -2,24 +2,18 @@ package cass.rollup;
 
 import cass.rollup.processors.v2.graph.collapser.FrameworkCollapser;
 import cass.rollup.processors.v2.graph.collapser.NodePacketGraph;
-import cass.rollup.processors.v3.graph.EcFrameworkGraph;
-import com.eduworks.ec.crypto.EcPpk;
 import com.eduworks.ec.remote.EcRemote;
 import org.cass.competency.EcAlignment;
 import org.cass.competency.EcCompetency;
 import org.cass.competency.EcFramework;
 import org.cass.profile.EcAssertion;
-import org.cassproject.ebac.identity.EcIdentity;
-import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.stjs.javascript.Array;
-import org.stjs.javascript.Date;
 import org.stjs.javascript.Global;
-import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Callback2;
 import org.stjs.testing.annotation.ScriptsBefore;
@@ -46,28 +40,6 @@ public class FrameworkCollapserTest {
 
     protected EcRepository repo;
     protected Array<String> urlArray;
-
-    private void collapseFramework(EcFramework framework) {
-        Global.console.log("Framework: " + framework.name);
-        FrameworkCollapser fc = new FrameworkCollapser();
-        fc.collapseFramework(repo,framework,true,
-                new Callback2<String,NodePacketGraph>() {
-                    @SuppressWarnings("unchecked")
-                    @Override
-                    public void $invoke(String fwId, NodePacketGraph npg) {
-                        Global.console.log("--================ FRAMEWORK COLLAPSED GRAPH ================--");
-                        Global.console.log(npg.toStringGraphAll());
-                    }
-                },
-                new Callback1<String>() {
-                    @SuppressWarnings("unchecked")
-                    @Override
-                    public void $invoke(String err) {
-                        Global.console.log("collapseFramework Failure: " + err);
-                    }
-                }
-        );
-    }
 
     @Test
     public void capFrameworkCollapseTest() {
@@ -116,7 +88,25 @@ public class FrameworkCollapserTest {
             repo.selectedServer = "https://sandbox.cassproject.org/api/";
             final FrameworkCollapserTest fct = this;
             EcFramework framework = EcFramework.getBlocking(FRAMEWORK_ID);
-            collapseFramework(framework);
+            Global.console.log("Framework: " + framework.name);
+            FrameworkCollapser fc = new FrameworkCollapser();
+            fc.collapseFramework(repo, framework,true,
+                    new Callback2<String,NodePacketGraph>() {
+                        @SuppressWarnings("unchecked")
+                        @Override
+                        public void $invoke(String fwId, NodePacketGraph npg) {
+                            Global.console.log("--================ FRAMEWORK COLLAPSED GRAPH ================--");
+                            Global.console.log(npg.toStringGraphAll());
+                        }
+                    },
+                    new Callback1<String>() {
+                        @SuppressWarnings("unchecked")
+                        @Override
+                        public void $invoke(String err) {
+                            Global.console.log("collapseFramework Failure: " + err);
+                        }
+                    }
+            );
         }
         catch (Exception e) {
             Global.console.log("Exception: " + e.toString());
@@ -126,19 +116,6 @@ public class FrameworkCollapserTest {
 
         Global.console.log("end basicFrameworkCollapseTest");
 
-    }
-
-    private void logEcRemoteLinkedData(Array<EcRemoteLinkedData> rlda) {
-        EcRemoteLinkedData rld;
-        for (int i=0;i<rlda.$length();i++) {
-            rld = rlda.$get(i);
-            if ("competency".equals(rld.type.toLowerCase())) {
-                Global.console.log("rlda[" + i + "]: " + rld.type + " - " + rld.shortId() + " - " + ((EcCompetency)rld).name);
-            }
-            else {
-                Global.console.log("rlda[" + i + "]: " + rld.type + " - " + rld.shortId() + " - " + ((EcAlignment)rld).source + " " + ((EcAlignment)rld).relationType + " " + ((EcAlignment)rld).target);
-            }
-        }
     }
 
     @Test
@@ -193,7 +170,16 @@ public class FrameworkCollapserTest {
                         @SuppressWarnings("unchecked")
                         @Override
                         public void $invoke(Array<EcRemoteLinkedData> rlda) {
-                            fct.logEcRemoteLinkedData(rlda);
+                            EcRemoteLinkedData rld;
+                            for (int i = 0; i< rlda.$length(); i++) {
+                                rld = rlda.$get(i);
+                                if ("competency".equals(rld.type.toLowerCase())) {
+                                    Global.console.log("rlda[" + i + "]: " + rld.type + " - " + rld.shortId() + " - " + ((EcCompetency)rld).name);
+                                }
+                                else {
+                                    Global.console.log("rlda[" + i + "]: " + rld.type + " - " + rld.shortId() + " - " + ((EcAlignment)rld).source + " " + ((EcAlignment)rld).relationType + " " + ((EcAlignment)rld).target);
+                                }
+                            }
                         }
                     },
                     new Callback1<String>() {

@@ -7,6 +7,7 @@ import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static org.stjs.javascript.Global.console;
 
 @RunWith(STJSTestDriverRunner.class)
@@ -31,7 +32,7 @@ public class EcAesAsyncTest {
 					public void $invoke(String decrypted) {
 						console.log("Decrypted String: " + decrypted);
 
-						assertTrue(randomString.equals(decrypted));
+						assertEquals("EcAesAsyncTest:aesTest",randomString,decrypted);
 					}
 				}, new Callback1<String>() {
 					@Override
@@ -43,7 +44,7 @@ public class EcAesAsyncTest {
 		}, new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
-				assertTrue(false);
+				assertTrue("EcAesAsyncTest:aesTest"+p1,false);
 			}
 		});
 
@@ -65,12 +66,12 @@ public class EcAesAsyncTest {
 				String decrypted = EcAesCtr.decrypt(encrypted, secret, iv);
 				console.log("Decrypted String: " + decrypted);
 
-				assertTrue(randomString.equals(decrypted));
+				assertEquals("EcAesAsyncTest:aesCrossTest1",randomString,decrypted);
 			}
 		}, new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
-				assertTrue(false);
+				assertTrue("EcAesAsyncTest:aesCrossTest1",false);
 			}
 		});
 
@@ -92,12 +93,12 @@ public class EcAesAsyncTest {
 				String decrypted = EcAesCtr.decrypt(encrypted, secret, iv);
 				console.log("Decrypted String: " + decrypted);
 
-				assertTrue(randomString.equals(decrypted));
+				assertEquals("EcAesAsyncTest:aesCrossTest1Utf8",randomString,decrypted);
 			}
 		}, new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
-				assertTrue(false);
+				assertTrue("EcAesAsyncTest:aesCrossTest1Utf8",false);
 			}
 		});
 
@@ -119,12 +120,12 @@ public class EcAesAsyncTest {
 			public void $invoke(String decrypted) {
 				console.log("Decrypted String: " + decrypted);
 
-				assertTrue(randomString.equals(decrypted));
+				assertEquals("EcAesAsyncTest:aesCrossTest2Utf8",randomString,decrypted);
 			}
 		}, new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
-				assertTrue(false);
+				assertTrue("EcAesAsyncTest:aesCrossTest2Utf8",false);
 			}
 		});
 
@@ -148,7 +149,7 @@ public class EcAesAsyncTest {
 					public void $invoke(String decrypted) {
 						console.log("Decrypted String: " + decrypted);
 
-						assertTrue(randomString.equals(decrypted));
+						assertEquals("EcAesAsyncTest:aesTestWorker",randomString,decrypted);
 					}
 				}, new Callback1<String>() {
 					@Override
@@ -160,7 +161,7 @@ public class EcAesAsyncTest {
 		}, new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
-				assertTrue(false);
+				assertTrue("EcAesAsyncTest:aesTestWorker",false);
 			}
 		});
 
@@ -182,12 +183,12 @@ public class EcAesAsyncTest {
 				String decrypted = EcAesCtr.decrypt(encrypted, secret, iv);
 				console.log("Decrypted String: " + decrypted);
 
-				assertTrue(randomString.equals(decrypted));
+				assertEquals("EcAesAsyncTest:aesCrossTest1Worker",randomString,decrypted);
 			}
 		}, new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
-				assertTrue(false);
+				assertTrue("EcAesAsyncTest:aesCrossTest1Worker",false);
 			}
 		});
 
@@ -209,12 +210,12 @@ public class EcAesAsyncTest {
 				String decrypted = EcAesCtr.decrypt(encrypted, secret, iv);
 				console.log("Decrypted String: " + decrypted);
 
-				assertTrue(randomString.equals(decrypted));
+				assertEquals("EcAesAsyncTest:aesCrossTest1Utf8Worker",randomString,decrypted);
 			}
 		}, new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
-				assertTrue(false);
+				assertTrue("EcAesAsyncTest:aesCrossTest1Utf8Worker",false);
 			}
 		});
 
@@ -236,12 +237,12 @@ public class EcAesAsyncTest {
 			public void $invoke(String decrypted) {
 				console.log("Decrypted String: " + decrypted);
 
-				assertTrue(randomString.equals(decrypted));
+				assertEquals("EcAesAsyncTest:aesCrossTest2Utf8Worker",randomString,decrypted);
 			}
 		}, new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
-				assertTrue(false);
+				assertTrue("EcAesAsyncTest:aesCrossTest2Utf8Worker",false);
 			}
 		});
 
