@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 2.11.1
+              Version: 2.11.2
             </div>
             
         </div>
@@ -828,6 +828,7 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Function0;
 
 public class EcQuestion extends Question {
 
@@ -852,39 +853,12 @@ public class EcQuestion extends Question {
 	 * @static
 	 */
 	public static void search(EcRepository repo, String query, final Callback1&lt;Array&lt;EcQuestion&gt;&gt; success, Callback1&lt;String&gt; failure, Object paramObj) {
-		String queryAdd = &quot;&quot;;
-		queryAdd = new Question().getSearchStringByType();
-
-		if (query == null || query == &quot;&quot;) {
-			query = queryAdd;
-		} else {
-			query = &quot;(&quot; + query + &quot;) AND &quot; + queryAdd;
-		}
-
-		repo.searchWithParams(query, paramObj, null, new Callback1&lt;Array&lt;EcRemoteLinkedData&gt;&gt;() {
+		EcRepository.searchAs(repo, query, new Function0() {
 			@Override
-			public void $invoke(Array&lt;EcRemoteLinkedData&gt; p1) {
-				if (success != null) {
-					Array&lt;EcQuestion&gt; ret = JSCollections.$array();
-					for (int i = 0; i &lt; p1.$length(); i++) {
-						EcQuestion comp = new EcQuestion();
-						if (p1.$get(i).isAny(comp.getTypes())) {
-							comp.copyFrom(p1.$get(i));
-						} else if (p1.$get(i).isA(EcEncryptedValue.myType)) {
-							EcEncryptedValue val = new EcEncryptedValue();
-							val.copyFrom(p1.$get(i));
-							if (val.isAnEncrypted(new EcQuestion().getFullType())) {
-								EcRemoteLinkedData obj = val.decryptIntoObject();
-								comp.copyFrom(obj);
-								EcEncryptedValue.encryptOnSave(comp.id, true);
-							}
-						}
-						ret.$set(i, comp);
-					}
-					success.$invoke(ret);
-				}
+			public Object $invoke() {
+				return new EcQuestion();
 			}
-		}, failure);
+		},(Callback1&lt;Array&gt;)(Object)success,failure,paramObj);
 	}
 
 	/**

@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 2.11.1
+              Version: 2.11.2
             </div>
             
         </div>
@@ -1083,6 +1083,10 @@ public class EcRepository {
             return null;
         }
         final EcRepository repo = repos.$get(i);
+        if (repo.selectedServer == null)
+        {
+            return findBlocking(url, error, history, i + 1);
+        }
         if (((Boolean) JSObjectAdapter.$get(history, repo.selectedServer)) == true)
             findBlocking(url, error, history, i + 1);
         JSObjectAdapter.$put(history, repo.selectedServer, true);
@@ -2549,7 +2553,12 @@ public class EcRepository {
     }
 
     public static &lt;T extends EcRemoteLinkedData&gt; void searchAs(EcRepository repo, String query, final Function0 factory, final Callback1&lt;Array&gt; success, final Callback1&lt;String&gt; failure, Object paramObj) {
-        String queryAdd = ((T)factory.$invoke()).getSearchStringByType();
+        if (paramObj == null)
+            paramObj = new Object();
+
+        T template = ((T) factory.$invoke());
+        String queryAdd = template.getSearchStringByType();
+        JSObjectAdapter.$put(paramObj, &quot;index_hint&quot;, &quot;*&quot; + template.type.toLowerCase());
 
         if (query == null || query == &quot;&quot;)
             query = queryAdd;
@@ -2567,18 +2576,18 @@ public class EcRepository {
                             EcEncryptedValue.fromEncryptedValueAsync(p1, new Callback1&lt;EcRemoteLinkedData&gt;() {
                                 @Override
                                 public void $invoke(EcRemoteLinkedData p1) {
-                                    T result = (T)factory.$invoke();
+                                    T result = (T) factory.$invoke();
                                     if (p1.isAny(result.getTypes())) {
                                         result.copyFrom(p1);
                                         set.$invoke(result);
                                     }
                                 }
-                            },EcAsyncHelper.setNull(set));
+                            }, EcAsyncHelper.setNull(set));
                         }
                     }, new Callback1&lt;Array&lt;EcRemoteLinkedData&gt;&gt;() {
                         @Override
                         public void $invoke(Array&lt;EcRemoteLinkedData&gt; results) {
-                            success.$invoke((Array)results);
+                            success.$invoke((Array) results);
                         }
                     });
                 }
