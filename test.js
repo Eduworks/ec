@@ -193,7 +193,8 @@ alldat.call(this, "asd.europe.org.s_series");
 eval(evaldis);
 var testSomething = function(j){
     console.log("!!!!!!!!!!!!!!!!!!!!!"+j+"!!!!!!!!!!!!!!!!!!!");
-    if (results.length == j) return;
+    if (results.length == j)
+        process.exit(0);
     EcRemote.async = true;
     for (var i = 0; i < results[j].body.length; i++)
         if (results[j].body[i].declarations != null) {
