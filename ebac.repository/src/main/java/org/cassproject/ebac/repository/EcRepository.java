@@ -1228,6 +1228,9 @@ public class EcRepository {
         if (JSObjectAdapter.$get(paramObj, "track_scores") != null) {
             paramProps.$put("track_scores", JSObjectAdapter.$get(paramObj, "track_scores"));
         }
+        if (JSObjectAdapter.$get(paramObj, "index_hint") != null) {
+            paramProps.$put("index_hint", JSObjectAdapter.$get(paramObj, "index_hint"));
+        }
 
         if (JSObjectAdapter.$get(paramObj, "ownership") != null) {
             String ownership = (String) JSObjectAdapter.$get(paramObj, "ownership");
