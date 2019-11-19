@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 2.11.2
+              Version: 2.11.3
             </div>
             
         </div>
@@ -2046,6 +2046,9 @@ public class EcRepository {
         }
         if (JSObjectAdapter.$get(paramObj, &quot;track_scores&quot;) != null) {
             paramProps.$put(&quot;track_scores&quot;, JSObjectAdapter.$get(paramObj, &quot;track_scores&quot;));
+        }
+        if (JSObjectAdapter.$get(paramObj, &quot;index_hint&quot;) != null) {
+            paramProps.$put(&quot;index_hint&quot;, JSObjectAdapter.$get(paramObj, &quot;index_hint&quot;));
         }
 
         if (JSObjectAdapter.$get(paramObj, &quot;ownership&quot;) != null) {
