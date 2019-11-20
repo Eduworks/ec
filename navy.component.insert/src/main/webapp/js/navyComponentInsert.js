@@ -1,4 +1,7 @@
 var TARGET_CASS_SERVER = "https://cass.asid.eduworks.com/api/";
+var ADD_COMP_MODE = "addComponentsToRating";
+var ADD_COMP_OCC_TASKS_MODE = "addComponentOccTasksToRating";
+var REL_PREFIX = "https://cass.asid.eduworks.com/api/data/schema.cassproject.org.0.4.Relation/";
 
 var fileJson;
 var repo;
@@ -20,6 +23,31 @@ var numberOfJobsToProcess;
 var numberOfJobsProcessed;
 var numberOfOccTasksToProcess;
 var numberOfOccTasksProcessed;
+
+var functionalAreaMap;
+var payGradeMap;
+var workActivityMap;
+var jobFamilyMap;
+var dodOccupationMap;
+var currentComponentMap;
+
+var ratingComponentMap;
+
+var occTaskRelationsList;
+var occTasksRelationsToCreate;
+var occTaskRelationsCreated;
+var compList;
+var compsToAdd;
+var compsAdded;
+var ratingsMap;
+var ratingsKeys;
+var ratingsKeyIdx;
+var frameworkComponentMode;
+var frameworkComponentContainerNamePrefix;
+var frameworkComponentContainerDescPrefix;
+var frameworkComponentContainerIdPrefix;
+var currentRatingCompContainerComp;
+var compHasOccTasks;
 
 function initRepo() {
     repo = new EcRepository();
@@ -49,6 +77,14 @@ function createCompetencyObject(id,name,desc,dcTermType,code) {
     return c;
 }
 
+function createCompetencyContainerObject(idPrefix,ratingId,name,desc) {
+    var c = new EcCompetency();
+    c.assignId(repo.selectedServer,idPrefix + "---" + genPartialIdPiece(ratingId));
+    c.setName(name);
+    if (desc) c.setDescription(desc);
+    return c;
+}
+
 function createFrameworkObject(id,name,desc,dcTermType,code) {
     var fw = new EcFramework();
     if (id) fw.id = id;
@@ -68,6 +104,15 @@ function logError(err) {
     log(err);
 }
 
+function genPartialIdPiece(compId) {
+    if (compId.lastIndexOf("/") <= -1) return compId;
+    return compId.substr(compId.lastIndexOf("/") + 1)
+}
+
+function generateRelationId(targetId, sourceId) {
+    return genPartialIdPiece(sourceId) + "---" + genPartialIdPiece(targetId);
+}
+
 function insertRelations(targetId,sourceList,relType) {
     var relIdList = [];
     if (sourceList) {
@@ -76,12 +121,35 @@ function insertRelations(targetId,sourceList,relType) {
             a.relationType = relType;
             a.target = targetId;
             a.source = sourceList[i];
-            a.generateId(repo.selectedServer);
+            //a.id = generateRelationId(targetId,sourceList[i]);
+            a.assignId(repo.selectedServer, generateRelationId(targetId,sourceList[i]));
+            //a.generateId(repo.selectedServer);
             relIdList.push(a.shortId());
             repo.saveTo(a,consoleLogSuccess,logError);
         }
     }
     return relIdList;
+}
+
+function generateRelations(targetId,sourceList,relType) {
+    var relationList = [];
+    if (sourceList) {
+        for (var i=0;i<sourceList.length;i++) {
+            var a = new EcAlignment();
+            a.relationType = relType;
+            a.target = targetId;
+            a.source = sourceList[i];
+            //a.id = generateRelationId(targetId,sourceList[i]);
+            a.assignId(repo.selectedServer, generateRelationId(targetId,sourceList[i]));
+            //a.generateId(repo.selectedServer);
+            relationList.push(a);
+        }
+    }
+    return relationList;
+}
+
+function getProbableRelationId(targetId, sourceId) {
+    return REL_PREFIX + generateRelationId(targetId,sourceId);
 }
 
 function insertSkills() {
@@ -204,6 +272,14 @@ function insertJobs() {
     log("Number of Jobs found: " + fileJson.length);
     currentJobIdx = 0;
     insertJob();
+}
+
+function addRelationsToCurrentRatingRelations(relList) {
+    if (relList && relList.length > 0) {
+        for (var i=0;i<relList.length;i++) {
+            currentRatingObj.addRelation(relList[i].shortId());
+        }
+    }
 }
 
 function addIdsToCurrentRatingRelations(idList) {
@@ -364,9 +440,529 @@ function insertRating() {
 function insertRatings() {
     log("Inserting Ratings data...");
     log("Number of Ratings found: " + fileJson.length);
-    //currentRatingIdx = 0;
-    currentRatingIdx = 1;
+    currentRatingIdx = 0;
     insertRating();
+}
+
+// function buildOccTaskFrameworkSearchQuery(occTaskArray) {
+//     var query = "(";
+//     for (var i=0;i<occTaskArray.length;i++) {
+//         if (i > 0) query += " OR ";
+//         query += 'competency:"' + occTaskArray[i] + '"';
+//     }
+//     query += ")";
+//     return query;
+// }
+
+function buildDataMap(componentMap) {
+    log("Building data map...");
+    for (var i=0;i<fileJson.length;i++) {
+        var fileItem = fileJson[i];
+        componentMap[fileItem["externalId"]] = fileItem;
+    }
+}
+
+function initializeNewComponentTrackers(componentMap) {
+    compsToAdd = Object.keys(componentMap).length;
+    compsAdded = 0;
+    compList = [];
+    ratingComponentMap = {};
+    ratingsMap = {};
+}
+
+function buildNewComponentData(componentMap) {
+    var cmKeys = Object.keys(componentMap);
+    for (var i=0;i<cmKeys.length;i++ ) {
+        var cm = componentMap[cmKeys[i]];
+        var id = cm["externalId"];
+        var name = cm["name"];
+        var dcTermType = cm["dcTermsType"];
+        var code = null;
+        if (cm["code"]) code = cm["code"];
+        compList.push(createCompetencyObject(id,name,null,dcTermType,code));
+    }
+}
+
+function handleSaveComponentOccTaskRelationsSuccess() {
+    console.log("handleSaveComponentOccTaskRelationsSuccess");
+    occTaskRelationsCreated++;
+    saveComponentOccTaskRelations();
+}
+
+function handleSaveComponentOccTaskRelationsFailure(err) {
+    console.log("handleSaveComponentOccTaskRelationsFailure: " + err);
+    occTaskRelationsCreated++;
+    saveComponentOccTaskRelations();
+}
+
+function saveComponentOccTaskRelations() {
+    log("Current occTaskRelationsCreated: " + occTaskRelationsCreated);
+    if (occTaskRelationsCreated >= occTasksRelationsToCreate) {
+        log("All Occ Task relations created!");
+    }
+    else {
+        repo.saveTo(occTaskRelationsList[occTaskRelationsCreated],handleSaveComponentOccTaskRelationsSuccess,handleSaveComponentOccTaskRelationsFailure);
+    }
+}
+
+function addComponentOccTasksRelations() {
+    clearLogArea();
+    log("Generating component occ task relations...");
+    occTaskRelationsList = [];
+    var cmKeys = Object.keys(currentComponentMap);
+    for (var i=0;i<cmKeys.length;i++ ) {
+        var cmKey = cmKeys[i];
+        log("Adding occ task relations for (" + i + "): " + cmKey);
+        var comp = currentComponentMap[cmKey];
+        var occTasks = comp["occupationalTasks"];
+        var compOccTaskRelations = [];
+        if (occTasks && occTasks.length > 0) {
+            compOccTaskRelations = generateRelations(cmKey,occTasks,EcAlignment.NARROWS);
+        }
+        occTaskRelationsList = occTaskRelationsList.concat(compOccTaskRelations);
+        log("Occ Tasks Relations for this component: " + compOccTaskRelations.length);
+        log("Current Total Occ Tasks Relations: " + occTaskRelationsList.length);
+    }
+    occTasksRelationsToCreate = occTaskRelationsList.length;
+    occTaskRelationsCreated = 0;
+    clearLogArea();
+    log("GRAND TOTAL OCC TASK RELATIONS: " + occTaskRelationsList.length);
+    saveComponentOccTaskRelations();
+}
+
+function checkAllCompsSaved() {
+    if (compsAdded >= compsToAdd) {
+        log("All new components added!");
+        if (compHasOccTasks) addComponentOccTasksRelations();
+    }
+}
+
+function handleSaveCompSuccess() {
+    log("Compenent saved: " + compsAdded);
+    compsAdded++;
+    checkAllCompsSaved();
+}
+
+function handleSaveCompFailure(err) {
+    log("handleSaveCompFailure: " + err);
+    compsAdded++;
+    checkAllCompsSaved();
+}
+
+function saveCompList() {
+    log("Saving component list:" + compList.length);
+    for (var i=0;i<compList.length;i++) {
+        repo.saveTo(compList[i],handleSaveCompSuccess,handleSaveCompFailure);
+    }
+}
+
+
+function getStyledRatingCode(rating) {
+    if (rating["ceasn:codedNotation"]) {
+        return " (" + rating["ceasn:codedNotation"] + ")";
+    }
+    else return "";
+}
+
+function handleSaveRatingSuccess(str) {
+    log("Rating saved!");
+    console.log("Success saved rating...");
+    ratingsKeyIdx++;
+    addComponentsToRatings();
+}
+
+function handleSaveRatingFailure(err) {
+    console.log("FAILED saved rating:" + err);
+    ratingsKeyIdx++;
+    addComponentsToRatings();
+}
+
+function handleMultiPutRatingCompContRelSuccess(str) {
+    log("Rating component container relations saved!");
+    console.log("Success multiput rating component container relations...");
+    repo.saveTo(currentRatingObj,handleSaveRatingSuccess,handleSaveRatingFailure);
+}
+
+function handleMultiPutRatingCompContRelFailure(err) {
+    console.log("FAILED multiput rating component container relations:" + err);
+    ratingsKeyIdx++;
+    addComponentsToRatings();
+}
+
+function addComponentsToRatings() {
+    if (ratingsKeyIdx >= ratingsKeys.length) {
+        log ("All components added to ratings...");
+    }
+    else {
+        log("Building rating component container: " + ratingsKeyIdx);
+        var ratingKey = ratingsKeys[ratingsKeyIdx];
+        currentRatingObj = ratingsMap[ratingKey];
+        log("currentRatingObj: " + currentRatingObj.getName());
+        currentRatingCompContainerComp = createCompetencyContainerObject(frameworkComponentContainerIdPrefix,currentRatingObj.shortId(),
+            frameworkComponentContainerNamePrefix + getStyledRatingCode(currentRatingObj),
+             frameworkComponentContainerDescPrefix + ' ' + currentRatingObj.getName());
+        repo.saveTo(currentRatingCompContainerComp, consoleLogSuccess, logError);
+        currentRatingObj.addCompetency(currentRatingCompContainerComp.shortId());
+        var ratingComps = ratingComponentMap[ratingKey];
+        log("Adding components to rating: " + ratingComps.length);
+        addIdsToCurrentRatingCompetencies(ratingComps);
+        var ratingCompContRels = generateRelations(currentRatingCompContainerComp.shortId(),ratingComps,EcAlignment.NARROWS);
+        addRelationsToCurrentRatingRelations(ratingCompContRels);
+        log("Saving rating component container relations...");
+        repo.multiput(ratingCompContRels,handleMultiPutRatingCompContRelSuccess,handleMultiPutRatingCompContRelFailure);
+    }
+}
+
+function addComponentOccTaskRelationsToCurrentRatingObj(compId,compOccTasks) {
+    for (var i=0;i<compOccTasks.length;i++) {
+        var occTask = compOccTasks[i];
+        if (currentRatingObj.competency.includes(occTask)) {
+            log("Rating contains occ task: " + occTask);
+            var relId = getProbableRelationId(compId,occTask);
+            // console.log("RelId to add: " + relId);
+            currentRatingObj.addRelation(relId);
+        }
+        // else {
+        //     console.log("NO MATCH FOR: " + occTask);
+        //     console.log(">> currentRatingObj: " + currentRatingObj.shortId());
+        // }
+    }
+}
+
+function addComponentOccTaskRelationsToRatings() {
+    if (ratingsKeyIdx >= ratingsKeys.length) {
+        log ("All components occ task relations added to ratings...");
+    }
+    else {
+        log("Adding component occ tasks relations to rating: " + ratingsKeyIdx);
+        console.log("Adding component occ tasks relations to rating: " + ratingsKeyIdx);
+        var ratingKey = ratingsKeys[ratingsKeyIdx];
+        currentRatingObj = ratingsMap[ratingKey];
+        log("currentRatingObj: " + currentRatingObj.getName());
+        var ratingComps = ratingComponentMap[ratingKey];
+        for (var i=0;i<ratingComps.length;i++) {
+            log("Searching for matching occ tasks for comp: " + ratingComps[i]);
+            var compOccTasks = currentComponentMap[ratingComps[i]]["occupationalTasks"];
+            addComponentOccTaskRelationsToCurrentRatingObj(ratingComps[i],compOccTasks);
+        }
+        repo.saveTo(currentRatingObj,
+            function(p1) {
+                ratingsKeyIdx++;
+                addComponentOccTaskRelationsToRatings();
+            },
+            function(p1) {
+                ratingsKeyIdx++;
+                addComponentOccTaskRelationsToRatings();
+            }
+        );
+    }
+}
+
+function addComponentToRatingComponentMap(fwId,compId) {
+    if (!ratingComponentMap[fwId]) {
+        ratingComponentMap[fwId] = [];
+    }
+    if (!ratingComponentMap[fwId].includes(compId)) {
+        ratingComponentMap[fwId].push(compId);
+    }
+}
+
+function ratingHasAnyOccTask(rating,occTaskList) {
+    if (rating.competency && rating.competency.length > 0) {
+        for (var i=0;i<occTaskList.length;i++) {
+            if (rating.competency.includes(occTaskList[i])) return true;
+        }
+    }
+    return false;
+}
+
+function handleBuildRatingListSuccessIndirect(fwa) {
+    log("Matching ratings/frameworks to components via occ tasks...");
+    ratingComponentMap = {};
+    ratingsMap = {};
+    console.log("NUMBER OF FRAMEWORKS: " + fwa.length);
+    for (var i=0;i<fwa.length;i++) {
+        if (!ratingsMap[fwa[i].shortId()]) ratingsMap[fwa[i].shortId()] = fwa[i];
+        log ("Checking rating/framework: " + fwa[i].getName());
+        var compKeys = Object.keys(currentComponentMap);
+        for (var j=0;j<compKeys.length;j++) {
+            var compKey = compKeys[j];
+            var compOccTasks = currentComponentMap[compKey]["occupationalTasks"];
+            if (ratingHasAnyOccTask(fwa[i],compOccTasks)) {
+                log("Adding component to rating: " + compKey);
+                addComponentToRatingComponentMap(fwa[i].shortId(),compKey);
+            }
+        }
+    }
+    console.log("ratingComponentMap");
+    console.log(ratingComponentMap);
+    if (frameworkComponentMode == ADD_COMP_MODE) {
+        ratingsKeys = Object.keys(ratingComponentMap);
+        ratingsKeyIdx = 0;
+        addComponentsToRatings();
+    }
+    else if (frameworkComponentMode == ADD_COMP_OCC_TASKS_MODE) {
+        ratingsKeys = Object.keys(ratingComponentMap);
+        ratingsKeyIdx = 0;
+        addComponentOccTaskRelationsToRatings();
+    }
+}
+
+function handleBuildRatingListSuccessDirect(fwa) {
+    log("Matching ratings/frameworks to components directly...");
+    ratingComponentMap = {};
+    ratingsMap = {};
+    console.log("NUMBER OF FRAMEWORKS: " + fwa.length);
+    for (var i=0;i<fwa.length;i++) {
+        if (!ratingsMap[fwa[i].shortId()]) ratingsMap[fwa[i].shortId()] = fwa[i];
+        log ("Checking rating/framework: " + fwa[i].getName());
+        var compKeys = Object.keys(currentComponentMap);
+        for (var j=0;j<compKeys.length;j++) {
+            var compKey = compKeys[j];
+            var compRatings = currentComponentMap[compKey]["ratings"];
+            if (compRatings.includes(fwa[i].shortId())) {
+                log("Adding component to rating: " + compKey);
+                addComponentToRatingComponentMap(fwa[i].shortId(),compKey);
+            }
+        }
+    }
+    console.log("ratingComponentMap");
+    console.log(ratingComponentMap);
+    ratingsKeys = Object.keys(ratingComponentMap);
+    ratingsKeyIdx = 0;
+    addComponentsToRatings();
+}
+
+function handleBuildRatingListFailure(err) {
+    log("Could not build rating/framework list: " + err);
+}
+
+function findAndHookComponentRelatedRatingsIndirect() {
+    log("Building rating/framework list...");
+    EcFramework.search(repo,"*",handleBuildRatingListSuccessIndirect,handleBuildRatingListFailure,{size:10000});
+}
+
+function findAndHookComponentRelatedRatingsDirect() {
+    log("Building rating/framework list...");
+    EcFramework.search(repo,"*",handleBuildRatingListSuccessDirect,handleBuildRatingListFailure,{size:10000});
+}
+
+/**
+ * All of these create* functions are redundant and could be moved to a single function.
+ * Was trying to do something with them that ended up being unnecessary.
+ */
+
+function createNewFunctionalAreas() {
+    log("Creating new functional areas...");
+    initializeNewComponentTrackers(functionalAreaMap);
+    log("Building functional area competency objects...");
+    buildNewComponentData(functionalAreaMap);
+    console.log("createNewFunctionalAreas - compList: ");
+    console.log(compList);
+    currentComponentMap = functionalAreaMap;
+    saveCompList();
+}
+
+function createNewPayGrades() {
+    log("Creating new pay grades...");
+    initializeNewComponentTrackers(payGradeMap);
+    log("Building pay grade competency objects...");
+    buildNewComponentData(payGradeMap);
+    console.log("createNewPayGrades - compList: ");
+    console.log(compList);
+    currentComponentMap = payGradeMap;
+    saveCompList();
+}
+
+function createNewWorkActivities() {
+    log("Creating new work activities...");
+    initializeNewComponentTrackers(workActivityMap);
+    log("Building work activity competency objects...");
+    buildNewComponentData(workActivityMap);
+    console.log("createNewWorkActivities - compList: ");
+    console.log(compList);
+    currentComponentMap = workActivityMap;
+    saveCompList();
+}
+
+function createNewJobFamilies() {
+    log("Creating new job families...");
+    initializeNewComponentTrackers(jobFamilyMap);
+    log("Building job family competency objects...");
+    buildNewComponentData(jobFamilyMap);
+    console.log("createNewJobFamilies - compList: ");
+    console.log(compList);
+    currentComponentMap = jobFamilyMap;
+    saveCompList();
+}
+
+function createNewDodOccupations() {
+    log("Creating new DOD Occupations...");
+    initializeNewComponentTrackers(dodOccupationMap);
+    log("Building DOD Occupation competency objects...");
+    buildNewComponentData(dodOccupationMap);
+    console.log("createNewDodOccupations - compList: ");
+    console.log(compList);
+    currentComponentMap = dodOccupationMap;
+    saveCompList();
+}
+
+function insertFunctionalAreas1() {
+    log("Inserting Functional Area data(1)...");
+    log("Number of Functional Areas found: " + fileJson.length);
+    functionalAreaMap = {};
+    compHasOccTasks = true;
+    buildDataMap(functionalAreaMap);
+    createNewFunctionalAreas();
+}
+
+function insertFunctionalAreas2() {
+    log("Inserting Functional Area data(2)...");
+    log("Number of Functional Areas found: " + fileJson.length);
+    functionalAreaMap = {};
+    buildDataMap(functionalAreaMap);
+    currentComponentMap = functionalAreaMap;
+    frameworkComponentMode = ADD_COMP_MODE;
+    frameworkComponentContainerNamePrefix = "Functional Areas";
+    frameworkComponentContainerDescPrefix = "Functional Areas for";
+    frameworkComponentContainerIdPrefix = "FA-Cont";
+    findAndHookComponentRelatedRatingsIndirect();
+}
+
+function insertFunctionalAreas3() {
+    log("Inserting Functional Area data(3)...");
+    log("Number of Functional Areas found: " + fileJson.length);
+    functionalAreaMap = {};
+    buildDataMap(functionalAreaMap);
+    currentComponentMap = functionalAreaMap;
+    frameworkComponentMode = ADD_COMP_OCC_TASKS_MODE;
+    findAndHookComponentRelatedRatingsIndirect();
+}
+
+function insertPayGrades1() {
+    log("Inserting Pay Grade data(1)...");
+    log("Number of Pay Grades found: " + fileJson.length);
+    payGradeMap = {};
+    compHasOccTasks = true;
+    ratingComponentMap = {};
+    buildDataMap(payGradeMap);
+    createNewPayGrades();
+}
+
+function insertPayGrades2() {
+    log("Inserting Pay Grade data(2)...");
+    log("Number of Pay Grades found: " + fileJson.length);
+    payGradeMap = {};
+    buildDataMap(payGradeMap);
+    currentComponentMap = payGradeMap;
+    frameworkComponentMode = ADD_COMP_MODE;
+    frameworkComponentContainerNamePrefix = "Pay Grades";
+    frameworkComponentContainerDescPrefix = "Pay Grades for";
+    frameworkComponentContainerIdPrefix = "PG-Cont";
+    findAndHookComponentRelatedRatingsIndirect();
+}
+
+function insertPayGrades3() {
+    log("Inserting Pay Grade data(3)...");
+    log("Number of Pay Grades found: " + fileJson.length);
+    payGradeMap = {};
+    buildDataMap(payGradeMap);
+    currentComponentMap = payGradeMap;
+    frameworkComponentMode = ADD_COMP_OCC_TASKS_MODE;
+    findAndHookComponentRelatedRatingsIndirect();
+}
+
+function insertWorkActivities1() {
+    log("Inserting Work Activity data(1)...");
+    log("Number of Work Activities found: " + fileJson.length);
+    workActivityMap = {};
+    compHasOccTasks = true;
+    ratingComponentMap = {};
+    buildDataMap(workActivityMap);
+    createNewWorkActivities();
+}
+
+function insertWorkActivities2() {
+    log("Inserting Work Activity data(2)...");
+    log("Number of Work Activities found: " + fileJson.length);
+    workActivityMap = {};
+    buildDataMap(workActivityMap);
+    currentComponentMap = workActivityMap;
+    frameworkComponentMode = ADD_COMP_MODE;
+    frameworkComponentContainerNamePrefix = "Work Activities";
+    frameworkComponentContainerDescPrefix = "Work Activities for";
+    frameworkComponentContainerIdPrefix = "WA-Cont";
+    findAndHookComponentRelatedRatingsIndirect();
+}
+
+function insertWorkActivities3() {
+    log("Inserting Work Activity data(3)...");
+    log("Number of Work Activities found: " + fileJson.length);
+    workActivityMap = {};
+    buildDataMap(workActivityMap);
+    currentComponentMap = workActivityMap;
+    frameworkComponentMode = ADD_COMP_OCC_TASKS_MODE;
+    findAndHookComponentRelatedRatingsIndirect();
+}
+
+function insertWorkActivities4() {
+    log("Inserting Work Activity data(4)...");
+    log("Number of Work Activities found: " + fileJson.length);
+    // workActivityMap = {};
+    // ratingComponentMap = {};
+    // buildDataMap(workActivityMap);
+    log("TODO FINISH insertWorkActivities4");
+}
+
+function insertWorkActivities5() {
+    log("Inserting Work Activity data(5)...");
+    log("Number of Work Activities found: " + fileJson.length);
+    // workActivityMap = {};
+    // ratingComponentMap = {};
+    // buildDataMap(workActivityMap);
+    log("TODO FINISH insertWorkActivities5");
+}
+
+function insertJobFamilies1() {
+    log("Inserting Job Family data(1)...");
+    log("Number of Job Families found: " + fileJson.length);
+    jobFamilyMap = {};
+    compHasOccTasks = false;;
+    buildDataMap(jobFamilyMap);
+    createNewJobFamilies();
+}
+
+function insertJobFamilies2() {
+    log("Inserting Job Family data(2)...");
+    log("Number of Job Families found: " + fileJson.length);
+    jobFamilyMap = {};
+    buildDataMap(jobFamilyMap);
+    currentComponentMap = jobFamilyMap;
+    frameworkComponentContainerNamePrefix = "Job Families";
+    frameworkComponentContainerDescPrefix = "Job Families for";
+    frameworkComponentContainerIdPrefix = "JF-Cont";
+    findAndHookComponentRelatedRatingsDirect();
+}
+
+function insertDodOccupations1() {
+    log("Inserting DOD Occupation data(1)...");
+    log("Number of DOD Occupations found: " + fileJson.length);
+    dodOccupationMap = {};
+    compHasOccTasks = false;;
+    buildDataMap(dodOccupationMap);
+    createNewDodOccupations();
+}
+
+function insertDodOccupations2() {
+    log("Inserting DOD Occupation data(2)...");
+    log("Number of DOD Occupations found: " + fileJson.length);
+    dodOccupationMap = {};
+    buildDataMap(dodOccupationMap);
+    currentComponentMap = dodOccupationMap;
+    frameworkComponentContainerNamePrefix = "DOD Occupations";
+    frameworkComponentContainerDescPrefix = "DOD Occupations for";
+    frameworkComponentContainerIdPrefix = "DO-Cont";
+    findAndHookComponentRelatedRatingsDirect();
 }
 
 function insertData() {
@@ -376,6 +972,22 @@ function insertData() {
     else if (insertType === "jobs") insertJobs();
     else if (insertType === "necs") insertNecs();
     else if (insertType === "ratings") insertRatings();
+    //second data set
+    else if (insertType === "functionalAreas1") insertFunctionalAreas1();
+    else if (insertType === "functionalAreas2") insertFunctionalAreas2();
+    else if (insertType === "functionalAreas3") insertFunctionalAreas3();
+    else if (insertType === "payGrades1") insertPayGrades1();
+    else if (insertType === "payGrades2") insertPayGrades2();
+    else if (insertType === "payGrades3") insertPayGrades3();
+    else if (insertType === "workActivities1") insertWorkActivities1();
+    else if (insertType === "workActivities2") insertWorkActivities2();
+    else if (insertType === "workActivities3") insertWorkActivities3();
+    else if (insertType === "workActivities4") insertWorkActivities4();
+    else if (insertType === "workActivities5") insertWorkActivities5();
+    else if (insertType === "jobFamilies1") insertJobFamilies1();
+    else if (insertType === "jobFamilies2") insertJobFamilies2();
+    else if (insertType === "dodOccupations1") insertDodOccupations1();
+    else if (insertType === "dodOccupations2") insertDodOccupations2();
 }
 
 function insertFile() {
@@ -433,3 +1045,75 @@ function testAddComp() {
         console.log("Error: " + err);
     });
 }
+
+
+
+var alignmentList = [];
+var alignmentsDeleted = 0;
+var alignmentsToDelete = 0;
+
+function deleteAlignments() {
+    if (alignmentsDeleted >= alignmentsToDelete) {
+        console.log("Complete!");
+    }
+    else {
+        repo.deleteRegistered(alignmentList[alignmentsDeleted],
+            function(succ) {
+                console.log("Delete Success: " + alignmentsDeleted);
+                alignmentsDeleted++;
+                deleteAlignments();
+            },
+            function(err) {
+                console.log("Delete failed: " + alignmentsDeleted);
+                alignmentsDeleted++;
+                deleteAlignments();
+            }
+        );
+    }
+}
+
+// function buildAlignmentListAndDelete() {
+//     EcAlignment.search(repo,'source:"https://credentialengineregistry.org/navy/resources"',
+//         function(aoa) {
+//             var cnt = 0;
+//             console.log('SUCCESS:!!!');
+//             for (var i=0;i<aoa.length;i++) {
+//                 if (aoa[i]["source"].startsWith("https://credentialengineregistry.org/navy/resources")) {
+//                     alignmentList.push(aoa[i]);
+//                     cnt ++;
+//                 }
+//             }
+//             console.log("Record Count: " + cnt);
+//             alignmentsDeleted = 0;
+//             alignmentsToDelete = alignmentList.length;
+//             deleteAlignments();
+//         },
+//         function(msg) {
+//             console.log('FAILURE: ' + msg);
+//         },
+//         {"size":10000}
+//     );
+// }
+
+// function buildAlignmentListAndDelete() {
+//     EcFramework.search(repo,"@id:\"https://credentialengineregistry.org\"",
+//         function(aoa) {
+//             var cnt = 0;
+//             console.log('SUCCESS:!!!');
+//             for (var i=0;i<aoa.length;i++) {
+//                 if (aoa[i].shortId().startsWith("https://credentialengineregistry.org")) {
+//                     alignmentList.push(aoa[i]);
+//                     cnt ++;
+//                 }
+//             }
+//             console.log("Record Count: " + cnt);
+//             alignmentsDeleted = 0;
+//             alignmentsToDelete = alignmentList.length;
+//             deleteAlignments();
+//         },
+//         function(msg) {
+//             console.log('FAILURE: ' + msg);
+//         },
+//         {"size":100}
+//     );
+// }

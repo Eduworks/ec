@@ -8,12 +8,29 @@
 <body>
 
     <select id="insertType">
+        <option disabled>-First Data Set-</option>
         <option value="skills">Skills</option>
         <option value="abilities">Abilities</option>
         <option value="occTasks">Occupational Tasks</option>
         <option value="jobs">Jobs</option>
         <option value="necs">NECs</option>
         <option value="ratings">Ratings</option>
+        <option disabled>-Second Data Set-</option>
+        <option value="functionalAreas1">Functional Areas(1)</option>
+        <option value="functionalAreas2">Functional Areas(2)</option>
+        <option value="functionalAreas3">Functional Areas(3)</option>
+        <option value="payGrades1">Pay Grades(1)</option>
+        <option value="payGrades2">Pay Grades(2)</option>
+        <option value="payGrades3">Pay Grades(3)</option>
+        <option value="workActivities1">Work Activities(1)</option>
+        <option value="workActivities2">Work Activities(2)</option>
+        <option value="workActivities3">Work Activities(3)</option>
+        <option value="workActivities4">Work Activities(4)--TBD</option>
+        <option value="workActivities5">Work Activities(5)--TBD</option>
+        <option value="jobFamilies1">Job Families(1)</option>
+        <option value="jobFamilies2">Job Families(2)</option>
+        <option value="dodOccupations1">DOD Occupations(1)</option>
+        <option value="dodOccupations2">DOD Occupations(2)</option>
     </select>
     <input type="file" id="dataFile">
     <button onclick="insertFile()">Insert</button>
@@ -22,7 +39,8 @@
     <textarea id="logArea" style="width:75%;height: 20rem"></textarea>
     <br>
     <br>
-    <button onclick="fixOccTaskType()">Fix Type</button>
+    <!--<button onclick="fixOccTaskType()">Fix Type</button>-->
+    <!--<button onclick="buildAlignmentListAndDelete()">Remove CE Alignments</button>-->
 
     <script src="js/vendor/jquery.js"></script>
     <script src="js/vendor/jquery-ui.min.js"></script>
