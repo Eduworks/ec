@@ -748,11 +748,10 @@ public class EcRepository {
         }
         final String targetUrl;
         if (shouldTryUrl(data.id))
-            targetUrl = data.shortId();
-        else {
+            targetUrl = urlAppend(selectedServer, "data/" + data.getDottedType() + "/" + data.getGuid());
+        else
             targetUrl = urlAppend(selectedServer, "data/" + data.getDottedType() + "/" + EcCrypto.md5(data.shortId()));
-        }
-
+        
         final EcRepository me = this;
         if (data.owner != null && data.owner.$length() > 0) {
             if (EcRemote.async) {
