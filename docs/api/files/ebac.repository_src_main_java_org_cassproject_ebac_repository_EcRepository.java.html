@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 2.11.3
+              Version: 2.11.4
             </div>
             
         </div>
@@ -1567,11 +1567,10 @@ public class EcRepository {
         }
         final String targetUrl;
         if (shouldTryUrl(data.id))
-            targetUrl = data.shortId();
-        else {
+            targetUrl = urlAppend(selectedServer, &quot;data/&quot; + data.getDottedType() + &quot;/&quot; + data.getGuid());
+        else
             targetUrl = urlAppend(selectedServer, &quot;data/&quot; + data.getDottedType() + &quot;/&quot; + EcCrypto.md5(data.shortId()));
-        }
-
+        
         final EcRepository me = this;
         if (data.owner != null &amp;&amp; data.owner.$length() &gt; 0) {
             if (EcRemote.async) {
