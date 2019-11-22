@@ -855,6 +855,7 @@
                       <li><a href="#method_decryptSecretAsync">decryptSecretAsync</a></li>
                       <li><a href="#method_decryptSecretByKey">decryptSecretByKey</a></li>
                       <li><a href="#method_decryptSecretByKeyAsync">decryptSecretByKeyAsync</a></li>
+                      <li><a href="#method_getEncryptedFullType">getEncryptedFullType</a></li>
                       <li><a href="#method_isAnEncrypted">isAnEncrypted</a></li>
                       <li><a href="#method_removeReader">removeReader</a></li>
                       <li><a href="#method_removeReaderAsync">removeReaderAsync</a></li>
@@ -867,14 +868,14 @@
             
             
             <div class="version-info">
-              Version: 2.11.4
+              Version: 2.11.5
             </div>
             
         </div>
 
         <div id="main" class="yui3-u">
             <div class="content"><div class="title">
-    <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l20"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:20</code></a></span>
+    <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l21"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:21</code></a></span>
     <h1 class="class-name">EcEncryptedValue</h1>
 </div>
 
@@ -978,7 +979,7 @@ the data within.</p>
           </td>
           <td>
             <div class="method-name ">
-              <a href="#method_fromEncryptedValue">fromEncryptedValue</a>(d): 
+              <a href="#method_fromEncryptedValue">fromEncryptedValue</a>(d, success, failure, d): 
             </div>
             <div class="short-description">
               <p>Converts a piece of (likely) encrypted remote linked data to an unencrypted object.</p>
@@ -993,7 +994,7 @@ the data within.</p>
           </td>
           <td>
             <div class="method-name ">
-              <a href="#method_fromEncryptedValue">fromEncryptedValue</a>(d, success, failure, d): 
+              <a href="#method_fromEncryptedValue">fromEncryptedValue</a>(d): 
             </div>
             <div class="short-description">
               <p>Converts a piece of (likely) encrypted remote linked data to an unencrypted object.</p>
@@ -1151,7 +1152,7 @@ the data within.</p>
               <a href="#method_decryptIntoString">decryptIntoString</a>( ): String
             </div>
             <div class="short-description">
-              <p>Decrypts an encrypted value into a string using an alternative secret.</p>
+              <p>Decrypts an encrypted value into a string</p>
             </div>
           </td>
         </tr>
@@ -1166,7 +1167,7 @@ the data within.</p>
               <a href="#method_decryptIntoString">decryptIntoString</a>( ): String
             </div>
             <div class="short-description">
-              <p>Decrypts an encrypted value into a string</p>
+              <p>Decrypts an encrypted value into a string using an alternative secret.</p>
             </div>
           </td>
         </tr>
@@ -1283,6 +1284,21 @@ the data within.</p>
           </td>
           <td>
             <div class="method-name ">
+              <a href="#method_getEncryptedFullType">getEncryptedFullType</a>( ): String
+            </div>
+            <div class="short-description">
+              <p>Gets the fully qualified type name, as JSON-LD allows the "namespace" of the type to be defined in @context.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="method-name ">
               <a href="#method_isAnEncrypted">isAnEncrypted</a>(type): Boolean
             </div>
             <div class="short-description">
@@ -1332,7 +1348,7 @@ the data within.</p>
         <h2 id="static-public-methods">Static Public Methods</h2>
 <div class="method item">
     <div id="method_encryptOnSave" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l439"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:439</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l476"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:476</code></a></span>
         <h3 class="">
             public
             static
@@ -1409,7 +1425,7 @@ is passed in returns val</p>
 </div>
 <div class="method item">
     <div id="method_encryptValue" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l272"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:272</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l309"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:309</code></a></span>
         <h3 class="">
             public
             static
@@ -1508,7 +1524,7 @@ is passed in returns val</p>
 </div>
 <div class="method item">
     <div id="method_encryptValue" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l331"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:331</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l368"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:368</code></a></span>
         <h3 class="">
             public
             static
@@ -1607,7 +1623,7 @@ is passed in returns val</p>
 </div>
 <div class="method item">
     <div id="method_encryptValueOld" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l233"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:233</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l270"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:270</code></a></span>
         <h3 class="deprecated">
             public
             static
@@ -1695,7 +1711,7 @@ is passed in returns val</p>
 </div>
 <div class="method item">
     <div id="method_encryptValueUsingIvAndSecret" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l394"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:394</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l431"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:431</code></a></span>
         <h3 class="">
             public
             static
@@ -1821,64 +1837,7 @@ is passed in returns val</p>
 </div>
 <div class="method item">
     <div id="method_fromEncryptedValue" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l46"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:46</code></a></span>
-        <h3 class="">
-            public
-            static
-            
-            fromEncryptedValue(d): 
-        </h3>
-    </div>
-
-
-
-    <div class="method-description"><p>Converts a piece of (likely) encrypted remote linked data to an unencrypted object.</p>
-</div>
-
-      <div class="params">
-        <h4>Parameters:</h4>
-        <table>
-          <thead>
-          <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Attribute</th>
-            <th>Description</th>
-          </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>d</td>
-              <td>Object</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>Data to decrypt</p>
-</td>
-            </tr>
-
-          </tbody>
-        </table>
-      </div>
-
-      <div class="return">
-        <h4>Return:</h4>
-        <div>
-          
-          <span class="return-description"><p>Decrypted data</p>
-</span>
-        </div>
-      </div>
-
-
-</div>
-<div class="method item">
-    <div id="method_fromEncryptedValue" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l64"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:64</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l65"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:65</code></a></span>
         <h3 class="">
             public
             static
@@ -1974,8 +1933,65 @@ is passed in returns val</p>
 
 </div>
 <div class="method item">
+    <div id="method_fromEncryptedValue" class="title">
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l47"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:47</code></a></span>
+        <h3 class="">
+            public
+            static
+            
+            fromEncryptedValue(d): 
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Converts a piece of (likely) encrypted remote linked data to an unencrypted object.</p>
+</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>d</td>
+              <td>Object</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Data to decrypt</p>
+</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+      <div class="return">
+        <h4>Return:</h4>
+        <div>
+          
+          <span class="return-description"><p>Decrypted data</p>
+</span>
+        </div>
+      </div>
+
+
+</div>
+<div class="method item">
     <div id="method_toEncryptedValue" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l87"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:87</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l123"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:123</code></a></span>
         <h3 class="">
             public
             static
@@ -2047,7 +2063,7 @@ when encrypting</p>
 </div>
 <div class="method item">
     <div id="method_toEncryptedValueAsync" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l150"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:150</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l187"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:187</code></a></span>
         <h3 class="">
             public
             static
@@ -2154,7 +2170,7 @@ encryption</p>
     <h2 id="public-methods">Public Methods</h2>
 <div class="method item">
     <div id="method_addReader" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l910"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:910</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l966"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:966</code></a></span>
         <h3 class="">
             public
             
@@ -2203,7 +2219,7 @@ encryption</p>
 </div>
 <div class="method item">
     <div id="method_addReader" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l929"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:929</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l947"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:947</code></a></span>
         <h3 class="">
             public
             
@@ -2252,7 +2268,7 @@ encryption</p>
 </div>
 <div class="method item">
     <div id="method_addReaderAsync" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l978"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:978</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l1015"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:1015</code></a></span>
         <h3 class="">
             public
             
@@ -2329,7 +2345,7 @@ encryption</p>
 </div>
 <div class="method item">
     <div id="method_decryptIntoObject" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l473"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:473</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l510"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:510</code></a></span>
         <h3 class="">
             public
             
@@ -2357,7 +2373,7 @@ encryption</p>
 </div>
 <div class="method item">
     <div id="method_decryptIntoObjectAsync" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l495"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:495</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l532"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:532</code></a></span>
         <h3 class="">
             public
             
@@ -2422,7 +2438,7 @@ encryption</p>
 </div>
 <div class="method item">
     <div id="method_decryptIntoObjectUsingIvAndSecretAsync" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l525"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:525</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l562"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:562</code></a></span>
         <h3 class="">
             public
             
@@ -2516,35 +2532,7 @@ decryption</p>
 </div>
 <div class="method item">
     <div id="method_decryptIntoString" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l571"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:571</code></a></span>
-        <h3 class="">
-            public
-            
-            
-            decryptIntoString( ): String
-        </h3>
-    </div>
-
-
-
-    <div class="method-description"><p>Decrypts an encrypted value into a string using an alternative secret.</p>
-</div>
-
-
-      <div class="return">
-        <h4>Return:</h4>
-        <div>
-          <span class="return-type">String</span>
-          <span class="return-description"><p>Decrypted string value</p>
-</span>
-        </div>
-      </div>
-
-
-</div>
-<div class="method item">
-    <div id="method_decryptIntoString" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l556"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:556</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l593"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:593</code></a></span>
         <h3 class="">
             public
             
@@ -2571,8 +2559,36 @@ decryption</p>
 
 </div>
 <div class="method item">
+    <div id="method_decryptIntoString" class="title">
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l608"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:608</code></a></span>
+        <h3 class="">
+            public
+            
+            
+            decryptIntoString( ): String
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Decrypts an encrypted value into a string using an alternative secret.</p>
+</div>
+
+
+      <div class="return">
+        <h4>Return:</h4>
+        <div>
+          <span class="return-type">String</span>
+          <span class="return-description"><p>Decrypted string value</p>
+</span>
+        </div>
+      </div>
+
+
+</div>
+<div class="method item">
     <div id="method_decryptIntoStringAsync" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l585"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:585</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l648"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:648</code></a></span>
         <h3 class="">
             public
             
@@ -2637,7 +2653,7 @@ decryption</p>
 </div>
 <div class="method item">
     <div id="method_decryptIntoStringAsync" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l611"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:611</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l622"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:622</code></a></span>
         <h3 class="">
             public
             
@@ -2702,7 +2718,7 @@ decryption</p>
 </div>
 <div class="method item">
     <div id="method_decryptIntoStringUsingIvAndSecretAsync" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l632"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:632</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l669"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:669</code></a></span>
         <h3 class="">
             public
             
@@ -2796,7 +2812,7 @@ decryption</p>
 </div>
 <div class="method item">
     <div id="method_decryptSecret" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l653"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:653</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l690"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:690</code></a></span>
         <h3 class="">
             public
             
@@ -2825,7 +2841,7 @@ Manager</p>
 </div>
 <div class="method item">
     <div id="method_decryptSecretAsync" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l733"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:733</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l770"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:770</code></a></span>
         <h3 class="">
             public
             
@@ -2891,7 +2907,7 @@ secret</p>
 </div>
 <div class="method item">
     <div id="method_decryptSecretByKey" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l702"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:702</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l739"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:739</code></a></span>
         <h3 class="">
             public
             
@@ -2948,7 +2964,7 @@ secret</p>
 </div>
 <div class="method item">
     <div id="method_decryptSecretByKeyAsync" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l817"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:817</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l854"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:854</code></a></span>
         <h3 class="">
             public
             
@@ -3026,8 +3042,37 @@ secret decryption</p>
 
 </div>
 <div class="method item">
+    <div id="method_getEncryptedFullType" class="title">
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l88"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:88</code></a></span>
+        <h3 class="">
+            public
+            
+            
+            getEncryptedFullType( ): String
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Gets the fully qualified type name, as JSON-LD allows the "namespace" of
+the type to be defined in @context.</p>
+</div>
+
+
+      <div class="return">
+        <h4>Return:</h4>
+        <div>
+          <span class="return-type">String</span>
+          <span class="return-description"><p>Fully qualified type name.</p>
+</span>
+        </div>
+      </div>
+
+
+</div>
+<div class="method item">
     <div id="method_isAnEncrypted" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l890"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:890</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l927"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:927</code></a></span>
         <h3 class="">
             public
             
@@ -3086,7 +3131,7 @@ can't tell</p>
 </div>
 <div class="method item">
     <div id="method_removeReader" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l949"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:949</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l986"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:986</code></a></span>
         <h3 class="">
             public
             
@@ -3135,7 +3180,7 @@ can't tell</p>
 </div>
 <div class="method item">
     <div id="method_removeReaderAsync" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l1015"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:1015</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l1052"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:1052</code></a></span>
         <h3 class="">
             public
             

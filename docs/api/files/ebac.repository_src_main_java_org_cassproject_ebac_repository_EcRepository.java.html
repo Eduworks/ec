@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 2.11.4
+              Version: 2.11.5
             </div>
             
         </div>
@@ -1083,8 +1083,7 @@ public class EcRepository {
             return null;
         }
         final EcRepository repo = repos.$get(i);
-        if (repo.selectedServer == null)
-        {
+        if (repo.selectedServer == null) {
             return findBlocking(url, error, history, i + 1);
         }
         if (((Boolean) JSObjectAdapter.$get(history, repo.selectedServer)) == true)
@@ -1570,7 +1569,7 @@ public class EcRepository {
             targetUrl = urlAppend(selectedServer, &quot;data/&quot; + data.getDottedType() + &quot;/&quot; + data.getGuid());
         else
             targetUrl = urlAppend(selectedServer, &quot;data/&quot; + data.getDottedType() + &quot;/&quot; + EcCrypto.md5(data.shortId()));
-        
+
         final EcRepository me = this;
         if (data.owner != null &amp;&amp; data.owner.$length() &gt; 0) {
             if (EcRemote.async) {
@@ -2560,7 +2559,7 @@ public class EcRepository {
 
         T template = ((T) factory.$invoke());
         String queryAdd = template.getSearchStringByType();
-        JSObjectAdapter.$put(paramObj, &quot;index_hint&quot;, &quot;*&quot; + template.type.toLowerCase());
+        JSObjectAdapter.$put(paramObj, &quot;index_hint&quot;, &quot;*&quot; + template.type.toLowerCase() + &quot;,*encryptedvalue&quot;);
 
         if (query == null || query == &quot;&quot;)
             query = queryAdd;

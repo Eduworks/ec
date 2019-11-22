@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 2.11.4
+              Version: 2.11.5
             </div>
             
         </div>
@@ -864,12 +864,18 @@ public class SkyRepo {
     }
 
     public static String getTypeFromObject(Object o) {
+        String encryptedType = (String) JSObjectAdapter.$get(o, &quot;@encryptedType&quot;);
+        String encryptedContext = (String) JSObjectAdapter.$get(o, &quot;@encryptedContext&quot;);
         String type = (String) JSObjectAdapter.$get(o, &quot;@type&quot;);
         String context = (String) JSObjectAdapter.$get(o, &quot;@context&quot;);
         if (type == null)
             type = (String) JSObjectAdapter.$get(o, &quot;type&quot;);
         if (context == null)
             context = (String) JSObjectAdapter.$get(o, &quot;context&quot;);
+        if (encryptedType != null)
+            type = encryptedType;
+        if (encryptedContext != null)
+            context = encryptedContext;
         if (type == null)
             return null;
         if (type.indexOf(&quot;http&quot;) != -1)

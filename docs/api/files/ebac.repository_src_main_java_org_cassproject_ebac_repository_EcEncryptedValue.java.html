@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 2.11.4
+              Version: 2.11.5
             </div>
             
         </div>
@@ -821,6 +821,7 @@ package org.cassproject.ebac.repository;
 
 import com.eduworks.ec.array.EcArray;
 import com.eduworks.ec.array.EcAsyncHelper;
+import com.eduworks.ec.array.EcObject;
 import com.eduworks.ec.crypto.*;
 import com.eduworks.schema.ebac.EbacEncryptedSecret;
 import com.eduworks.schema.ebac.EbacEncryptedValue;
@@ -904,6 +905,41 @@ public class EcEncryptedValue extends EbacEncryptedValue {
     }
 
     /**
+     * Gets the fully qualified type name, as JSON-LD allows the &quot;namespace&quot; of
+     * the type to be defined in @context.
+     *
+     * @return {string} Fully qualified type name.
+     * @method getEncryptedFullType
+     */
+    public String getEncryptedFullType() {
+        if (encryptedContext == null)
+            return this.encryptedType;
+        if (this.encryptedType.indexOf(&quot;http&quot;) != -1)
+            return this.encryptedType;
+
+        String computedType = encryptedContext;
+        if (EcObject.isObject(encryptedContext)) {
+            Array&lt;String&gt; typeParts = (Array&lt;String&gt;) (Object) this.encryptedType.split(&quot;:&quot;);
+            if (typeParts.$length() == 2) {
+                computedType = (String) JSObjectAdapter.$get(encryptedContext, typeParts.$get(0));
+                if (!computedType.endsWith(&quot;/&quot;))
+                    computedType += &quot;/&quot;;
+                computedType += typeParts.$get(1);
+                return computedType;
+            } else if (JSObjectAdapter.$get(encryptedContext, &quot;@vocab&quot;) != null)
+                computedType = (String) JSObjectAdapter.$get(encryptedContext, &quot;@vocab&quot;);
+        }
+        if (!computedType.endsWith(&quot;/&quot;))
+            computedType += &quot;/&quot;;
+        computedType += this.encryptedType;
+        return computedType;
+    }
+
+    public String getEncryptedDottedType() {
+        return getEncryptedFullType().replace(&quot;http://&quot;, &quot;&quot;).replace(&quot;https://&quot;, &quot;&quot;).replaceAll(&quot;/&quot;, &quot;.&quot;);
+    }
+
+    /**
      * Converts a piece of remote linked data to an encrypted value
      *
      * @param {EcRemoteLinkedData} d Data to encrypt
@@ -921,6 +957,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 
         if (hideType == null || !hideType) {
             v.encryptedType = d.type;
+            v.encryptedContext = d.context;
         }
         String newIv = EcAes.newIv(16);
         String newSecret = EcAes.newIv(16);

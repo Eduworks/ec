@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 2.11.4
+              Version: 2.11.5
             </div>
             
         </div>
@@ -847,6 +847,14 @@ public class EbacEncryptedValue extends EcRemoteLinkedData {
 	 * @type string
 	 */
 	public String encryptedType;
+	/**
+	 * Optional Hint used to aid in search.
+	 * Displays the context of the encrypted object.
+	 *
+	 * @property encryptedContext
+	 * @type string
+	 */
+	public String encryptedContext;
 	/**
 	 * Base-64 encoded, AES encrypted form of the encrypted object (or string).
 	 *
