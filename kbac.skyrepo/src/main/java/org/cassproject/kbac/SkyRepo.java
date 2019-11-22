@@ -45,12 +45,18 @@ public class SkyRepo {
     }
 
     public static String getTypeFromObject(Object o) {
+        String encryptedType = (String) JSObjectAdapter.$get(o, "@encryptedType");
+        String encryptedContext = (String) JSObjectAdapter.$get(o, "@encryptedContext");
         String type = (String) JSObjectAdapter.$get(o, "@type");
         String context = (String) JSObjectAdapter.$get(o, "@context");
         if (type == null)
             type = (String) JSObjectAdapter.$get(o, "type");
         if (context == null)
             context = (String) JSObjectAdapter.$get(o, "context");
+        if (encryptedType != null)
+            type = encryptedType;
+        if (encryptedContext != null)
+            context = encryptedContext;
         if (type == null)
             return null;
         if (type.indexOf("http") != -1)

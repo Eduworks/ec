@@ -29,6 +29,14 @@ public class EbacEncryptedValue extends EcRemoteLinkedData {
 	 */
 	public String encryptedType;
 	/**
+	 * Optional Hint used to aid in search.
+	 * Displays the context of the encrypted object.
+	 *
+	 * @property encryptedContext
+	 * @type string
+	 */
+	public String encryptedContext;
+	/**
 	 * Base-64 encoded, AES encrypted form of the encrypted object (or string).
 	 *
 	 * @property payload

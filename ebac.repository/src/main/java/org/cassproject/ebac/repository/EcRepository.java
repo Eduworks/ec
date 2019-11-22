@@ -264,8 +264,7 @@ public class EcRepository {
             return null;
         }
         final EcRepository repo = repos.$get(i);
-        if (repo.selectedServer == null)
-        {
+        if (repo.selectedServer == null) {
             return findBlocking(url, error, history, i + 1);
         }
         if (((Boolean) JSObjectAdapter.$get(history, repo.selectedServer)) == true)
@@ -751,7 +750,7 @@ public class EcRepository {
             targetUrl = urlAppend(selectedServer, "data/" + data.getDottedType() + "/" + data.getGuid());
         else
             targetUrl = urlAppend(selectedServer, "data/" + data.getDottedType() + "/" + EcCrypto.md5(data.shortId()));
-        
+
         final EcRepository me = this;
         if (data.owner != null && data.owner.$length() > 0) {
             if (EcRemote.async) {
@@ -1741,7 +1740,7 @@ public class EcRepository {
 
         T template = ((T) factory.$invoke());
         String queryAdd = template.getSearchStringByType();
-        JSObjectAdapter.$put(paramObj, "index_hint", "*" + template.type.toLowerCase());
+        JSObjectAdapter.$put(paramObj, "index_hint", "*" + template.type.toLowerCase() + ",*encryptedvalue");
 
         if (query == null || query == "")
             query = queryAdd;
