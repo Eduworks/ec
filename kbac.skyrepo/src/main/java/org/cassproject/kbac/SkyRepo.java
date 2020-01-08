@@ -88,13 +88,14 @@ public class SkyRepo {
             Object fromDatastream = JSFunctionAdapter.call(levr.fileFromDatastream, this, "signatureSheet", null);
             String stringFromDatastream = levr.fileToString(fromDatastream);
 
+            //It may be safe to optimize this code to just a simple assignment.
             if (stringFromDatastream != null)
                 try {
                     sigSheet = sigSheet.concat((Array) Global.JSON.parse(stringFromDatastream));
                 } catch (Exception ex) {
                 }
 
-            //Pull signature from headers.
+            //Pull signature from headers. Useful in GET, PUT, DELETE
             Object hdrs = JSFunctionAdapter.call(levr.headers, this);
             String camelcaseSignatureSheet = (String) JSObjectAdapter.$get(hdrs, "signatureSheet");
             String lowercaseSignatureSheet = (String) JSObjectAdapter.$get(hdrs, "signaturesheet");
@@ -107,7 +108,7 @@ public class SkyRepo {
             for (int i = 0; i < sigSheet.$length(); i++) {
                 EbacSignature signature = new EbacSignature();
                 signature.copyFrom(sigSheet.$get(i));
-                if (signature == null)
+                if (signature == null) //Should be sigSheet.$get(i), not signature.
                     levr.error("Missing Signature.", 496);
 
                 Array<String> validTypes = signature.getTypes();
@@ -172,6 +173,7 @@ public class SkyRepo {
                 if ((rld.reader != null && rld.reader.$length() != 0) || isEncryptedType(rld)) {
                     Array<EbacSignature> signatures = JSFunctionAdapter.call(signatureSheet, this);
                     boolean foundSignature = false;
+                    // Should explicitly go look in @owner and @reader for those things. Need to watch out for child objects that have @readers that need access to the parent.
                     for (int i = 0; i < signatures.$length(); i++)
                         if (Global.JSON.stringify(o).indexOf(signatures.$get(i).owner) != -1) {
                             foundSignature = true;
@@ -297,11 +299,7 @@ public class SkyRepo {
     private static String getUrl(String index, String id, Integer version, String type) {
         String typeFromObj = inferTypeWithoutObj(type);
 
-        String versionPart = null;
-        if (version == null) {
-            versionPart = "";
-        } else
-            versionPart = "?version=" + (version == null ? "" : version) + "&version_type=external";
+        //<endpoint>/<index>/<type>/<id> -- Form of an elasticsearch query
 
         String url = elasticEndpoint;
         url += "/" + index;
@@ -514,7 +512,6 @@ public class SkyRepo {
     public static Function3<String, Integer, String, Object> skyrepoGetInternal = new Function3<String, Integer, String, Object>() {
         @Override
         public Object $invoke(String id, Integer version, String type) {
-            Object versionRetrievalObject = null;
 
             Object result = skyrepoGetPermanent(id, version, type);
             if (result == null)
@@ -527,10 +524,7 @@ public class SkyRepo {
             if (skyrepoDebug)
                 Global.console.log("Failed to find " + type + "/" + id + "/" + version + " -- trying degraded form from search index.");
 
-            if (versionRetrievalObject != null)
-                result = versionRetrievalObject;
-            else
-                result = JSFunctionAdapter.call(skyrepoGetIndex, this, id, version, type, null);
+            result = JSFunctionAdapter.call(skyrepoGetIndex, this, id, version, type, null);
 
             if (result == null)
                 return null;
@@ -620,6 +614,7 @@ public class SkyRepo {
     private static Function4<String, Integer, String, String, EcRemoteLinkedData> validateSignatures = new Function4<String, Integer, String, String, EcRemoteLinkedData>() {
         @Override
         public EcRemoteLinkedData $invoke(String id, Integer version, String type, String errorMessage) {
+            //TODO: Should get the latest version of the object, not the specified version.
             Object oldGet = JSFunctionAdapter.call(skyrepoGetInternal, this, id, version, type, null);
             if (oldGet == null)
                 return null;
@@ -853,7 +848,7 @@ public class SkyRepo {
                 if (JSObjectAdapter.$get(searchParams, "track_scores") != null)
                     track_scores = (String) JSObjectAdapter.$get(searchParams, "track_scores");
                 if (JSObjectAdapter.$get(searchParams, "index_hint") != null)
-                    track_scores = (String) JSObjectAdapter.$get(searchParams, "index_hint");
+                    index_hint = (String) JSObjectAdapter.$get(searchParams, "index_hint");
             }
             if (size == null) size = 50;
             if (start == null) start = 0;
