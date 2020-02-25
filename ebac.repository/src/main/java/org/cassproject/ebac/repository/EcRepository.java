@@ -237,8 +237,6 @@ public class EcRepository {
                             JSObjectAdapter.$properties(fetching).$delete(url);
                             if (caching) {
                                 JSObjectAdapter.$put(cache, url, strings.$get(i));
-                                if (strings.$get(i).id != null)
-                                    JSObjectAdapter.$put(cache, url, strings.$get(i).id);
                             }
                             success.$invoke(strings.$get(i));
                         }
@@ -274,8 +272,6 @@ public class EcRepository {
                     JSObjectAdapter.$properties(fetching).$delete(url);
                     if (caching) {
                         JSObjectAdapter.$put(cache, url, strings.$get(j));
-                        if (strings.$get(j).id != null)
-                            JSObjectAdapter.$put(cache, url, strings.$get(j).id);
                     }
                     return strings.$get(j);
                 }
