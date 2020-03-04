@@ -122,7 +122,7 @@ public class EcRemote {
                             successCallback.$invoke(xhrx.responseText);
                     } else if (xhrx.readyState == 4) {
                         if (failureCallback != null)
-                            failureCallback.$invoke(xhrx.responseText);
+                            failureCallback.$invoke(xhrx.status + " " + xhrx.responseText);
                     }
                 }
             };
