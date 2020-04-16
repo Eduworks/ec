@@ -546,19 +546,21 @@ public class SkyRepo {
                 JSObjectAdapter.$put(parseParams, "id", params.id);
                 JSObjectAdapter.$put(parseParams, "type", params.type);
                 JSObjectAdapter.$put(parseParams, "version", params.version);
+                JSObjectAdapter.$put(parseParams, "versions", params.versions);
             }
             if (skyrepoDebug) Global.console.log(Global.JSON.stringify(parseParams));
             if (skyrepoDebug) Global.console.log(Global.JSON.stringify(params.obj));
             String id = (String) JSObjectAdapter.$get(parseParams, "id");
             String type = (String) JSObjectAdapter.$get(parseParams, "type");
             Integer version = (Integer) JSObjectAdapter.$get(parseParams, "version");
-            return JSFunctionAdapter.call(skyrepoGetParsed, this, id, version, type, null);
+            String versions = (String) JSObjectAdapter.$get(parseParams, "versions");
+            return JSFunctionAdapter.call(skyrepoGetParsed, this, id, version, type, null, versions);
         }
     };
 
-    public static Function3<String, String, String, Object> skyrepoGetParsed = new Function3<String, String, String, Object>() {
+    public static Function4<String, String, String, Object, String> skyrepoGetParsed = new Function4<String, String, String, Object, String>() {
         @Override
-        public Object $invoke(String id, String version, String type) {
+        public Object $invoke(String id, String version, String type, String versions) {
             Object result = JSFunctionAdapter.call(skyrepoGetInternal, this, id, version, type, null);
             if (result == null)
                 return null;
@@ -568,6 +570,11 @@ public class SkyRepo {
             } catch (RuntimeException ex) {
                 if (ex.getMessage() != "Signature Violation")
                     throw ex;
+            }
+            if (versions == "true")
+            {
+                //Go get the versions of the record from Elasticsearch
+                //Return those versions of the record in a JSON array of strinnngggs with just the version numbers?
             }
             if (filtered == null)
                 return null;
@@ -832,6 +839,7 @@ public class SkyRepo {
             String sort = params.sort;
             String track_scores = params.track_scores;
             String index_hint = params.index_hint;
+            String versions = params.versions;
             Object searchParams = JSFunctionAdapter.call(levr.fileFromDatastream, this, "searchParams", null);
             if (searchParams != null) {
                 searchParams = levr.fileToString(searchParams);
@@ -849,6 +857,8 @@ public class SkyRepo {
                     track_scores = (String) JSObjectAdapter.$get(searchParams, "track_scores");
                 if (JSObjectAdapter.$get(searchParams, "index_hint") != null)
                     index_hint = (String) JSObjectAdapter.$get(searchParams, "index_hint");
+                if (JSObjectAdapter.$get(searchParams, "versions") != null)
+                    versions = (String) JSObjectAdapter.$get(searchParams, "versions");
             }
             if (size == null) size = 50;
             if (start == null) start = 0;
@@ -874,7 +884,7 @@ public class SkyRepo {
                 Object o = Global.JSON.parse(levr.fileToString(JSFunctionAdapter.call(levr.fileFromDatastream, this, "data", null)));
                 if (o == null || o == "") {
                     JSFunctionAdapter.call(levr.beforeGet, this);
-                    o = JSFunctionAdapter.call(skyrepoGetParsed, this, id, version, type, null);
+                    o = JSFunctionAdapter.call(skyrepoGetParsed, this, id, version, type, null, versions);
                     if (o == null)
                         levr.error("Object not found or you did not supply sufficient permissions to access the object.", 404);
                     Boolean expand = params.expand != null;
@@ -886,7 +896,7 @@ public class SkyRepo {
                 return null;
             } else if (methodType == "GET") {
                 JSFunctionAdapter.call(levr.beforeGet, this);
-                Object o = JSFunctionAdapter.call(skyrepoGetParsed, this, id, version, type, null);
+                Object o = JSFunctionAdapter.call(skyrepoGetParsed, this, id, version, type, null, versions);
                 if (o == null)
                     levr.error("Object not found or you did not supply sufficient permissions to access the object.", 404);
                 Boolean expand = params.expand != null;
@@ -1000,7 +1010,7 @@ public class SkyRepo {
             String id = (String) JSObjectAdapter.$get(parseParams, "id");
             String type = (String) JSObjectAdapter.$get(parseParams, "type");
             Integer version = (Integer) JSObjectAdapter.$get(parseParams, "version");
-            Object o = JSFunctionAdapter.call(skyrepoGetParsed, this, id, version, type, null);
+            Object o = JSFunctionAdapter.call(skyrepoGetParsed, this, id, version, type, null,null);
             if (o != null)
                 return o;
             return null;
