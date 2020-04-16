@@ -592,6 +592,8 @@ public class EcRepository {
         if (caching) {
             JSObjectAdapter.$properties(cache).$delete(data.id);
             JSObjectAdapter.$properties(cache).$delete(data.shortId());
+            if (repo != null)
+                JSObjectAdapter.$properties(cache).$delete(EcRemoteLinkedData.veryShortId(repo.selectedServer,data.getGuid()));
         }
         if (data.invalid()) {
             failure.$invoke("Data is malformed.");
@@ -740,6 +742,7 @@ public class EcRepository {
         if (caching) {
             JSObjectAdapter.$properties(cache).$delete(data.id);
             JSObjectAdapter.$properties(cache).$delete(data.shortId());
+            JSObjectAdapter.$properties(cache).$delete(EcRemoteLinkedData.veryShortId(selectedServer,data.getGuid()));
         }
         final String targetUrl;
         if (shouldTryUrl(data.id))
@@ -839,7 +842,7 @@ public class EcRepository {
      * @memberOf EcRepository
      * @method precachePost
      */
-    private void precachePost(final Callback0 success, final Array<String> cacheUrls, FormData fd, EcRepository me) {
+    private void precachePost(final Callback0 success, final Array<String> cacheUrls, FormData fd, final EcRepository me) {
         EcRemote.postExpectingObject(me.selectedServer, "sky/repo/multiGet", fd, new Callback1<Object>() {
             @Override
             public void $invoke(Object p1) {
@@ -861,6 +864,8 @@ public class EcRepository {
                         }
                         JSObjectAdapter.$put(cache, d.shortId(), d);
                         JSObjectAdapter.$put(cache, d.id, d);
+                        JSObjectAdapter.$put(cache, EcRemoteLinkedData.veryShortId(me.selectedServer,d.getGuid()), d);
+
                     }
                 }
                 if (success != null) {
@@ -1623,6 +1628,7 @@ public class EcRepository {
             if (caching) {
                 JSObjectAdapter.$put(cache, d.shortId(), d);
                 JSObjectAdapter.$put(cache, d.id, d);
+                JSObjectAdapter.$put(cache, EcRemoteLinkedData.veryShortId(selectedServer,d.getGuid()), d);
             }
             if (eachSuccess != null) {
                 eachSuccess.$invoke(results.$get(i));
