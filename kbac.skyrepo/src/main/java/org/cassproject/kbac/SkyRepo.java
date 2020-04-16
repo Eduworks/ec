@@ -558,7 +558,7 @@ public class SkyRepo {
         }
     };
 
-    public static Function4<String, String, String, Object, String> skyrepoGetParsed = new Function4<String, String, String, Object, String>() {
+    public static Function4<String, String, String, String, Object> skyrepoGetParsed = new Function4<String, String, String, String, Object>() {
         @Override
         public Object $invoke(String id, String version, String type, String versions) {
             Object result = JSFunctionAdapter.call(skyrepoGetInternal, this, id, version, type, null);
