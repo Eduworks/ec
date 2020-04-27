@@ -50,12 +50,12 @@ public class EcOrganization extends Organization {
     /**
      * Searches a repository for organizations that match the search query
      *
-     * @param {EcRepository}          repo Repository to search using the query
-     * @param {String}                query Query string to pass to the search web service
-     * @param {Callback1<Array<Quiz>> success Callback triggered after
-     *                                completing the search, returns the results
-     * @param {Callback1<String>}     failure Callback triggered if error searching
-     * @param {Object}                paramObj Parameter object for search
+     * @param {EcRepository}                    repo Repository to search using the query
+     * @param {String}                          query Query string to pass to the search web service
+     * @param {Callback1<Array<EcOrganization>> success Callback triggered after
+     *                                          completing the search, returns the results
+     * @param {Callback1<String>}               failure Callback triggered if error searching
+     * @param {Object}                          paramObj Parameter object for search
      * @memberOf EcOrganization
      * @method search
      * @static
