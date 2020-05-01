@@ -139,7 +139,7 @@ public class AssertionEnvelope extends CreativeWork {
 	 * @param failure Event to call when failure occurs.
 	 * @method addAssertionAsync
 	 */
-	public void addAssertionAsync(final Assertion a, final Callback0 success, final Callback1<String> failure) {
+	public void addAssertionAsync(final Assertion a, final Callback0 success, final Callback2<String, Integer> failure) {
 		AssertionEnvelope me = this;
 
 		final AssertionCodebook ac = new AssertionCodebook();

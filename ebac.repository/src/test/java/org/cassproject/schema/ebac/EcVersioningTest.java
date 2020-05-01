@@ -14,6 +14,7 @@ import org.schema.Thing;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
@@ -56,9 +57,9 @@ public class EcVersioningTest {
 			public void $invoke(String p1) {
 				console.log("First save OK.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Couldn't save the object.");
 			}
 		});
@@ -70,9 +71,9 @@ public class EcVersioningTest {
 			public void $invoke(String p1) {
 				console.log("First save OK.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Couldn't save the object.");
 			}
 		});
@@ -87,9 +88,9 @@ public class EcVersioningTest {
 				Assert.assertEquals(t.name, "Foo");
 				Assert.assertEquals(t.id, oldVersion);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Couldn't retrieve the old version.");
 			}
 		});
@@ -101,9 +102,9 @@ public class EcVersioningTest {
 				Assert.assertEquals(t.name, "Foo2");
 				Assert.assertEquals(t.id, newVersion);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Couldn't retrieve the old version.");
 			}
 		});
@@ -116,9 +117,9 @@ public class EcVersioningTest {
 					public void $invoke(EcRemoteLinkedData p1) {
 						Assert.fail("Could find the thing that was supposed to be gone.");
 					}
-				}, new Callback1<String>() {
+				}, new Callback2<String, Integer>() {
 					@Override
-					public void $invoke(String p1) {
+					public void $invoke(String p1, Integer i) {
 						console.log("Couldn't find the deleted 'latest' -- good.");
 					}
 				});
@@ -128,17 +129,17 @@ public class EcVersioningTest {
 						if (p1.$length() != 0)
 							Assert.fail("Could find the thing that was supposed to be gone.");
 					}
-				}, new Callback1<String>() {
+				}, new Callback2<String, Integer>() {
 					@Override
-					public void $invoke(String p1) {
+					public void $invoke(String p1, Integer i) {
 						console.log("Couldn't find the deleted 'latest' -- good.");
 					}
 				});
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Couldn't delete it.");
 			}
 		});
@@ -150,9 +151,9 @@ public class EcVersioningTest {
 				Assert.assertEquals(t.name, "Foo");
 				Assert.assertEquals(t.id, oldVersion);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Couldn't retrieve the old version 2.");
 			}
 		});
@@ -164,9 +165,9 @@ public class EcVersioningTest {
 				Assert.assertEquals(t.name, "Foo2");
 				Assert.assertEquals(t.id, newVersion);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Couldn't retrieve the old version 2.");
 			}
 		});

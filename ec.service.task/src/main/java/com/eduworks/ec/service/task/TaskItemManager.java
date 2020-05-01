@@ -6,6 +6,7 @@ import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 
 
 public class TaskItemManager {
@@ -23,7 +24,7 @@ public class TaskItemManager {
 		selectedServer = server;
 	}
 
-	public static void setComplete(String taskId, Callback1<Object> success, Callback1<String> fail) {
+	public static void setComplete(String taskId, Callback1<Object> success, Callback2<String, Integer> fail) {
 		Map<String, String> data = JSCollections.$map(
 				"taskId", taskId
 		);
@@ -35,7 +36,7 @@ public class TaskItemManager {
 
 	}
 
-	public static void setIncomplete(String taskId, Callback1<Object> success, Callback1<String> fail) {
+	public static void setIncomplete(String taskId, Callback1<Object> success, Callback2<String, Integer> fail) {
 		Map<String, String> data = JSCollections.$map(
 				"taskId", taskId
 		);
@@ -46,7 +47,7 @@ public class TaskItemManager {
 		EcRemote.postExpectingObject(selectedServer, SET_INCOMPLETE, fd, success, fail);
 	}
 
-	public static void create(String taskName, String dueDate, Callback1<Object> success, Callback1<String> fail) {
+	public static void create(String taskName, String dueDate, Callback1<Object> success, Callback2<String, Integer> fail) {
 		Map<String, String> data = JSCollections.$map(
 				"taskName", taskName,
 				"taskDueDate", dueDate

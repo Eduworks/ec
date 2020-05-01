@@ -10,6 +10,7 @@ import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.javascript.functions.Function0;
 
 /**
@@ -48,7 +49,7 @@ public class EcAlignment extends Relation {
      * @method get
      * @static
      */
-    public static void get(String id, final Callback1<EcAlignment> success, final Callback1<String> failure) {
+    public static void get(String id, final Callback1<EcAlignment> success, final Callback2<String, Integer> failure) {
         EcRepository.getAs(id,new EcAlignment(),success,failure);
     }
 
@@ -85,7 +86,7 @@ public class EcAlignment extends Relation {
      * @method search
      * @static
      */
-    public static void search(EcRepository repo, String query, final Callback1<Array<EcAlignment>> success, final Callback1<String> failure, Object paramObj) {
+    public static void search(EcRepository repo, String query, final Callback1<Array<EcAlignment>> success, final Callback2<String, Integer> failure, Object paramObj) {
         EcRepository.searchAs(repo, query, new Function0() {
             @Override
             public Object $invoke() {
@@ -111,7 +112,7 @@ public class EcAlignment extends Relation {
      * @method searchBySource
      * @static
      */
-    public static void searchBySource(EcRepository repo, final String sourceId, final Callback1<Array<EcAlignment>> success, Callback1<String> failure, Object paramObj) {
+    public static void searchBySource(EcRepository repo, final String sourceId, final Callback1<Array<EcAlignment>> success, Callback2<String, Integer> failure, Object paramObj) {
         String query = "";
         final String noVersion = EcRemoteLinkedData.trimVersionFromUrl(sourceId);
         if (noVersion == sourceId) {
@@ -139,7 +140,7 @@ public class EcAlignment extends Relation {
      * @method searchBySource
      * @static
      */
-    public static void searchBySources(EcRepository repo, final Array<String> sourceIds, final Callback1<Array<EcAlignment>> success, Callback1<String> failure, Object paramObj) {
+    public static void searchBySources(EcRepository repo, final Array<String> sourceIds, final Callback1<Array<EcAlignment>> success, Callback2<String, Integer> failure, Object paramObj) {
         String query = "";
         query = "(source:";
 
@@ -179,7 +180,7 @@ public class EcAlignment extends Relation {
      * @method searchByCompetency
      * @static
      */
-    public static void searchByCompetency(EcRepository repo, final String competencyId, final Callback1<Array<EcAlignment>> success, Callback1<String> failure, Object paramObj) {
+    public static void searchByCompetency(EcRepository repo, final String competencyId, final Callback1<Array<EcAlignment>> success, Callback2<String, Integer> failure, Object paramObj) {
         String query = "";
         final String noVersion = EcRemoteLinkedData.trimVersionFromUrl(competencyId);
         if (noVersion == competencyId) {
@@ -224,11 +225,11 @@ public class EcAlignment extends Relation {
      * @memberOf EcAlignment
      * @method save
      */
-    public void save(Callback1<String> success, Callback1<String> failure, EcRepository repo) {
+    public void save(Callback1<String> success, Callback2<String, Integer> failure, EcRepository repo) {
         if (source == null || source == "") {
             String msg = "Source Competency cannot be missing";
             if (failure != null)
-                failure.$invoke(msg);
+                failure.$invoke(msg, 400);
             else
                 Global.console.error(msg);
             return;
@@ -237,7 +238,7 @@ public class EcAlignment extends Relation {
         if (target == null || target == "") {
             String msg = "Target Competency cannot be missing";
             if (failure != null)
-                failure.$invoke(msg);
+                failure.$invoke(msg, 400);
             else
                 Global.console.error(msg);
             return;
@@ -246,7 +247,7 @@ public class EcAlignment extends Relation {
         if (relationType == null || relationType == "") {
             String msg = "Relation Type cannot be missing";
             if (failure != null)
-                failure.$invoke(msg);
+                failure.$invoke(msg, 400);
             else
                 Global.console.error(msg);
             return;
@@ -268,7 +269,7 @@ public class EcAlignment extends Relation {
      * @memberOf EcAlignment
      * @method _delete
      */
-    public void _delete(Callback1<String> success, Callback1<String> failure) {
+    public void _delete(Callback1<String> success, Callback2<String, Integer> failure) {
         EcRepository.DELETE(this, success, failure);
     }
 

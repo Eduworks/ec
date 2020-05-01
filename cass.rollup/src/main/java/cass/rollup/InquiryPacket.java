@@ -8,6 +8,7 @@ import org.cass.profile.EcAssertion;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Date;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.javascript.functions.Function1;
 
 /**
@@ -64,7 +65,7 @@ public class InquiryPacket {
 	 * @property failure
 	 * @type function(string)
 	 */
-	public Callback1<String> failure;
+	public Callback2<String, Integer> failure;
 	/**
 	 * Level that the competency is being measured at.
 	 * May have multiple levels referring to multiple competencies due to cycles or equivalence.
@@ -194,7 +195,7 @@ public class InquiryPacket {
 	 * @constructor
 	 */
 	public InquiryPacket(Array<EcPk> subject, EcCompetency competency, EcLevel level, EcFramework context, Callback1<InquiryPacket> success,
-	                     Callback1<String> failure, String rule, IPType type) {
+						 Callback2<String, Integer> failure, String rule, IPType type) {
 		positive = new Array<EcAssertion>();
 		negative = new Array<EcAssertion>();
 		equivalentPackets = new Array<InquiryPacket>();

@@ -8,6 +8,7 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import window.*;
 
 /**
@@ -30,7 +31,7 @@ public class EcRsaOaepAsync {
 	 * @method encrypt
 	 * @static
 	 */
-	public static void encrypt(final EcPk pk, final String plainText, final Callback1<String> success, final Callback1<String> failure) {
+	public static void encrypt(final EcPk pk, final String plainText, final Callback1<String> success, final Callback2<String, Integer> failure) {
 		if (EcRemote.async == false) {
 			success.$invoke(EcRsaOaep.encrypt(pk, plainText));
 			return;
@@ -81,7 +82,7 @@ public class EcRsaOaepAsync {
 	 * @method decrypt
 	 * @static
 	 */
-	public static void decrypt(final EcPpk ppk, final String cipherText, final Callback1<String> success, final Callback1<String> failure) {
+	public static void decrypt(final EcPpk ppk, final String cipherText, final Callback1<String> success, final Callback2<String, Integer> failure) {
 
 		if (EcCrypto.caching) {
 			Object cacheGet = null;
@@ -149,7 +150,7 @@ public class EcRsaOaepAsync {
 	 * @method sign
 	 * @static
 	 */
-	public static void sign(final EcPpk ppk, final String text, final Callback1<String> success, final Callback1<String> failure) {
+	public static void sign(final EcPpk ppk, final String text, final Callback1<String> success, final Callback2<String, Integer> failure) {
 		if (EcRemote.async == false) {
 			success.$invoke(EcRsaOaep.sign(ppk, text));
 			return;
@@ -199,7 +200,7 @@ public class EcRsaOaepAsync {
 	 * @method signSha256
 	 * @static
 	 */
-	public static void signSha256(final EcPpk ppk, final String text, final Callback1<String> success, final Callback1<String> failure) {
+	public static void signSha256(final EcPpk ppk, final String text, final Callback1<String> success, final Callback2<String, Integer> failure) {
 		if (EcRemote.async == false) {
 			success.$invoke(EcRsaOaep.signSha256(ppk, text));
 			return;
@@ -250,7 +251,7 @@ public class EcRsaOaepAsync {
 	 * @method verify
 	 * @static
 	 */
-	public static void verify(final EcPk pk, final String text, final String signature, final Callback1<Boolean> success, final Callback1<String> failure) {
+	public static void verify(final EcPk pk, final String text, final String signature, final Callback1<Boolean> success, final Callback2<String, Integer> failure) {
 		if (EcRemote.async == false) {
 			success.$invoke(EcRsaOaep.verify(pk, text, signature));
 			return;

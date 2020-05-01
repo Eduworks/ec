@@ -18,6 +18,7 @@ import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
@@ -55,9 +56,9 @@ public class EcEncryptedValueTest {
 			public void $invoke(Array<EcRemoteLinkedData> p1) {
 
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Could not find objects to delete");
 			}
 		});
@@ -130,9 +131,9 @@ public class EcEncryptedValueTest {
 			public void $invoke(String p1) {
 				console.log("Saved.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to save.");
 				console.log(p1);
 				Assert.fail("Failed to save object.");
@@ -149,9 +150,9 @@ public class EcEncryptedValueTest {
 				file.copyFrom(decryptedObject);
 				assertTrue(file.name==f.name);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to read object.");
 			}
 		});
@@ -162,9 +163,9 @@ public class EcEncryptedValueTest {
 			public void $invoke(String p1) {
 
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to delete object. " + p1);
 			}
 		});
@@ -196,9 +197,9 @@ public class EcEncryptedValueTest {
 			public void $invoke(String p1) {
 				console.log("Saved.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to save.");
 				console.log(p1);
 				Assert.fail("Failed to save object.");
@@ -219,9 +220,9 @@ public class EcEncryptedValueTest {
 				console.log("Decrypted = " + decryptIntoString);
 				assertTrue(decryptIntoString=="My_File.txt");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to read object.");
 			}
 		});
@@ -232,9 +233,9 @@ public class EcEncryptedValueTest {
 			public void $invoke(String p1) {
 
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to delete object. " + p1);
 			}
 		});
@@ -276,9 +277,9 @@ public class EcEncryptedValueTest {
 			public void $invoke(String p1) {
 				console.log("Saved.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to save.");
 				console.log(p1);
 				Assert.fail("Failed to save object.");
@@ -312,9 +313,9 @@ public class EcEncryptedValueTest {
 				assertTrue(!found);
 			}
 		};
-		Callback1<String> failure = new Callback1<String>() {
+		Callback2<String, Integer> failure = new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail(p1);
 			}
 		};
@@ -375,9 +376,9 @@ public class EcEncryptedValueTest {
 				public void $invoke(String p1) {
 
 				}
-			}, new Callback1<String>() {
+			}, new Callback2<String, Integer>() {
 				@Override
-				public void $invoke(String p1) {
+				public void $invoke(String p1, Integer i) {
 					Assert.fail("Failed to delete object. " + p1);
 				}
 			});
@@ -413,9 +414,9 @@ public class EcEncryptedValueTest {
 			public void $invoke(String p1) {
 				console.log("Saved.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to save.");
 				console.log(p1);
 				Assert.fail("Failed to save object.");
@@ -437,9 +438,9 @@ public class EcEncryptedValueTest {
 
 				console.log("Retrieved Unchanged");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to retrieve.");
 				console.log(p1);
 				Assert.fail("Failed to retrieve object after save.");
@@ -460,9 +461,9 @@ public class EcEncryptedValueTest {
 
 				assertTrue("Unable to find object in search. ", found);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to search.");
 				console.log(p1);
 				Assert.fail("Failed to search for object after save.");
@@ -479,9 +480,9 @@ public class EcEncryptedValueTest {
 				if (p1.type != null && p1.type!="")
 					Assert.fail("Retrieved encrypted object as public");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Access Denied");
 			}
 		});
@@ -498,9 +499,9 @@ public class EcEncryptedValueTest {
 
 				Assert.assertFalse("Found the encrypted Object", found);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Could not find object in search");
 			}
 		});
@@ -511,9 +512,9 @@ public class EcEncryptedValueTest {
 			public void $invoke(String p1) {
 				Assert.fail("Deleted the Owned Object from Repository as public");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to Delete the Owned Object.");
 				console.log(p1);
 			}
@@ -529,9 +530,9 @@ public class EcEncryptedValueTest {
 			public void $invoke(String p1) {
 				console.log("Saved as public.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to save as public.");
 				console.log(p1);
 			}
@@ -545,9 +546,9 @@ public class EcEncryptedValueTest {
 			public void $invoke(String p1) {
 				console.log("Updated.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to update.");
 				console.log(p1);
 				Assert.fail("Failed to update object.");
@@ -569,9 +570,9 @@ public class EcEncryptedValueTest {
 
 				console.log("Retrieved After update");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to retrieve updates.");
 				console.log(p1);
 				Assert.fail("Failed to retrieve updated object");
@@ -584,9 +585,9 @@ public class EcEncryptedValueTest {
 			public void $invoke(String p1) {
 				console.log("Deleted the Owned Object.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log(p1);
 				Assert.fail("Failed to Delete the Owned Object from Repository");
 			}
@@ -629,9 +630,9 @@ public class EcEncryptedValueTest {
 			public void $invoke(String p1) {
 				console.log("Saved.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to save.");
 				console.log(p1);
 				Assert.fail("Failed to save object.");
@@ -654,9 +655,9 @@ public class EcEncryptedValueTest {
 				Assert.assertTrue("Object does not have second owner", retrieved.hasOwner(ppk2.toPk()));
 				console.log("Retrieved Unchanged");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to retrieve as owner 1.");
 				console.log(p1);
 				Assert.fail("Failed to retrieve object as owner 1 after save.");
@@ -677,9 +678,9 @@ public class EcEncryptedValueTest {
 
 				assertTrue("Unable to find object in search as owner 1. ", found);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to search.");
 				console.log(p1);
 				Assert.fail("Failed to search for object as owner 1.");
@@ -708,9 +709,9 @@ public class EcEncryptedValueTest {
 				Assert.assertTrue("Object does not have second owner", retrieved.hasOwner(ppk2.toPk()));
 				console.log("Retrieved Unchanged");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to retrieve as owner 2.");
 				console.log(p1);
 				Assert.fail("Failed to retrieve object as owner 2");
@@ -729,9 +730,9 @@ public class EcEncryptedValueTest {
 
 				assertTrue("Unable to find object in search as owner 2. ", found);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to search.");
 				console.log(p1);
 				Assert.fail("Failed to search for object as owner 2.");
@@ -748,9 +749,9 @@ public class EcEncryptedValueTest {
 				if (p1.type != null && !p1.type.equals(""))
 					Assert.fail("Retrieved encrypted object as public");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Access Denied");
 			}
 		});
@@ -767,9 +768,9 @@ public class EcEncryptedValueTest {
 
 				Assert.assertFalse("Found the encrypted Object", found);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Could not find object in search");
 			}
 		});
@@ -780,9 +781,9 @@ public class EcEncryptedValueTest {
 			public void $invoke(String p1) {
 				Assert.fail("Deleted the Owned Object from Repository as public");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to Delete the Owned Object.");
 				console.log(p1);
 			}
@@ -800,9 +801,9 @@ public class EcEncryptedValueTest {
 			public void $invoke(String p1) {
 				console.log("Updated as owner 2.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to Update as owner2.");
 				console.log(p1);
 				Assert.fail("Failed to Update object as owner2.");
@@ -825,9 +826,9 @@ public class EcEncryptedValueTest {
 				Assert.assertTrue("Object does not have second owner", retrieved.hasOwner(ppk2.toPk()));
 				console.log("Retrieved Unchanged");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to retrieve as owner 2 after update.");
 				console.log(p1);
 				Assert.fail("Failed to retrieve object as owner 2");
@@ -840,9 +841,9 @@ public class EcEncryptedValueTest {
 			public void $invoke(String p1) {
 				console.log("Deleted the Owned Object as owner 2.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log(p1);
 				Assert.fail("Failed to Delete the Owned Object from Repository as owner 2");
 			}
@@ -882,9 +883,9 @@ public class EcEncryptedValueTest {
 			public void $invoke(String p1) {
 				console.log("Saved.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to save.");
 				console.log(p1);
 				Assert.fail("Failed to save object.");
@@ -906,9 +907,9 @@ public class EcEncryptedValueTest {
 				Assert.assertTrue("Object does not have first owner", retrieved.hasOwner(ppk.toPk()));
 				console.log("Retrieved Unchanged");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to retrieve as owner 1.");
 				console.log(p1);
 				Assert.fail("Failed to retrieve object as owner 1 after save.");
@@ -929,9 +930,9 @@ public class EcEncryptedValueTest {
 
 				assertTrue("Unable to find object in search as owner. ", found);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to search.");
 				console.log(p1);
 				Assert.fail("Failed to search for object after save.");
@@ -952,9 +953,9 @@ public class EcEncryptedValueTest {
 				if (p1.type != null && !p1.type.equals(""))
 					Assert.fail("Retrieved encrypted object as other user");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Access Denied");
 			}
 		});
@@ -971,9 +972,9 @@ public class EcEncryptedValueTest {
 			public void $invoke(String p1) {
 				console.log("Reader Added.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to add reader.");
 				console.log(p1);
 				Assert.fail("Failed to add reader to object.");
@@ -1001,9 +1002,9 @@ public class EcEncryptedValueTest {
 				Assert.assertTrue("Object does not have first owner", retrieved.hasOwner(ppk.toPk()));
 				console.log("Retrieved as Reader");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to retrieve as reader");
 				console.log(p1);
 				Assert.fail("Failed to retrieve object as reader.");
@@ -1022,9 +1023,9 @@ public class EcEncryptedValueTest {
 
 				assertTrue("Unable to find object in search as reader ", found);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to search.");
 				console.log(p1);
 				Assert.fail("Failed to search for object after save.");
@@ -1041,9 +1042,9 @@ public class EcEncryptedValueTest {
 				if (p1.type != null && !p1.type.equals(""))
 					Assert.fail("Retrieved encrypted object as public");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Access Denied");
 			}
 		});
@@ -1060,9 +1061,9 @@ public class EcEncryptedValueTest {
 
 				Assert.assertFalse("Found the encrypted Object", found);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Could not find object in search");
 			}
 		});
@@ -1073,9 +1074,9 @@ public class EcEncryptedValueTest {
 			public void $invoke(String p1) {
 				Assert.fail("Deleted the Owned Object from Repository as public");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to Delete Owned Object as public.");
 				console.log(p1);
 			}
@@ -1088,9 +1089,9 @@ public class EcEncryptedValueTest {
 			public void $invoke(String p1) {
 				Assert.fail("Deleted the Owned Object from Repository as reader");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to Delete the Object as reader.");
 				console.log(p1);
 			}
@@ -1110,9 +1111,9 @@ public class EcEncryptedValueTest {
 			public void $invoke(String p1) {
 				console.log("Updated without reader.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to remove reader.");
 				console.log(p1);
 				Assert.fail("Failed to remove reader from object.");
@@ -1130,9 +1131,9 @@ public class EcEncryptedValueTest {
 				if (p1.type != null && !p1.type.equals(""))
 					Assert.fail("Retrieved encrypted object as other user");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Access Denied");
 			}
 		});
@@ -1146,9 +1147,9 @@ public class EcEncryptedValueTest {
 			public void $invoke(String p1) {
 				console.log("Deleted the Owned Object as owner.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log(p1);
 				Assert.fail("Failed to Delete the Owned Object from Repository as owner");
 			}

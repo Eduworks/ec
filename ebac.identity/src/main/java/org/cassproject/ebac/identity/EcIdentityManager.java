@@ -379,7 +379,7 @@ public class EcIdentityManager {
 	 * @method signatureSheetForAsync
 	 * @static
 	 */
-	public static void signatureSheetForAsync(final Array<String> identityPksinPem, final long duration, final String server, final Callback1<String> success, final Callback1<String> failure) {
+	public static void signatureSheetForAsync(final Array<String> identityPksinPem, final long duration, final String server, final Callback1<String> success, final Callback2<String, Integer> failure) {
 		final Array<Object> signatures = new Array<Object>();
 		new EcAsyncHelper<EcIdentity>().each(ids, new Callback2<EcIdentity, Callback0>() {
 			@Override
@@ -464,7 +464,7 @@ public class EcIdentityManager {
 	 * @method signatureSheetAsync
 	 * @static
 	 */
-	public static void signatureSheetAsync(long duration, final String server, final Callback1<String> success, final Callback1<String> failure) {
+	public static void signatureSheetAsync(long duration, final String server, final Callback1<String> success, final Callback2<String, Integer> failure) {
 		if (!async) {
 			String sheet = signatureSheet(duration, server);
 			if (success != null)
@@ -495,10 +495,10 @@ public class EcIdentityManager {
 						signatures.push(p1.atIfy());
 						incrementalSuccess.$invoke();
 					}
-				}, new Callback1<String>() {
+				}, new Callback2<String, Integer>() {
 					@Override
-					public void $invoke(String s) {
-						failure.$invoke(s);
+					public void $invoke(String s, Integer i) {
+						failure.$invoke(s, i);
 						incrementalSuccess.$invoke();
 					}
 				});
@@ -554,7 +554,7 @@ public class EcIdentityManager {
 	 * @method createSignatureAsync
 	 * @static
 	 */
-	private static void createSignatureAsync(long duration, String server, EcPpk ppk, final Callback1<EbacSignature> success, final Callback1<String> failure) {
+	private static void createSignatureAsync(long duration, String server, EcPpk ppk, final Callback1<EbacSignature> success, final Callback2<String, Integer> failure) {
 		final EbacSignature s = new EbacSignature();
 		s.owner = ppk.toPk().toPem();
 		s.expiry = new Date().getTime() + duration;

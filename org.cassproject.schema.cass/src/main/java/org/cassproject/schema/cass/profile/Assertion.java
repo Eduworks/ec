@@ -11,6 +11,7 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 
 /**
  * A claim of competence in CASS is called an Assertion. It states with some confidence that an individual has mastered a competency at a given level, provides evidence of such mastery, and records data such as the time of assertion and the party making the assertion.
@@ -139,7 +140,7 @@ public class Assertion extends CreativeWork {
 		subject = (EcEncryptedValue) (Object) pk.toPem();
 	}
 
-	public void getSubjectAsync(final Callback1<EcPk> success, final Callback1<String> failure) {
+	public void getSubjectAsync(final Callback1<EcPk> success, final Callback2<String, Integer> failure) {
 		success.$invoke(EcPk.fromPem((String) (Object) subject));
 	}
 
@@ -151,7 +152,7 @@ public class Assertion extends CreativeWork {
 		agent = (EcEncryptedValue) (Object) pk.toPem();
 	}
 
-	public void getAgentAsync(final Callback1<EcPk> success, final Callback1<String> failure) {
+	public void getAgentAsync(final Callback1<EcPk> success, final Callback2<String, Integer> failure) {
 		success.$invoke(EcPk.fromPem((String) (Object) agent));
 	}
 
@@ -168,7 +169,7 @@ public class Assertion extends CreativeWork {
 		return contact.displayName;
 	}
 
-	public void getSubjectNameAsync(final Callback1<String> success, final Callback1<String> failure) {
+	public void getSubjectNameAsync(final Callback1<String> success, final Callback2<String, Integer> failure) {
 		if (subject == null) {
 			success.$invoke("Nobody");
 			return;
@@ -204,7 +205,7 @@ public class Assertion extends CreativeWork {
 		return contact.displayName;
 	}
 
-	public void getAgentNameAsync(final Callback1<String> success, final Callback1<String> failure) {
+	public void getAgentNameAsync(final Callback1<String> success, final Callback2<String, Integer> failure) {
 		if (subject == null) {
 			success.$invoke("Nobody");
 			return;
@@ -235,7 +236,7 @@ public class Assertion extends CreativeWork {
 		assertionDate = (EcEncryptedValue) (Object) assertionDateMs;
 	}
 
-	public void getAssertionDateAsync(final Callback1<Long> success, final Callback1<String> failure) {
+	public void getAssertionDateAsync(final Callback1<Long> success, final Callback2<String, Integer> failure) {
 		success.$invoke((Long) (Object) assertionDate);
 	}
 
@@ -247,7 +248,7 @@ public class Assertion extends CreativeWork {
 		expirationDate = (EcEncryptedValue) (Object) expirationDateMs;
 	}
 
-	public void getExpirationDateAsync(final Callback1<Long> success, final Callback1<String> failure) {
+	public void getExpirationDateAsync(final Callback1<Long> success, final Callback2<String, Integer> failure) {
 		success.$invoke((Long) (Object) expirationDate);
 	}
 
@@ -261,7 +262,7 @@ public class Assertion extends CreativeWork {
 		return (String) (Object) evidence.$get(index);
 	}
 
-	public void getEvidenceAsync(int index, final Callback1<String> success, final Callback1<String> failure) {
+	public void getEvidenceAsync(int index, final Callback1<String> success, final Callback2<String, Integer> failure) {
 		success.$invoke((String) (Object) evidence.$get(index));
 	}
 
@@ -273,7 +274,7 @@ public class Assertion extends CreativeWork {
 		decayFunction = (EcEncryptedValue) (Object) decayFunctionText;
 	}
 
-	public void getDecayFunctionAsync(final Callback1<String> success, final Callback1<String> failure) {
+	public void getDecayFunctionAsync(final Callback1<String> success, final Callback2<String, Integer> failure) {
 		success.$invoke((String) (Object) decayFunction);
 	}
 
@@ -285,7 +286,7 @@ public class Assertion extends CreativeWork {
 		negative = (EcEncryptedValue) (Object) negativeB;
 	}
 
-	public void getNegativeAsync(final Callback1<Boolean> success, final Callback1<String> failure) {
+	public void getNegativeAsync(final Callback1<Boolean> success, final Callback2<String, Integer> failure) {
 		success.$invoke("true".equals(negative));
 	}
 

@@ -50,9 +50,9 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 					me.oauthEnabled = false;
 				}
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String s) {
+			public void $invoke(String s, Integer i) {
 				me.oauthEnabled = false;
 			}
 		});
@@ -79,7 +79,7 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 	}
 
 	@Override
-	public void configureFromServer(Callback1<Object> success, Callback1<String> failure) {
+	public void configureFromServer(Callback1<Object> success, Callback2<String, Integer> failure) {
 		success.$invoke(null);
 	}
 
@@ -132,7 +132,7 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 	 * @method fetch
 	 */
 	@Override
-	public void fetch(final Callback1<Object> success, final Callback1<String> failure) {
+	public void fetch(final Callback1<Object> success, final Callback2<String, Integer> failure) {
 		Object o = new Object();
 		JSObjectAdapter.$put(o, "scope", JSObjectAdapter.$get(configuration, server + "Scope"));
 		JSObjectAdapter.$put(o, "display", "page");
@@ -263,7 +263,7 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 		});
 	}
 
-	private void readIdentityFiles(String folderId, final Callback1<Object> success, final Callback1<String> failure) {
+	private void readIdentityFiles(String folderId, final Callback1<Object> success, final Callback2<String, Integer> failure) {
 		final OAuth2FileBasedRemoteIdentityManager me = this;
 		final Object o = new Object();
 		JSObjectAdapter.$put(o, "parent", folderId);
@@ -302,7 +302,7 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 		);
 	}
 
-	private void readContactFiles(String folderId, final Callback1<Object> success, final Callback1<String> failure) {
+	private void readContactFiles(String folderId, final Callback1<Object> success, final Callback2<String, Integer> failure) {
 		final OAuth2FileBasedRemoteIdentityManager me = this;
 		final Object o = new Object();
 		JSObjectAdapter.$put(o, "parent", folderId);
@@ -370,7 +370,7 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 	 * @method commit
 	 */
 	@Override
-	public void commit(final Callback1<String> success, final Callback1<String> failure) {
+	public void commit(final Callback1<String> success, final Callback2<String, Integer> failure) {
 		final OAuth2FileBasedRemoteIdentityManager me = this;
 		Object apio = new Object();
 		JSObjectAdapter.$put(apio, "network", network);
@@ -393,11 +393,11 @@ public class OAuth2FileBasedRemoteIdentityManager implements RemoteIdentityManag
 				}
 			}).fail(failure);
 		else
-			failure.$invoke("Please login again.");
+			failure.$invoke("Please login again.", 400);
 	}
 
 	@Override
-	public void create(final Callback1<String> success, final Callback1<String> failure) {
+	public void create(final Callback1<String> success, final Callback2<String, Integer> failure) {
 		Object o = new Object();
 		JSObjectAdapter.$put(o, "scope", JSObjectAdapter.$get(configuration, server + "Scope"));
 		final OAuth2FileBasedRemoteIdentityManager me = this;

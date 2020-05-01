@@ -4,6 +4,7 @@ import com.eduworks.ec.service.task.TaskItemManager;
 import org.stjs.javascript.Date;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 
 public class TaskItem {
 
@@ -38,7 +39,7 @@ public class TaskItem {
 		return new TaskItem(taskId, name, completed, due);
 	}
 
-	public static void create(String taskName, String dueDate, final Callback1<TaskItem> success, Callback1<String> failure) {
+	public static void create(String taskName, String dueDate, final Callback1<TaskItem> success, Callback2<String, Integer> failure) {
 		TaskItemManager.create(taskName, dueDate, new Callback1<Object>() {
 			@Override
 			public void $invoke(Object object) {
@@ -50,7 +51,7 @@ public class TaskItem {
 		}, failure);
 	}
 
-	public void setComplete(final Callback1<TaskItem> success, Callback1<String> failure) {
+	public void setComplete(final Callback1<TaskItem> success, Callback2<String, Integer> failure) {
 		completed = true;
 
 		TaskItemManager.setComplete(taskId, new Callback1<Object>() {
@@ -64,7 +65,7 @@ public class TaskItem {
 
 	}
 
-	public void setIncomplete(final Callback1<TaskItem> success, Callback1<String> failure) {
+	public void setIncomplete(final Callback1<TaskItem> success, Callback2<String, Integer> failure) {
 		completed = false;
 
 		TaskItemManager.setIncomplete(taskId, new Callback1<Object>() {

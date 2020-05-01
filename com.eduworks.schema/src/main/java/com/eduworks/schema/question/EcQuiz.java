@@ -7,6 +7,7 @@ import org.schema.CreativeWork;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.javascript.functions.Function0;
 
 public class EcQuiz extends CreativeWork {
@@ -34,7 +35,7 @@ public class EcQuiz extends CreativeWork {
 	 * @method search
 	 * @static
 	 */
-	public static void search(EcRepository repo, String query, final Callback1<Array<EcQuiz>> success, Callback1<String> failure, Object paramObj) {
+	public static void search(EcRepository repo, String query, final Callback1<Array<EcQuiz>> success, Callback2<String, Integer> failure, Object paramObj) {
 		EcRepository.searchAs(repo, query, new Function0() {
 			@Override
 			public Object $invoke() {

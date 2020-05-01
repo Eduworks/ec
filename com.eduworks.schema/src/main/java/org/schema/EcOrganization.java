@@ -9,6 +9,7 @@ import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.javascript.functions.Function0;
 
 public class EcOrganization extends Organization {
@@ -27,7 +28,7 @@ public class EcOrganization extends Organization {
      * @method get
      * @static
      */
-    public static void get(String id, final Callback1<EcOrganization> success, final Callback1<String> failure) {
+    public static void get(String id, final Callback1<EcOrganization> success, final Callback2<String, Integer> failure) {
         EcRepository.getAs(id,new EcOrganization(),success,failure);
     }
 
@@ -60,7 +61,7 @@ public class EcOrganization extends Organization {
      * @method search
      * @static
      */
-    public static void search(EcRepository repo, String query, final Callback1<Array<EcOrganization>> success, Callback1<String> failure, Object paramObj) {
+    public static void search(EcRepository repo, String query, final Callback1<Array<EcOrganization>> success, Callback2<String, Integer> failure, Object paramObj) {
         EcRepository.searchAs(repo, query, new Function0() {
             @Override
             public Object $invoke() {

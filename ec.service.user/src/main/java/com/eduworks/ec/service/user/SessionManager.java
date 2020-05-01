@@ -8,6 +8,7 @@ import org.stjs.javascript.Global;
 import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 
 /**
  * Manages the Current User and SessionId information, stores the sessionId in the browser session storage
@@ -94,9 +95,9 @@ public class SessionManager {
 				if (success != null)
 					success.$invoke(object);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				clearSessionId();
 				clearCurrentUser();
 				isLoggedIn = false;

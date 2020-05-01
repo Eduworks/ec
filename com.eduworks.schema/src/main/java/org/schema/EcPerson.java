@@ -9,11 +9,12 @@ import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.javascript.functions.Function0;
 
 public class EcPerson extends Person {
 
-    public static void getByPk(EcRepository repo, EcPk pk, final Callback1<EcPerson> success, final Callback1<String> failure)
+    public static void getByPk(EcRepository repo, EcPk pk, final Callback1<EcPerson> success, final Callback2<String, Integer> failure)
     {
         get(repo.selectedServer+(repo.selectedServer.endsWith("/") ? "" : "/")+"data/"+pk.fingerprint(),success,failure);
     }
@@ -41,7 +42,7 @@ public class EcPerson extends Person {
      * @method get
      * @static
      */
-    public static void get(String id, final Callback1<EcPerson> success, final Callback1<String> failure) {
+    public static void get(String id, final Callback1<EcPerson> success, final Callback2<String, Integer> failure) {
         EcRepository.getAs(id,new EcPerson(),success,failure);
     }
 
@@ -74,7 +75,7 @@ public class EcPerson extends Person {
      * @method search
      * @static
      */
-    public static void search(EcRepository repo, String query, final Callback1<Array<EcPerson>> success, Callback1<String> failure, Object paramObj) {
+    public static void search(EcRepository repo, String query, final Callback1<Array<EcPerson>> success, Callback2<String, Integer> failure, Object paramObj) {
         EcRepository.searchAs(repo, query, new Function0() {
             @Override
             public Object $invoke() {

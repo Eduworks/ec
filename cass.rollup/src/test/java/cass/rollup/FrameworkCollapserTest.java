@@ -99,10 +99,10 @@ public class FrameworkCollapserTest {
                             Global.console.log(npg.toStringGraphAll());
                         }
                     },
-                    new Callback1<String>() {
+                    new Callback2<String, Integer>() {
                         @SuppressWarnings("unchecked")
                         @Override
-                        public void $invoke(String err) {
+                        public void $invoke(String err, Integer i) {
                             Global.console.log("collapseFramework Failure: " + err);
                         }
                     }
@@ -132,10 +132,10 @@ public class FrameworkCollapserTest {
                             Global.console.log("Success: " + eca.$length());
                         }
                     },
-                    new Callback1<String>() {
+                    new Callback2<String, Integer>() {
                         @SuppressWarnings("unchecked")
                         @Override
-                        public void $invoke(String err) {
+                        public void $invoke(String err, Integer i) {
                             Global.console.log("Failure: " + err);
                         }
                     },null);
@@ -182,10 +182,10 @@ public class FrameworkCollapserTest {
                             }
                         }
                     },
-                    new Callback1<String>() {
+                    new Callback2<String, Integer>() {
                         @SuppressWarnings("unchecked")
                         @Override
-                        public void $invoke(String err) {
+                        public void $invoke(String err, Integer i) {
                             Global.console.log("Failure: " + err);
                         }
                     }

@@ -10,6 +10,7 @@ import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 
 /**
  * Creates child packets for an InquiryPacket based on its context.
@@ -26,7 +27,7 @@ public class RelationshipPacketGenerator {
      * @property failure
      * @type function(string)
      */
-    public Callback1<String> failure;
+    public Callback2<String, Integer> failure;
     /**
      * Method to call when the operation succeeds.
      *
@@ -131,7 +132,7 @@ public class RelationshipPacketGenerator {
 
     private void processEventFailure(String message, InquiryPacket ip) {
         ip.numberOfQueriesRunning--;
-        failure.$invoke(message);
+        failure.$invoke(message, 400);
     }
 
     private void pushRequiredPacketsToIp() {
@@ -301,9 +302,9 @@ public class RelationshipPacketGenerator {
                 public void $invoke(EcCompetency p1) {
                     rpg.processGetRelatedCompetencySuccess(p1, alignment);
                 }
-            }, new Callback1<String>() {
+            }, new Callback2<String, Integer>() {
                 @Override
-                public void $invoke(String p1) {
+                public void $invoke(String p1, Integer i) {
                     rpg.processEventFailure(p1, ip);
                 }
             });

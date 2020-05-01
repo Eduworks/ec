@@ -17,6 +17,7 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.Date;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
@@ -60,9 +61,9 @@ public class EcAssertionTest {
 		comp.generateId(server);
 		comp.addOwner(ppk1.toPk());
 
-		comp.save(null, new Callback1<String>() {
+		comp.save(null, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to Save Competency");
 			}
 		},null);
@@ -71,9 +72,9 @@ public class EcAssertionTest {
 
 	@After
 	public void breakdown() {
-		comp._delete(null, new Callback1<String>() {
+		comp._delete(null, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Unable to delete Competency");
 			}
 		}, null);

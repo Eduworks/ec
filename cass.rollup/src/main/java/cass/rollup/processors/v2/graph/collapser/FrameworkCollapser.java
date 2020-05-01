@@ -25,7 +25,7 @@ public class FrameworkCollapser {
     private NodeGraph frameworkNodeGraph;
     private NodePacketGraph collapsedFrameworkNodePacketGraph;
     private Callback2<String, NodePacketGraph> successCallback;
-    private Callback1<String> failureCallback;
+    private Callback2<String, Integer> failureCallback;
 
     private void addCompetenciesToFrameworkNodeGraph() {
         EcCompetency cmp;
@@ -87,10 +87,10 @@ public class FrameworkCollapser {
                 collapseFrameworkNodeGraph();
                 successCallback.$invoke(framework.shortId(), collapsedFrameworkNodePacketGraph);
             } catch (Exception e2) {
-                failureCallback.$invoke("Framework collapse failed: " + e2.toString());
+                failureCallback.$invoke("Framework collapse failed: " + e2.toString(), 400);
             }
         } catch (Exception e) {
-            failureCallback.$invoke("Framework node graph generation failed: " + e.toString());
+            failureCallback.$invoke("Framework node graph generation failed: " + e.toString(), 400);
         }
     }
 
@@ -114,11 +114,11 @@ public class FrameworkCollapser {
             me.continueFrameworkCollapse();
     }
 
-    public void collapseFramework(EcRepository repo, EcFramework framework, boolean createImpliedRelations, final Callback2<String, NodePacketGraph> success, final Callback1<String> failure) {
-        if (framework == null) failure.$invoke("Framework is null or undefined");
+    public void collapseFramework(EcRepository repo, EcFramework framework, boolean createImpliedRelations, final Callback2<String, NodePacketGraph> success, final Callback2<String, Integer> failure) {
+        if (framework == null) failure.$invoke("Framework is null or undefined", 400);
         else if (framework.competency == null || framework.competency.$length() < 1)
-            failure.$invoke("Framework has no competencies");
-        else if (repo == null) failure.$invoke("Repo is null or undefined");
+            failure.$invoke("Framework has no competencies", 400);
+        else if (repo == null) failure.$invoke("Repo is null or undefined", 400);
         else {
             this.repo = repo;
             this.framework = framework;

@@ -4,6 +4,7 @@ import com.eduworks.ec.service.user.UserManager;
 import org.stjs.javascript.Date;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 
 import static org.stjs.javascript.Global.parseInt;
 
@@ -34,7 +35,7 @@ public class User {
 		return new User(userId, loginDate, lastIp);
 	}
 
-	public static void createUser(String username, String password, final Callback1<Object> success, Callback1<String> failure) {
+	public static void createUser(String username, String password, final Callback1<Object> success, Callback2<String, Integer> failure) {
 		UserManager.createUser(username, password, new Callback1<Object>() {
 
 			@Override

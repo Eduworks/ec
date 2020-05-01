@@ -2,11 +2,12 @@ package cass.rollup.rule;
 
 import cass.rollup.js.bridges.*;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 
 public class RollupRuleInterface {
 	public Callback1<Object> logFunction;
 	public Callback1<Boolean> success;
-	public Callback1<String> failure;
+	public Callback2<String, Integer> failure;
 	RollupListener listener;
 	private RollupParser parser;
 	private RollupRuleProcessor processor;

@@ -7,10 +7,11 @@ import cass.rollup.rule.RollupRulePacketGenerator.OperationType;
 import org.cass.profile.EcAssertion;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 
 public class RollupRuleProcessor {
 	public Callback1<Boolean> success;
-	public Callback1<String> failure;
+	public Callback2<String, Integer> failure;
 	public Callback1<Object> logFunction;
 	public Array<EcAssertion> positive;
 	public Array<EcAssertion> negative;

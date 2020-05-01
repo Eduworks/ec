@@ -18,6 +18,7 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
@@ -60,9 +61,9 @@ public class EcCompetencyTest {
             public void $invoke(String s) {
                 console.log("Saved " + comp.id);
             }
-        }, new Callback1<String>() {
+        }, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 Assert.fail("Unable to save Competency");
             }
         }, null);
@@ -70,9 +71,9 @@ public class EcCompetencyTest {
 
     @After
     public void breakdown() {
-        comp._delete(null, new Callback1<String>() {
+        comp._delete(null, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 Assert.fail("Unable to delete Competency");
             }
         }, null);
@@ -95,9 +96,9 @@ public class EcCompetencyTest {
 
                 Assert.fail("Unable to search for competency after save");
             }
-        }, new Callback1<String>() {
+        }, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 Assert.fail("Failed to Search for Competency");
             }
         });
@@ -128,9 +129,9 @@ public class EcCompetencyTest {
                 Assert.assertEquals("Name not equal to saved name", c.name, comp.name);
                 Assert.assertEquals("Description not equal to saved description", c.description, comp.description);
             }
-        }, new Callback1<String>() {
+        }, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 Assert.fail("Failed to Get Competency");
             }
         });
@@ -150,9 +151,9 @@ public class EcCompetencyTest {
             public void $invoke(String p1) {
 
             }
-        }, new Callback1<String>() {
+        }, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 Assert.fail("failed to save target competency");
             }
         }, null);
@@ -164,9 +165,9 @@ public class EcCompetencyTest {
             public void $invoke(String p1) {
                 console.log("Relationship Created");
             }
-        }, new Callback1<String>() {
+        }, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 Assert.fail("Failed to create relationship");
             }
         }, null);
@@ -178,9 +179,9 @@ public class EcCompetencyTest {
                 Assert.assertEquals(rel.id, p1.id);
                 Assert.assertEquals("Relationship source does not match competency", comp.shortId(), p1.source);
             }
-        }, new Callback1<String>() {
+        }, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 Assert.fail("failed to find relationships");
             }
         }, new Callback1<Array<EcAlignment>>() {
@@ -202,9 +203,9 @@ public class EcCompetencyTest {
                     public void $invoke(EcAlignment p1) {
                         Assert.fail("No Relationships should be found. " + p1.shortId());
                     }
-                }, new Callback1<String>() {
+                }, new Callback2<String, Integer>() {
                     @Override
-                    public void $invoke(String p1) {
+                    public void $invoke(String p1, Integer i) {
                         Assert.fail("failed to search for relationships");
                     }
                 }, new Callback1<Array<EcAlignment>>() {
@@ -216,16 +217,16 @@ public class EcCompetencyTest {
                 });
 
             }
-        }, new Callback1<String>() {
+        }, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 Assert.fail("failed to delete relationship");
             }
         });
 
-        comp2._delete(null, new Callback1<String>() {
+        comp2._delete(null, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 Assert.fail("failed to delete target competency");
 
             }
@@ -241,9 +242,9 @@ public class EcCompetencyTest {
             public void $invoke(String p1) {
                 console.log("Level Created");
             }
-        }, new Callback1<String>() {
+        }, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 Assert.fail("Failed to Create Level");
             }
         }, null);
@@ -255,10 +256,10 @@ public class EcCompetencyTest {
                 Assert.assertEquals(lev.id, p1.id);
                 Assert.assertEquals("Level Competency does not match competency ID", comp.shortId(), lev.competency);
             }
-        }, new Callback1<String>() {
+        }, new Callback2<String, Integer>() {
 
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 Assert.fail("Failed to Retrieve Level");
             }
         }, new Callback1<Array<EcLevel>>() {
@@ -276,9 +277,9 @@ public class EcCompetencyTest {
             public void $invoke(String p1) {
                 console.log("deleted level");
             }
-        }, new Callback1<String>() {
+        }, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 Assert.fail("failed to delete level");
             }
         });
@@ -289,9 +290,9 @@ public class EcCompetencyTest {
             public void $invoke(EcLevel p1) {
                 Assert.fail("No levels should be found");
             }
-        }, new Callback1<String>() {
+        }, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 Assert.fail("failed to search for levels");
             }
         }, new Callback1<Array<EcLevel>>() {
@@ -315,9 +316,9 @@ public class EcCompetencyTest {
             public void $invoke(String p1) {
                 console.log("Competency Updated");
             }
-        }, new Callback1<String>() {
+        }, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 Assert.fail("Failed to Update the Competency");
             }
         }, null);
@@ -335,9 +336,9 @@ public class EcCompetencyTest {
                 Assert.assertEquals(comp.scope, c.scope);
 
             }
-        }, new Callback1<String>() {
+        }, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 Assert.fail("Failed to Retrieve Competency after Update");
             }
         });
@@ -352,9 +353,9 @@ public class EcCompetencyTest {
         toDelete.addOwner(ppk.toPk());
 
         console.log("saving competency to delete...");
-        toDelete.save(null, new Callback1<String>() {
+        toDelete.save(null, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 Assert.fail("Failed to save competency for delete");
             }
         }, null);
@@ -366,9 +367,9 @@ public class EcCompetencyTest {
                 // TODO Auto-generated method stub
 
             }
-        }, new Callback1<String>() {
+        }, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 Assert.fail("Failed to delete Competency");
             }
         }, null);
@@ -385,9 +386,9 @@ public class EcCompetencyTest {
                     }
                 }
             }
-        }, new Callback1<String>() {
+        }, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 Assert.fail("Failed to Search for Competency");
             }
         });
@@ -403,9 +404,9 @@ public class EcCompetencyTest {
         toDelete.addOwner(ppk.toPk());
 
         console.log("saving competency to delete...");
-        toDelete.save(null, new Callback1<String>() {
+        toDelete.save(null, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 Assert.fail("Failed to save competency for delete");
             }
         }, null);
@@ -416,9 +417,9 @@ public class EcCompetencyTest {
         comp2.addOwner(ppk.toPk());
 
         console.log("Saving Target Competency...");
-        comp2.save(null, new Callback1<String>() {
+        comp2.save(null, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 console.log("Saved Target Competency");
             }
         }, null);
@@ -429,9 +430,9 @@ public class EcCompetencyTest {
             public void $invoke(String p1) {
                 console.log("Created Relationship");
             }
-        }, new Callback1<String>() {
+        }, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 Assert.fail("Failed to Create Relationship");
             }
         }, null);
@@ -446,9 +447,9 @@ public class EcCompetencyTest {
                     public void $invoke(EcAlignment p1) {
                         Assert.fail("No Relationships should be found");
                     }
-                }, new Callback1<String>() {
+                }, new Callback2<String, Integer>() {
                     @Override
-                    public void $invoke(String p1) {
+                    public void $invoke(String p1, Integer i) {
                         Assert.fail("failed to search for relationships");
                     }
                 }, new Callback1<Array<EcAlignment>>() {
@@ -460,9 +461,9 @@ public class EcCompetencyTest {
                 });
 
             }
-        }, new Callback1<String>() {
+        }, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 Assert.fail("Failed to delete relationship Competency");
             }
         }, repo);
@@ -474,9 +475,9 @@ public class EcCompetencyTest {
                 // TODO Auto-generated method stub
 
             }
-        }, new Callback1<String>() {
+        }, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 Assert.fail("Failed to delete target Competency");
             }
         }, null);
@@ -492,9 +493,9 @@ public class EcCompetencyTest {
         toDelete.addOwner(ppk.toPk());
 
         console.log("saving competency to delete...");
-        toDelete.save(null, new Callback1<String>() {
+        toDelete.save(null, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 Assert.fail("Failed to save competency for delete");
             }
         }, null);
@@ -506,9 +507,9 @@ public class EcCompetencyTest {
             public void $invoke(String p1) {
                 console.log("Created Level");
             }
-        }, new Callback1<String>() {
+        }, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 Assert.fail("Failed to Create Level");
             }
         }, null);
@@ -523,9 +524,9 @@ public class EcCompetencyTest {
                     public void $invoke(EcLevel p1) {
                         Assert.fail("No Relationships should be found");
                     }
-                }, new Callback1<String>() {
+                }, new Callback2<String, Integer>() {
                     @Override
-                    public void $invoke(String p1) {
+                    public void $invoke(String p1, Integer i) {
                         Assert.fail("failed to search for relationships");
                     }
                 }, new Callback1<Array<EcLevel>>() {
@@ -537,9 +538,9 @@ public class EcCompetencyTest {
                 });
 
             }
-        }, new Callback1<String>() {
+        }, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 Assert.fail("Failed to delete Level Competency");
             }
         }, repo);

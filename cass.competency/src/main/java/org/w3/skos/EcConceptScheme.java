@@ -5,6 +5,7 @@ import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.*;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.javascript.functions.Function0;
 
 /**
@@ -38,7 +39,7 @@ public class EcConceptScheme extends ConceptScheme {
 	 * @method get
 	 * @static
 	 */
-	public static void get(String id, final Callback1<EcConceptScheme> success, final Callback1<String> failure) {
+	public static void get(String id, final Callback1<EcConceptScheme> success, final Callback2<String, Integer> failure) {
 		EcRepository.getAs(id,new EcConceptScheme(),success,failure);
 	}
 
@@ -78,7 +79,7 @@ public class EcConceptScheme extends ConceptScheme {
 	 * @method search
 	 * @static
 	 */
-	public static void search(EcRepository repo, String query, final Callback1<Array<EcConceptScheme>> success, Callback1<String> failure, Object paramObj) {
+	public static void search(EcRepository repo, String query, final Callback1<Array<EcConceptScheme>> success, Callback2<String, Integer> failure, Object paramObj) {
 		EcRepository.searchAs(repo, query, new Function0() {
 			@Override
 			public Object $invoke() {

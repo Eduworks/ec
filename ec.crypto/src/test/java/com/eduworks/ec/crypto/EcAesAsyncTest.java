@@ -3,6 +3,7 @@ package com.eduworks.ec.crypto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
@@ -34,16 +35,16 @@ public class EcAesAsyncTest {
 
 						assertEquals("EcAesAsyncTest:aesTest",randomString,decrypted);
 					}
-				}, new Callback1<String>() {
+				}, new Callback2<String, Integer>() {
 					@Override
-					public void $invoke(String p1) {
+					public void $invoke(String p1, Integer i) {
 						assertTrue(false);
 					}
 				});
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				assertTrue("EcAesAsyncTest:aesTest"+p1,false);
 			}
 		});
@@ -68,9 +69,9 @@ public class EcAesAsyncTest {
 
 				assertEquals("EcAesAsyncTest:aesCrossTest1",randomString,decrypted);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				assertTrue("EcAesAsyncTest:aesCrossTest1",false);
 			}
 		});
@@ -95,9 +96,9 @@ public class EcAesAsyncTest {
 
 				assertEquals("EcAesAsyncTest:aesCrossTest1Utf8",randomString,decrypted);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				assertTrue("EcAesAsyncTest:aesCrossTest1Utf8",false);
 			}
 		});
@@ -122,9 +123,9 @@ public class EcAesAsyncTest {
 
 				assertEquals("EcAesAsyncTest:aesCrossTest2Utf8",randomString,decrypted);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				assertTrue("EcAesAsyncTest:aesCrossTest2Utf8",false);
 			}
 		});
@@ -151,16 +152,16 @@ public class EcAesAsyncTest {
 
 						assertEquals("EcAesAsyncTest:aesTestWorker",randomString,decrypted);
 					}
-				}, new Callback1<String>() {
+				}, new Callback2<String, Integer>() {
 					@Override
-					public void $invoke(String p1) {
+					public void $invoke(String p1, Integer i) {
 						assertTrue(false);
 					}
 				});
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				assertTrue("EcAesAsyncTest:aesTestWorker",false);
 			}
 		});
@@ -185,9 +186,9 @@ public class EcAesAsyncTest {
 
 				assertEquals("EcAesAsyncTest:aesCrossTest1Worker",randomString,decrypted);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				assertTrue("EcAesAsyncTest:aesCrossTest1Worker",false);
 			}
 		});
@@ -212,9 +213,9 @@ public class EcAesAsyncTest {
 
 				assertEquals("EcAesAsyncTest:aesCrossTest1Utf8Worker",randomString,decrypted);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				assertTrue("EcAesAsyncTest:aesCrossTest1Utf8Worker",false);
 			}
 		});
@@ -239,9 +240,9 @@ public class EcAesAsyncTest {
 
 				assertEquals("EcAesAsyncTest:aesCrossTest2Utf8Worker",randomString,decrypted);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				assertTrue("EcAesAsyncTest:aesCrossTest2Utf8Worker",false);
 			}
 		});

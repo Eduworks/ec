@@ -18,6 +18,7 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.Date;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
@@ -72,23 +73,23 @@ public class EcAlignmentTest {
 		end.setFullYear(2017);
 		relation.validThrough = end.toDateString();
 
-		sourceComp.save(null, new Callback1<String>() {
+		sourceComp.save(null, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to create Source Competency");
 			}
 		},null);
 
-		targetComp.save(null, new Callback1<String>() {
+		targetComp.save(null, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to create Target Competency");
 			}
 		},null);
 
-		relation.save(null, new Callback1<String>() {
+		relation.save(null, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to create Relation");
 			}
 		},null);
@@ -96,23 +97,23 @@ public class EcAlignmentTest {
 
 	@After
 	public void breakdown() {
-		relation._delete(null, new Callback1<String>() {
+		relation._delete(null, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("failed to delete relation");
 			}
 		});
 
-		sourceComp._delete(null, new Callback1<String>() {
+		sourceComp._delete(null, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("failed to delete source competency");
 			}
 		}, null);
 
-		targetComp._delete(null, new Callback1<String>() {
+		targetComp._delete(null, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("failed to delete target competency");
 			}
 		}, null);
@@ -133,9 +134,9 @@ public class EcAlignmentTest {
 
 				Assert.fail("Unable to find relation after save");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to Search for relation after save");
 			}
 		});
@@ -210,9 +211,9 @@ public class EcAlignmentTest {
 				Assert.assertEquals("validFrom does not match saved validFrom", relation.validFrom, r.validFrom);
 				Assert.assertEquals("validThrough does not match saved validThrough", relation.validThrough, r.validThrough);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to Get relation");
 			}
 		});
@@ -234,9 +235,9 @@ public class EcAlignmentTest {
 			public void $invoke(String p1) {
 				Global.console.log("Updated Relation successfully");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to save updated relation");
 			}
 		},null);
@@ -256,9 +257,9 @@ public class EcAlignmentTest {
 				Assert.assertEquals("validFrom does not match saved validFrom", relation.validFrom, r.validFrom);
 				Assert.assertEquals("validThrough does not match saved validThrough", relation.validThrough, r.validThrough);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to Get relation after update");
 			}
 		});
@@ -314,9 +315,9 @@ public class EcAlignmentTest {
 		toDelete.addOwner(ppk.toPk());
 
 		Global.console.log("saving relation to delete...");
-		EcRepository.save(toDelete, null, new Callback1<String>() {
+		EcRepository.save(toDelete, null, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to save relation for delete");
 			}
 		});
@@ -326,9 +327,9 @@ public class EcAlignmentTest {
 			@Override
 			public void $invoke(String p1) {
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to delete relation");
 			}
 		});
@@ -345,9 +346,9 @@ public class EcAlignmentTest {
 					}
 				}
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to Search for relation after delete");
 			}
 		});

@@ -10,6 +10,7 @@ import com.eduworks.ec.remote.FormData;
 import org.json.ld.EcLinkedData;
 import org.stjs.javascript.*;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.javascript.functions.Function0;
 
 /**
@@ -569,7 +570,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
     }
 
 
-    public void asRdfXml(Callback1<String> success, Callback1<String> failure, String signatureSheet) {
+    public void asRdfXml(Callback1<String> success, Callback2<String, Integer> failure, String signatureSheet) {
         final FormData fd = new FormData();
 
         final String id = this.id;
@@ -583,7 +584,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
         EcRemote.postWithHeadersExpectingString(id, "", fd, headers, success, failure);
     }
 
-    public void asNQuads(Callback1<String> success, Callback1<String> failure, String signatureSheet) {
+    public void asNQuads(Callback1<String> success, Callback2<String, Integer> failure, String signatureSheet) {
         final FormData fd = new FormData();
 
         final String id = this.id;
@@ -597,7 +598,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
         EcRemote.postWithHeadersExpectingString(id, "", fd, headers, success, failure);
     }
 
-    public void asTurtle(Callback1<String> success, Callback1<String> failure, String signatureSheet) {
+    public void asTurtle(Callback1<String> success, Callback2<String, Integer> failure, String signatureSheet) {
         final FormData fd = new FormData();
 
         final String id = this.id;

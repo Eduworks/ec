@@ -80,7 +80,7 @@ public abstract class AssertionProcessor {
 	 * @method has
 	 */
 	public void has(Array<EcPk> subject, EcCompetency competency, EcLevel level, EcFramework context, Array<EbacSignature> additionalSignatures,
-	                final Callback1<InquiryPacket> success, Function1<String, String> ask, Callback1<String> failure) {
+	                final Callback1<InquiryPacket> success, Function1<String, String> ask, Callback2<String, Integer> failure) {
 		final InquiryPacket ip = new InquiryPacket(subject, competency, level, context, success, failure, null, IPType.COMPETENCY);
 		ip.root = true;
 		processedEquivalencies = JSCollections.$map();
@@ -124,8 +124,8 @@ public abstract class AssertionProcessor {
 						}
 						callback0.$invoke();
 					}
-				}, new Callback1<String>() {
-					public void $invoke(String p1) {
+				}, new Callback2<String, Integer>() {
+					public void $invoke(String p1, Integer i) {
 						callback0.$invoke();
 					}
 				}, params);
@@ -303,7 +303,7 @@ public abstract class AssertionProcessor {
 	protected void processEventFailure(String message, InquiryPacket ip) {
 		log(ip, "Event failed: " + message);
 		ip.numberOfQueriesRunning--;
-		ip.failure.$invoke(message);
+		ip.failure.$invoke(message, 400);
 	}
 
 	protected void logFoundAssertion(EcAssertion a, InquiryPacket ip) {
@@ -337,7 +337,7 @@ public abstract class AssertionProcessor {
 	protected String buildAssertionsSearchQuery(InquiryPacket ip, Array<String> competencies) {
 		String result = null;
 		if (IPType.ROLLUPRULE.equals(ip.type)) {
-			ip.failure.$invoke("NOT SUPPOSED TO BE HERE.");
+			ip.failure.$invoke("NOT SUPPOSED TO BE HERE.", 400);
 			throw new RuntimeException("Collecting assertions when root node is a rollup rule. Not supported.");
 		} else if (IPType.COMPETENCY.equals(ip.type)) {
 			result = "(";
@@ -392,9 +392,9 @@ public abstract class AssertionProcessor {
 					public void $invoke(EcRollupRule rr) {
 						ep.processFindRollupRuleSuccess(rr, ip);
 					}
-				}, new Callback1<String>() {
+				}, new Callback2<String, Integer>() {
 					@Override
-					public void $invoke(String p1) {
+					public void $invoke(String p1, Integer i) {
 						ep.processEventFailure(p1, ip);
 					}
 				});

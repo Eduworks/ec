@@ -36,7 +36,7 @@ public class EcAssertion extends Assertion {
 		return isId(((EcAssertion)obj).id);
 	}
 
-	public static void get(String id, final Callback1<EcAssertion> success, final Callback1<String> failure) {
+	public static void get(String id, final Callback1<EcAssertion> success, final Callback2<String, Integer> failure) {
 		EcRepository.getAs(id,new EcAssertion(),success,failure);
 	}
 
@@ -44,7 +44,7 @@ public class EcAssertion extends Assertion {
 		return EcRepository.getBlockingAs(id,new EcAssertion());
 	}
 
-	public static void search(EcRepository repo, String query, final Callback1<Array<EcAssertion>> success, Callback1<String> failure, Object paramObj) {
+	public static void search(EcRepository repo, String query, final Callback1<Array<EcAssertion>> success, Callback2<String, Integer> failure, Object paramObj) {
 		EcRepository.searchAs(repo, query, new Function0() {
 			@Override
 			public Object $invoke() {
@@ -132,7 +132,7 @@ public class EcAssertion extends Assertion {
 		}, failure);
 	}
 
-	public void getSubjectAsync(final Callback1<EcPk> success, final Callback1<String> failure) {
+	public void getSubjectAsync(final Callback1<EcPk> success, final Callback2<String, Integer> failure) {
 		if (subject == null) {
 			success.$invoke(null);
 			return;
@@ -143,7 +143,7 @@ public class EcAssertion extends Assertion {
 			@Override
 			public void $invoke(String decryptedString) {
 				if (decryptedString == null)
-					failure.$invoke("Could not decrypt subject.");
+					failure.$invoke("Could not decrypt subject.", 400);
 				else
 					success.$invoke(EcPk.fromPem(decryptedString));
 			}
@@ -187,7 +187,7 @@ public class EcAssertion extends Assertion {
 		}, failure);
 	}
 
-	public void getAgentAsync(final Callback1<EcPk> success, final Callback1<String> failure) {
+	public void getAgentAsync(final Callback1<EcPk> success, final Callback2<String, Integer> failure) {
 		if (agent == null) {
 			success.$invoke(null);
 			return;
@@ -198,7 +198,7 @@ public class EcAssertion extends Assertion {
 			@Override
 			public void $invoke(String decryptedString) {
 				if (decryptedString == null)
-					failure.$invoke("Could not decrypt agent.");
+					failure.$invoke("Could not decrypt agent.", 400);
 				else
 					success.$invoke(EcPk.fromPem(decryptedString));
 			}
@@ -220,7 +220,7 @@ public class EcAssertion extends Assertion {
 		return "Unknown Subject";
 	}
 
-	public void getSubjectNameAsync(final Callback1<String> success, final Callback1<String> failure) {
+	public void getSubjectNameAsync(final Callback1<String> success, final Callback2<String, Integer> failure) {
 		if (subject == null) {
 			success.$invoke("Nobody");
 			return;
@@ -238,7 +238,7 @@ public class EcAssertion extends Assertion {
 		return "Unknown Agent";
 	}
 
-	public void getAgentNameAsync(final Callback1<String> success, final Callback1<String> failure) {
+	public void getAgentNameAsync(final Callback1<String> success, final Callback2<String, Integer> failure) {
 		if (subject == null) {
 			success.$invoke("Nobody");
 			return;
@@ -246,7 +246,7 @@ public class EcAssertion extends Assertion {
 		getAgentAsync(getNameByPk(success, failure, "Unknown Agent"), failure);
 	}
 
-	public static Callback1<EcPk> getNameByPk(final Callback1<String> success, final Callback1<String> failure, final String dflt) {
+	public static Callback1<EcPk> getNameByPk(final Callback1<String> success, final Callback2<String, Integer> failure, final String dflt) {
 		return new Callback1<EcPk>() {
 			@Override
 			public void $invoke(final EcPk pk) {
@@ -280,9 +280,9 @@ public class EcAssertion extends Assertion {
 												return;
 											}
 										}
-									}, new Callback1<String>() {
+									}, new Callback2<String, Integer>() {
 										@Override
-										public void $invoke(String s) {
+										public void $invoke(String s, Integer i) {
 											callback0.$invoke();
 										}
 									});
@@ -297,9 +297,9 @@ public class EcAssertion extends Assertion {
 									}
 								}
 							}
-						}, new Callback1<String>() {
+						}, new Callback2<String, Integer>() {
 							@Override
-							public void $invoke(String s) {
+							public void $invoke(String s, Integer i) {
 								callback0.$invoke();
 							}
 						});
@@ -384,7 +384,7 @@ public class EcAssertion extends Assertion {
 			}
 		}, failure);
 	}
-	public void getAssertionDateAsync(final Callback1<Long> success, final Callback1<String> failure) {
+	public void getAssertionDateAsync(final Callback1<Long> success, final Callback2<String, Integer> failure) {
 		if (assertionDate == null) {
 			success.$invoke(null);
 			return;
@@ -395,7 +395,7 @@ public class EcAssertion extends Assertion {
 			@Override
 			public void $invoke(String decryptedString) {
 				if (decryptedString == null)
-					failure.$invoke("Could not decrypt assertion date.");
+					failure.$invoke("Could not decrypt assertion date.", 400);
 				else
 					success.$invoke(Long.parseLong(decryptedString));
 			}
@@ -438,7 +438,7 @@ public class EcAssertion extends Assertion {
 			}
 		}, failure);
 	}
-	public void getExpirationDateAsync(final Callback1<Long> success, final Callback1<String> failure) {
+	public void getExpirationDateAsync(final Callback1<Long> success, final Callback2<String, Integer> failure) {
 		if (expirationDate == null) {
 			success.$invoke(null);
 			return;
@@ -449,7 +449,7 @@ public class EcAssertion extends Assertion {
 			@Override
 			public void $invoke(String decryptedString) {
 				if (decryptedString == null)
-					failure.$invoke("Could not decrypt expiration date.");
+					failure.$invoke("Could not decrypt expiration date.", 400);
 				else
 					success.$invoke(Long.parseLong(decryptedString));
 			}
@@ -495,7 +495,7 @@ public class EcAssertion extends Assertion {
 						results.push(str);
 						callback0.$invoke();
 					}
-				},(Callback1)callback0);
+				},(Callback2)callback0);
 			}
 		}, new Callback1<Array<EcEncryptedValue>>() {
 			@Override
@@ -507,7 +507,7 @@ public class EcAssertion extends Assertion {
 			success.$invoke(results);
 	}
 
-	public void getEvidenceAsync(int index, final Callback1<String> success, final Callback1<String> failure) {
+	public void getEvidenceAsync(int index, final Callback1<String> success, final Callback2<String, Integer> failure) {
 		if (evidence.$get(index) == null) {
 			success.$invoke(null);
 			return;
@@ -518,7 +518,7 @@ public class EcAssertion extends Assertion {
 			@Override
 			public void $invoke(String decryptedString) {
 				if (decryptedString == null)
-					failure.$invoke("Could not decrypt evidence.");
+					failure.$invoke("Could not decrypt evidence.", 400);
 				else
 					success.$invoke(decryptedString);
 			}
@@ -561,7 +561,7 @@ public class EcAssertion extends Assertion {
 		}, failure);
 	}
 
-	public void getDecayFunctionAsync(final Callback1<String> success, final Callback1<String> failure) {
+	public void getDecayFunctionAsync(final Callback1<String> success, final Callback2<String, Integer> failure) {
 		if (decayFunction == null) {
 			success.$invoke(null);
 			return;
@@ -572,7 +572,7 @@ public class EcAssertion extends Assertion {
 			@Override
 			public void $invoke(String decryptedString) {
 				if (decryptedString == null)
-					failure.$invoke("Could not decrypt decay function.");
+					failure.$invoke("Could not decrypt decay function.", 400);
 				else
 					success.$invoke(decryptedString);
 			}
@@ -616,7 +616,7 @@ public class EcAssertion extends Assertion {
 		}, failure);
 	}
 
-	public void getNegativeAsync(final Callback1<Boolean> success, final Callback1<String> failure) {
+	public void getNegativeAsync(final Callback1<Boolean> success, final Callback2<String, Integer> failure) {
 		if (negative == null) {
 			success.$invoke(null);
 			return;
@@ -628,7 +628,7 @@ public class EcAssertion extends Assertion {
 			public void $invoke(String decryptedString) {
 				if (decryptedString == null)
 					if (decryptedString == null) {
-						failure.$invoke("Could not decrypt negative.");
+						failure.$invoke("Could not decrypt negative.", 400);
 						return;
 					}
 				if (decryptedString != null)
@@ -685,11 +685,11 @@ public class EcAssertion extends Assertion {
 		});
 	}
 
-	public void save(Callback1<String> success, Callback1<String> failure, EcRepository repo) {
+	public void save(Callback1<String> success, Callback2<String, Integer> failure, EcRepository repo) {
 		if (competency == null || competency == "") {
 			String msg = "Failing to save: Competency cannot be missing";
 			if (failure != null)
-				failure.$invoke(msg);
+				failure.$invoke(msg, 400);
 			else
 				Global.console.error(msg);
 			return;
@@ -698,7 +698,7 @@ public class EcAssertion extends Assertion {
 		if (subject == null) {
 			String msg = "Failing to save: Subject cannot be missing";
 			if (failure != null)
-				failure.$invoke(msg);
+				failure.$invoke(msg, 400);
 			else
 				Global.console.error(msg);
 			return;
@@ -707,7 +707,7 @@ public class EcAssertion extends Assertion {
 		if (agent == null) {
 			String msg = "Failing to save: Agent cannot be missing";
 			if (failure != null)
-				failure.$invoke(msg);
+				failure.$invoke(msg, 400);
 			else
 				Global.console.error(msg);
 			return;
@@ -716,7 +716,7 @@ public class EcAssertion extends Assertion {
 		if (confidence == null) {
 			String msg = "Failing to save: Confidence cannot be missing";
 			if (failure != null)
-				failure.$invoke(msg);
+				failure.$invoke(msg, 400);
 			else
 				Global.console.error(msg);
 			return;
@@ -725,7 +725,7 @@ public class EcAssertion extends Assertion {
 		if (assertionDate == null) {
 			String msg = "Failing to save: Assertion Date cannot be missing";
 			if (failure != null)
-				failure.$invoke(msg);
+				failure.$invoke(msg, 400);
 			else
 				Global.console.error(msg);
 			return;
@@ -734,7 +734,7 @@ public class EcAssertion extends Assertion {
 		if (decayFunction == null) {
 			String msg = "Failing to save: Decay Function cannot be missing";
 			if (failure != null)
-				failure.$invoke(msg);
+				failure.$invoke(msg, 400);
 			else
 				Global.console.error(msg);
 			return;
@@ -830,9 +830,9 @@ public class EcAssertion extends Assertion {
 		eah.each(ary, new Callback2<EcEncryptedValue, Callback0>() {
 			@Override
 			public void $invoke(EcEncryptedValue ecEncryptedValue, Callback0 callback0) {
-				ecEncryptedValue.addReaderAsync(newReader, callback0, new Callback1<String>() {
+				ecEncryptedValue.addReaderAsync(newReader, callback0, new Callback2<String, Integer>() {
 					@Override
-					public void $invoke(String s) {
+					public void $invoke(String s, Integer i) {
 						if (!eah.isStopped()) {
 							eah.stop();
 							failure.$invoke("Failed to add reader to an assertion.");
@@ -878,9 +878,9 @@ public class EcAssertion extends Assertion {
 		eah.each(ary, new Callback2<EcEncryptedValue, Callback0>() {
 			@Override
 			public void $invoke(EcEncryptedValue ecEncryptedValue, Callback0 callback0) {
-				ecEncryptedValue.removeReaderAsync(oldReader, callback0, new Callback1<String>() {
+				ecEncryptedValue.removeReaderAsync(oldReader, callback0, new Callback2<String, Integer>() {
 					@Override
-					public void $invoke(String s) {
+					public void $invoke(String s, Integer i) {
 						if (!eah.isStopped()) {
 							eah.stop();
 							failure.$invoke("Failed to remove reader to an assertion.");

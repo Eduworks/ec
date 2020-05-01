@@ -1,12 +1,13 @@
 package org.cassproject.ebac.identity.remote;
 
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 
 public interface RemoteIdentityManagerInterface {
 	void configure(String usernameSalt, int usernameIterations, int usernameWidth, String passwordSalt, int passwordIterations, int passwordWidth,
 	               String secretSalt, int secretIterations);
 
-	void configureFromServer(Callback1<Object> success, Callback1<String> failure);
+	void configureFromServer(Callback1<Object> success, Callback2<String, Integer> failure);
 
 	Boolean isGlobal();
 
@@ -18,9 +19,9 @@ public interface RemoteIdentityManagerInterface {
 
 	boolean changePassword(String username, String oldPassword, String newPassword);
 
-	void fetch(Callback1<Object> success, Callback1<String> failure);
+	void fetch(Callback1<Object> success, Callback2<String, Integer> failure);
 
-	void commit(Callback1<String> success, Callback1<String> failure);
+	void commit(Callback1<String> success, Callback2<String, Integer> failure);
 
-	void create(Callback1<String> success, Callback1<String> failure);
+	void create(Callback1<String> success, Callback2<String, Integer> failure);
 }

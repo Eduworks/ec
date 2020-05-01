@@ -7,6 +7,7 @@ import org.cass.profile.EcAssertion;
 import org.cassproject.ebac.repository.EcRepository;
 import org.stjs.javascript.*;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 
 public class CompetencyGraphBuilder {
 
@@ -123,9 +124,9 @@ public class CompetencyGraphBuilder {
 						cgb.checkAssertionDetailsFetched();
 					}
 				},
-				new Callback1<String>() {
+				new Callback2<String, Integer>() {
 					@Override
-					public void $invoke(String s) {
+					public void $invoke(String s, Integer i) {
 						sa.setNegative(false);
 						cgb.assertionMap.$put(sa.getId(), sa);
 						cgb.assertionsFilledIn++;
@@ -150,9 +151,9 @@ public class CompetencyGraphBuilder {
 						}
 					}
 				},
-				new Callback1<String>() {
+				new Callback2<String, Integer>() {
 					@Override
-					public void $invoke(String s) {
+					public void $invoke(String s, Integer i) {
 						cgb.failure.$invoke(new ExceptionReturn("Failed fetchAssertionDetailsExpirationDate: " + s));
 					}
 				});
@@ -174,9 +175,9 @@ public class CompetencyGraphBuilder {
 						}
 					}
 				},
-				new Callback1<String>() {
+				new Callback2<String, Integer>() {
 					@Override
-					public void $invoke(String s) {
+					public void $invoke(String s, Integer i) {
 						cgb.failure.$invoke(new ExceptionReturn("Failed fetchAssertionDetailsAssertionDate: " + s));
 					}
 				});
@@ -208,9 +209,9 @@ public class CompetencyGraphBuilder {
 						}
 					}
 				},
-				new Callback1<String>() {
+				new Callback2<String, Integer>() {
 					@Override
-					public void $invoke(String s) {
+					public void $invoke(String s, Integer i) {
 						cgb.failure.$invoke(new ExceptionReturn("Failed fetchAssertionDetailsSubject: " + s));
 					}
 				});
@@ -275,9 +276,9 @@ public class CompetencyGraphBuilder {
 							cgb.checkNumberOfReposQueried();
 						}
 					},
-					new Callback1<String>() {
+					new Callback2<String, Integer>() {
 						@Override
-						public void $invoke(String s) {
+						public void $invoke(String s, Integer i) {
 							cgb.failure.$invoke(new ExceptionReturn("Error fetching assertions: " + s));
 						}
 					},
@@ -325,9 +326,9 @@ public class CompetencyGraphBuilder {
 								cgb.checkNumberOfRelationsProcessed();
 							}
 						},
-						new Callback1<String>() {
+						new Callback2<String, Integer>() {
 							@Override
-							public void $invoke(String s) {
+							public void $invoke(String s, Integer i) {
 								cgb.failure.$invoke(new ExceptionReturn("Error fetching relationship: " + s));
 
 							}
@@ -345,9 +346,9 @@ public class CompetencyGraphBuilder {
 						cgb.fetchFrameworkRelations(f);
 					}
 				},
-				new Callback1<String>() {
+				new Callback2<String, Integer>() {
 					@Override
-					public void $invoke(String s) {
+					public void $invoke(String s, Integer i) {
 						cgb.failure.$invoke(new ExceptionReturn("Error fetching framework(" + cgb.frameworkId + "): " + s));
 					}
 				});
