@@ -42,11 +42,11 @@ public class TabStructuredImport {
         Array<EcCompetency> competencies = new Array<>();
         Array<EcAlignment> alignments = new Array<>();
         for (int i = 0;i < lines.$length();i++)
-        parseLinesIntoHierarchy(lines, competencies, alignments, i, serverUrl, hashNameForId);
+        parseLinesIntoHierarchy(lines, competencies, alignments, i, serverUrl, hashNameForId, repo);
         success.$invoke(competencies,alignments);
     }
 
-    private static void parseLinesIntoHierarchy(Array<String> lines, Array<EcCompetency> competencies, Array<EcAlignment> alignments, int index, String serverUrl, boolean hashNameForId) {
+    private static void parseLinesIntoHierarchy(Array<String> lines, Array<EcCompetency> competencies, Array<EcAlignment> alignments, int index, String serverUrl, boolean hashNameForId, EcRepository repo) {
         //I can find a parent by looking for the first line above it with fewer tabs.
         int parentI = -1;
         for (int i = index - 1; i >= 0; i--) {
@@ -67,6 +67,8 @@ public class TabStructuredImport {
             c = new EcCompetency();
             if (hashNameForId)
                 c.assignId(serverUrl, EcCrypto.md5(lines.$get(index).trim()));
+            else if (serverUrl != repo.selectedServer)
+                c.generateShortId(serverUrl);
             else
                 c.generateId(serverUrl);
             c.setName(lines.$get(index));
@@ -83,7 +85,10 @@ public class TabStructuredImport {
             }
             if (parent != null) {
                 EcAlignment a = new EcAlignment();
-                a.generateId(serverUrl);
+                if (serverUrl != repo.selectedServer)
+                    a.generateShortId(serverUrl);
+                else
+                    a.generateId(serverUrl);
                 a.relationType = EcAlignment.NARROWS;
                 a.source = c.shortId();
                 a.target = parent.shortId();
