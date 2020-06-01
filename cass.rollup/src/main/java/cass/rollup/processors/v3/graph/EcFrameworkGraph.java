@@ -61,7 +61,14 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
 	public void addFramework(final EcFramework framework, EcRepository repo, final Callback0 success, Callback1<String> failure) {
 		frameworks.push(framework);
 		final EcFrameworkGraph me = this;
-		repo.multiget(framework.competency.concat(framework.relation), new Callback1<Array<EcRemoteLinkedData>>() {
+		Array<String> precache = new Array();
+		if (framework.competency != null) {
+			precache.concat(framework.competency);
+		}
+		if (framework.relation != null) {
+			precache.concat(framework.relation);
+		}
+		repo.multiget(precache, new Callback1<Array<EcRemoteLinkedData>>() {
 			@Override
 			public void $invoke(Array<EcRemoteLinkedData> data) {
 				final EcCompetency competencyTemplate = new EcCompetency();
