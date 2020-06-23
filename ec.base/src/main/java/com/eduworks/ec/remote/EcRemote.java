@@ -1,6 +1,7 @@
 package com.eduworks.ec.remote;
 
 import org.stjs.javascript.*;
+import org.stjs.javascript.dom.DOMEvent;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
 
@@ -218,6 +219,14 @@ public class EcRemote {
                     else if (xhrx.readyState == 4)
                         if (failure != null)
                         failure.$invoke(xhrx.responseText);
+                }
+            };
+            xhr.onerror = new Callback1<DOMEvent>() {
+                @Override
+                public void $invoke(DOMEvent e) {
+                    if (failure != null) {
+                        failure.$invoke(null);
+                    }
                 }
             };
         }
