@@ -63,10 +63,10 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
 		final EcFrameworkGraph me = this;
 		Array<String> precache = new Array();
 		if (framework.competency != null) {
-			precache.concat(framework.competency);
+			precache = precache.concat(framework.competency);
 		}
 		if (framework.relation != null) {
-			precache.concat(framework.relation);
+			precache = precache.concat(framework.relation);
 		}
 		repo.multiget(precache, new Callback1<Array<EcRemoteLinkedData>>() {
 			@Override
