@@ -806,7 +806,7 @@
             
             
             <div class="version-info">
-              Version: 2.11.7
+              Version: 2.11.8
             </div>
             
         </div>
@@ -880,7 +880,14 @@ public class EcFrameworkGraph extends EcDirectedGraph&lt;EcCompetency, EcAlignme
 	public void addFramework(final EcFramework framework, EcRepository repo, final Callback0 success, Callback1&lt;String&gt; failure) {
 		frameworks.push(framework);
 		final EcFrameworkGraph me = this;
-		repo.multiget(framework.competency.concat(framework.relation), new Callback1&lt;Array&lt;EcRemoteLinkedData&gt;&gt;() {
+		Array&lt;String&gt; precache = new Array();
+		if (framework.competency != null) {
+			precache = precache.concat(framework.competency);
+		}
+		if (framework.relation != null) {
+			precache = precache.concat(framework.relation);
+		}
+		repo.multiget(precache, new Callback1&lt;Array&lt;EcRemoteLinkedData&gt;&gt;() {
 			@Override
 			public void $invoke(Array&lt;EcRemoteLinkedData&gt; data) {
 				final EcCompetency competencyTemplate = new EcCompetency();
