@@ -327,7 +327,7 @@ public abstract class AssertionProcessor {
 		else if (IPType.COMPETENCY.equals(ip.type))
 			result = new EcAssertion().getSearchStringByTypeAndCompetency(competency);
 		for (int i = 0; i < ip.subject.$length(); i++)
-			result += " AND (\\*@reader:\"" + ip.subject.$get(i).toPem() + "\")";
+			result += " AND (\\*reader:\"" + ip.subject.$get(i).toPem() + "\")";
 		log(ip, "Search Query: " + result);
 		if (result != null)
 			return result;
@@ -349,7 +349,7 @@ public abstract class AssertionProcessor {
 			result += ")";
 		}
 		for (int i = 0; i < ip.subject.$length(); i++)
-			result += " AND (\\*@reader:\"" + ip.subject.$get(i).toPem() + "\")";
+			result += " AND (\\*reader:\"" + ip.subject.$get(i).toPem() + "\")";
 		if (result != null)
 			return result;
 		throw new RuntimeException("Trying to build an assertion search query on an unsupported type: " + ip.type);

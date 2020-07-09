@@ -267,7 +267,7 @@ public class ProfileProcessor {
         if (profilePkPems.$length() > 1) searchQuery = "(";
         for (int i = 0; i < profilePkPems.$length(); i++) {
             if (i > 0) searchQuery += " OR ";
-            searchQuery += "(\\*@reader:\"" + profilePkPems.$get(i) + "\")";
+            searchQuery += "(\\*reader:\"" + profilePkPems.$get(i) + "\")";
         }
         if (profilePkPems.$length() > 1) searchQuery += ")";
         debugMessage("Assertion search query: " + searchQuery);

@@ -285,14 +285,14 @@ public class EcRemoteLinkedData extends EcLinkedData {
         EcLinkedData d = (EcLinkedData) JSGlobal.JSON.parse(toJson());
 
         if (type.indexOf("http://schema.eduworks.com/") != -1 && type.indexOf("/0.1/") != -1) {
-            JSObjectAdapter.$properties(d).$delete("@signature");
-            JSObjectAdapter.$properties(d).$delete("@owner");
-            JSObjectAdapter.$properties(d).$delete("@reader");
+            JSObjectAdapter.$properties(d).$delete("signature");
+            JSObjectAdapter.$properties(d).$delete("owner");
+            JSObjectAdapter.$properties(d).$delete("reader");
             JSObjectAdapter.$properties(d).$delete("@id");
         } else {
             // Whom else has signed the object does not change the contents of
             // the object.
-            JSObjectAdapter.$properties(d).$delete("@signature");
+            JSObjectAdapter.$properties(d).$delete("signature");
             // Where the object resides does not change the contents of the
             // object, and provides server administration capabilities.
             JSObjectAdapter.$properties(d).$delete("@id");
@@ -309,7 +309,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
 
     /**
      * Sign this object using a private key.
-     * Does not check for ownership, objects signed with keys absent from @owner or @reader may be removed.
+     * Does not check for ownership, objects signed with keys absent from owner or reader may be removed.
      *
      * @param {EcPpk} ppk Public private keypair.
      * @method signWith
@@ -560,10 +560,10 @@ public class EcRemoteLinkedData extends EcLinkedData {
         for (int i = 0; i < types.$length(); i++) {
             if (result != "")
                 result += " OR ";
-            result += "@encryptedType:\"" + types.$get(i) + "\"";
+            result += "encryptedType:\"" + types.$get(i) + "\"";
 
             int lastSlash = types.$get(i).lastIndexOf("/");
-            result += " OR (@context:\"" + Ebac.context + "\" AND @encryptedType:\"" + types.$get(i).substring(lastSlash + 1) + "\")";
+            result += " OR (@context:\"" + Ebac.context + "\" AND encryptedType:\"" + types.$get(i).substring(lastSlash + 1) + "\")";
         }
         return "(" + result + ")";
     }
@@ -609,5 +609,29 @@ public class EcRemoteLinkedData extends EcLinkedData {
         headers.$put("Accept", "text/turtle");
 
         EcRemote.postWithHeadersExpectingString(id, "", fd, headers, success, failure);
+    }
+
+    /***
+     * Upgrades the object to the latest version, performing transforms and the like.
+     *
+     * @method upgrade
+     */
+    protected void upgrade() {
+        Map<String, Object> me = JSObjectAdapter.$properties(this);
+        if (me.$get("@owner") != null) {
+            me.$put("owner", me.$get("@owner"));
+        }
+        if (me.$get("@reader") != null) {
+            me.$put("reader", me.$get("@reader"));
+        }
+        if (me.$get("@signature") != null) {
+            me.$put("signature", me.$get("@signature"));
+        }
+        if (me.$get("@encryptedType") != null) {
+            me.$put("encryptedType", me.$get("@encryptedType"));
+        }
+        if (me.$get("@encryptedContext") != null) {
+            me.$put("encryptedContext", me.$get("@encryptedContext"));
+        }
     }
 }

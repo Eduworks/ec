@@ -251,7 +251,7 @@ public class CompetencyGraphBuilder {
 		query += ")";
 		if (subjects != null) {
 			for (int i = 0; i < subjects.$length(); i++) {
-				query += " AND (\\*@reader:\"" + subjects.$get(i).toPem() + "\")";
+				query += " AND (\\*reader:\"" + subjects.$get(i).toPem() + "\")";
 			}
 		}
 		return query;

@@ -1238,9 +1238,9 @@ public class EcRepository {
             }
 
             if (ownership == "public") {
-                query += " AND (_missing_:@owner)";
+                query += " AND (_missing_:owner)";
             } else if (ownership == "owned") {
-                query += " AND (_exists_:@owner)";
+                query += " AND (_exists_:owner)";
             } else if (ownership == "me") {
                 query += " AND (";
                 for (int i = 0; i < EcIdentityManager.ids.$length(); i++) {
@@ -1249,7 +1249,7 @@ public class EcRepository {
                     }
                     EcIdentity id = EcIdentityManager.ids.$get(i);
 
-                    query += "@owner:\"" + id.ppk.toPk().toPem() + "\"";
+                    query += "owner:\"" + id.ppk.toPk().toPem() + "\"";
                 }
 
                 query += ")";

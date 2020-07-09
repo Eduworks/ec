@@ -21,7 +21,7 @@ public class SkyRepo {
     public static String elasticEndpoint = "http://localhost:9200";
 
     public static String owner() {
-        return "@owner";
+        return "owner";
     }
 
     public static String context() {
@@ -33,7 +33,7 @@ public class SkyRepo {
     }
 
     public static String reader() {
-        return "@reader";
+        return "reader";
     }
 
     public static String id() {
@@ -41,12 +41,12 @@ public class SkyRepo {
     }
 
     public static String signature() {
-        return "@signature";
+        return "signature";
     }
 
     public static String getTypeFromObject(Object o) {
-        String encryptedType = (String) JSObjectAdapter.$get(o, "@encryptedType");
-        String encryptedContext = (String) JSObjectAdapter.$get(o, "@encryptedContext");
+        String encryptedType = (String) JSObjectAdapter.$get(o, "encryptedType");
+        String encryptedContext = (String) JSObjectAdapter.$get(o, "encryptedContext");
         String type = (String) JSObjectAdapter.$get(o, "@type");
         String context = (String) JSObjectAdapter.$get(o, "@context");
         if (type == null)
@@ -169,11 +169,11 @@ public class SkyRepo {
                 return ary;
             } else if (EcObject.isObject(o)) {
                 EcRemoteLinkedData rld = new EcRemoteLinkedData((String) JSObjectAdapter.$get(o, "@context"), (String) JSObjectAdapter.$get(o, "@type"));
-                rld.reader = (Array<String>) JSObjectAdapter.$get(o, "@reader");
+                rld.reader = (Array<String>) JSObjectAdapter.$get(o, "reader");
                 if ((rld.reader != null && rld.reader.$length() != 0) || isEncryptedType(rld)) {
                     Array<EbacSignature> signatures = JSFunctionAdapter.call(signatureSheet, this);
                     boolean foundSignature = false;
-                    // Should explicitly go look in @owner and @reader for those things. Need to watch out for child objects that have @readers that need access to the parent.
+                    // Should explicitly go look in owner and reader for those things. Need to watch out for child objects that have readers that need access to the parent.
                     for (int i = 0; i < signatures.$length(); i++)
                         if (Global.JSON.stringify(o).indexOf(signatures.$get(i).owner) != -1) {
                             foundSignature = true;
@@ -391,14 +391,14 @@ public class SkyRepo {
     public static String skyrepoPutInternalIndex(Object o, String id, Integer version, String type) {
         String url = putUrl(o, id, version, type);
         o = flattenLangstrings(Global.JSON.parse(Global.JSON.stringify(o)));
-        if (JSObjectAdapter.$get(o, "@owner") != null && EcArray.isArray(JSObjectAdapter.$get(o, "@owner"))) {
-            Array<String> owners = (Array<String>) JSObjectAdapter.$get(o, "@owner");
+        if (JSObjectAdapter.$get(o, "owner") != null && EcArray.isArray(JSObjectAdapter.$get(o, "owner"))) {
+            Array<String> owners = (Array<String>) JSObjectAdapter.$get(o, "owner");
             for (int i = 0; i < owners.$length(); i++)
                 if (owners.$get(i).indexOf("\n") != -1)
                     owners.$set(i, EcPk.fromPem(owners.$get(i)).toPem());
         }
-        if (JSObjectAdapter.$get(o, "@reader") != null && EcArray.isArray(JSObjectAdapter.$get(o, "@reader"))) {
-            Array<String> owners = (Array<String>) JSObjectAdapter.$get(o, "@reader");
+        if (JSObjectAdapter.$get(o, "reader") != null && EcArray.isArray(JSObjectAdapter.$get(o, "reader"))) {
+            Array<String> owners = (Array<String>) JSObjectAdapter.$get(o, "reader");
             for (int i = 0; i < owners.$length(); i++)
                 if (owners.$get(i).indexOf("\n") != -1)
                     owners.$set(i, EcPk.fromPem(owners.$get(i)).toPem());
@@ -693,7 +693,7 @@ public class SkyRepo {
             boolean concern = false;
             if (q.indexOf("*") != -1 && q.trim() != "*")
                 concern = true;
-            if (q.indexOf("@reader") != -1)
+            if (q.indexOf("reader") != -1)
                 concern = true;
 
             JSObjectAdapter.$put(query_string, "query", q);
