@@ -53,6 +53,10 @@ public class SkyRepo {
             type = (String) JSObjectAdapter.$get(o, "type");
         if (context == null)
             context = (String) JSObjectAdapter.$get(o, "context");
+        if (encryptedType == null)
+            encryptedType = (String) JSObjectAdapter.$get(o, "@encryptedType");
+        if (encryptedContext == null)
+            encryptedContext = (String) JSObjectAdapter.$get(o, "@encryptedContext");
         if (encryptedType != null)
             type = encryptedType;
         if (encryptedContext != null)
@@ -170,6 +174,9 @@ public class SkyRepo {
             } else if (EcObject.isObject(o)) {
                 EcRemoteLinkedData rld = new EcRemoteLinkedData((String) JSObjectAdapter.$get(o, "@context"), (String) JSObjectAdapter.$get(o, "@type"));
                 rld.reader = (Array<String>) JSObjectAdapter.$get(o, "reader");
+                if (rld.reader == null || rld.reader.$length() == 0) {
+                    rld.reader = (Array<String>) JSObjectAdapter.$get(o, "@reader");
+                }
                 if ((rld.reader != null && rld.reader.$length() != 0) || isEncryptedType(rld)) {
                     Array<EbacSignature> signatures = JSFunctionAdapter.call(signatureSheet, this);
                     boolean foundSignature = false;
@@ -693,7 +700,7 @@ public class SkyRepo {
             boolean concern = false;
             if (q.indexOf("*") != -1 && q.trim() != "*")
                 concern = true;
-            if (q.indexOf("reader") != -1)
+            if (q.indexOf("reader") != -1 || q.indexOf("@reader") != -1)
                 concern = true;
 
             JSObjectAdapter.$put(query_string, "query", q);

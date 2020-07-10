@@ -288,11 +288,15 @@ public class EcRemoteLinkedData extends EcLinkedData {
             JSObjectAdapter.$properties(d).$delete("signature");
             JSObjectAdapter.$properties(d).$delete("owner");
             JSObjectAdapter.$properties(d).$delete("reader");
+            JSObjectAdapter.$properties(d).$delete("@signature");
+            JSObjectAdapter.$properties(d).$delete("@owner");
+            JSObjectAdapter.$properties(d).$delete("@reader");
             JSObjectAdapter.$properties(d).$delete("@id");
         } else {
             // Whom else has signed the object does not change the contents of
             // the object.
             JSObjectAdapter.$properties(d).$delete("signature");
+            JSObjectAdapter.$properties(d).$delete("@signature");
             // Where the object resides does not change the contents of the
             // object, and provides server administration capabilities.
             JSObjectAdapter.$properties(d).$delete("@id");
@@ -560,10 +564,10 @@ public class EcRemoteLinkedData extends EcLinkedData {
         for (int i = 0; i < types.$length(); i++) {
             if (result != "")
                 result += " OR ";
-            result += "encryptedType:\"" + types.$get(i) + "\"";
+            result += "\\*encryptedType:\"" + types.$get(i) + "\"";
 
             int lastSlash = types.$get(i).lastIndexOf("/");
-            result += " OR (@context:\"" + Ebac.context + "\" AND encryptedType:\"" + types.$get(i).substring(lastSlash + 1) + "\")";
+            result += " OR (@context:\"" + Ebac.context + "\" AND \\*encryptedType:\"" + types.$get(i).substring(lastSlash + 1) + "\")";
         }
         return "(" + result + ")";
     }

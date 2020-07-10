@@ -679,9 +679,9 @@ public class EcIdentityManager {
 			if (i > 0) {
 				searchString += " OR ";
 			}
-			searchString += "reader:\"" + ids.$get(i).ppk.toPk().toPem() + "\"";
+			searchString += "\\*reader:\"" + ids.$get(i).ppk.toPk().toPem() + "\"";
 			searchString += " OR ";
-			searchString += "owner:\"" + ids.$get(i).ppk.toPk().toPem() + "\"";
+			searchString += "\\*owner:\"" + ids.$get(i).ppk.toPk().toPem() + "\"";
 		}
 		return searchString;
 	}
