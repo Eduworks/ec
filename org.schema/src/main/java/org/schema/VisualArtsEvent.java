@@ -2,14 +2,14 @@ package org.schema;
 
 /**
  * Schema.org/VisualArtsEvent
- * Event type: Visual arts event.
+ * SchemaEvent type: Visual arts event.
  *
  * @author schema.org
  * @class VisualArtsEvent
  * @module org.schema
- * @extends Event
+ * @extends SchemaEvent
  */
-public class VisualArtsEvent extends Event {
+public class VisualArtsEvent extends SchemaEvent {
 	/**
 	 * Constructor, automatically sets @context and @type.
 	 *

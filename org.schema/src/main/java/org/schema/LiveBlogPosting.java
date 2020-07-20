@@ -12,7 +12,7 @@ package org.schema;
 public class LiveBlogPosting extends BlogPosting {
 	/**
 	 * Schema.org/coverageStartTime
-	 * The time when the live blog will begin covering the Event. Note that coverage may begin before the Event's start time. The LiveBlogPosting may also be created before coverage begins.
+	 * The time when the live blog will begin covering the SchemaEvent. Note that coverage may begin before the SchemaEvent's start time. The LiveBlogPosting may also be created before coverage begins.
 	 *
 	 * @property coverageStartTime
 	 * @type DateTime
@@ -20,7 +20,7 @@ public class LiveBlogPosting extends BlogPosting {
 	public String coverageStartTime;
 	/**
 	 * Schema.org/coverageEndTime
-	 * The time when the live blog will stop covering the Event. Note that coverage may continue after the Event concludes.
+	 * The time when the live blog will stop covering the SchemaEvent. Note that coverage may continue after the SchemaEvent concludes.
 	 *
 	 * @property coverageEndTime
 	 * @type DateTime
