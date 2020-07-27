@@ -187,7 +187,7 @@ public class CSVExport extends Exporter {
 					id = prop;
 				if (props.$get(prop) != null && props.$get(prop) != "" && props.$get(prop) instanceof Object && !piped) {
 					flattenObject(flattenedObject, props.$get(prop), id, false);
-				} else if (props.$get(prop) != null && props.$get(prop) != "" && (props.$get(prop) instanceof Object || EcArray.isArray(props.$get(prop)))) {
+				} else if (props.$get(prop) != null && props.$get(prop) != "" && (props.$get(prop) instanceof Object || EcArray.isArray(props.$get(prop))) && piped) {
 					String display = "";
 					Map<String, Object> props2 = JSObjectAdapter.$properties(props.$get(prop));
 					for (String prop2 : props2) {
