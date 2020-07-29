@@ -194,8 +194,6 @@ public class EcRepository {
             return true;
         if (repos.$length() == 0)
             return true;
-        if (url.indexOf("/api/") != -1 || url.indexOf("/data/") != -1)
-            return true;
         boolean validUrlFound = false;
         for (int i = 0; i < repos.$length(); i++) {
             if (repos.$get(i).selectedServer == null)
