@@ -47,9 +47,9 @@ public class MusicComposition extends CreativeWork {
 	 * The date and place the work was first performed.
 	 *
 	 * @property firstPerformance
-	 * @type Event
+	 * @type SchemaEvent
 	 */
-	public Event firstPerformance;
+	public SchemaEvent firstPerformance;
 	/**
 	 * Schema.org/musicArrangement
 	 * An arrangement derived from the composition.

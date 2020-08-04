@@ -2,14 +2,14 @@ package org.schema;
 
 /**
  * Schema.org/ChildrensEvent
- * Event type: Children's event.
+ * SchemaEvent type: Children's event.
  *
  * @author schema.org
  * @class ChildrensEvent
  * @module org.schema
- * @extends Event
+ * @extends SchemaEvent
  */
-public class ChildrensEvent extends Event {
+public class ChildrensEvent extends SchemaEvent {
 	/**
 	 * Constructor, automatically sets @context and @type.
 	 *

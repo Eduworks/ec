@@ -2,14 +2,14 @@ package org.schema;
 
 /**
  * Schema.org/MusicEvent
- * Event type: Music event.
+ * SchemaEvent type: Music event.
  *
  * @author schema.org
  * @class MusicEvent
  * @module org.schema
- * @extends Event
+ * @extends SchemaEvent
  */
-public class MusicEvent extends Event {
+public class MusicEvent extends SchemaEvent {
 	/**
 	 * Constructor, automatically sets @context and @type.
 	 *

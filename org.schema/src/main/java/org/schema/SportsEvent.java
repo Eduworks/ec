@@ -2,14 +2,14 @@ package org.schema;
 
 /**
  * Schema.org/SportsEvent
- * Event type: Sports event.
+ * SchemaEvent type: Sports event.
  *
  * @author schema.org
  * @class SportsEvent
  * @module org.schema
- * @extends Event
+ * @extends SchemaEvent
  */
-public class SportsEvent extends Event {
+public class SportsEvent extends SchemaEvent {
 	/**
 	 * Schema.org/awayTeam
 	 * The away team in a sports event.

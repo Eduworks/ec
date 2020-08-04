@@ -31,9 +31,9 @@ public class BroadcastEvent extends PublicationEvent {
 	 * The event being broadcast such as a sporting event or awards ceremony.
 	 *
 	 * @property broadcastOfEvent
-	 * @type Event
+	 * @type SchemaEvent
 	 */
-	public Event broadcastOfEvent;
+	public SchemaEvent broadcastOfEvent;
 
 	/**
 	 * Constructor, automatically sets @context and @type.
