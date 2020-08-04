@@ -127,9 +127,9 @@ public class Place extends Thing {
 	 * Upcoming or past events associated with this place or organization.
 	 *
 	 * @property events
-	 * @type Event
+	 * @type SchemaEvent
 	 */
-	public Event events;
+	public SchemaEvent events;
 	/**
 	 * Schema.org/specialOpeningHoursSpecification
 	 * The special opening hours of a certain place.\n\nUse this to explicitly override general opening hours brought in scope by [[openingHoursSpecification]] or [[openingHours]].
@@ -183,9 +183,9 @@ public class Place extends Thing {
 	 * Upcoming or past event associated with this place, organization, or action.
 	 *
 	 * @property event
-	 * @type Event
+	 * @type SchemaEvent
 	 */
-	public Event event;
+	public SchemaEvent event;
 	/**
 	 * Schema.org/containsPlace
 	 * The basic containment relation between a place and another that it contains.

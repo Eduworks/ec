@@ -7,9 +7,9 @@ package org.schema;
  * @author schema.org
  * @class ScreeningEvent
  * @module org.schema
- * @extends Event
+ * @extends SchemaEvent
  */
-public class ScreeningEvent extends Event {
+public class ScreeningEvent extends SchemaEvent {
 	/**
 	 * Schema.org/videoFormat
 	 * The type of screening or video broadcast used (e.g. IMAX, 3D, SD, HD, etc.).

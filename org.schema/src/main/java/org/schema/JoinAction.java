@@ -15,9 +15,9 @@ public class JoinAction extends InteractAction {
 	 * Upcoming or past event associated with this place, organization, or action.
 	 *
 	 * @property event
-	 * @type Event
+	 * @type SchemaEvent
 	 */
-	public Event event;
+	public SchemaEvent event;
 
 	/**
 	 * Constructor, automatically sets @context and @type.

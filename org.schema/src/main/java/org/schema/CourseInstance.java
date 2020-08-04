@@ -7,9 +7,9 @@ package org.schema;
  * @author schema.org
  * @class CourseInstance
  * @module org.schema
- * @extends Event
+ * @extends SchemaEvent
  */
-public class CourseInstance extends Event {
+public class CourseInstance extends SchemaEvent {
 	/**
 	 * Schema.org/instructor
 	 * A person assigned to instruct or provide instructional assistance for the [[CourseInstance]].

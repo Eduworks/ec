@@ -7,9 +7,9 @@ package org.schema;
  * @author schema.org
  * @class UserInteraction
  * @module org.schema
- * @extends Event
+ * @extends SchemaEvent
  */
-public class UserInteraction extends Event {
+public class UserInteraction extends SchemaEvent {
 	/**
 	 * Constructor, automatically sets @context and @type.
 	 *

@@ -244,12 +244,12 @@ public class Person extends Thing {
 	public Person sibling;
 	/**
 	 * Schema.org/performerIn
-	 * Event that this person is a performer or participant in.
+	 * SchemaEvent that this person is a performer or participant in.
 	 *
 	 * @property performerIn
-	 * @type Event
+	 * @type SchemaEvent
 	 */
-	public Event performerIn;
+	public SchemaEvent performerIn;
 	/**
 	 * Schema.org/honorificPrefix
 	 * An honorific prefix preceding a Person's name such as Dr/Mrs/Mr.

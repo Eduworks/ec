@@ -7,9 +7,9 @@ package org.schema;
  * @author schema.org
  * @class DeliveryEvent
  * @module org.schema
- * @extends Event
+ * @extends SchemaEvent
  */
-public class DeliveryEvent extends Event {
+public class DeliveryEvent extends SchemaEvent {
 	/**
 	 * Schema.org/hasDeliveryMethod
 	 * Method used for delivery or shipping.

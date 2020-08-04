@@ -148,7 +148,7 @@ public class CreativeWork extends Thing {
 	public String text;
 	/**
 	 * Schema.org/contributor
-	 * A secondary contributor to the CreativeWork or Event.
+	 * A secondary contributor to the CreativeWork or SchemaEvent.
 	 *
 	 * @property contributor
 	 * @type Organization
@@ -344,12 +344,12 @@ public class CreativeWork extends Thing {
 	public String awards;
 	/**
 	 * Schema.org/recordedAt
-	 * The Event where the CreativeWork was recorded. The CreativeWork may capture all or part of the event.
+	 * The SchemaEvent where the CreativeWork was recorded. The CreativeWork may capture all or part of the event.
 	 *
 	 * @property recordedAt
-	 * @type Event
+	 * @type SchemaEvent
 	 */
-	public Event recordedAt;
+	public SchemaEvent recordedAt;
 	/**
 	 * Schema.org/commentCount
 	 * The number of comments this CreativeWork (e.g. Article, Question or Answer) has received. This is most applicable to works published in Web sites with commenting system; additional comments may exist elsewhere.

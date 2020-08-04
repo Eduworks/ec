@@ -7,9 +7,9 @@ package org.schema;
  * @author schema.org
  * @class PublicationEvent
  * @module org.schema
- * @extends Event
+ * @extends SchemaEvent
  */
-public class PublicationEvent extends Event {
+public class PublicationEvent extends SchemaEvent {
 	/**
 	 * Schema.org/publishedOn
 	 * A broadcast service associated with the publication event.
