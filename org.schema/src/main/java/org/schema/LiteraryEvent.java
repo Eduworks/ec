@@ -2,14 +2,14 @@ package org.schema;
 
 /**
  * Schema.org/LiteraryEvent
- * Event type: Literary event.
+ * SchemaEvent type: Literary event.
  *
  * @author schema.org
  * @class LiteraryEvent
  * @module org.schema
- * @extends Event
+ * @extends SchemaEvent
  */
-public class LiteraryEvent extends Event {
+public class LiteraryEvent extends SchemaEvent {
 	/**
 	 * Constructor, automatically sets @context and @type.
 	 *

@@ -183,9 +183,9 @@ public class Organization extends Thing {
 	 * Upcoming or past events associated with this place or organization.
 	 *
 	 * @property events
-	 * @type Event
+	 * @type SchemaEvent
 	 */
-	public Event events;
+	public SchemaEvent events;
 	/**
 	 * Schema.org/logo
 	 * An associated logo.
@@ -319,9 +319,9 @@ public class Organization extends Thing {
 	 * Upcoming or past event associated with this place, organization, or action.
 	 *
 	 * @property event
-	 * @type Event
+	 * @type SchemaEvent
 	 */
-	public Event event;
+	public SchemaEvent event;
 	/**
 	 * Schema.org/founder
 	 * A person who founded this organization.
