@@ -279,6 +279,9 @@ public class EcRepositoryTest {
 		EcIdentityManager.ids = new Array<EcIdentity>();
 		EcIdentityManager.addIdentity(newId1);
 
+		EcRepository r = new EcRepository();
+		r.selectedServer = server;
+
 		console.log("Saving...");
 		EcRepository.save(thing, new Callback1<String>() {
 			@Override
@@ -317,8 +320,6 @@ public class EcRepositoryTest {
 			}
 		});
 
-		EcRepository r = new EcRepository();
-		r.selectedServer = server;
 		console.log("Searching...");
 		r.search("@id:\"" + thing.id + "\"", null, new Callback1<Array<EcRemoteLinkedData>>() {
 			@Override
