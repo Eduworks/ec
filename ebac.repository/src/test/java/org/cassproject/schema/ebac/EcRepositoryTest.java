@@ -278,7 +278,7 @@ public class EcRepositoryTest {
 
 		EcIdentityManager.ids = new Array<EcIdentity>();
 		EcIdentityManager.addIdentity(newId1);
-
+		EcRepository.alwaysTryUrl = true;
 		EcRepository r = new EcRepository();
 		r.selectedServer = server;
 
