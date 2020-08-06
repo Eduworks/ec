@@ -109,9 +109,10 @@ public class EcRepository {
             }
         }
         if (!shouldTryUrl(url)) {
-            if (repos.$length() == 1)
-                url = EcRemoteLinkedData.veryShortId(repos.$get(0).selectedServer, EcCrypto.md5(url));
-            else {
+            if (repos.$length() == 1) {
+                if (!url.startsWith(repos.$get(0).selectedServer))
+                    url = EcRemoteLinkedData.veryShortId(repos.$get(0).selectedServer, EcCrypto.md5(url));
+            } else {
                 EcRepository.find(url, "Could not locate object. May be due to EcRepository.alwaysTryUrl flag.", new Object(), 0, success, failure);
                 return;
             }
@@ -190,9 +191,9 @@ public class EcRepository {
     public static boolean shouldTryUrl(String url) {
         if (url == null)
             return false;
-        if (alwaysTryUrl)
+        if (alwaysTryUrl) //If we should always try the URL, do so.
             return true;
-        if (repos.$length() == 0)
+        if (repos.$length() == 0) //If there are no repos defined, try the URL.
             return true;
         boolean validUrlFound = false;
         for (int i = 0; i < repos.$length(); i++) {
@@ -200,7 +201,7 @@ public class EcRepository {
                 continue;
             validUrlFound = true;
         }
-        if (!validUrlFound)
+        if (!validUrlFound) //If there are no repos defined with a selectedServer, try the URL.
             return true;
         return false;
     }
@@ -306,9 +307,11 @@ public class EcRepository {
             }
         }
         if (!shouldTryUrl(originalUrl)) {
-            if (repos.$length() == 1)
-                url = EcRemoteLinkedData.veryShortId(repos.$get(0).selectedServer, EcCrypto.md5(url));
-            else {
+            if (repos.$length() == 1) {
+                if (!url.startsWith(repos.$get(0).selectedServer)) {
+                    url = EcRemoteLinkedData.veryShortId(repos.$get(0).selectedServer, EcCrypto.md5(url));
+                }
+            } else {
                 return EcRepository.findBlocking(originalUrl, "Could not locate object. May be due to EcRepository.alwaysTryUrl flag.", new Object(), 0);
             }
         }
@@ -591,7 +594,7 @@ public class EcRepository {
             JSObjectAdapter.$properties(cache).$delete(data.id);
             JSObjectAdapter.$properties(cache).$delete(data.shortId());
             if (repo != null)
-                JSObjectAdapter.$properties(cache).$delete(EcRemoteLinkedData.veryShortId(repo.selectedServer,data.getGuid()));
+                JSObjectAdapter.$properties(cache).$delete(EcRemoteLinkedData.veryShortId(repo.selectedServer, data.getGuid()));
         }
         if (data.invalid()) {
             failure.$invoke("Data is malformed.");
@@ -740,7 +743,7 @@ public class EcRepository {
         if (caching) {
             JSObjectAdapter.$properties(cache).$delete(data.id);
             JSObjectAdapter.$properties(cache).$delete(data.shortId());
-            JSObjectAdapter.$properties(cache).$delete(EcRemoteLinkedData.veryShortId(selectedServer,data.getGuid()));
+            JSObjectAdapter.$properties(cache).$delete(EcRemoteLinkedData.veryShortId(selectedServer, data.getGuid()));
         }
         final String targetUrl;
         if (shouldTryUrl(data.id))
@@ -862,7 +865,7 @@ public class EcRepository {
                         }
                         JSObjectAdapter.$put(cache, d.shortId(), d);
                         JSObjectAdapter.$put(cache, d.id, d);
-                        JSObjectAdapter.$put(cache, EcRemoteLinkedData.veryShortId(me.selectedServer,d.getGuid()), d);
+                        JSObjectAdapter.$put(cache, EcRemoteLinkedData.veryShortId(me.selectedServer, d.getGuid()), d);
 
                     }
                 }
@@ -1626,7 +1629,7 @@ public class EcRepository {
             if (caching) {
                 JSObjectAdapter.$put(cache, d.shortId(), d);
                 JSObjectAdapter.$put(cache, d.id, d);
-                JSObjectAdapter.$put(cache, EcRemoteLinkedData.veryShortId(selectedServer,d.getGuid()), d);
+                JSObjectAdapter.$put(cache, EcRemoteLinkedData.veryShortId(selectedServer, d.getGuid()), d);
             }
             if (eachSuccess != null) {
                 eachSuccess.$invoke(results.$get(i));
