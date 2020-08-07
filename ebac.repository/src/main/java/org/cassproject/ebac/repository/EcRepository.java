@@ -231,7 +231,7 @@ public class EcRepository {
                 else {
                     boolean done = false;
                     for (int i = 0; i < strings.$length(); i++) {
-                        if (strings.$get(i).id == url) {
+                        if (strings.$get(i).id == url || strings.$get(i).shortId() == url) {
                             if (done)
                                 Logger.log("Searching for exact ID:" + url + ", found more than one@:" + repo.selectedServer);
                             done = true;
@@ -272,7 +272,7 @@ public class EcRepository {
             return findBlocking(url, error, history, i + 1);
         else {
             for (int j = 0; j < strings.$length(); j++) {
-                if (strings.$get(j).id == url) {
+                if (strings.$get(j).id == url || strings.$get(j).shortId() == url) {
                     JSObjectAdapter.$properties(fetching).$delete(url);
                     if (caching) {
                         JSObjectAdapter.$put(cache, url, strings.$get(j));

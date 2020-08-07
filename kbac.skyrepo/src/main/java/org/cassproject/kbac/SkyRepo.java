@@ -667,8 +667,12 @@ public class SkyRepo {
         @Override
         public EcRemoteLinkedData $invoke(String id, Integer version, String type) {
             EcRemoteLinkedData oldObj = JSFunctionAdapter.call((Object) validateSignatures, this, id, version, type, "Only an owner of an object may delete it.");
-            skyrepoDeleteInternalIndex(id, version, type);
-            skyrepoDeleteInternalPermanent(id, version, type);
+            if (oldObj != null) {
+                skyrepoDeleteInternalIndex(id, version, type);
+                skyrepoDeleteInternalPermanent(id, version, type);
+            } else {
+                levr.error("Can't find object to delete", 401);
+            }
             return oldObj;
         }
     };
