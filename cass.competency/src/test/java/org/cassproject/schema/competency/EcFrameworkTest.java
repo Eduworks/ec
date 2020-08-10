@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
+import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
@@ -204,8 +205,9 @@ public class EcFrameworkTest {
 
 	@Test
 	public void createFrameworkTest() {
-
-		repo.search(new EcFramework().getSearchStringByType(), null, new Callback1<Array<EcRemoteLinkedData>>() {
+		Object paramObj = new Object();
+		JSObjectAdapter.$put(paramObj, "size", 1000);
+		repo.searchWithParams(new EcFramework().getSearchStringByType(), paramObj, null, new Callback1<Array<EcRemoteLinkedData>>() {
 			@Override
 			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				for (int i = 0; i < p1.$length(); i++) {

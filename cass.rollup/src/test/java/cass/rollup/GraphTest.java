@@ -26,6 +26,7 @@ public class GraphTest extends EvidenceProcessingTestBase {
     private CompetencyGraphBuilder buildAndConfigureGraphBuilder() {
         EcRepository repo = new EcRepository();
         repo.selectedServer = REPOSITORY_URL;
+        EcRepository.alwaysTryUrl = true;
         CompetencyGraphBuilder cgb = new CompetencyGraphBuilder();
         cgb.repositories.push(repo);
         cgb.includeAssertions = ADD_ASSERTIONS;

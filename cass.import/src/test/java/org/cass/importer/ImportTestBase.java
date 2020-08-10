@@ -82,7 +82,7 @@ public class ImportTestBase {
 		};
 
 		repo = new EcRepository();
-		repo.selectedServer = "http://localhost:8080/api";
+		repo.selectedServer = "http://localhost/api/";
 
 		newId1 = new EcIdentity();
 		newId1.ppk = EcPpk.fromPem(
