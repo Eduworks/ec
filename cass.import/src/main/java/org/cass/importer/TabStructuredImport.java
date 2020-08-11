@@ -83,7 +83,7 @@ public class TabStructuredImport {
                     break;
                 }
             }
-            if (parent != null) {
+            if (parent != null && parent.shortId() != c.shortId()) {
                 EcAlignment a = new EcAlignment();
                 if (serverUrl != repo.selectedServer)
                     a.generateShortId(serverUrl);
