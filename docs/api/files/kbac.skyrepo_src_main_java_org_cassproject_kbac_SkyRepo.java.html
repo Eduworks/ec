@@ -341,7 +341,6 @@
                             <li><a href="../classes/EntryPoint.html">EntryPoint</a></li>
                             <li><a href="../classes/Enumeration.html">Enumeration</a></li>
                             <li><a href="../classes/Episode.html">Episode</a></li>
-                            <li><a href="../classes/Event.html">Event</a></li>
                             <li><a href="../classes/EventReservation.html">EventReservation</a></li>
                             <li><a href="../classes/EventStatusType.html">EventStatusType</a></li>
                             <li><a href="../classes/EventVenue.html">EventVenue</a></li>
@@ -665,6 +664,7 @@
                             <li><a href="../classes/RVPark.html">RVPark</a></li>
                             <li><a href="../classes/SaleEvent.html">SaleEvent</a></li>
                             <li><a href="../classes/ScheduleAction.html">ScheduleAction</a></li>
+                            <li><a href="../classes/SchemaEvent.html">SchemaEvent</a></li>
                             <li><a href="../classes/ScholarlyArticle.html">ScholarlyArticle</a></li>
                             <li><a href="../classes/School.html">School</a></li>
                             <li><a href="../classes/ScreeningEvent.html">ScreeningEvent</a></li>
@@ -840,7 +840,7 @@ public class SkyRepo {
     public static String elasticEndpoint = &quot;http://localhost:9200&quot;;
 
     public static String owner() {
-        return &quot;@owner&quot;;
+        return &quot;owner&quot;;
     }
 
     public static String context() {
@@ -852,7 +852,7 @@ public class SkyRepo {
     }
 
     public static String reader() {
-        return &quot;@reader&quot;;
+        return &quot;reader&quot;;
     }
 
     public static String id() {
@@ -860,18 +860,22 @@ public class SkyRepo {
     }
 
     public static String signature() {
-        return &quot;@signature&quot;;
+        return &quot;signature&quot;;
     }
 
     public static String getTypeFromObject(Object o) {
-        String encryptedType = (String) JSObjectAdapter.$get(o, &quot;@encryptedType&quot;);
-        String encryptedContext = (String) JSObjectAdapter.$get(o, &quot;@encryptedContext&quot;);
+        String encryptedType = (String) JSObjectAdapter.$get(o, &quot;encryptedType&quot;);
+        String encryptedContext = (String) JSObjectAdapter.$get(o, &quot;encryptedContext&quot;);
         String type = (String) JSObjectAdapter.$get(o, &quot;@type&quot;);
         String context = (String) JSObjectAdapter.$get(o, &quot;@context&quot;);
         if (type == null)
             type = (String) JSObjectAdapter.$get(o, &quot;type&quot;);
         if (context == null)
             context = (String) JSObjectAdapter.$get(o, &quot;context&quot;);
+        if (encryptedType == null)
+            encryptedType = (String) JSObjectAdapter.$get(o, &quot;@encryptedType&quot;);
+        if (encryptedContext == null)
+            encryptedContext = (String) JSObjectAdapter.$get(o, &quot;@encryptedContext&quot;);
         if (encryptedType != null)
             type = encryptedType;
         if (encryptedContext != null)
@@ -946,10 +950,19 @@ public class SkyRepo {
                     levr.error(&quot;A Signature is Expired. My time is &quot; + now + &quot; and the signature expires at &quot; + signature.expiry, 419);
 
                 String signBytes = signature.signature;
+                if (signBytes == null)
+                    signBytes = (String) JSObjectAdapter.$get(signature,&quot;@signature&quot;);
                 signature.signature = null;
+                JSObjectAdapter.$put(signature,&quot;@signature&quot;,null);
 
-                if (!EcRsaOaep.verify(EcPk.fromPem(signature.owner), signature.toJson(), signBytes))
+                String owner = signature.owner;
+                if (owner == null)
+                    owner = (String) JSObjectAdapter.$get(signature,&quot;@owner&quot;);
+                JSObjectAdapter.$put(signature,&quot;@owner&quot;,owner);
+                signature.owner = null;
+                if (!EcRsaOaep.verify(EcPk.fromPem(owner), signature.toJson(), signBytes))
                     levr.error(&quot;Invalid Signature Detected: &quot; + signature.toJson(), 451);
+                signature.owner = (String)JSObjectAdapter.$get(signature,&quot;@owner&quot;);
                 sigSheet.$set(i, signature);
             }
 
@@ -988,11 +1001,14 @@ public class SkyRepo {
                 return ary;
             } else if (EcObject.isObject(o)) {
                 EcRemoteLinkedData rld = new EcRemoteLinkedData((String) JSObjectAdapter.$get(o, &quot;@context&quot;), (String) JSObjectAdapter.$get(o, &quot;@type&quot;));
-                rld.reader = (Array&lt;String&gt;) JSObjectAdapter.$get(o, &quot;@reader&quot;);
+                rld.reader = (Array&lt;String&gt;) JSObjectAdapter.$get(o, &quot;reader&quot;);
+                if (rld.reader == null || rld.reader.$length() == 0) {
+                    rld.reader = (Array&lt;String&gt;) JSObjectAdapter.$get(o, &quot;@reader&quot;);
+                }
                 if ((rld.reader != null &amp;&amp; rld.reader.$length() != 0) || isEncryptedType(rld)) {
                     Array&lt;EbacSignature&gt; signatures = JSFunctionAdapter.call(signatureSheet, this);
                     boolean foundSignature = false;
-                    // Should explicitly go look in @owner and @reader for those things. Need to watch out for child objects that have @readers that need access to the parent.
+                    // Should explicitly go look in owner and reader for those things. Need to watch out for child objects that have readers that need access to the parent.
                     for (int i = 0; i &lt; signatures.$length(); i++)
                         if (Global.JSON.stringify(o).indexOf(signatures.$get(i).owner) != -1) {
                             foundSignature = true;
@@ -1210,14 +1226,14 @@ public class SkyRepo {
     public static String skyrepoPutInternalIndex(Object o, String id, Integer version, String type) {
         String url = putUrl(o, id, version, type);
         o = flattenLangstrings(Global.JSON.parse(Global.JSON.stringify(o)));
-        if (JSObjectAdapter.$get(o, &quot;@owner&quot;) != null &amp;&amp; EcArray.isArray(JSObjectAdapter.$get(o, &quot;@owner&quot;))) {
-            Array&lt;String&gt; owners = (Array&lt;String&gt;) JSObjectAdapter.$get(o, &quot;@owner&quot;);
+        if (JSObjectAdapter.$get(o, &quot;owner&quot;) != null &amp;&amp; EcArray.isArray(JSObjectAdapter.$get(o, &quot;owner&quot;))) {
+            Array&lt;String&gt; owners = (Array&lt;String&gt;) JSObjectAdapter.$get(o, &quot;owner&quot;);
             for (int i = 0; i &lt; owners.$length(); i++)
                 if (owners.$get(i).indexOf(&quot;\n&quot;) != -1)
                     owners.$set(i, EcPk.fromPem(owners.$get(i)).toPem());
         }
-        if (JSObjectAdapter.$get(o, &quot;@reader&quot;) != null &amp;&amp; EcArray.isArray(JSObjectAdapter.$get(o, &quot;@reader&quot;))) {
-            Array&lt;String&gt; owners = (Array&lt;String&gt;) JSObjectAdapter.$get(o, &quot;@reader&quot;);
+        if (JSObjectAdapter.$get(o, &quot;reader&quot;) != null &amp;&amp; EcArray.isArray(JSObjectAdapter.$get(o, &quot;reader&quot;))) {
+            Array&lt;String&gt; owners = (Array&lt;String&gt;) JSObjectAdapter.$get(o, &quot;reader&quot;);
             for (int i = 0; i &lt; owners.$length(); i++)
                 if (owners.$get(i).indexOf(&quot;\n&quot;) != -1)
                     owners.$set(i, EcPk.fromPem(owners.$get(i)).toPem());
@@ -1479,8 +1495,12 @@ public class SkyRepo {
         @Override
         public EcRemoteLinkedData $invoke(String id, Integer version, String type) {
             EcRemoteLinkedData oldObj = JSFunctionAdapter.call((Object) validateSignatures, this, id, version, type, &quot;Only an owner of an object may delete it.&quot;);
-            skyrepoDeleteInternalIndex(id, version, type);
-            skyrepoDeleteInternalPermanent(id, version, type);
+            if (oldObj != null) {
+                skyrepoDeleteInternalIndex(id, version, type);
+                skyrepoDeleteInternalPermanent(id, version, type);
+            } else {
+                levr.error(&quot;Can&#x27;t find object to delete&quot;, 401);
+            }
             return oldObj;
         }
     };
@@ -1512,7 +1532,7 @@ public class SkyRepo {
             boolean concern = false;
             if (q.indexOf(&quot;*&quot;) != -1 &amp;&amp; q.trim() != &quot;*&quot;)
                 concern = true;
-            if (q.indexOf(&quot;@reader&quot;) != -1)
+            if (q.indexOf(&quot;reader&quot;) != -1 || q.indexOf(&quot;@reader&quot;) != -1)
                 concern = true;
 
             JSObjectAdapter.$put(query_string, &quot;query&quot;, q);

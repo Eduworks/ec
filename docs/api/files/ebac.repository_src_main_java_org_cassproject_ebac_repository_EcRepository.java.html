@@ -341,7 +341,6 @@
                             <li><a href="../classes/EntryPoint.html">EntryPoint</a></li>
                             <li><a href="../classes/Enumeration.html">Enumeration</a></li>
                             <li><a href="../classes/Episode.html">Episode</a></li>
-                            <li><a href="../classes/Event.html">Event</a></li>
                             <li><a href="../classes/EventReservation.html">EventReservation</a></li>
                             <li><a href="../classes/EventStatusType.html">EventStatusType</a></li>
                             <li><a href="../classes/EventVenue.html">EventVenue</a></li>
@@ -665,6 +664,7 @@
                             <li><a href="../classes/RVPark.html">RVPark</a></li>
                             <li><a href="../classes/SaleEvent.html">SaleEvent</a></li>
                             <li><a href="../classes/ScheduleAction.html">ScheduleAction</a></li>
+                            <li><a href="../classes/SchemaEvent.html">SchemaEvent</a></li>
                             <li><a href="../classes/ScholarlyArticle.html">ScholarlyArticle</a></li>
                             <li><a href="../classes/School.html">School</a></li>
                             <li><a href="../classes/ScreeningEvent.html">ScreeningEvent</a></li>
@@ -928,9 +928,10 @@ public class EcRepository {
             }
         }
         if (!shouldTryUrl(url)) {
-            if (repos.$length() == 1)
-                url = EcRemoteLinkedData.veryShortId(repos.$get(0).selectedServer, EcCrypto.md5(url));
-            else {
+            if (repos.$length() == 1) {
+                if (!url.startsWith(repos.$get(0).selectedServer))
+                    url = EcRemoteLinkedData.veryShortId(repos.$get(0).selectedServer, EcCrypto.md5(url));
+            } else {
                 EcRepository.find(url, &quot;Could not locate object. May be due to EcRepository.alwaysTryUrl flag.&quot;, new Object(), 0, success, failure);
                 return;
             }
@@ -1009,11 +1010,9 @@ public class EcRepository {
     public static boolean shouldTryUrl(String url) {
         if (url == null)
             return false;
-        if (alwaysTryUrl)
+        if (alwaysTryUrl) //If we should always try the URL, do so.
             return true;
-        if (repos.$length() == 0)
-            return true;
-        if (url.indexOf(&quot;/api/&quot;) != -1 || url.indexOf(&quot;/data/&quot;) != -1)
+        if (repos.$length() == 0) //If there are no repos defined, try the URL.
             return true;
         boolean validUrlFound = false;
         for (int i = 0; i &lt; repos.$length(); i++) {
@@ -1021,7 +1020,7 @@ public class EcRepository {
                 continue;
             validUrlFound = true;
         }
-        if (!validUrlFound)
+        if (!validUrlFound) //If there are no repos defined with a selectedServer, try the URL.
             return true;
         return false;
     }
@@ -1051,7 +1050,7 @@ public class EcRepository {
                 else {
                     boolean done = false;
                     for (int i = 0; i &lt; strings.$length(); i++) {
-                        if (strings.$get(i).id == url) {
+                        if (strings.$get(i).id == url || strings.$get(i).shortId() == url) {
                             if (done)
                                 Logger.log(&quot;Searching for exact ID:&quot; + url + &quot;, found more than one@:&quot; + repo.selectedServer);
                             done = true;
@@ -1092,7 +1091,7 @@ public class EcRepository {
             return findBlocking(url, error, history, i + 1);
         else {
             for (int j = 0; j &lt; strings.$length(); j++) {
-                if (strings.$get(j).id == url) {
+                if (strings.$get(j).id == url || strings.$get(j).shortId() == url) {
                     JSObjectAdapter.$properties(fetching).$delete(url);
                     if (caching) {
                         JSObjectAdapter.$put(cache, url, strings.$get(j));
@@ -1127,9 +1126,11 @@ public class EcRepository {
             }
         }
         if (!shouldTryUrl(originalUrl)) {
-            if (repos.$length() == 1)
-                url = EcRemoteLinkedData.veryShortId(repos.$get(0).selectedServer, EcCrypto.md5(url));
-            else {
+            if (repos.$length() == 1) {
+                if (!url.startsWith(repos.$get(0).selectedServer)) {
+                    url = EcRemoteLinkedData.veryShortId(repos.$get(0).selectedServer, EcCrypto.md5(url));
+                }
+            } else {
                 return EcRepository.findBlocking(originalUrl, &quot;Could not locate object. May be due to EcRepository.alwaysTryUrl flag.&quot;, new Object(), 0);
             }
         }
@@ -1412,7 +1413,7 @@ public class EcRepository {
             JSObjectAdapter.$properties(cache).$delete(data.id);
             JSObjectAdapter.$properties(cache).$delete(data.shortId());
             if (repo != null)
-                JSObjectAdapter.$properties(cache).$delete(EcRemoteLinkedData.veryShortId(repo.selectedServer,data.getGuid()));
+                JSObjectAdapter.$properties(cache).$delete(EcRemoteLinkedData.veryShortId(repo.selectedServer, data.getGuid()));
         }
         if (data.invalid()) {
             failure.$invoke(&quot;Data is malformed.&quot;);
@@ -1561,7 +1562,7 @@ public class EcRepository {
         if (caching) {
             JSObjectAdapter.$properties(cache).$delete(data.id);
             JSObjectAdapter.$properties(cache).$delete(data.shortId());
-            JSObjectAdapter.$properties(cache).$delete(EcRemoteLinkedData.veryShortId(selectedServer,data.getGuid()));
+            JSObjectAdapter.$properties(cache).$delete(EcRemoteLinkedData.veryShortId(selectedServer, data.getGuid()));
         }
         final String targetUrl;
         if (shouldTryUrl(data.id))
@@ -1683,7 +1684,7 @@ public class EcRepository {
                         }
                         JSObjectAdapter.$put(cache, d.shortId(), d);
                         JSObjectAdapter.$put(cache, d.id, d);
-                        JSObjectAdapter.$put(cache, EcRemoteLinkedData.veryShortId(me.selectedServer,d.getGuid()), d);
+                        JSObjectAdapter.$put(cache, EcRemoteLinkedData.veryShortId(me.selectedServer, d.getGuid()), d);
 
                     }
                 }
@@ -2057,9 +2058,9 @@ public class EcRepository {
             }
 
             if (ownership == &quot;public&quot;) {
-                query += &quot; AND (_missing_:@owner)&quot;;
+                query += &quot; AND (_missing_:owner) AND (_missing_:@owner)&quot;;
             } else if (ownership == &quot;owned&quot;) {
-                query += &quot; AND (_exists_:@owner)&quot;;
+                query += &quot; AND (_exists_:owner OR _exists_:@owner)&quot;;
             } else if (ownership == &quot;me&quot;) {
                 query += &quot; AND (&quot;;
                 for (int i = 0; i &lt; EcIdentityManager.ids.$length(); i++) {
@@ -2068,7 +2069,7 @@ public class EcRepository {
                     }
                     EcIdentity id = EcIdentityManager.ids.$get(i);
 
-                    query += &quot;@owner:\&quot;&quot; + id.ppk.toPk().toPem() + &quot;\&quot;&quot;;
+                    query += &quot;\\*owner:\&quot;&quot; + id.ppk.toPk().toPem() + &quot;\&quot;&quot;;
                 }
 
                 query += &quot;)&quot;;
@@ -2447,7 +2448,7 @@ public class EcRepository {
             if (caching) {
                 JSObjectAdapter.$put(cache, d.shortId(), d);
                 JSObjectAdapter.$put(cache, d.id, d);
-                JSObjectAdapter.$put(cache, EcRemoteLinkedData.veryShortId(selectedServer,d.getGuid()), d);
+                JSObjectAdapter.$put(cache, EcRemoteLinkedData.veryShortId(selectedServer, d.getGuid()), d);
             }
             if (eachSuccess != null) {
                 eachSuccess.$invoke(results.$get(i));

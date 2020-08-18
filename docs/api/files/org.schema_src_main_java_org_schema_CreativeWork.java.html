@@ -341,7 +341,6 @@
                             <li><a href="../classes/EntryPoint.html">EntryPoint</a></li>
                             <li><a href="../classes/Enumeration.html">Enumeration</a></li>
                             <li><a href="../classes/Episode.html">Episode</a></li>
-                            <li><a href="../classes/Event.html">Event</a></li>
                             <li><a href="../classes/EventReservation.html">EventReservation</a></li>
                             <li><a href="../classes/EventStatusType.html">EventStatusType</a></li>
                             <li><a href="../classes/EventVenue.html">EventVenue</a></li>
@@ -665,6 +664,7 @@
                             <li><a href="../classes/RVPark.html">RVPark</a></li>
                             <li><a href="../classes/SaleEvent.html">SaleEvent</a></li>
                             <li><a href="../classes/ScheduleAction.html">ScheduleAction</a></li>
+                            <li><a href="../classes/SchemaEvent.html">SchemaEvent</a></li>
                             <li><a href="../classes/ScholarlyArticle.html">ScholarlyArticle</a></li>
                             <li><a href="../classes/School.html">School</a></li>
                             <li><a href="../classes/ScreeningEvent.html">ScreeningEvent</a></li>
@@ -967,7 +967,7 @@ public class CreativeWork extends Thing {
 	public String text;
 	/**
 	 * Schema.org/contributor
-	 * A secondary contributor to the CreativeWork or Event.
+	 * A secondary contributor to the CreativeWork or SchemaEvent.
 	 *
 	 * @property contributor
 	 * @type Organization
@@ -1163,12 +1163,12 @@ public class CreativeWork extends Thing {
 	public String awards;
 	/**
 	 * Schema.org/recordedAt
-	 * The Event where the CreativeWork was recorded. The CreativeWork may capture all or part of the event.
+	 * The SchemaEvent where the CreativeWork was recorded. The CreativeWork may capture all or part of the event.
 	 *
 	 * @property recordedAt
-	 * @type Event
+	 * @type SchemaEvent
 	 */
-	public Event recordedAt;
+	public SchemaEvent recordedAt;
 	/**
 	 * Schema.org/commentCount
 	 * The number of comments this CreativeWork (e.g. Article, Question or Answer) has received. This is most applicable to works published in Web sites with commenting system; additional comments may exist elsewhere.

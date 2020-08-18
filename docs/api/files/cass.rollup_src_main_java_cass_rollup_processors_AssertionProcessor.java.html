@@ -341,7 +341,6 @@
                             <li><a href="../classes/EntryPoint.html">EntryPoint</a></li>
                             <li><a href="../classes/Enumeration.html">Enumeration</a></li>
                             <li><a href="../classes/Episode.html">Episode</a></li>
-                            <li><a href="../classes/Event.html">Event</a></li>
                             <li><a href="../classes/EventReservation.html">EventReservation</a></li>
                             <li><a href="../classes/EventStatusType.html">EventStatusType</a></li>
                             <li><a href="../classes/EventVenue.html">EventVenue</a></li>
@@ -665,6 +664,7 @@
                             <li><a href="../classes/RVPark.html">RVPark</a></li>
                             <li><a href="../classes/SaleEvent.html">SaleEvent</a></li>
                             <li><a href="../classes/ScheduleAction.html">ScheduleAction</a></li>
+                            <li><a href="../classes/SchemaEvent.html">SchemaEvent</a></li>
                             <li><a href="../classes/ScholarlyArticle.html">ScholarlyArticle</a></li>
                             <li><a href="../classes/School.html">School</a></li>
                             <li><a href="../classes/ScreeningEvent.html">ScreeningEvent</a></li>
@@ -1146,7 +1146,7 @@ public abstract class AssertionProcessor {
 		else if (IPType.COMPETENCY.equals(ip.type))
 			result = new EcAssertion().getSearchStringByTypeAndCompetency(competency);
 		for (int i = 0; i &lt; ip.subject.$length(); i++)
-			result += &quot; AND (\\*@reader:\&quot;&quot; + ip.subject.$get(i).toPem() + &quot;\&quot;)&quot;;
+			result += &quot; AND (\\*reader:\&quot;&quot; + ip.subject.$get(i).toPem() + &quot;\&quot;)&quot;;
 		log(ip, &quot;Search Query: &quot; + result);
 		if (result != null)
 			return result;
@@ -1168,7 +1168,7 @@ public abstract class AssertionProcessor {
 			result += &quot;)&quot;;
 		}
 		for (int i = 0; i &lt; ip.subject.$length(); i++)
-			result += &quot; AND (\\*@reader:\&quot;&quot; + ip.subject.$get(i).toPem() + &quot;\&quot;)&quot;;
+			result += &quot; AND (\\*reader:\&quot;&quot; + ip.subject.$get(i).toPem() + &quot;\&quot;)&quot;;
 		if (result != null)
 			return result;
 		throw new RuntimeException(&quot;Trying to build an assertion search query on an unsupported type: &quot; + ip.type);

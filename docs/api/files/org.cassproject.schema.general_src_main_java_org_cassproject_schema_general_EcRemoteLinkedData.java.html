@@ -341,7 +341,6 @@
                             <li><a href="../classes/EntryPoint.html">EntryPoint</a></li>
                             <li><a href="../classes/Enumeration.html">Enumeration</a></li>
                             <li><a href="../classes/Episode.html">Episode</a></li>
-                            <li><a href="../classes/Event.html">Event</a></li>
                             <li><a href="../classes/EventReservation.html">EventReservation</a></li>
                             <li><a href="../classes/EventStatusType.html">EventStatusType</a></li>
                             <li><a href="../classes/EventVenue.html">EventVenue</a></li>
@@ -665,6 +664,7 @@
                             <li><a href="../classes/RVPark.html">RVPark</a></li>
                             <li><a href="../classes/SaleEvent.html">SaleEvent</a></li>
                             <li><a href="../classes/ScheduleAction.html">ScheduleAction</a></li>
+                            <li><a href="../classes/SchemaEvent.html">SchemaEvent</a></li>
                             <li><a href="../classes/ScholarlyArticle.html">ScholarlyArticle</a></li>
                             <li><a href="../classes/School.html">School</a></li>
                             <li><a href="../classes/ScreeningEvent.html">ScreeningEvent</a></li>
@@ -1104,6 +1104,9 @@ public class EcRemoteLinkedData extends EcLinkedData {
         EcLinkedData d = (EcLinkedData) JSGlobal.JSON.parse(toJson());
 
         if (type.indexOf(&quot;http://schema.eduworks.com/&quot;) != -1 &amp;&amp; type.indexOf(&quot;/0.1/&quot;) != -1) {
+            JSObjectAdapter.$properties(d).$delete(&quot;signature&quot;);
+            JSObjectAdapter.$properties(d).$delete(&quot;owner&quot;);
+            JSObjectAdapter.$properties(d).$delete(&quot;reader&quot;);
             JSObjectAdapter.$properties(d).$delete(&quot;@signature&quot;);
             JSObjectAdapter.$properties(d).$delete(&quot;@owner&quot;);
             JSObjectAdapter.$properties(d).$delete(&quot;@reader&quot;);
@@ -1111,6 +1114,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
         } else {
             // Whom else has signed the object does not change the contents of
             // the object.
+            JSObjectAdapter.$properties(d).$delete(&quot;signature&quot;);
             JSObjectAdapter.$properties(d).$delete(&quot;@signature&quot;);
             // Where the object resides does not change the contents of the
             // object, and provides server administration capabilities.
@@ -1128,7 +1132,7 @@ public class EcRemoteLinkedData extends EcLinkedData {
 
     /**
      * Sign this object using a private key.
-     * Does not check for ownership, objects signed with keys absent from @owner or @reader may be removed.
+     * Does not check for ownership, objects signed with keys absent from owner or reader may be removed.
      *
      * @param {EcPpk} ppk Public private keypair.
      * @method signWith
@@ -1379,10 +1383,10 @@ public class EcRemoteLinkedData extends EcLinkedData {
         for (int i = 0; i &lt; types.$length(); i++) {
             if (result != &quot;&quot;)
                 result += &quot; OR &quot;;
-            result += &quot;@encryptedType:\&quot;&quot; + types.$get(i) + &quot;\&quot;&quot;;
+            result += &quot;\\*encryptedType:\&quot;&quot; + types.$get(i) + &quot;\&quot;&quot;;
 
             int lastSlash = types.$get(i).lastIndexOf(&quot;/&quot;);
-            result += &quot; OR (@context:\&quot;&quot; + Ebac.context + &quot;\&quot; AND @encryptedType:\&quot;&quot; + types.$get(i).substring(lastSlash + 1) + &quot;\&quot;)&quot;;
+            result += &quot; OR (@context:\&quot;&quot; + Ebac.context + &quot;\&quot; AND \\*encryptedType:\&quot;&quot; + types.$get(i).substring(lastSlash + 1) + &quot;\&quot;)&quot;;
         }
         return &quot;(&quot; + result + &quot;)&quot;;
     }
@@ -1428,6 +1432,30 @@ public class EcRemoteLinkedData extends EcLinkedData {
         headers.$put(&quot;Accept&quot;, &quot;text/turtle&quot;);
 
         EcRemote.postWithHeadersExpectingString(id, &quot;&quot;, fd, headers, success, failure);
+    }
+
+    /***
+     * Upgrades the object to the latest version, performing transforms and the like.
+     *
+     * @method upgrade
+     */
+    protected void upgrade() {
+        Map&lt;String, Object&gt; me = JSObjectAdapter.$properties(this);
+        if (me.$get(&quot;@owner&quot;) != null) {
+            me.$put(&quot;owner&quot;, me.$get(&quot;@owner&quot;));
+        }
+        if (me.$get(&quot;@reader&quot;) != null) {
+            me.$put(&quot;reader&quot;, me.$get(&quot;@reader&quot;));
+        }
+        if (me.$get(&quot;@signature&quot;) != null) {
+            me.$put(&quot;signature&quot;, me.$get(&quot;@signature&quot;));
+        }
+        if (me.$get(&quot;@encryptedType&quot;) != null) {
+            me.$put(&quot;encryptedType&quot;, me.$get(&quot;@encryptedType&quot;));
+        }
+        if (me.$get(&quot;@encryptedContext&quot;) != null) {
+            me.$put(&quot;encryptedContext&quot;, me.$get(&quot;@encryptedContext&quot;));
+        }
     }
 }
 

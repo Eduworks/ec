@@ -341,7 +341,6 @@
                             <li><a href="../classes/EntryPoint.html">EntryPoint</a></li>
                             <li><a href="../classes/Enumeration.html">Enumeration</a></li>
                             <li><a href="../classes/Episode.html">Episode</a></li>
-                            <li><a href="../classes/Event.html">Event</a></li>
                             <li><a href="../classes/EventReservation.html">EventReservation</a></li>
                             <li><a href="../classes/EventStatusType.html">EventStatusType</a></li>
                             <li><a href="../classes/EventVenue.html">EventVenue</a></li>
@@ -665,6 +664,7 @@
                             <li><a href="../classes/RVPark.html">RVPark</a></li>
                             <li><a href="../classes/SaleEvent.html">SaleEvent</a></li>
                             <li><a href="../classes/ScheduleAction.html">ScheduleAction</a></li>
+                            <li><a href="../classes/SchemaEvent.html">SchemaEvent</a></li>
                             <li><a href="../classes/ScholarlyArticle.html">ScholarlyArticle</a></li>
                             <li><a href="../classes/School.html">School</a></li>
                             <li><a href="../classes/ScreeningEvent.html">ScreeningEvent</a></li>
@@ -1353,10 +1353,12 @@ public class EcIdentityManager {
 	 */
 	public static EbacSignature createSignature(long duration, String server, EcPpk ppk) {
 		EbacSignature s = new EbacSignature();
-		s.owner = ppk.toPk().toPem();
 		s.expiry = new Date().getTime() + duration;
 		s.server = server;
-		s.signature = EcRsaOaep.sign(ppk, s.toJson());
+		//s.owner = ; //Changed to use @owner and @signature for backwards compatibility.
+		//s.signature = ; //This is only used to communicate with CaSS servers anyway, so JSON-LD 1.1 compliance isn&#x27;t paramount.
+		JSObjectAdapter.$put(s,&quot;@owner&quot;,ppk.toPk().toPem());
+		JSObjectAdapter.$put(s,&quot;@signature&quot;,EcRsaOaep.sign(ppk, s.toJson()));
 		return s;
 	}
 
@@ -1498,9 +1500,9 @@ public class EcIdentityManager {
 			if (i &gt; 0) {
 				searchString += &quot; OR &quot;;
 			}
-			searchString += &quot;@reader:\&quot;&quot; + ids.$get(i).ppk.toPk().toPem() + &quot;\&quot;&quot;;
+			searchString += &quot;\\*reader:\&quot;&quot; + ids.$get(i).ppk.toPk().toPem() + &quot;\&quot;&quot;;
 			searchString += &quot; OR &quot;;
-			searchString += &quot;@owner:\&quot;&quot; + ids.$get(i).ppk.toPk().toPem() + &quot;\&quot;&quot;;
+			searchString += &quot;\\*owner:\&quot;&quot; + ids.$get(i).ppk.toPk().toPem() + &quot;\&quot;&quot;;
 		}
 		return searchString;
 	}

@@ -341,7 +341,6 @@
                             <li><a href="../classes/EntryPoint.html">EntryPoint</a></li>
                             <li><a href="../classes/Enumeration.html">Enumeration</a></li>
                             <li><a href="../classes/Episode.html">Episode</a></li>
-                            <li><a href="../classes/Event.html">Event</a></li>
                             <li><a href="../classes/EventReservation.html">EventReservation</a></li>
                             <li><a href="../classes/EventStatusType.html">EventStatusType</a></li>
                             <li><a href="../classes/EventVenue.html">EventVenue</a></li>
@@ -665,6 +664,7 @@
                             <li><a href="../classes/RVPark.html">RVPark</a></li>
                             <li><a href="../classes/SaleEvent.html">SaleEvent</a></li>
                             <li><a href="../classes/ScheduleAction.html">ScheduleAction</a></li>
+                            <li><a href="../classes/SchemaEvent.html">SchemaEvent</a></li>
                             <li><a href="../classes/ScholarlyArticle.html">ScholarlyArticle</a></li>
                             <li><a href="../classes/School.html">School</a></li>
                             <li><a href="../classes/ScreeningEvent.html">ScreeningEvent</a></li>
@@ -946,9 +946,9 @@ public class Place extends Thing {
 	 * Upcoming or past events associated with this place or organization.
 	 *
 	 * @property events
-	 * @type Event
+	 * @type SchemaEvent
 	 */
-	public Event events;
+	public SchemaEvent events;
 	/**
 	 * Schema.org/specialOpeningHoursSpecification
 	 * The special opening hours of a certain place.\n\nUse this to explicitly override general opening hours brought in scope by [[openingHoursSpecification]] or [[openingHours]].
@@ -1002,9 +1002,9 @@ public class Place extends Thing {
 	 * Upcoming or past event associated with this place, organization, or action.
 	 *
 	 * @property event
-	 * @type Event
+	 * @type SchemaEvent
 	 */
-	public Event event;
+	public SchemaEvent event;
 	/**
 	 * Schema.org/containsPlace
 	 * The basic containment relation between a place and another that it contains.

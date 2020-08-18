@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>com.eduworks</groupId>
 		<artifactId>ec</artifactId>
-		<version>2.11.8</version>
+		<version>3.0.1</version>
 	</parent>
 	<groupId>com.eduworks</groupId>
 	<artifactId>com.eduworks.schema</artifactId>
-	<version>2.11.8</version>
+	<version>3.0.1</version>
 	<name>com.eduworks.schema</name>
 	<url>http://maven.apache.org</url>
 	<properties>
@@ -20,17 +20,17 @@
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>org.schema</artifactId>
-			<version>2.11.8</version>
+			<version>3.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>ebac.repository</artifactId>
-			<version>2.11.8</version>
+			<version>3.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>cass.competency</artifactId>
-			<version>2.11.8</version>
+			<version>3.0.1</version>
 		</dependency>
 	</dependencies>
 </project>
