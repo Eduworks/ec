@@ -131,10 +131,19 @@ public class SkyRepo {
                     levr.error("A Signature is Expired. My time is " + now + " and the signature expires at " + signature.expiry, 419);
 
                 String signBytes = signature.signature;
+                if (signBytes == null)
+                    signBytes = (String) JSObjectAdapter.$get(signature,"@signature");
                 signature.signature = null;
+                JSObjectAdapter.$put(signature,"@signature",null);
 
-                if (!EcRsaOaep.verify(EcPk.fromPem(signature.owner), signature.toJson(), signBytes))
+                String owner = signature.owner;
+                if (owner == null)
+                    owner = (String) JSObjectAdapter.$get(signature,"@owner");
+                JSObjectAdapter.$put(signature,"@owner",owner);
+                signature.owner = null;
+                if (!EcRsaOaep.verify(EcPk.fromPem(owner), signature.toJson(), signBytes))
                     levr.error("Invalid Signature Detected: " + signature.toJson(), 451);
+                signature.owner = (String)JSObjectAdapter.$get(signature,"@owner");
                 sigSheet.$set(i, signature);
             }
 

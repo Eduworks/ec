@@ -534,10 +534,12 @@ public class EcIdentityManager {
 	 */
 	public static EbacSignature createSignature(long duration, String server, EcPpk ppk) {
 		EbacSignature s = new EbacSignature();
-		s.owner = ppk.toPk().toPem();
 		s.expiry = new Date().getTime() + duration;
 		s.server = server;
-		s.signature = EcRsaOaep.sign(ppk, s.toJson());
+		//s.owner = ; //Changed to use @owner and @signature for backwards compatibility.
+		//s.signature = ; //This is only used to communicate with CaSS servers anyway, so JSON-LD 1.1 compliance isn't paramount.
+		JSObjectAdapter.$put(s,"@owner",ppk.toPk().toPem());
+		JSObjectAdapter.$put(s,"@signature",EcRsaOaep.sign(ppk, s.toJson()));
 		return s;
 	}
 
