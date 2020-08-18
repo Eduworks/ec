@@ -558,13 +558,13 @@ public class EcIdentityManager {
 	 */
 	private static void createSignatureAsync(long duration, String server, EcPpk ppk, final Callback1<EbacSignature> success, final Callback1<String> failure) {
 		final EbacSignature s = new EbacSignature();
-		s.owner = ppk.toPk().toPem();
+		JSObjectAdapter.$put(s,"@owner",ppk.toPk().toPem());
 		s.expiry = new Date().getTime() + duration;
 		s.server = server;
 		EcRsaOaepAsync.sign(ppk, s.toJson(), new Callback1<String>() {
 			@Override
 			public void $invoke(String p1) {
-				s.signature = p1;
+				JSObjectAdapter.$put(s, "@signature", p1);
 				success.$invoke(s);
 			}
 		}, failure);
