@@ -649,7 +649,11 @@ public class SkyRepo {
                 Array<EbacSignature> signatures = JSFunctionAdapter.call(signatureSheet, this);
                 boolean success = false;
                 for (int i = 0; i < signatures.$length(); i++) {
-                    if (oldObj.hasOwner(EcPk.fromPem(signatures.$get(i).owner))) {
+                    String owner = signatures.$get(i).owner;
+                    if (owner == null) {
+                        owner = (String) JSObjectAdapter.$get(signatures.$get(i),"@owner");
+                    }
+                    if (oldObj.hasOwner(EcPk.fromPem(owner))) {
                         success = true;
                         break;
                     }
