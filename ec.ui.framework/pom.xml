@@ -4,21 +4,21 @@
   <parent>
     <groupId>com.eduworks</groupId>
     <artifactId>ec</artifactId>
-    <version>3.0.1</version>
+    <version>3.0.2</version>
   </parent>
 	<artifactId>ec.ui.framework</artifactId>
-	<version>3.0.1</version>
+	<version>3.0.2</version>
 	<name>ec.ui.framework</name>
 	<dependencies>
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>ec.base</artifactId>
-			<version>3.0.1</version>
+			<version>3.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>ebac.repository</artifactId>
-			<version>3.0.1</version>
+			<version>3.0.2</version>
 		</dependency>
 	</dependencies>
 </project>
