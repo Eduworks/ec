@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>com.eduworks</groupId>
 		<artifactId>ec</artifactId>
-		<version>3.0.5</version>
+		<version>3.0.6</version>
 	</parent>
 	<groupId>com.eduworks</groupId>
 	<artifactId>org.cassproject.schema.cass</artifactId>
-	<version>3.0.5</version>
+	<version>3.0.6</version>
 	<name>org.cassproject.schema.cass</name>
 	<url>http://maven.apache.org</url>
 	<properties>
@@ -20,27 +20,27 @@
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>ec.crypto</artifactId>
-			<version>3.0.5</version>
+			<version>3.0.6</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>ebac.repository</artifactId>
-			<version>3.0.5</version>
+			<version>3.0.6</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>org.json-ld</artifactId>
-			<version>3.0.5</version>
+			<version>3.0.6</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>org.schema</artifactId>
-			<version>3.0.5</version>
+			<version>3.0.6</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>org.cassproject.schema.general</artifactId>
-			<version>3.0.5</version>
+			<version>3.0.6</version>
 		</dependency>
 	</dependencies>
 </project>
