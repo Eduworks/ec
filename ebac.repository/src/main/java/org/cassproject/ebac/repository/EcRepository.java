@@ -610,12 +610,18 @@ public class EcRepository {
             @Override
             public void $invoke(String signatureSheet) {
                 fd.append("signatureSheet", signatureSheet);
-                if (!alwaysTryUrl)
-                    if (repo != null)
+                if (!alwaysTryUrl) {
+                    if (repo != null) {
+                        if (data.id.indexOf(repo.selectedServer) != -1) {
+                            EcRemote.postExpectingString(data.id, "", fd, success, failure);
+                            return;
+                        }
                         if (!repo.shouldTryUrl(data.id) || data.id.indexOf(repo.selectedServer) == -1) {
                             EcRemote.postExpectingString(urlAppend(repo.selectedServer, "data/" + data.getDottedType() + "/" + EcCrypto.md5(data.shortId())), "", fd, success, failure);
                             return;
                         }
+                    }
+                }
                 EcRemote.postExpectingString(data.id, "", fd, success, failure);
             }
         };
