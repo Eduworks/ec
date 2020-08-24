@@ -540,7 +540,7 @@ public class EcRepository {
                 failure.$invoke("Data is malformed.");
                 return;
             }
-            if (alwaysTryUrl || this.shouldTryUrl(d.id))
+            if (alwaysTryUrl || this.shouldTryUrl(d.id) || d.id.indexOf(selectedServer) != -1)
                 d.updateTimestamp();
             if (d.owner != null)
                 for (int j = 0; j < d.owner.$length(); j++)
@@ -752,7 +752,7 @@ public class EcRepository {
             JSObjectAdapter.$properties(cache).$delete(EcRemoteLinkedData.veryShortId(selectedServer, data.getGuid()));
         }
         final String targetUrl;
-        if (shouldTryUrl(data.id))
+        if (shouldTryUrl(data.id) || data.id.indexOf(selectedServer) != -1)
             targetUrl = urlAppend(selectedServer, "data/" + data.getDottedType() + "/" + data.getGuid());
         else
             targetUrl = urlAppend(selectedServer, "data/" + data.getDottedType() + "/" + EcCrypto.md5(data.shortId()));
