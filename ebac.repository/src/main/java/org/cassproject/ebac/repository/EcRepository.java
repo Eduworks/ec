@@ -601,7 +601,7 @@ public class EcRepository {
             return;
         }
 
-        if (alwaysTryUrl || repo == null || repo.shouldTryUrl(data.id))
+        if (alwaysTryUrl || repo == null || repo.shouldTryUrl(data.id) || (repo != null && data.id.indexOf(repo.selectedServer) != -1))
             data.updateTimestamp();
 
         final FormData fd = new FormData();
