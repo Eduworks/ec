@@ -985,7 +985,7 @@ public class SkyRepo {
             ld.copyFrom(o);
 
             String id = null;
-            if (!EcRepository.alwaysTryUrl && levr.repo != null && !levr.repo.shouldTryUrl(ld.id))
+            if (!EcRepository.alwaysTryUrl && levr.repo != null && !levr.repo.shouldTryUrl(ld.id) && ld.id.indexOf(levr.repo.selectedServer) == -1)
                 id = levr.stringToHex(levr.md5(ld.shortId()));
             else
                 id = ld.getGuid();
