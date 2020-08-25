@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>com.eduworks</groupId>
 		<artifactId>ec</artifactId>
-		<version>3.0.8</version>
+		<version>3.0.9</version>
 	</parent>
 	<groupId>com.eduworks</groupId>
 	<artifactId>org.json-ld</artifactId>
-	<version>3.0.8</version>
+	<version>3.0.9</version>
 	<name>org.json-ld</name>
 	<url>http://maven.apache.org</url>
 	<properties>
@@ -20,7 +20,7 @@
 		<dependency>
 			<groupId>com.eduworks</groupId>
 			<artifactId>ec.base</artifactId>
-			<version>3.0.8</version>
+			<version>3.0.9</version>
 		</dependency>
 	</dependencies>
 </project>
