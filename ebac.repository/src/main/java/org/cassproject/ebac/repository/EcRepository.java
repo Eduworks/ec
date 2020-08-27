@@ -1771,6 +1771,8 @@ public class EcRepository {
                                     if (p1.isAny(result.getTypes())) {
                                         result.copyFrom(p1);
                                         set.$invoke(result);
+                                    } else {
+                                        set.$invoke(null);
                                     }
                                 }
                             }, EcAsyncHelper.setNull(set));
