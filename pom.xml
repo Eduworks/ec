@@ -181,7 +181,7 @@
                         </goals>
 						<configuration>
 							<excludePackageNames>forge</excludePackageNames>
-                            <additionalparam>-Xdoclint:none</additionalparam>
+                            <additionalOptions>-Xdoclint:none</additionalOptions>
 						</configuration>
                     </execution>
                 </executions>
