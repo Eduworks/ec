@@ -74,7 +74,7 @@ public class EcPk {
      */
     public String toPem() {
         if (defaultPem == null)
-            defaultPem = pki.publicKeyToPem(pk).replaceAll("\r?\n", "");
+            defaultPem = pki.publicKeyToPem(pk).replaceAll("\r", "").replaceAll("\n", "");
         return defaultPem;
     }
 
@@ -86,7 +86,7 @@ public class EcPk {
      * @method toPkcs1Pem
      */
     public String toPkcs1Pem() {
-        return pki.publicKeyToRSAPublicKeyPem(pk).replaceAll("\r?\n", "");
+        return pki.publicKeyToRSAPublicKeyPem(pk).replaceAll("\r", "").replaceAll("\n", "");
     }
 
     /**
@@ -97,7 +97,7 @@ public class EcPk {
      * @method toPkcs8Pem
      */
     public String toPkcs8Pem() {
-        return pki.publicKeyToPem(pk).replaceAll("\r?\n", "");
+        return pki.publicKeyToPem(pk).replaceAll("\r", "").replaceAll("\n", "");
     }
 
     public Object toJwk() {

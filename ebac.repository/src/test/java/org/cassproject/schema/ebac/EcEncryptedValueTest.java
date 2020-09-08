@@ -326,16 +326,16 @@ public class EcEncryptedValueTest {
 			console.log("Owner Search, searching for signature 1 using signature 1 signatureSheet.");
 			r.searchWithParams("\\*owner:\"" + ppk.toPk().toPem() + "\"", o,eachCallback, success, failure);
 			console.log("Owner Search minus whitespace, searching for signature 1 using signature 1 signatureSheet.");
-			r.searchWithParams("\\*owner:\"" + ppk.toPk().toPem().replaceAll("\r?\n", "") + "\"", o,eachCallback, success, failure);
+			r.searchWithParams("\\*owner:\"" + ppk.toPk().toPem().replaceAll("\r", "").replaceAll("\n", "") + "\"", o,eachCallback, success, failure);
 			console.log("Reader Search, searching for signature 2 using signature 1 signatureSheet.");
 			r.searchWithParams("\\*reader:\"" + ppk2.toPk().toPem() + "\" OR \\*reader:\"" + ppk2.toPk().toPem() + "\"", o,eachCallback, success, failure);
 			console.log("Reader Search minus whitespace, searching for signature 2 using signature 1 signatureSheet.");
-			r.searchWithParams("\\*reader:\"" + ppk2.toPk().toPem().replaceAll("\r?\n", "") + "\" OR \\*reader:\"" + ppk2.toPk().toPem().replaceAll("\r?\n", "") + "\"",
+			r.searchWithParams("\\*reader:\"" + ppk2.toPk().toPem().replaceAll("\r", "").replaceAll("\n", "") + "\" OR \\*reader:\"" + ppk2.toPk().toPem().replaceAll("\r", "").replaceAll("\n", "") + "\"",
 					o,eachCallback, success, failure);
 			console.log("_all Search, searching for signature 1 using signature 1 signatureSheet.");
 			r.searchWithParams("\"" + ppk.toPk().toPem() + "\"", o,eachCallback, success, failure);
 			console.log("_all Search minus whitespace, searching for signature 1 using signature 1 signatureSheet.");
-			r.searchWithParams("\"" + ppk.toPk().toPem().replaceAll("\r?\n", "") + "\"", o,eachCallback, success, failure);
+			r.searchWithParams("\"" + ppk.toPk().toPem().replaceAll("\r", "").replaceAll("\n", "") + "\"", o,eachCallback, success, failure);
 
 			EcIdentityManager.ids = new Array<EcIdentity>();
 			EcIdentityManager.addIdentity(newId2);
