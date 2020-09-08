@@ -937,7 +937,7 @@ public class EcPpk {
 	 */
 	public String toPem() {
 		if (defaultPem == null)
-			defaultPem = forge.pki.privateKeyToPem(ppk).replaceAll(&quot;\r?\n&quot;, &quot;&quot;);
+			defaultPem = forge.pki.privateKeyToPem(ppk).replaceAll(&quot;\r&quot;, &quot;&quot;).replaceAll(&quot;\n&quot;, &quot;&quot;);
 		return defaultPem;
 	}
 
@@ -949,7 +949,7 @@ public class EcPpk {
 	 * @method toPkcs1Pem
 	 */
 	public String toPkcs1Pem() {
-		return forge.pki.privateKeyToPem(ppk).replaceAll(&quot;\r?\n&quot;, &quot;&quot;);
+		return forge.pki.privateKeyToPem(ppk).replaceAll(&quot;\r&quot;, &quot;&quot;).replaceAll(&quot;\n&quot;, &quot;&quot;);
 	}
 
 	/**
@@ -960,7 +960,7 @@ public class EcPpk {
 	 * @method toPkcs8Pem
 	 */
 	public String toPkcs8Pem() {
-		return forge.pki.privateKeyInfoToPem(forge.pki.wrapRsaPrivateKey(forge.pki.privateKeyToAsn1(ppk))).replaceAll(&quot;\r?\n&quot;, &quot;&quot;);
+		return forge.pki.privateKeyInfoToPem(forge.pki.wrapRsaPrivateKey(forge.pki.privateKeyToAsn1(ppk))).replaceAll(&quot;\r&quot;, &quot;&quot;).replaceAll(&quot;\n&quot;, &quot;&quot;);
 	}
 
 	public Object toJwk() {
