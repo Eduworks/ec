@@ -1,4 +1,99 @@
+
+if (java.lang.System.getenv("ELASTICSEARCH_ENDPOINT") != null)
+    elasticEndpoint = java.lang.System.getenv("ELASTICSEARCH_ENDPOINT");
+
 skyrepoMigrate = function () {
+    var elasticState = httpGet(elasticEndpoint + "/", true);
+    console.log("Current Elasticsearch Version: " + elasticState.version.number);
+    console.log("Current Minimum Index Compatibility Version: " + elasticState.version.minimum_index_compatibility_version);
+    if (elasticState.version.number == "7.9.2" && elasticState.version.minimum_index_compatibility_version == "6.0.0-beta1")
+    {
+        var settings = httpGet(elasticEndpoint + "/_settings", true);
+        var indices = EcObject.keys(settings);
+        for (var i = 0; i < indices.length; i++)
+        {
+            var index = indices[i];
+            console.log("Checking to see if " + index + " needs upgrading...");
+            if (index.startsWith("."))
+            {
+                continue;
+            }
+            if (settings[index].settings.index.version.created != "6081299")
+            {
+                continue;
+            }
+            console.log("Reindexing " + index + " -> .temp."+index);
+            console.log(httpPost(JSON.stringify({
+                source:{index:index},
+                dest:{index:".temp."+index,version_type:"external"}
+            }),elasticEndpoint+"/_reindex?refresh=true", "application/json", "false"));
+            console.log("Deleting " + index);
+            console.log(httpDelete(elasticEndpoint+"/"+index,true));
+            if (index == "permanent")
+            {
+                var mappings = new Object();
+                var permNoIndex = new Object();
+                var doc = new Object();
+                (mappings)["mappings"] = permNoIndex;
+                (permNoIndex)["_doc"] = doc;
+                (doc)["enabled"] = false;
+                var result = httpPut(mappings, elasticEndpoint + "/permanent", "application/json", null, true);
+                if (skyrepoDebug)
+                    console.log(JSON.stringify(result));
+            }
+            console.log("Reindexing .temp." + index + " -> "+index);
+            console.log(httpPost(JSON.stringify({
+                source:{index:".temp."+index},
+                dest:{index:index,version_type:"external"}
+            }),elasticEndpoint+"/_reindex?refresh=true", "application/json", "false"));
+            console.log("Deleting .temp." + index);
+            console.log(httpDelete(elasticEndpoint+"/.temp."+index,true));
+        }
+    }
+    if (elasticState.version.number == "6.8.12" && elasticState.version.minimum_index_compatibility_version == "5.0.0")
+    {
+        var settings = httpGet(elasticEndpoint + "/_settings", true);
+        var indices = EcObject.keys(settings);
+        for (var i = 0; i < indices.length; i++)
+        {
+            var index = indices[i];
+            console.log("Checking to see if " + index + " needs upgrading...");
+            if (index.startsWith("."))
+            {
+                continue;
+            }
+            if (settings[index].settings.index.version.created != "5061299")
+            {
+                continue;
+            }
+            console.log("Reindexing " + index + " -> .temp."+index);
+            console.log(httpPost(JSON.stringify({
+                source:{index:index},
+                dest:{index:".temp."+index,version_type:"external"}
+            }),elasticEndpoint+"/_reindex?refresh=true", "application/json", "false"));
+            console.log("Deleting " + index);
+            console.log(httpDelete(elasticEndpoint+"/"+index,true));
+            if (index == "permanent")
+            {
+                var mappings = new Object();
+                var permNoIndex = new Object();
+                var doc = new Object();
+                (mappings)["mappings"] = permNoIndex;
+                (permNoIndex)["permanent"] = doc;
+                (doc)["enabled"] = false;
+                var result = httpPut(mappings, elasticEndpoint + "/permanent", "application/json", null, true);
+                if (skyrepoDebug)
+                    console.log(JSON.stringify(result));
+            }
+            console.log("Reindexing .temp." + index + " -> "+index);
+            console.log(httpPost(JSON.stringify({
+                source:{index:".temp."+index},
+                dest:{index:index,version_type:"external"}
+            }),elasticEndpoint+"/_reindex?refresh=true", "application/json", "false"));
+            console.log("Deleting .temp." + index);
+            console.log(httpDelete(elasticEndpoint+"/.temp."+index,true));
+        }
+    }
     if (!fileExists("skyrepo"))
         return;
     var settings = elasticMapping();
@@ -103,7 +198,7 @@ skyrepoBackup = function () {
                 else if (backup.indexed[key] == null)
                     backup.indexed[key] = hits[i]["_source"];
         }
-        results = httpGet(elasticEndpoint + "/_search/scroll?scroll=1m&scroll_id=" + scroll);
+        results = httpPost(JSON.stringify({scroll:"1m",scroll_id:scroll}),elasticEndpoint + "/_search/scroll", "application/json", "false");
     }
     return JSON.stringify(backup, null, 2);
 }
