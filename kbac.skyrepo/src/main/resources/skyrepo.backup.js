@@ -62,7 +62,7 @@ skyrepoMigrate = function () {
             {
                 continue;
             }
-            if (settings[index].settings.index.version.created != "5061299")
+            if (settings[index].settings.index.version.created != "5061299" && settings[index].settings.index.version.created != "5040099")
             {
                 continue;
             }
