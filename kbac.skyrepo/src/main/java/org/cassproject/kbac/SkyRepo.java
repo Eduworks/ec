@@ -18,6 +18,13 @@ import org.stjs.javascript.functions.*;
 public class SkyRepo {
     public static boolean skyrepoDebug = false;
 
+    public static Object elasticSearchInfo = null;
+    public static String elasticSearchVersion(){
+        if (elasticSearchInfo == null)
+            elasticSearchInfo = (Object)levr.httpGet(elasticEndpoint + "/",true);
+        return (String)JSObjectAdapter.$get(JSObjectAdapter.$get(elasticSearchInfo,"version"),"number");
+    }
+
     public static String elasticEndpoint = "http://localhost:9200";
 
     public static String owner() {
@@ -266,7 +273,10 @@ public class SkyRepo {
 
         String url = elasticEndpoint;
         url += "/" + typeFromObj.toLowerCase();
-        url += "/" + typeFromObj;
+        if (elasticSearchVersion().startsWith("7."))
+            url += "/_doc";
+        else
+            url += "/" + typeFromObj;
         url += "/" + levr.urlEncode(id) + versionPart;
         if (skyrepoDebug)
             Global.console.log("Put:" + url);
@@ -285,7 +295,10 @@ public class SkyRepo {
 
         String url = elasticEndpoint;
         url += "/permanent";
-        url += "/permanent";
+        if (elasticSearchVersion().startsWith("7."))
+            url += "/_doc";
+        else
+            url += "/permanent";
         url += "/" + levr.urlEncode(id) + "." + (version == null ? "" : version) + versionPart;
 
         if (skyrepoDebug)
@@ -305,7 +318,10 @@ public class SkyRepo {
 
         String url = elasticEndpoint;
         url += "/permanent";
-        url += "/permanent";
+        if (elasticSearchVersion().startsWith("7."))
+            url += "/_doc";
+        else
+            url += "/permanent";
         url += "/" + levr.urlEncode(id) + "." + versionPart;
 
         if (skyrepoDebug)
@@ -314,16 +330,20 @@ public class SkyRepo {
     }
 
     private static String getUrl(String index, String id, Integer version, String type) {
-        String typeFromObj = inferTypeWithoutObj(type);
 
         //<endpoint>/<index>/<type>/<id> -- Form of an elasticsearch query
 
         String url = elasticEndpoint;
         url += "/" + index;
-        if (index == "permanent")
+        if (elasticSearchVersion().startsWith("7."))
+            url += "/_doc";
+        else if (index == "permanent")
             url += "/permanent";
         else
+        {
+            String typeFromObj = inferTypeWithoutObj(type);
             url += "/" + typeFromObj;
+        }
         if (index == "permanent")
             url += "/" + levr.urlEncode(id) + "." + (version == null ? "" : version);
         else
@@ -342,7 +362,10 @@ public class SkyRepo {
             refreshPart = "refresh=" + ctx.get("refresh");
         String url = elasticEndpoint;
         url += "/" + typeFromObj.toLowerCase();
-        url += "/" + typeFromObj;
+        if (elasticSearchVersion().startsWith("7."))
+            url += "/_doc";
+        else
+            url += "/" + typeFromObj;
         url += "/" + levr.urlEncode(id);
         url += "?" + refreshPart;
 
@@ -354,7 +377,10 @@ public class SkyRepo {
     private static String deletePermanentBaseUrl(String id, Integer version, String type) {
         String url = elasticEndpoint;
         url += "/permanent";
-        url += "/permanent";
+        if (elasticSearchVersion().startsWith("7."))
+            url += "/_doc";
+        else
+            url += "/permanent";
         url += "/" + levr.urlEncode(id) + ".";
 
         if (skyrepoDebug)
@@ -949,7 +975,10 @@ public class SkyRepo {
                 Integer version = (Integer) JSObjectAdapter.$get(parseParams, "version");
                 Object p = new Object();
                 JSObjectAdapter.$put(p, "_index", "permanent");
-                JSObjectAdapter.$put(p, "_type", "permanent");
+                if (elasticSearchVersion().startsWith("7."))
+                    JSObjectAdapter.$put(p, "_type", "_doc");
+                else
+                    JSObjectAdapter.$put(p, "_type", "permanent");
                 JSObjectAdapter.$put(p, "_id", id + "." + (version == null ? "" : version));
                 docs.push(p);
             }
