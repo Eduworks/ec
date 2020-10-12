@@ -97,6 +97,7 @@ public class SkyRepo {
                 try {
                     sigSheet = sigSheet.concat((Array) Global.JSON.parse(stringFromDatastream));
                 } catch (Exception ex) {
+                    levr.error("Missing or Malformed Signature.", 496);
                 }
 
             //Pull signature from headers. Useful in GET, PUT, DELETE

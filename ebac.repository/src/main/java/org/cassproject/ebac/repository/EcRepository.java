@@ -810,6 +810,7 @@ public class EcRepository {
         for (int i = 0; i < urls.$length(); i++) {
             String url = urls.$get(i);
             if (JSObjectAdapter.$get(cache, url) != null) {
+                //Do nothing.
             } else if (url.startsWith(selectedServer)) {
                 cacheUrls.push(url.replace(selectedServer, "").replace("custom/", ""));
             } else {
