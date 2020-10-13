@@ -706,6 +706,7 @@ public class EcRepository {
                                     return;
                                 }
                             }
+                            if (failure != null)
                             failure.$invoke("Cannot delete object without a signature. If deleting from a server, use the non-static _delete");
                         } else
                             EcRemote._delete(targetUrl, signatureSheet, success, failure);
@@ -720,7 +721,8 @@ public class EcRepository {
                             return;
                         }
                     }
-                    failure.$invoke("Cannot delete object without a signature. If deleting from a server, use the non-static _delete");
+                    if (failure != null)
+                        failure.$invoke("Cannot delete object without a signature. If deleting from a server, use the non-static _delete");
                 } else
                     EcRemote._delete(targetUrl, signatureSheet, success, failure);
             }

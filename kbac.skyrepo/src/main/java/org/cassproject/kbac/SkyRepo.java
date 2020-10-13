@@ -250,6 +250,9 @@ public class SkyRepo {
         fullType = fullType.replace("/", ".");
         fullType = fullType.replace("/", ".");
         fullType = fullType.replace("/", ".");
+        fullType = fullType.replace(":", ".");
+        fullType = fullType.replace(":", ".");
+        fullType = fullType.replace(":", ".");
         return fullType;
     }
 
