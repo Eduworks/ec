@@ -6,6 +6,7 @@ import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.Map;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 
 public class UserManager {
 	private static final String CREATE = "create";
@@ -15,7 +16,7 @@ public class UserManager {
 		selectedServer = server;
 	}
 
-	public static void createUser(String username, String password, final Callback1<Object> success, final Callback1<String> fail) {
+	public static void createUser(String username, String password, final Callback1<Object> success, final Callback2<String, Integer> fail) {
 		Map<String, String> data = JSCollections.$map(
 				"userId", username,
 				"password", password

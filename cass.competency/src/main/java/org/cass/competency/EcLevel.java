@@ -11,6 +11,7 @@ import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.javascript.functions.Function0;
 
 /**
@@ -39,7 +40,7 @@ public class EcLevel extends Level {
 	 * @method get
 	 * @static
 	 */
-	public static void get(String id, final Callback1<EcLevel> success, final Callback1<String> failure) {
+	public static void get(String id, final Callback1<EcLevel> success, final Callback2<String, Integer> failure) {
 		EcRepository.getAs(id,new EcLevel(),success,failure);
 	}
 
@@ -76,7 +77,7 @@ public class EcLevel extends Level {
 	 * @method search
 	 * @static
 	 */
-	public static void search(EcRepository repo, String query, final Callback1<Array<EcLevel>> success, Callback1<String> failure, Object paramObj) {
+	public static void search(EcRepository repo, String query, final Callback1<Array<EcLevel>> success, Callback2<String, Integer> failure, Object paramObj) {
 		EcRepository.searchAs(repo, query, new Function0() {
 			@Override
 			public Object $invoke() {
@@ -102,9 +103,9 @@ public class EcLevel extends Level {
 	 * @method searchByCompetency
 	 * @static
 	 */
-	public static void searchByCompetency(EcRepository repo, final String competencyId, final Callback1<Array<EcLevel>> success, Callback1<String> failure, Object paramObj) {
+	public static void searchByCompetency(EcRepository repo, final String competencyId, final Callback1<Array<EcLevel>> success, Callback2<String, Integer> failure, Object paramObj) {
 		if (competencyId == null || competencyId == "") {
-			failure.$invoke("No Competency Specified");
+			failure.$invoke("No Competency Specified", 400);
 			return;
 		}
 
@@ -127,7 +128,7 @@ public class EcLevel extends Level {
 	 * @memberOf EcLevel
 	 * @method addRelationship
 	 */
-	public void addRelationship(EcLevel targetLevel, String alignmentType, final EcPpk identity, final String serverUrl, Callback1<String> success, Callback1<String> failure, final EcRepository repo) {
+	public void addRelationship(EcLevel targetLevel, String alignmentType, final EcPpk identity, final String serverUrl, Callback1<String> success, Callback2<String, Integer> failure, final EcRepository repo) {
 		final EcAlignment a = new EcAlignment();
 		a.source = id;
 		a.target = targetLevel.id;
@@ -175,11 +176,11 @@ public class EcLevel extends Level {
 	 * @memberOf EcLevel
 	 * @method save
 	 */
-	public void save(Callback1<String> success, Callback1<String> failure, EcRepository repo) {
+	public void save(Callback1<String> success, Callback2<String, Integer> failure, EcRepository repo) {
 		if (name == null || name == "") {
 			String msg = "Level name cannot be empty";
 			if (failure != null)
-				failure.$invoke(msg);
+				failure.$invoke(msg, 400);
 			else
 				Global.console.error(msg);
 			return;
@@ -188,7 +189,7 @@ public class EcLevel extends Level {
 		if (competency == null || competency == "") {
 			String msg = "Level's Competency cannot be empty";
 			if (failure != null)
-				failure.$invoke(msg);
+				failure.$invoke(msg, 400);
 			else
 				Global.console.error(msg);
 			return;
@@ -210,7 +211,7 @@ public class EcLevel extends Level {
 	 * @memberOf EcLevel
 	 * @method _delete
 	 */
-	public void _delete(Callback1<String> success, Callback1<String> failure) {
+	public void _delete(Callback1<String> success, Callback2<String, Integer> failure) {
 		EcRepository.DELETE(this, success, failure);
 	}
 }

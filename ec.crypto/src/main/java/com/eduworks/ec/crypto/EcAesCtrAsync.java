@@ -8,6 +8,7 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.javascript.jquery.Promise;
 import window.*;
 
@@ -31,7 +32,7 @@ public class EcAesCtrAsync {
      * @method encrypt
      * @static
      */
-    public static void encrypt(String plaintext, String secret, String iv, final Callback1<String> success, final Callback1<String> failure) {
+    public static void encrypt(String plaintext, String secret, String iv, final Callback1<String> success, final Callback2<String, Integer> failure) {
         if (Global.window == null || window.crypto == null || crypto.subtle == null) {
             EcAesCtrAsyncWorker.encrypt(plaintext, secret, iv, success, failure);
             return;
@@ -77,7 +78,7 @@ public class EcAesCtrAsync {
      * @method decrypt
      * @static
      */
-    public static void decrypt(final String ciphertext, final String secret, final String iv, final Callback1<String> success, final Callback1<String> failure) {
+    public static void decrypt(final String ciphertext, final String secret, final String iv, final Callback1<String> success, final Callback2<String, Integer> failure) {
         if (EcCrypto.caching) {
             final Object cacheGet = JSObjectAdapter.$get(EcCrypto.decryptionCache, secret + iv + ciphertext);
             if (cacheGet != null) {

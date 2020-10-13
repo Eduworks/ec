@@ -16,10 +16,10 @@ import org.stjs.javascript.functions.*;
  */
 public class EcAsyncHelper<T> {
     public static String scriptPath = null;
-    public static Callback1<String> setNull(final Callback1 set){
-        return new Callback1<String>() {
+    public static Callback2<String, Integer> setNull(final Callback1 set){
+        return new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String s) {
+            public void $invoke(String s, Integer i) {
                 set.$invoke(null);
             }
         };
@@ -110,12 +110,12 @@ public class EcAsyncHelper<T> {
         });
     }
 
-    public Callback1<String> failWithCallback(final Callback1<String> failure, final Callback0 callback) {
-        return new Callback1<String>() {
+    public Callback2<String, Integer> failWithCallback(final Callback2<String, Integer> failure, final Callback0 callback) {
+        return new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String s) {
+            public void $invoke(String s, Integer i) {
                 callback.$invoke();
-                failure.$invoke(s);
+                failure.$invoke(s, i);
             }
         };
     }

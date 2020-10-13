@@ -4,6 +4,7 @@ import org.stjs.javascript.*;
 import org.stjs.javascript.dom.DOMEvent;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 
 import static org.stjs.javascript.JSGlobal.JSON;
 
@@ -46,12 +47,12 @@ public class EcRemote {
      * @param {FormData}         fd Form data to send as multi-part mime.
      * @param {function(object)} success Method that is invoked if the server
      *                           responds with a success (per jQuery ajax)
-     * @param {function(string)} failure Method that is invoked if the server
+     * @param {function(string, string)} failure Method that is invoked if the server
      *                           responds with an error (per jQuery ajax) or a non-200/300.
      * @method postExpectingObject
      * @static
      */
-    public static void postExpectingObject(String server, String service, FormData fd, final Callback1<Object> success, final Callback1<String> failure) {
+    public static void postExpectingObject(String server, String service, FormData fd, final Callback1<Object> success, final Callback2<String, Integer> failure) {
         postInner(server, service, fd, null, getSuccessJSONCallback(success, failure), failure);
     }
 
@@ -65,12 +66,12 @@ public class EcRemote {
      * @param {FormData}         fd Form data to send as multi-part mime.
      * @param {function(string)} success Method that is invoked if the server
      *                           responds with a success (per jQuery ajax)
-     * @param {function(string)} failure Method that is invoked if the server
+     * @param {function(string, string)} failure Method that is invoked if the server
      *                           responds with an error (per jQuery ajax) or a non-200/300.
      * @method postExpectingString
      * @static
      */
-    public static void postExpectingString(String server, String service, FormData fd, final Callback1<String> success, final Callback1<String> failure) {
+    public static void postExpectingString(String server, String service, FormData fd, final Callback1<String> success, final Callback2<String, Integer> failure) {
         postInner(server, service, fd, null, success, failure);
     }
 
@@ -85,19 +86,19 @@ public class EcRemote {
      * @param {Object}           headers Headers to attach to the HTTP post.
      * @param {function(string)} success Method that is invoked if the server
      *                           responds with a success (per jQuery ajax)
-     * @param {function(string)} failure Method that is invoked if the server
+     * @param {function(string, string)} failure Method that is invoked if the server
      *                           responds with an error (per jQuery ajax) or a non-200/300.
      * @method postWithHeadersExpectingString
      * @static
      */
     public static void postWithHeadersExpectingString(String server, String service, FormData fd, Map<String, String> headers,
-                                                      final Callback1<String> success, final Callback1<String> failure) {
+                                                      final Callback1<String> success, final Callback2<String, Integer> failure) {
         postInner(server, service, fd, headers, success, failure);
     }
 
 
     private static void postInner(String server, String service, FormData fd, Map<String, String> headers,
-                                  final Callback1<String> successCallback, final Callback1<String> failureCallback) {
+                                  final Callback1<String> successCallback, final Callback2<String, Integer> failureCallback) {
         String url = server;
         if (!url.endsWith("/") && service != null && !"".equals(service)) {
             url += "/";
@@ -123,7 +124,7 @@ public class EcRemote {
                             successCallback.$invoke(xhrx.responseText);
                     } else if (xhrx.readyState == 4) {
                         if (failureCallback != null)
-                            failureCallback.$invoke(xhrx.responseText);
+                            failureCallback.$invoke(xhrx.responseText, xhrx.status);
                     }
                 }
             };
@@ -181,7 +182,7 @@ public class EcRemote {
      * @method getExpectingObject
      * @static
      */
-    public static void getExpectingObject(String server, String service, final Callback1<Object> success, final Callback1<String> failure) {
+    public static void getExpectingObject(String server, String service, final Callback1<Object> success, final Callback2<String, Integer> failure) {
         getExpectingString(server, service, getSuccessJSONCallback(success, failure), failure);
     }
 
@@ -198,7 +199,7 @@ public class EcRemote {
      * @method getExpectingString
      * @static
      */
-    public static void getExpectingString(String server, String service, final Callback1<String> success, final Callback1<String> failure) {
+    public static void getExpectingString(String server, String service, final Callback1<String> success, final Callback2<String, Integer> failure) {
         String url = urlAppend(server, service);
 
         url = upgradeHttpToHttps(url);
@@ -218,7 +219,7 @@ public class EcRemote {
                         success.$invoke(xhrx.responseText);
                     else if (xhrx.readyState == 4)
                         if (failure != null)
-                        failure.$invoke(xhrx.responseText);
+                        failure.$invoke(xhrx.responseText, xhrx.status);
                 }
             };
             xhr.onerror = new Callback1<DOMEvent>() {
@@ -269,7 +270,7 @@ public class EcRemote {
      * @method _delete
      * @static
      */
-    public static void _delete(String url, String signatureSheet, final Callback1<String> success, final Callback1<String> failure) {
+    public static void _delete(String url, String signatureSheet, final Callback1<String> success, final Callback2<String, Integer> failure) {
         url = upgradeHttpToHttps(url);
 
         XMLHttpRequest xhr = null;
@@ -288,7 +289,7 @@ public class EcRemote {
                             success.$invoke(xhrx.responseText);
                     } else if (xhrx.readyState == 4) {
                         if (failure != null)
-                            failure.$invoke(xhrx.responseText);
+                            failure.$invoke(xhrx.responseText, xhrx.status);
                     }
                 }
             };
@@ -326,7 +327,7 @@ public class EcRemote {
         return url;
     }
 
-    protected static Callback1<String> getSuccessJSONCallback(final Callback1<Object> success, final Callback1<String> failure) {
+    protected static Callback1<String> getSuccessJSONCallback(final Callback1<Object> success, final Callback2<String, Integer> failure) {
         return new Callback1<String>() {
             @Override
             public void $invoke(String s) {
@@ -335,9 +336,9 @@ public class EcRemote {
                     o = JSON.parse(s);
                 } catch (Exception ex) {
                     if (ex == null)
-                        failure.$invoke("An unspecified error occurred during a network request.");
+                        failure.$invoke("An unspecified error occurred during a network request.", 500);
                     else
-                        failure.$invoke((String) (Object) ex);
+                        failure.$invoke((String) (Object) ex, 400);
                     return;
                 }
                 success.$invoke(o);

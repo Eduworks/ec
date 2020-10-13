@@ -6,6 +6,7 @@ import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.javascript.functions.Function0;
 
 public class EcComment extends Comment {
@@ -24,7 +25,7 @@ public class EcComment extends Comment {
      * @method get
      * @static
      */
-    public static void get(String id, final Callback1<EcComment> success, final Callback1<String> failure) {
+    public static void get(String id, final Callback1<EcComment> success, final Callback2<String, Integer> failure) {
         EcRepository.getAs(id,new EcComment(),success,failure);
     }
 
@@ -57,7 +58,7 @@ public class EcComment extends Comment {
      * @method search
      * @static
      */
-    public static void search(EcRepository repo, String query, final Callback1<Array<EcComment>> success, Callback1<String> failure, Object paramObj) {
+    public static void search(EcRepository repo, String query, final Callback1<Array<EcComment>> success, Callback2<String, Integer> failure, Object paramObj) {
         EcRepository.searchAs(repo, query, new Function0() {
             @Override
             public Object $invoke() {

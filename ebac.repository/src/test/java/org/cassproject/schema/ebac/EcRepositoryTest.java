@@ -17,6 +17,7 @@ import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
@@ -56,9 +57,9 @@ public class EcRepositoryTest {
 			public void $invoke(String p1) {
 				console.log("Saved.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to save.");
 				console.log(p1);
 				Assert.fail("Failed to save object.");
@@ -78,9 +79,9 @@ public class EcRepositoryTest {
 
 				console.log("Retrieved Unchanged.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to retrieve");
 				console.log(p1);
 				Assert.fail("Failed to retrieve public object after save.");
@@ -99,9 +100,9 @@ public class EcRepositoryTest {
 			public void $invoke(String p1) {
 				console.log("Updated.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to update.");
 				console.log(p1);
 				Assert.fail("Failed to update object.");
@@ -121,9 +122,9 @@ public class EcRepositoryTest {
 
 				console.log("Retrieved Unchanged.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to retrieve after update");
 				console.log(p1);
 				Assert.fail("Failed to retrieve public object after update.");
@@ -137,9 +138,9 @@ public class EcRepositoryTest {
 				console.log("Good, Can Delete Public Object.");
 				console.log(p1);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Could not delete public object. This is now allowed (10/26/2016).");
 			}
 		});
@@ -169,9 +170,9 @@ public class EcRepositoryTest {
 			public void $invoke(String p1) {
 				console.log("Saved.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to save.");
 				console.log(p1);
 				Assert.fail("Failed to save object.");
@@ -191,9 +192,9 @@ public class EcRepositoryTest {
 
 				console.log("Retrieved Unchanged.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to retrieve");
 				console.log(p1);
 				Assert.fail("Failed to retrieve public Registered object after save.");
@@ -212,9 +213,9 @@ public class EcRepositoryTest {
 			public void $invoke(String p1) {
 				console.log("Updated.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to update.");
 				console.log(p1);
 				Assert.fail("Failed to update object.");
@@ -234,9 +235,9 @@ public class EcRepositoryTest {
 
 				console.log("Retrieved Unchanged.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to retrieve after update");
 				console.log(p1);
 				Assert.fail("Failed to retrieve public Registered object after update.");
@@ -250,9 +251,9 @@ public class EcRepositoryTest {
 				console.log("Good, Can Delete Public Registered Object.");
 				console.log(p1);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Could not delete public Registered object. This is now allowed (10/26/2016).");
 			}
 		});
@@ -285,9 +286,9 @@ public class EcRepositoryTest {
 			public void $invoke(String p1) {
 				console.log("Saved.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to save.");
 				console.log(p1);
 				Assert.fail("Failed to save object.");
@@ -308,9 +309,9 @@ public class EcRepositoryTest {
 
 				console.log("Retrieved Unchanged");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to retrieve.");
 				console.log(p1);
 				Assert.fail("Failed to retrieve object after save.");
@@ -330,9 +331,9 @@ public class EcRepositoryTest {
 				}
 				assertTrue("Unable to find object in search. ", found);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to search.");
 				console.log(p1);
 				Assert.fail("Failed to search for object after save.");
@@ -345,9 +346,9 @@ public class EcRepositoryTest {
 			public void $invoke(String p1) {
 				Assert.fail("Deleted the Owned Object as public");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log(p1);
 				console.log("Denied Access");
 			}
@@ -367,9 +368,9 @@ public class EcRepositoryTest {
 			public void $invoke(String p1) {
 				console.log("Updated.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to update.");
 				console.log(p1);
 				Assert.fail("Failed to update object.");
@@ -387,9 +388,9 @@ public class EcRepositoryTest {
 
 				console.log("Retrieved Unchanged.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to retrieve");
 				console.log(p1);
 				Assert.fail("Failed to retrieve public object after save.");
@@ -402,9 +403,9 @@ public class EcRepositoryTest {
 			public void $invoke(String p1) {
 				console.log("Deleted the Owned Object.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log(p1);
 				Assert.fail("Failed to Delete the Owned Object from Repository");
 			}
@@ -446,9 +447,9 @@ public class EcRepositoryTest {
 			public void $invoke(String p1) {
 				console.log("Saved.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to save.");
 				console.log(p1);
 				Assert.fail("Failed to save object.");
@@ -469,9 +470,9 @@ public class EcRepositoryTest {
 
 				console.log("Retrieved Unchanged");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to retrieve.");
 				console.log(p1);
 				Assert.fail("Failed to retrieve object after save.");
@@ -492,9 +493,9 @@ public class EcRepositoryTest {
 
 				assertTrue("Unable to find object in search. ", found);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to search.");
 				console.log(p1);
 				Assert.fail("Failed to search for object after save.");
@@ -516,9 +517,9 @@ public class EcRepositoryTest {
 			public void $invoke(String p1) {
 				console.log("Updated.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to update.");
 				console.log(p1);
 				Assert.fail("Failed to update object.");
@@ -536,9 +537,9 @@ public class EcRepositoryTest {
 
 				console.log("Retrieved Unchanged.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to retrieve");
 				console.log(p1);
 				Assert.fail("Failed to retrieve public object after save.");
@@ -551,9 +552,9 @@ public class EcRepositoryTest {
 			public void $invoke(String p1) {
 				console.log("Deleted the Owned Object.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log(p1);
 				Assert.fail("Failed to Delete the Owned Object from Repository");
 			}
@@ -576,9 +577,9 @@ public class EcRepositoryTest {
 			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				assertTrue(true);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to search.");
 				console.log(p1);
 				Assert.fail("Failed to search for object that doesn't have an existing type in the database.");
@@ -597,9 +598,9 @@ public class EcRepositoryTest {
 			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				assertTrue(true);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				console.log("Failed to search w/signature.");
 				console.log(p1);
 				Assert.fail("Failed to search for object that doesn't have an existing type in the database (using a signature).");

@@ -3,6 +3,7 @@ package cass.rollup.rule;
 import cass.rollup.InquiryPacket;
 import org.cass.competency.EcAlignment;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 
 public class RollupRuleGenerator {
 	public Callback1<String> failure;
@@ -43,9 +44,9 @@ public class RollupRuleGenerator {
 							}
 						}
 					}
-				}, new Callback1<String>() {
+				}, new Callback2<String, Integer>() {
 					@Override
-					public void $invoke(String p1) {
+					public void $invoke(String p1, Integer i) {
 						me.ip.numberOfQueriesRunning--;
 					}
 				});

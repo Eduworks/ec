@@ -18,6 +18,7 @@ import org.junit.runner.RunWith;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
@@ -74,9 +75,9 @@ public class EcFrameworkTest {
 				frameworkId = framework.id;
 				Global.console.log("Framework Saved.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to Save Framework");
 			}
 		},null);
@@ -94,9 +95,9 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Unable to Save Competency");
 			}
 		});
@@ -113,9 +114,9 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Unable to Save Level");
 			}
 		});
@@ -133,9 +134,9 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Unable to Save 2nd Competency");
 			}
 		});
@@ -155,9 +156,9 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Unable to Save Relation");
 			}
 		});
@@ -165,37 +166,37 @@ public class EcFrameworkTest {
 
 	@After
 	public void afterTest() {
-		framework._delete(null, new Callback1<String>() {
+		framework._delete(null, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to Delete Framework");
 			}
 		});
 
-		comp._delete(null, new Callback1<String>() {
+		comp._delete(null, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to Delete Competency");
 			}
 		}, null);
 
-		comp2._delete(null, new Callback1<String>() {
+		comp2._delete(null, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to Delete 2nd Competency");
 			}
 		}, null);
 
-		EcRepository._delete(rel, null, new Callback1<String>() {
+		EcRepository._delete(rel, null, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to Delete Relation");
 			}
 		});
 
-		EcRepository._delete(level, null, new Callback1<String>() {
+		EcRepository._delete(level, null, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to Delete Level");
 			}
 		});
@@ -218,9 +219,9 @@ public class EcFrameworkTest {
 
 				Assert.fail("Unable to search for framework after save");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to Search for Framework");
 			}
 		});
@@ -237,9 +238,9 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Assert.fail("No Name Framework saved, should not be able to save a framework without a name");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Global.console.log("Failed to save a Framework without a name");
 			}
 		},null);
@@ -256,9 +257,9 @@ public class EcFrameworkTest {
 				Assert.assertEquals("Name does not match saved name", framework.name, f.name);
 				Assert.assertEquals("Description does not match saved description", framework.description, f.description);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Unable to Retreive Framework");
 			}
 		});
@@ -277,9 +278,9 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Global.console.log("Framework Updated.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to update Framework");
 			}
 		},null);
@@ -292,9 +293,9 @@ public class EcFrameworkTest {
 				Assert.assertEquals("Name does not match updated name", editedFramework.name, f.name);
 				Assert.assertEquals("Description does not match updated description", editedFramework.description, f.description);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Unable to Retreive Framework after update");
 			}
 		});
@@ -313,9 +314,9 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Assert.fail("Saved Framework with no name, this shouldnt be allowed");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Global.console.log("Failed to update framework with no name");
 			}
 		},null);
@@ -327,9 +328,9 @@ public class EcFrameworkTest {
 
 				Assert.assertNotSame("Name should not be empty", editedFramework.name, f.name);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Unable to Retreive Framework after update");
 			}
 		});
@@ -349,9 +350,9 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Global.console.log("Framework Updated.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to add competency to Framework");
 			}
 		},null);
@@ -366,9 +367,9 @@ public class EcFrameworkTest {
 
 				Assert.fail("Unable to find competency in framework");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Unable to Retreive Framework after update");
 			}
 		});
@@ -383,9 +384,9 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Global.console.log("Framework Updated.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to Remove Competency from Framework");
 			}
 		},null);
@@ -400,9 +401,9 @@ public class EcFrameworkTest {
 
 				Assert.fail("Competency not removed from framework");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Unable to Retreive Framework after update");
 			}
 		});
@@ -422,9 +423,9 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Global.console.log("Framework Updated.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to Remove Competency from Framework");
 			}
 		},null);
@@ -439,9 +440,9 @@ public class EcFrameworkTest {
 
 				Assert.fail("Competency array size did not remain unchanged");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Unable to Retreive Framework after update");
 			}
 		});
@@ -461,9 +462,9 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Global.console.log("Framework Updated.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to add level to Framework");
 			}
 		},null);
@@ -478,9 +479,9 @@ public class EcFrameworkTest {
 
 				Assert.fail("Unable to find level in framework");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Unable to Retreive Framework after update");
 			}
 		});
@@ -496,9 +497,9 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Global.console.log("Framework Updated.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to Remove Level from Framework");
 			}
 		},null);
@@ -513,9 +514,9 @@ public class EcFrameworkTest {
 
 				Assert.fail("Level not removed from framework");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Unable to Retreive Framework after update");
 			}
 		});
@@ -535,9 +536,9 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Global.console.log("Framework Updated.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to Remove Competency from Framework");
 			}
 		},null);
@@ -552,10 +553,10 @@ public class EcFrameworkTest {
 
 				Assert.fail("Level array size did not remain unchanged");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
-				Assert.fail("Unable to Retreive Framework after update");
+			public void $invoke(String p1, Integer i) {
+				Assert.fail("Unable to Retrieve Framework after update");
 			}
 		});
 	}
@@ -572,9 +573,9 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Global.console.log("Framework Updated.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to add relation to Framework");
 			}
 		},null);
@@ -589,9 +590,9 @@ public class EcFrameworkTest {
 
 				Assert.fail("Unable to find relation in framework");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Unable to Retreive Framework after update");
 			}
 		});
@@ -607,9 +608,9 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Global.console.log("Framework Updated.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to Remove relation from Framework");
 			}
 		},null);
@@ -624,9 +625,9 @@ public class EcFrameworkTest {
 
 				Assert.fail("relation not removed from framework");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Unable to Retreive Framework after update");
 			}
 		});
@@ -646,9 +647,9 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Global.console.log("Framework Updated.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to Remove Competency from Framework");
 			}
 		},null);
@@ -663,9 +664,9 @@ public class EcFrameworkTest {
 
 				Assert.fail("Level array size did not remain unchanged");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Unable to Retreive Framework after update");
 			}
 		});
@@ -686,9 +687,9 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Global.console.log("Framework Saved.");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to Save Framework");
 			}
 		},null);
@@ -699,9 +700,9 @@ public class EcFrameworkTest {
 			public void $invoke(String p1) {
 				Global.console.log("Successfully deleted Framework");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Unable to Delete Framework");
 			}
 		});

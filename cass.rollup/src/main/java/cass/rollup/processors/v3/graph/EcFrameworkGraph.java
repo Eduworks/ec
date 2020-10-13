@@ -36,7 +36,7 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
     Array<EcFramework> frameworks = null;
 
     private Callback0 addFrameworkSuccessCallback;
-    private Callback1<String> addFrameworkFailureCallback;
+    private Callback2<String, Integer> addFrameworkFailureCallback;
     private EcRepository repo;
 
 	public EcFrameworkGraph() {
@@ -58,7 +58,7 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
 	 * @method addFramework
 	 * @memberOf EcFrameworkGraph
 	 */
-	public void addFramework(final EcFramework framework, EcRepository repo, final Callback0 success, Callback1<String> failure) {
+	public void addFramework(final EcFramework framework, EcRepository repo, final Callback0 success, Callback2<String, Integer> failure) {
 		frameworks.push(framework);
 		final EcFrameworkGraph me = this;
 		Array<String> precache = new Array();
@@ -85,7 +85,7 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
 									me.addCompetency(c);
 									callback0.$invoke();
 								}
-							}, (Callback1) callback0);
+							}, (Callback2) callback0);
 						} else if (d.isAny(alignmentTemplate.getTypes())) {
 							EcAlignment.get(d.id, new Callback1<EcAlignment>() {
 								@Override
@@ -94,7 +94,7 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
 									me.addToMetaStateArray(me.getMetaStateAlignment(alignment), "framework", framework);
 									callback0.$invoke();
 								}
-							}, (Callback1) callback0);
+							}, (Callback2) callback0);
 						} else
 							callback0.$invoke();
 					}
@@ -134,7 +134,7 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
 	 * @param {function()}      success Method to invoke when the operation completes successfully.
 	 * @param {function(error)} failure Error method.
 	 */
-	public void processAssertionsBoolean(final Array<EcAssertion> assertions, final Callback0 success, final Callback1<String> failure) {
+	public void processAssertionsBoolean(final Array<EcAssertion> assertions, final Callback0 success, final Callback2<String, Integer> failure) {
 		final EcFrameworkGraph me = this;
 		final EcAsyncHelper<EcAssertion> eah = new EcAsyncHelper<EcAssertion>();
 		eah.each(assertions, new Callback2<EcAssertion, Callback0>() {

@@ -12,6 +12,7 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 
 /**
  * Logs into and stores/retrieves credentials from a compatible remote server.
@@ -112,61 +113,61 @@ public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 	 * @method configureFromServer
 	 */
 	@Override
-	public void configureFromServer(final Callback1<Object> success, final Callback1<String> failure) {
+	public void configureFromServer(final Callback1<Object> success, final Callback2<String, Integer> failure) {
 		final EcRemoteIdentityManager me = this;
 		EcRemote.getExpectingObject(server, "sky/id/salts", new Callback1<Object>() {
 			@Override
 			public void $invoke(Object p1) {
 				me.usernameSalt = (String) JSObjectAdapter.$get(p1, "usernameSalt");
 				if (me.usernameSalt.length() < 16) {
-					failure.$invoke("Insufficient length on Username Salt");
+					failure.$invoke("Insufficient length on Username Salt", 400);
 					return;
 				}
 				me.usernameIterations = (int) JSObjectAdapter.$get(p1, "usernameIterations");
 				if (me.usernameIterations < 1000) {
-					failure.$invoke("Insufficient iterations on Username Hash");
+					failure.$invoke("Insufficient iterations on Username Hash", 400);
 					return;
 				}
 				me.usernameWidth = (int) JSObjectAdapter.$get(p1, "usernameLength");
 				if (me.usernameWidth != 64) {
-					failure.$invoke("Username Hash required to be length 64.");
+					failure.$invoke("Username Hash required to be length 64.", 400);
 					return;
 				}
 				me.passwordSalt = (String) JSObjectAdapter.$get(p1, "passwordSalt");
 				if (me.passwordSalt.length() < 16) {
-					failure.$invoke("Insufficient length on Password Salt");
+					failure.$invoke("Insufficient length on Password Salt", 400);
 					return;
 				}
 				me.passwordIterations = (int) JSObjectAdapter.$get(p1, "passwordIterations");
 				if (me.passwordIterations < 1000) {
-					failure.$invoke("Insufficient iterations on Password Hash");
+					failure.$invoke("Insufficient iterations on Password Hash", 400);
 					return;
 				}
 				me.passwordWidth = (int) JSObjectAdapter.$get(p1, "passwordLength");
 				if (me.passwordWidth != 64) {
-					failure.$invoke("Password Hash required to be length 64.");
+					failure.$invoke("Password Hash required to be length 64.", 400);
 					return;
 				}
 				me.secretSalt = (String) JSObjectAdapter.$get(p1, "secretSalt");
 				if (me.secretSalt.length() < 16) {
-					failure.$invoke("Insufficient length on Secret Salt");
+					failure.$invoke("Insufficient length on Secret Salt", 400);
 					return;
 				}
 				me.secretIterations = (int) JSObjectAdapter.$get(p1, "secretIterations");
 				if (me.secretIterations < 1000) {
-					failure.$invoke("Insufficient iterations on Secret Hash");
+					failure.$invoke("Insufficient iterations on Secret Hash", 400);
 					return;
 				}
 				me.configured = true;
 				if (success != null)
 					success.$invoke(p1);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				me.configured = false;
 				if (failure != null)
-					failure.$invoke(p1);
+					failure.$invoke(p1, i);
 				else
 					Global.console.error(p1);
 			}
@@ -280,13 +281,13 @@ public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 	 * @method fetch
 	 */
 	@Override
-	public void fetch(final Callback1<Object> success, final Callback1<String> failure) {
+	public void fetch(final Callback1<Object> success, final Callback2<String, Integer> failure) {
 		if (!configured) {
-			failure.$invoke("Remote Identity not configured.");
+			failure.$invoke("Remote Identity not configured.", 0);
 			return;
 		}
 		if (usernameWithSalt == null || passwordWithSalt == null || secretWithSalt == null) {
-			failure.$invoke("Please log in before performing this operation.");
+			failure.$invoke("Please log in before performing this operation.", 0);
 			return;
 		}
 
@@ -318,10 +319,10 @@ public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 
 				success.$invoke(arg0);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String arg0) {
-				failure.$invoke(arg0);
+			public void $invoke(String arg0, Integer arg1) {
+				failure.$invoke(arg0, arg1);
 			}
 		});
 	}
@@ -337,7 +338,7 @@ public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 	 * @method commit
 	 */
 	@Override
-	public void commit(final Callback1<String> success, final Callback1<String> failure) {
+	public void commit(final Callback1<String> success, final Callback2<String, Integer> failure) {
 		String service = "sky/id/commit";
 		sendCredentials(success, failure, service);
 	}
@@ -360,7 +361,7 @@ public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 	 * @method create
 	 */
 	@Override
-	public void create(final Callback1<String> success, final Callback1<String> failure) {
+	public void create(final Callback1<String> success, final Callback2<String, Integer> failure) {
 		String service = "sky/id/create";
 		sendCredentials(success, failure, service);
 	}
@@ -376,7 +377,7 @@ public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 	 * @memberOf EcRemoteIdentityManager
 	 * @method sendCredentials
 	 */
-	private void sendCredentials(final Callback1<String> success, final Callback1<String> failure,
+	private void sendCredentials(final Callback1<String> success, final Callback2<String, Integer> failure,
 	                             final String service) {
 		if (!configured)
 			throw new RuntimeException("Remote Identity not configured.");
@@ -423,10 +424,10 @@ public class EcRemoteIdentityManager implements RemoteIdentityManagerInterface {
 					public void $invoke(String arg0) {
 						success.$invoke(arg0);
 					}
-				}, new Callback1<String>() {
+				}, new Callback2<String, Integer>() {
 					@Override
-					public void $invoke(String arg0) {
-						failure.$invoke(arg0);
+					public void $invoke(String arg0, Integer arg1) {
+						failure.$invoke(arg0, arg1);
 					}
 				});
 			}

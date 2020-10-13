@@ -73,7 +73,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
      * @static
      * @method fromEncryptedValue
      */
-    public static void fromEncryptedValueAsync(EcRemoteLinkedData d, Callback1<EcRemoteLinkedData> success, Callback1<String> failure){
+    public static void fromEncryptedValueAsync(EcRemoteLinkedData d, Callback1<EcRemoteLinkedData> success, Callback2<String, Integer> failure){
         if (!d.isAny(new EcEncryptedValue().getTypes()))
             success.$invoke(d);
         else {
@@ -200,7 +200,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
      * @static
      */
     public static void toEncryptedValueAsync(final EcRemoteLinkedData d, Boolean hideType, final Callback1<EcEncryptedValue> success,
-                                             final Callback1<String> failure) {
+                                             final Callback2<String, Integer> failure) {
         d.updateTimestamp();
 
         final EcEncryptedValue v = new EcEncryptedValue();
@@ -251,7 +251,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
         }, failure);
     }
 
-    private static void insertSecret(String pk, final Callback0 success, String newIv, String newSecret, final EcEncryptedValue v, Callback1<String> failure) {
+    private static void insertSecret(String pk, final Callback0 success, String newIv, String newSecret, final EcEncryptedValue v, Callback2<String, Integer> failure) {
         EbacEncryptedSecret eSecret = new EbacEncryptedSecret();
         eSecret.iv = newIv;
         eSecret.secret = newSecret;
@@ -418,7 +418,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
                         v.secret.push(s);
                         callback0.$invoke();
                     }
-                },(Callback1)callback0);
+                },(Callback2)callback0);
             }
         }, new Callback1<Array<String>>() {
             @Override
@@ -539,16 +539,16 @@ public class EcEncryptedValue extends EbacEncryptedValue {
      * @memberOf EcEncryptedValue
      * @method decryptIntoObjectAsync
      */
-    public void decryptIntoObjectAsync(final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure) {
+    public void decryptIntoObjectAsync(final Callback1<EcRemoteLinkedData> success, final Callback2<String, Integer> failure) {
         final String id = this.id;
         decryptIntoStringAsync(new Callback1<String>() {
             @Override
             public void $invoke(String decryptRaw) {
                 if (decryptRaw == null) {
-                    failure.$invoke("Could not decrypt data.");
+                    failure.$invoke("Could not decrypt data.", 400);
                 }
                 if (!EcLinkedData.isProbablyJson(decryptRaw)) {
-                    failure.$invoke("Could not decrypt data.");
+                    failure.$invoke("Could not decrypt data.", 400);
                 }
                 EcRemoteLinkedData decrypted = new EcRemoteLinkedData("", "");
                 decrypted.copyFrom((EcRemoteLinkedData) JSGlobal.JSON.parse(decryptRaw));
@@ -572,15 +572,15 @@ public class EcEncryptedValue extends EbacEncryptedValue {
      * @memberOf EcEncryptedValue
      * @method decryptIntoObjectUsingIvAndSecretAsync
      */
-    public void decryptIntoObjectUsingIvAndSecretAsync(String iv, String secret, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure) {
+    public void decryptIntoObjectUsingIvAndSecretAsync(String iv, String secret, final Callback1<EcRemoteLinkedData> success, final Callback2<String, Integer> failure) {
         decryptIntoStringUsingIvAndSecretAsync(iv, secret, new Callback1<String>() {
             @Override
             public void $invoke(String decryptRaw) {
                 if (decryptRaw == null) {
-                    failure.$invoke("Could not decrypt data.");
+                    failure.$invoke("Could not decrypt data.", 400);
                 }
                 if (!EcLinkedData.isProbablyJson(decryptRaw)) {
-                    failure.$invoke("Could not decrypt data.");
+                    failure.$invoke("Could not decrypt data.", 400);
                 }
                 EcRemoteLinkedData decrypted = new EcRemoteLinkedData("", "");
                 decrypted.copyFrom((EcRemoteLinkedData) JSGlobal.JSON.parse(decryptRaw));
@@ -629,7 +629,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
      * @memberOf EcEncryptedValue
      * @method decryptIntoStringAsync
      */
-    public void decryptIntoStringAsync(final Callback1<String> success, final Callback1<String> failure) {
+    public void decryptIntoStringAsync(final Callback1<String> success, final Callback2<String, Integer> failure) {
         final EcEncryptedValue me = this;
         decryptSecretAsync(new Callback1<EbacEncryptedSecret>() {
             @Override
@@ -655,7 +655,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
      * @memberOf EcEncryptedValue
      * @method decryptIntoStringAsync
      */
-    public void decryptIntoStringUsingSecretAsync(EbacEncryptedSecret decryptSecret, final Callback1<String> success, final Callback1<String> failure) {
+    public void decryptIntoStringUsingSecretAsync(EbacEncryptedSecret decryptSecret, final Callback1<String> success, final Callback2<String, Integer> failure) {
         final EcEncryptedValue me = this;
         if (decryptSecret != null) {
             if (me.context == Ebac.context_0_2 || me.context == Ebac.context_0_3) {
@@ -679,7 +679,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
      * @memberOf EcEncryptedValue
      * @method decryptIntoStringUsingIvAndSecretAsync
      */
-    public void decryptIntoStringUsingIvAndSecretAsync(String iv, String secret, final Callback1<String> success, final Callback1<String> failure) {
+    public void decryptIntoStringUsingIvAndSecretAsync(String iv, String secret, final Callback1<String> success, final Callback2<String, Integer> failure) {
         if (context == Ebac.context_0_2 || context == Ebac.context_0_3) {
             if (base64.decode(iv).byteLength == 32)
                 iv = base64.encode(base64.decode(iv).slice(0, 16));
@@ -778,7 +778,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
      * @memberOf EcEncryptedValue
      * @method decryptSecretAsync
      */
-    public void decryptSecretAsync(final Callback1<EbacEncryptedSecret> success, final Callback1<String> failure) {
+    public void decryptSecretAsync(final Callback1<EbacEncryptedSecret> success, final Callback2<String, Integer> failure) {
         final Array<EcPpk> ppks = new Array<>();
         final Array<Integer> estimatedIndices = new Array<>();
 
@@ -826,9 +826,9 @@ public class EcEncryptedValue extends EbacEncryptedValue {
                         success.$invoke(p1);
                         countdown.$invoke();
                     }
-                }, new Callback1<String>() {
+                }, new Callback2<String, Integer>() {
                     @Override
-                    public void $invoke(String arg0) {
+                    public void $invoke(String arg0, Integer arg1) {
                         countdown.$invoke();
                     }
                 });
@@ -836,7 +836,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
         }, new Callback1<Array<EcPpk>>() {
             @Override
             public void $invoke(Array<EcPpk> arg0) {
-                failure.$invoke("Could not decrypt secret.");
+                failure.$invoke("Could not decrypt secret.", 400);
             }
         });
     }
@@ -862,7 +862,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
      * @memberOf EcEncryptedValue
      * @method decryptSecretByKeyAsync
      */
-    private void decryptSecretByKeyAsync(final EcPpk decryptionKey, final int estimatedIndex, final Callback1<EbacEncryptedSecret> success, final Callback1<String> failure) {
+    private void decryptSecretByKeyAsync(final EcPpk decryptionKey, final int estimatedIndex, final Callback1<EbacEncryptedSecret> success, final Callback2<String, Integer> failure) {
         EbacEncryptedSecret encryptedSecret = null;
         final EcEncryptedValue me = this;
         if (this.secret != null) {
@@ -878,18 +878,18 @@ public class EcEncryptedValue extends EbacEncryptedValue {
                             success.$invoke(EbacEncryptedSecret.fromEncryptableJson(JSGlobal.JSON.parse(decryptedSecret)));
                         }
                     }
-                }, new Callback1<String>() {
+                }, new Callback2<String, Integer>() {
                     @Override
-                    public void $invoke(String arg0) {
+                    public void $invoke(String arg0, Integer arg1) {
                         me.decryptSecretsByKeyAsync(decryptionKey, success, failure);
                     }
                 });
             }
         } else
-            failure.$invoke("Secret field is empty.");
+            failure.$invoke("Secret field is empty.", 400);
     }
 
-    private void decryptSecretsByKeyAsync(final EcPpk decryptionKey, final Callback1<EbacEncryptedSecret> success, final Callback1<String> failure) {
+    private void decryptSecretsByKeyAsync(final EcPpk decryptionKey, final Callback1<EbacEncryptedSecret> success, final Callback2<String, Integer> failure) {
 
         final EcAsyncHelper<String> helper = new EcAsyncHelper<String>();
         helper.each(secret, new Callback2<String, Callback0>() {
@@ -908,9 +908,9 @@ public class EcEncryptedValue extends EbacEncryptedValue {
                             success.$invoke(EbacEncryptedSecret.fromEncryptableJson(JSGlobal.JSON.parse(decryptedSecret)));
                         }
                     }
-                }, new Callback1<String>() {
+                }, new Callback2<String, Integer>() {
                     @Override
-                    public void $invoke(String arg0) {
+                    public void $invoke(String arg0, Integer arg1) {
                         decrement.$invoke();
                     }
                 });
@@ -919,7 +919,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
 
             @Override
             public void $invoke(Array<String> arg0) {
-                failure.$invoke("Could not find decryption key.");
+                failure.$invoke("Could not find decryption key.", 400);
             }
         });
     }
@@ -1021,7 +1021,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
      * @memberOf EcEncryptedValue
      * @method addReaderAsync
      */
-    public void addReaderAsync(final EcPk newReader, final Callback0 success, final Callback1<String> failure) {
+    public void addReaderAsync(final EcPk newReader, final Callback0 success, final Callback2<String, Integer> failure) {
         final EcEncryptedValue me = this;
         decryptSecretAsync(new Callback1<EbacEncryptedSecret>() {
             @Override
@@ -1058,7 +1058,7 @@ public class EcEncryptedValue extends EbacEncryptedValue {
      * @memberOf EcEncryptedValue
      * @method removeReaderAsync
      */
-    public void removeReaderAsync(final EcPk oldReader, final Callback0 success, final Callback1<String> failure) {
+    public void removeReaderAsync(final EcPk oldReader, final Callback0 success, final Callback2<String, Integer> failure) {
         final EcEncryptedValue me = this;
         decryptSecretAsync(new Callback1<EbacEncryptedSecret>() {
             @Override

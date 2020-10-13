@@ -4,6 +4,7 @@ import com.eduworks.ec.service.task.TaskListManager;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 
 /**
  * Example of a Model, maintains state information about itself and provides methods for
@@ -44,7 +45,7 @@ public class TaskList {
 		return new TaskList(name, tasks);
 	}
 
-	public static void getList(final Callback1<TaskList> success, final Callback1<String> failure) {
+	public static void getList(final Callback1<TaskList> success, final Callback2<String, Integer> failure) {
 		TaskListManager.readTaskList(new Callback1<Object>() {
 			@Override
 			public void $invoke(Object object) {
@@ -53,11 +54,11 @@ public class TaskList {
 				if (success != null)
 					success.$invoke(list);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				if (failure != null)
-					failure.$invoke(p1);
+					failure.$invoke(p1, i);
 			}
 		});
 	}

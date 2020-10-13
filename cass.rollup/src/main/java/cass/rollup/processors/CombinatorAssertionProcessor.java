@@ -31,9 +31,9 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor {
 		eah.each(ip.subject, new Callback2<EcPk, Callback0>() {
 			@Override
 			public void $invoke(EcPk p1, final Callback0 p2) {
-				me.checkSubject(a, p1, ip, p2, new Callback1<String>() {
+				me.checkSubject(a, p1, ip, p2, new Callback2<String, Integer>() {
 					@Override
-					public void $invoke(String p1) {
+					public void $invoke(String p1, Integer i) {
 						failure.$invoke(p1);
 					}
 				});
@@ -46,7 +46,7 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor {
 		});
 	}
 
-	private void checkSubject(final EcAssertion a, final EcPk currentSubject, final InquiryPacket ip, final Callback0 success, final Callback1<String> failure) {
+	private void checkSubject(final EcAssertion a, final EcPk currentSubject, final InquiryPacket ip, final Callback0 success, final Callback2<String, Integer> failure) {
 		final CombinatorAssertionProcessor me = this;
 		a.getSubjectAsync(new Callback1<EcPk>() {
 			@Override
@@ -84,9 +84,9 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor {
 											}
 											success.$invoke();
 										}
-									}, new Callback1<String>() {
+									}, new Callback2<String, Integer>() {
 										@Override
-										public void $invoke(String p1) {
+										public void $invoke(String p1, Integer i) {
 											me.log(ip, "Found valid positive assertion");
 											ip.positive.push(a);
 											success.$invoke();
@@ -97,7 +97,7 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor {
 						}
 					}, failure);
 				} else
-					failure.$invoke("Incorrect subject.");
+					failure.$invoke("Incorrect subject.", 400);
 			}
 		}, failure);
 	}
@@ -180,9 +180,9 @@ public abstract class CombinatorAssertionProcessor extends AssertionProcessor {
 								}
 							});
 						}
-					}, new Callback1<String>() {
+					}, new Callback2<String, Integer>() {
 						@Override
-						public void $invoke(String p1) {
+						public void $invoke(String p1, Integer i) {
 							me.processEventFailure(p1, ip);
 						}
 					});

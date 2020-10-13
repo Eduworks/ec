@@ -7,6 +7,7 @@ import org.cassproject.schema.cass.competency.Framework;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.*;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.javascript.functions.Function0;
 
 /**
@@ -56,7 +57,7 @@ public class EcFramework extends Framework {
 	 * @method get
 	 * @static
 	 */
-	public static void get(String id, final Callback1<EcFramework> success, final Callback1<String> failure) {
+	public static void get(String id, final Callback1<EcFramework> success, final Callback2<String, Integer> failure) {
 		EcRepository.getAs(id,new EcFramework(),success,failure);
 	}
 
@@ -96,7 +97,7 @@ public class EcFramework extends Framework {
 	 * @method search
 	 * @static
 	 */
-	public static void search(EcRepository repo, String query, final Callback1<Array<EcFramework>> success, Callback1<String> failure, Object paramObj) {
+	public static void search(EcRepository repo, String query, final Callback1<Array<EcFramework>> success, Callback2<String, Integer> failure, Object paramObj) {
 		EcRepository.searchAs(repo, query, new Function0() {
 			@Override
 			public Object $invoke() {
@@ -138,7 +139,7 @@ public class EcFramework extends Framework {
 	 * @memberOf EcFramework
 	 * @method removeCompetency
 	 */
-	public void removeCompetency(final String id, final Callback1<String> success, final Callback1<String> failure) {
+	public void removeCompetency(final String id, final Callback1<String> success, final Callback2<String, Integer> failure) {
 		final String shortId = trimVersionFromUrl(id);
 		if (competency == null)
 			competency = new Array<String>();
@@ -201,7 +202,7 @@ public class EcFramework extends Framework {
 	 * @method removeRelationshipsThatInclude
 	 * @private
 	 */
-	private void removeRelationshipsThatInclude(final String id, final int i, final Callback1<String> success, final Callback1<String> failure) {
+	private void removeRelationshipsThatInclude(final String id, final int i, final Callback1<String> success, final Callback2<String, Integer> failure) {
 		final String shortId = trimVersionFromUrl(id);
 		final EcFramework me = this;
 		if (i >= relation.$length() && success != null)
@@ -216,9 +217,9 @@ public class EcFramework extends Framework {
 					} else
 						me.removeRelationshipsThatInclude(id, i + 1, success, failure);
 				}
-			}, new Callback1<String>() {
+			}, new Callback2<String, Integer>() {
 				@Override
-				public void $invoke(String s) {
+				public void $invoke(String s, Integer i) {
 					me.removeRelationshipsThatInclude(id, i + 1, success, failure);
 				}
 			});
@@ -239,7 +240,7 @@ public class EcFramework extends Framework {
 	 * @method removeLevelsThatInclude
 	 * @private
 	 */
-	private void removeLevelsThatInclude(final String id, final int i, final Callback1<String> success, final Callback1<String> failure) {
+	private void removeLevelsThatInclude(final String id, final int i, final Callback1<String> success, final Callback2<String, Integer> failure) {
 		final String shortId = trimVersionFromUrl(id);
 		final EcFramework me = this;
 		if (i >= level.$length() && success != null)
@@ -254,9 +255,9 @@ public class EcFramework extends Framework {
 					} else
 						me.removeLevelsThatInclude(id, i + 1, success, failure);
 				}
-			}, new Callback1<String>() {
+			}, new Callback2<String, Integer>() {
 				@Override
-				public void $invoke(String s) {
+				public void $invoke(String s, Integer i) {
 					me.removeLevelsThatInclude(id, i + 1, success, failure);
 				}
 			});
@@ -377,12 +378,12 @@ public class EcFramework extends Framework {
 	 * @memberOf EcFramework
 	 * @method save
 	 */
-	public void save(Callback1<String> success, Callback1<String> failure, EcRepository repo) {
+	public void save(Callback1<String> success, Callback2<String, Integer> failure, EcRepository repo) {
 		if (this.name == null || this.name == "") {
 			String msg = "Framework Name Cannot be Empty";
 
 			if (failure != null)
-				failure.$invoke(msg);
+				failure.$invoke(msg, 400);
 			else
 				Global.console.error(msg);
 			return;
@@ -404,11 +405,11 @@ public class EcFramework extends Framework {
 	 * @memberOf EcFramework
 	 * @method _delete
 	 */
-	public void _delete(Callback1<String> success, Callback1<String> failure) {
+	public void _delete(Callback1<String> success, Callback2<String, Integer> failure) {
 		EcRepository.DELETE(this, success, failure);
 	}
 
-	public void asAsnJson(final Callback1<String> success, final Callback1<String> failure, final String fallbackServerUrl) {
+	public void asAsnJson(final Callback1<String> success, final Callback2<String, Integer> failure, final String fallbackServerUrl) {
 		final String id = this.id;
 
 		String server = getServerBaseUrl();
@@ -416,10 +417,10 @@ public class EcFramework extends Framework {
 			server = server + "/";
 		}
 
-		EcRemote.getExpectingString(server, "asn?id=" + getGuid(), success, new Callback1<String>() {
+		EcRemote.getExpectingString(server, "asn?id=" + getGuid(), success, new Callback2<String, Integer>() {
 
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 
 				if (fallbackServerUrl != null && fallbackServerUrl != JSGlobal.undefined) {
 					String server = fallbackServerUrl;
@@ -428,7 +429,7 @@ public class EcFramework extends Framework {
 					}
 					EcRemote.getExpectingString(server, "asn?id=" + id, success, failure);
 				} else {
-					failure.$invoke(p1);
+					failure.$invoke(p1, i);
 				}
 			}
 		});

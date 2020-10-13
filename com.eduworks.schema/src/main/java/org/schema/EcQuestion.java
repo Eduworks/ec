@@ -9,6 +9,7 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.javascript.functions.Function0;
 
 public class EcQuestion extends Question {
@@ -33,7 +34,7 @@ public class EcQuestion extends Question {
 	 * @method search
 	 * @static
 	 */
-	public static void search(EcRepository repo, String query, final Callback1<Array<EcQuestion>> success, Callback1<String> failure, Object paramObj) {
+	public static void search(EcRepository repo, String query, final Callback1<Array<EcQuestion>> success, Callback2<String, Integer> failure, Object paramObj) {
 		EcRepository.searchAs(repo, query, new Function0() {
 			@Override
 			public Object $invoke() {

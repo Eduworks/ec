@@ -20,6 +20,7 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.Date;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.javascript.functions.Function1;
 import org.stjs.testing.annotation.ScriptsBefore;
 
@@ -28,7 +29,7 @@ public class EvidenceProcessingTestBase {
 
 	public Function1<String, String> ask;
 	protected EcRepository repo;
-	protected Callback1<String> failure;
+	protected Callback2<String, Integer> failure;
 	protected Callback1<Object> logObject;
 	EcIdentity newId1;
 
@@ -36,16 +37,16 @@ public class EvidenceProcessingTestBase {
 		EcRepository.get(id, new Callback1<EcRemoteLinkedData>() {
 			@Override
 			public void $invoke(EcRemoteLinkedData p1) {
-				EcRepository._delete(p1, null, new Callback1<String>() {
+				EcRepository._delete(p1, null, new Callback2<String, Integer>() {
 					@Override
-					public void $invoke(String p1) {
+					public void $invoke(String p1, Integer i) {
 						Global.console.log(p1);
 					}
 				});
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Global.console.log(p1);
 			}
 		});
@@ -54,9 +55,9 @@ public class EvidenceProcessingTestBase {
 	@Before
 	public void setup() {
 		EcRemote.async = false;
-		failure = new Callback1<String>() {
+		failure = new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Global.console.log(p1);
 				Assert.fail();
 			}

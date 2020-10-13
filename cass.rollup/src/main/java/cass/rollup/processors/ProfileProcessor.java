@@ -35,7 +35,7 @@ public class ProfileProcessor {
     private Array<String> profilePkPems;
     private EcRepository repo;
     private Callback0 successCallback;
-    private Callback1<String> failureCallback;
+    private Callback2<String, Integer> failureCallback;
 
     private int frameworksToProcess = 0;
     private int frameworksProcessed = 0;
@@ -77,9 +77,9 @@ public class ProfileProcessor {
                         me.checkAllFrameworkGraphAssertionsHaveProcessed();
                     }
                 },
-                new Callback1<String>() {
+                new Callback2<String, Integer>() {
                     @Override
-                    public void $invoke(String err) {
+                    public void $invoke(String err, Integer i) {
                         me.handleFailedFrameworkGraphOperation("Process Graph: " + err);
                     }
                 }
@@ -105,9 +105,9 @@ public class ProfileProcessor {
                         me.processFrameworkGraphAssertions(efg,framework);
                     }
                 },
-                new Callback1<String>() {
+                new Callback2<String, Integer>() {
                     @Override
-                    public void $invoke(String err) {
+                    public void $invoke(String err, Integer i) {
                         me.handleFailedFrameworkGraphOperation("Build Graph: " + err);
                     }
                 }
@@ -293,7 +293,7 @@ public class ProfileProcessor {
         );
     }
 
-    public void processProfileAssertions(EcRepository repo, Array<String> profilePkPems, final Callback0 success, final Callback1<String> failure) {
+    public void processProfileAssertions(EcRepository repo, Array<String> profilePkPems, final Callback0 success, final Callback2<String, Integer> failure) {
         this.profilePkPems = profilePkPems;
         this.repo = repo;
         successCallback = success;

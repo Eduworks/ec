@@ -6,6 +6,7 @@ import org.stjs.javascript.Global;
 import org.stjs.javascript.JSGlobal;
 import org.stjs.javascript.JSObjectAdapter;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.javascript.worker.ErrorEvent;
 import org.stjs.javascript.worker.MessageEvent;
 import org.stjs.javascript.worker.Worker;
@@ -25,7 +26,7 @@ public class EcRsaOaepAsyncWorker {
 	static int rotator;
 	static Array<Worker<Object>> w;
 	static Array<Array<Callback1>> q1;
-	static Array<Array<Callback1>> q2;
+	static Array<Array<Callback2>> q2;
 
 	public static void initWorker() {
 		if (Global.window == null && (JSGlobal.typeof(WorkerGlobalScope.self).equals("undefined")) || EcLevrCrypto.Worker == JSGlobal.undefined || EcLevrCrypto.Worker == null) {
@@ -48,7 +49,7 @@ public class EcRsaOaepAsyncWorker {
 
 	private static void createWorker(final int index) {
 		q1.push(new Array<Callback1>());
-		q2.push(new Array<Callback1>());
+		q2.push(new Array<Callback2>());
 		Worker<Object> wkr;
 		if (JSObjectAdapter.$get(Global.window, "scriptPath") != null)
 		w.push(wkr = new Worker<Object>(JSObjectAdapter.$get(Global.window, "scriptPath") + "forgeAsync.js"));
@@ -59,10 +60,10 @@ public class EcRsaOaepAsyncWorker {
 			public void $invoke(MessageEvent<Object> p1) {
 				Object o = p1.data;
 				Callback1 success = q1.$get(index).shift();
-				Callback1 failure = q2.$get(index).shift();
+				Callback2 failure = q2.$get(index).shift();
 				if (JSObjectAdapter.$get(o, "error") != null) {
 					if (failure != null)
-						failure.$invoke(JSObjectAdapter.$get(o, "error"));
+						failure.$invoke(JSObjectAdapter.$get(o, "error"), 400);
 				} else if (success != null) {
 					success.$invoke(JSObjectAdapter.$get(o, "result"));
 				}
@@ -72,9 +73,9 @@ public class EcRsaOaepAsyncWorker {
 			@Override
 			public void $invoke(ErrorEvent p1) {
 				Callback1 success = q1.$get(index).shift();
-				Callback1 failure = q2.$get(index).shift();
+				Callback2 failure = q2.$get(index).shift();
 				if (failure != null) {
-					failure.$invoke(p1.toString());
+					failure.$invoke(p1.toString(), 400);
 				}
 			}
 		};
@@ -93,7 +94,7 @@ public class EcRsaOaepAsyncWorker {
 	 * @method encrypt
 	 * @static
 	 */
-	public static void encrypt(EcPk pk, String plaintext, Callback1<String> success, Callback1<String> failure) {
+	public static void encrypt(EcPk pk, String plaintext, Callback1<String> success, Callback2<String, Integer> failure) {
 		initWorker();
 		if (!EcRemote.async || w == null) {
 			success.$invoke(EcRsaOaep.encrypt(pk, plaintext));
@@ -123,7 +124,7 @@ public class EcRsaOaepAsyncWorker {
 	 * @method decrypt
 	 * @static
 	 */
-	public static void decrypt(final EcPpk ppk, final String ciphertext, final Callback1<String> success, final Callback1<String> failure) {
+	public static void decrypt(final EcPpk ppk, final String ciphertext, final Callback1<String> success, final Callback2<String, Integer> failure) {
 		if (EcCrypto.caching) {
 			Object cacheGet = null;
 			cacheGet = JSObjectAdapter.$get(EcCrypto.decryptionCache, ppk.toPem() + ciphertext);
@@ -176,7 +177,7 @@ public class EcRsaOaepAsyncWorker {
 	 * @method sign
 	 * @static
 	 */
-	public static void sign(EcPpk ppk, String text, Callback1<String> success, Callback1<String> failure) {
+	public static void sign(EcPpk ppk, String text, Callback1<String> success, Callback2<String, Integer> failure) {
 		initWorker();
 		if (!EcRemote.async || w == null) {
 			success.$invoke(EcRsaOaep.sign(ppk, text));
@@ -206,7 +207,7 @@ public class EcRsaOaepAsyncWorker {
 	 * @method signSha256
 	 * @static
 	 */
-	public static void signSha256(EcPpk ppk, String text, Callback1<String> success, Callback1<String> failure) {
+	public static void signSha256(EcPpk ppk, String text, Callback1<String> success, Callback2<String, Integer> failure) {
 		initWorker();
 		if (!EcRemote.async || w == null) {
 			success.$invoke(EcRsaOaep.signSha256(ppk, text));
@@ -237,7 +238,7 @@ public class EcRsaOaepAsyncWorker {
 	 * @method verify
 	 * @static
 	 */
-	public static void verify(EcPk pk, String text, String signature, Callback1<Boolean> success, Callback1<String> failure) {
+	public static void verify(EcPk pk, String text, String signature, Callback1<Boolean> success, Callback2<String, Integer> failure) {
 		initWorker();
 		if (!EcRemote.async || w == null) {
 			success.$invoke(EcRsaOaep.verify(pk, text, signature));

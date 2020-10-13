@@ -16,6 +16,7 @@ import org.junit.runner.RunWith;
 import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.testing.annotation.ScriptsBefore;
 import org.stjs.testing.driver.STJSTestDriverRunner;
 
@@ -60,18 +61,18 @@ public class EcLevelTest {
 		comp.generateId(server);
 		comp.addOwner(ppk.toPk());
 
-		comp.save(null, new Callback1<String>() {
+		comp.save(null, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to Save Level Competency");
 			}
 		},null);
 
 		level.competency = comp.shortId();
 
-		level.save(null, new Callback1<String>() {
+		level.save(null, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Unable to save Level");
 			}
 		},null);
@@ -79,16 +80,16 @@ public class EcLevelTest {
 
 	@After
 	public void breakdown() {
-		level._delete(null, new Callback1<String>() {
+		level._delete(null, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Unable to delete Level");
 			}
 		});
 
-		comp._delete(null, new Callback1<String>() {
+		comp._delete(null, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Unable to delete Level Competency");
 			}
 		}, null);
@@ -109,9 +110,9 @@ public class EcLevelTest {
 
 				Assert.fail("Unable to search for level after save");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to Search for level");
 			}
 		});
@@ -161,9 +162,9 @@ public class EcLevelTest {
 				Assert.assertEquals("Title not equal to saved Title", level.title, l.title);
 				Assert.assertEquals("Performance not equal to saved Performance", level.performance, l.performance);
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to Get Competency");
 			}
 		});
@@ -182,9 +183,9 @@ public class EcLevelTest {
 			public void $invoke(String p1) {
 				Global.console.log("Level Updated");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to Update the Level");
 			}
 		},null);
@@ -203,9 +204,9 @@ public class EcLevelTest {
 				Assert.assertEquals("Performance not equal to updated Performance", level.performance, l.performance);
 
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to Retrieve Competency after Update");
 			}
 		});
@@ -222,9 +223,9 @@ public class EcLevelTest {
 			public void $invoke(String p1) {
 				Assert.fail("Updated Level without name, shouldn't happen");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Global.console.log("Failed to update Level");
 			}
 		},null);
@@ -241,9 +242,9 @@ public class EcLevelTest {
 			public void $invoke(String p1) {
 				Assert.fail("Updated Level without competency, shouldn't happen");
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Global.console.log("Failed to update Level");
 			}
 		},null);
@@ -259,17 +260,17 @@ public class EcLevelTest {
 		toDelete.competency = comp.shortId();
 
 		Global.console.log("saving level to delete...");
-		toDelete.save(null, new Callback1<String>() {
+		toDelete.save(null, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to save level for delete");
 			}
 		},null);
 
 		Global.console.log("deleting level...");
-		toDelete._delete(null, new Callback1<String>() {
+		toDelete._delete(null, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to delete Level");
 			}
 		});
@@ -286,9 +287,9 @@ public class EcLevelTest {
 					}
 				}
 			}
-		}, new Callback1<String>() {
+		}, new Callback2<String, Integer>() {
 			@Override
-			public void $invoke(String p1) {
+			public void $invoke(String p1, Integer i) {
 				Assert.fail("Failed to Search for level after delete");
 			}
 		});

@@ -9,6 +9,7 @@ import org.cassproject.schema.cass.competency.Competency;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.*;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.javascript.functions.Function0;
 
 /**
@@ -57,7 +58,7 @@ public class EcCompetency extends Competency {
 	 * @method get
 	 * @static
 	 */
-	public static void get(String id, final Callback1<EcCompetency> success, final Callback1<String> failure) {
+	public static void get(String id, final Callback1<EcCompetency> success, final Callback2<String, Integer> failure) {
 		EcRepository.getAs(id,new EcCompetency(),success,failure);
 	}
 
@@ -94,7 +95,7 @@ public class EcCompetency extends Competency {
 	 * @method search
 	 * @static
 	 */
-	public static void search(EcRepository repo, String query, final Callback1<Array<EcCompetency>> success, Callback1<String> failure, Object paramObj) {
+	public static void search(EcRepository repo, String query, final Callback1<Array<EcCompetency>> success, Callback2<String, Integer> failure, Object paramObj) {
 		EcRepository.searchAs(repo, query, new Function0() {
 			@Override
 			public Object $invoke() {
@@ -125,7 +126,7 @@ public class EcCompetency extends Competency {
 	 * @method addAlignment
 	 */
 	public EcAlignment addAlignment(EcCompetency target, final String alignmentType, final EcPpk owner,
-	                                final String serverUrl, Callback1<String> success, Callback1<String> failure,EcRepository repo) {
+	                                final String serverUrl, Callback1<String> success, Callback2<String, Integer> failure,EcRepository repo) {
 		final EcAlignment a = new EcAlignment();
 		if (repo == null || repo.selectedServer.indexOf(serverUrl) != -1)
 			a.generateId(serverUrl);
@@ -155,7 +156,7 @@ public class EcCompetency extends Competency {
 	 * @memberOf EcCompetency
 	 * @method relations
 	 */
-	public void relations(EcRepository repo, final Callback1<EcAlignment> eachSuccess, final Callback1<String> failure,
+	public void relations(EcRepository repo, final Callback1<EcAlignment> eachSuccess, final Callback2<String, Integer> failure,
 	                      final Callback1<Array<EcAlignment>> successAll) {
 		relationships(repo, eachSuccess, failure, successAll);
 	}
@@ -176,7 +177,7 @@ public class EcCompetency extends Competency {
 	 * @deprecated
 	 */
 	@Deprecated
-	public void relationships(EcRepository repo, final Callback1<EcAlignment> eachSuccess, final Callback1<String> failure,
+	public void relationships(EcRepository repo, final Callback1<EcAlignment> eachSuccess, final Callback2<String, Integer> failure,
 	                          final Callback1<Array<EcAlignment>> successAll) {
 		EcAlignment.search(repo, "source:\"" + id + "\" OR target:\"" + id + "\" OR source:\"" + shortId() + "\" OR target:\"" + shortId() + "\"", new Callback1<Array<EcAlignment>>() {
 			@Override
@@ -208,7 +209,7 @@ public class EcCompetency extends Competency {
 	 * @memberOf EcCompetency
 	 * @method addLevel
 	 */
-	public EcLevel addLevel(String name, String description, final EcPpk owner, final String serverUrl, Callback1<String> success, Callback1<String> failure,EcRepository repo) {
+	public EcLevel addLevel(String name, String description, final EcPpk owner, final String serverUrl, Callback1<String> success, Callback2<String, Integer> failure,EcRepository repo) {
 		final EcLevel l = new EcLevel();
 		if (repo == null || repo.selectedServer.indexOf(serverUrl) != -1)
 			l.generateId(serverUrl);
@@ -238,7 +239,7 @@ public class EcCompetency extends Competency {
 	 * @memberOf EcCompetency
 	 * @method levels
 	 */
-	public void levels(EcRepository repo, final Callback1<EcLevel> eachSuccess, final Callback1<String> failure, final Callback1<Array<EcLevel>> successAll) {
+	public void levels(EcRepository repo, final Callback1<EcLevel> eachSuccess, final Callback2<String, Integer> failure, final Callback1<Array<EcLevel>> successAll) {
 		String query = "competency:\"" + id + "\" OR competency:\"" + shortId() + "\"";
 
 		EcLevel.search(repo,query,new Callback1<Array<EcLevel>>() {
@@ -272,7 +273,7 @@ public class EcCompetency extends Competency {
 	 * @method addRollupRule
 	 */
 	public EcRollupRule addRollupRule(String name, String description, final EcPpk owner, final String serverUrl, Callback1<String> success,
-	                                  Callback1<String> failure, EcRepository repo) {
+									  Callback2<String, Integer> failure, EcRepository repo) {
 		final EcRollupRule r = new EcRollupRule();
 		if (repo == null)
 
@@ -304,7 +305,7 @@ public class EcCompetency extends Competency {
 	 * @memberOf EcCompetency
 	 * @method rollupRules
 	 */
-	public void rollupRules(EcRepository repo, final Callback1<EcRollupRule> eachSuccess, final Callback1<String> failure,
+	public void rollupRules(EcRepository repo, final Callback1<EcRollupRule> eachSuccess, final Callback2<String, Integer> failure,
 	                        final Callback1<Array<EcRollupRule>> successAll) {
 		String query = "competency:\"" + id + "\" OR competency:\"" + shortId() + "\"";
 
@@ -340,11 +341,11 @@ public class EcCompetency extends Competency {
 	 * @memberOf EcCompetency
 	 * @method save
 	 */
-	public void save(Callback1<String> success, Callback1<String> failure, EcRepository repo) {
+	public void save(Callback1<String> success, Callback2<String, Integer> failure, EcRepository repo) {
 		if (this.name == null || this.name == "") {
 			String msg = "Competency Name can not be empty";
 			if (failure != null)
-				failure.$invoke(msg);
+				failure.$invoke(msg, 400);
 			else
 				Global.console.error(msg);
 			return;
@@ -369,7 +370,7 @@ public class EcCompetency extends Competency {
 	 * @memberOf EcCompetency
 	 * @method _delete
 	 */
-	public void _delete(final Callback1<String> success, final Callback1<String> failure, final EcRepository repo) {
+	public void _delete(final Callback1<String> success, final Callback2<String, Integer> failure, final EcRepository repo) {
 		final EcCompetency me = this;
 		EcRepository.DELETE(this, new Callback1<String>() {
 			@Override
@@ -380,11 +381,11 @@ public class EcCompetency extends Competency {
 						public void $invoke(EcAlignment p1) {
 							for (int i = 0; i < EcIdentityManager.ids.$length(); i++) {
 								if (p1.canEdit(EcIdentityManager.ids.$get(i).ppk.toPk())) {
-									p1._delete(null, new Callback1<String>() {
+									p1._delete(null, new Callback2<String, Integer>() {
 										@Override
-										public void $invoke(String p1) {
+										public void $invoke(String p1, Integer i) {
 											if (failure != null)
-												failure.$invoke("Unable to Delete Competency Relation");
+												failure.$invoke("Unable to Delete Competency Relation", 400);
 											else
 												Global.console.error("Unable to Delete Competency Relation");
 										}
@@ -411,11 +412,11 @@ public class EcCompetency extends Competency {
 						public void $invoke(EcLevel p1) {
 							for (int i = 0; i < EcIdentityManager.ids.$length(); i++) {
 								if (p1.canEdit(EcIdentityManager.ids.$get(i).ppk.toPk())) {
-									p1._delete(null, new Callback1<String>() {
+									p1._delete(null, new Callback2<String, Integer>() {
 										@Override
-										public void $invoke(String p1) {
+										public void $invoke(String p1, Integer i) {
 											if (failure != null)
-												failure.$invoke("Unable to Delete Competency Relation");
+												failure.$invoke("Unable to Delete Competency Relation", 400);
 											else
 												Global.console.error("Unable to Delete Competency Relation");
 										}

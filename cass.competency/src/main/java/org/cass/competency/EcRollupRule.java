@@ -8,6 +8,7 @@ import org.stjs.javascript.Array;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.JSCollections;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 import org.stjs.javascript.functions.Function0;
 
 /**
@@ -36,7 +37,7 @@ public class EcRollupRule extends RollupRule {
 	 * @method get
 	 * @static
 	 */
-	public static void get(String id, final Callback1<EcRollupRule> success, final Callback1<String> failure) {
+	public static void get(String id, final Callback1<EcRollupRule> success, final Callback2<String, Integer> failure) {
 		EcRepository.getAs(id,new EcRollupRule(),success,failure);
 	}
 	public static EcRollupRule getBlocking(String id) {
@@ -60,7 +61,7 @@ public class EcRollupRule extends RollupRule {
 	 * @method search
 	 * @static
 	 */
-	public static void search(EcRepository repo, String query, final Callback1<Array<EcRollupRule>> success, Callback1<String> failure, Object paramObj) {
+	public static void search(EcRepository repo, String query, final Callback1<Array<EcRollupRule>> success, Callback2<String, Integer> failure, Object paramObj) {
 		EcRepository.searchAs(repo, query, new Function0() {
 			@Override
 			public Object $invoke() {
@@ -101,11 +102,11 @@ public class EcRollupRule extends RollupRule {
 	 * @memberOf EcRollupRule
 	 * @method save
 	 */
-	public void save(Callback1<String> success, Callback1<String> failure, EcRepository repo) {
+	public void save(Callback1<String> success, Callback2<String, Integer> failure, EcRepository repo) {
 		if (rule == null || rule == "") {
 			String msg = "RollupRule Rule cannot be empty";
 			if (failure != null)
-				failure.$invoke(msg);
+				failure.$invoke(msg, 400);
 			else
 				Global.console.error(msg);
 			return;
@@ -114,7 +115,7 @@ public class EcRollupRule extends RollupRule {
 		if (competency == null || competency == "") {
 			String msg = "RollupRule's Competency cannot be empty";
 			if (failure != null)
-				failure.$invoke(msg);
+				failure.$invoke(msg, 400);
 			else
 				Global.console.error(msg);
 			return;
@@ -136,7 +137,7 @@ public class EcRollupRule extends RollupRule {
 	 * @memberOf EcRollupRule
 	 * @method _delete
 	 */
-	public void _delete(Callback1<String> success, Callback1<String> failure) {
+	public void _delete(Callback1<String> success, Callback2<String, Integer> failure) {
 		EcRepository.DELETE(this, success, failure);
 	}
 }

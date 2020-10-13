@@ -7,6 +7,7 @@ import org.cassproject.ebac.repository.EcRepository;
 import org.json.ld.EcLinkedData;
 import org.stjs.javascript.Global;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback2;
 
 /**
  * Object that holds the Moodle Adapter configuration values returned
@@ -41,7 +42,7 @@ public class MoodleConfig extends EcLinkedData {
 	 * @method get
 	 * @static
 	 */
-	public static void get(final String serverUrl, final Callback1<Object> success, final Callback1<String> failure) {
+	public static void get(final String serverUrl, final Callback1<Object> success, final Callback2<String, Integer> failure) {
 		final FormData fd = new FormData();
 		long offset = EcRepository.setOffset(serverUrl);
 		EcIdentityManager.signatureSheetAsync(60000 + offset, serverUrl, new Callback1<String>() {
@@ -66,7 +67,7 @@ public class MoodleConfig extends EcLinkedData {
 	 * @method get
 	 * @static
 	 */
-	public static void getMoodleKey(final String serverUrl, final Callback1<String> success, final Callback1<String> failure) {
+	public static void getMoodleKey(final String serverUrl, final Callback1<String> success, final Callback2<String, Integer> failure) {
 		final FormData fd = new FormData();
 		long offset = EcRepository.setOffset(serverUrl);
 		EcIdentityManager.signatureSheetAsync(60000 + offset, serverUrl, new Callback1<String>() {
@@ -78,11 +79,11 @@ public class MoodleConfig extends EcLinkedData {
 		},failure);
 	}
 
-	public static void syncCassToMoodle(final String serverUrl, Callback1<String> success, final Callback1<String> failure) {
+	public static void syncCassToMoodle(final String serverUrl, Callback1<String> success, final Callback2<String, Integer> failure) {
 		EcRemote.postExpectingString(serverUrl, "moodle/cassToMoodle", new FormData(), success, failure);
 	}
 
-	public static void syncMoodleToCass(final String serverUrl, Callback1<String> success, final Callback1<String> failure) {
+	public static void syncMoodleToCass(final String serverUrl, Callback1<String> success, final Callback2<String, Integer> failure) {
 		EcRemote.postExpectingString(serverUrl, "moodle/moodleToCass", new FormData(), success, failure);
 	}
 
@@ -98,7 +99,7 @@ public class MoodleConfig extends EcLinkedData {
 	 * @memberOf MoodleConfig
 	 * @method save
 	 */
-	public void save(final String serverUrl, final Callback1<Object> success, final Callback1<String> failure) {
+	public void save(final String serverUrl, final Callback1<Object> success, final Callback2<String, Integer> failure) {
 		final FormData fd = new FormData();
 		fd.append("config", Global.JSON.stringify(this));
 		long offset = EcRepository.setOffset(serverUrl);

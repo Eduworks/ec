@@ -60,13 +60,13 @@ public class EcRepository {
      * @method get
      * @static
      */
-    public static void get(String url, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure) {
+    public static void get(String url, final Callback1<EcRemoteLinkedData> success, final Callback2<String, Integer> failure) {
         if (url == null) {
-            failure.$invoke("URL is null. Cannot EcRepository.get");
+            failure.$invoke("URL is null. Cannot EcRepository.get", 400);
             return;
         }
         if (url.toLowerCase().indexOf("http") != 0) {
-            failure.$invoke("URL does not begin with http. Cannot EcRepository.get");
+            failure.$invoke("URL does not begin with http. Cannot EcRepository.get", 400);
             return;
         }
         final String originalUrl = url;
@@ -74,7 +74,7 @@ public class EcRepository {
             EcRemoteLinkedData result = getBlocking(url);
             if (result == null) {
                 if (failure != null)
-                    failure.$invoke("Could not locate object. May be due to EcRepository.alwaysTryUrl flag.");
+                    failure.$invoke("Could not locate object. May be due to EcRepository.alwaysTryUrl flag.", 404);
             } else if (success != null)
                 success.$invoke(result);
             return;
@@ -124,10 +124,10 @@ public class EcRepository {
                 public void $invoke(Object p1) {
                     getHandleData(p1, originalUrl, success, failure, finalUrl);
                 }
-            }, new Callback1<String>() {
+            }, new Callback2<String, Integer>() {
 
                 @Override
-                public void $invoke(String p1) {
+                public void $invoke(String p1, Integer i) {
                     EcRepository.find(originalUrl, p1, new Object(), 0, success, failure);
                 }
             });
@@ -147,10 +147,10 @@ public class EcRepository {
                         public void $invoke(Object p1) {
                             getHandleData(p1, originalUrl, success, failure, finalUrl);
                         }
-                    }, new Callback1<String>() {
+                    }, new Callback2<String, Integer>() {
 
                         @Override
-                        public void $invoke(String p1) {
+                        public void $invoke(String p1, Integer i) {
                             EcRepository.find(originalUrl, p1, new Object(), 0, success, failure);
                         }
                     });
@@ -169,7 +169,7 @@ public class EcRepository {
         return offset;
     }
 
-    private static void getHandleData(Object p1, String originalUrl, Callback1<EcRemoteLinkedData> success, Callback1<String> failure, String finalUrl) {
+    private static void getHandleData(Object p1, String originalUrl, Callback1<EcRemoteLinkedData> success, Callback2<String, Integer> failure, String finalUrl) {
         JSObjectAdapter.$properties(fetching).$delete(originalUrl);
         EcRemoteLinkedData d = new EcRemoteLinkedData("", "");
         d.copyFrom(p1);
@@ -207,11 +207,11 @@ public class EcRepository {
         return false;
     }
 
-    private static void find(final String url, final String error, final Object history, final int i, final Callback1<EcRemoteLinkedData> success, final Callback1<String> failure) {
+    private static void find(final String url, final String error, final Object history, final int i, final Callback1<EcRemoteLinkedData> success, final Callback2<String, Integer> failure) {
         if (JSGlobal.isNaN(i) || (Object) i == JSGlobal.undefined || i > repos.$length() || repos.$get(i) == null) {
             JSObjectAdapter.$properties(fetching).$delete(url);
             if (failure != null)
-                failure.$invoke(error);
+                failure.$invoke(error, 400);
             return;
         }
         final EcRepository repo = repos.$get(i);
@@ -248,9 +248,9 @@ public class EcRepository {
                     find(url, error, history, i + 1, success, failure);
                 }
             }
-        }, new Callback1<String>() {
+        }, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String s) {
+            public void $invoke(String s, Integer integer) {
                 find(url, s, history, i + 1, success, failure);
             }
         });
@@ -340,9 +340,9 @@ public class EcRepository {
                         JSObjectAdapter.$put(cache, d.id, d);
                 }
             }
-        }, new Callback1<String>() {
+        }, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String s) {
+            public void $invoke(String s, Integer i) {
                 EcRemoteLinkedData d = EcRepository.findBlocking(originalUrl, s, new Object(), 0);
                 JSObjectAdapter.$put(cache, originalUrl, d);
                 if (d != null) {
@@ -409,7 +409,7 @@ public class EcRepository {
      * @method save
      * @static
      */
-    public static void save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure) {
+    public static void save(EcRemoteLinkedData data, final Callback1<String> success, final Callback2<String, Integer> failure) {
         //Using EcRepository 'save' method, if this is intentional consider calling '_save'
         //Using this method instead of the save method for your object (if it exists) bypasses quality checks.
         _save(data, success, failure, null);
@@ -429,7 +429,7 @@ public class EcRepository {
      * @method save
      * @static
      */
-    public void saveTo(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure) {
+    public void saveTo(EcRemoteLinkedData data, final Callback1<String> success, final Callback2<String, Integer> failure) {
         //Using EcRepository 'save' method, if this is intentional consider calling '_save'
         //Using this method instead of the save method for your object (if it exists) bypasses quality checks.
         _save(data, success, failure, this);
@@ -451,11 +451,11 @@ public class EcRepository {
      * @static
      */
 
-    public static void _save(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure, EcRepository repo) {
+    public static void _save(EcRemoteLinkedData data, final Callback1<String> success, final Callback2<String, Integer> failure, EcRepository repo) {
         if (data.invalid()) {
             String msg = "Cannot save data. It is missing a vital component.";
             if (failure != null) {
-                failure.$invoke(msg);
+                failure.$invoke(msg, 400);
             } else {
                 Global.console.error(msg);
             }
@@ -496,14 +496,14 @@ public class EcRepository {
      * @static
      */
 
-    public void multiput(final Array<EcRemoteLinkedData> data, final Callback1<String> success, final Callback1<String> failure) {
+    public void multiput(final Array<EcRemoteLinkedData> data, final Callback1<String> success, final Callback2<String, Integer> failure) {
         final EcRepository me = this;
         for (int i = 0; i < data.$length(); i++) {
             EcRemoteLinkedData d = data.$get(i);
             if (d.invalid()) {
                 String msg = "Cannot save data. It is missing a vital component.";
                 if (failure != null) {
-                    failure.$invoke(msg);
+                    failure.$invoke(msg, 400);
                 } else {
                     Global.console.error(msg);
                 }
@@ -536,7 +536,7 @@ public class EcRepository {
                 JSObjectAdapter.$properties(cache).$delete(d.shortId());
             }
             if (d.invalid()) {
-                failure.$invoke("Data is malformed.");
+                failure.$invoke("Data is malformed.", 400);
                 return;
             }
             if (alwaysTryUrl || this.shouldTryUrl(d.id))
@@ -587,7 +587,7 @@ public class EcRepository {
      * @method _saveWithoutSigning
      * @static
      */
-    private static void _saveWithoutSigning(final EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure, final EcRepository repo) {
+    private static void _saveWithoutSigning(final EcRemoteLinkedData data, final Callback1<String> success, final Callback2<String, Integer> failure, final EcRepository repo) {
 
         if (caching) {
             JSObjectAdapter.$properties(cache).$delete(data.id);
@@ -596,7 +596,7 @@ public class EcRepository {
                 JSObjectAdapter.$properties(cache).$delete(EcRemoteLinkedData.veryShortId(repo.selectedServer,data.getGuid()));
         }
         if (data.invalid()) {
-            failure.$invoke("Data is malformed.");
+            failure.$invoke("Data is malformed.", 400);
             return;
         }
 
@@ -657,7 +657,7 @@ public class EcRepository {
      * @method _delete
      * @static
      */
-    public static void _delete(EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure) {
+    public static void _delete(EcRemoteLinkedData data, final Callback1<String> success, final Callback2<String, Integer> failure) {
         DELETE(data, success, failure);
     }
 
@@ -676,7 +676,7 @@ public class EcRepository {
      * @method DELETE
      * @static
      */
-    public static void DELETE(final EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure) {
+    public static void DELETE(final EcRemoteLinkedData data, final Callback1<String> success, final Callback2<String, Integer> failure) {
 
         if (caching) {
             JSObjectAdapter.$properties(cache).$delete(data.id);
@@ -699,7 +699,7 @@ public class EcRepository {
                                     return;
                                 }
                             }
-                            failure.$invoke("Cannot delete object without a signature. If deleting from a server, use the non-static _delete");
+                            failure.$invoke("Cannot delete object without a signature. If deleting from a server, use the non-static _delete", 400);
                         } else
                             EcRemote._delete(targetUrl, signatureSheet, success, failure);
                     }
@@ -713,7 +713,7 @@ public class EcRepository {
                             return;
                         }
                     }
-                    failure.$invoke("Cannot delete object without a signature. If deleting from a server, use the non-static _delete");
+                    failure.$invoke("Cannot delete object without a signature. If deleting from a server, use the non-static _delete", 400);
                 } else
                     EcRemote._delete(targetUrl, signatureSheet, success, failure);
             }
@@ -738,7 +738,7 @@ public class EcRepository {
      * @method DELETE
      * @static
      */
-    public void deleteRegistered(final EcRemoteLinkedData data, final Callback1<String> success, final Callback1<String> failure) {
+    public void deleteRegistered(final EcRemoteLinkedData data, final Callback1<String> success, final Callback2<String, Integer> failure) {
         if (caching) {
             JSObjectAdapter.$properties(cache).$delete(data.id);
             JSObjectAdapter.$properties(cache).$delete(data.shortId());
@@ -890,10 +890,10 @@ public class EcRepository {
      * @memberOf EcRepository
      * @method multiget
      */
-    public void multiget(final Array<String> urls, final Callback1<Array<EcRemoteLinkedData>> success, final Callback1<String> failure) {
+    public void multiget(final Array<String> urls, final Callback1<Array<EcRemoteLinkedData>> success, final Callback2<String, Integer> failure) {
         if (urls == null || urls.$length() == 0) {
             if (failure != null) {
-                failure.$invoke("");
+                failure.$invoke("", 400);
             }
             return;
         }
@@ -925,9 +925,9 @@ public class EcRepository {
                         results.push(result);
                         done.$invoke();
                     }
-                }, new Callback1<String>() {
+                }, new Callback2<String, Integer>() {
                     @Override
-                    public void $invoke(String s) {
+                    public void $invoke(String s, Integer i) {
                         done.$invoke();
                     }
                 });
@@ -956,7 +956,7 @@ public class EcRepository {
      * @method search
      */
     public void search(String query, final Callback1<EcRemoteLinkedData> eachSuccess, final Callback1<Array<EcRemoteLinkedData>> success,
-                       final Callback1<String> failure) {
+                       final Callback2<String, Integer> failure) {
         searchWithParams(query, null, eachSuccess, success, failure);
     }
 
@@ -993,13 +993,13 @@ public class EcRepository {
      * @method searchWithParams
      */
     public void searchWithParams(final String originalQuery, final Object originalParamObj, final Callback1<EcRemoteLinkedData> eachSuccess,
-                                 final Callback1<Array<EcRemoteLinkedData>> success, final Callback1<String> failure) {
+                                 final Callback1<Array<EcRemoteLinkedData>> success, final Callback2<String, Integer> failure) {
 
         if (EcRemote.async == false) {
             Array<EcRemoteLinkedData> result = searchWithParamsBlocking(originalQuery, originalParamObj);
             if (result == null) {
                 if (failure != null)
-                    failure.$invoke("Search failed.");
+                    failure.$invoke("Search failed.", 404);
             } else {
                 for (int i = 0; i < result.$length(); i++)
                     if (eachSuccess != null)
@@ -1069,15 +1069,15 @@ public class EcRepository {
 
                     me.handleSearchResults((Array<EcRemoteLinkedData>) p1, eachSuccess, success, failure);
                 }
-            }, new Callback1<String>() {
+            }, new Callback2<String, Integer>() {
 
                 @Override
-                public void $invoke(String p1) {
+                public void $invoke(String p1, Integer i) {
                     if (cacheKey != null) {
                         JSObjectAdapter.$properties(fetching).$delete(cacheKey);
                     }
                     if (failure != null) {
-                        failure.$invoke(p1);
+                        failure.$invoke(p1, i);
                     }
                 }
             });
@@ -1098,15 +1098,15 @@ public class EcRepository {
 
                             me.handleSearchResults((Array<EcRemoteLinkedData>) p1, eachSuccess, success, failure);
                         }
-                    }, new Callback1<String>() {
+                    }, new Callback2<String, Integer>() {
 
                         @Override
-                        public void $invoke(String p1) {
+                        public void $invoke(String p1, Integer i) {
                             if (cacheKey != null) {
                                 JSObjectAdapter.$properties(fetching).$delete(cacheKey);
                             }
                             if (failure != null) {
-                                failure.$invoke(p1);
+                                failure.$invoke(p1, i);
                             }
                         }
                     });
@@ -1169,10 +1169,10 @@ public class EcRepository {
                         JSObjectAdapter.$properties(fetching).$delete(cacheKey);
                     }
                 }
-            }, new Callback1<String>() {
+            }, new Callback2<String, Integer>() {
 
                 @Override
-                public void $invoke(String p1) {
+                public void $invoke(String p1, Integer i) {
                     if (cacheKey != null) {
                         JSObjectAdapter.$properties(fetching).$delete(cacheKey);
                     }
@@ -1191,10 +1191,10 @@ public class EcRepository {
                         JSObjectAdapter.$properties(fetching).$delete(cacheKey);
                     }
                 }
-            }, new Callback1<String>() {
+            }, new Callback2<String, Integer>() {
 
                 @Override
-                public void $invoke(String p1) {
+                public void $invoke(String p1, Integer i) {
                     if (cacheKey != null) {
                         JSObjectAdapter.$properties(fetching).$delete(cacheKey);
                     }
@@ -1454,9 +1454,9 @@ public class EcRepository {
                 }
             }
         };
-        Callback1<String> failureCheck = new Callback1<String>() {
+        Callback2<String, Integer> failureCheck = new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 if (p1 != null) {
                     if (!(p1 == "")) {
                         try {
@@ -1509,9 +1509,9 @@ public class EcRepository {
                 }
             }
         };
-        Callback1<String> failureCheck = new Callback1<String>() {
+        Callback2<String, Integer> failureCheck = new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
+            public void $invoke(String p1, Integer i) {
                 if (p1 != null) {
                     if (p1 != "") {
                         try {
@@ -1546,7 +1546,7 @@ public class EcRepository {
      * @memberOf EcRepository
      * @method listTypes
      */
-    public void listTypes(final Callback1<Array<Object>> success, final Callback1<String> failure) {
+    public void listTypes(final Callback1<Array<Object>> success, final Callback2<String, Integer> failure) {
         FormData fd = new FormData();
         fd.append("signatureSheet", EcIdentityManager.signatureSheet(60000 + timeOffset, selectedServer));
         EcRemote.postExpectingObject(selectedServer, "sky/repo/types", fd, new Callback1<Object>() {
@@ -1570,7 +1570,7 @@ public class EcRepository {
      * @memberOf EcRepository
      * @method backup
      */
-    public void backup(String serverSecret, Callback1<Object> success, Callback1<String> failure) {
+    public void backup(String serverSecret, Callback1<Object> success, Callback2<String, Integer> failure) {
         EcRemote.getExpectingObject(selectedServer, "util/backup?secret=" + serverSecret, success, failure);
     }
 
@@ -1583,7 +1583,7 @@ public class EcRepository {
      * @memberOf EcRepository
      * @method restoreBackup
      */
-    public void restoreBackup(String serverSecret, Callback1<Object> success, Callback1<String> failure) {
+    public void restoreBackup(String serverSecret, Callback1<Object> success, Callback2<String, Integer> failure) {
         EcRemote.getExpectingObject(selectedServer, "util/restore?secret=" + serverSecret, success, failure);
     }
 
@@ -1596,7 +1596,7 @@ public class EcRepository {
      * @memberOf EcRepository
      * @method wipe
      */
-    public void wipe(String serverSecret, Callback1<Object> success, Callback1<String> failure) {
+    public void wipe(String serverSecret, Callback1<Object> success, Callback2<String, Integer> failure) {
         EcRemote.getExpectingObject(selectedServer, "util/purge?secret=" + serverSecret, success, failure);
     }
 
@@ -1615,10 +1615,10 @@ public class EcRepository {
      * @private
      */
     private Array<EcRemoteLinkedData> handleSearchResults(Array<EcRemoteLinkedData> results, final Callback1<EcRemoteLinkedData> eachSuccess,
-                                                          final Callback1<Array<EcRemoteLinkedData>> success, Callback1<String> failure) {
+                                                          final Callback1<Array<EcRemoteLinkedData>> success, Callback2<String, Integer> failure) {
         if (results == null) {
             if (failure != null)
-                failure.$invoke("Error in search. See HTTP request for more details.");
+                failure.$invoke("Error in search. See HTTP request for more details.", 400);
             return null;
         }
         for (int i = 0; i < results.$length(); i++) {
@@ -1653,7 +1653,7 @@ public class EcRepository {
      * @memberOf EcRemoteIdentityManager
      * @method fetchServerAdminKeys
      */
-    public void fetchServerAdminKeys(final Callback1<Array<String>> success, final Callback1<String> failure) {
+    public void fetchServerAdminKeys(final Callback1<Array<String>> success, final Callback2<String, Integer> failure) {
         String service;
         if (selectedServer.endsWith("/")) {
             service = "sky/admin";
@@ -1671,16 +1671,16 @@ public class EcRepository {
                 }
                 success.$invoke(ary);
             }
-        }, new Callback1<String>() {
+        }, new Callback2<String, Integer>() {
             @Override
-            public void $invoke(String p1) {
-                failure.$invoke("");
+            public void $invoke(String p1, Integer i) {
+                failure.$invoke("", i);
             }
         });
     }
 
 
-    public static <T extends EcRemoteLinkedData> void getAs(String id, final T result, final Callback1<T> success, final Callback1<String> failure) {
+    public static <T extends EcRemoteLinkedData> void getAs(String id, final T result, final Callback1<T> success, final Callback2<String, Integer> failure) {
         EcRepository.get(id, new Callback1<EcRemoteLinkedData>() {
             @Override
             public void $invoke(EcRemoteLinkedData p1) {
@@ -1705,7 +1705,7 @@ public class EcRepository {
                         } else {
                             String msg = "Retrieved object was not a " + result.getFullType();
                             if (failure != null)
-                                failure.$invoke(msg);
+                                failure.$invoke(msg, 400);
                             else
                                 Global.console.error(msg);
                         }
@@ -1736,7 +1736,7 @@ public class EcRepository {
         }
     }
 
-    public static <T extends EcRemoteLinkedData> void searchAs(EcRepository repo, String query, final Function0 factory, final Callback1<Array> success, final Callback1<String> failure, Object paramObj) {
+    public static <T extends EcRemoteLinkedData> void searchAs(EcRepository repo, String query, final Function0 factory, final Callback1<Array> success, final Callback2<String, Integer> failure, Object paramObj) {
         if (paramObj == null)
             paramObj = new Object();
 
