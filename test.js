@@ -130,6 +130,12 @@ var Assert = {
     }
 };
 
+var failure = function(val){
+    console.log("PROBLEM: " + val);
+    console.trace();
+    process.exit(1);
+}
+
 var esprima = require('esprima');
 var results = [];
 eval(load.call(this, "ec.base/src/main/resources/random.js") + "");

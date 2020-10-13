@@ -96,7 +96,7 @@ public class EcLevelTest {
 
 	@Test
 	public void createLevelTest() {
-		repo.search(new EcLevel().getSearchStringByType(), null, new Callback1<Array<EcRemoteLinkedData>>() {
+		repo.search(new EcLevel().getSearchStringByType() + " AND name:\"Test Level Name\"", null, new Callback1<Array<EcRemoteLinkedData>>() {
 			@Override
 			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				for (int i = 0; i < p1.$length(); i++) {

@@ -706,6 +706,7 @@ public class EcRepository {
                                     return;
                                 }
                             }
+                            if (failure != null)
                             failure.$invoke("Cannot delete object without a signature. If deleting from a server, use the non-static _delete");
                         } else
                             EcRemote._delete(targetUrl, signatureSheet, success, failure);
@@ -720,7 +721,8 @@ public class EcRepository {
                             return;
                         }
                     }
-                    failure.$invoke("Cannot delete object without a signature. If deleting from a server, use the non-static _delete");
+                    if (failure != null)
+                        failure.$invoke("Cannot delete object without a signature. If deleting from a server, use the non-static _delete");
                 } else
                     EcRemote._delete(targetUrl, signatureSheet, success, failure);
             }
@@ -810,6 +812,7 @@ public class EcRepository {
         for (int i = 0; i < urls.$length(); i++) {
             String url = urls.$get(i);
             if (JSObjectAdapter.$get(cache, url) != null) {
+                //Do nothing.
             } else if (url.startsWith(selectedServer)) {
                 cacheUrls.push(url.replace(selectedServer, "").replace("custom/", ""));
             } else {
