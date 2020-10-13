@@ -927,8 +927,6 @@ public class CSVExport extends Exporter {
 									CSVExportProcess compExport = new CSVExport().new CSVExportProcess();
 									compExport.buildExport(frameworkCompetencies, false);
 									compExport.downloadCSV(fw.getName() + &quot; - Competencies.csv&quot;);
-								} else {
-									// incremental if we want
 								}
 							}
 						}, new Callback1&lt;String&gt;() {
@@ -939,8 +937,6 @@ public class CSVExport extends Exporter {
 									CSVExportProcess compExport = new CSVExport().new CSVExportProcess();
 									compExport.buildExport(frameworkCompetencies, false);
 									compExport.downloadCSV(fw.getName() + &quot; - Competencies.csv&quot;);
-								} else {
-									// incremental if we want
 								}
 							}
 						});
@@ -958,8 +954,6 @@ public class CSVExport extends Exporter {
 									compExport.downloadCSV(fw.getName() + &quot; - Relations.csv&quot;);
 									if (success != null &amp;&amp; success != JSGlobal.undefined)
 										success.$invoke();
-								} else {
-									// incremental if we want
 								}
 
 							}
@@ -973,8 +967,6 @@ public class CSVExport extends Exporter {
 									compExport.downloadCSV(fw.getName() + &quot; - Relations.csv&quot;);
 									if (success != null &amp;&amp; success != JSGlobal.undefined)
 										success.$invoke();
-								} else {
-									// incremental if we want
 								}
 							}
 						});
