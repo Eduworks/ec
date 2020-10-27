@@ -970,26 +970,17 @@ public class ExtContent extends CreativeWork {
 		repo.searchWithParams(query, paramObj, null, new Callback1&lt;Array&lt;EcRemoteLinkedData&gt;&gt;() {
 
 			@Override
-			public void $invoke(Array&lt;EcRemoteLinkedData&gt; p1) {
+			public void $invoke(final Array&lt;EcRemoteLinkedData&gt; p1) {
 				if (success != null) {
-					Array&lt;ExtContent&gt; ret = JSCollections.$array();
-					for (int i = 0; i &lt; p1.$length(); i++) {
-						ExtContent content = new ExtContent();
-//						if(p1.$get(i).isAny(content.getTypes())){
-						content.copyFrom(p1.$get(i));
-//						}
-//						else if(p1.$get(i).isA(EcEncryptedValue.myType)){
-//							EcEncryptedValue val = new EcEncryptedValue();
-//							val.copyFrom(p1.$get(i));
-//							if(val.isAnEncrypted(ExtContent.myType)){
-//								EcRemoteLinkedData obj = val.decryptIntoObject();
-//								content.copyFrom(obj);
-//							}
-//						}
-
-						ret.$set(i, content);
-					}
-
+					final Array&lt;ExtContent&gt; ret = JSCollections.$array();
+					p1.$forEach(new Callback1&lt;EcRemoteLinkedData&gt;() {
+						@Override
+						public void $invoke(EcRemoteLinkedData rld) {
+							ExtContent content = new ExtContent();
+							content.copyFrom(rld);
+							ret.push(content);
+						}
+					});
 					success.$invoke(ret);
 				}
 			}

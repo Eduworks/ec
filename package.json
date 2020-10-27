@@ -39,7 +39,5 @@
     "url": "https://github.com/Eduworks/ec/issues"
   },
   "homepage": "https://github.com/Eduworks/ec#readme",
-  "jshintConfig": {
-
-  }
+  "jshintConfig": {}
 }
