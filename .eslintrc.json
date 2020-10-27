@@ -1,0 +1,40 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 12
+  },
+  "ignorePatterns": [
+    "**/stjs.js",
+    "**/jsonld.js",
+    "**/base64x-1.1.js",
+    "**/papaparse.js",
+    "**/FileSaver.js",
+    "**/base64toArrayBuffer.js",
+    "**/pem-jwk.js",
+    "**/forge/*.js"
+  ],
+  "rules": {
+    "no-undef": 0,
+    "no-redeclare": 0,
+    "no-unused-vars": 0,
+    "no-dupe-keys": 0,
+    "security/detect-possible-timing-attacks": 0,
+    "no-empty": 0,
+    "no-prototype-builtins": 0,
+    "no-useless-catch": 0,
+    "no-useless-escape": 0,
+    "no-mixed-spaces-and-tabs": 0,
+    "security/detect-object-injection": 0
+  },
+  "plugins": [
+    "security"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:security/recommended"
+  ]
+}
