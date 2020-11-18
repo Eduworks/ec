@@ -1,5 +1,6 @@
 package org.cassproject.schema.cass.competency;
 
+import org.cassproject.ebac.repository.EcEncryptedValue;
 import org.cassproject.schema.cass.Cass;
 import org.stjs.javascript.Array;
 import org.schema.CreativeWork;
@@ -37,6 +38,30 @@ public class Directory extends CreativeWork{
      * @type string[]
      */
     public Array<String> subdirectory;
+
+    /**
+     * Indication of whether the directory is at the root or is a subdirectory.
+     *
+     * @property levelMetadata
+     * @type string
+     */
+    public String levelMetadata;
+
+    /**
+     * The encrypted key pertaining to owners of the directory.
+     *
+     * @property ownerKey
+     * @type EcEncryptedValue
+     */
+    public EcEncryptedValue ownerKey;
+
+    /**
+     * The encrypted key pertaining to readers of the directory.
+     *
+     * @property readerKey
+     * @type EcEncryptedValue
+     */
+    public EcEncryptedValue readerKey;
 
     public Directory() {
         setContextAndType(Cass.context, myType);

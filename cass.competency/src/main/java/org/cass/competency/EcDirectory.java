@@ -5,7 +5,6 @@ import com.eduworks.ec.crypto.EcPpk;
 import org.cassproject.ebac.repository.EcEncryptedValue;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.cass.competency.Directory;
-import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.*;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Function0;
@@ -23,9 +22,6 @@ import org.stjs.javascript.functions.Function0;
 
 public class EcDirectory extends Directory {
     public static Object template;
-    public static String levelMetadata;
-    public static EcEncryptedValue ownerKey;
-    public static EcEncryptedValue readerKey;
 
     public EcDirectory() {
         Map<String, Object> me = JSObjectAdapter.$properties(this);
@@ -36,10 +32,7 @@ public class EcDirectory extends Directory {
                     me.$put(key.replace("@", ""), you.$get(key));
             }
         }
-        // Defaults to root directory on creation
-        setAsRootDirectory();
-        ownerKey = null;
-        readerKey = null;
+        levelMetadata = "root";
     }
 
     @Override
@@ -126,8 +119,6 @@ public class EcDirectory extends Directory {
             if (trimVersionFromUrl(framework.$get(i)).equals(id))
                 return;
         framework.push(id);
-        EcFramework frameworkObj = EcFramework.getBlocking(id);
-        // add key to framework and all subobjects
     }
 
     /**
@@ -148,22 +139,6 @@ public class EcDirectory extends Directory {
             if (trimVersionFromUrl(resource.$get(i)).equals(id))
                 return;
         resource.push(id);
-        EcRemoteLinkedData resourceObj = EcRepository.getBlocking(id);
-        if (ownerKey != null) {
-            EcEncryptedValue ev = new EcEncryptedValue();
-            ev.copyFrom(ownerKey);
-            String pem = ev.decryptIntoString();
-            EcPk pk = EcPk.fromPem(pem);
-            resourceObj.addOwner(pk);
-        }
-        if (readerKey != null) {
-            EcEncryptedValue ev = new EcEncryptedValue();
-            ev.copyFrom(readerKey);
-            String pem = ev.decryptIntoString();
-            EcPk pk = EcPk.fromPem(pem);
-            resourceObj.addReader(pk);
-        }
-        repo.saveTo(resourceObj, null, null);
     }
 
     /**
@@ -296,6 +271,7 @@ public class EcDirectory extends Directory {
         EcRepository.DELETE(this, success, failure);
     }
 
+    @Override
     public void addOwner(EcPk newOwner) {
         super.addOwner(newOwner);
         if (ownerKey == null) {
@@ -309,6 +285,7 @@ public class EcDirectory extends Directory {
         }
     }
 
+    @Override
     public void addReader(EcPk newReader) {
         super.addReader(newReader);
         if (readerKey == null) {
@@ -322,33 +299,29 @@ public class EcDirectory extends Directory {
         }
     }
 
+    @Override
     public void removeOwner(EcPk oldOwner) {
         super.removeOwner(oldOwner);
-        if (owner != null) {
+        if (owner != null && owner.$length() > 0) {
             EcEncryptedValue ownerPpk = new EcEncryptedValue();
             ownerPpk.copyFrom(ownerKey);
             String currentPpkPem = ownerPpk.decryptIntoString();
             ownerKey = EcEncryptedValue.encryptValue(currentPpkPem, "ownerKey", owner, null);
         } else {
             ownerKey = null;
-            // remove key from all subobjects?
         }
     }
 
+    @Override
     public void removeReader(EcPk oldReader) {
         super.removeReader(oldReader);
-        if (reader != null) {
+        if (reader != null && reader.$length() > 0) {
             EcEncryptedValue readerPpk = new EcEncryptedValue();
             readerPpk.copyFrom(readerKey);
             String currentPpkPem = readerPpk.decryptIntoString();
             readerKey = EcEncryptedValue.encryptValue(currentPpkPem, "readerKey", owner, reader);
         } else {
             readerKey = null;
-            // remove key from all subobjects?
         }
     }
-    // add and remove keys from frameworks etc when adding to directory?
-    // keys on add/remove owner/reader?
-    // async methods
-    // tests?
 }
