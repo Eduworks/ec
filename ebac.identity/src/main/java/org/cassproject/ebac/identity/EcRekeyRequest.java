@@ -33,18 +33,35 @@ public class EcRekeyRequest extends EcRemoteLinkedData {
      * {EcPk}   oldKeyPk    The public key to replace
      * @method generateRekeyRequestId
      */
-    public void generateRekeyRequestId(String server, EcPk oldKeyPk) {
+    private void generateRekeyRequestId(String server, EcPk oldKeyPk) {
         assignId(server, oldKeyPk.fingerprint());
     }
 
     /**
      * Adds a signature to the rekey request and finalizes before save
      *
-     * {EcPpk   oldKeyPpk    The old PPK
+     * {EcPpk}  oldKeyPpk   The old PPK
      * @method generateRekeyRequestId
      */
-    public void finalizeRequest(EcPpk oldKeyPpk) {
+    private void finalizeRequest(EcPpk oldKeyPpk) {
         rekeySignature = EcRsaOaep.signSha256(oldKeyPpk,this.toSignableJson());
+    }
+
+    /**
+     * Generates and populates a rekey request with the given information
+     *
+     * {String} server  Base URL of the server's repository functionality.
+     * {EcPpk}  oldKey  The old PPK
+     * {EcPpk}  newKey  The new PPK
+     * @method generateRekeyRequest
+     */
+    public static EcRekeyRequest generateRekeyRequest(String server, EcPpk oldKey, EcPpk newKey) {
+        EcRekeyRequest err = new EcRekeyRequest();
+        err.addOwner(oldKey.toPk());
+        err.rekeyPk = newKey.toPk().toPem();
+        err.generateRekeyRequestId(server, oldKey.toPk());
+        err.finalizeRequest(oldKey);
+        return err;
     }
 
     /**
@@ -52,9 +69,7 @@ public class EcRekeyRequest extends EcRemoteLinkedData {
      *
      * @constructor
      */
-    public EcRekeyRequest(EcPk oldKey, EcPk newKey) {
+    public EcRekeyRequest() {
         super("https://schema.cassproject.org/0.4/kbac", "RekeyRequest");
-        this.addOwner(oldKey);
-        rekeyPk = newKey.toPem();
     }
 }
