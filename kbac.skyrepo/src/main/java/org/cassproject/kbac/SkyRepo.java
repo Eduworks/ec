@@ -8,6 +8,7 @@ import com.eduworks.ec.crypto.EcPpk;
 import com.eduworks.ec.crypto.EcRsaOaep;
 import com.eduworks.schema.ebac.EbacEncryptedValue;
 import com.eduworks.schema.ebac.EbacSignature;
+import org.cassproject.ebac.identity.EcRekeyRequest;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.*;
@@ -513,6 +514,16 @@ public class SkyRepo {
             if (oldType != type && type != null) {
                 skyrepoDeleteInternalIndex(id, null, oldType);
             }
+        }
+
+        EcRemoteLinkedData rld = new EcRemoteLinkedData(null,null);
+        rld.copyFrom(o);
+        if (rld.isAny(new EcRekeyRequest().getTypes()))
+        {
+            EcRekeyRequest err = new EcRekeyRequest();
+            err.copyFrom(o);
+            if (err.verify())
+                err.addRekeyRequestToForwardingTable();
         }
     }
 
