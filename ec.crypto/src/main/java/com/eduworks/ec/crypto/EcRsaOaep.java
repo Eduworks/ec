@@ -139,7 +139,7 @@ public class EcRsaOaep {
 	 */
 	public static Boolean verifySha256(EcPk pk, String text, String signature) {
 		if (Global.typeof(EcLevrHttp.httpStatus) != "undefined") {
-			return EcLevrCrypto.rsaVerify(signature, pk.toPem(), text);
+			return EcLevrCrypto.rsaVerifySha256(signature, pk.toPem(), text);
 		}
 		sha256 s = sha256.create();
 		s.update(forge.util.encodeUtf8(text), "utf8");

@@ -84,7 +84,8 @@ public class EcRepository {
                                     me.timeOffset = ((Long) (Object) new Date().getTime()) - ((Long) (Object) JSObjectAdapter.$get(p1, "time"));
                             me.buildKeyForwardingTable(success,failure);
                         } catch (Exception ex) {
-                        	failure.$invoke((String)(Object)ex);
+                            if (failure != null)
+                        	    failure.$invoke((String)(Object)ex);
                         }
                     }
                 }
@@ -93,7 +94,8 @@ public class EcRepository {
         try {
             EcRemote.getExpectingObject(this.selectedServer, "ping", successCheck, failureCheck);
         } catch (Exception ex) {
-			failure.$invoke(ex.getMessage());
+            if (failure != null)
+			    failure.$invoke(ex.getMessage());
         }
         EcRemote.timeout = oldTimeout;
     }
@@ -119,7 +121,8 @@ public class EcRepository {
 				{
 					rekeyRequests.$get(i).addRekeyRequestToForwardingTable();
 				}
-				success.$invoke();
+				if (success != null)
+				    success.$invoke();
 			}
 		}, failure, params);
 	}
