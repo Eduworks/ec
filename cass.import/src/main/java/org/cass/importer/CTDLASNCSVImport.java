@@ -324,17 +324,17 @@ public class CTDLASNCSVImport {
 
 		r.relationType = type;
 		if (field == "ceasn:narrowAlignment") {
-			r.source = ((Array<String>)JSObjectAdapter.$get(e, field)).$get(i);
-			r.target = (String) JSObjectAdapter.$get(e, "id");
+			r.source = EcRemoteLinkedData.trimVersionFromUrl(((Array<String>)JSObjectAdapter.$get(e, field)).$get(i));
+			r.target = EcRemoteLinkedData.trimVersionFromUrl((String) JSObjectAdapter.$get(e, "id"));
 		}
 		else {
-			r.source = (String) JSObjectAdapter.$get(e, "id");
+			r.source = EcRemoteLinkedData.trimVersionFromUrl((String) JSObjectAdapter.$get(e, "id"));
 			if (i != -1) {
-				r.target = ((Array<String>) JSObjectAdapter.$get(e, field)).$get(i);
+				r.target = EcRemoteLinkedData.trimVersionFromUrl(((Array<String>) JSObjectAdapter.$get(e, field)).$get(i));
 			}
 			//i = -1 if field is not an array
 			else {
-				r.target = ((String) JSObjectAdapter.$get(e, field));
+				r.target = EcRemoteLinkedData.trimVersionFromUrl(((String) JSObjectAdapter.$get(e, field)));
 			}
 		}
 
