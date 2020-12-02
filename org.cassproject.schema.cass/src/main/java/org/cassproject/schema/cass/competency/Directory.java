@@ -17,51 +17,8 @@ import org.schema.CreativeWork;
 public class Directory extends CreativeWork{
     private static final String TYPE_0_6 = "https://schema.cassproject.org/0.4/Directory";
     public static final String myType = TYPE_0_6;
-    /**
-     * URLs of frameworks included in this directory.
-     *
-     * @property framework
-     * @type string[]
-     */
-    public Array<String> framework;
-    /**
-     * URLs of resources included in this directory.
-     *
-     * @property resource
-     * @type string[]
-     */
-    public Array<String> resource;
-    /**
-     * URLs of subdirectories included in this directory.
-     *
-     * @property subdirectory
-     * @type string[]
-     */
-    public Array<String> subdirectory;
 
-    /**
-     * Indication of whether the directory is at the root or is a subdirectory.
-     *
-     * @property levelMetadata
-     * @type string
-     */
-    public String levelMetadata;
-
-    /**
-     * The encrypted key pertaining to owners of the directory.
-     *
-     * @property ownerKey
-     * @type EcEncryptedValue
-     */
-    public EcEncryptedValue ownerKey;
-
-    /**
-     * The encrypted key pertaining to readers of the directory.
-     *
-     * @property readerKey
-     * @type EcEncryptedValue
-     */
-    public EcEncryptedValue readerKey;
+    public String parentDirectory;
 
     public Directory() {
         setContextAndType(Cass.context, myType);
