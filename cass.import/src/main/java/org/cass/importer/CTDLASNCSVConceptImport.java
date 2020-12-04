@@ -80,8 +80,7 @@ public class CTDLASNCSVConceptImport {
         });
     }
 
-    public static void importFrameworksAndCompetencies(final EcRepository repo, Object file, final Callback2<Array<EcConceptScheme>, Array<EcConcept>> success, final Callback1<Object> failure, final EcIdentity ceo) {
-
+    public static void importFrameworksAndCompetencies(final EcRepository repo, Object file, final Callback2<Array<EcConceptScheme>, Array<EcConcept>> success, final Callback1<Object> failure, final EcIdentity ceo, final String endpoint) {
         if (file == null) {
             failure.$invoke("No file to analyze");
             return;
@@ -110,7 +109,7 @@ public class CTDLASNCSVConceptImport {
                                 if (JSObjectAdapter.$get(pretranslatedE, "@type") == "skos:ConceptScheme") {
                                     EcLinkedData translator = new EcLinkedData(null, null);
                                     translator.copyFrom(pretranslatedE);
-                                    CTDLASNCSVImport.cleanUpTranslator(translator);
+                                    CTDLASNCSVImport.cleanUpTranslator(translator, endpoint, repo);
 
                                     if (JSObjectAdapter.$get(translator, "ceasn:name") != null) {
                                         Object name = JSObjectAdapter.$get(translator, "ceasn:name");
@@ -144,7 +143,7 @@ public class CTDLASNCSVConceptImport {
                                 } else if (JSObjectAdapter.$get(pretranslatedE, "@type") == "skos:Concept") {
                                     EcLinkedData translator = new EcLinkedData(null, null);
                                     translator.copyFrom(pretranslatedE);
-                                    CTDLASNCSVImport.cleanUpTranslator(translator);
+                                    CTDLASNCSVImport.cleanUpTranslator(translator, endpoint, repo);
 
                                     if (JSObjectAdapter.$get(translator, "skos:prefLabel") != null) {
                                         Object name = JSObjectAdapter.$get(translator, "skos:prefLabel");
