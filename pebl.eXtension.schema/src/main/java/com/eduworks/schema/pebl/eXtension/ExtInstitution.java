@@ -178,24 +178,15 @@ public class ExtInstitution extends Organization {
 			@Override
 			public void $invoke(Array<EcRemoteLinkedData> p1) {
 				if (success != null) {
-					Array<ExtInstitution> ret = JSCollections.$array();
-					for (int i = 0; i < p1.$length(); i++) {
-						ExtInstitution institution = new ExtInstitution();
-//						if(p1.$get(i).isAny(institution.getTypes())){
-						institution.copyFrom(p1.$get(i));
-//						}
-//						else if(p1.$get(i).isA(EcEncryptedValue.myType)){
-//							EcEncryptedValue val = new EcEncryptedValue();
-//							val.copyFrom(p1.$get(i));
-//							if(val.isAnEncrypted(ExtInstitution.myType)){
-//								EcRemoteLinkedData obj = val.decryptIntoObject();
-//								institution.copyFrom(obj);
-//							}
-//						}
-
-						ret.$set(i, institution);
-					}
-
+					final Array<ExtInstitution> ret = JSCollections.$array();
+					p1.$forEach(new Callback1<EcRemoteLinkedData>() {
+						@Override
+						public void $invoke(EcRemoteLinkedData rld) {
+							ExtInstitution content = new ExtInstitution();
+							content.copyFrom(rld);
+							ret.push(content);
+						}
+					});
 					success.$invoke(ret);
 				}
 			}

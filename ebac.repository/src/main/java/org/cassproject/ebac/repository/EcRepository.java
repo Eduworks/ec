@@ -9,6 +9,7 @@ import com.eduworks.ec.remote.FormData;
 import com.eduworks.ec.task.Task;
 import org.cassproject.ebac.identity.EcIdentity;
 import org.cassproject.ebac.identity.EcIdentityManager;
+import org.cassproject.ebac.identity.EcRekeyRequest;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.*;
 import org.stjs.javascript.dom.Element;
@@ -46,7 +47,87 @@ public class EcRepository {
         repos.push(this);
     }
 
-    /**
+    public void init(String selectedServer,Callback0 success,Callback1<String> failure)
+    {
+        this.selectedServer = selectedServer;
+
+        negotiateTimeOffset(success,failure);
+        //TODO: set up websocket connection w/callback so that object changes on the server can propagate to the client.
+        //TODO: websocket connection -- also so that we can update the forwarding table.
+    }
+
+    private void negotiateTimeOffset(final Callback0 success,final Callback1<String> failure)
+    {
+        int oldTimeout = EcRemote.timeout;
+        EcRemote.timeout = 500;
+        final EcRepository me = this;
+        Callback1<Object> successCheck = new Callback1<Object>() {
+            @Override
+            public void $invoke(Object p1) {
+                if (p1 != null) {
+                    if (JSObjectAdapter.$get(p1, "ping") == "pong") {
+                        if (JSObjectAdapter.$get(p1, "time") != null)
+                            me.timeOffset = ((Long) (Object) new Date().getTime()) - ((Long) (Object) JSObjectAdapter.$get(p1, "time"));
+                        me.buildKeyForwardingTable(success,failure);
+                    }
+                }
+            }
+        };
+        Callback1<String> failureCheck = new Callback1<String>() {
+            @Override
+            public void $invoke(String p1) {
+                if (p1 != null) {
+                    if (p1 != "") {
+                        try {
+                            if (p1.indexOf("pong") != -1)
+                                if (JSObjectAdapter.$get(p1, "time") != null)
+                                    me.timeOffset = ((Long) (Object) new Date().getTime()) - ((Long) (Object) JSObjectAdapter.$get(p1, "time"));
+                            me.buildKeyForwardingTable(success,failure);
+                        } catch (Exception ex) {
+                            if (failure != null)
+                        	    failure.$invoke((String)(Object)ex);
+                        }
+                    }
+                }
+            }
+        };
+        try {
+            EcRemote.getExpectingObject(this.selectedServer, "ping", successCheck, failureCheck);
+        } catch (Exception ex) {
+            if (failure != null)
+			    failure.$invoke(ex.getMessage());
+        }
+        EcRemote.timeout = oldTimeout;
+    }
+
+	private void buildKeyForwardingTable(final Callback0 success, Callback1<String> failure)
+	{
+		Object params = new Object();
+		JSObjectAdapter.$put(params,"size",5000);
+		EcRepository.searchAs(this, "*", new Function0()
+		{
+			@Override
+			public Object $invoke()
+			{
+				return new EcRekeyRequest();
+			}
+		}, new Callback1<Array>()
+		{
+			@Override
+			public void $invoke(Array array)
+			{
+				Array<EcRekeyRequest> rekeyRequests = array;
+				for (int i = 0;i < rekeyRequests.$length();i++)
+				{
+					rekeyRequests.$get(i).addRekeyRequestToForwardingTable();
+				}
+				if (success != null)
+				    success.$invoke();
+			}
+		}, failure, params);
+	}
+
+	/**
      * Gets a JSON-LD object from the place designated by the URI.
      * <p>
      * Uses a signature sheet gathered from {@link EcIdentityManager}.

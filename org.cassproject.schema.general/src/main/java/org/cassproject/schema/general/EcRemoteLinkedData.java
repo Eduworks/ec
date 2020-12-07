@@ -637,5 +637,43 @@ public class EcRemoteLinkedData extends EcLinkedData {
         if (me.$get("@encryptedContext") != null) {
             me.$put("encryptedContext", me.$get("@encryptedContext"));
         }
+        handleForwarding();
+    }
+
+    public static Object forwardingTable = new Object();
+    protected void handleForwarding()
+    {
+        Map<String, Object> me = JSObjectAdapter.$properties(this);
+        if (owner != null) {
+            for (int i = 0;i < owner.$length();i++)
+            {
+                String forwardTo = "";
+                while (forwardTo != null) //Can be forwarded multiple times.
+                {
+                    String homogenizedPk = EcPk.fromPem(owner.$get(i)).toPem();
+                    forwardTo = (String) JSObjectAdapter.$get(forwardingTable, homogenizedPk);
+                    if (forwardTo != null)
+                        owner.$set(i, forwardTo);
+                }
+            }
+        }
+        if (reader != null) {
+            for (int i = 0;i < reader.$length();i++)
+            {
+                String forwardTo = "";
+                while (forwardTo != null) //Can be forwarded multiple times.
+                {
+                    String homogenizedPk = EcPk.fromPem(reader.$get(i)).toPem();
+                    forwardTo = (String) JSObjectAdapter.$get(forwardingTable, homogenizedPk);
+                    if (forwardTo != null)
+                        reader.$set(i, forwardTo);
+                }
+            }
+        }
+    }
+
+    public static void forwardKey(String oldKey, String newKey)
+    {
+        JSObjectAdapter.$put(EcRemoteLinkedData.forwardingTable,oldKey,newKey);
     }
 }

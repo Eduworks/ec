@@ -34,7 +34,14 @@ public class EcLevrCrypto {
 		return null;
 	}
 
+	public static String rsaSignSha256(String obj, String ppk) {
+		return null;
+	}
+
 	public static Boolean rsaVerify(String obj, String ppk, String against) {
+		return null;
+	}
+	public static Boolean rsaVerifySha256(String obj, String ppk, String against) {
 		return null;
 	}
 }

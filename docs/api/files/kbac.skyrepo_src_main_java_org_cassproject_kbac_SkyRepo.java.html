@@ -837,6 +837,13 @@ import org.stjs.javascript.functions.*;
 public class SkyRepo {
     public static boolean skyrepoDebug = false;
 
+    public static Object elasticSearchInfo = null;
+    public static String elasticSearchVersion(){
+        if (elasticSearchInfo == null)
+            elasticSearchInfo = (Object)levr.httpGet(elasticEndpoint + &quot;/&quot;,true);
+        return (String)JSObjectAdapter.$get(JSObjectAdapter.$get(elasticSearchInfo,&quot;version&quot;),&quot;number&quot;);
+    }
+
     public static String elasticEndpoint = &quot;http://localhost:9200&quot;;
 
     public static String owner() {
@@ -916,6 +923,7 @@ public class SkyRepo {
                 try {
                     sigSheet = sigSheet.concat((Array) Global.JSON.parse(stringFromDatastream));
                 } catch (Exception ex) {
+                    levr.error(&quot;Missing or Malformed Signature.&quot;, 496);
                 }
 
             //Pull signature from headers. Useful in GET, PUT, DELETE
@@ -1061,6 +1069,9 @@ public class SkyRepo {
         fullType = fullType.replace(&quot;/&quot;, &quot;.&quot;);
         fullType = fullType.replace(&quot;/&quot;, &quot;.&quot;);
         fullType = fullType.replace(&quot;/&quot;, &quot;.&quot;);
+        fullType = fullType.replace(&quot;:&quot;, &quot;.&quot;);
+        fullType = fullType.replace(&quot;:&quot;, &quot;.&quot;);
+        fullType = fullType.replace(&quot;:&quot;, &quot;.&quot;);
         return fullType;
     }
 
@@ -1084,7 +1095,10 @@ public class SkyRepo {
 
         String url = elasticEndpoint;
         url += &quot;/&quot; + typeFromObj.toLowerCase();
-        url += &quot;/&quot; + typeFromObj;
+        if (elasticSearchVersion().startsWith(&quot;7.&quot;))
+            url += &quot;/_doc&quot;;
+        else
+            url += &quot;/&quot; + typeFromObj;
         url += &quot;/&quot; + levr.urlEncode(id) + versionPart;
         if (skyrepoDebug)
             Global.console.log(&quot;Put:&quot; + url);
@@ -1103,7 +1117,10 @@ public class SkyRepo {
 
         String url = elasticEndpoint;
         url += &quot;/permanent&quot;;
-        url += &quot;/permanent&quot;;
+        if (elasticSearchVersion().startsWith(&quot;7.&quot;))
+            url += &quot;/_doc&quot;;
+        else
+            url += &quot;/permanent&quot;;
         url += &quot;/&quot; + levr.urlEncode(id) + &quot;.&quot; + (version == null ? &quot;&quot; : version) + versionPart;
 
         if (skyrepoDebug)
@@ -1123,7 +1140,10 @@ public class SkyRepo {
 
         String url = elasticEndpoint;
         url += &quot;/permanent&quot;;
-        url += &quot;/permanent&quot;;
+        if (elasticSearchVersion().startsWith(&quot;7.&quot;))
+            url += &quot;/_doc&quot;;
+        else
+            url += &quot;/permanent&quot;;
         url += &quot;/&quot; + levr.urlEncode(id) + &quot;.&quot; + versionPart;
 
         if (skyrepoDebug)
@@ -1132,16 +1152,20 @@ public class SkyRepo {
     }
 
     private static String getUrl(String index, String id, Integer version, String type) {
-        String typeFromObj = inferTypeWithoutObj(type);
 
         //&lt;endpoint&gt;/&lt;index&gt;/&lt;type&gt;/&lt;id&gt; -- Form of an elasticsearch query
 
         String url = elasticEndpoint;
         url += &quot;/&quot; + index;
-        if (index == &quot;permanent&quot;)
+        if (elasticSearchVersion().startsWith(&quot;7.&quot;))
+            url += &quot;/_doc&quot;;
+        else if (index == &quot;permanent&quot;)
             url += &quot;/permanent&quot;;
         else
+        {
+            String typeFromObj = inferTypeWithoutObj(type);
             url += &quot;/&quot; + typeFromObj;
+        }
         if (index == &quot;permanent&quot;)
             url += &quot;/&quot; + levr.urlEncode(id) + &quot;.&quot; + (version == null ? &quot;&quot; : version);
         else
@@ -1160,7 +1184,10 @@ public class SkyRepo {
             refreshPart = &quot;refresh=&quot; + ctx.get(&quot;refresh&quot;);
         String url = elasticEndpoint;
         url += &quot;/&quot; + typeFromObj.toLowerCase();
-        url += &quot;/&quot; + typeFromObj;
+        if (elasticSearchVersion().startsWith(&quot;7.&quot;))
+            url += &quot;/_doc&quot;;
+        else
+            url += &quot;/&quot; + typeFromObj;
         url += &quot;/&quot; + levr.urlEncode(id);
         url += &quot;?&quot; + refreshPart;
 
@@ -1172,7 +1199,10 @@ public class SkyRepo {
     private static String deletePermanentBaseUrl(String id, Integer version, String type) {
         String url = elasticEndpoint;
         url += &quot;/permanent&quot;;
-        url += &quot;/permanent&quot;;
+        if (elasticSearchVersion().startsWith(&quot;7.&quot;))
+            url += &quot;/_doc&quot;;
+        else
+            url += &quot;/permanent&quot;;
         url += &quot;/&quot; + levr.urlEncode(id) + &quot;.&quot;;
 
         if (skyrepoDebug)
@@ -1767,7 +1797,10 @@ public class SkyRepo {
                 Integer version = (Integer) JSObjectAdapter.$get(parseParams, &quot;version&quot;);
                 Object p = new Object();
                 JSObjectAdapter.$put(p, &quot;_index&quot;, &quot;permanent&quot;);
-                JSObjectAdapter.$put(p, &quot;_type&quot;, &quot;permanent&quot;);
+                if (elasticSearchVersion().startsWith(&quot;7.&quot;))
+                    JSObjectAdapter.$put(p, &quot;_type&quot;, &quot;_doc&quot;);
+                else
+                    JSObjectAdapter.$put(p, &quot;_type&quot;, &quot;permanent&quot;);
                 JSObjectAdapter.$put(p, &quot;_id&quot;, id + &quot;.&quot; + (version == null ? &quot;&quot; : version));
                 docs.push(p);
             }
