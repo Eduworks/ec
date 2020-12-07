@@ -50,6 +50,13 @@ public class Framework extends CreativeWork {
 	 * @type string[]
 	 */
 	public Array<String> rollupRule;
+	/**
+	 * URL of the directory this framework is in.
+	 *
+	 * @property rollupRule
+	 * @type string[]
+	 */
+	public String directory;
 	public Framework() {
 		setContextAndType(Cass.context, myType);
 	}
