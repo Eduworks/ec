@@ -122,6 +122,9 @@ public class CTDLASNCSVConceptImport {
                                         public void $invoke(EcLinkedData e) {
                                             EcConceptScheme f = new EcConceptScheme();
                                             f.copyFrom(e);
+                                            if (EcConceptScheme.template != null && JSObjectAdapter.$get(EcConceptScheme.template, "@owner") != null) {
+                                                JSObjectAdapter.$put(f, "owner", JSObjectAdapter.$get(EcConceptScheme.template, "@owner"));
+                                            }
                                             if (JSObjectAdapter.$get(e, "owner") != null) {
                                                 EcIdentity id = new EcIdentity();
                                                 id.ppk = EcPpk.fromPem((String) JSObjectAdapter.$get(e, "owner"));
@@ -159,6 +162,10 @@ public class CTDLASNCSVConceptImport {
                                             if (JSObjectAdapter.$get(e, "id") == null) {
                                                 callback0.$invoke();
                                                 return;
+                                            }
+
+                                            if (EcConcept.template != null && JSObjectAdapter.$get(EcConcept.template, "@owner") != null) {
+                                                JSObjectAdapter.$put(f, "owner", JSObjectAdapter.$get(EcConcept.template, "@owner"));
                                             }
 
                                             if (JSObjectAdapter.$get(e, "owner") != null) {

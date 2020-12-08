@@ -122,6 +122,9 @@ public class CTDLASNCSVImport {
 										public void $invoke(EcLinkedData e) {
 											EcFramework f = new EcFramework();
 											f.copyFrom(e);
+											if (EcFramework.template != null && JSObjectAdapter.$get(EcFramework.template, "@owner") != null) {
+												JSObjectAdapter.$put(f, "owner", JSObjectAdapter.$get(EcFramework.template, "@owner"));
+											}
 											if (JSObjectAdapter.$get(e, "owner") != null) {
 												EcIdentity id = new EcIdentity();
 												id.ppk = EcPpk.fromPem((String) JSObjectAdapter.$get(e, "owner"));
@@ -189,6 +192,10 @@ public class CTDLASNCSVImport {
 													failure.$invoke("Object has no framework:" + JSObjectAdapter.$get(e, "type"));
 													return;
 												}
+											}
+
+											if (EcCompetency.template != null && JSObjectAdapter.$get(EcCompetency.template, "@owner") != null) {
+												JSObjectAdapter.$put(f, "owner", JSObjectAdapter.$get(EcCompetency.template, "@owner"));
 											}
 
 											if (JSObjectAdapter.$get(e, "owner") == null) {
