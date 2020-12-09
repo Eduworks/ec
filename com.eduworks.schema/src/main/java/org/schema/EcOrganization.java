@@ -14,6 +14,14 @@ import org.stjs.javascript.functions.Function0;
 public class EcOrganization extends Organization {
 
     /**
+     * Encrypted organization ppk Keys.  Most current key
+     *
+     * @property orgPpk
+     * @type EcEncryptedValue<PPK PEM>
+     */
+    protected Array<EcEncryptedValue> orgPpk;
+
+    /**
      * Retrieves an organization from it's server asynchronously
      *
      * @param {String}            id
@@ -126,10 +134,25 @@ public class EcOrganization extends Organization {
         }
     }
 
+    /**
+     * Moves old key field to new key field array
+     *
+     * @method moveKeyField
+     */
+    private void moveKeyField() {
+        EcEncryptedValue ev = (EcEncryptedValue) JSObjectAdapter.$get(this, "https://schema.cassproject.org/0.3/ppk");
+        if (ev != null) {
+            if (orgPpk == null) JSObjectAdapter.$put(this, "orgPpk", new Array<EcEncryptedValue>());
+            orgPpk.push(ev);
+            JSObjectAdapter.$properties(this).$delete("https://schema.cassproject.org/0.3/ppk");
+        }
+    }
+
     @Override
     protected void upgrade() {
         super.upgrade();
         movePersonMembersToEmployee();
+        moveKeyField();
     }
 
     /**
