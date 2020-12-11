@@ -103,7 +103,7 @@ public class EcRepository {
 	private void buildKeyForwardingTable(final Callback0 success, Callback1<String> failure)
 	{
 		Object params = new Object();
-		JSObjectAdapter.$put(params,"size",5000);
+		JSObjectAdapter.$put(params,"size",10000);
 		EcRepository.searchAs(this, "*", new Function0()
 		{
 			@Override
