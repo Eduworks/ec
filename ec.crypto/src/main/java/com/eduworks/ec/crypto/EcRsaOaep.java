@@ -125,4 +125,28 @@ public class EcRsaOaep {
 			return false;
 		}
 	}
+
+	/**
+	 * Verifies the integrity of the provided text using a signature and a
+	 * public key. Uses SHA1 hash with a UTF8 decoding of the text.
+	 *
+	 * @param {EcPk}   pk Public key.
+	 * @param {string} text Text to verify.
+	 * @param {string} signature Base64 encoded signature.
+	 * @return True IFF the signature is valid.
+	 * @static
+	 * @method verify
+	 */
+	public static Boolean verifySha256(EcPk pk, String text, String signature) {
+		if (Global.typeof(EcLevrHttp.httpStatus) != "undefined") {
+			return EcLevrCrypto.rsaVerifySha256(signature, pk.toPem(), text);
+		}
+		sha256 s = sha256.create();
+		s.update(forge.util.encodeUtf8(text), "utf8");
+		try {
+			return pk.verify(s.digest().bytes(), util.decode64(signature));
+		} catch (Exception ex) {
+			return false;
+		}
+	}
 }
