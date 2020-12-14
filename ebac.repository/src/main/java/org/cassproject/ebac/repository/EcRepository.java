@@ -95,7 +95,7 @@ public class EcRepository {
             EcRemote.getExpectingObject(this.selectedServer, "ping", successCheck, failureCheck);
         } catch (Exception ex) {
             if (failure != null)
-			    failure.$invoke(ex.getMessage());
+			    failure.$invoke(ex.toString());
         }
         EcRemote.timeout = oldTimeout;
     }
