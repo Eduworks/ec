@@ -198,17 +198,17 @@ public class EcRekeyTest
 								EcIdentityManager.ids.$set(0,new EcIdentity());
 								EcIdentityManager.ids.$get(0).ppk = EcPpk.fromPem(oldKey);
 								EcRemoteLinkedData rld2 = EcRepository.getBlocking(rld.shortId());
-								Assert.assertNull("Could retreive object, shouldn't be able to.",rld2);
+								Assert.assertEquals("Could retreive object, shouldn't be able to.",rld2,null);
 
 								EcIdentityManager.clearIdentities();
 								EcIdentityManager.ids.$set(0,new EcIdentity());
 								EcIdentityManager.ids.$get(0).ppk = EcPpk.fromPem(newerKey);
 								rld2 = EcRepository.getBlocking(rld.shortId());
-								Assert.assertNull("Should not be able to decrypt object, can(?)", EcEncryptedValue.fromEncryptedValue(rld2));
+								Assert.assertEquals("Should not be able to decrypt object, can(?)", EcEncryptedValue.fromEncryptedValue(rld2),null);
 
 								EcIdentityManager.ids.$set(1,new EcIdentity());
 								EcIdentityManager.ids.$get(1).ppk = EcPpk.fromPem(oldKey);
-								Assert.assertNotNull("Should be able to decrypt object, can't", rld2 = EcEncryptedValue.fromEncryptedValue(rld2));
+								Assert.assertFalse("Should be able to decrypt object, can't", (rld2 = EcEncryptedValue.fromEncryptedValue(rld2)) != null);
 
 								Assert.assertEquals(rld2.owner.$get(0), EcPpk.fromPem(newerKey).toPk().toPem());
 							}
