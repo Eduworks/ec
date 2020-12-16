@@ -208,7 +208,7 @@ public class EcRekeyTest
 
 								EcIdentityManager.ids.$set(1,new EcIdentity());
 								EcIdentityManager.ids.$get(1).ppk = EcPpk.fromPem(oldKey);
-								Assert.assertFalse("Should be able to decrypt object, can't", (rld2 = EcEncryptedValue.fromEncryptedValue(rld2)) != null);
+								Assert.assertTrue("Should be able to decrypt object, can't", (rld2 = EcEncryptedValue.fromEncryptedValue(rld2)) != null);
 
 								Assert.assertEquals(rld2.owner.$get(0), EcPpk.fromPem(newerKey).toPk().toPem());
 							}
