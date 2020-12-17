@@ -261,6 +261,7 @@
                             <li><a href="../classes/DigitalDocumentPermission.html">DigitalDocumentPermission</a></li>
                             <li><a href="../classes/DigitalDocumentPermissionType.html">DigitalDocumentPermissionType</a></li>
                             <li><a href="../classes/Diploma.html">Diploma</a></li>
+                            <li><a href="../classes/Directory.html">Directory</a></li>
                             <li><a href="../classes/DisagreeAction.html">DisagreeAction</a></li>
                             <li><a href="../classes/DiscoverAction.html">DiscoverAction</a></li>
                             <li><a href="../classes/DiscussionForumPosting.html">DiscussionForumPosting</a></li>
@@ -298,6 +299,7 @@
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
                             <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
+                            <li><a href="../classes/EcDirectory.html">EcDirectory</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
@@ -937,6 +939,30 @@ public class EcRsaOaep {
 			return EcLevrCrypto.rsaVerify(signature, pk.toPem(), text);
 		}
 		sha1 s = sha1.create();
+		s.update(forge.util.encodeUtf8(text), &quot;utf8&quot;);
+		try {
+			return pk.verify(s.digest().bytes(), util.decode64(signature));
+		} catch (Exception ex) {
+			return false;
+		}
+	}
+
+	/**
+	 * Verifies the integrity of the provided text using a signature and a
+	 * public key. Uses SHA1 hash with a UTF8 decoding of the text.
+	 *
+	 * @param {EcPk}   pk Public key.
+	 * @param {string} text Text to verify.
+	 * @param {string} signature Base64 encoded signature.
+	 * @return True IFF the signature is valid.
+	 * @static
+	 * @method verify
+	 */
+	public static Boolean verifySha256(EcPk pk, String text, String signature) {
+		if (Global.typeof(EcLevrHttp.httpStatus) != &quot;undefined&quot;) {
+			return EcLevrCrypto.rsaVerifySha256(signature, pk.toPem(), text);
+		}
+		sha256 s = sha256.create();
 		s.update(forge.util.encodeUtf8(text), &quot;utf8&quot;);
 		try {
 			return pk.verify(s.digest().bytes(), util.decode64(signature));

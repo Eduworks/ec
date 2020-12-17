@@ -261,6 +261,7 @@
                             <li><a href="../classes/DigitalDocumentPermission.html">DigitalDocumentPermission</a></li>
                             <li><a href="../classes/DigitalDocumentPermissionType.html">DigitalDocumentPermissionType</a></li>
                             <li><a href="../classes/Diploma.html">Diploma</a></li>
+                            <li><a href="../classes/Directory.html">Directory</a></li>
                             <li><a href="../classes/DisagreeAction.html">DisagreeAction</a></li>
                             <li><a href="../classes/DiscoverAction.html">DiscoverAction</a></li>
                             <li><a href="../classes/DiscussionForumPosting.html">DiscussionForumPosting</a></li>
@@ -298,6 +299,7 @@
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
                             <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
+                            <li><a href="../classes/EcDirectory.html">EcDirectory</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
@@ -827,6 +829,7 @@ import com.eduworks.ec.crypto.EcPpk;
 import com.eduworks.ec.crypto.EcRsaOaep;
 import com.eduworks.schema.ebac.EbacEncryptedValue;
 import com.eduworks.schema.ebac.EbacSignature;
+import org.cassproject.ebac.identity.EcRekeyRequest;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.*;
@@ -1009,10 +1012,7 @@ public class SkyRepo {
                 return ary;
             } else if (EcObject.isObject(o)) {
                 EcRemoteLinkedData rld = new EcRemoteLinkedData((String) JSObjectAdapter.$get(o, &quot;@context&quot;), (String) JSObjectAdapter.$get(o, &quot;@type&quot;));
-                rld.reader = (Array&lt;String&gt;) JSObjectAdapter.$get(o, &quot;reader&quot;);
-                if (rld.reader == null || rld.reader.$length() == 0) {
-                    rld.reader = (Array&lt;String&gt;) JSObjectAdapter.$get(o, &quot;@reader&quot;);
-                }
+                rld.copyFrom(o);
                 if ((rld.reader != null &amp;&amp; rld.reader.$length() != 0) || isEncryptedType(rld)) {
                     Array&lt;EbacSignature&gt; signatures = JSFunctionAdapter.call(signatureSheet, this);
                     boolean foundSignature = false;
@@ -1332,6 +1332,17 @@ public class SkyRepo {
             if (oldType != type &amp;&amp; type != null) {
                 skyrepoDeleteInternalIndex(id, null, oldType);
             }
+        }
+
+        EcRemoteLinkedData rld = new EcRemoteLinkedData(null,null);
+        rld.copyFrom(o);
+        if (rld.isAny(new EcRekeyRequest().getTypes()))
+        {
+            EcRekeyRequest err = new EcRekeyRequest();
+            err.copyFrom(o);
+            if (err.verify())
+                err.addRekeyRequestToForwardingTable();
+            Global.console.log(EcObject.keys(EcRemoteLinkedData.forwardingTable).$length() + &quot; records now in forwarding table.&quot;);
         }
     }
 

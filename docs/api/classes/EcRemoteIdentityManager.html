@@ -261,6 +261,7 @@
                             <li><a href="../classes/DigitalDocumentPermission.html">DigitalDocumentPermission</a></li>
                             <li><a href="../classes/DigitalDocumentPermissionType.html">DigitalDocumentPermissionType</a></li>
                             <li><a href="../classes/Diploma.html">Diploma</a></li>
+                            <li><a href="../classes/Directory.html">Directory</a></li>
                             <li><a href="../classes/DisagreeAction.html">DisagreeAction</a></li>
                             <li><a href="../classes/DiscoverAction.html">DiscoverAction</a></li>
                             <li><a href="../classes/DiscussionForumPosting.html">DiscussionForumPosting</a></li>
@@ -298,6 +299,7 @@
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
                             <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
+                            <li><a href="../classes/EcDirectory.html">EcDirectory</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
@@ -811,6 +813,7 @@
                   <div><a href="#static-method-summary">Static Method Summary</a></div>
             
             
+                  <div><a href="#property-summary">Property Summary</a></div>
             
                   <div><a href="#method-summary">Method Summary</a></div>
             
@@ -840,12 +843,17 @@
             
             
             
+                  <div><a href="#public-properties">Public Properties</a></div>
+                  <ul>
+                      <li><a href="#props_orgPpkSet">orgPpkSet</a></li>
+                  </ul>
             
             
             
                   <div><a href="#public-methods">Public Methods</a></div>
                   <ul>
                       <li><a href="#method_addEmployee">addEmployee</a></li>
+                      <li><a href="#method_addOrgKey">addOrgKey</a></li>
                       <li><a href="#method_changePassword">changePassword</a></li>
                       <li><a href="#method_clear">clear</a></li>
                       <li><a href="#method_commit">commit</a></li>
@@ -853,12 +861,18 @@
                       <li><a href="#method_configureFromServer">configureFromServer</a></li>
                       <li><a href="#method_create">create</a></li>
                       <li><a href="#method_fetch">fetch</a></li>
+                      <li><a href="#method_getCurrentOrgKey">getCurrentOrgKey</a></li>
                       <li><a href="#method_getFingerprintFromId">getFingerprintFromId</a></li>
                       <li><a href="#method_getFingerprintFromId">getFingerprintFromId</a></li>
                       <li><a href="#method_getFingerprintFromId">getFingerprintFromId</a></li>
                       <li><a href="#method_getFingerprintFromId">getFingerprintFromId</a></li>
+                      <li><a href="#method_getOrgKeys">getOrgKeys</a></li>
+                      <li><a href="#method_moveKeyField">moveKeyField</a></li>
                       <li><a href="#method_movePersonMembersToEmployee">movePersonMembersToEmployee</a></li>
+                      <li><a href="#method_ppkListToPemArrayString">ppkListToPemArrayString</a></li>
+                      <li><a href="#method_rekeyAndSave">rekeyAndSave</a></li>
                       <li><a href="#method_removeEmployeeById">removeEmployeeById</a></li>
+                      <li><a href="#method_save">save</a></li>
                       <li><a href="#method_sendCredentials">sendCredentials</a></li>
                       <li><a href="#method_setCreator">setCreator</a></li>
                       <li><a href="#method_setCreatorId">setCreatorId</a></li>
@@ -928,22 +942,7 @@ and their data should be considered lost.</div>
               <a href="#method_get">get</a>(id, success, failure)
             </div>
             <div class="short-description">
-              <p>Retrieves a comment from it's server asynchronously</p>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            public
-            static
-            
-          </td>
-          <td>
-            <div class="method-name ">
-              <a href="#method_get">get</a>(id, success, failure)
-            </div>
-            <div class="short-description">
-              <p>Retrieves an organization from it's server asynchronously</p>
+              <p>Retrieves a creative work from it's server asynchronously</p>
             </div>
           </td>
         </tr>
@@ -973,7 +972,37 @@ and their data should be considered lost.</div>
               <a href="#method_get">get</a>(id, success, failure)
             </div>
             <div class="short-description">
-              <p>Retrieves a creative work from it's server asynchronously</p>
+              <p>Retrieves a comment from it's server asynchronously</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            static
+            
+          </td>
+          <td>
+            <div class="method-name ">
+              <a href="#method_get">get</a>(id, success, failure)
+            </div>
+            <div class="short-description">
+              <p>Retrieves an organization from it's server asynchronously</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            static
+            
+          </td>
+          <td>
+            <div class="method-name ">
+              <a href="#method_getBlocking">getBlocking</a>(id): 
+            </div>
+            <div class="short-description">
+              <p>Retrieves a person from it's server synchronously, the call blocks until it is successful or an error occurs</p>
             </div>
           </td>
         </tr>
@@ -1018,21 +1047,6 @@ and their data should be considered lost.</div>
               <a href="#method_getBlocking">getBlocking</a>(id): 
             </div>
             <div class="short-description">
-              <p>Retrieves a person from it's server synchronously, the call blocks until it is successful or an error occurs</p>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            public
-            static
-            
-          </td>
-          <td>
-            <div class="method-name ">
-              <a href="#method_getBlocking">getBlocking</a>(id): 
-            </div>
-            <div class="short-description">
               <p>Retrieves a creative work from it's server synchronously, the call blocks until it is successful or an error occurs</p>
             </div>
           </td>
@@ -1060,10 +1074,10 @@ and their data should be considered lost.</div>
           </td>
           <td>
             <div class="method-name ">
-              <a href="#method_search">search</a>(repo, query, {Callback1&lt;Array&lt;EcOrganization&gt;&gt;, failure, paramObj)
+              <a href="#method_search">search</a>(repo, query, {Callback1&lt;Array&lt;Quiz&gt;&gt;, failure, paramObj, start, size)
             </div>
             <div class="short-description">
-              <p>Searches a repository for organizations that match the search query</p>
+              <p>Searches a repository for quizzes that match the search query</p>
             </div>
           </td>
         </tr>
@@ -1075,10 +1089,10 @@ and their data should be considered lost.</div>
           </td>
           <td>
             <div class="method-name ">
-              <a href="#method_search">search</a>(repo, query, {Callback1&lt;Array&lt;EcCreativeWork&gt;&gt;, failure, paramObj)
+              <a href="#method_search">search</a>(repo, query, {Callback1&lt;Array&lt;EcOrganization&gt;&gt;, failure, paramObj)
             </div>
             <div class="short-description">
-              <p>Searches a repository for creative works that match the search query</p>
+              <p>Searches a repository for organizations that match the search query</p>
             </div>
           </td>
         </tr>
@@ -1105,10 +1119,10 @@ and their data should be considered lost.</div>
           </td>
           <td>
             <div class="method-name ">
-              <a href="#method_search">search</a>(repo, query, {Callback1&lt;Array&lt;EcComment&gt;&gt;, failure, paramObj)
+              <a href="#method_search">search</a>(repo, query, {Callback1&lt;Array&lt;EcCreativeWork&gt;&gt;, failure, paramObj)
             </div>
             <div class="short-description">
-              <p>Searches a repository for comments that match the search query</p>
+              <p>Searches a repository for creative works that match the search query</p>
             </div>
           </td>
         </tr>
@@ -1120,10 +1134,10 @@ and their data should be considered lost.</div>
           </td>
           <td>
             <div class="method-name ">
-              <a href="#method_search">search</a>(repo, query, {Callback1&lt;Array&lt;Quiz&gt;&gt;, failure, paramObj, start, size)
+              <a href="#method_search">search</a>(repo, query, {Callback1&lt;Array&lt;EcComment&gt;&gt;, failure, paramObj)
             </div>
             <div class="short-description">
-              <p>Searches a repository for quizzes that match the search query</p>
+              <p>Searches a repository for comments that match the search query</p>
             </div>
           </td>
         </tr>
@@ -1135,6 +1149,34 @@ and their data should be considered lost.</div>
 
 
 
+
+
+  <h2 id="property-summary">Property Summary</h2>
+
+    <table class="summary">
+      <thead>
+      <tr>
+        <th colspan="2">Public Properties</th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_orgPpkSet">orgPpkSet</a>: EcEncryptedValue<PPK PEM>
+            </div>
+            <div class="short-description">
+              <p>Encrypted organization ppk Keys. Encrypted value is an array of PPK PEMs with the most current key being the last item in the array</p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
 
 
@@ -1159,6 +1201,21 @@ and their data should be considered lost.</div>
             </div>
             <div class="short-description">
               <p>Adds the given person's id to the employee list</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="method-name ">
+              <a href="#method_addOrgKey">addOrgKey</a>(newOrgPpk)
+            </div>
+            <div class="short-description">
+              <p>Add's a key to the organization</p>
             </div>
           </td>
         </tr>
@@ -1275,6 +1332,36 @@ and their data should be considered lost.</div>
           </td>
           <td>
             <div class="method-name ">
+              <a href="#method_getCurrentOrgKey">getCurrentOrgKey</a>( ): 
+            </div>
+            <div class="short-description">
+              <p>Returns the current organization key</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="method-name ">
+              <a href="#method_getFingerprintFromId">getFingerprintFromId</a>( ): String
+            </div>
+            <div class="short-description">
+              <p>Attempts to find and return the organization's fingerprint from the id.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="method-name ">
               <a href="#method_getFingerprintFromId">getFingerprintFromId</a>( ): String
             </div>
             <div class="short-description">
@@ -1320,10 +1407,25 @@ and their data should be considered lost.</div>
           </td>
           <td>
             <div class="method-name ">
-              <a href="#method_getFingerprintFromId">getFingerprintFromId</a>( ): String
+              <a href="#method_getOrgKeys">getOrgKeys</a>( ): 
             </div>
             <div class="short-description">
-              <p>Attempts to find and return the organization's fingerprint from the id.</p>
+              <p>Returns the list of organization keys</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="method-name ">
+              <a href="#method_moveKeyField">moveKeyField</a>( )
+            </div>
+            <div class="short-description">
+              <p>Moves old key field to new key field array</p>
             </div>
           </td>
         </tr>
@@ -1350,10 +1452,55 @@ and their data should be considered lost.</div>
           </td>
           <td>
             <div class="method-name ">
+              <a href="#method_ppkListToPemArrayString">ppkListToPemArrayString</a>(ppkList): 
+            </div>
+            <div class="short-description">
+              <p>Adds the given person's id to the employee list</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="method-name ">
+              <a href="#method_rekeyAndSave">rekeyAndSave</a>(success, failure)
+            </div>
+            <div class="short-description">
+              <p>Performs a rekey operation and saves the organization details to the server</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="method-name ">
               <a href="#method_removeEmployeeById">removeEmployeeById</a>(id)
             </div>
             <div class="short-description">
               <p>Removes the person id from the employee list</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="method-name ">
+              <a href="#method_save">save</a>(success, failure)
+            </div>
+            <div class="short-description">
+              <p>Encrypts the org keys and saves the organization details to the server</p>
             </div>
           </td>
         </tr>
@@ -1504,7 +1651,7 @@ and their data should be considered lost.</div>
         <h2 id="static-public-methods">Static Public Methods</h2>
 <div class="method item">
     <div id="method_get" class="title">
-        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcComment.java.html#l13"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcComment.java:13</code></a></span>
+        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcCreativeWork.java.html#l13"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcCreativeWork.java:13</code></a></span>
         <h3 class="">
             public
             static
@@ -1515,7 +1662,7 @@ and their data should be considered lost.</div>
 
 
 
-    <div class="method-description"><p>Retrieves a comment from it's server asynchronously</p>
+    <div class="method-description"><p>Retrieves a creative work from it's server asynchronously</p>
 </div>
 
       <div class="params">
@@ -1540,7 +1687,7 @@ and their data should be considered lost.</div>
                   
                 </ul>
               </td>
-              <td><p>ID of the comment to retrieve from the server</p>
+              <td><p>ID of the creative work to retrieve from the server</p>
 </td>
             </tr>
 
@@ -1554,8 +1701,8 @@ and their data should be considered lost.</div>
                   
                 </ul>
               </td>
-              <td><p>Callback triggered after retrieving the comment,
-returns the comment retrieved</p>
+              <td><p>Callback triggered after retrieving the creative work,
+returns the creative work retrieved</p>
 </td>
             </tr>
 
@@ -1569,85 +1716,7 @@ returns the comment retrieved</p>
                   
                 </ul>
               </td>
-              <td><p>Callback triggered if error retrieving comment</p>
-</td>
-            </tr>
-
-          </tbody>
-        </table>
-      </div>
-
-
-
-</div>
-<div class="method item">
-    <div id="method_get" class="title">
-        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcOrganization.java.html#l16"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcOrganization.java:16</code></a></span>
-        <h3 class="">
-            public
-            static
-            
-            get(id, success, failure)
-        </h3>
-    </div>
-
-
-
-    <div class="method-description"><p>Retrieves an organization from it's server asynchronously</p>
-</div>
-
-      <div class="params">
-        <h4>Parameters:</h4>
-        <table>
-          <thead>
-          <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Attribute</th>
-            <th>Description</th>
-          </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>id</td>
-              <td>String</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>ID of the concept to retrieve from the server</p>
-</td>
-            </tr>
-
-            <tr>
-              <td>success</td>
-              <td>Callback1<String></td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>Callback triggered after retrieving the organization,
-returns the organization retrieved</p>
-</td>
-            </tr>
-
-            <tr>
-              <td>failure</td>
-              <td>Callback1<String></td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>Callback triggered if error retrieving organization</p>
+              <td><p>Callback triggered if error retrieving creative work</p>
 </td>
             </tr>
 
@@ -1738,7 +1807,7 @@ returns the person retrieved</p>
 </div>
 <div class="method item">
     <div id="method_get" class="title">
-        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcCreativeWork.java.html#l13"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcCreativeWork.java:13</code></a></span>
+        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcComment.java.html#l13"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcComment.java:13</code></a></span>
         <h3 class="">
             public
             static
@@ -1749,7 +1818,7 @@ returns the person retrieved</p>
 
 
 
-    <div class="method-description"><p>Retrieves a creative work from it's server asynchronously</p>
+    <div class="method-description"><p>Retrieves a comment from it's server asynchronously</p>
 </div>
 
       <div class="params">
@@ -1774,7 +1843,7 @@ returns the person retrieved</p>
                   
                 </ul>
               </td>
-              <td><p>ID of the creative work to retrieve from the server</p>
+              <td><p>ID of the comment to retrieve from the server</p>
 </td>
             </tr>
 
@@ -1788,8 +1857,8 @@ returns the person retrieved</p>
                   
                 </ul>
               </td>
-              <td><p>Callback triggered after retrieving the creative work,
-returns the creative work retrieved</p>
+              <td><p>Callback triggered after retrieving the comment,
+returns the comment retrieved</p>
 </td>
             </tr>
 
@@ -1803,7 +1872,7 @@ returns the creative work retrieved</p>
                   
                 </ul>
               </td>
-              <td><p>Callback triggered if error retrieving creative work</p>
+              <td><p>Callback triggered if error retrieving comment</p>
 </td>
             </tr>
 
@@ -1811,6 +1880,143 @@ returns the creative work retrieved</p>
         </table>
       </div>
 
+
+
+</div>
+<div class="method item">
+    <div id="method_get" class="title">
+        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcOrganization.java.html#l26"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcOrganization.java:26</code></a></span>
+        <h3 class="">
+            public
+            static
+            
+            get(id, success, failure)
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Retrieves an organization from it's server asynchronously</p>
+</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>id</td>
+              <td>String</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>ID of the concept to retrieve from the server</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>success</td>
+              <td>Callback1<String></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Callback triggered after retrieving the organization,
+returns the organization retrieved</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>failure</td>
+              <td>Callback1<String></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Callback triggered if error retrieving organization</p>
+</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+
+
+</div>
+<div class="method item">
+    <div id="method_getBlocking" class="title">
+        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcPerson.java.html#l48"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcPerson.java:48</code></a></span>
+        <h3 class="">
+            public
+            static
+            
+            getBlocking(id): 
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Retrieves a person from it's server synchronously, the call
+blocks until it is successful or an error occurs</p>
+</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>id</td>
+              <td>String</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>ID of the person to retrieve</p>
+</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+      <div class="return">
+        <h4>Return:</h4>
+        <div>
+          
+          <span class="return-description"><p>EcPerson
+The person retrieved</p>
+</span>
+        </div>
+      </div>
 
 
 </div>
@@ -1875,7 +2081,7 @@ The concept retrieved</p>
 </div>
 <div class="method item">
     <div id="method_getBlocking" class="title">
-        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcOrganization.java.html#l34"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcOrganization.java:34</code></a></span>
+        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcOrganization.java.html#l44"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcOrganization.java:44</code></a></span>
         <h3 class="">
             public
             static
@@ -1926,65 +2132,6 @@ blocks until it is successful or an error occurs</p>
           
           <span class="return-description"><p>EcOrganization
 The concept retrieved</p>
-</span>
-        </div>
-      </div>
-
-
-</div>
-<div class="method item">
-    <div id="method_getBlocking" class="title">
-        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcPerson.java.html#l48"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcPerson.java:48</code></a></span>
-        <h3 class="">
-            public
-            static
-            
-            getBlocking(id): 
-        </h3>
-    </div>
-
-
-
-    <div class="method-description"><p>Retrieves a person from it's server synchronously, the call
-blocks until it is successful or an error occurs</p>
-</div>
-
-      <div class="params">
-        <h4>Parameters:</h4>
-        <table>
-          <thead>
-          <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Attribute</th>
-            <th>Description</th>
-          </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>id</td>
-              <td>String</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>ID of the person to retrieve</p>
-</td>
-            </tr>
-
-          </tbody>
-        </table>
-      </div>
-
-      <div class="return">
-        <h4>Return:</h4>
-        <div>
-          
-          <span class="return-description"><p>EcPerson
-The person retrieved</p>
 </span>
         </div>
       </div>
@@ -2108,430 +2255,6 @@ The creative work retrieved</p>
 
             <tr>
               <td>{Callback1&lt;Array&lt;Quiz&gt;&gt;</td>
-              <td>Object</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>success Callback triggered after
-completing the search, returns the results</p>
-</td>
-            </tr>
-
-            <tr>
-              <td>failure</td>
-              <td>Callback1<String></td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>Callback triggered if error searching</p>
-</td>
-            </tr>
-
-            <tr>
-              <td>paramObj</td>
-              <td>Object</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>Parameter object for search</p>
-</td>
-            </tr>
-
-          </tbody>
-        </table>
-      </div>
-
-
-
-</div>
-<div class="method item">
-    <div id="method_search" class="title">
-        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcOrganization.java.html#l50"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcOrganization.java:50</code></a></span>
-        <h3 class="">
-            public
-            static
-            
-            search(repo, query, {Callback1&lt;Array&lt;EcOrganization&gt;&gt;, failure, paramObj)
-        </h3>
-    </div>
-
-
-
-    <div class="method-description"><p>Searches a repository for organizations that match the search query</p>
-</div>
-
-      <div class="params">
-        <h4>Parameters:</h4>
-        <table>
-          <thead>
-          <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Attribute</th>
-            <th>Description</th>
-          </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>repo</td>
-              <td><a href="../classes/EcRepository.html" class="crosslink">EcRepository</a></td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>Repository to search using the query</p>
-</td>
-            </tr>
-
-            <tr>
-              <td>query</td>
-              <td>String</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>Query string to pass to the search web service</p>
-</td>
-            </tr>
-
-            <tr>
-              <td>{Callback1&lt;Array&lt;EcOrganization&gt;&gt;</td>
-              <td>Object</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>success Callback triggered after
-completing the search, returns the results</p>
-</td>
-            </tr>
-
-            <tr>
-              <td>failure</td>
-              <td>Callback1<String></td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>Callback triggered if error searching</p>
-</td>
-            </tr>
-
-            <tr>
-              <td>paramObj</td>
-              <td>Object</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>Parameter object for search</p>
-</td>
-            </tr>
-
-          </tbody>
-        </table>
-      </div>
-
-
-
-</div>
-<div class="method item">
-    <div id="method_search" class="title">
-        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcCreativeWork.java.html#l47"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcCreativeWork.java:47</code></a></span>
-        <h3 class="">
-            public
-            static
-            
-            search(repo, query, {Callback1&lt;Array&lt;EcCreativeWork&gt;&gt;, failure, paramObj)
-        </h3>
-    </div>
-
-
-
-    <div class="method-description"><p>Searches a repository for creative works that match the search query</p>
-</div>
-
-      <div class="params">
-        <h4>Parameters:</h4>
-        <table>
-          <thead>
-          <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Attribute</th>
-            <th>Description</th>
-          </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>repo</td>
-              <td><a href="../classes/EcRepository.html" class="crosslink">EcRepository</a></td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>Repository to search using the query</p>
-</td>
-            </tr>
-
-            <tr>
-              <td>query</td>
-              <td>String</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>Query string to pass to the search web service</p>
-</td>
-            </tr>
-
-            <tr>
-              <td>{Callback1&lt;Array&lt;EcCreativeWork&gt;&gt;</td>
-              <td>Object</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>success
-Callback triggered after completing the search, returns the results</p>
-</td>
-            </tr>
-
-            <tr>
-              <td>failure</td>
-              <td>Callback1<String></td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>Callback triggered if error searching</p>
-</td>
-            </tr>
-
-            <tr>
-              <td>paramObj</td>
-              <td>Object</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>Parameter object for search</p>
-</td>
-            </tr>
-
-          </tbody>
-        </table>
-      </div>
-
-
-
-</div>
-<div class="method item">
-    <div id="method_search" class="title">
-        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcQuestion.java.html#l23"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcQuestion.java:23</code></a></span>
-        <h3 class="">
-            public
-            static
-            
-            search(repo, query, {Callback1&lt;Array&lt;Quiz&gt;&gt;, failure, paramObj)
-        </h3>
-    </div>
-
-
-
-    <div class="method-description"><p>Searches a repository for questions that match the search query</p>
-</div>
-
-      <div class="params">
-        <h4>Parameters:</h4>
-        <table>
-          <thead>
-          <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Attribute</th>
-            <th>Description</th>
-          </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>repo</td>
-              <td><a href="../classes/EcRepository.html" class="crosslink">EcRepository</a></td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>Repository to search using the query</p>
-</td>
-            </tr>
-
-            <tr>
-              <td>query</td>
-              <td>String</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>Query string to pass to the search web service</p>
-</td>
-            </tr>
-
-            <tr>
-              <td>{Callback1&lt;Array&lt;Quiz&gt;&gt;</td>
-              <td>Object</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>success Callback triggered after
-completing the search, returns the results</p>
-</td>
-            </tr>
-
-            <tr>
-              <td>failure</td>
-              <td>Callback1<String></td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>Callback triggered if error searching</p>
-</td>
-            </tr>
-
-            <tr>
-              <td>paramObj</td>
-              <td>Object</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>Parameter object for search</p>
-</td>
-            </tr>
-
-          </tbody>
-        </table>
-      </div>
-
-
-
-</div>
-<div class="method item">
-    <div id="method_search" class="title">
-        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcComment.java.html#l47"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcComment.java:47</code></a></span>
-        <h3 class="">
-            public
-            static
-            
-            search(repo, query, {Callback1&lt;Array&lt;EcComment&gt;&gt;, failure, paramObj)
-        </h3>
-    </div>
-
-
-
-    <div class="method-description"><p>Searches a repository for comments that match the search query</p>
-</div>
-
-      <div class="params">
-        <h4>Parameters:</h4>
-        <table>
-          <thead>
-          <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Attribute</th>
-            <th>Description</th>
-          </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>repo</td>
-              <td><a href="../classes/EcRepository.html" class="crosslink">EcRepository</a></td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>Repository to search using the query</p>
-</td>
-            </tr>
-
-            <tr>
-              <td>query</td>
-              <td>String</td>
-              <td>
-                <ul>
-                  
-                  
-                  
-                </ul>
-              </td>
-              <td><p>Query string to pass to the search web service</p>
-</td>
-            </tr>
-
-            <tr>
-              <td>{Callback1&lt;Array&lt;EcComment&gt;&gt;</td>
               <td>Object</td>
               <td>
                 <ul>
@@ -2712,6 +2435,430 @@ completing the search, returns the results</p>
 
 
 </div>
+<div class="method item">
+    <div id="method_search" class="title">
+        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcOrganization.java.html#l60"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcOrganization.java:60</code></a></span>
+        <h3 class="">
+            public
+            static
+            
+            search(repo, query, {Callback1&lt;Array&lt;EcOrganization&gt;&gt;, failure, paramObj)
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Searches a repository for organizations that match the search query</p>
+</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>repo</td>
+              <td><a href="../classes/EcRepository.html" class="crosslink">EcRepository</a></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Repository to search using the query</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>query</td>
+              <td>String</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Query string to pass to the search web service</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>{Callback1&lt;Array&lt;EcOrganization&gt;&gt;</td>
+              <td>Object</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>success Callback triggered after
+completing the search, returns the results</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>failure</td>
+              <td>Callback1<String></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Callback triggered if error searching</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>paramObj</td>
+              <td>Object</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Parameter object for search</p>
+</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+
+
+</div>
+<div class="method item">
+    <div id="method_search" class="title">
+        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcQuestion.java.html#l23"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcQuestion.java:23</code></a></span>
+        <h3 class="">
+            public
+            static
+            
+            search(repo, query, {Callback1&lt;Array&lt;Quiz&gt;&gt;, failure, paramObj)
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Searches a repository for questions that match the search query</p>
+</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>repo</td>
+              <td><a href="../classes/EcRepository.html" class="crosslink">EcRepository</a></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Repository to search using the query</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>query</td>
+              <td>String</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Query string to pass to the search web service</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>{Callback1&lt;Array&lt;Quiz&gt;&gt;</td>
+              <td>Object</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>success Callback triggered after
+completing the search, returns the results</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>failure</td>
+              <td>Callback1<String></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Callback triggered if error searching</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>paramObj</td>
+              <td>Object</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Parameter object for search</p>
+</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+
+
+</div>
+<div class="method item">
+    <div id="method_search" class="title">
+        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcCreativeWork.java.html#l47"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcCreativeWork.java:47</code></a></span>
+        <h3 class="">
+            public
+            static
+            
+            search(repo, query, {Callback1&lt;Array&lt;EcCreativeWork&gt;&gt;, failure, paramObj)
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Searches a repository for creative works that match the search query</p>
+</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>repo</td>
+              <td><a href="../classes/EcRepository.html" class="crosslink">EcRepository</a></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Repository to search using the query</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>query</td>
+              <td>String</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Query string to pass to the search web service</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>{Callback1&lt;Array&lt;EcCreativeWork&gt;&gt;</td>
+              <td>Object</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>success
+Callback triggered after completing the search, returns the results</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>failure</td>
+              <td>Callback1<String></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Callback triggered if error searching</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>paramObj</td>
+              <td>Object</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Parameter object for search</p>
+</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+
+
+</div>
+<div class="method item">
+    <div id="method_search" class="title">
+        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcComment.java.html#l47"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcComment.java:47</code></a></span>
+        <h3 class="">
+            public
+            static
+            
+            search(repo, query, {Callback1&lt;Array&lt;EcComment&gt;&gt;, failure, paramObj)
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Searches a repository for comments that match the search query</p>
+</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>repo</td>
+              <td><a href="../classes/EcRepository.html" class="crosslink">EcRepository</a></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Repository to search using the query</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>query</td>
+              <td>String</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Query string to pass to the search web service</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>{Callback1&lt;Array&lt;EcComment&gt;&gt;</td>
+              <td>Object</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>success Callback triggered after
+completing the search, returns the results</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>failure</td>
+              <td>Callback1<String></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Callback triggered if error searching</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>paramObj</td>
+              <td>Object</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Parameter object for search</p>
+</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+
+
+</div>
     </div>
 
 
@@ -2719,6 +2866,26 @@ completing the search, returns the results</p>
 
 
 
+    <div id="properties public">
+        <h2 id="public-properties">Public Properties</h2>
+<div class="property item">
+  <div id="props_orgPpkSet" class="title">
+    <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcOrganization.java.html#l17"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcOrganization.java:17</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      orgPpkSet: EcEncryptedValue<PPK PEM>
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p>Encrypted organization ppk Keys.
+Encrypted value is an array of PPK PEMs with the most current key being the last item in the array</p>
+</div>
+
+</div>
+    </div>
 
 
 
@@ -2726,7 +2893,7 @@ completing the search, returns the results</p>
     <h2 id="public-methods">Public Methods</h2>
 <div class="method item">
     <div id="method_addEmployee" class="title">
-        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcOrganization.java.html#l72"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcOrganization.java:72</code></a></span>
+        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcOrganization.java.html#l82"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcOrganization.java:82</code></a></span>
         <h3 class="">
             public
             
@@ -2763,6 +2930,55 @@ completing the search, returns the results</p>
                 </ul>
               </td>
               <td><p>Person to add to the Organization's employee list</p>
+</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+
+
+</div>
+<div class="method item">
+    <div id="method_addOrgKey" class="title">
+        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcOrganization.java.html#l160"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcOrganization.java:160</code></a></span>
+        <h3 class="">
+            public
+            
+            
+            addOrgKey(newOrgPpk)
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Add's a key to the organization</p>
+</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>newOrgPpk</td>
+              <td><a href="../classes/EcPpk.html" class="crosslink">EcPpk</a></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>The key to add to the organization</p>
 </td>
             </tr>
 
@@ -3286,8 +3502,64 @@ Requires login().</div>
 
 </div>
 <div class="method item">
+    <div id="method_getCurrentOrgKey" class="title">
+        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcOrganization.java.html#l228"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcOrganization.java:228</code></a></span>
+        <h3 class="">
+            public
+            
+            
+            getCurrentOrgKey( ): 
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Returns the current organization key</p>
+</div>
+
+
+      <div class="return">
+        <h4>Return:</h4>
+        <div>
+          
+          <span class="return-description"><p>EcPpk
+The current organization key</p>
+</span>
+        </div>
+      </div>
+
+
+</div>
+<div class="method item">
     <div id="method_getFingerprintFromId" class="title">
-        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcOrganization.java.html#l145"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcOrganization.java:145</code></a></span>
+        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcOrganization.java.html#l292"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcOrganization.java:292</code></a></span>
+        <h3 class="">
+            public
+            
+            
+            getFingerprintFromId( ): String
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Attempts to find and return the organization's fingerprint from the id.</p>
+</div>
+
+
+      <div class="return">
+        <h4>Return:</h4>
+        <div>
+          <span class="return-type">String</span>
+          <span class="return-description"></span>
+        </div>
+      </div>
+
+
+</div>
+<div class="method item">
+    <div id="method_getFingerprintFromId" class="title">
+        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcOrganization.java.html#l302"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcOrganization.java:302</code></a></span>
         <h3 class="">
             public
             
@@ -3367,35 +3639,57 @@ Requires login().</div>
 
 </div>
 <div class="method item">
-    <div id="method_getFingerprintFromId" class="title">
-        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcOrganization.java.html#l135"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcOrganization.java:135</code></a></span>
+    <div id="method_getOrgKeys" class="title">
+        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcOrganization.java.html#l244"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcOrganization.java:244</code></a></span>
         <h3 class="">
             public
             
             
-            getFingerprintFromId( ): String
+            getOrgKeys( ): 
         </h3>
     </div>
 
 
 
-    <div class="method-description"><p>Attempts to find and return the organization's fingerprint from the id.</p>
+    <div class="method-description"><p>Returns the list of organization keys</p>
 </div>
 
 
       <div class="return">
         <h4>Return:</h4>
         <div>
-          <span class="return-type">String</span>
-          <span class="return-description"></span>
+          
+          <span class="return-description"><p>Array<EcPpk>
+The Array of organization keys</p>
+</span>
         </div>
       </div>
 
 
 </div>
 <div class="method item">
+    <div id="method_moveKeyField" class="title">
+        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcOrganization.java.html#l266"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcOrganization.java:266</code></a></span>
+        <h3 class="">
+            public
+            
+            
+            moveKeyField( )
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Moves old key field to new key field array</p>
+</div>
+
+
+
+
+</div>
+<div class="method item">
     <div id="method_movePersonMembersToEmployee" class="title">
-        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcOrganization.java.html#l106"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcOrganization.java:106</code></a></span>
+        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcOrganization.java.html#l116"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcOrganization.java:116</code></a></span>
         <h3 class="">
             public
             
@@ -3414,8 +3708,129 @@ Requires login().</div>
 
 </div>
 <div class="method item">
+    <div id="method_ppkListToPemArrayString" class="title">
+        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcOrganization.java.html#l139"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcOrganization.java:139</code></a></span>
+        <h3 class="">
+            public
+            
+            
+            ppkListToPemArrayString(ppkList): 
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Adds the given person's id to the employee list</p>
+</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ppkList</td>
+              <td>Array<EcPpk></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Person to add to the Organization's employee list</p>
+</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+      <div class="return">
+        <h4>Return:</h4>
+        <div>
+          
+          <span class="return-description"><p>String
+A JSON array string containing the PEMs of the given PPKs</p>
+</span>
+        </div>
+      </div>
+
+
+</div>
+<div class="method item">
+    <div id="method_rekeyAndSave" class="title">
+        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcOrganization.java.html#l174"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcOrganization.java:174</code></a></span>
+        <h3 class="">
+            public
+            
+            
+            rekeyAndSave(success, failure)
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Performs a rekey operation and saves the organization details to the server</p>
+</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>success</td>
+              <td>Callback1<String></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Callback triggered on successfully saving the competency</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>failure</td>
+              <td>Callback1<String></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Callback triggered if error saving competency</p>
+</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+
+
+</div>
+<div class="method item">
     <div id="method_removeEmployeeById" class="title">
-        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcOrganization.java.html#l89"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcOrganization.java:89</code></a></span>
+        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcOrganization.java.html#l99"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcOrganization.java:99</code></a></span>
         <h3 class="">
             public
             
@@ -3452,6 +3867,69 @@ Requires login().</div>
                 </ul>
               </td>
               <td><p>Person id to be removed from Organization's employee list</p>
+</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+
+
+</div>
+<div class="method item">
+    <div id="method_save" class="title">
+        <span class="source-link"><a href="../files/com.eduworks.schema_src_main_java_org_schema_EcOrganization.java.html#l209"><code>com.eduworks.schema&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;schema&#x2F;EcOrganization.java:209</code></a></span>
+        <h3 class="">
+            public
+            
+            
+            save(success, failure)
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Encrypts the org keys and saves the organization details to the server</p>
+</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>success</td>
+              <td>Callback1<String></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Callback triggered on successfully saving the competency</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>failure</td>
+              <td>Callback1<String></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Callback triggered if error saving competency</p>
 </td>
             </tr>
 

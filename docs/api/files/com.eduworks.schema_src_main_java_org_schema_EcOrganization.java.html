@@ -261,6 +261,7 @@
                             <li><a href="../classes/DigitalDocumentPermission.html">DigitalDocumentPermission</a></li>
                             <li><a href="../classes/DigitalDocumentPermissionType.html">DigitalDocumentPermissionType</a></li>
                             <li><a href="../classes/Diploma.html">Diploma</a></li>
+                            <li><a href="../classes/Directory.html">Directory</a></li>
                             <li><a href="../classes/DisagreeAction.html">DisagreeAction</a></li>
                             <li><a href="../classes/DiscoverAction.html">DiscoverAction</a></li>
                             <li><a href="../classes/DiscussionForumPosting.html">DiscussionForumPosting</a></li>
@@ -298,6 +299,7 @@
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
                             <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
+                            <li><a href="../classes/EcDirectory.html">EcDirectory</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
@@ -820,17 +822,27 @@
 package org.schema;
 
 import com.eduworks.ec.array.EcArray;
+import com.eduworks.ec.crypto.EcPpk;
+import org.cassproject.ebac.identity.EcRekeyRequest;
 import org.cassproject.ebac.repository.EcEncryptedValue;
 import org.cassproject.ebac.repository.EcRepository;
 import org.cassproject.schema.general.EcRemoteLinkedData;
-import org.stjs.javascript.Array;
-import org.stjs.javascript.JSCollections;
-import org.stjs.javascript.JSObjectAdapter;
-import org.stjs.javascript.Map;
+import org.stjs.javascript.*;
 import org.stjs.javascript.functions.Callback1;
 import org.stjs.javascript.functions.Function0;
 
 public class EcOrganization extends Organization {
+
+    public static final String ORG_PPK_SET_KEY = &quot;https://schema.cassproject.org/0.3/ppkSet&quot;;
+
+    /**
+     * Encrypted organization ppk Keys.
+     * Encrypted value is an array of PPK PEMs with the most current key being the last item in the array
+     *
+     * @property orgPpkSet
+     * @type EcEncryptedValue&lt;PPK PEM&gt;
+     */
+    //protected EcEncryptedValue orgPpkSet;
 
     /**
      * Retrieves an organization from it&#x27;s server asynchronously
@@ -945,10 +957,157 @@ public class EcOrganization extends Organization {
         }
     }
 
+    /**
+     * Adds the given person&#x27;s id to the employee list
+     *
+     * @param {Array&lt;EcPpk&gt;} ppkList Person to add to the Organization&#x27;s employee list
+     *
+     * @return String
+     * A JSON array string containing the PEMs of the given PPKs
+     *
+     * @method ppkListToPemArrayString
+     */
+    private String ppkListToPemArrayString(Array&lt;EcPpk&gt; ppkList) {
+        if (ppkList == null) return JSGlobal.JSON.stringify(new Array&lt;&gt;());
+        else {
+            Array&lt;String&gt; pemArray = new Array&lt;&gt;();
+            for (int i=0;i&lt;ppkList.$length();i++) {
+                pemArray.push(ppkList.$get(i).toPem());
+            }
+            return JSGlobal.JSON.stringify(pemArray);
+        }
+    }
+
+    /**
+     * Add&#x27;s a key to the organization
+     *
+     * @param {EcPpk}   newOrgPpk The key to add to the organization
+     * @memberOf EcOrganization
+     * @method addOrgKey
+     */
+    public void addOrgKey(EcPpk newOrgPpk) {
+        Array&lt;EcPpk&gt; orgKeys = getOrgKeys();
+        orgKeys.push(newOrgPpk);
+        EcEncryptedValue newKeys = EcEncryptedValue.encryptValue(ppkListToPemArrayString(orgKeys), ORG_PPK_SET_KEY, owner, reader);
+        JSObjectAdapter.$put(this, ORG_PPK_SET_KEY, newKeys);
+    }
+
+    /**
+     * Performs a rekey operation and saves the organization details to the server
+     *
+     * @param {Callback1&lt;String&gt;} success
+     *                            Callback triggered on successfully saving the competency
+     * @param {Callback1&lt;String&gt;} failure
+     *                            Callback triggered if error saving competency
+     * @memberOf EcOrganization
+     * @method rekeyAndSave
+     */
+    public void rekeyAndSave(final Callback1&lt;String&gt; success, final Callback1&lt;String&gt; failure, final EcRepository repo) {
+        if (repo == null) {
+            String msg = &quot;Repository cannot be null for a rekey operation&quot;;
+            if (failure != null)
+                failure.$invoke(msg);
+            else
+                Global.console.error(msg);
+            return;
+        }
+        else {
+            EcPpk oldKey = getCurrentOrgKey();
+            EcPpk newKey = EcPpk.generateKey();
+            final EcRekeyRequest rekeyRequest = EcRekeyRequest.generateRekeyRequest(repo.selectedServer, oldKey, newKey);
+            addOrgKey(newKey);
+            EcEncryptedValue newKeys = EcEncryptedValue.encryptValue(ppkListToPemArrayString(getOrgKeys()), ORG_PPK_SET_KEY, owner, reader);
+            JSObjectAdapter.$put(this, ORG_PPK_SET_KEY, newKeys);
+            repo.saveTo(this, new Callback1&lt;String&gt;() {
+                @Override
+                public void $invoke(String res) {
+                    repo.saveTo(rekeyRequest,success,failure);
+                }
+            },failure);
+        }
+    }
+
+    /**
+     * Encrypts the org keys and saves the organization details to the server
+     *
+     * @param {Callback1&lt;String&gt;} success
+     *                            Callback triggered on successfully saving the competency
+     * @param {Callback1&lt;String&gt;} failure
+     *                            Callback triggered if error saving competency
+     * @memberOf EcOrganization
+     * @method save
+     */
+    public void save(Callback1&lt;String&gt; success, Callback1&lt;String&gt; failure, EcRepository repo) {
+        EcEncryptedValue newKeys = EcEncryptedValue.encryptValue(ppkListToPemArrayString(getOrgKeys()), ORG_PPK_SET_KEY, owner, reader);
+        JSObjectAdapter.$put(this, ORG_PPK_SET_KEY, newKeys);
+        if (repo == null)
+            EcRepository.save(this, success, failure);
+        else
+            repo.saveTo(this,success,failure);
+    }
+
+    /**
+     * Returns the current organization key
+     *
+     * @return EcPpk
+     * The current organization key
+     * @memberOf EcOrganization
+     * @method getCurrentOrgKey
+     */
+    public EcPpk getCurrentOrgKey() {
+        Array&lt;EcPpk&gt; orgKeys = getOrgKeys();
+        if (orgKeys.$length() &gt;= 1) {
+            return orgKeys.$get(orgKeys.$length() - 1);
+        }
+        else return null;
+    }
+
+    /**
+     * Returns the list of organization keys
+     *
+     * @return Array&lt;EcPpk&gt;
+     * The Array of organization keys
+     * @memberOf EcOrganization
+     * @method getOrgKeys
+     */
+    public Array&lt;EcPpk&gt; getOrgKeys() {
+        Array&lt;EcPpk&gt; orgKeys = new Array&lt;&gt;();
+        Object o = JSObjectAdapter.$get(this, ORG_PPK_SET_KEY);
+        if (o != null) {
+            EcEncryptedValue ev = new EcEncryptedValue();
+            ev.copyFrom(o);
+            Array&lt;String&gt; orgKeysPPKPems = (Array&lt;String&gt;) JSGlobal.JSON.parse(ev.decryptIntoString());
+            for (int i=0;i&lt;orgKeysPPKPems.$length();i++) {
+                orgKeys.push(EcPpk.fromPem(orgKeysPPKPems.$get(i)));
+            }
+        }
+        return orgKeys;
+    }
+
+    /**
+     * Moves old key field to new key field array
+     *
+     * @method moveKeyField
+     */
+    private void moveKeyField() {
+        Object o = JSObjectAdapter.$get(this, &quot;https://schema.cassproject.org/0.3/ppk&quot;);
+        if (o != null) {
+            EcEncryptedValue ev = new EcEncryptedValue();
+            ev.copyFrom(o);
+            String currentGroupPpkPem = ev.decryptIntoString();
+            Array&lt;String&gt; keyArray = new Array&lt;&gt;();
+            keyArray.push(currentGroupPpkPem);
+            EcEncryptedValue newKey = EcEncryptedValue.encryptValue(JSGlobal.JSON.stringify(keyArray), ORG_PPK_SET_KEY, owner, reader);
+            JSObjectAdapter.$put(this, ORG_PPK_SET_KEY, newKey);
+            JSObjectAdapter.$properties(this).$delete(&quot;https://schema.cassproject.org/0.3/ppk&quot;);
+        }
+    }
+
     @Override
     protected void upgrade() {
         super.upgrade();
         movePersonMembersToEmployee();
+        moveKeyField();
     }
 
     /**

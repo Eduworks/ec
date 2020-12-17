@@ -261,6 +261,7 @@
                             <li><a href="../classes/DigitalDocumentPermission.html">DigitalDocumentPermission</a></li>
                             <li><a href="../classes/DigitalDocumentPermissionType.html">DigitalDocumentPermissionType</a></li>
                             <li><a href="../classes/Diploma.html">Diploma</a></li>
+                            <li><a href="../classes/Directory.html">Directory</a></li>
                             <li><a href="../classes/DisagreeAction.html">DisagreeAction</a></li>
                             <li><a href="../classes/DiscoverAction.html">DiscoverAction</a></li>
                             <li><a href="../classes/DiscussionForumPosting.html">DiscussionForumPosting</a></li>
@@ -298,6 +299,7 @@
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
                             <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
+                            <li><a href="../classes/EcDirectory.html">EcDirectory</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
@@ -823,6 +825,7 @@
                       <li><a href="#method_sign">sign</a></li>
                       <li><a href="#method_signSha256">signSha256</a></li>
                       <li><a href="#method_verify">verify</a></li>
+                      <li><a href="#method_verify">verify</a></li>
                   </ul>
             
             
@@ -926,6 +929,21 @@ Encryption Padding (OAEP) encryption and decryption. Uses RSA SSA PKCS#1 v1.5
             </div>
             <div class="short-description">
               <p>Creates a signature for the provided text using the public private keypair. May be verified with the public key. Uses SHA256 hash with a UTF8 decoding of the text. Returns base64 encoded signature.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            static
+            
+          </td>
+          <td>
+            <div class="method-name ">
+              <a href="#method_verify">verify</a>(pk, text, signature): 
+            </div>
+            <div class="short-description">
+              <p>Verifies the integrity of the provided text using a signature and a public key. Uses SHA1 hash with a UTF8 decoding of the text.</p>
             </div>
           </td>
         </tr>
@@ -1246,6 +1264,92 @@ UTF8 decoding of the text. Returns base64 encoded signature.</p>
 <div class="method item">
     <div id="method_verify" class="title">
         <span class="source-link"><a href="../files/ec.crypto_src_main_java_com_eduworks_ec_crypto_EcRsaOaep.java.html#l105"><code>ec.crypto&#x2F;src&#x2F;main&#x2F;java&#x2F;com&#x2F;eduworks&#x2F;ec&#x2F;crypto&#x2F;EcRsaOaep.java:105</code></a></span>
+        <h3 class="">
+            public
+            static
+            
+            verify(pk, text, signature): 
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Verifies the integrity of the provided text using a signature and a
+public key. Uses SHA1 hash with a UTF8 decoding of the text.</p>
+</div>
+
+      <div class="params">
+        <h4>Parameters:</h4>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Attribute</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>pk</td>
+              <td><a href="../classes/EcPk.html" class="crosslink">EcPk</a></td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Public key.</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>text</td>
+              <td>String</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Text to verify.</p>
+</td>
+            </tr>
+
+            <tr>
+              <td>signature</td>
+              <td>String</td>
+              <td>
+                <ul>
+                  
+                  
+                  
+                </ul>
+              </td>
+              <td><p>Base64 encoded signature.</p>
+</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+      <div class="return">
+        <h4>Return:</h4>
+        <div>
+          
+          <span class="return-description"><p>True IFF the signature is valid.</p>
+</span>
+        </div>
+      </div>
+
+
+</div>
+<div class="method item">
+    <div id="method_verify" class="title">
+        <span class="source-link"><a href="../files/ec.crypto_src_main_java_com_eduworks_ec_crypto_EcRsaOaep.java.html#l129"><code>ec.crypto&#x2F;src&#x2F;main&#x2F;java&#x2F;com&#x2F;eduworks&#x2F;ec&#x2F;crypto&#x2F;EcRsaOaep.java:129</code></a></span>
         <h3 class="">
             public
             static

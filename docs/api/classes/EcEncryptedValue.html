@@ -261,6 +261,7 @@
                             <li><a href="../classes/DigitalDocumentPermission.html">DigitalDocumentPermission</a></li>
                             <li><a href="../classes/DigitalDocumentPermissionType.html">DigitalDocumentPermissionType</a></li>
                             <li><a href="../classes/Diploma.html">Diploma</a></li>
+                            <li><a href="../classes/Directory.html">Directory</a></li>
                             <li><a href="../classes/DisagreeAction.html">DisagreeAction</a></li>
                             <li><a href="../classes/DiscoverAction.html">DiscoverAction</a></li>
                             <li><a href="../classes/DiscussionForumPosting.html">DiscussionForumPosting</a></li>
@@ -298,6 +299,7 @@
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
                             <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
+                            <li><a href="../classes/EcDirectory.html">EcDirectory</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
@@ -811,6 +813,7 @@
                   <div><a href="#static-method-summary">Static Method Summary</a></div>
             
             
+                  <div><a href="#property-summary">Property Summary</a></div>
             
                   <div><a href="#method-summary">Method Summary</a></div>
             
@@ -835,6 +838,11 @@
             
             
             
+                  <div><a href="#public-properties">Public Properties</a></div>
+                  <ul>
+                      <li><a href="#props_rekeyPk">rekeyPk</a></li>
+                      <li><a href="#props_rekeySignature">rekeySignature</a></li>
+                  </ul>
             
             
             
@@ -855,10 +863,14 @@
                       <li><a href="#method_decryptSecretAsync">decryptSecretAsync</a></li>
                       <li><a href="#method_decryptSecretByKey">decryptSecretByKey</a></li>
                       <li><a href="#method_decryptSecretByKeyAsync">decryptSecretByKeyAsync</a></li>
+                      <li><a href="#method_generateRekeyRequest">generateRekeyRequest</a></li>
+                      <li><a href="#method_generateRekeyRequestId">generateRekeyRequestId</a></li>
+                      <li><a href="#method_generateRekeyRequestId">generateRekeyRequestId</a></li>
                       <li><a href="#method_getEncryptedFullType">getEncryptedFullType</a></li>
                       <li><a href="#method_isAnEncrypted">isAnEncrypted</a></li>
                       <li><a href="#method_removeReader">removeReader</a></li>
                       <li><a href="#method_removeReaderAsync">removeReaderAsync</a></li>
+                      <li><a href="#method_toSignableJson">toSignableJson</a></li>
                   </ul>
             
             
@@ -1041,6 +1053,49 @@ the data within.</p>
 
 
 
+  <h2 id="property-summary">Property Summary</h2>
+
+    <table class="summary">
+      <thead>
+      <tr>
+        <th colspan="2">Public Properties</th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_rekeyPk">rekeyPk</a>: String (PEM)
+            </div>
+            <div class="short-description">
+              <p>PEM encoded public key of the replacement (new) key</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="property-name ">
+              <a href="#props_rekeySignature">rekeySignature</a>: String (SHA256 signature)
+            </div>
+            <div class="short-description">
+              <p>SHA256 signature of the rekey request</p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+
 
   <h2 id="method-summary">Method Summary</h2>
 
@@ -1152,7 +1207,7 @@ the data within.</p>
               <a href="#method_decryptIntoString">decryptIntoString</a>( ): String
             </div>
             <div class="short-description">
-              <p>Decrypts an encrypted value into a string</p>
+              <p>Decrypts an encrypted value into a string using an alternative secret.</p>
             </div>
           </td>
         </tr>
@@ -1167,7 +1222,7 @@ the data within.</p>
               <a href="#method_decryptIntoString">decryptIntoString</a>( ): String
             </div>
             <div class="short-description">
-              <p>Decrypts an encrypted value into a string using an alternative secret.</p>
+              <p>Decrypts an encrypted value into a string</p>
             </div>
           </td>
         </tr>
@@ -1284,6 +1339,51 @@ the data within.</p>
           </td>
           <td>
             <div class="method-name ">
+              <a href="#method_generateRekeyRequest">generateRekeyRequest</a>( )
+            </div>
+            <div class="short-description">
+              <p>Generates and populates a rekey request with the given information</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="method-name ">
+              <a href="#method_generateRekeyRequestId">generateRekeyRequestId</a>( )
+            </div>
+            <div class="short-description">
+              <p>Generates the ID of the rekey request in the appropriate format</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="method-name ">
+              <a href="#method_generateRekeyRequestId">generateRekeyRequestId</a>( )
+            </div>
+            <div class="short-description">
+              <p>Adds a signature to the rekey request and finalizes before save</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="method-name ">
               <a href="#method_getEncryptedFullType">getEncryptedFullType</a>( ): String
             </div>
             <div class="short-description">
@@ -1333,6 +1433,21 @@ the data within.</p>
             </div>
             <div class="short-description">
               <p>Removes a reader from the object, if the reader does exist.</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            public
+            
+            
+          </td>
+          <td>
+            <div class="method-name ">
+              <a href="#method_toSignableJson">toSignableJson</a>( ): 
+            </div>
+            <div class="short-description">
+              <p>Encodes the object in a form where it is ready to be signed. This method is under long term review, and may change from version to version.</p>
             </div>
           </td>
         </tr>
@@ -1425,7 +1540,7 @@ is passed in returns val</p>
 </div>
 <div class="method item">
     <div id="method_encryptValue" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l309"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:309</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l368"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:368</code></a></span>
         <h3 class="">
             public
             static
@@ -1524,7 +1639,7 @@ is passed in returns val</p>
 </div>
 <div class="method item">
     <div id="method_encryptValue" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l368"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:368</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l309"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:309</code></a></span>
         <h3 class="">
             public
             static
@@ -2163,6 +2278,41 @@ encryption</p>
 
 
 
+    <div id="properties public">
+        <h2 id="public-properties">Public Properties</h2>
+<div class="property item">
+  <div id="props_rekeyPk" class="title">
+    <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_EcRekeyRequest.java.html#l21"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;EcRekeyRequest.java:21</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      rekeyPk: String (PEM)
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p>PEM encoded public key of the replacement (new) key</p>
+</div>
+
+</div>
+<div class="property item">
+  <div id="props_rekeySignature" class="title">
+    <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_EcRekeyRequest.java.html#l28"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;EcRekeyRequest.java:28</code></a></span>
+    <h3 class="">
+      public
+      
+      
+      rekeySignature: String (SHA256 signature)
+    </h3>
+  </div>
+
+
+  <div class="property-description"><p>SHA256 signature of the rekey request</p>
+</div>
+
+</div>
+    </div>
 
 
 
@@ -2532,34 +2682,6 @@ decryption</p>
 </div>
 <div class="method item">
     <div id="method_decryptIntoString" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l593"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:593</code></a></span>
-        <h3 class="">
-            public
-            
-            
-            decryptIntoString( ): String
-        </h3>
-    </div>
-
-
-
-    <div class="method-description"><p>Decrypts an encrypted value into a string</p>
-</div>
-
-
-      <div class="return">
-        <h4>Return:</h4>
-        <div>
-          <span class="return-type">String</span>
-          <span class="return-description"><p>Decrypted string value</p>
-</span>
-        </div>
-      </div>
-
-
-</div>
-<div class="method item">
-    <div id="method_decryptIntoString" class="title">
         <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l608"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:608</code></a></span>
         <h3 class="">
             public
@@ -2587,8 +2709,36 @@ decryption</p>
 
 </div>
 <div class="method item">
+    <div id="method_decryptIntoString" class="title">
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l593"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:593</code></a></span>
+        <h3 class="">
+            public
+            
+            
+            decryptIntoString( ): String
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Decrypts an encrypted value into a string</p>
+</div>
+
+
+      <div class="return">
+        <h4>Return:</h4>
+        <div>
+          <span class="return-type">String</span>
+          <span class="return-description"><p>Decrypted string value</p>
+</span>
+        </div>
+      </div>
+
+
+</div>
+<div class="method item">
     <div id="method_decryptIntoStringAsync" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l648"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:648</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l622"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:622</code></a></span>
         <h3 class="">
             public
             
@@ -2653,7 +2803,7 @@ decryption</p>
 </div>
 <div class="method item">
     <div id="method_decryptIntoStringAsync" class="title">
-        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l622"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:622</code></a></span>
+        <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l648"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:648</code></a></span>
         <h3 class="">
             public
             
@@ -3042,6 +3192,72 @@ secret decryption</p>
 
 </div>
 <div class="method item">
+    <div id="method_generateRekeyRequest" class="title">
+        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_EcRekeyRequest.java.html#l56"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;EcRekeyRequest.java:56</code></a></span>
+        <h3 class="">
+            public
+            
+            
+            generateRekeyRequest( )
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Generates and populates a rekey request with the given information</p>
+<p>{String} server  Base URL of the server's repository functionality.
+{EcPpk}  oldKey  The old PPK
+{EcPpk}  newKey  The new PPK</p>
+</div>
+
+
+
+
+</div>
+<div class="method item">
+    <div id="method_generateRekeyRequestId" class="title">
+        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_EcRekeyRequest.java.html#l35"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;EcRekeyRequest.java:35</code></a></span>
+        <h3 class="">
+            public
+            
+            
+            generateRekeyRequestId( )
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Generates the ID of the rekey request in the appropriate format</p>
+<p>{string} server      Base URL of the server's repository functionality.
+{EcPk}   oldKeyPk    The public key to replace</p>
+</div>
+
+
+
+
+</div>
+<div class="method item">
+    <div id="method_generateRekeyRequestId" class="title">
+        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_EcRekeyRequest.java.html#l46"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;EcRekeyRequest.java:46</code></a></span>
+        <h3 class="">
+            public
+            
+            
+            generateRekeyRequestId( )
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Adds a signature to the rekey request and finalizes before save</p>
+<p>{EcPpk}  oldKeyPpk   The old PPK</p>
+</div>
+
+
+
+
+</div>
+<div class="method item">
     <div id="method_getEncryptedFullType" class="title">
         <span class="source-link"><a href="../files/ebac.repository_src_main_java_org_cassproject_ebac_repository_EcEncryptedValue.java.html#l88"><code>ebac.repository&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;repository&#x2F;EcEncryptedValue.java:88</code></a></span>
         <h3 class="">
@@ -3252,6 +3468,35 @@ can't tell</p>
         </table>
       </div>
 
+
+
+</div>
+<div class="method item">
+    <div id="method_toSignableJson" class="title">
+        <span class="source-link"><a href="../files/ebac.identity_src_main_java_org_cassproject_ebac_identity_EcRekeyRequest.java.html#l82"><code>ebac.identity&#x2F;src&#x2F;main&#x2F;java&#x2F;org&#x2F;cassproject&#x2F;ebac&#x2F;identity&#x2F;EcRekeyRequest.java:82</code></a></span>
+        <h3 class="">
+            public
+            
+            
+            toSignableJson( ): 
+        </h3>
+    </div>
+
+
+
+    <div class="method-description"><p>Encodes the object in a form where it is ready to be signed.
+This method is under long term review, and may change from version to version.</p>
+</div>
+
+
+      <div class="return">
+        <h4>Return:</h4>
+        <div>
+          
+          <span class="return-description"><p>ASCII-sort order encoded space-free and tab-free JSON-LD.</p>
+</span>
+        </div>
+      </div>
 
 
 </div>

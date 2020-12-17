@@ -261,6 +261,7 @@
                             <li><a href="../classes/DigitalDocumentPermission.html">DigitalDocumentPermission</a></li>
                             <li><a href="../classes/DigitalDocumentPermissionType.html">DigitalDocumentPermissionType</a></li>
                             <li><a href="../classes/Diploma.html">Diploma</a></li>
+                            <li><a href="../classes/Directory.html">Directory</a></li>
                             <li><a href="../classes/DisagreeAction.html">DisagreeAction</a></li>
                             <li><a href="../classes/DiscoverAction.html">DiscoverAction</a></li>
                             <li><a href="../classes/DiscussionForumPosting.html">DiscussionForumPosting</a></li>
@@ -298,6 +299,7 @@
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
                             <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
+                            <li><a href="../classes/EcDirectory.html">EcDirectory</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
@@ -1456,6 +1458,44 @@ public class EcRemoteLinkedData extends EcLinkedData {
         if (me.$get(&quot;@encryptedContext&quot;) != null) {
             me.$put(&quot;encryptedContext&quot;, me.$get(&quot;@encryptedContext&quot;));
         }
+        handleForwarding();
+    }
+
+    public static Object forwardingTable = new Object();
+    protected void handleForwarding()
+    {
+        Map&lt;String, Object&gt; me = JSObjectAdapter.$properties(this);
+        if (owner != null) {
+            for (int i = 0;i &lt; owner.$length();i++)
+            {
+                String forwardTo = &quot;&quot;;
+                while (forwardTo != null) //Can be forwarded multiple times.
+                {
+                    String homogenizedPk = EcPk.fromPem(owner.$get(i)).toPem();
+                    forwardTo = (String) JSObjectAdapter.$get(forwardingTable, homogenizedPk);
+                    if (forwardTo != null)
+                        owner.$set(i, forwardTo);
+                }
+            }
+        }
+        if (reader != null) {
+            for (int i = 0;i &lt; reader.$length();i++)
+            {
+                String forwardTo = &quot;&quot;;
+                while (forwardTo != null) //Can be forwarded multiple times.
+                {
+                    String homogenizedPk = EcPk.fromPem(reader.$get(i)).toPem();
+                    forwardTo = (String) JSObjectAdapter.$get(forwardingTable, homogenizedPk);
+                    if (forwardTo != null)
+                        reader.$set(i, forwardTo);
+                }
+            }
+        }
+    }
+
+    public static void forwardKey(String oldKey, String newKey)
+    {
+        JSObjectAdapter.$put(EcRemoteLinkedData.forwardingTable,oldKey,newKey);
     }
 }
 

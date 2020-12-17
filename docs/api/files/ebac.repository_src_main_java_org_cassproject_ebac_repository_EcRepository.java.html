@@ -261,6 +261,7 @@
                             <li><a href="../classes/DigitalDocumentPermission.html">DigitalDocumentPermission</a></li>
                             <li><a href="../classes/DigitalDocumentPermissionType.html">DigitalDocumentPermissionType</a></li>
                             <li><a href="../classes/Diploma.html">Diploma</a></li>
+                            <li><a href="../classes/Directory.html">Directory</a></li>
                             <li><a href="../classes/DisagreeAction.html">DisagreeAction</a></li>
                             <li><a href="../classes/DiscoverAction.html">DiscoverAction</a></li>
                             <li><a href="../classes/DiscussionForumPosting.html">DiscussionForumPosting</a></li>
@@ -298,6 +299,7 @@
                             <li><a href="../classes/EcContact.html">EcContact</a></li>
                             <li><a href="../classes/EcCrypto.html">EcCrypto</a></li>
                             <li><a href="../classes/EcDirectedGraph.html">EcDirectedGraph</a></li>
+                            <li><a href="../classes/EcDirectory.html">EcDirectory</a></li>
                             <li><a href="../classes/EcEncryptedValue.html">EcEncryptedValue</a></li>
                             <li><a href="../classes/EcFile.html">EcFile</a></li>
                             <li><a href="../classes/EcFramework.html">EcFramework</a></li>
@@ -828,6 +830,7 @@ import com.eduworks.ec.remote.FormData;
 import com.eduworks.ec.task.Task;
 import org.cassproject.ebac.identity.EcIdentity;
 import org.cassproject.ebac.identity.EcIdentityManager;
+import org.cassproject.ebac.identity.EcRekeyRequest;
 import org.cassproject.schema.general.EcRemoteLinkedData;
 import org.stjs.javascript.*;
 import org.stjs.javascript.dom.Element;
@@ -865,7 +868,87 @@ public class EcRepository {
         repos.push(this);
     }
 
-    /**
+    public void init(String selectedServer,Callback0 success,Callback1&lt;String&gt; failure)
+    {
+        this.selectedServer = selectedServer;
+
+        negotiateTimeOffset(success,failure);
+        //TODO: set up websocket connection w/callback so that object changes on the server can propagate to the client.
+        //TODO: websocket connection -- also so that we can update the forwarding table.
+    }
+
+    private void negotiateTimeOffset(final Callback0 success,final Callback1&lt;String&gt; failure)
+    {
+        int oldTimeout = EcRemote.timeout;
+        EcRemote.timeout = 500;
+        final EcRepository me = this;
+        Callback1&lt;Object&gt; successCheck = new Callback1&lt;Object&gt;() {
+            @Override
+            public void $invoke(Object p1) {
+                if (p1 != null) {
+                    if (JSObjectAdapter.$get(p1, &quot;ping&quot;) == &quot;pong&quot;) {
+                        if (JSObjectAdapter.$get(p1, &quot;time&quot;) != null)
+                            me.timeOffset = ((Long) (Object) new Date().getTime()) - ((Long) (Object) JSObjectAdapter.$get(p1, &quot;time&quot;));
+                        me.buildKeyForwardingTable(success,failure);
+                    }
+                }
+            }
+        };
+        Callback1&lt;String&gt; failureCheck = new Callback1&lt;String&gt;() {
+            @Override
+            public void $invoke(String p1) {
+                if (p1 != null) {
+                    if (p1 != &quot;&quot;) {
+                        try {
+                            if (p1.indexOf(&quot;pong&quot;) != -1)
+                                if (JSObjectAdapter.$get(p1, &quot;time&quot;) != null)
+                                    me.timeOffset = ((Long) (Object) new Date().getTime()) - ((Long) (Object) JSObjectAdapter.$get(p1, &quot;time&quot;));
+                            me.buildKeyForwardingTable(success,failure);
+                        } catch (Exception ex) {
+                            if (failure != null)
+                        	    failure.$invoke((String)(Object)ex);
+                        }
+                    }
+                }
+            }
+        };
+        try {
+            EcRemote.getExpectingObject(this.selectedServer, &quot;ping&quot;, successCheck, failureCheck);
+        } catch (Exception ex) {
+            if (failure != null)
+			    failure.$invoke(ex.toString());
+        }
+        EcRemote.timeout = oldTimeout;
+    }
+
+	private void buildKeyForwardingTable(final Callback0 success, Callback1&lt;String&gt; failure)
+	{
+		Object params = new Object();
+		JSObjectAdapter.$put(params,&quot;size&quot;,10000);
+		EcRepository.searchAs(this, &quot;*&quot;, new Function0()
+		{
+			@Override
+			public Object $invoke()
+			{
+				return new EcRekeyRequest();
+			}
+		}, new Callback1&lt;Array&gt;()
+		{
+			@Override
+			public void $invoke(Array array)
+			{
+				Array&lt;EcRekeyRequest&gt; rekeyRequests = array;
+				for (int i = 0;i &lt; rekeyRequests.$length();i++)
+				{
+					rekeyRequests.$get(i).addRekeyRequestToForwardingTable();
+				}
+				if (success != null)
+				    success.$invoke();
+			}
+		}, failure, params);
+	}
+
+	/**
      * Gets a JSON-LD object from the place designated by the URI.
      * &lt;p&gt;
      * Uses a signature sheet gathered from {@link EcIdentityManager}.
