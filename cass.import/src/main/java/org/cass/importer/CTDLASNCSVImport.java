@@ -122,8 +122,14 @@ public class CTDLASNCSVImport {
 										public void $invoke(EcLinkedData e) {
 											EcFramework f = new EcFramework();
 											f.copyFrom(e);
-											if (EcFramework.template != null && JSObjectAdapter.$get(EcFramework.template, "@owner") != null) {
-												JSObjectAdapter.$put(f, "owner", JSObjectAdapter.$get(EcFramework.template, "@owner"));
+											if (EcFramework.template != null) {
+												for (String key : JSObjectAdapter.$properties(EcFramework.template)) {
+													if (key.equals("@owner")) {
+														JSObjectAdapter.$put(f, "owner", JSObjectAdapter.$get(EcFramework.template, key));
+													} else {
+														JSObjectAdapter.$put(f, key, JSObjectAdapter.$get(EcFramework.template, key));
+													}
+												}
 											}
 											if (JSObjectAdapter.$get(e, "owner") != null) {
 												EcIdentity id = new EcIdentity();
