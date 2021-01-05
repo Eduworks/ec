@@ -47,7 +47,7 @@ public class OrganizationTest {
 //        Global.console.log("start basicOrganizationUpgradeTest");
 //        EcOrganization o = EcOrganization.getBlocking(ORG_ID);
 //        Global.console.log(o.getName());
-        // o.rekeyAndSave(null,null,repo);
+//        o.rekeyAndSave(null,null,repo);
         Assert.assertTrue(true);
     }
 

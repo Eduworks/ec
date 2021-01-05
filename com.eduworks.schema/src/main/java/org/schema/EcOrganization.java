@@ -2,6 +2,8 @@ package org.schema;
 
 import com.eduworks.ec.array.EcArray;
 import com.eduworks.ec.crypto.EcPpk;
+import org.cassproject.ebac.identity.EcIdentity;
+import org.cassproject.ebac.identity.EcIdentityManager;
 import org.cassproject.ebac.identity.EcRekeyRequest;
 import org.cassproject.ebac.repository.EcEncryptedValue;
 import org.cassproject.ebac.repository.EcRepository;
@@ -193,6 +195,10 @@ public class EcOrganization extends Organization {
         else {
             EcPpk oldKey = getCurrentOrgKey();
             EcPpk newKey = EcPpk.generateKey();
+            EcIdentity identity = new EcIdentity();
+            identity.ppk = newKey;
+            identity.displayName = "Organization Rekey New Key";
+            EcIdentityManager.addIdentity(identity);
             final EcRekeyRequest rekeyRequest = EcRekeyRequest.generateRekeyRequest(repo.selectedServer, oldKey, newKey);
             addOrgKey(newKey);
             EcEncryptedValue newKeys = EcEncryptedValue.encryptValue(ppkListToPemArrayString(getOrgKeys()), ORG_PPK_SET_KEY, owner, reader);
