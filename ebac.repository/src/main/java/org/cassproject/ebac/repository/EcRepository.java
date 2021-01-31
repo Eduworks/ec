@@ -553,7 +553,7 @@ public class EcRepository {
             JSObjectAdapter.$properties(data).$delete("owner");
         }
 
-        if (EcEncryptedValue.encryptOnSave(data.id, null)) {
+        if (EcEncryptedValue.encryptOnSave(data.id, null) && !data.isAny(new EcEncryptedValue().getTypes())) {
             EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(data, false);
             EcIdentityManager.sign(encrypted);
             _saveWithoutSigning(encrypted, success, failure, repo);
@@ -607,7 +607,7 @@ public class EcRepository {
 
         for (int i = 0; i < data.$length(); i++) {
             EcRemoteLinkedData d = data.$get(i);
-            if (EcEncryptedValue.encryptOnSave(d.id, null)) {
+            if (EcEncryptedValue.encryptOnSave(d.id, null) && !d.isAny(new EcEncryptedValue().getTypes())) {
                 EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(d, false);
                 EcIdentityManager.sign(encrypted);
                 data.$set(i, encrypted);
