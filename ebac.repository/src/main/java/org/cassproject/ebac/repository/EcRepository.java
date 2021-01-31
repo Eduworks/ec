@@ -611,6 +611,7 @@ public class EcRepository {
                 EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(d, false);
                 EcIdentityManager.sign(encrypted);
                 data.$set(i, encrypted);
+                d = encrypted;
             } else {
                 EcIdentityManager.sign(d);
             }
