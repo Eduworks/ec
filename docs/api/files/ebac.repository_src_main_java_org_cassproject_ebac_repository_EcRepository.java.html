@@ -863,6 +863,7 @@ public class EcRepository {
     public String selectedServer = null;
     public boolean autoDetectFound = false;
     public long timeOffset = 0;
+    public String cassDockerEndpoint = null;
 
     public EcRepository() {
         repos.push(this);
@@ -1373,7 +1374,7 @@ public class EcRepository {
             JSObjectAdapter.$properties(data).$delete(&quot;owner&quot;);
         }
 
-        if (EcEncryptedValue.encryptOnSave(data.id, null)) {
+        if (EcEncryptedValue.encryptOnSave(data.id, null) &amp;&amp; !data.isAny(new EcEncryptedValue().getTypes())) {
             EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(data, false);
             EcIdentityManager.sign(encrypted);
             _saveWithoutSigning(encrypted, success, failure, repo);
@@ -1427,10 +1428,11 @@ public class EcRepository {
 
         for (int i = 0; i &lt; data.$length(); i++) {
             EcRemoteLinkedData d = data.$get(i);
-            if (EcEncryptedValue.encryptOnSave(d.id, null)) {
+            if (EcEncryptedValue.encryptOnSave(d.id, null) &amp;&amp; !d.isAny(new EcEncryptedValue().getTypes())) {
                 EcEncryptedValue encrypted = EcEncryptedValue.toEncryptedValue(d, false);
                 EcIdentityManager.sign(encrypted);
                 data.$set(i, encrypted);
+                d = encrypted;
             } else {
                 EcIdentityManager.sign(d);
             }
@@ -1456,7 +1458,14 @@ public class EcRepository {
             @Override
             public void $invoke(String signatureSheet) {
                 fd.append(&quot;signatureSheet&quot;, signatureSheet);
-                EcRemote.postExpectingString(me.selectedServer, &quot;sky/repo/multiPut&quot;, fd, success, failure);
+                String server = me.selectedServer;
+                if (me.cassDockerEndpoint != null) {
+                    server = me.cassDockerEndpoint;
+                }
+                Global.console.log(&quot;docker endpoint and server: &quot;);
+                Global.console.log(me.cassDockerEndpoint);
+                Global.console.log(server);
+                EcRemote.postExpectingString(server, &quot;sky/repo/multiPut&quot;, fd, success, failure);
             }
         };
 
