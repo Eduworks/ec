@@ -4,6 +4,7 @@ import org.stjs.javascript.*;
 import org.stjs.javascript.dom.DOMEvent;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback3;
 
 import static org.stjs.javascript.JSGlobal.JSON;
 
@@ -110,25 +111,6 @@ public class EcRemote {
 
         XMLHttpRequest xhr = null;
 
-        if (Global.typeof(EcLevrHttp.httpStatus) == "undefined") {
-            xhr = new XMLHttpRequest();
-            xhr.open("POST", url, async);
-
-            final XMLHttpRequest xhrx = xhr;
-            xhr.onreadystatechange = new Callback0() {
-                @Override
-                public void $invoke() {
-                    if (xhrx.readyState == 4 && xhrx.status == 200) {
-                        if (successCallback != null)
-                            successCallback.$invoke(xhrx.responseText);
-                    } else if (xhrx.readyState == 4) {
-                        if (failureCallback != null)
-                            failureCallback.$invoke(xhrx.responseText);
-                    }
-                }
-            };
-        }
-
         String theBoundary = null;
         // Node JS serialization check.
         if (JSObjectAdapter.$get(fd, "_streams") != null) {
@@ -154,6 +136,47 @@ public class EcRemote {
 //			if (headers != null && headers != JSGlobal.undefined)
 //				p.headers = headers;
         }
+        if (Global.typeof(EcNodeJs.isNodeJs) != "undefined" && EcRemote.async)
+        {
+            if (headers == null) headers = (Map<String,String>)new Object();
+            JSObjectAdapter.$put(headers,"Content-Type","multipart/form-data; boundary=" + theBoundary);
+            Object requestObject = new Object();
+            JSObjectAdapter.$put(requestObject,"method","POST");
+            JSObjectAdapter.$put(requestObject,"url",url);
+            JSObjectAdapter.$put(requestObject,"headers",headers);
+            JSObjectAdapter.$put(requestObject,"body",fd);
+            EcNodeJs.request(requestObject,new Callback3<String,Object,String>(){
+                @Override
+                public void $invoke(String error, Object response, String body) {
+                    if (failureCallback != null && error != null) failureCallback.$invoke(error);
+                    else if (failureCallback != null && JSObjectAdapter.$get(response,"statusCode") != (Object)200)
+                        failureCallback.$invoke(body);
+                    else if (successCallback != null)
+                        successCallback.$invoke(body);
+                }
+            });
+            return;
+        }
+
+        if (Global.typeof(EcLevrHttp.httpStatus) == "undefined") {
+            xhr = new XMLHttpRequest();
+            xhr.open("POST", url, async);
+
+            final XMLHttpRequest xhrx = xhr;
+            xhr.onreadystatechange = new Callback0() {
+                @Override
+                public void $invoke() {
+                    if (xhrx.readyState == 4 && xhrx.status == 200) {
+                        if (successCallback != null)
+                            successCallback.$invoke(xhrx.responseText);
+                    } else if (xhrx.readyState == 4) {
+                        if (failureCallback != null)
+                            failureCallback.$invoke(xhrx.responseText);
+                    }
+                }
+            };
+        }
+
         if (xhr != null)
             if (async)
                 JSObjectAdapter.$put(xhr, "timeout", timeout);
@@ -231,6 +254,24 @@ public class EcRemote {
             };
         }
 
+        if (Global.typeof(EcNodeJs.isNodeJs) != "undefined" && EcRemote.async)
+        {
+            Object requestObject = new Object();
+            JSObjectAdapter.$put(requestObject,"method","GET");
+            JSObjectAdapter.$put(requestObject,"url",url);
+            EcNodeJs.request(requestObject,new Callback3<String,Object,String>(){
+                @Override
+                public void $invoke(String error, Object response, String body) {
+                    if (failure != null && error != null) failure.$invoke(error);
+                    else if (failure != null && JSObjectAdapter.$get(response,"statusCode") != (Object)200)
+                        failure.$invoke(body);
+                    else if (success != null)
+                        success.$invoke(body);
+                }
+            });
+            return;
+        }
+
         if (xhr != null) {
             if (async)
                 JSObjectAdapter.$put(xhr, "timeout", timeout);
@@ -292,6 +333,27 @@ public class EcRemote {
                     }
                 }
             };
+        }
+
+        if (Global.typeof(EcNodeJs.isNodeJs) != "undefined" && EcRemote.async)
+        {
+            Object sso = new Object();
+            JSObjectAdapter.$put(sso,"signatureSheet",signatureSheet);
+            Object requestObject = new Object();
+            JSObjectAdapter.$put(requestObject,"method","DELETE");
+            JSObjectAdapter.$put(requestObject,"url",url);
+            JSObjectAdapter.$put(requestObject,"headers",sso);
+            EcNodeJs.request(requestObject,new Callback3<String,Object,String>(){
+                @Override
+                public void $invoke(String error, Object response, String body) {
+                    if (failure != null && error != null) failure.$invoke(error);
+                    else if (failure != null && JSObjectAdapter.$get(response,"statusCode") != (Object)200)
+                        failure.$invoke(body);
+                    else if (success != null)
+                        success.$invoke(body);
+                }
+            });
+            return;
         }
 
         if (xhr != null){
