@@ -126,15 +126,8 @@ public class EcRemote {
             }
             all = all + "\r\n" + "\r\n" + "--" + JSObjectAdapter.$get(fd, "_boundary") + "--";
             theBoundary = (String) JSObjectAdapter.$get(fd, "_boundary");
-            if (Global.typeof(EcLevrHttp.httpStatus) == "undefined")
-                xhr.setRequestHeader("Content-Type", "multipart/form-data; boundary=" + JSObjectAdapter.$get(fd, "_boundary"));
             fd = (FormData) (Object) all;
         } else {
-            // We're in a browser.rhin
-//			p.mimeType = "multipart/form-data";
-//			p.data = fd;
-//			if (headers != null && headers != JSGlobal.undefined)
-//				p.headers = headers;
         }
         if (Global.typeof(EcNodeJs.isNodeJs) != "undefined" && EcRemote.async)
         {
@@ -175,6 +168,8 @@ public class EcRemote {
                     }
                 }
             };
+            if (theBoundary != null)
+                xhr.setRequestHeader("Content-Type", "multipart/form-data; boundary=" + theBoundary);
         }
 
         if (xhr != null)
