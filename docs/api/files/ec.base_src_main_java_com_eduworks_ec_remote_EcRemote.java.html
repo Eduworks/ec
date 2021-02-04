@@ -310,6 +310,7 @@
                             <li><a href="../classes/EcLevrHttp.html">EcLevrHttp</a></li>
                             <li><a href="../classes/EcLinkedData.html">EcLinkedData</a></li>
                             <li><a href="../classes/EcModal.html">EcModal</a></li>
+                            <li><a href="../classes/EcNodeJs.html">EcNodeJs</a></li>
                             <li><a href="../classes/EcObject.html">EcObject</a></li>
                             <li><a href="../classes/EcOverlay.html">EcOverlay</a></li>
                             <li><a href="../classes/EcPk.html">EcPk</a></li>
@@ -825,6 +826,7 @@ import org.stjs.javascript.*;
 import org.stjs.javascript.dom.DOMEvent;
 import org.stjs.javascript.functions.Callback0;
 import org.stjs.javascript.functions.Callback1;
+import org.stjs.javascript.functions.Callback3;
 
 import static org.stjs.javascript.JSGlobal.JSON;
 
@@ -931,6 +933,46 @@ public class EcRemote {
 
         XMLHttpRequest xhr = null;
 
+        String theBoundary = null;
+        // Node JS serialization check.
+        if (JSObjectAdapter.$get(fd, &quot;_streams&quot;) != null) {
+            // We&#x27;re in node. Serialize the &#x27;form-data&#x27; object by hand.
+            Array&lt;String&gt; chunks = (Array&lt;String&gt;) JSObjectAdapter.$get(fd, &quot;_streams&quot;);
+            String all = &quot;&quot;;
+            for (int i = 0; i &lt; chunks.$length(); i++) {
+                if (JSGlobal.typeof(chunks.$get(i)) == &quot;function&quot;) {
+                    all = all + &quot;\r\n&quot;;
+                } else {
+                    all = all + chunks.$get(i);
+                }
+            }
+            all = all + &quot;\r\n&quot; + &quot;\r\n&quot; + &quot;--&quot; + JSObjectAdapter.$get(fd, &quot;_boundary&quot;) + &quot;--&quot;;
+            theBoundary = (String) JSObjectAdapter.$get(fd, &quot;_boundary&quot;);
+            fd = (FormData) (Object) all;
+        } else {
+        }
+        if (Global.typeof(EcNodeJs.isNodeJs) != &quot;undefined&quot; &amp;&amp; EcRemote.async)
+        {
+            if (headers == null) headers = (Map&lt;String,String&gt;)new Object();
+            JSObjectAdapter.$put(headers,&quot;Content-Type&quot;,&quot;multipart/form-data; boundary=&quot; + theBoundary);
+            Object requestObject = new Object();
+            JSObjectAdapter.$put(requestObject,&quot;method&quot;,&quot;POST&quot;);
+            JSObjectAdapter.$put(requestObject,&quot;url&quot;,url);
+            JSObjectAdapter.$put(requestObject,&quot;headers&quot;,headers);
+            JSObjectAdapter.$put(requestObject,&quot;body&quot;,fd);
+            EcNodeJs.request(requestObject,new Callback3&lt;String,Object,String&gt;(){
+                @Override
+                public void $invoke(String error, Object response, String body) {
+                    if (failureCallback != null &amp;&amp; error != null) failureCallback.$invoke(error);
+                    else if (failureCallback != null &amp;&amp; JSObjectAdapter.$get(response,&quot;statusCode&quot;) != (Object)200)
+                        failureCallback.$invoke(body);
+                    else if (successCallback != null)
+                        successCallback.$invoke(body);
+                }
+            });
+            return;
+        }
+
         if (Global.typeof(EcLevrHttp.httpStatus) == &quot;undefined&quot;) {
             xhr = new XMLHttpRequest();
             xhr.open(&quot;POST&quot;, url, async);
@@ -948,33 +990,10 @@ public class EcRemote {
                     }
                 }
             };
+            if (theBoundary != null)
+                xhr.setRequestHeader(&quot;Content-Type&quot;, &quot;multipart/form-data; boundary=&quot; + theBoundary);
         }
 
-        String theBoundary = null;
-        // Node JS serialization check.
-        if (JSObjectAdapter.$get(fd, &quot;_streams&quot;) != null) {
-            // We&#x27;re in node. Serialize the &#x27;form-data&#x27; object by hand.
-            Array&lt;String&gt; chunks = (Array&lt;String&gt;) JSObjectAdapter.$get(fd, &quot;_streams&quot;);
-            String all = &quot;&quot;;
-            for (int i = 0; i &lt; chunks.$length(); i++) {
-                if (JSGlobal.typeof(chunks.$get(i)) == &quot;function&quot;) {
-                    all = all + &quot;\r\n&quot;;
-                } else {
-                    all = all + chunks.$get(i);
-                }
-            }
-            all = all + &quot;\r\n&quot; + &quot;\r\n&quot; + &quot;--&quot; + JSObjectAdapter.$get(fd, &quot;_boundary&quot;) + &quot;--&quot;;
-            theBoundary = (String) JSObjectAdapter.$get(fd, &quot;_boundary&quot;);
-            if (Global.typeof(EcLevrHttp.httpStatus) == &quot;undefined&quot;)
-                xhr.setRequestHeader(&quot;Content-Type&quot;, &quot;multipart/form-data; boundary=&quot; + JSObjectAdapter.$get(fd, &quot;_boundary&quot;));
-            fd = (FormData) (Object) all;
-        } else {
-            // We&#x27;re in a browser.rhin
-//			p.mimeType = &quot;multipart/form-data&quot;;
-//			p.data = fd;
-//			if (headers != null &amp;&amp; headers != JSGlobal.undefined)
-//				p.headers = headers;
-        }
         if (xhr != null)
             if (async)
                 JSObjectAdapter.$put(xhr, &quot;timeout&quot;, timeout);
@@ -1052,6 +1071,24 @@ public class EcRemote {
             };
         }
 
+        if (Global.typeof(EcNodeJs.isNodeJs) != &quot;undefined&quot; &amp;&amp; EcRemote.async)
+        {
+            Object requestObject = new Object();
+            JSObjectAdapter.$put(requestObject,&quot;method&quot;,&quot;GET&quot;);
+            JSObjectAdapter.$put(requestObject,&quot;url&quot;,url);
+            EcNodeJs.request(requestObject,new Callback3&lt;String,Object,String&gt;(){
+                @Override
+                public void $invoke(String error, Object response, String body) {
+                    if (failure != null &amp;&amp; error != null) failure.$invoke(error);
+                    else if (failure != null &amp;&amp; JSObjectAdapter.$get(response,&quot;statusCode&quot;) != (Object)200)
+                        failure.$invoke(body);
+                    else if (success != null)
+                        success.$invoke(body);
+                }
+            });
+            return;
+        }
+
         if (xhr != null) {
             if (async)
                 JSObjectAdapter.$put(xhr, &quot;timeout&quot;, timeout);
@@ -1113,6 +1150,27 @@ public class EcRemote {
                     }
                 }
             };
+        }
+
+        if (Global.typeof(EcNodeJs.isNodeJs) != &quot;undefined&quot; &amp;&amp; EcRemote.async)
+        {
+            Object sso = new Object();
+            JSObjectAdapter.$put(sso,&quot;signatureSheet&quot;,signatureSheet);
+            Object requestObject = new Object();
+            JSObjectAdapter.$put(requestObject,&quot;method&quot;,&quot;DELETE&quot;);
+            JSObjectAdapter.$put(requestObject,&quot;url&quot;,url);
+            JSObjectAdapter.$put(requestObject,&quot;headers&quot;,sso);
+            EcNodeJs.request(requestObject,new Callback3&lt;String,Object,String&gt;(){
+                @Override
+                public void $invoke(String error, Object response, String body) {
+                    if (failure != null &amp;&amp; error != null) failure.$invoke(error);
+                    else if (failure != null &amp;&amp; JSObjectAdapter.$get(response,&quot;statusCode&quot;) != (Object)200)
+                        failure.$invoke(body);
+                    else if (success != null)
+                        success.$invoke(body);
+                }
+            });
+            return;
         }
 
         if (xhr != null){

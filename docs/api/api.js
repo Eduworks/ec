@@ -261,6 +261,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "EcLevrHttp",
         "EcLinkedData",
         "EcModal",
+        "EcNodeJs",
         "EcObject",
         "EcOverlay",
         "EcPk",
