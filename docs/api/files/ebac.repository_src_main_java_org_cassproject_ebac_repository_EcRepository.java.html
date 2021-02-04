@@ -1813,7 +1813,7 @@ public class EcRepository {
      * @method multiget
      */
     public void multiget(final Array&lt;String&gt; urls, final Callback1&lt;Array&lt;EcRemoteLinkedData&gt;&gt; success, final Callback1&lt;String&gt; failure) {
-        if (urls == null || urls.$length() == 0) {
+        if (urls == null) {
             if (failure != null) {
                 failure.$invoke(&quot;&quot;);
             }

@@ -825,6 +825,7 @@ package cass.rollup.processors.v3.graph;
 import com.eduworks.ec.array.EcArray;
 import com.eduworks.ec.array.EcAsyncHelper;
 import com.eduworks.ec.graph.EcDirectedGraph;
+import com.eduworks.ec.remote.EcRemote;
 import org.cass.competency.EcAlignment;
 import org.cass.competency.EcCompetency;
 import org.cass.competency.EcFramework;
@@ -881,17 +882,14 @@ public class EcFrameworkGraph extends EcDirectedGraph&lt;EcCompetency, EcAlignme
      * @method addFramework
      * @memberOf EcFrameworkGraph
      */
-    public void addFramework(final EcFramework framework, EcRepository repo, final Callback0 success, Callback1&lt;String&gt; failure) {
+    public void addFramework(final EcFramework framework, final EcRepository repo, final Callback0 success, final Callback1&lt;String&gt; failure) {
         frameworks.push(framework);
         final EcFrameworkGraph me = this;
-        Array&lt;String&gt; precache = new Array();
-        if (framework.competency != null) {
-            precache = precache.concat(framework.competency);
-        }
-        if (framework.relation != null) {
-            precache = precache.concat(framework.relation);
-        }
-        repo.multiget(precache, new Callback1&lt;Array&lt;EcRemoteLinkedData&gt;&gt;() {
+        if (framework.competency == null)
+            framework.competency = new Array&lt;&gt;();
+        if (framework.relation == null)
+            framework.relation = new Array&lt;&gt;();
+        repo.multiget(framework.competency, new Callback1&lt;Array&lt;EcRemoteLinkedData&gt;&gt;() {
             @Override
             public void $invoke(Array&lt;EcRemoteLinkedData&gt; data) {
                 EcAsyncHelper&lt;EcRemoteLinkedData&gt; eah = new EcAsyncHelper();
@@ -903,7 +901,23 @@ public class EcFrameworkGraph extends EcDirectedGraph&lt;EcCompetency, EcAlignme
                 }, new Callback1&lt;Array&lt;EcRemoteLinkedData&gt;&gt;() {
                     @Override
                     public void $invoke(Array&lt;EcRemoteLinkedData&gt; strings) {
-                        success.$invoke();
+                        repo.multiget(framework.relation, new Callback1&lt;Array&lt;EcRemoteLinkedData&gt;&gt;() {
+                            @Override
+                            public void $invoke(Array&lt;EcRemoteLinkedData&gt; data) {
+                                EcAsyncHelper&lt;EcRemoteLinkedData&gt; eah2 = new EcAsyncHelper();
+                                eah2.each(data, new Callback2&lt;EcRemoteLinkedData, Callback0&gt;() {
+                                    @Override
+                                    public void $invoke(EcRemoteLinkedData d2, final Callback0 callback2) {
+                                        me.handleCacheElement(d2, callback2, framework);
+                                    }
+                                }, new Callback1&lt;Array&lt;EcRemoteLinkedData&gt;&gt;() {
+                                    @Override
+                                    public void $invoke(Array&lt;EcRemoteLinkedData&gt; strings2) {
+                                        success.$invoke();
+                                    }
+                                });
+                            }
+                        }, failure);
                     }
                 });
             }
@@ -1144,7 +1158,7 @@ public class EcFrameworkGraph extends EcDirectedGraph&lt;EcCompetency, EcAlignme
         if (alignment == null) return false;
         if (containsEdge(alignment)) return false;
 
-        EcCompetency source = (EcCompetency) JSObjectAdapter.$get(competencyMap, alignment.source);
+        EcCompetency source = (EcCompetency) JSObjectAdapter.$get(competencyMap, EcRemoteLinkedData.trimVersionFromUrl(alignment.source));
         if (source == null &amp;&amp; JSObjectAdapter.$get(dontTryAnyMore, alignment.source) != null)
             return false;
         //if (source == null) source = EcCompetency.getBlocking(alignment.source);
