@@ -5,11 +5,11 @@
   <parent>
     <groupId>com.eduworks</groupId>
     <artifactId>ec</artifactId>
-    <version>3.1.4</version>
+    <version>3.1.5</version>
   </parent>
   <groupId>com.eduworks</groupId>
   <artifactId>ec.task</artifactId>
-  <version>3.1.4</version>
+  <version>3.1.5</version>
   <name>ec.base</name>
   <url>http://maven.apache.org</url>
   <properties>
@@ -19,7 +19,7 @@
 	<dependency>
 		<groupId>com.eduworks</groupId>
 		<artifactId>ec.base</artifactId>
-		<version>3.1.4</version>
+		<version>3.1.5</version>
 	</dependency>
   </dependencies>
 </project>
