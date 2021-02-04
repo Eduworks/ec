@@ -72,43 +72,11 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
         repo.multiget(precache, new Callback1<Array<EcRemoteLinkedData>>() {
             @Override
             public void $invoke(Array<EcRemoteLinkedData> data) {
-                final EcCompetency competencyTemplate = new EcCompetency();
-                final EcAlignment alignmentTemplate = new EcAlignment();
-                final EcEncryptedValue encryptedTemplate = new EcEncryptedValue();
                 EcAsyncHelper<EcRemoteLinkedData> eah = new EcAsyncHelper();
                 eah.each(data, new Callback2<EcRemoteLinkedData, Callback0>() {
                     @Override
                     public void $invoke(EcRemoteLinkedData d, final Callback0 callback0) {
-                        if (d.isAny(encryptedTemplate.getTypes())) {
-                            final Callback2<EcRemoteLinkedData, Callback0> me2 = this;
-                            EcEncryptedValue.fromEncryptedValueAsync(d, new Callback1<EcRemoteLinkedData>() {
-                                @Override
-                                public void $invoke(EcRemoteLinkedData ecRemoteLinkedData) {
-                                    me2.$invoke(ecRemoteLinkedData, callback0);
-                                }
-                            }, (Callback1) callback0);
-                            return;
-                        }
-                        if (d.isAny(competencyTemplate.getTypes())) {
-                            EcCompetency.get(d.id, new Callback1<EcCompetency>() {
-                                @Override
-                                public void $invoke(EcCompetency c) {
-                                    me.addToMetaStateArray(me.getMetaStateCompetency(c), "framework", framework);
-                                    me.addCompetency(c);
-                                    callback0.$invoke();
-                                }
-                            }, (Callback1) callback0);
-                        } else if (d.isAny(alignmentTemplate.getTypes())) {
-                            EcAlignment.get(d.id, new Callback1<EcAlignment>() {
-                                @Override
-                                public void $invoke(EcAlignment alignment) {
-                                    me.addRelation(alignment);
-                                    me.addToMetaStateArray(me.getMetaStateAlignment(alignment), "framework", framework);
-                                    callback0.$invoke();
-                                }
-                            }, (Callback1) callback0);
-                        } else
-                            callback0.$invoke();
+                        me.handleCacheElement(d, callback0, framework);
                     }
                 }, new Callback1<Array<EcRemoteLinkedData>>() {
                     @Override
@@ -118,6 +86,42 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
                 });
             }
         }, failure);
+    }
+
+    protected void handleCacheElement(EcRemoteLinkedData d, final Callback0 callback0, final EcFramework framework) {
+        final EcCompetency competencyTemplate = new EcCompetency();
+        final EcAlignment alignmentTemplate = new EcAlignment();
+        final EcEncryptedValue encryptedTemplate = new EcEncryptedValue();
+        final EcFrameworkGraph me = this;
+        if (d.isAny(encryptedTemplate.getTypes())) {
+            EcEncryptedValue.fromEncryptedValueAsync(d, new Callback1<EcRemoteLinkedData>() {
+                @Override
+                public void $invoke(EcRemoteLinkedData ecRemoteLinkedData) {
+                    me.handleCacheElement(ecRemoteLinkedData, callback0, framework);
+                }
+            }, (Callback1) callback0);
+            return;
+        }
+        if (d.isAny(competencyTemplate.getTypes())) {
+            EcCompetency.get(d.id, new Callback1<EcCompetency>() {
+                @Override
+                public void $invoke(EcCompetency c) {
+                    me.addToMetaStateArray(me.getMetaStateCompetency(c), "framework", framework);
+                    me.addCompetency(c);
+                    callback0.$invoke();
+                }
+            }, (Callback1) callback0);
+        } else if (d.isAny(alignmentTemplate.getTypes())) {
+            EcAlignment.get(d.id, new Callback1<EcAlignment>() {
+                @Override
+                public void $invoke(EcAlignment alignment) {
+                    me.addRelation(alignment);
+                    me.addToMetaStateArray(me.getMetaStateAlignment(alignment), "framework", framework);
+                    callback0.$invoke();
+                }
+            }, (Callback1) callback0);
+        } else
+            callback0.$invoke();
     }
 
     private void fetchFrameworkAlignments(final EcFramework framework) {
