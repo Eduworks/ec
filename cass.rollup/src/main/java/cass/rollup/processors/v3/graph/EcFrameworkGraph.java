@@ -63,6 +63,10 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
     public void addFramework(final EcFramework framework, final EcRepository repo, final Callback0 success, final Callback1<String> failure) {
         frameworks.push(framework);
         final EcFrameworkGraph me = this;
+        if (framework.competency == null)
+            framework.competency = new Array<>();
+        if (framework.relation == null)
+            framework.relation = new Array<>();
         repo.multiget(framework.competency, new Callback1<Array<EcRemoteLinkedData>>() {
             @Override
             public void $invoke(Array<EcRemoteLinkedData> data) {
@@ -78,15 +82,15 @@ public class EcFrameworkGraph extends EcDirectedGraph<EcCompetency, EcAlignment>
                         repo.multiget(framework.relation, new Callback1<Array<EcRemoteLinkedData>>() {
                             @Override
                             public void $invoke(Array<EcRemoteLinkedData> data) {
-                                EcAsyncHelper<EcRemoteLinkedData> eah = new EcAsyncHelper();
-                                eah.each(data, new Callback2<EcRemoteLinkedData, Callback0>() {
+                                EcAsyncHelper<EcRemoteLinkedData> eah2 = new EcAsyncHelper();
+                                eah2.each(data, new Callback2<EcRemoteLinkedData, Callback0>() {
                                     @Override
-                                    public void $invoke(EcRemoteLinkedData d, final Callback0 callback0) {
-                                        me.handleCacheElement(d, callback0, framework);
+                                    public void $invoke(EcRemoteLinkedData d2, final Callback0 callback2) {
+                                        me.handleCacheElement(d2, callback2, framework);
                                     }
                                 }, new Callback1<Array<EcRemoteLinkedData>>() {
                                     @Override
-                                    public void $invoke(Array<EcRemoteLinkedData> strings) {
+                                    public void $invoke(Array<EcRemoteLinkedData> strings2) {
                                         success.$invoke();
                                     }
                                 });
