@@ -326,6 +326,11 @@ public class CSVImport {
 						Array<Array<String>> tabularData = (Array<Array<String>>) JSObjectAdapter.$get(results, "data");
 
 						for (int i = 1; i < tabularData.$length(); i++) {
+							if (tabularData.$get(i).$length() == 0 ||
+									(tabularData.$get(i).$length() == 1 &&
+											(tabularData.$get(i).$get(0) == null || tabularData.$get(i).$get(0) == JSGlobal.undefined || tabularData.$get(i).$get(0) == ""))) {
+								continue;
+							}
 							EcAlignment alignment = new EcAlignment();
 							String sourceKey = tabularData.$get(i).$get(sourceIndex);
 							String relationTypeKey = tabularData.$get(i).$get(relationTypeIndex);
