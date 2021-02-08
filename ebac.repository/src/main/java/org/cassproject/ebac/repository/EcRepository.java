@@ -42,7 +42,6 @@ public class EcRepository {
     public String selectedServer = null;
     public boolean autoDetectFound = false;
     public long timeOffset = 0;
-    public String cassDockerEndpoint = null;
 
     public EcRepository() {
         repos.push(this);
@@ -637,14 +636,7 @@ public class EcRepository {
             @Override
             public void $invoke(String signatureSheet) {
                 fd.append("signatureSheet", signatureSheet);
-                String server = me.selectedServer;
-                if (me.cassDockerEndpoint != null) {
-                    server = me.cassDockerEndpoint;
-                }
-                Global.console.log("docker endpoint and server: ");
-                Global.console.log(me.cassDockerEndpoint);
-                Global.console.log(server);
-                EcRemote.postExpectingString(server, "sky/repo/multiPut", fd, success, failure);
+                EcRemote.postExpectingString(me.selectedServer, "sky/repo/multiPut", fd, success, failure);
             }
         };
 
