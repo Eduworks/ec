@@ -67,7 +67,7 @@ public class EcRepository {
                 if (p1 != null) {
                     if (JSObjectAdapter.$get(p1, "ping") == "pong") {
                         if (JSObjectAdapter.$get(p1, "time") != null)
-                            me.timeOffset = ((Long) (Object) new Date().getTime()) - ((Long) (Object) JSObjectAdapter.$get(p1, "time"));
+                            me.timeOffset = (((Long) (Object) JSObjectAdapter.$get(p1, "time") - (Long) (Object) new Date().getTime()));
                         me.buildKeyForwardingTable(success,failure);
                     }
                 }
@@ -1536,7 +1536,7 @@ public class EcRepository {
                 if (p1 != null) {
                     if (JSObjectAdapter.$get(p1, "ping") == "pong") {
                         if (JSObjectAdapter.$get(p1, "time") != null)
-                            me.timeOffset = ((Long) (Object) new Date().getTime()) - ((Long) (Object) JSObjectAdapter.$get(p1, "time"));
+                            me.timeOffset = (((Long) (Object) JSObjectAdapter.$get(p1, "time") - (Long) (Object) new Date().getTime()));
                         if (me.autoDetectFound == false) {
                             me.selectedServer = guess;
                             me.autoDetectFound = true;
@@ -1594,7 +1594,7 @@ public class EcRepository {
                 if (p1 != null) {
                     if (JSObjectAdapter.$get(p1, "ping") == "pong") {
                         if (JSObjectAdapter.$get(p1, "time") != null)
-                            me.timeOffset = ((Long) (Object) new Date().getTime()) - ((Long) (Object) JSObjectAdapter.$get(p1, "time"));
+                            me.timeOffset = (((Long) (Object) JSObjectAdapter.$get(p1, "time") - (Long) (Object) new Date().getTime()));
                         me.selectedServer = guess;
                         me.autoDetectFound = true;
                     }
