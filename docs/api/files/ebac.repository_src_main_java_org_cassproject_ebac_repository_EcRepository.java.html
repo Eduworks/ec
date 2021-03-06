@@ -864,7 +864,6 @@ public class EcRepository {
     public String selectedServer = null;
     public boolean autoDetectFound = false;
     public long timeOffset = 0;
-    public String cassDockerEndpoint = null;
 
     public EcRepository() {
         repos.push(this);
@@ -890,7 +889,7 @@ public class EcRepository {
                 if (p1 != null) {
                     if (JSObjectAdapter.$get(p1, &quot;ping&quot;) == &quot;pong&quot;) {
                         if (JSObjectAdapter.$get(p1, &quot;time&quot;) != null)
-                            me.timeOffset = ((Long) (Object) new Date().getTime()) - ((Long) (Object) JSObjectAdapter.$get(p1, &quot;time&quot;));
+                            me.timeOffset = (((Long) (Object) JSObjectAdapter.$get(p1, &quot;time&quot;) - (Long) (Object) new Date().getTime()));
                         me.buildKeyForwardingTable(success,failure);
                     }
                 }
@@ -1459,14 +1458,7 @@ public class EcRepository {
             @Override
             public void $invoke(String signatureSheet) {
                 fd.append(&quot;signatureSheet&quot;, signatureSheet);
-                String server = me.selectedServer;
-                if (me.cassDockerEndpoint != null) {
-                    server = me.cassDockerEndpoint;
-                }
-                Global.console.log(&quot;docker endpoint and server: &quot;);
-                Global.console.log(me.cassDockerEndpoint);
-                Global.console.log(server);
-                EcRemote.postExpectingString(server, &quot;sky/repo/multiPut&quot;, fd, success, failure);
+                EcRemote.postExpectingString(me.selectedServer, &quot;sky/repo/multiPut&quot;, fd, success, failure);
             }
         };
 
@@ -2366,7 +2358,7 @@ public class EcRepository {
                 if (p1 != null) {
                     if (JSObjectAdapter.$get(p1, &quot;ping&quot;) == &quot;pong&quot;) {
                         if (JSObjectAdapter.$get(p1, &quot;time&quot;) != null)
-                            me.timeOffset = ((Long) (Object) new Date().getTime()) - ((Long) (Object) JSObjectAdapter.$get(p1, &quot;time&quot;));
+                            me.timeOffset = (((Long) (Object) JSObjectAdapter.$get(p1, &quot;time&quot;) - (Long) (Object) new Date().getTime()));
                         if (me.autoDetectFound == false) {
                             me.selectedServer = guess;
                             me.autoDetectFound = true;
@@ -2424,7 +2416,7 @@ public class EcRepository {
                 if (p1 != null) {
                     if (JSObjectAdapter.$get(p1, &quot;ping&quot;) == &quot;pong&quot;) {
                         if (JSObjectAdapter.$get(p1, &quot;time&quot;) != null)
-                            me.timeOffset = ((Long) (Object) new Date().getTime()) - ((Long) (Object) JSObjectAdapter.$get(p1, &quot;time&quot;));
+                            me.timeOffset = (((Long) (Object) JSObjectAdapter.$get(p1, &quot;time&quot;) - (Long) (Object) new Date().getTime()));
                         me.selectedServer = guess;
                         me.autoDetectFound = true;
                     }
